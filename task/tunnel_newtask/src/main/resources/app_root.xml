@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+
+		http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+    <!-- 读取配置文件 -->
+    <bean id="propertyConfigurer"
+          class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="location" value="classpath:jdbc.properties">
+        </property>
+        <property name="ignoreResourceNotFound" value="true"/>
+        <property name="fileEncoding">
+            <value>UTF-8</value>
+        </property>
+    </bean>
+
+
+    <!-- 配置数据库连接池 -->
+    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
+          destroy-method="close">
+        <property name="driverClass">
+            <value>${driverClass}</value>
+        </property>
+        <property name="jdbcUrl">
+            <value>${jdbcUrl}</value>
+        </property>
+        <property name="user">
+            <value>${user}</value>
+        </property>
+        <property name="password">
+            <value>${password}</value>
+        </property>
+        <property name="maxPoolSize">
+            <value>${maxPoolSize}</value>
+        </property>
+        <property name="minPoolSize">
+            <value>${minPoolSize}</value>
+        </property>
+        <!-- 指定连接数据库连接池的连接的最大空闲时间 -->
+        <property name="maxIdleTime">
+            <value>${maxIdleTime}</value>
+        </property>
+        <!-- 指定连接数据库连接池的初始化连接数 -->
+        <property name="initialPoolSize">
+            <value>${initialPoolSize}</value>
+        </property>
+      <!--  <property name="idleConnectionTestPeriod">
+            <value>20</value>
+        </property>-->
+    </bean>
+
+
+    <!-- 配置 EntityManagerFactory -->
+    <bean id="entityManagerFactory"
+          class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="dataSource" ref="dataSource">
+        </property>
+        <!-- 配置 JPA 提供商的适配器. 可以通过内部 bean 的方式来配置 -->
+        <property name="jpaVendorAdapter">
+            <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+                <property name="generateDdl" value="false"/>
+                <property name="database" value="MYSQL"/>
+                <property name="databasePlatform" value="org.hibernate.dialect.MySQL5InnoDBDialect"/>
+                <property name="showSql" value="true"/>
+            </bean>
+        </property>
+        <!--    jpaDialect：用于指定一些高级特性，如事务管理，获取具有事务功能的连接对象等，
+                目前Spring提供HibernateJpaDialect、OpenJpaDialect 、EclipseLinkJpaDialect -->
+        <property name="jpaDialect">
+            <bean class="org.springframework.orm.jpa.vendor.HibernateJpaDialect"/>
+        </property>
+        <!-- 配置实体类所在的包 -->
+        <property name="packagesToScan" value="com.tunnel.domain">
+        </property>
+        <!-- 配置 JPA 的基本属性. 例如 JPA 实现产品的属性 -->
+        <property name="jpaProperties">
+            <props>
+                <!-- 配置数据库的方言 -->
+                <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+                <!-- 控制台打印sql -->
+                <prop key="hibernate.show_sql">false</prop>
+                <!--格式化sql -->
+                <prop key="hibernate.format_sql">true</prop>
+                <!-- 在启动和停止时自动地创建，更新或删除数据库模式 -->
+                <prop key="hibernate.hbm2ddl.auto">update</prop>
+            </props>
+        </property>
+    </bean>
+
+    <!-- 配置 JPA 使用的事务管理器 -->
+    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="entityManagerFactory" ref="entityManagerFactory"/>
+    </bean>
+        <!-- 开启注解方式启动事务管理 -->
+        <tx:annotation-driven transaction-manager="transactionManager"/>
+
+    <!--配置springData -->
+    <!--添加jpa的命名空间 -->
+    <!--参数解释base-package: 扫描 Repository Bean 所在的 package entity-manager-factory-ref
+        引用的实体类的对象 transaction-manager-ref所要引用的事务管理 repository-impl-postfix自定义实现的类的后缀，默认为Impl -->
+    <jpa:repositories base-package="com.tunnel.repository"
+                      transaction-manager-ref="transactionManager"
+                      entity-manager-factory-ref="entityManagerFactory">
+    </jpa:repositories>
+
+
+</beans>

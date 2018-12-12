@@ -1,0 +1,21 @@
+spring:
+  application:
+    name: spring_config_client #远程的配置文件名称 与其一致 才可以进行读取配置
+  cloud:
+    config:
+      label: master
+#      uri: http://localhost:8074/
+      profile: dev #文件名称 -后面的后缀
+      discovery:
+        enabled: true
+        service-id: spring_config_server
+
+
+
+eureka:
+  client:
+    service-url:
+        defaultZone: http://${eureka.instance.hostname}:8068/eureka
+  instance:
+    hostname: localhost
+    prefer-ip-address: true

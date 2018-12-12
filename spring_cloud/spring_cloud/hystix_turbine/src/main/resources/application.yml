@@ -1,0 +1,35 @@
+spring:
+  application:
+    name: spring_hystrix_turbine
+
+server:
+  port: 8085
+
+
+eureka:
+  instance:
+    hostname: localhost
+    prefer-ip-address: true
+  client:
+    service-url:
+#        defaultZone: http://${eureka.instance.hostname}:8068/eureka
+        defaultZone: http://localhost:8068/eureka
+security:
+  basic:
+    enabled: false
+turbine:
+  app-config: spring_hystrix_turbine_client
+  cluster-name-expression: new String("default")
+
+
+
+
+
+
+
+
+
+
+
+
+   、

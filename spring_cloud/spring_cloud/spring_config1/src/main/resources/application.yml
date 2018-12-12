@@ -1,0 +1,30 @@
+spring:
+  application:
+    name: spring_config_server
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/nessary/spring_config.git
+          search-paths: spring_config #文件夹名称
+          #访问 的格式 http://localhost:8074/pro/test
+            #此时git 远程目录 的文件夹名称为 pro-test.properties
+
+
+server:
+  port: 8074
+eureka:
+  client:
+    service-url:
+        defaultZone: http://${eureka.instance.hostname}:8068/eureka
+  instance:
+    hostname: localhost
+    prefer-ip-address: true
+#开启hystrix fegin 的
+feign.hystrix.enabled: true
+
+
+
+
+
+

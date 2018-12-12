@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.finace.miscroservice.activity.mapper.NewhbTypeMapper">
+
+    <resultMap id="BaseNewhbTypeResult" type="com.finace.miscroservice.activity.po.NewhbTypePO" >
+        <result column="hbleixingid" property="hbleixingid"  />
+        <result column="hbname" property="hbname"  />
+        <result column="hbtype" property="hbtype"  />
+        <result column="hbdetail" property="hbdetail"  />
+        <result column="hbmoney" property="hbmoney"  />
+        <result column="yday" property="yday"  />
+    </resultMap>
+
+
+    <!-- 根据福利券类型获取福利券  -->
+    <select id="getNewhbTypeByHbType" resultMap="BaseNewhbTypeResult" >
+        select * from newhb_Type where hbtype=#{hbtype}
+    </select>
+
+    <!-- 根据福利券id获取福利券 -->
+    <select id="getNewhbTypeByLxId" resultType="com.finace.miscroservice.activity.po.NewhbTypePO" >
+        select * from newhb_Type where hbleixingid=#{hblxid}
+    </select>
+
+
+
+</mapper>
+
+
+
+
+
+
+
+
+
+
+

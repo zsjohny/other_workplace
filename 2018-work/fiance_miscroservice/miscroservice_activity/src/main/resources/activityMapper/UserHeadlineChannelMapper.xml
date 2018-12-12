@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.finace.miscroservice.activity.mapper.UserHeadlineChannelMapper">
+
+    <resultMap id="BaseUserHeadlineChannelResult" type="com.finace.miscroservice.activity.po.UserHeadlineChannelPO" >
+        <result column="id" property="id"  />
+        <result column="adid" property="adid"  />
+        <result column="cid" property="cid"  />
+        <result column="os" property="os"  />
+        <result column="idfa" property="idfa"  />
+        <result column="imei" property="imei"  />
+        <result column="androidid" property="androidid"  />
+        <result column="ip" property="ip"  />
+        <result column="mac" property="mac"  />
+        <result column="callback" property="callback" />
+        <result column="timestamp" property="timestamp"  />
+        <result column="convertId" property="convertId"  />
+        <result column="status" property="status"  />
+    </resultMap>
+
+    <select id="getByImei" parameterType="Map" resultType="com.finace.miscroservice.activity.po.UserHeadlineChannelPO">
+        SELECT * FROM user_headline_channel WHERE imei = #{imei} and status=#{status} order by timestamp desc limit 1
+    </select>
+
+    <insert id="addUserHeadlineChannel" parameterType="com.finace.miscroservice.activity.po.UserHeadlineChannelPO" >
+        insert into user_headline_channel (adid, cid, os, idfa, imei, androidid, ip, mac, callback, timestamp, convertId, status)
+        values (#{adid}, #{cid}, #{os}, #{idfa}, #{imei}, #{androidid}, #{ip}, #{mac}, #{callback}, #{timestamp}, #{convertId}, #{status})
+    </insert>
+
+    <update id="updateStatusByImei" parameterType="map" >
+        UPDATE user_headline_channel SET status=#{status} WHERE imei =#{imei}
+    </update>
+
+
+</mapper>
+
+
+
+
+
+
+
+
+
+
+

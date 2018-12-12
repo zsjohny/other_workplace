@@ -1,0 +1,46 @@
+---
+#限流开关
+limter.flow.enabled: false
+
+---
+#文件加载的环境配置
+spring:
+  profiles:
+    active: test
+  application:
+            name: activity
+
+---
+#端口
+server:
+  port: 8083
+
+
+---
+#mybatis的扫包路径
+mybatis:
+  typeAliasesPackage: com.finace.miscroservice.activity.po
+
+---
+#打开数据库配置
+open.datasource : true
+flyway.enabled: true
+
+---
+#日志保存名称
+log.name:  activity
+
+
+---
+#mq管理
+mq:
+  # 发送消息的集合管理  格式  消息名称:消息的类型(fanout,direct):接受的监听类的名称(首字母小写) eg msg:fanout:demoListener
+  channels: timer_scheduler_timer_send_red_packet_ended:fanout:redPacketsEndedListener:true,collect_client_info:fanout:deviceImeiListener,new_user_grant_hb:fanout:newUserGrantHbListener,invitation_user_grant_hb:fanout:invitationUserGrantHbListener,new_year_grant_gift:fanout:newYearGrantGiftListener,grant_gift_to_user:fanout:grantGiftListener,idfa_or_imei:fanout:idfaOrImeiListener
+  #是否打开发送开关 true是 false不是
+  openSend: true
+
+
+---
+#服务下载地址
+deployDownloadUrl: http://47.etongjin.net/
+

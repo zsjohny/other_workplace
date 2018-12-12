@@ -1,0 +1,1480 @@
+1.mysql的安装
+ sudo apt-get install mysql-server mysql-client
+
+ mysql -uroot -p 接下来会提示你输入密码，输入正确密码，即可进入
+
+	启动MySQL服务： sudo start mysql
+
+	停止MySQL服务： sudo stop mysql
+
+2.navicat 的安装和启动
+  ./start_navicat  注册码 NAVI-MLXK-XA63-SB7O 
+
+
+3.redis 的安装
+  make PREFIX=路径 install
+  启动./redis-server /home/nessary/workFile/redis/redis.conf
+  方式二:进入utils 输入 sudo ./install_server.sh 根据顺序填写
+ 
+  使用reids-cli 中输入keys *查看所有的键值对
+
+4.yum的安装
+
+sudo apt install yum
+
+5.momgodb的安装和启动
+		logpath=log/mongodb.log#日志输出文件路径
+		logappend=true#错误日志采用追加模式，配置这个选项后mongodb的日志会追加到现有的日志文件，而不是从新创建一个新文件
+		dbpath=data#数据库路径
+		journal=true#启用日志文件，默认启用
+		quiet=true#这个选项可以过滤掉一些无用的日志信息，若需要调试使用请设置为false
+		port=8023
+                fork=true#守护进程
+               ------配置文件 mongodb.conf
+
+ 安装的时候遇到的问题 error while loading shared libraries: libbz2.so.1
+    终端安装  sudo apt-get update    sudo apt-get install libc++1
+	
+
+	sudo ln -s libcrypto.so.1.0.0 libcrypto.so.10
+    启动 ./bin/mongod -f mongodb.conf
+	后端启动 -fork 
+
+mongodb 的 客户端的使用 ./bin/mongo -port 端口 -auth
+             使用方法 db.auth('name','pass')
+
+    use.dbname  使用数据库 use.collections查看集合
+            db.collectionname.find({})--查看所有集合
+            db.collectionname.find({}).count()--连式访问，获得所有的数量
+            db.collectionname.insert({})--插入集合
+            db.collectionname.update({‘搜索条件’，‘更新内容’，‘是否多条更新’})--插入集合
+            db.collectionname.remove({'','是否是单行删除 true是单行删除'})--删除数据集合
+            db.drop()--删除整个文档包括索引
+            db.createCollection(name) 创建集合
+            use name 创建数据库
+            shows dbs 展示所有数据库
+           权限添加 use admin db.createUser() 创建用户 db.getUsers()展示所有用户 db.dropUser(name) 删除某一个用户 
+      权限添加案例  此时需要在 那个数据库下使用 就是哪一个的权限添加
+            db.createUser({
+          user:'xiaoluo',pwd:'985595',
+          roles:[
+	      {role:'dbAdmin',db:'reliable'},
+	      {role:'dbOwner',db:'reliable'},
+	      {role:'enableSharding',db:'reliable'},
+	      {role:'readWrite',db:'reliable'},
+	      {role:'userAdmin','db':'reliable'}]
+             })
+
+
+     fork=true  日志添加这段话，然后启动时候添加 -fork 后置命令
+6.niginx 
+ ./configure --prefix=/stock/nginxs/nginx/ --with-pcre=/stock/nginxs/pcre --with-zlib=/stock/nginxs/zlib --with-openssl=/stock/nginxs/openssl --with-http_ssl_module 
+   //注意 --prefix是指软件安装在哪里 不要与解压的nginx重合在一起
+
+ //
+ 
+ ./configure --prefix=/stock/nginxs/nginx/ --with-pcre=/stock/nginxs/pcre --with-zlib=/stock/nginxs/zlib --with-openssl=/stock/nginxs/openssl/data --conf-path=/stock/nginxs/nginx.conf
+ 
+ 
+ 之后  make install
+
+ 启动  sbin / ./nginx
+ 再次启动 sbin/  ./ngin -s reload
+
+pcre   zlib  ./configure
+
+nginx 安装 
+sudo chmod -R a+rw /usr/local/nginx 利用root权限进行控制
+
+7.qq 安装 
+一：安装依赖库
+在终端输入sudo apt-get install  libgtk2.0-0:i386
+sudo apt-get install lib32ncuses5
+----
+sudo dpkg -i fonts-wqy-microhei_0.2.0-beta-2_all.deb
+sudo dpkg -i ttf-wqy-microhei_0.2.0-beta-2_all.deb
+sudo dpkg -i wine-qqintl_0.1.3-2_i386.deb
+-----
+
+
+    执行命令：sudo vim /usr/bin/wine-qqintl
+    将”export LANG=zh_CN.utf8”改为”export LANG=en_US.utf8”即可。
+
+
+8.eclipse的安装
+
+./eclipse-inst
+
+9.输入法
+sudo apt-get install fcitx-table-wbpy
+
+
+10.jdk安装
+jdk-6u11-linux-i586.bin 这个是自解压的文件，在linux上安装如下：
+
+# chmod 755 jdk-6u11-linux-i586.bin
+
+# ./jdk-6u11-linux-i586.bin （注意，这个步骤一定要在jdk-6u11-linux-i586.bin所在目录下）
+
+在按提示输入yes后，
+或者
+2、若是用jdk-6u11-linux-i586-rpm.bin 这个也是一个自解压文件，不过解压后的文件是jdk-6u11-linux-i586-rpm 包，执行rpm命令装到linux上就可以了。安装如下：
+
+#chmod 755 ./jdk-6u11-linux-i586-rpm
+
+# ./jdk-6u11-linux-i586-rpm .bin
+
+# rpm -ivh jdk-6u11-linux-i586-rpm
+
+
+出现一行字：Do you aggree to the above license terms? [yes or no]
+
+ 安装程序在问您是否愿意遵守刚才看过的许可协议。当然要同意了，输入"y" 或 "yes" 回车
+
+11 itellj idea 注册码
+  http://www.iteblog.com/idea/key.php
+12 jdgui 安装所需要以来的so库
+sudo apt-get install libgtk2.0-0:i386 libxxf86vm1:i386 libsm6:i386 lib32stdc++6
+13 安装 wireshark 
+ sudo apt-get install wireshark 
+出现问题解决 
+	sudo gedit /usr/share/wireshark/init.lua
+
+	倒数第二行改为--dofile(DATA_DIR.."console.lua")
+启动 sudo wireshark
+
+14 Fillder 软件安装
+	 首先，你要有个Mono环境，在Ubuntu环境下安装很简单，输入：
+
+	sudo apt-get install mono-complete
+
+	下载一个最新的Fiddler for Mono版本，我写这篇文章时最新版本是这个。下载完成后，解压到你的习惯放置的随便一个目录里。然后cd到目录下，运行：
+
+	tony@tony:~/devs/fiddler$ mono Fiddler.exe
+15 grails安装 
+  解压后 配置环境
+ export GRAILS_HOME=/opt/grails-1.x.x 
+
+ export PATH=$PATH:$GRAILS_HOME/bin
+  source /etc/profile立即生效
+
+
+16.ubuntu server安装图形化 
+
+  sudo apt-get install xinit
+  sudo apt-get install gdm --环境管理器
+
+  sudo apt-get install kubuntu-desktop
+
+17.mysql常见命令
+
+		 一) 连接MYSQL：
+
+		    格式： mysql -h主机地址 -u用户名 －p用户密码
+
+		1、例1：连接到本机上的MYSQL
+
+		    首先在打开DOS窗口，然后进入mysql安装目录下的bin目录下，例如： D:/mysql/bin，再键入命令mysql -uroot -p，回车后提示你输密码，如果刚安装好MYSQL，超级用户root是没有密码的，故直接回车即可进入到MYSQL中了，MYSQL的提示符是：mysql>
+
+		2、例2：连接到远程主机上的MYSQL (远程：IP地址)
+
+		    假设远程主机的IP为：10.0.0.1，用户名为root,密码为123。则键入以下命令：
+
+		   mysql -h10.0.0.1 -uroot -p123
+
+		   （注：u与root可以不用加空格，其它也一样）
+
+		3、退出MYSQL命令
+
+		    exit （回车）
+
+		(二) 修改密码：
+
+		    格式：mysqladmin -u用户名 -p旧密码 password 新密码
+
+		1、例1：给root加个密码123。首先在DOS下进入目录C:/mysql/bin，然后键入以下命令：
+
+		    mysqladmin -uroot -password 123
+
+		    注：因为开始时root没有密码，所以-p旧密码一项就可以省略了。
+
+		2、例2：再将root的密码改为456
+user
+		    mysqladmin -uroot -pab12 password 456
+
+		(三) 增加新用户：（注意：和上面不同，下面的因为是MYSQL环境中的命令，所以后面都带一个分号作为命令结束符）
+
+		    格式：grant select on 数据库.* to 用户名@登录主机 identified by "密码"
+
+		    例1、增加一个用户test1密码为abc，让他可以在任何主机上登录，并对所有数据库有查询、插入、修改、删除的权限。首先用以root用户连入MYSQL，然后键入以下命令：     grant select,insert,update,delete on *.* to test2@localhost identified by "abc";
+
+		    如果你不想test2有密码，可以再打一个命令将密码消掉。     grant select,insert,update,delete on mydb.* to test2@localhost identified by "";
+
+           所有权限all privileges 
+
+		(四) 显示命令
+
+		1、显示数据库列表：
+
+		    show databases;     刚开始时才两个数据库：mysql和test。mysql库很重要它里面有MYSQL的系统信息，我们改密码和新增用户，实际上就是用这个库进行操作。
+
+		2、显示库中的数据表：
+
+		    use mysql； //打开库    show tables;
+
+		3、显示数据表的结构：
+
+		    describe 表名;
+
+		4、建库：
+
+		    create database 库名;
+
+		5、建表：
+
+		    use 库名；     create table 表名 (字段设定列表)；
+
+		6、删库和删表:
+
+		    drop database 库名;     drop table 表名；
+
+		7、将表中记录清空：
+
+		    delete from 表名;
+
+		8、显示表中的记录：
+
+		    select * from 表名;
+
+		导出sql脚本
+
+		mysqldump -u 用户名 -p 数据库名 > 存放位置
+
+		mysqldump -u root -p test > c:/a.sql
+
+		导入sql脚本
+
+		mysql -u 用户名 -p 数据库名 < 存放位置
+
+		mysqljump -u root -p test < c:/a.sql
+
+		注意,test数据库必须已经存在
+
+		MySQL导出导入命令的用例
+
+		1.导出整个数据库
+
+		mysqldump -u 用户名 -p 数据库名 > 导出的文件名
+
+		mysqldump -u wcnc -p smgp_apps_wcnc > wcnc.sql
+
+		2.导出一个表
+
+		mysqldump -u 用户名 -p 数据库名表名> 导出的文件名
+
+		mysqldump -u wcnc -p smgp_apps_wcnc users> wcnc_users.sql
+
+		3.导出一个数据库结构
+
+		mysqldump -u wcnc -p -d --add-drop-table smgp_apps_wcnc >d:wcnc_db.sql
+
+		-d 没有数据 --add-drop-table 在每个create语句之前增加一个drop table
+
+		4.导入数据库
+
+		常用source 命令
+
+		进入mysql数据库控制台,
+
+		如mysql -u root -p
+
+		mysql>use 数据库
+
+		然后使用source命令,后面参数为脚本文件(如这里用到的.sql)
+
+		mysql>source d:wcnc_db.sql
+
+
+       mysql更改数据字符编码
+
+      
+
+		CREATE DATABASE db_name DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+
+		CREATE DATABASE 的语法：
+
+		CREATE {DATABASE | SCHEMA} [IF NOT EXISTS] db_name
+		[create_specification [, create_specification] ...]
+
+		create_specification:
+		[DEFAULT] CHARACTER SET charset_name
+		| [DEFAULT] COLLATE collation_name
+
+
+		更改数据库的字符编码
+
+		ALTER DATABASE db_name DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci
+
+         mysql 表改名 
+                rename alter old_name to new_name      		  
+
+		//创建用户		
+		CREATE USER 'username'@'host' IDENTIFIED BY 'password'; 	
+				
+        数据库权限的问题
+        grant all privileges on *.* to 'root'@'%' identified by ''; 其中%表示任意主机可以访问 ×.*表示任意数据库
+         远程链接
+         mysql -u 用户 -h 主机 -p密码 -D 数据库名称 -P 端口
+GRANT SELECT,INSERT,UPDATE,DELETE ON [db_name].* TO [username]@[ipadd] identified by '[password]';
+
+
+       导出数据表
+     mysqldump -uxiaoluo -p -h127.0.0.1 --databases otalk > /home/nessary/otalk.sql
+             -u是表示用户名 -p表示密码 -h表示远程地址 -databases 表示 数据库的名称 >导出
+18 apache的安装
+   输入 tar -xjvf 安装包
+   安装 apr 和apr-util 安装命令
+     apr ./configure --prefix=/usr/local/apache 
+	
+	apr-util  ./configure --prefix=/usr/local/apache  -with--apr=/user/local/apr
+   
+    ./configure  --prefix=/usr/local/apache  --enable-so 安装
+	
+	修改 进入/httpd/doc/conf/httpd.conf   启动 
+	     /httpd/support/apachectl start 启动
+		 /httpd/support/apachectl stop  停止
+
+19 svn安装 
+    sudo apt-get subversion
+
+20 activemq 安装
+  tar -xzvf /server/apache-activemq-5.6.0-bin.tar.gz
+
+  修改activemq运行文件的权限 
+	cd /server/apache-activemq-5.6.2/bin 
+	chmod 755 activemq 
+  运行./activemq
+	三种运行方式：
+	(1)普通启动 ./activemq start
+	(2)启动并指定日志文件 ./activemq start &gt;tmp/smlog
+	(3)后台启动方式nohup ./activemq start &gt;/tmp/smlog
+
+   ActiveMQ默认采用61616端口提供JMS服务，使用8161端口提供管理控制台服务，
+
+        修改端口和管理员页面
+
+		1、cd data ,修改pid文件的进程号
+
+
+		2、cd conf ,修改activemq.xml 修改里面的61616端口
+
+
+		3、修改jetty.xml,修改内容容器jetty的默认启动端口，找到默认的8161后修改
+
+
+		4、启动 activemq start  
+
+		5、stop activemq stop
+
+		 mq设置内存大小
+		   bin/env的ACTIVEMQ_OPTS_MEMORY属性,Xms=最小内存,Xmx=最大内存
+
+		   
+	设置密码 conf目录的activemq.xml
+	
+	<!-- 添加访问ActiveMQ的账号密码 -->  
+        <plugins>  
+            <simpleAuthenticationPlugin>  
+                <users>  
+                    <authenticationUser username="zhangsan" password="123" groups="users,admins"/>  
+                </users>  
+            </simpleAuthenticationPlugin>  
+        </plugins>  	
+
+     管理控制台密码修改
+			 打开conf/jetty.xml文件，找到下列段落 确认红字代码为true
+
+			<bean id="securityConstraint" class="org.eclipse.jetty.http.security.Constraint">
+					<property name="name" value="BASIC" />
+					<property name="roles" value="admin" />
+					<property name="authenticate" value="true" />
+			</bean>
+
+			然后打开conf/jetty-realm.properties  文件 后台的账户密码都在这个文件下
+
+
+			具体格式如下
+
+			## ---------------------------------------------------------------------------
+
+			# Defines users that can access the web (console, demo, etc.)
+			# username: password [,rolename ...]
+			admin: admin, admin
+			user: user, user	 
+
+			
+21 ideal无法使用英文/中文的切换
+        export XMODIFIERS=@im=fcitx
+	export QT_IM_MODULE=fcitx
+22 zookeeper 的安装和使用
+
+23 redis的使用 
+         redis配置密码
+
+	1.通过配置文件进行配置
+	yum方式安装的redis配置文件通常在/etc/redis.conf中，打开配置文件找到
+	[plain] view plain copy
+
+	    #requirepass foobared  
+
+	去掉行前的注释，并修改密码为所需的密码,保存文件
+	[plain] view plain copy
+
+	    requirepass myRedis  
+
+	重启redis
+	
+	//外网访问 利用 bind 127.0.0.1注释掉
+	[plain] view plain copy
+
+	    sudo service redis restart  
+	    #或者  
+	    sudo service redis stop  
+	    sudo redis-server /etc/redis.conf  
+
+		./redis-cli -p8028 shutdown
+		
+	这个时候尝试登录redis，发现可以登上，但是执行具体命令是提示操作不允许
+	[plain] view plain copy
+
+	    redis-cli -h 127.0.0.1 -p 6379  
+	    redis 127.0.0.1:6379>  
+	    redis 127.0.0.1:6379> keys *  
+	    (error) ERR operation not permitted  
+	    redis 127.0.0.1:6379> select 1  
+	    (error) ERR operation not permitted  
+	    redis 127.0.0.1:6379[1]>   
+
+	尝试用密码登录并执行具体的命令看到可以成功执行
+	[plain] view plain copy
+
+	    redis-cli -h 127.0.0.1 -p 6379 -a myRedis  
+
+
+   
+24 sql CONCAT 用于链接字符 主要用在 mybatis 中的  like concat('%','xxx','%');
+
+25 google Chrome安装 sudo dpkg -i google-chrome*; sudo apt-get -f install
+
+26 nginx 直接返回 json和 text
+	location ~ ^/get_text {
+		default_type text/html;
+		return 200 'This is text!';  
+	}
+	　　固定json:
+
+	location ~ ^/get_json {
+		default_type application/json;
+		return 200 '{"status":"success","result":"nginx json"}';
+	}
+	　　保存后重新载入配置即可生效，注意：default_type必须要添加，否则浏览器会当成不识别的文件进行下载
+
+	　　另外也可以简单的根据请求的URL返回不同的字符串，示例如下：
+
+	location ~ ^/get_text/article/(.*)_(\d+).html$ {
+		default_type text/html;
+		set $s $1;
+		set $d $2;
+		return 200 str:$s$d;
+	}
+
+27 jrebel 进行maven热部署需要进行处理
+	  <!-- jrebel插件，自动生成rebel.xml -->
+	  <plugin>
+		<groupId>org.zeroturnaround</groupId>
+		<artifactId>jrebel-maven-plugin</artifactId>
+		<version>1.1.5</version>
+		<executions>
+		  <execution>
+			<id>generate-rebel-xml</id>
+			<phase>process-resources</phase>
+			<goals>
+			  <goal>generate</goal>
+			</goals>
+		  </execution>
+		</executions>
+	  </plugin>
+
+28 activeq前台启动和后台启动
+   ./activemq console//前台
+   ./activemq start//后台开始
+   ./activemq stop//后台停止
+  
+29 mysql的deb安装
+	sudo dpkg -i mysql-common_5.6.28-1ubuntu14.04_amd64.deb
+	sudo dpkg -i libmysqlclient18_5.6.28-1ubuntu14.04_amd64.deb
+	sudo dpkg -i libmysqlclient-dev_5.6.28-1ubuntu14.04_amd64.deb
+	sudo dpkg -i libmysqld-dev_5.6.28-1ubuntu14.04_amd64.deb
+	sudo dpkg -i mysql-community-server_5.6.28-1ubuntu14.04_amd64.deb 
+	　　注意在安装mysql-community-server会要求输入root账户密码
+
+	sudo dpkg -i mysql-server_5.6.28-1ubuntu14.04_amd64.deb 
+	　　到这里个人认为服务器应该可以使用了（未测试），但是mysql命令还不能使用
+
+	sudo dpkg -i mysql-community-client_5.6.28-1ubuntu14.04_amd64.deb
+	sudo dpkg -i mysql-client_5.6.28-1ubuntu14.04_amd64.deb 
+
+30 iptables 
+	-A RH-Firewall-1-INPUT -m state –state NEW -m tcp -p tcp –dport 3306 -j ACCEPT
+	service iptables restart
+	
+31 jekins linux安装 sudo apt-get install libxrender-dev 继续安装 apt-get install libxtst-dev	
+
+ 使用 在 系统管理 增加 jdk和maven的配置
+  在 插件中选择Deploy to container Plugin 下载 安装完SVN后，你在新建项目的时候，构建后操作这里，下拉选项里会多出一项Deploy war/ear to a container
+cd /opt/tomcat_user/;
+port=ps -ef|grep -v color|grep 'user'|awk '{print $2}'
+if[[$port -ne '']];then
+sh bin/shutdown.sh;
+fi
+
+if[[$? -eq 0]];then
+`rm -rf /logs/*`;
+`sh bin/startup.sh`;
+else
+echo "error"
+fi
+
+32 hudson 安装 先去配置 用户名和密码 首页第一栏填写 no 允许用户注册 注册后修改不允许注册	
+       Hudson Subversion Plug-in svn插件
+ 系统设置 
+ Environment variables  add  key BUILD_ID  value  allow_to_run_as_daemon
+ 
+ 设置 mvn 打包 war 
+mvn -f pom.xml clean deploy -Dmaven.test.skip=true -Pdev --settings G:/Program Files/maven/conf/settings.xml //
+
+//这里写个 集中的测试组
+
+
+//svn地址 ---jar项目包
+svn://finace.hengmo.net:8028/jar
+目录 ./dream_utils
+
+//svn地址 ---war项目包
+svn://finace.hengmo.net:8028/test
+目录 ./dream_notify
+
+设置 Clean checkout folders and then checkout
+
+
+//其他依赖打包成jar
+说明: depend on
+版本选择 maven
+命令 -f /opt/hudson/jobs/dream_notify/workspace/dream_utils/pom.xml clean deploy -Dmaven.test.skip=true
+
+
+//打包成war
+说明: delopy war
+版本选择 maven
+命令 -f  /opt/hudson/jobs/dream_notify/workspace/dream_notify/pom.xml clean deploy -Dmaven.test.skip=true -Pdev
+
+             // --settings G:/Program Files/maven/conf/settings.xml 暂时用不到
+
+javascript:void(0);
+//关闭tomcat			 
+说明: shutdown tomcat
+
+命令
+ #!/bin/bash  
+port=`ps -ef|grep 'tomcat_notify'|grep -v 'auto'|grep 'Bootstrap'|awk '{print $2}'`javascript:void(0);
+
+if [ ${#port} -eq 4 ] ;then
+
+`/opt/tomcat_notify/bin/shutdown.sh`
+
+elif  [ ${#port} -gt 4 ] ;then
+
+
+echo "$port" > temp.port
+for i in `awk '{print $1}' temp.port `
+do
+echo $i
+`kill -9 $i`
+done
+rm -rf temp.port
+
+
+fi
+
+
+//增加一个分布式的部署
+   后面增加 
+      sleep 2s
+
+	echo "now shutdown remote robot"
+
+	`ssh root@47.91.157.122 rm -rf /stock/tomcat_order/webapps/*`
+	sleep 1s 
+	`ssh root@47.91.157.122 rm -rf /stock/tomcat_order/logs/*`
+	sleep 1s
+
+	`ssh root@47.91.157.122 /stock/tomcat_order/shutdown.sh`
+
+
+
+
+//启动和拷贝jar
+
+说明: startup tomcat
+
+命令
+#!/bin/bash  
+sleep 1s
+`rm -rf /opt/tomcat_notify/logs/*`
+sleep 1s
+`rm -rf /opt/tomcat_notify/webapps/*`
+sleep 2s
+`cp -r  dream_notify/target/*.war /opt/tomcat_notify/webapps/notify.war`
+sleep 1s
+` chmod 777 /opt/tomcat_notify/webapps/notify.war`
+sleep 2s
+`/opt/tomcat_notify/bin/startup.sh`
+sleep 10s
+echo "copy deply on jar"
+`cp -p dream_utils/target/*.jar /opt/tomcat_notify/webapps/notify/WEB-INF/lib/`
+sleep 3s
+sleep 1s
+` chmod 777 /opt/tomcat_notify/webapps/*`
+sleep 2s
+echo "copy OK"
+`chmod -R 777 /opt/logs/*`
+echo "log auth give ok"
+sleep 1s
+echo "starup OK"
+
+
+
+//增加一个分布式的部署  --用到scp注意 需要建立 ssh免密登录和文件的权限 chown赋值
+   后面增加 
+
+	sleep 2s
+
+	echo "now copy war to remote robot"
+	`scp -r  dream_order/target/*.war root@47.91.157.122:/stock/tomcat_order/webapps/order.war`
+
+	sleep 4s
+
+
+	echo "now startup remote robot"
+
+	`ssh root@47.91.157.122 /stock/tomcat_order/bin/startup.sh`
+
+	sleep 1s
+
+	echo "now copy utils to remote robot"
+
+	`scp -r  dream_utils/target/*.jar root@47.91.157.122:/stock/tomcat_order/webapps/order/WEB-INF/lib/`
+
+	sleep 3s
+	
+	`ssh root@47.91.157.122 chmod -R 777 /opt/logs/**`
+	
+    echo "remote log auth give ok"
+
+	sleep 1s
+	
+	echo "startup ok"
+
+33 管理工具
+   禅道 下载后 修改 mysql的端口配置 是etc下面的my.ini 修改 apache 也是/etc/apache/httpd.conf  
+      记住修改后 把对应的开原版my.php配置也修改  具体位置./app/zentao/config/my.php 可以使用搜索搜出 find / -name my*
+	  
+     执行/opt/zbox/zbox start 命令开启Apache和Mysql。
+     执行/opt/zbox/zbox stop 命令停止Apache和Mysql。
+     执行/opt/zbox/zbox restart 命令重启Apache和Mysql。
+	 浏览器访问 http://ip:apache端口 (默认帐号 admin，密码 123456) 
+	 开始运行后  修改数据库/opt/zbox/auth/adduser.sh来添加用户(先 cd /opt/zbox/auth/ 然后执行 ./adduser.sh)。
+	 
+	 mysql数据受损修复
+	    找到mysql修复工具 myisamchk
+        通过修复命令，对表数据就行修复：
+        #  myisamchk  -c -r /opt/zbox/data/mysql/zentao/zt_action
+	 
+34 maven打包groovy	 
+
+35 nexus maven执行 mvn -f pom.xml clean deploy -Dmaven.test.skip=true  时候 上传报错 说 nexus不允许相同版本 这时候去nexus设置下 Deployment policy:Controls if deployments of and updates to artifacts are allowe 为all
+
+
+36 redis 设置
+	1)打开配置文件把下面对应的注释掉
+
+	# bind 127.0.0.1 
+	2)Redis默认不是以守护进程的方式运行，可以通过该配置项修改，使用yes启用守护进程，设置为no
+
+	daemonize no
+	3)保护模式
+
+	protected-mode no 
+	
+37 mongodb的连接 mongo 远程主机ip或DNS:MongoDB端口号/数据库名 -u user -p password
+
+ use databases  //使用数据库
+db.name.insert({"name":"sss"});//插入数据
+
+38 tomcat 设置内存大小 export JAVA_OPTS=-XX:MaxPermSize=512m -XX:PermSize=128m -Xms1024m -Xmx1524m
+ 
+39 pom.xml 解决 3字节的utf-8无效 
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <spring-version>4.3.3.RELEASE</spring-version>
+    </properties> 
+	加入即可
+	
+40 mysql 5.7的安装
+  ->1. wget (下载地址)https://cdn.mysql.com//Downloads/MySQL-5.7/mysql-5.7.17-linux-glibc2.5-x86_64.tar
+  ->2. (解压)tar -xvf mysql-5.7.17-linux-glibc2.5-x86_64.tar //解压后得到两个包 
+  ->3. (解压其中一个包)tar -xzvf mysql-5.7.17-linux-glibc2.5-x86_64.tar.gz
+  ->4.  mv mysql-5.7.17-linux-glibc2.5-x86_64 mysql //更改包的名字 如果是多实例 则 可以用ln -s 进行软连接
+  ->5.  cd mysql
+  ->6.  groupadd mysql //添加mysql用户组
+  ->7.  useradd  -r -g mysql -s /bin/false mysql //添加mysql用户  -s 不允许登录bin下命令
+  ->8.  cp support-files/my-default.cnf ./my.cnf //拷贝my.cnf
+  ->9.  vim my.cnf 
+		 basedir = /stock/mysql/   //mysql存储地址
+		 datadir = /stock/mysql/data  //mysql的data地址
+		 port = 3310           //端口
+		 server_id = 12
+		 socket = /stock/mysql/data/mysqld.sock
+		 
+	 完毕后 :wq!保存	 
+   ->10.  chown -R mysql:mysql . //授权 msyql用户所在的mysql组 
+   ->11.  bin/mysqld --defaults-file=/stock/mysql/my.cnf --initialize --user=mysql //初始化mysql记住随机密码 VmUS&oCgj9S=
+   ->12.  bin/mysql_ssl_rsa_setup --defaults-file=/stock/mysql/my.cnf --initialize --user=root //ssl加密
+   ->13.   chown -R root . //重新授权
+   ->14.   chown -R mysql:mysql data /把data授权给mysql
+   ->15.  bin/mysqld_safe  --defaults-file=./my.cnf --user=mysql & //后台启动mysql
+   ->16. bin/mysql -uroot -S/stock/mysql/data/mysqld.sock -P3310 -p //连接数据库 -S 步骤10中 socket 连接成功后 输入 12步骤的随机密码 VmUS&oCgj9S=
+   ->17. set password = password('904295');//赋值paswword新密码
+   ->18. alter user 'root'@'localhost' password expire never;//把新密码赋值给root 并且过期时间为never从不
+   ->19. grant all privileges on *.* to 'root'@'%' identified by '904295' with  max_user_connections 50  grant option    ;//服务 root 远程登录权限 @ %为任意 ip grant option 赋予的权限 收回后子类被他赋予的也会被收回
+   ->20.  flush privileges; //刷新mysql,不用重启即可生效                         //max_user_connections 是指这个用户的最大连接数
+   ->21.   bin/mysqladmin -S/stock/mysql/data/mysqld.sock -uroot -P3310 -p shutdown//关闭mysql
+   
+   
+    tips:  解决虚拟机连接不成功mysql 那么在启动时候 添加 --skip-grant-tables 不启动grant-tables(授权表),跳过权限控制。
+	  bin/mysqld_safe  --defaults-file=./my.cnf --user=mysql  --skip-grant-tables &
+   
+   -------------------------
+	basedir =/stock/mysql/
+	datadir = /stock/mysql/data
+	port = 3310
+	server_id = 12
+	socket = /stock/mysql/data/mysqld.sock
+	bind-address=0.0.0.0
+	lower_case_table_names=1
+	sql-mode=""
+	ql_mode模式：ANSI、TRADITIONAL和STRICT_TRANS_TABLES。 
+	ANSI模式：宽松模式，对插入数据进行校验，如果不符合定义类型或长度，对数据类型调整或截断保存，报warning警告。 
+	TRADITIONAL模式：严格模式，当向mysql数据库插入数据时，进行数据的严格校验，保证错误数据不能插入，报error错误。用于事物时，会进行事物的回滚。 
+	STRICT_TRANS_TABLES模式：严格模式，进行数据的严格校验，错误数据不能插入，报error错误
+    -------------------------
+	
+	其中 mysqladmin 还有其他的作用
+	bin/mysqladmin -S/stock/mysql/data/mysqld.sock -uroot -P3310 -p flush-hosts
+	也可以在数据库中进行，命令如下：flush hosts 
+	                               解决 [MySql Host is blocked because of many connection errors
+	
+	
+41 nginx 负载均衡
+     将server节点下的location节点中的proxy_pass配置为：http:// + upstream名称，即 “http://linuxidc”.
+
+		 1、轮询0
+		轮询即Round Robin，根据Nginx配置文件中的顺序，依次把客户端的Web请求分发到不同的后端服务器。
+		配置的例子如下：
+
+		http{ 
+		 upstream sampleapp { 
+		   server <<dns entry or IP Address(optional with port)>>; 
+		   server <<another dns entry or IP Address(optional with port)>>; 
+		 } 
+		 .... 
+		 server{ 
+		   listen 80; 
+		   ... 
+		   location / { 
+			proxy_pass http://sampleapp; 
+		   }  
+		 } 
+		上面只有1个DNS入口被插入到upstream节，即sampleapp，同样也在后面的proxy_pass节重新提到。
+		2、最少连接
+		Web请求会被转发到连接数最少的服务器上。
+		配置的例子如下：
+
+		http{ 
+		  upstream sampleapp { 
+			least_conn; 
+			server <<dns entry or IP Address(optional with port)>>; 
+			server <<another dns entry or IP Address(optional with port)>>; 
+		  } 
+		  .... 
+		  server{ 
+			listen 80; 
+			... 
+			location / { 
+			 proxy_pass http://sampleapp; 
+			}  
+		  } 
+		上面的例子只是在upstream节添加了least_conn配置。其它的配置同轮询配置。
+		3、IP地址哈希
+		前述的两种负载均衡方案中，同一客户端连续的Web请求可能会被分发到不同的后端服务器进行处理，因此如果涉及到会话Session，那么会话会比较复杂。常见的是基于数据库的会话持久化。要克服上面的难题，可以使用基于IP地址哈希的负载均衡方案。这样的话，同一客户端连续的Web请求都会被分发到同一服务器进行处理。
+		配置的例子如下：
+
+		http{ 
+		  upstream sampleapp { 
+			ip_hash; 
+			server <<dns entry or IP Address(optional with port)>>; 
+			server <<another dns entry or IP Address(optional with port)>>; 
+		  } 
+		  .... 
+		  server{ 
+			listen 80; 
+			... 
+			location / { 
+			 proxy_pass http://sampleapp; 
+			}  
+		  } 
+		上面的例子只是在upstream节添加了ip_hash配置。其它的配置同轮询配置。
+		4、基于权重的负载均衡
+		基于权重的负载均衡即Weighted Load Balancing，这种方式下，我们可以配置Nginx把请求更多地分发到高配置的后端服务器上，把相对较少的请求分发到低配服务器。
+		配置的例子如下：
+
+		http{ 
+		  upstream sampleapp { 
+			server <<dns entry or IP Address(optional with port)>> weight=2; 
+			server <<another dns entry or IP Address(optional with port)>>; 
+		  } 
+		  .... 
+		  server{ 
+			listen 80; 
+			... 
+			location / { 
+			 proxy_pass http://sampleapp; 
+			} 
+		 } 
+		上面的例子在服务器地址和端口后weight=2的配置，这意味着，每接收到3个请求，前2个请求会被分发到第一个服务器，第3个请求会分发到第二个服务器，其它的配置同轮询配置。
+还要说明一点，基于权重的负载均衡和基于IP地址哈希的负载均衡可以组合在一起使用。 
+          
+		 eg server 192.168.11.72:20201 weight=100 max_fails=3 fail_timeout=30s;
+		 设置最大失败次数为 3，也就是最多进行 3 次尝试，且超时时间为 30秒。max_fails 的默认值为 1，fail_timeout 的默认值是 10s。  
+  
+42 vmaretools 安装linux　通过ssh链接 
+   方法 先在linux安装 sudo apt-get install openssh-server
+              后 sudo service ssh start 启动它   
+ 
+43 mysql的常规用法删除重复的元素
+   首先查询重复元素  select a.id from a group by name  having count(name) >1 
+   然后启动删除  delete from a where id in 重复的
+   mysql有个坑 不能再同一张表进行重复操作 利用中间表进行操纵 tempTable
+     delete from a where id in  (select tempTable.id  from (select a.id from a group by name  having count(name) >1 ) tempTable)
+	 
+	删除两个元素交叉相等的 数据  eg a1=2,b1=3和a2=3，b2=3 
+		select x.a,x.b,x.id from (select id,a,b,a+b as c from test) x
+		LEFT  join test t on x.a=t.b and x.b=t.a
+		group by x.c
+		) t1	这个是 查出相同的参数 注意 a+b是为了去重 
+		则 删除的sql为
+    	DELETE  from test WHERE id not in (SELECT t1.id 
+
+		 from (select x.a,x.b,x.id from (select id,a,b,a+b as c from test) x
+		LEFT  join test t on x.a=t.b and x.b=t.a
+		group by x.c
+		) t1)	
+			 
+			 
+44 php安装后 使用 有个注意的地方
+	 php的安装  ./configure -prefix =安装目录  -with目录  后面的  (./configure  --with-apxs2=/opt/apache/data/bin/apxs	这里是这apache的安装目录)
+	   相应的apache 启动在bin下的httpd -k start /restart  然后修改 httpd.conf 的配置
+	   # php module.
+			LoadModule php5_module modules/libphp5.so	
+				   <IfModule mod_php5.c>
+			AddType application/x-httpd-php .php
+			AddType application/x-httpd-php .php .phtml .php3
+			AddType application/x-httpd-php-source .phps
+			</IfModule>
+45 mysql的语句查询	
+
+
+46 keepalived 的安装 
+   先下载 sudo apt-get install libssl-dev安装openSsl
+   最后 sudo ./configure -prefix=安装位置  
+     之后sudo  make & make install
+	keepalived说明:	keepalived主要有三个模块，
+			分别是core、check和vrrp。
+			core模块为keepalived的核心，负责主进程的启动、维护以及全局配置文件的加载和解析。
+			check负责健康检查，包括常见的各种检查方式。
+			vrrp模块是来实现VRRP协议的。
+			
+	keepalived的配置详解		
+	  1 global_defs区域
+
+		主要是配置故障发生时的通知对象以及机器标识
+
+			global_defs {
+				notification_email {
+					a@abc.com
+					b@abc.com
+					...
+				}
+				notification_email_from alert@abc.com
+				smtp_server smtp.abc.com
+				smtp_connect_timeout 30
+				enable_traps
+				router_id host163
+			}
+			notification_email 故障发生时给谁发邮件通知。
+
+			notification_email_from 通知邮件从哪个地址发出。
+
+			smpt_server 通知邮件的smtp地址。
+
+			smtp_connect_timeout 连接smtp服务器的超时时间。
+
+			enable_traps 开启SNMP陷阱（Simple Network Management Protocol）。
+
+			router_id 标识本节点的字条串，通常为hostname，但不一定非得是hostname。故障发生时，邮件通知会用到。
+		
+      2 vrrp_instance和vrrp_sync_group区域
+
+		vrrp_instance用来定义对外提供服务的VIP区域及其相关属性。
+
+		vrrp_rsync_group用来定义vrrp_intance组，使得这个组内成员动作一致。举个例子来说明一下其功能：
+
+		两个vrrp_instance同属于一个vrrp_rsync_group，那么其中一个vrrp_instance发生故障切换时，另一个vrrp_instance也会跟着切换（即使这个instance没有发生故障）。 	
+
+			notify_master/backup/fault 分别表示切换为主/备/出错时所执行的脚本。
+
+			notify 表示任何一状态切换时都会调用该脚本，并且该脚本在以上三个脚本执行完成之后进行调用，keepalived会自动传递三个参数（$1 = "GROUP"|"INSTANCE"，$2 = name of group or instance，$3 = target state of transition(MASTER/BACKUP/FAULT)）。
+
+			smtp_alert 表示是否开启邮件通知（用全局区域的邮件设置来发通知）。
+
+			state 可以是MASTER或BACKUP，不过当其他节点keepalived启动时会将priority比较大的节点选举为MASTER，因此该项其实没有实质用途。
+
+			interface 节点固有IP（非VIP）的网卡，用来发VRRP包。
+
+			use_vmac 是否使用VRRP的虚拟MAC地址。
+
+			dont_track_primary 忽略VRRP网卡错误。（默认未设置）
+
+			track_interface 监控以下网卡，如果任何一个不通就会切换到FALT状态。（可选项）
+
+			mcast_src_ip 修改vrrp组播包的源地址，默认源地址为master的IP。（由于是组播，因此即使修改了源地址，该master还是能收到回应的）
+
+			lvs_sync_daemon_interface 绑定lvs syncd的网卡。
+
+			garp_master_delay 当切为主状态后多久更新ARP缓存，默认5秒。
+
+			virtual_router_id 取值在0-255之间，用来区分多个instance的VRRP组播。
+
+			注意： 同一网段中virtual_router_id的值不能重复，否则会出错，相关错误信息如下。 
+			
+	3 .记得设置防火墙和关闭selinux策略
+
+		关闭selinux
+
+		vi /etc/sysconfig/selinux
+		修改：
+		SELINUX=disabled
+		#setenforce 0
+		配置iptables，添加VRRP通讯支持
+
+		iptables -A INPUT -d 224.0.0.18 -j ACCEPT		
+		
+	配置好了可以直接启动了
+		ubuntu下启动
+
+		/usr/local/keepalived/sbin/keepalived	
+	启动好了之后 ip a 命令看虚拟IP的绑定情		
+	
+	service keepalived restart 重启
+	
+46 vpn安装
+    1. sudo apt-get install pptpd	
+	2.  sudo nano /etc/pptpd.conf  
+		去掉文件最末端的 localip 和 remoteip 两个参数的注释，并进行相应修改。
+		这里，localip 是 VPN 连通后服务器的 ip 地址，而 remoteip 则是客户端的可分配 ip 地址。
+		
+	3. sudo nano  /etc/ppp/pptpd-options
+	 我们只需要改变其中的 ms-dns 选项，为 VPN 客户端指派 DNS 服务器地址：
+	  ms-dns 202.113.16.10
+	  ms-dns 208.67.222.222  
+	  Google DNS： 8.8.8.8和8.8.4.4  阿里DNS：223.5.5.5和223.6.6.6
+	4. sudo nano  /etc/ppp/chap-secrets
+		第一列是用户名，
+		第二列是服务器名（默认写 pptpd 即可，如果在 pptpd-options 文件中更改过的话，注意这里保持一致），
+		第三列是密码，第四列是 IP 限制（不做限制写 * 即可）
+	5.sudo nano  /etc/sysctl.conf，
+	   找到类似下面的行并取消它们的注释：
+       net.ipv4.ip_forward=1
+      然后使新配置生效：
+    6.  sudo sysctl -p	
+	7 sudo apt-get install iptables
+	7 sudo apt-get install iptables
+	 然后开启NAT转发. （注意：eth0,是你的外网网卡，ifconfig获取）
+	sudo iptables -t nat -A POSTROUTING -s 192.168.0.0/24 -o eth0 -j MASQUERADE
+	 192.168.0.0/24是你在上面设置的IP段，remoteip所包含ip要在这个段内
+	8.  sudo /etc/init.d/pptpd restart
+	
+47 maatkit 	
+
+48 svn的checkout
+      svn checkout https://123.123.123.123/svn/test —username=gcr --password=guicr /Users/onlyou1991/Desktop/svn1
+
+49 jenkins管理项目  
+    下载 maven integration plugins 插件 		
+	
+50 jenkins 配置 gradle 设定全局统一的GRADLE_USER_HOME到profile然后再进行 把.gradle设置到jenkins的工作目录下 
+   首先选择 gradle build script 中填写 选择gardle的版本 
+     然后选择 Switches 填写对应的命令 clean build --info 
+     然后在Build File	填写 build.gradle 对应的位置 例如 /stock/work/wuai/build.gradle
+	  联合起来就是 /stock/gradle/bin/gradle clean build --info -b /stock/work/wuai/build.gradle
+	  注意 -b 参数选择其他的构建文件 
+	  勾选 Force GRADLE_USER_HOME to use workspace这样让jenkins的目录和本机配置的目录一致
+	  并且把工作目录执行 chown -R jenkins:jenkins /stock/work
+	
+	  
+	  
+	jenkins也要设置   Environment variables  add  key BUILD_ID  value  allow_to_run_as_daemon
+	
+	jenkins 的启动gradle的脚本
+	
+	
+	
+	jenkins的权限管理执行 可以将 /etc/password 的jenkins 的Id置为0 jenkins:x:983:977 -->jenkins:x:0:977 	
+	
+	为了保证jenkins 能够执行 sudo 不需要输入密码 vi /etc/sudoers  添加 用户名 ALL = NOPASSWD: ALL
+	
+	
+		#!/bin/bash
+		#BUILD_ID=dontKillMe
+
+		port=`ps -ef|grep order|grep -v grep|awk '{print $2}'|head -n 1`
+
+		if [[ ${#port} -gt 1 ]];then
+		  `kill  -9 $port`
+		fi   
+
+		#`nohup java -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=1120 -jar /stock/work/wuai/order/build/libs/*.jar --spring.profiles.active=dev >/stock/logs/order.out 2>&1 &`
+
+		`java  -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=1120  -jar /stock/work/wuai/order/build/libs/*.jar >/stock/logs/order.out 2>&1 &`
+		if [[ $? -eq 0 ]];then 
+		 echo "startup ok..."
+		else 
+		 echo "start fail..."
+		fi 
+
+
+    jenkins的linux的启动服务
+	
+		#! /bin/bash
+		#redis
+		`/stock/redis/src/redis-server /stock/redis/redis.conf`
+		sleep 1s
+        
+		#svn
+		`svnserve -d -r /stock/svn --listen-port=8068`
+		sleep 1s
+
+		#jenkis
+		`service jenkins start`
+		sleep 1s
+		
+		#nginx
+		`/stock/nginxs/nginx/sbin/nginx`
+		sleep 1s
+		
+		#rabbitmq rabbitmqctl是mq提供的shell启动程序
+		`/stock/rabbitmq/sbin/rabbitmq-server  –detached &`
+		sleep 1s
+
+		#zbox
+		`/opt/zbox/zbox start`
+		sleep 1s
+		
+        #mysql
+		`/stock/mysql/bin/mysqld_safe --defaults-file=/stock/mysql/my.cnf --user=mysql &`
+		sleep 2s 
+
+		
+	jenkins误权限 恢复
+	jenkins/config.xml，找到useSecurity部分,将true改成false,并且删除下面的授权部分,保存退出	
+	
+	设置 configure global security 添加项目矩阵授权策略 管理员记得加 除了管理员其他人只有 overall的read权限
+	     然后再每个项目启动项目安全策略
+	jenkins 修改端口
+		vi /etc/sysconfig/jenkins
+		找到JENKINS_PORT="8080" 将端口修改成自己的端口
+
+    jenkins的maven 远程部署 shell
+				
+			`ssh  root@120.27.249.102 rm -rf /remark/jetty/webapps/promotions`
+
+
+			`ssh  root@120.27.249.102  cp -r /opt/jetty/webapps/promotions /remark/jetty/webapps/` 
+
+			 
+			`scp -r /stock/work/family/target/user-1.1.0/WEB-INF/classes/org/  root@120.27.249.102:/remark/jetty/webapps/user/WEB-INF/classes/` 
+
+			 
+			`ssh  root@120.27.249.102 rm -rf /opt/jetty`
+			`ssh  root@120.27.249.102 cp -r /remark/jetty /opt/`  
+			 
+
+
+
+			`ssh  root@121.43.59.216 rm -rf /remark/jetty/webapps/promotions`
+
+
+			`ssh  root@121.43.59.216  cp -r /stock/jetty/webapps/promotions /remark/jetty/webapps/` 
+
+
+			 
+			`scp -r /stock/work/family/target/user-1.1.0/WEB-INF/classes/org/  root@121.43.59.216:/remark/jetty/webapps/user/WEB-INF/classes/` 
+
+
+			 
+			`ssh  root@121.43.59.216 rm -rf /stock/jetty`
+			`ssh  root@121.43.59.216 cp -r /remark/jetty /stock/`  
+
+
+
+			echo "now  startup......."
+
+			`	  root@120.27.249.102 /opt/jetty/bin/jetty.sh restart >/dev/null 2>&1 &`
+
+			`ssh  root@121.43.59.216 /stock/jetty/bin/jetty.sh restart >/dev/null 2>&1 &`
+			 
+
+			echo "start ok......."
+			 
+	
+	
+	
+51 rabbitmq的安装
+    1.安装依赖	
+		yum -y install make gcc gcc-c++ kernel-devel m4 ncurses-devel openssl-devel
+		yum install perl -y
+		yum install python -y
+
+		2、安装 Erlang（http://www.erlang.org）
+		#wget http://erlang.org/download/otp_src_18.3.tar.gz
+		#tar -zxf otp_src_18.3.tar.gz
+		#cd  otp_src_18.3
+		#./configure --prefix=/usr/local/erlang --with-ssl -enable-threads -enable-smmp-support -enable-kernel-poll --enable-hipe --without-javac
+		#make
+		#make install 
+
+		配置erlang 环境变量
+		vi /etc/profile
+		export ERLANG_HOME=/usr/local/erlang 
+		export PATH=$ERLANG_HOME/bin:$PATH 
+		#使环境变量生效 
+		source /etc/profile
+
+		输入erl 验证安装成功
+
+		3、安装rabbitmq(3.6 解压后可以直接启动)
+		3.1、下载(http://www.rabbitmq.com)
+		#wget http://www.rabbitmq.com/releases/rabbitmq-server/v3.6.1/rabbitmq-server-generic-unix-3.6.1.tar.xz
+		#yum install -y xz
+		#unxz rabbitmq-server-generic-unix-3.6.1.tar.xz
+		#tar -xf rabbitmq-server-generic-unix-3.6.1.tar
+		#mv rabbitmq_server-3.6.1 rabbitmq
+		#cp -r rabbitmq /usr/local
+
+		3.2、启动rabbitmq
+		#cd /usr/local/rabbitmq
+		#./rabbitmq-server —detached
+		#注意 后面的—是shift加上减号 不是直接是减号 -detached 和—detached区别
+
+		关闭服务
+		#./rabbitmqctl stop
+
+		3.3、启动rabbitmq的管理页面
+		添加用户(必须启动rabbitmq 服务以后才可以添加)
+		#./rabbitmqctl add_user name password
+		#开启管理页面插件
+		#./rabbitmq-plugins enable rabbitmq_management
+		#分配用户标签
+		./rabbitmqctl set_user_tags name administrator
+         
+		//把防火墙禁止开机启动  然后 reboot重启下 
+		systemctl disable firewalld.service 	 
+		4、登录rabbitmq 管理页面
+		http://192.168.174.128:15672/这里可以进行 连接的用户 添加 monitory的tags 然后设置 virtual 为/
+		
+		
+		add_user <username> <password>  
+			#在rabbitmq的内部数据库添加用户
+		delete_user <username>  
+			#删除一个用户
+		change_password <username> <newpassword>  
+			#改变用户密码  \\改变web管理登陆密码
+		clear_password <username> 
+			#清除用户密码，禁止用户登录
+		set_user_tags <username> <tag> ...
+			#设置用户tags
+			
+			
+		----eg: 修改端口和存储的data
+            在/stock/rabbitmq/etc/ 新建 rabbitmq-env.conf
+			
+				CONFIG_FILE=/stock/rabbitmq/etc/rabbitmq/
+				MNESIA_BASE=/stock/rabbitmq/data
+				LOG_BASE=/stock/rabbitmq/log
+				NODE_PORT=2010			
+				#分别说明
+				CONFIG_FILE=配置文件的地址
+				MNESIA_BASE=数据的地址
+				LOG_BASE=日志的存储
+				NODE_PORT=连接的端口	
+				
+	rabbitmq 删除特定的队列 
+     首先 是 去http://{hostname}:15672/cli/rabbitmqadmin 下载 admin 
+      然后 rabbitmqadmin list queues name 查看所有	
+		   rabbitmqadmin delete queue name='queuename'	  删除特定的队列 
+				
+		
+52 intellj idea 的操作api文档  setting-->Editor-->live templates-->+
+		/**
+		 * <p>
+		 * <span>API说明：<a style="color:blue"></a></span>
+		 * <br/>
+		 * <span>请求方式：<a style="color:blue"></a></span>
+		 * <br/>
+		 * <span>URL地址： <a href="http://52woo.com:9203/user/insert/data/auth">http://52woo.com:9203/user/insert/data/auth</a></span>
+		 * <br/>
+		 * </p>
+		 *
+		 $params$
+		 * 
+		 * @return <table>
+		 * <thead>
+		 * <tr>
+		 * <th style="text-align:left">返回结果</th>
+		 * <th style="text-align:left">状态标识</th>
+		 * <th style="text-align:left">说明</th>
+		 * </tr>
+		 * </thead>
+		 * <tbody>
+		 * <tr>
+		 * <td style="text-align:left">{"code":200,"msg":"",data;""}</td>
+		 * <td style="text-align:left">200</td>
+		 * <td style="text-align:left">成功</td>
+		 * </tr>
+		 * <tr>
+		 * <td style="text-align:left">{"code":201,"msg":"",data;""}</td>
+		 * <td style="text-align:left">200</td>
+		 * <td style="text-align:left">参数不对</td>
+		 * </tr>
+		 * <tr>
+		 * <td style="text-align:left">{"code":208,"msg":"",data;""}</td>
+		 * <td style="text-align:left">200</td>
+		 * <td style="text-align:left">请求失败</td>
+		 * </tr>
+		 * <tr>
+		 * <td style="text-align:left">{"code":500,"msg":"",data;""}</td>
+		 * <td style="text-align:left">200</td>
+		 * <td style="text-align:left">服务器出错</td>
+		 * </tr>
+		 * </tbody>
+		 * </table>
+		 * <p>
+		 * <span>举例说明</span>
+		 * <p>
+		 * </p>
+		 */
+		 其中
+		 params----->脚本是(在 edit variables)
+		  groovyScript("def result=''; def params=\"${_1}\".replaceAll('[\\\\[|\\\\]|\\\\s]', '').split(',').toList(); for(i = 0; i < params.size(); i++) {result+=' * @param ' + params[i] + ((i < params.size() - 1) ? '\\n\\b' : '')}; return result", methodParameters())
+		  
+		  
+53 git 安装和命令		 
+     1初始化仓库 git init
+     2 添加文件  git add fileName
+	 3 添加远程的仓库到本地  git remote add fileName https://github.com/nessary/java.git 
+	 4 从远程仓库下载本地 git clone  https://github.com/nessary/java.git     
+
+54 gradle 修改本地的依赖目录
+   windows添加GRADLE_USER_HOME=D:/.gradle	 
+   
+55 consul 的安装 
+	./consul agent -server -ui -bootstrap-expect 1 -data-dir /tmp/consul  -bind=192.168.12.128 -advertise-wan=192.168.12.128 -client=0.0.0.0
+	-server表示启动一个服务
+	-bootstrap-expect 1表示等待多少个节点再启动，这里1个，就是自己一个就启动了
+	-node=localServer 就是给consul服务起个别名为localServer
+	-bind=172.18.32.24x 绑定内网ip
+	-advertise-wan=120.77.45.1x绑定外网ip
+	-data-dir /opt/data1 数据存储目录为/opt/data1
+	-dc=ali-dc1给数据中心起个别名ali-dc1
+	-client=0.0.0.0 客户端访问的ip
+	-ui提供web界面
+	
+	
+  查看节点
+   curl 127.0.0.1:8500/v1/catalog/nodes 
+   ./consul leave	将节点移除所在集群
+   ./consul members 列出consul cluster集群中的members
+   
+   
+56 mysql 恢复数据 溢出 解决方法
+   set global max_allowed_packet=1000000000;   
+   
+57 lombok 安装 intellj idea 下载 lombok pulign 然后 
+   setting-->compile-->annotation processors选择 enable annotations processors 
+
+58 nginx增加tcp 负载均衡   编译时候 携带 --with-stream
+     stream {
+    upstream mysqld {
+        hash $remote_addr consistent;
+        #server 118.31.129.39:10000  weight=5 max_fails=1 fail_timeout=10s;
+       server 101.37.151.54:22  weight=5 max_fails=1 fail_timeout=10s;
+    }
+
+    server {
+        listen 3310;
+        proxy_connect_timeout 1s;
+        proxy_timeout 3s;
+        proxy_pass mysqld;
+    }   
+59 beyound compare 注册码
+	--- BEGIN LICENSE KEY ---
+
+	rssAPVg2OpBjDVo3E0DhGWrjPIq0hsTSuNz13wTuzVHfb2mRgO9bZKn9B
+
+	l42D5YEyMSYPXsxzcb08dqbRlbzWNJzJXE6YVapYW7f+tRRXRFI4yn4Nj
+
+	jZ0RiiqGRCTVzwComUcXB-eiFWRBY6JpSsCNkmIxL5KsRCo442djHhTZE --- END LICENSE KEY -----
+
+	Beyond Compare 3注册码
+
+	--- BEGIN LICENSE KEY ---
+
+	mv1nPlXAywBDCdhxFc9QOVv6TBcQHLAXBQUAKTh3ie4fqSEOnWrPsnVkF
+
+	yt0wAkJHweoExRJWWVwwCniKNROSdJzJXE6YVapYW7f+tRRXRFI4yn4Nj
+
+	jZ0RiiqGRCTVzwComUcXB-eiFWRBY6JpSsCNkmIxL5KsRCo442djHhTZE
+
+	--- END LICENSE KEY -----	
+
+60 添加nginx的ldap的权限认证
+
+   git clone https://github.com/kvspb/nginx-auth-ldap.git
+   --add-module=/stock/nginxs/nginx-auth-ldap
+   完整为 ./configure --prefix=/stock/nginxs/nginx --with-pcre=/stock/pcre --with-zlib=/stock/zlib --with-openssl=/stock/openssl --with-stream --add-module=/stock/nginxs/nginx-auth-ldap
+   
+   
+61 jira 的安装 
+  下载
+   去mysql创建jira的数据库和jira的用户名
+   
+   create database jira default character set utf8 collate utf8_bin;
+   grant all privileges  on jira.* to 'jira'@'%' identified by 'jira';
+  
+  执行 chmod 755 ./atlassian-jira-software-7.2.2-x64.bin
+   按住enter
+   最后 启动端口 是8080 
+    find jira 寻找到 etc/init.d/jira 
+    把 mysql 驱动复制进去 /opt/atlassian/jira/atlassian-jira/WEB-INF/lib
+   先stop在start
+  在界面选择next 选择mysql的database 然后 选择模式 选择privite 
+  去官网注册一个key 然后查看后转向回来
+   更改端口
+
+    vim /opt/atlassian/jira/conf/server.xml
+   把破解的lib复制到	
+	/opt/atlassian/jira/atlassian-jira/WEB-INF/lib/
+   重启
+
+
+62 https 抓包
+
+63 pptpd vpn搭建
+	sudo apt-get install pptpd  
+	sudo vi /etc/pptpd.conf
+	取消注释
+		localip 192.168.0.1   修改成外网的ip
+		remoteip 192.168.0.234-238,192.168.0.245   
+		
+	sudo vi /etc/ppp/chap-secrets  	
+     添加密码
+	username  pptpd  "password"  *  
+	
+	sudo vi /etc/ppp/pptpd-options  
+	 找到ms-dns，取消掉注释，改成你需要的DNS比如8.8.8.8,8.8.4.4
+	
+    sysctl -a |grep ip_forward
+	如果 net.ipv4.ip_forward=0
+		sudo vi /etc/sysctl.conf  
+		取消掉 net.ipv4.ip_forward=1 这一行的注释.然后执行
+		sudo sysctl -p  	
+	sudo apt-get install iptables 
+    添加nat转发
+	sudo iptables -t nat -A POSTROUTING  -o eth0 -j MASQUERADE 
+	
+    sudo service pptpd restart  	
+	
+64 mysql 8.0 安装 
+1  wget https://dev.mysql.com/get/Downloads/MySQL-8.0/mysql-8.0.11-linux-glibc2.12-i686.tar.gz
+2  tar -zxvf mysql-8.0.11-linux-glibc2.12-i686.tar.gz
+3  mv mysql* mysql &&cd mysql &&mkdir data
+4  groupadd mysql &&useradd  -r -g mysql -s /bin/false mysql
+5 chown -R  mysql:mysql .
+6 yum install libaio*
+7     vim my.cnf 
+		 basedir = /stock/mysql/   //mysql存储地址
+		 datadir = /stock/mysql/data  //mysql的data地址
+		 port = 3310           //端口
+		 server_id = 12
+		 socket = /stock/mysql/data/mysqld.sock
+		 sql_mode=STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION
+		 default_authentication_plugin=mysql_native_password
+		 #NO_AUTO_CREATE_USER MySQL-8 移除
+	
+	 完毕后 :wq!保存	
+
+8 bin/mysqld --defaults-file=/stock/mysql/my.cnf --initialize --user=mysql
+9 bin/mysql_ssl_rsa_setup --defaults-file=/stock/mysql/my.cnf --initialize --user=root
+10 bin/mysqld_safe  --defaults-file=./my.cnf --user=mysql &
+11 bin/mysql -uroot -S/stock/mysql/data/mysqld.sock -P3310 -p 
+12 alter user user() identified by "904295"; //下次安装5.8时试试13步骤可否
+13 CREATE USER 'kyt'@'%' IDENTIFIED  BY 'kyt2018';;
+14 GRANT ALL PRIVILEGES ON kyt.* TO 'root'@'%' WITH GRANT OPTION;
+ 	
+	
+65 nginx if 判断条件
+
+set $mobile_rewrite do_not_perform;  
+  
+if ($http_user_agent ~* "(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|mobile.+firefox|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows ce|xda|xiino") {  
+  set $mobile_rewrite perform;  
+}  
+  
+if ($http_user_agent ~* "^(1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-)") {  
+  set $mobile_rewrite perform;  
+}  
+
+   location / {
+#   	root /mnt/home/pc_online/WebContent; 
+#        root http://127.0.0.1:11081;
+
+
+#       proxy_pass http://47.96.153.80:11081; 
+    	if ($mobile_rewrite = perform) {
+#        	root /mnt/home/wap_online/WebContent;
+                proxy_pass http://172.16.61.212:42080;
+    	}
+
+	
+	
+   

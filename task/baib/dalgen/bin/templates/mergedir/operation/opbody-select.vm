@@ -1,0 +1,73 @@
+{
+## check parameters
+#if (${operation.paramType} == "object")
+    	if (${operation.params.get(0).name} == null) {
+    		throw new IllegalArgumentException("Can't select by a null data object.");
+    	}
+
+#end
+
+## prepare parameters
+#if (${operation.params.size()} == 0)
+#set ($paramName = "null")
+
+##1个参数，如果是java.util的，则必须是java.util.Map
+#elseif (${operation.params.size()} == 1 && (!${operation.param.javaType}  || ${operation.param.package} == "java.util" &&  ${operation.param.javaType} == "java.util.Map"))
+#if (${operation.param.javaTypePrimitive})
+        ${operation.param.simpleJavaTypeForPrimitive} param = new ${operation.param.simpleJavaTypeForPrimitive}(${operation.param.name});
+#set ($paramName = "param")
+
+#else
+#set ($paramName = ${operation.param.name})
+ 
+#end
+#else
+	Map<String,Object> param = new HashMap<String,Object>();
+
+#foreach ($param in ${operation.params})
+#if ($param.javaTypeForPrimitive)
+        param.put("${param.name}", new ${param.simpleJavaTypeForPrimitive}(${param.name}));
+#else
+        param.put("${param.name}", ${param.name});
+#end
+#end
+#set ($paramName = "param")
+
+#end
+## execute query and return
+#if (! ${operation.paging})
+#if (${operation.multiplicity} == "one")
+#if (${operation.returnTypePrimitive})
+	    ${operation.simpleReturnTypeForPrimitive} retObj = (${operation.simpleReturnTypeForPrimitive}) getSqlMapClientTemplate().queryForObject("${operation.mappedStatementId}", ${paramName});
+
+		if (retObj == null) {
+		    return ${operation.defaultReturnValue};
+		} else {
+		    return retObj.${operation.simpleReturnType}Value();
+		}
+#else
+        return (${operation.simpleReturnType}) getSqlMapClientTemplate().queryForObject("${operation.mappedStatementId}", ${paramName});
+#end
+#else
+        return getSqlMapClientTemplate().queryForList("${operation.mappedStatementId}", ${paramName});
+#end
+
+#else
+        Paginator paginator = new Paginator();
+        paginator.setItemsPerPage(pageSize);
+        paginator.setPage(pageNum);
+
+        paginator.setItems(((Integer) getSqlMapClientTemplate().queryForObject("${operation.mappedStatementIdForCount}", ${paramName})).intValue());
+        
+        ${operation.simpleReturnType}  pageList = new ${operation.simpleReturnType}();
+        pageList.setPaginator(paginator);
+        
+        if (paginator.beginIndex() <= paginator.getItems()) {
+            ${paramName}.put("${operation.startRowName}", new Integer(paginator.beginIndex()));
+            ${paramName}.put("${operation.endRowName}", new Integer(paginator.endIndex()));
+            pageList.addAll(getSqlMapClientTemplate().queryForList("${operation.mappedStatementId}", ${paramName}));
+        }
+        
+        return pageList;
+#end
+    }

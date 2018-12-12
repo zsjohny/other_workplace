@@ -1,0 +1,26 @@
+apply plugin: 'java'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'application'
+repositories {
+    mavenCentral()
+}
+
+jar {
+    baseName "miscroservice_data_analysis"
+    mainClassName = 'com.finace.miscroservice.DataAnalysisCenterMain'
+}
+
+ext {
+    zipKinVersion = "2.6.0"
+
+
+}
+
+dependencies {
+
+    compile "io.zipkin.java:zipkin-autoconfigure-ui:$zipKinVersion"
+    compile "io.zipkin.java:zipkin-server:$zipKinVersion"
+    compile "io.zipkin.java:zipkin-autoconfigure-collector-rabbitmq:$zipKinVersion"
+
+    compile project(":miscroservice_commons")
+}

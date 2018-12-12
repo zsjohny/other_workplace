@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+    <property resource="application.yml"/>
+    <property name="totalEnabledSize" value="2GB"/>
+    <property name="maxHistory" value="15"/>
+    <property name="maxFileSize" value="10MB"/>
+    <!-- 日志输出格式 -->
+    <property name="FILE_LOG_PATTERN"
+              value="%d{MM-dd  HH:mm:ss.SSS}  %-5level -|%X{traceId}|- %msg%n"/>
+    <property name="CONSOLE_LOG_PATTERN"
+              value="%d{MM-dd  HH:mm:ss.SSS} %clr(%-5level) -|%X{traceId}|- %msg%n"/>
+
+    <!--控制台输出记录-->
+    <appender name="CONSOLE_FILE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${CONSOLE_LOG_PATTERN}</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+
+    <!--普通文件记录-->
+    <appender name="INFO_FILE"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${log.path}${log.name}-info.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${log.path}%d{yyyy-MM}/%d{dd}/${log.name}-info.%d{yyyy-MM-dd}.%i.log.zip</fileNamePattern>
+            <maxHistory>${maxHistory}</maxHistory>
+            <totalSizeCap>${totalEnabledSize}</totalSizeCap>
+            <timeBasedFileNamingAndTriggeringPolicy
+                    class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>${maxFileSize}</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${FILE_LOG_PATTERN}</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+
+    <!--WARN文件记录-->
+    <appender name="WARN_FILE"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${log.path}${log.name}-warn.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${log.path}%d{yyyy-MM}/%d{dd}/${log.name}-warn.%d{yyyy-MM-dd}.%i.log.zip</fileNamePattern>
+            <maxHistory>${maxHistory}</maxHistory>
+            <totalSizeCap>${totalEnabledSize}</totalSizeCap>
+            <timeBasedFileNamingAndTriggeringPolicy
+                    class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>${maxFileSize}</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${FILE_LOG_PATTERN}</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+
+    <!--ERROR文件记录-->
+    <appender name="ERROR_FILE"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${log.path}${log.name}-error.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${log.path}%d{yyyy-MM}/%d{dd}/${log.name}-error.%d{yyyy-MM-dd}.%i.log.zip</fileNamePattern>
+            <maxHistory>${maxHistory}</maxHistory>
+            <totalSizeCap>${totalEnabledSize}</totalSizeCap>
+            <timeBasedFileNamingAndTriggeringPolicy
+                    class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>${maxFileSize}</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${FILE_LOG_PATTERN}</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+
+
+    <!--SYSTEM_WARN 文件记录-->
+    <appender name="SYSTEM_ERROR_FILE"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${log.path}${log.name}-system_warn.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${log.path}%d{yyyy-MM}/%d{dd}/${log.name}-system_warn.%d{yyyy-MM-dd}.%i.log.zip
+            </fileNamePattern>
+            <maxHistory>${maxHistory}</maxHistory>
+            <totalSizeCap>${totalEnabledSize}</totalSizeCap>
+            <timeBasedFileNamingAndTriggeringPolicy
+                    class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>${maxFileSize}</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${FILE_LOG_PATTERN}</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+
+    <!--SYSTEM_ALARM 系统报警-->
+    <appender name="SYSTEM_ALARM" class="com.finace.miscroservice.commons.log.alarm.LogAlarm">
+        <!--如果只是想要 Error 级别的日志，那么需要过滤一下，默认是 info 级别的，ThresholdFilter-->
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>ERROR</level>
+        </filter>
+
+    </appender>
+
+
+    <!--加载每个项目的日志-->
+    <include resource="logback_extend.xml"></include>
+
+    <!--info日志级别-->
+    <logger name="com.finace.miscroservice.commons.log.info" level="INFO" additivity="false">
+        <appender-ref ref="INFO_FILE"/>
+        <appender-ref ref="CONSOLE_FILE"/>
+    </logger>
+
+    <!--warn日志级别-->
+    <logger name="com.finace.miscroservice.commons.log.warn" level="WARN" additivity="false">
+        <appender-ref ref="WARN_FILE"/>
+        <appender-ref ref="CONSOLE_FILE"/>
+    </logger>
+
+    <!--error日志级别-->
+    <logger name="com.finace.miscroservice.commons.log.error" level="ERROR" additivity="false">
+        <appender-ref ref="ERROR_FILE"/>
+        <appender-ref ref="CONSOLE_FILE"/>
+        <appender-ref ref="SYSTEM_ALARM"/>
+    </logger>
+
+    <!--系统warn日志级别-->
+    <root level="WARN">
+        <appender-ref ref="SYSTEM_ERROR_FILE"/>
+        <appender-ref ref="CONSOLE_FILE"/>
+    </root>
+
+
+</configuration>

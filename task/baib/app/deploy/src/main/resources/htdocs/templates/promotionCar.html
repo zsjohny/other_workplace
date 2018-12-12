@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+    <meta name="apple-touch-fullscreen" content="yes"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="applicable-device" content="mobile">
+    <title>一为车</title>
+    <style>
+        *{margin:0; padding:0; -webkit-tap-highlight-color:rgba(0,0,0,0);}
+        body,h1,h2,h3,h4,h5,h6,hr,p,blockquote,dl,dt,dd,ul,ol,li,pre,fieldset,button,input,textarea,th,td{margin:0;padding:0;border:0}
+        body{width:100%; font-size:16px; color:#1a1a1a; font-family:"Microsoft YaHei",Arial,SimSun;}
+        html,body,header,section,footer,div,ul,ol,li,img,a,span,em,del,legend,center,strong,var,fieldset,form,label,dl,dt,dd,cite,input,hr,time,mark,code,figcaption,figure,textarea,h1,h2,h3,h4,h5,h6,p{margin:0;border:0;padding:0;font-style:normal}
+        html,body{-webkit-touch-callout:none;-webkit-text-size-adjust:none;-webkit-tap-highlight-color:rgba(0,0,0,0);-webkit-user-select:none;}
+        nav,article,aside,details,main,header,footer,section,fieldset,figcaption,figure{display:block}
+        img,a,button,em,del,strong,var,label,cite,small,time,mark,code,textarea{display:inline-block}
+        header,section,footer{position:relative}
+        ol,ul,li{list-style:none}
+        input,button,textarea{border:0;margin:0;padding:0;font-size:1em;line-height:1em;background-color:rgba(0,0,0,0);outline:none;}
+        span{display:inline-block}
+        a:active,a:hover{outline:0}
+        a,a:visited{text-decoration:none}
+        .clearfix:after{content:' ';display:block;clear:both;visibility:hidden;line-height:0;height:0}
+        button, input, select, textarea {font-size: 100%;}
+        input,select,textarea{-webkit-appearance:none;border:0;border-radius:0;}
+        *:before,*:after{box-sizing: border-box;}
+
+       body{background:url(images/baibBg.jpg) no-repeat;background-size:100% auto;}
+        .baibImg{width:100%;height:auto;float:left;}
+        .baibImg img{width:100%;height:auto;}
+        main{width:80%;height:auto;margin:0 10% 10px 10%;float:left;}
+        form{width:100%;height:auto;float:left;}
+        form > div{width:100%;height:auto;float:left;border-bottom:1px solid #585858;padding:13px 0 3px 0;}
+        form > div i{width:21px;height:20px;float:left;background:url(images/formIcon.png) no-repeat;background-size:20px auto;margin:0 8px 0 4px;}
+        .phone i{background-position:0 5px;}
+        .code i{background-position:0 -42px;}
+        .pwd i{background-position:0 -86px;}
+        form > div input{width:calc(100% - 33px);height:auto;line-height:20px;}
+        form > div.code input{width:calc(100% - 120px);}
+        form > div a{width:auto;height:auto;line-height:20px;float:right;color:#209e55;}
+        form button{width:100%;height:auto;line-height:40px;text-align:center;color:#fff;background:#209e55;border-radius:5px;float:left;margin:15px 0;}
+        form button a{width:100%;height:auto;float:left;color:#fff;}
+        ul{width:100%;height:auto;float:left;}
+        ul li{width:46%;height:auto;background:#fff;border-radius:5px;border:1px solid #d9d9d9;}
+        ul li:first-child{float:left;}
+        ul li:last-child{float:right;}
+        ul li a{width:calc(50% + 47px);height:auto;line-height:27px;padding-top:10px;padding-bottom:10px;color:#1a1a1a;text-align:center;padding-left:calc(50% - 47px)}
+        ul li img{width:24px;height:27px;float:left;margin-right:10px;}
+        ul li span{float:left;}
+        @media screen and (max-width:360px){
+            form > div{padding:9px 0 2px 0;}
+            form button{margin:8px 0;}
+            ul li a{padding-top:7px;padding-bottom:7px;}
+        }
+        .popUp{width:100%;height:100%;background:rgba(0,0,0,0.2);position:fixed;top:0;left:0;display:none;}
+        .upCont{width:250px;height:150px;background:#fff;border-radius:5px;position:absolute;left:calc(50% - 125px);top:calc(50% - 75px);}
+        .fork{width:240px;height:auto;margin:5px;float:left;}
+        .upCont i{width:14px;height:14px;display:block;float:right;background:url(images/formIcon.png) no-repeat;background-size:20px auto;background-position:0 -127px;}
+        .contTxt{width:100%;height:auto;float:left;}
+        .contTxt span,.contTxt p{width:100%;height:auto;line-height:22px;font-size:18px;float:left;text-align:center;}
+        .contTxt p{font-size:14px;}
+        .contBtn{width:210px;height:auto;margin:20px;}
+        .contBtn a{width:101px;height:41px;}
+        .contBtn a:first-child{float:left;}
+        .contBtn a:last-child{float:right;}
+        .contBtn a img{width:100%;height:100%;}
+    </style>
+    </head>
+<body>
+<div class="baibImg"><img src="images/baibBg1.jpg"></div>
+<main>
+    <form>
+        <input type="hidden" name="enterpriseId" value="$!enterpriseId" id="enterpriseId">
+        <div class="phone">
+            <i></i>
+            <input type="text" placeholder="输入手机号注册" id="cell" name="cell">
+        </div>
+        <div class="code">
+            <i></i>
+            <input type="text" placeholder="输入验证码" id="checkCode" name="checkCode">
+            <a href="">获取验证码</a>
+        </div>
+        <div class="pwd">
+            <i></i>
+            <input type="password" placeholder="输入密码" id="passwd" name="passwd">
+        </div>
+        <button class="resBtn" type="button">注册</button>
+    </form>
+    <ul>
+        <li><a href="#"><img src="images/iosIcon.png"><span>IOS下载</span></a></li>
+        <li><a href="#"><img src="images/andIcon.png"><span>AND下载</span></a></li>
+    </ul>
+</main>
+<div class="popUp">
+    <div class="upCont">
+        <div class="fork"><i></i></div>
+        <div class="contTxt">
+            <span>注册成功</span>
+            <p>赶紧下载APP体验吧</p>
+        </div>
+        <div class="contBtn">
+            <a href="#"><img src="images/iosBtn.png"></a>
+            <a href="#"><img src="images/andBtn.png"></a>
+        </div>
+    </div>
+</div>
+<script src="js/jquery-1.7.2.min.js"></script>
+<script>
+
+    
+ 
+ 
+    $(".resBtn").click(function(){
+        //$(".popUp").show();
+        var url = "promotionRegister.do";
+        jQuery.ajax({
+        	type: "POST",
+       		url: url,
+       		data: 
+       		{
+       			checkCode:$("#checkCode").val(),
+       			cell:$("#cell").val(),
+       			passwd:$("#passwd").val(),
+       			enterpriseId:$("#enterpriseId").val(),
+       		},
+       		error: function(request) {
+       			alert("Connection error");
+       			},
+       		success: function(data) {
+       			if(data.bizSucc)
+       		    {
+       				$(".popUp").show();
+       			}else{
+       				alert(data.errMsg);
+       			}
+       			
+           }
+       });
+    });
+    $(".fork > i").click(function(){
+        $(".popUp").hide();
+    });
+</script>
+</body>
+</html>

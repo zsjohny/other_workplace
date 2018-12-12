@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.finace.miscroservice.user.mapper.PcUserMapper">
+
+    <!-- 根据用户id获取账户信息 -->
+    <select id="pcAccountLog" resultType="com.finace.miscroservice.user.entity.response.AccountLogResponse">
+        select al.id,al.addtime,al.money,al.no_use_money as noUseMoney,link.name as typeName
+        from account_log as al
+        left join linkage as link on al.type=link.`value`
+        <trim prefix="where" prefixOverrides="and|or">
+            and al.user_id =#{userId}
+            <if test=" startTime !=null and startTime  !='' ">
+                and al.addtime <![CDATA[>=]]> #{startTime}
+            </if>
+            <if test=" endTime !=null and endTime  !='' ">
+                and al.addtime <![CDATA[<=]]> #{endTime}
+            </if>
+        </trim>
+        order by al.id DESC
+    </select>
+    <select id="pcMyProperty" resultType="com.finace.miscroservice.user.entity.response.MyPropertyResponse">
+        SELECT amtMoney+money as cumulativeInvestmentAmount ,amountMoney,amountMoney as amountWaitGetMoney ,0.00 as frozenAmount,waitPrincipal,waitProfit  from (
+	(select case when sum(buy_amt) is null then 0 else sum(buy_amt) end as  amtMoney from finance_bid where user_id = #{userId} and pay ='1') a,
+(select case when sum(money) is null then 0 else sum(money) end as money from borrow_tender where user_id =#{userId}  ) b,
+(select case when sum(buy_amt) is null then 0 else sum(buy_amt) end as  amountMoney  from finance_bid where user_id =#{userId}  and pay ='1' and status='counting') c
+,(select case when sum(withdraw_principal)is null then 0 else sum(withdraw_principal) end as waitPrincipal from finance_bid where user_id = #{userId}  and pay ='1' and status='repayment') d
+,(select case when sum(withdraw_profit) is null then 0 else sum(withdraw_profit) end as waitProfit from finance_bid where user_id = #{userId}  and pay ='1' and status='repayment') e
+)
+    </select>
+
+    <!-- 获取用户本月还款情况 -->
+    <select id="pcBackMoney" resultType="com.finace.miscroservice.user.entity.response.FinanceMoneyResponse">
+        select
+        sum(t.principal) as principal,
+        sum(t.end_profit) as endProfit,
+        sum(t.now_profit) as nowProfit,
+        sum(t.withdraw_principal) as withdrawPrincipal,
+        sum(t.withdraw_profit) as withdrawProfit
+        from(
+        select
+        0 as principal,
+        sum(truncate(rate/36500*buy_amt*datediff(end_profit,begin_profit),2)) + sum(buy_amt) as end_profit,
+        0 as now_profit,
+        0 as withdraw_principal,
+        0 as withdraw_profit
+        from finance_bid
+        where user_id=#{userId} and pay = 1 and date_format(end_profit,'%Y-%m') = #{month}
+        UNION
+        select
+        0,0,0,
+        sum(buy_amt)+sum(withdraw_profit) as withdraw_principal,
+        0 as withdraw_profit
+        from finance_bid
+        where user_id=#{userId} and pay = 1 and status='repayment'
+        and withdraw_principal>0 and date_format(end_profit,'%Y-%m') = #{month}
+        ) as t
+    </select>
+    <select id="pcMyCoupons" resultType="com.finace.miscroservice.user.entity.response.MyCouponsResponse">
+        SELECT a.*,b.* from userrepackets a,newhb_type b
+        where
+          a.userid=#{userId} and
+          b.hbtype=#{type} and
+          a.hbleixingid=b.hbleixingid
+        order by a.hbid desc
+    </select>
+    <!-- 邀请好友获取的红包个数和红包总金额 -->
+    <select id="myInvitation"
+            resultType="com.finace.miscroservice.user.entity.response.MyInvitationResponse">
+          select count(b.userid) as invitationSize, case when sum(a.hbmoney) is null then 0 else sum(a.hbmoney) end  as countMoney from userrepackets b
+        left join newhb_type a on a.hbleixingid = b.hbleixingid
+        where b.userid=#{userId} and b.inviter != 0 and b.inviter is not null and a.hbtype = 1
+
+    </select>
+
+    <!-- 根据邀请人的id和被邀请人id获取红包信息 -->
+    <select id="getUserIdInviter"
+            resultType="com.finace.miscroservice.commons.entity.UserRedPackets">
+        select b.userid,b.inviter,a.hbmoney,hl.userTotal as hbdetail from userrepackets b
+        left join newhb_type a on a.hbleixingid = b.hbleixingid
+        left join hongbao_log hl on b.hbid = hl.active_id
+        where b.userid=#{userId} and b.inviter = #{user_id} and a.hbtype = 1 limit 1
+    </select>
+    <select id="myInformation" resultType="com.finace.miscroservice.user.entity.response.MyInformationResponse">
+        SELECT
+            a.phone,
+            a.realname AS realName,
+            a.card_id AS idCard,
+            b.bank_name AS bankName,
+            b.bank_card AS bankCard
+        FROM
+            USER a left join
+            user_bank_card b
+        on   a.user_id = b.user_id where  a.user_id =#{userId}
+    </select>
+    <select id="myFinanceBid" parameterType="String"
+            resultType="com.finace.miscroservice.user.entity.response.MyFinanceBidResponse">
+
+        SELECT b.`name`,b.time_limit_day,a.buy_amt,b.apr,a.gmt_create,a.end_profit,
+        case a.status when 'counting' then '在投' when 'repayment' then '已还款' end as status,
+        ROUND(a.rate/36500*a.buy_amt*datediff(a.end_profit,a.begin_profit),2) as interest
+        from finance_bid a,borrow b
+        where a.borrow_id=b.id and  a.user_id = #{userId}
+
+    </select>
+    <insert id="register">
+        insert into user_tmp(`phone`,`pass`,`deleted`,`status`)VALUES (#{username},#{pass},0,0)
+    </insert>
+    <select id="findRegisterTmp" resultType="com.finace.miscroservice.user.entity.po.Register">
+        SELECT * from user_tmp WHERE phone  = #{username} and deleted = 0 and status = 0
+    </select>
+    <update id="upRegisterTmp">
+        UPDATE user_tmp set `status`=1 where phone = #{phone}
+    </update>
+
+    <select id="loanUserProperty" resultType="com.finace.miscroservice.user.entity.response.MyPropertyResponse">
+        SELECT amtMoney+money as cumulativeInvestmentAmount ,amountMoney,amountMoney as amountWaitGetMoney ,0.00 as frozenAmount,waitPrincipal,waitProfit  from (
+        (select case when sum(buy_amt) is null then 0 else sum(buy_amt) end as  amtMoney from finance_bid where user_id = #{userId} and pay ='1') a,
+        (select case when sum(money) is null then 0 else sum(money) end as money from borrow_tender where user_id =#{userId}  ) b,
+        (select case when sum(buy_amt) is null then 0 else sum(buy_amt) end as  amountMoney  from finance_bid where user_id =#{userId}  and pay ='1' and status='counting') c
+        ,(select case when sum(withdraw_principal)is null then 0 else sum(withdraw_principal) end as waitPrincipal from finance_bid where user_id = #{userId}  and pay ='1' and status='repayment') d
+        ,(select case when sum(withdraw_profit) is null then 0 else sum(withdraw_profit) end as waitProfit from finance_bid where user_id = #{userId}  and pay ='1' and status='repayment') e
+        )
+    </select>
+    <select id="myBorrowinfoById" parameterType="String"
+            resultType="com.finace.miscroservice.user.entity.response.MyBorrowInfoResponse">
+        SELECT b.id,b.user_id,b.`name`,b.status,b.use,b.account,b.account_yes,b.success_time, ROUND(b.account_yes*apr*time_limit_day/36500,2) as interest,
+        b.tender_times, b.apr,b.valid_time,from_unixtime(b.addtime,'%Y-%m-%d') as addtime,b.time_limit_day,
+        CASE WHEN b.end_time is null THEN '未放款' ELSE  from_unixtime(b.end_time,'%Y-%m-%d') END as endTime
+        FROM borrow b WHERE  b.user_id = #{userId}
+
+        <if test="type== 1"> AND b.status IN (7,12)</if>
+        <if test="type== 2"> AND b.status = 8</if>
+        <if test="type== 3"> AND b.status IN (11,12)</if>
+    </select>
+    <select id="getInfoByBorrowId"  resultType="com.finace.miscroservice.user.entity.response.MyBorrowInfoResponse">
+        SELECT b.id,b.user_id,b.`name`,b.status,b.use,b.account,b.account_yes, ROUND(b.account_yes*apr*time_limit_day/36500,2) as interest,
+        b.tender_times, b.apr,b.valid_time,from_unixtime(b.addtime,'%Y-%m-%d') as addtime,b.time_limit_day,
+        CASE WHEN b.end_time is null THEN '未放款' ELSE  from_unixtime(b.end_time,'%Y-%m-%d') END as endTime
+         FROM borrow b WHERE  b.borrow_id = #{borrowId}
+    </select>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+

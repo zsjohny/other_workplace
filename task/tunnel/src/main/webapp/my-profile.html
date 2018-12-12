@@ -1,0 +1,135 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"/>
+    <link href="css/mui.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" type="text/css" href="css/iconfont.css"/>
+    <link rel="stylesheet" type="text/css" href="css/style.css"/>
+</head>
+
+<body>
+
+<header class="mui-bar mui-bar-nav topnav">
+    <a class=" mui-icon mui-icon-left-nav" href="my.html"></a>
+    <h1 class="mui-title">个人资料</h1>
+    <div class="mui-clearfix"></div>
+</header>
+
+<div class="mui-content mycontent " id="mui-content">
+    <div id="_selfDetail"></div>
+    <div class="mui-content-padded">
+        <button id="login" class="mui-btn mui-btn-block mui-btn-primary xiayibu">退出登录</button>
+    </div>
+
+
+</div>
+
+<div id="picture" class="mui-popover mui-popover-action mui-popover-bottom">
+    <ul class="mui-table-view">
+        <li class="mui-table-view-cell">
+            <a href="#">拍照或录像</a>
+        </li>
+        <li class="mui-table-view-cell">
+            <a href="javascript:selecPic()">选取现有的</a>
+            <form id="files" style="display: none">
+               <!-- <input type="file" onchange="upload()" name="picsFile"/>-->
+                <input type="file" onchange="upload()" name="file"/>
+            </form>
+        </li>
+    </ul>
+    <ul class="mui-table-view">
+        <li class="mui-table-view-cell">
+            <a href="#picture"><b>取消</b></a>
+        </li>
+    </ul>
+</div>
+
+
+<script src="js/mui.min.js"></script>
+<script src="/tunnel/js/jquery.js"></script>
+<script>
+    var user
+    $(function () {
+
+
+        if (localStorage.hasOwnProperty("userList") == false) {
+//            location.href = "login.html";
+            return;
+        }
+
+        user = JSON.parse(localStorage.getItem("userList"));
+
+
+        //加载数据
+        if (user.tmAvatar == null || user.tmAvatar == '') {
+            user.tmAvatar = "images/morentouxiang.png";
+        }
+
+        var status = {
+            1: "待认证", 2: "认证失败", 3: "已通过认证"
+        };
+
+        if (user.tmIdStatus == null) {
+            user.tmIdStatus = 1;
+        }
+        var address = ( user.pname == null ? '' : user.pname) + "" + (user.cname == null ? '' : user.cname ) + "" + (user.oname == null ? '' : user.oname );
+
+
+        var content = "   <ul class='touxiangbox'> <li class='mui-table-view-cell'> <a  href='#picture' class='mui-navigate-right'>头像 <img id='header'src='" + user.tmAvatar + "'/> </a> </li>";
+
+        content += " <li class='mui-table-view-cell'> <a href='Change-info.html' class='mui-navigate-right'>昵称 <h1>" + user.tmName + "</h1> </a> </li> <li class='mui-table-view-cell'>推荐人";
+        content += "<h1>" + user.tmInviteCode + "</h1> </li>  <li class='mui-table-view-cell'>身份证 <h1 class='hong'>" + status[user.tmIdStatus] + "</h1> </li> <li class='mui-table-view-cell'> <a href='Change-info-weixin.html' class='mui-navigate-right'>微信号";
+        content += "<h1>" + ( user.tmWechatNumber == null ? '' : user.tmWechatNumber) + "</h1> </a> </li> <li class='mui-table-view-cell'> <a  href='Change-info-qq.html' class='mui-navigate-right' >QQ";
+        content += " <h1>" + ( user.tmqqNumber == null ? '' : user.tmqqNumber) + "</h1> </a> </li> <li class='mui-table-view-cell'>我的地址";
+        content += " <h1>" + address + "</h1> </li> <li class='mui-table-view-cell'> <a  href='Change-info-dizhi.html' class='mui-navigate-right'>详细地址 <h1>" + (user.tmAddress == null ? '' : user.tmAddress) + "</h1> </a> </li> </ul>";
+        $("#_selfDetail").html(content);
+
+        $("#login").on("click", function () {
+
+            localStorage.removeItem("userList");
+            location.href = "login.html";
+        })
+
+    });
+
+
+    function selecPic() {
+
+//        return $("input[name='picsFile']").click();
+        return $("input[name='file']").click();
+    }
+
+    function upload() {
+        var formData = new FormData($("#files")[0]);
+        $.ajax({
+//            url: 'http://localhost:8080/shizhounian-api/tbMember/add_pic',
+            url: 'http://localhost:8100/tunnel/login/uploadExcel.do',
+            type: 'POST',
+            data: formData,
+            async: false,
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function (data) {
+                mui.toast(data.message);
+                if (data.code == 100) {
+                    user.tmAvatar = data.imgUrl;
+                    $("#header").attr("src", data.imgUrl);
+                    localStorage.set("userList", JSON.stringify(user));
+                }
+            },
+            error: function () {
+                mui.toast('请返回个人主页重试!!');
+            }
+        });
+    }
+
+
+</script>
+</body>
+
+</html>

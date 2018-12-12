@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.finace.miscroservice.borrow.mapper.BorrowTenderMapper">
+
+	<resultMap id="BaseBorrowTenderResult" type="com.finace.miscroservice.borrow.po.BorrowTenderPO">
+		<result column="id" property="id" />
+		<result column="site_id" property="siteId" />
+		<result column="user_id" property="userId" />
+		<result column="status" property="status" />
+		<result column="borrow_id" property="borrowId" />
+		<result column="money" property="money" />
+		<result column="account" property="account" />
+		<result column="repayment_account" property="repaymentAccount" />
+		<result column="interest" property="interest" />
+		<result column="repayment_yesaccount" property="repaymentYesaccount" />
+		<result column="wait_account" property="waitAccount" />
+		<result column="wait_interest" property="waitInterest" />
+		<result column="repayment_yesinterest" property="repaymentYesinterest" />
+		<result column="addtime" property="addtime" />
+		<result column="addip" property="addip" />
+		<result column="auto_repurchase" property="autoRepurchase" />
+		<result column="Is_auto_tender" property="isAutoTender" />
+		<result column="trust_order_no" property="trustOrderNo" />
+		<result column="trust_status" property="trustStatus" />
+		<result column="trust_IsFreeze" property="trustIsFreeze" />
+		<result column="trust_Freeze_OrdId" property="trustFreezeOrdId" />
+		<result column="trust_Freeze_TrxId" property="trustFreezeTrxId" />
+		<result column="hongbao_money" property="hongbaoMoney" />
+		<result column="oneJiangli" property="oneJiangli" />
+		<result column="twoJiangli" property="twoJiangli" />
+		<result column="hbid" property="hbid" />
+		<result column="jx_interst" property="jx_interst" />
+		<result column="jxnum" property="jxnum" />
+		<result column="contract" property="contract" />
+	</resultMap>
+
+	<resultMap id="TenderTotalPastResult"
+		type="com.finace.miscroservice.commons.entity.BorrowTender">
+		<result column="accountPast" property="accountPast" />
+		<result column="interestPast" property="interestPast" />
+		<result column="repayTimes" property="repayTimes" />
+	</resultMap>
+
+    <!-- 获取用户汇付投资总额 -->
+	<select id="getAllTenderByUserId" parameterType="int" resultType="double">
+		select CASE WHEN sum(account) IS NULL THEN 0.00 ELSE sum(account) END  as buyAmt
+		 from borrow_tender where trust_status=1 and user_id=#{userId}
+	</select>
+
+	<!-- 查询已完成收款的投标累计本金和累计收益(投资总额 、累计收益 复审通过后才计算在内) -->
+	<select id="getUserTotalPast" parameterType="java.lang.String" resultMap="TenderTotalPastResult">
+		SELECT
+			CASE WHEN C.account IS NULL THEN 0.00 ELSE C.account END AS accountPast,
+			CASE WHEN C.interest IS NULL THEN 0.00 ELSE C.interest END AS interestPast
+			from (
+				SELECT
+					CASE WHEN A.account IS NULL THEN 0.00 ELSE SUM(A.account) END AS account ,
+					CASE WHEN A.interest IS NULL THEN 0.00 ELSE SUM(A.interest) END AS interest
+				FROM borrow_tender A
+				WHERE A.USER_ID = #{userId}
+					AND A.trust_status=1
+			) as C
+	</select>
+	
+	<!-- 昨日投资订单笔数 ，纯富友 -->
+	<select id="getTenderNowDay" resultType="java.lang.Integer">
+		select count(*) as ncount from finance_bid
+		where pay=1
+			and pay_pid is not NULL
+			and bank_card_no is not NULL
+			and pay_name is not null
+			and DATE(pay_time) = date_sub(curdate(),interval 1 day)
+	</select>
+
+	<!-- 昨日投资总金额，纯富友 -->
+	<select id="getTenderNowDaySum" resultType="double">
+		select CASE WHEN
+		sum(buy_amt) IS NULL THEN 0.00 ELSE sum(buy_amt) END as
+		collectTotal
+		from finance_bid
+		where pay=1
+		and pay_pid is not NULL
+		and bank_card_no is
+		not NULL
+		and pay_name is not null
+		and DATE(pay_time) =
+		date_sub(curdate(),interval 1 day)
+
+	</select>
+
+	<!-- 当日回款笔数 -->
+	<select id="getTenderRepayNowDay" resultType="java.lang.Integer">
+		select
+		count(b.repaymentnum) as ncount from
+		((SELECT a.id as repaymentnum from
+		borrow_repayment a
+		where from_unixtime(a.repayment_time,'%Y-%m-%d') =
+		date_sub(curdate(),interval 1 day) and a.status = 1 )
+		UNION(SELECT c.id
+		as repaymentnum FROM finance_bid c
+		WHERE DATE(c.end_profit) =
+		date_sub(curdate(),interval 1 day) and c.pay=1
+		and c.status='repayment'
+		and c.bank_card_no is not null))b
+	</select>
+
+	<!-- 当日回款总金额总金额 -->
+	<select id="getTendeRepayrNowDaySum" resultType="double" >
+		select CASE WHEN
+		SUM(b.benxi) IS NULL THEN 0.00 ELSE SUM(b.benxi) END as
+		collectTotal
+		FROM
+		((SELECT a.repayment_yesaccount as benxi from borrow_repayment a
+		where from_unixtime(a.repayment_time,'%Y-%m-%d') =
+		date_sub(curdate(),interval 1 day) and a.status = 1)
+		UNION(SELECT
+		(c.withdraw_profit+c.withdraw_principal)as benxi FROM finance_bid c
+		WHERE DATE(c.end_profit) = date_sub(curdate(),interval 1 day) and
+		c.pay=1 and c.status='repayment' and c.bank_card_no is not null))b
+	</select>
+
+	<!-- 总daishou -->
+	<select id="getAllCollectSum" resultType="double">
+              <!-- tempa.daishou2,tempb.daishou3, -->
+		SELECT
+		(tempa.daishou2+tempb.daishou3) as
+		collectTotal FROM
+		(SELECT SUM(c.buy_amt) as daishou2
+		FROM finance_bid c
+		WHERE c.pay=1 and c.status='counting' and
+		c.bank_card_no is not
+		null)tempa,
+		(select
+		a.buy_amount-b.withdraw_amount as daishou3 FROM
+		(select sum(account) as buy_amount from `borrow_tender` where
+		`trust_status`
+		= 1) as a,
+		(select sum(capital) as withdraw_amount from
+		borrow_repayment where status
+		=1)as b)tempb
+	</select>
+	<!-- 富友daishou -->
+	<select id="getAllCollectFidSum" resultType="double">
+		SELECT
+		SUM(c.buy_amt) as collectTotal
+		FROM finance_bid c WHERE c.pay=1 and
+		c.status='counting' and
+		c.bank_card_no is not null
+	</select>
+	<!--昨日新用户富友投资笔数 -->
+	<select id="getTenderofNewuser" resultType="java.lang.Integer">
+		SELECT
+		COUNT(DISTINCT(a.`user_id`)) as ncount FROM
+		finance_bid a, (SELECT
+		c.user_id as user_id FROM `user` c WHERE
+		from_unixtime(c.addtime,'%Y-%m-%d') = date_sub(curdate(),interval 1
+		day)) b
+		WHERE a.user_id = b.user_id and a.pay=1 and a.status='counting'
+	</select>
+	<!--昨日投标笔数 -->
+	<select id="getTenderNum" resultType="java.lang.Integer">
+		SELECT COUNT(1) as ncount FROM `finance_bid` as a
+		WHERE a.pay=1 and a.status='counting'
+		and a.bank_card_no is not null and
+		DATE_FORMAT(a.pay_time,'%Y-%m-%d') =
+		date_sub(curdate(),interval 1
+		day)
+	</select>
+	<!--昨日投标中首投笔数 -->
+	<select id="tenderFirstNum" resultType="java.lang.Integer">
+		SELECT
+			COUNT(1) FROM (
+			select
+				min(pay_time) as min_pay_time
+			from finance_bid
+			where pay=1
+				and pay_pid is not NULL
+				and bank_card_no is not NULL
+				and pay_name is not null
+			group by user_id
+			having DATE_FORMAT(min_pay_time,'%Y-%m-%d') = date_sub(curdate(),interval 1 day)
+			)b
+	</select>
+	<!--  昨日投资人数，纯富友-->
+	<select id="getUserNowDayNum"  resultType="int" >
+		select count(DISTINCT user_id) AS bcount
+		from finance_bid
+		where pay=1
+		and pay_pid is not NULL
+		and bank_card_no is not NULL
+		and pay_name is not null
+		and DATE(pay_time) = date_sub(curdate(),interval 1 day)	  								
+	</select>
+
+	<select id="getRepayInfoOfToday"  resultMap="TenderTotalPastResult">
+		SELECT
+	    interest+account+ hongbao AS accountPast,
+			interest+hongbao AS interestPast,
+			repayTimes
+		from (
+		SELECT CASE WHEN SUM(withdraw_profit) IS NULL  THEN 0.00 ELSE SUM(withdraw_profit) END AS interest,
+		CASE WHEN SUM(withdraw_principal) IS NULL  THEN 0.00 ELSE SUM(withdraw_principal) END AS account,
+		CASE WHEN SUM(coupon_amt) IS NULL  THEN 0.00 ELSE SUM(coupon_amt) END AS hongbao,
+		CASE WHEN COUNT(1) IS NULL  THEN 0 ELSE COUNT(1) END AS repayTimes
+		from `finance_bid`
+		where pay=1 and `status` ='repayment'
+		and pay_pid is not NULL
+		and bank_card_no is not NULL
+		and pay_name is not null
+		and repay_time is not null
+		and DATE_FORMAT(repay_time,'%Y-%m-%d') = date_sub(curdate(),interval 1 day))temp
+	</select>
+
+</mapper>
+

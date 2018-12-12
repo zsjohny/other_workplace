@@ -1,0 +1,33 @@
+apply plugin: 'java'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'application'
+repositories {
+    mavenCentral()
+}
+
+jar {
+    baseName "miscroservice_task_scheduling"
+    mainClassName = 'com.finace.miscroservice.TaskSchedulingMain'
+}
+
+
+
+ext {
+    springBootVersion = "1.5.8.RELEASE"
+    elasticJobLiteVersion = "2.1.5"
+}
+
+dependencies {
+    compile(project(":miscroservice_commons")) {
+        exclude group: "org.springframework.cloud", module: "spring-cloud-starter-config"
+        exclude group: "org.springframework.cloud", module: "spring-cloud-starter-bus-amqp"
+
+    }
+    compile group: 'org.javassist', name: 'javassist', version: '3.21.0-GA'
+    compile group: 'org.quartz-scheduler', name: 'quartz', version: '2.2.3'
+    compile fileTree(dir: "src/main/resources/lib", include: "*.jar")
+    testCompile "org.springframework.boot:spring-boot-starter-test:$springBootVersion"
+
+
+
+}

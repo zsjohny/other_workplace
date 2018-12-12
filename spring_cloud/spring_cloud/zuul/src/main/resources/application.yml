@@ -1,0 +1,25 @@
+spring:
+  application:
+    name: zuul
+server:
+  port: 8073
+eureka:
+  client:
+    service-url:
+        defaultZone: http://${eureka.instance.hostname}:8068/eureka
+  instance:
+    hostname: localhost
+    prefer-ip-address: true
+#开启hystrix fegin 的
+feign.hystrix.enabled: true
+
+#zuul:
+#  routes:
+#   service_a:
+#      path: /**
+#      service_id: client
+#
+
+
+
+

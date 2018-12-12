@@ -1,0 +1,31 @@
+spring:
+  application:
+    name: spring_bus
+  rabbitmq:
+    host: www.52woo.com
+    username: wuai
+    password: wuai
+
+
+management:
+  security:
+    enabled: false #关闭认证的权限
+
+server:
+  port: 8078
+eureka:
+  client:
+    service-url:
+        defaultZone: http://${eureka.instance.hostname}:8068/eureka
+  instance:
+    hostname: localhost
+    prefer-ip-address: true
+#开启hystrix fegin 的
+feign.hystrix.enabled: true
+
+
+
+
+
+
+

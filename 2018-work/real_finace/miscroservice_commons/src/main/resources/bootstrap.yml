@@ -1,0 +1,60 @@
+---
+#中心配置的git设置
+spring:
+  cloud:
+    config:
+      label: master
+      profile: test #文件名称 以-后面的后缀 eg git的文件名称 {application.name}-test.properties
+      discovery:
+        enabled: true
+        service-id: config
+      fail-fast: true #打开快速失败 用于自定重试
+
+
+# spring 更新一个 若全部都更新 则所有的跟新 方法是 http://localhost:port/bus/refresh
+
+
+---
+#注册服务地址设置
+eureka:
+  client:
+    service-url:
+        defaultZone: http://${security.user.name}:${security.user.password}@${eureka.instance.registerInfo}:6898/eureka,http://${security.user.name}:${security.user.password}@${eureka.instance.registerInfo}:6899/eureka
+
+  instance:
+#    registerInfo: localhost
+    registerInfo: 47.97.174.183
+#    registerInfo: 192.168.1.105
+    prefer-ip-address: true
+    instance-id: ${spring.cloud.client.ipAddress}:${server.port}
+#    ip-address: localhost
+#    ip-address: 47.97.174.183
+
+
+---
+#security的开启认证
+security:
+  user:
+    name: test
+    password: test
+
+---
+#刷新配置mq的配置
+spring:
+  rabbitmq:
+    host: 47.97.174.183
+    port: 5672
+    username: etongjin
+    password: 123456
+
+---
+#关闭消息总线的security的认证
+management:
+  security:
+    enabled: false
+
+---
+#jasypt的解密密钥
+jasypt:
+  encryptor:
+    password: d1d29ed7a1524828690db0702518fcf0

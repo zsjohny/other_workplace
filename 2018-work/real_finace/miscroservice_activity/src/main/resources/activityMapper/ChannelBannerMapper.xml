@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.finace.miscroservice.activity.mapper.ChannelBannerMapper">
+
+    <resultMap id="BaseChannelBannerResult" type="com.finace.miscroservice.activity.po.ChannelBannerPO" >
+        <result property="id" column="id"/>
+        <result property="channel" column="channel"/>
+        <result property="imgurl" column="imgurl"/>
+        <result property="addtime" column="addtime"/>
+        <result property="url" column="url"/>
+        <result property="corder" column="corder"/>
+        <result property="remark" column="remark"/>
+
+    </resultMap>
+
+    <!--获取banner列表 -->
+    <select id="getChannelBanner" parameterType="String" resultType="com.finace.miscroservice.activity.po.ChannelBannerPO">
+        select it.imgurl as imgurl,it.jumurl as url,it.torder as corder,
+              it.scontent,it.stitle,it.simgurl,it.stime,it.etime,it.status
+        from channel_banners cb
+        left join images_type it on it.id = cb.corder
+        where cb.channel=#{channel} and it.imgurl is not NULL  order by it.torder,cb.addtime desc
+    </select>
+
+
+</mapper>
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.onway.baib</groupId>
+		<artifactId>baib-parent</artifactId>
+		<version>1.0</version>
+		<relativePath>../../../pom.xml</relativePath>
+	</parent>
+
+	<groupId>com.onway.baib</groupId>
+	<artifactId>baib-core-service</artifactId>
+	<version>1.0</version>
+	<name>baib-core-service</name>
+	<description>baib-core-service</description>
+	<packaging>jar</packaging>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.onway.baib</groupId>
+			<artifactId>baib-common-service-integration</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.onway.baib</groupId>
+			<artifactId>baib-core-model</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.onway.baib</groupId>
+			<artifactId>baib-common-dal</artifactId>
+		</dependency>
+	</dependencies>
+</project>

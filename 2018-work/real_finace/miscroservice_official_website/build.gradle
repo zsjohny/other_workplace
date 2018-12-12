@@ -1,0 +1,18 @@
+apply plugin: 'java'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'application'
+repositories {
+    mavenCentral()
+}
+
+jar {
+    baseName "miscroservice_official_website"
+    mainClassName = 'com.finace.miscroservice.OfficialWebsiteStartMain'
+}
+
+
+dependencies {
+
+    compile project(":miscroservice_commons")
+
+}

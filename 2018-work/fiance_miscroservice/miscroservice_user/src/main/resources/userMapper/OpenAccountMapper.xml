@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.finace.miscroservice.user.mapper.OpenAccountMapper">
+    <!--添加开户信息-->
+    <insert id="openAccount" useGeneratedKeys="true" keyProperty="id">
+         INSERT into credit_account(txDate, txTime,seqNo,userId, idType, idNo, `name`, `gender`, `mobile`, `acctUse`, `smsFlag`, `identity`,`coinstName`)
+        values(#{txDate},#{txTime},#{seqNo},#{userId}, #{idType}, #{idNo}, #{name}, #{gender}, #{mobile}, #{acctUse}, #{smsFlag}, #{identity}, #{coinstName})
+    </insert>
+    <!--修改开户信息-->
+    <update id="upOpenAccount">
+        UPDATE credit_account
+        <set>
+            <if test="txDate!=null and txDate !=''">`txDate`=#{txDate},</if>
+            <if test="txTime!=null and txTime !=''">`txTime`=#{txTime},</if>
+            <if test="seqNo!=null and seqNo !=''">`seqNo`=#{seqNo},</if>
+            <if test="idType!=null and idType !=''">`idType`=#{idType},</if>
+            <if test="idNo!=null and idNo !=''">`idNo`=#{idNo},</if>
+            <if test="name!=null and name !=''">`name`=#{name},</if>
+            <if test="gender!=null and gender !=''">`gender`=#{gender},</if>
+            <if test="mobile!=null and mobile !=''">`mobile`=#{mobile},</if>
+            <if test="acctUse!=null and acctUse !=''">`acctUse`=#{acctUse},</if>
+            <if test="smsFlag!=null and smsFlag !=''">`smsFlag`=#{smsFlag},</if>
+            <if test="identity!=null and identity !=''">`identity`=#{identity},</if>
+            <if test="coinstName!=null and coinstName !=''">`coinstName`=#{coinstName}</if>
+        </set>
+        where userId = #{userId}
+    </update>
+    <!--insert into credit_account(userId, idType, idNo, `name`, `gender`, `mobile`, `acctUse`, `smsFlag`, `identity`,`coinstName`)-->
+    <!--values(#{userId}, #{idType}, #{idNo}, #{name}, #{gender}, #{mobile}, #{acctUse}, #{smsFlag}, #{identity}, #{coinstName})-->
+    <!--ON DUPLICATE KEY UPDATE id = id+1, userId = VALUES(userId), idType = VALUES(idType), idNo = VALUES(idNo), `name` = VALUES(`name`)-->
+    <!--, `gender` = VALUES(`gender`) , `mobile` = VALUES(`mobile`) , `acctUse` = VALUES(`acctUse`) , `smsFlag` = VALUES(`smsFlag`)-->
+    <!--, `identity` = VALUES(`identity`), `coinstName` = VALUES(`coinstName`)-->
+    <!--根据用户id 查找 开户信息-->
+    <select id="findOpenAccountByUserId" parameterType="String"
+            resultType="com.finace.miscroservice.user.po.CreditGoAccountPO">
+        SELECT * from credit_account where userId = #{userId} and deleted = 0
+    </select>
+    <!--修改 银行卡号-->
+    <update id="upCardNoByAccountId">
+        UPDATE credit_account
+        <set>
+            `isSetBankCard`=1
+            <if test="accountId !=null and accountId != ''">,`accountId`=#{accountId},</if>
+            <if test="cardNo !=null and cardNo != ''">`cardNo`=#{cardNo}</if>
+        </set>
+        WHERE `seqNo`=#{seqNo} and `txTime` = #{txTime} and `txDate` = #{txDate}
+    </update>
+    <!--根据 开户账号 查找 开户信息-->
+    <select id="findOpenAccountByAccountId" resultType="com.finace.miscroservice.user.po.CreditGoAccountPO">
+        SELECT * from credit_account where accountId = #{accountId} and deleted = 0
+    </select>
+    <!--是否设置密码-->
+    <update id="upSetPass">
+        UPDATE credit_account set isSetPass = 1
+    </update>
+    <!--修改是否绑定银行卡-->
+    <update id="upCardNo">
+        UPDATE credit_account
+        <set>
+            isSetBankCard=1
+            <if test="cardNo!=null and cardNo != ''">
+                ,cardNo = #{cardNo}
+            </if>
+        </set>
+        where accountId = #{accountId}
+    </update>
+    <!--删除银行卡-->
+    <update id="delCardNo">
+        UPDATE credit_account set cardNo = null ,isSetBankCard=0 where accountId = #{reAccountId}
+    </update>
+    <!--修改免费提现金额-->
+    <update id="upMoney">
+        UPDATE credit_account
+        <set>
+            <if test="availBal!=null and availBal!=''">availBal=#{availBal},</if>
+            <if test="currBal!=null and currBal!=''">currBal=#{currBal},</if>
+            <if test="iceMoney!=null and iceMoney!=''">iceMoney=#{iceMoney}</if>
+        </set>
+        where accountId = #{reAccountId}
+    </update>
+
+    <update id="upOpenAccountCutPayment">
+        UPDATE credit_account set cutPayment = cutPayment+#{txAmount} where accountId = #{accountId}
+    </update>
+
+    <update id="upPaymentAuth">
+        UPDATE credit_account set payment= '1';
+    </update>
+
+    <update id="upRepayAuth">
+        UPDATE credit_account set repay= '1';
+    </update>
+
+    <!-- 修改账户信息 -->
+    <update id="updateCreditAccount" parameterType="com.finace.miscroservice.user.po.CreditGoAccountPO">
+        UPDATE credit_account
+        <trim prefix="set" suffixOverrides=",">
+            <if test="cutPayment != null and cutPayment != '' ">
+                cutPayment = #{cutPayment},
+            </if>
+            <if test="name != null and name != '' ">
+                name = #{name},
+            </if>
+            <if test="gender != null and gender != '' ">
+                gender = #{gender},
+            </if>
+            <if test="mobile != null and mobile != '' ">
+                mobile = #{mobile},
+            </if>
+            <if test="acctUse != null and acctUse != '' ">
+                acctUse = #{acctUse},
+            </if>
+        </trim>
+        where id = #{id}
+    </update>
+    <select id="findAccountByIdNo" resultType="String">
+        SELECT  idNo from credit_account where idNo = #{idNo}
+    </select>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+

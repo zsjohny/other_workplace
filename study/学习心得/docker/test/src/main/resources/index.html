@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+    <script>
+
+        $(function () {
+            $.ajax({
+                // url: "http://localhost:8081/user/shareSendCode"
+                // url: "http://47.97.174.183:8081/user/load?pass=Q0dzQW0wSDd2cEk9&phone=13291859481"
+                url: "http://localhost:8090/"
+                // url: "http://localhost:8085/shareSendCode"
+                ,
+                data: {
+                    "shareid": "813f962b4300611a66c8636",
+                    "phone": "13291859481"
+
+                },
+                headers: {
+                    // "test":"test",
+                    "uid": "e8fd37c38b6fad08cd73b67ba03a0c182e62e8e1e6ad22f1f1",
+                    "token": "eyJhbGciOiJIUzI1NiJ9.eyJ1aWQiOiJlOGZkMzdjMzhiNmZhZDA4Y2Q3M2I2N2JhMDNhMGMxODJlNjJlOGUxZTZhZDIyZjFmMSIsImlkIjoyMDI0OSwiZXhwIjoxNTI0NjQyMzYwLCJpYXQiOjE1MjIwNTAzNjB9.d6DWa2fTXRDaXcBSN3vPokSBd4w3Yfr1riqJikFntqM"
+                },
+                success: function (data) {
+                    console.log(data)
+                }
+            });
+        })
+    </script>
+</head>
+<body>
+
+</body>
+</html>

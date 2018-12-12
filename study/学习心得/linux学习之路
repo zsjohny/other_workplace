@@ -1,0 +1,1642 @@
+rabbitchmod 
+1、chmod是linux中更改文件权限的命令，常用的有：
+ 
+(1) sudo chmod u+x
+ 
+(2) sudo chmod g+x
+ 
+(3) sudo chmod o+x
+
+权限 赋值 赋予所有权限
+	-rw——- (600) 只有所有者才有读和写的权限
+	-rw-r–r– (644) 只有所有者才有读和写的权限，组群和其他人只有读的权限
+	-rwx—— (700) 只有所有者才有读，写，执行的权限
+	-rwxr-xr-x (755) 只有所有者才有读，写，执行的权限，组群和其他人只有读和执行的权限
+	-rwx–x–x (711) 只有所有者才有读，写，执行的权限，组群和其他人只有执行的权限
+	-rw-rw-rw- (666) 每个人都有读写的权限
+	-rwxrwxrwx (777) 每个人都有读写和执行的权限
+
+	eg:    修改目录下所有的文件夹属性
+
+		chmod 777 *
+
+		把文件夹名称用*来代替就可以了
+
+		要修改文件夹内所有的文件和文件夹及子文件夹属性为可写可读可执行
+
+		chmod -R 777 /upload
+		
+　 
+其中的 u、g、o 分别代表的就是 user、group、others，"+"代表赋予权限，x (executable)代表可执行权
+
+
+2.软件安装
+ sudo dpkg -i 软件名.deb
+
+3.Nano是一种单模式编辑器，你可以直接输入文字。如果你要编辑一个像/etc/fstab一样的配置文件，请使用-w参数，例如：
+sudo nano /etc/profile/
+
+export JAVA_HOME=/home/nessary/task/jre1.8.0_91
+export PATH=$PATH:$JAVA_HOME/bin
+export CLASSPATH=.:$JAVA_HOME/lib
+
+4.$source /etc/profile 文件立马生效
+
+5.sudo dpkg -r 软件的名称 查看所安装的软件的名称
+6.sudo dpkg -purge 软件的名称 卸载软件
+7./boot/grub/grub.cfg启动项
+8.sudo apt-get install 软件的名称 安装软件
+9.touch 文件名 新建文件
+10.ln是linux中又一个非常重要命令，它的功能是为某一个文件在另外一个位置建立一个同不的链接，这个命令最常用的参数是-s，具体用法是：ln –s 源文件 目标文件4
+11.find寻找文件 find / -name 文件名 
+12.ps -aux  显示当前d程序和pid  kill pid  杀死进程  杀不死 就用 kill -9 强制性杀死
+    ps -A 显示所有程序。
+    ps c 列出程序时，显示每个程序真正的指令名称，而不包含路径，参数或常驻服务的标示。
+    ps -e 此参数的效果和指定"A"参数相同。
+    ps e 列出程序时，显示每个程序所使用的环境变量。
+    ps f 用ASCII字符显示树状结构，表达程序间的相互关系。
+    ps -H 显示树状结构，表示程序间的相互关系。
+    ps -N 显示所有的程序，除了执行ps指令终端机下的程序之外。
+    ps s 采用程序信号的格式显示程序状况。
+    ps S 列出程序时，包括已中断的子程序资料。
+    ps -t<终端机编号> 指定终端机编号，并列出属于该终端机的程序的状况。
+    ps u 以用户为主的格式来显示程序状况。
+    ps x 显示所有程序，不以终端机来区分。
+13.没有声音 运行sudo apt-get install libalsaplayer-dev
+14.删除文件 rm -rf 文件名 
+15 sudo gedit 编写文件
+16 rar文件压缩 命令 rar 
+  e             解压文件到当前目录
+  l[t,b]        列出压缩文档信息[technical, bare]
+  p             打印文件到标准输出
+  t             测试压缩我俄当
+  v[t,b]        列出压缩文档的详细信息[technical,bare]
+  x             解压文件到完整路径
+
+16.source  文件 立即生效
+17.scp -r 递归复制  远程复制 scp -P(大写) 端口 文件名 root@ip:/root(针对非22端口 -P参数一定要有)
+18. java -jar java程序运行
+19.ls -a查看隐藏的文件
+20.top z查看所有的变化，q退出
+21. ps qux | grep sss
+   其中 |是管道，左边的搜索结果作为右边的输入,grep是作为本地的搜索
+22. systemctl restart network 网络重启的服务
+23. 
+ 文件夹 :q! 是退出 i是查看 insert是替换 大写的G是快速切换到最后一个 小写g两次是切换到第一个 ?是查询文件的 在查找界面输入n是继续往下找
+24 mkdir -p /opt/data 层级创建
+25.tail -f filename监听最近打开的文件
+26.cat filename用来打开数据
+		1.一次显示整个文件。$ cat filename
+		2.从键盘创建一个文件。$ cat > filename  
+		   只能创建新文件,不能编辑已有文件.
+		3.将几个文件合并为一个文件： $cat file1 file2 > file
+27.du -h查看某个文件夹所有文件的大小
+28.unzip -d 源文件 目标地址 解压zip文件
+29.进能1输入需要的名称前几个按住Tab自动补全
+30..tar.gz     格式解压为          tar   -zxvf   xx.tar.gz
+   .tar.bz2   格式解压为          tar   -jxvf    xx.tar.bz2
+
+31.vi 中删除所有内容   先用G 转到文件尾，然后使用下面命令：  ：1, .d  其中 1代表开始行数 .代表当前的行数 d是删除   dd 鼠标闪烁地方删除一行  yy 是复制当前行 p 是粘帖  yng 是当前行开始 往下复制多少行 
+  
+32.ssh主机之间免密码   两个主机运行 ssh-keygen -t rsa  将需要上传的公钥 生成密钥目录下的.pub文件 复制到
+      上传的主机生成密钥的目录。新建authorized_keys文件，将.pub文件追加 进新建文件 就好了 cat xx>xx
+33.nohup  程序名称 & 后台启动的命令--守护进程
+34 netstat 还可以显示 ps 无法显示的,用于显示与IP、TCP、UDP和ICMP协议相关的统计数据，一般用于检验本机各端口的网络连接情况。
+
+		　　语　　法：netstat [-acCeFghilMnNoprstuvVwx][-A<网络类型>][--ip]
+
+		　　补充说明：利用netstat指令可让你得知整个Linux系统的网络情况。
+
+		　　参　　数：
+
+		　　-a或–all 显示所有连线中的Socket。
+
+		　　-A<网络类型>或–<网络类型> 列出该网络类型连线中的相关地址。
+
+		　　-c或–continuous 持续列出网络状态。
+
+		　　-C或–cache 显示路由器配置的快取信息。
+
+		　　-e或–extend 显示网络其他相关信息。
+
+		　　-F或–fib 显示FIB。
+
+		　　-g或–groups 显示多重广播功能群组组员名单。
+
+		　　-h或–help 在线帮助。
+
+		　　-i或–interfaces 显示网络界面信息表单。
+
+		　　-l或–listening 显示监控中的服务器的Socket。
+
+		　　-M或–masquerade 显示伪装的网络连线。
+
+		　　-n或–numeric 直接使用IP地址，而不通过域名服务器。
+
+		　　-N或–netlink或–symbolic 显示网络硬件外围设备的符号连接名称。
+
+		　　-o或–timers 显示计时器。
+
+		　　-p或–programs 显示正在使用Socket的程序识别码和程序名称。
+
+		　　-r或–route 显示Routing Table。
+
+		　　-s或–statistice 显示网络工作信息统计表。
+
+		　　-t或–tcp 显示TCP传输协议的连线状况。
+
+		　　-u或–udp 显示UDP传输协议的连线状况。
+
+		　　-v或–verbose 显示指令执行过程。
+
+		　　-V或–version 显示版本信息。
+
+		　　-w或–raw 显示RAW传输协议的连线状况。
+
+		　　-x或–unix 此参数的效果和指定”-A unix”参数相同。
+
+		　　–ip或–inet 此参数的效果和指定”-A inet”参数相同
+
+		　　netstat 的一些常用选项
+
+		　　·netstat –s
+
+         一般使用 netstat -anpt|grep 'xxx' 查出占用的 进程 利用 kill 杀掉进程
+
+35.查找到了端口被什么占用，使用/etc/init.d/被占用的进程的名称 stop 
+
+36.tar 解压文件
+tar –xvf file.tar //解压 tar包
+tar -xzvf file.tar.gz //解压tar.gz
+tar -xjvf file.tar.bz2 //解压 tar.bz2
+tar –xZvf file.tar.Z //解压tar.Z
+unrar e file.rar //解压rar
+unzip file.zip //解压zip        
+
+36 cp -r 原来文件夹 复制的文件夹
+
+37 /etc/init.d/networking restart 重启host
+
+38 vim 显示行号 :set nu或者 :set number
+    全局替换 ：s/olod/new/g
+39 取消ubuntu默认的dash脚本 sudo dpkg-reconfigure dash  选择no
+
+40 sed 的系列用法
+
+	sed 's/^/添加的头部&/g' //在所有行首添加
+	sed 's/$/&添加的尾部/g' //在所有行末添加
+	sed '2s/原字符串/替换字符串/g' //替换第2行
+	sed '$s/原字符串/替换字符串/g' //替换最后一行
+	sed '2,5s/原字符串/替换字符串/g' //替换2到5行
+	sed '2,$s/原字符串/替换字符串/g' //替换2到最后一行
+	sed -i 's/原字符串/替换字符串/g' filename //替换文件中的所有匹配项
+	sed '$c 需要替换整行的字符串' //将最后一行替换
+	sed '1,$d' 删除文件所有
+	常用选项：
+			-n∶使用安静(silent)模式。在一般 sed 的用法中，所有来自 STDIN的资料一般都会被列出到萤幕上。但如果加上 -n 参数后，则只有经过sed 特殊处理的那一行(或者动作)才会被列出来。
+			-e∶直接在指令列模式上进行 sed 的动作编辑；
+			-f∶直接将 sed 的动作写在一个档案内， -f filename 则可以执行 filename 内的sed 动作；
+			-r∶sed 的动作支援的是延伸型正规表示法的语法。(预设是基础正规表示法语法)
+			-i∶直接修改读取的档案内容，而不是由萤幕输出。       
+
+	常用命令：
+			a   ∶新增， a 的后面可以接字串，而这些字串会在新的一行出现(目前的下一行)～
+			c   ∶取代， c 的后面可以接字串，这些字串可以取代 n1,n2 之间的行！
+			d   ∶删除，因为是删除啊，所以 d 后面通常不接任何咚咚；
+			 i   ∶插入， i 的后面可以接字串，而这些字串会在新的一行出现(目前的上一行)；
+			 p  ∶列印，亦即将某个选择的资料印出。通常 p 会与参数 sed -n 一起运作～
+			 s  ∶取代，可以直接进行取代的工作哩！通常这个 s 的动作可以搭配正规表示法！例如 1,20s/old/new/g 就是啦！	
+	
+	
+    cat /etc/crontab|sed '14a 52 6    1 * *   root    echo "OK"' //chrontab表达式 14行末尾添加一条语句
+41 awk 的系列用法
+ awk -F: '{ print $1,$2 }' temp.cvs 
+
+  -F代表分开符  {print }代表打印东西 {}中有""代表直接符号打印的意思
+
+ awk中同时提供了print和printf两种打印输出的函数。
+
+   1.其中print函数的参数可以是变量、数值或者字符串。字符串必须用双引号引用，参数用逗号分隔。如果没有逗号，参数就串联在一起而无法区分。这里，逗号的作用与输出文件的分隔符的作用是一样的，只是后者是空格而已。
+
+   2.printf函数，其用法和c语言中printf基本相似,可以格式化字符串,输出复杂时，printf更加好用，代码更易懂。
+
+   打印文本第一行：awk 'NR==1{print}' filename
+ 
+42 grep 的系列用法
+
+	[root@www ~]# grep [-acinv] [--color=auto] '搜寻字符串' filename
+	选项与参数：
+	-A<显示列数>或--after-context=<显示列数>   除了显示符合范本样式的那一列之外，并显示该列之后的内容。
+	-b或--byte-offset   在显示符合范本样式的那一列之前，标示出该列第一个字符的位编号。
+	-B<显示列数>或--before-context=<显示列数>   除了显示符合范本样式的那一列之外，并显示该列之前的内容。 
+	-a ：将 binary 文件以 text 文件的方式搜寻数据
+	-c ：计算找到 '搜寻字符串' 的次数
+	-i ：忽略大小写的不同，所以大小写视为相同
+	-n ：顺便输出行号
+	-v ：反向选择，亦即显示出没有 '搜寻字符串' 内容的那一行！
+	-w ：全部匹配
+	--color=auto ：可以将找到的关键词部分加上颜色的显示喔！
+
+43 find 的系列用法
+  find / -name filename
+   /代表根目录 -name代表按照名字查找 
+	-name   按照文件名查找文件。
+	-perm   按照文件权限来查找文件。
+	-prune  使用这一选项可以使find命令不在当前指定的目录中查找，如果同时使用-depth选项，那么-prune将被find命令忽略。
+	-user   按照文件属主来查找文件。
+	-group  按照文件所属的组来查找文件。
+	-mtime -n +n  按照文件的更改时间来查找文件， - n表示文件更改时间距现在n天以内，+ n表示文件更改时间距现在n天以前。find命令还有-atime和-ctime 选项，但它们都和-m time选项。
+	-nogroup  查找无有效所属组的文件，即该文件所属的组在/etc/groups中不存在。
+	-nouser   查找无有效属主的文件，即该文件的属主在/etc/passwd中不存在。
+	-newer file1 ! file2  查找更改时间比文件file1新但比文件file2旧的文件。
+	-type  查找某一类型的文件，诸如：
+	b - 块设备文件。
+	d - 目录。
+	c - 字符设备文件。
+	p - 管道文件。
+	l - 符号链接文件。
+	f - 普通文件。
+
+44 时间的sh表达式 `date +%Y`
+
+45 vim 查找时候 n N 就分别是向后
+
+
+46 
+   tail[必要参数][选择参数][文件]   
+
+	2．命令功能：
+
+	用于显示指定文件末尾内容，不指定文件时，作为输入信息进行处理。常用查看日志文件。
+
+	3．命令参数：
+
+	-f 循环读取
+
+	-q 不显示处理信息
+
+	-v 显示详细的处理信息
+
+	-c<数目> 显示的字节数
+
+	-n<行数> 显示行数
+
+	--pid=PID 与-f合用,表示在进程ID,PID死掉之后结束. 
+
+	-q, --quiet, --silent 从不输出给出文件名的首部 
+
+	-s, --sleep-interval=S 与-f合用,表示在每次反复的间隔休眠S秒 
+
+47  ls /home/nessary/*cvs > temp.txt  将nessary下的所有以cvs后缀结尾的重新追加到temp.txt下面
+48 awk 打印最后一个 awk -F '/' {print $NF} 
+49 vim 跳转到指定的行数 :num  num指定的行数  重新载入 :e  :e! #放弃当前修改，强制重新载入
+50 vim -r 查看 .swp的文件
+
+51 find ./(.) -name "*.sh" 寻找当前目录和当前子目录下的 后缀为.sh的所有文件
+
+52 查找文件 选择时候 显示特定行号 
+
+	  -A -B -C 后面都跟阿拉伯数字，-A是显示匹配后和它后面的n行。-B是显示匹配行和它前面的n行。-C是匹配行和它前后各n行。总体来说，-C覆盖面最大。用它保险些。哈哈。这3个开关都是关于匹配行的上下文的（context）。
+
+	  grep -A 4 wikipedia 密码文件.txt 
+
+53 zcat、zgrep、zless、zdiff 等实用程序的作用分别与 cat、grep、less 和 diff 相同，但是它们操作压缩的文件
+
+54   more用于分页显示文本文件，最早出现在BSD当中，但这一命令非常基本，后来less命令对其做了增强，所谓的less也就是少即是多
+
+	 
+	参数
+
+	file 是more需要分屏显示的文本文件路径名
+
+	 
+	选项
+
+	-num              指定屏幕的行数（以整数表示）
+
+	+num             从行号num开始显示
+
+	-d                   让more给用户显示信息[Press space to continue, 'q' to quit.]
+
+	-f                    使more计数逻辑行，而不是屏幕行（长行不会断到下一行）
+
+	-s                    把重复的空行压缩成一个空行
+
+	-u                    防止下划线
+
+显示提示信息，space继续，q退出
+
+55 less  
+  less 的用法比起 more 更加的有弹性。在 more 的时候，我们并没有办法向前面翻， 只能往后面看，但若使用了 less 时，就可以使用 ［pageup］ ［pagedown］ 等按键的功能来往前往后翻看文件，更容易用来查看一个文件的内容！除此之外，在 less 里头可以拥有更多的搜索功能，不止可以向下搜，也可以向上搜。
+
+　　1．命令格式：
+
+　　less ［参数］ 文件
+
+　　2．命令功能：
+
+　　less 与 more 类似，但使用 less 可以随意浏览文件，而 more 仅能向前移动，却不能向后移动，而且 less 在查看之前不会加载整个文件。
+
+　　3．命令参数：
+
+　　-b 《缓冲区大小》 设置缓冲区的大小
+
+　　-e 当文件显示结束后，自动离开
+
+　　-f 强迫打开特殊文件，例如外围设备代号、目录和二进制文件
+
+　　-g 只标志最后搜索的关键词
+
+　　-i 忽略搜索时的大小写
+
+　　-m 显示类似more命令的百分比
+
+　　-N 显示每行的行号
+  -o 《文件名》 将less 输出的内容在指定文件中保存起来
+
+　　-Q 不使用警告音
+
+　　-s 显示连续空行为一行
+
+　　-S 行过长时间将超出部分舍弃
+
+　　-x 《数字》 将“tab”键显示为规定的数字空格
+
+　　/字符串：向下搜索“字符串”的功能
+
+　　？字符串：向上搜索“字符串”的功能
+
+　　n：重复前一个搜索（与 / 或 ？ 有关）
+
+　　N：反向重复前一个搜索（与 / 或 ？ 有关）
+
+　　b 向后翻一页
+
+　　d 向后翻半页
+
+　　h 显示帮助界面
+
+　　Q 退出less 命令
+
+　　u 向前滚动半页
+   y 向前滚动一行
+
+　　空格键 滚动一行
+
+　　回车键 滚动一页
+
+　　［pagedown］： 向下翻动一页
+
+　　［pageup］： 向上翻动一页
+
+56 diff
+
+diff命令能比较单个文件或者目录内容。如果指定比较的是文件，则只有当输入为文本文件时才有效。以逐行的方式，比较文本文件的异同处。如果指定比较的是目录的的时候，diff 命令会比较两个目录下名字相同的文本文件。列出不同的二进制文件、公共子目录和只在一个目录出现的文件。
+
+ ．命令参数：
+	- 指定要显示多少行的文本。此参数必须与-c或-u参数一并使用。
+	-a或--text 　diff预设只会逐行比较文本文件。
+	-b或--ignore-space-change 　不检查空格字符的不同。
+	-B或--ignore-blank-lines 　不检查空白行。
+	-c 　显示全部内文，并标出不同之处。
+	-C或--context 　与执行"-c-"指令相同。
+	-d或--minimal 　使用不同的演算法，以较小的单位来做比较。
+	-D或ifdef 　此参数的输出格式可用于前置处理器巨集。
+	-e或--ed 　此参数的输出格式可用于ed的script文件。
+	-f或-forward-ed 　输出的格式类似ed的script文件，但按照原来文件的顺序来显示不同处。
+	-H或--speed-large-files 　比较大文件时，可加快速度。
+	-l或--ignore-matching-lines 　若两个文件在某几行有所不同，而这几行同时都包含了选项中指定的字符或字符串，则不显示这两个文件的差异。
+	-i或--ignore-case 　不检查大小写的不同。
+	-l或--paginate 　将结果交由pr程序来分页。
+	-n或--rcs 　将比较结果以RCS的格式来显示。
+	-N或--new-file 　在比较目录时，若文件A仅出现在某个目录中，预设会显示：Only in目录：文件A若使用-N参数，则diff会将文件A与一个空白的文件比较。
+	-p 　若比较的文件为C语言的程序码文件时，显示差异所在的函数名称。
+	-P或--unidirectional-new-file 　与-N类似，但只有当第二个目录包含了一个第一个目录所没有的文件时，才会将这个文件与空白的文件做比较。
+	-q或--brief 　仅显示有无差异，不显示详细的信息。
+	-r或--recursive 　比较子目录中的文件。
+	-s或--report-identical-files 　若没有发现任何差异，仍然显示信息。
+	-S或--starting-file 　在比较目录时，从指定的文件开始比较。
+	-t或--expand-tabs 　在输出时，将tab字符展开。
+	-T或--initial-tab 　在每行前面加上tab字符以便对齐。
+	-u,-U或--unified= 　以合并的方式来显示文件内容的不同。
+	-v或--version 　显示版本信息。
+	-w或--ignore-all-space 　忽略全部的空格字符。
+	-W或--width 　在使用-y参数时，指定栏宽。
+	-x或--exclude 　不比较选项中所指定的文件或目录。
+	-X或--exclude-from 　您可以将文件或目录类型存成文本文件，然后在=中指定此文本文件。
+	-y或--side-by-side 　以并列的方式显示文件的异同之处。
+	--help 　显示帮助。
+	--left-column 　在使用-y参数时，若两个文件某一行内容相同，则仅在左侧的栏位显示该行内容。
+	--suppress-common-lines 　在使用-y参数时，仅显示不同之处。
+	
+56 netstat 
+	-a (all)显示所有选项，默认不显示LISTEN相关
+	-t (tcp)仅显示tcp相关选项
+	-u (udp)仅显示udp相关选项
+	-n 拒绝显示别名，能显示数字的全部转化成数字。
+	-l 仅列出有在 Listen (监听) 的服務状态
+
+	-p 显示建立相关链接的程序名
+	-r 显示路由信息，路由表
+	-e 显示扩展信息，例如uid等
+	-s 按各个协议进行统计
+	-c 每隔一个固定时间，执行该netstat命令。	
+
+
+57 curl 
+
+	在Linux中curl是一个利用URL规则在命令行下工作的文件传输工具，可以说是一款很强大的http命令行工具。它支持文件的上传和下载，是综合传输工具，但按传统，习惯称url为下载工具。
+	语法：# curl [option] [url]
+	常见参数：
+	-A/--user-agent <string>              设置用户代理发送给服务器
+	-b/--cookie <name=string/file>    cookie字符串或文件读取位置
+	-c/--cookie-jar <file>                    操作结束后把cookie写入到这个文件中
+	-C/--continue-at <offset>            断点续转
+	-D/--dump-header <file>              把header信息写入到该文件中
+	-e/--referer                                  来源网址
+	-f/--fail                                          连接失败时不显示http错误
+	-o/--output                                  把输出写到该文件中
+	-O/--remote-name                      把输出写到该文件中，保留远程文件的文件名
+	-r/--range <range>                      检索来自HTTP/1.1或FTP服务器字节范围
+	-s/--silent                                    静音模式。不输出任何东西
+	-T/--upload-file <file>                  上传文件
+	-u/--user <user[:password]>      设置服务器的用户和密码
+	-w/--write-out [format]                什么输出完成后
+	-x/--proxy <host[:port]>              在给定的端口上使用HTTP代理
+	-#/--progress-bar                        进度条显示当前的传送状态	
+	
+	
+58 top指令
+  1．命令格式：
+	top [参数]
+	2．命令功能：
+	显示当前系统正在执行的进程的相关信息，包括进程ID、内存占用率、CPU占用率等
+	3．命令参数：
+	-b 批处理
+	-c 显示完整的治命令
+	-I 忽略失效过程
+	-s 保密模式
+	-S 累积模式
+	-i<时间> 设置间隔时间
+	-u<用户名> 指定用户名
+	-p<进程号> 指定进程
+	-n<次数> 循环显示的次数	
+	
+59 free 命令
+	Mem：表示物理内存统计
+
+	total：表示物理内存总量(total = used + free)
+	used：表示总计分配给缓存（包含buffers 与cache ）使用的数量，但其中可能部分缓存并未实际使用。
+	free：未被分配的内存。
+	shared：共享内存，一般系统不会用到，这里也不讨论。
+	buffers：系统分配但未被使用的buffers 数量。
+	cached：系统分配但未被使用的cache 数量。
+	 
+
+	-/+ buffers/cache：表示物理内存的缓存统计
+
+	used2：也就是第一行中的used – buffers-cached 也是实际使用的内存总量。 //used2为第二行
+	free2= buffers1 + cached1 + free1 //free2为第二行、buffers1等为第一行
+	free2：未被使用的buffers 与cache 和未被分配的内存之和，这就是系统当前实际可用内存。 
+	Swap：表示硬盘上交换分区的使用情况，这里我们不去关心。
+	系统的总物理内存：255268Kb（256M），但系统当前真正可用的内存b并不是第一行free 标记的 16936Kb，它仅代表未被分配的内存。
+	buffers与cached的区别
+	A buffer is something that has yet to be “written” to disk. A cache is something that has been “read” from the disk and stored for later use 
+
+	对于应用程序来说，buffers/cached 是等于可用的，因为buffer/cached是为了提高文件读取的性能，当应用程序需在用到内存的时候，buffer/cached会很快地被回收。
+	所以从应用程序的角度来说 可用内存=系统free memory+buffers+cached.
+
+60 在linux找不到路径 利用全路径 /usr/bin/vi /etc/profile
+ 
+61 shell 一个字符串长度 `expr length $i`	
+
+62 maven 打成war
+
+63 shell 获取字符串长度有很多方式 一种类似于数组中${#var}
+64 linux shell 异常的捕获 trap 例如 tarp kill -9 port
+65 crontab 
+	*　　*　　*　　*　　*　　command 
+	分　时　日　月　周　命令 
+	第1列表示分钟1～59 每分钟用*或者 */1表示 
+	第2列表示小时1～23（0表示0点） 
+	第3列表示日期1～31 
+	第4列表示月份1～12 
+	第5列标识号星期0～6（0表示星期天） 
+	第6列要运行的命令 
+	crontab-e[user]-编辑用户目前的crontab. 
+	crontab-d[user]-删除用户目前的crontab. 
+	crontab-l[user]-列出用户目前的crontab. 
+	
+	第一次输入的时候 选错了 可以利用 select-editor命令重新选择
+	
+	eg 在centos输入 crontab -e 
+	* * * * * nohup  sh ~/monitor.sh >/dev/null 2>&1 & //代表每分钟执行定时监测的脚本
+	
+66 spring data的返回类型 
+	Object对象，强转也会报错，后来发现@Query支持new对象，所以修改如下：
+
+	1	@Query("select new com.project.user.dto.UserDto(count(u),name) from User u group by u.name") 
+	2	public List<UserDto> findCountGroupByName();
+	只改这个还不行，还需要在UserDto中实现构造方法，修改如下：
+
+	1	package com.project.user.dto
+	2	//查询返回对象
+	3	public class UserDto{
+	4	    private Integer count;
+	5	    private String name;
+	6	    public UserDto(Integer count, String name) {
+	7	        this.count = count;
+	8	        this.name = name;
+	9	    }
+	10	    public Integer getCount() {
+	11	        return count;
+	12	    }
+	13	    public void setCount(Integer count) {
+	14	        this.count = count;
+	15	    }
+	16	    public Strng getName() {
+	17	        return name;
+	18	    }
+	19	    public void setName(String name) {
+	20	        this.name = name;
+	21	    }
+	22	}
+	好了，这回查询直接返回的就是UserDto对象了。	
+	
+	
+67 ls -i  –inode 印出每个文件的 inode 号	
+
+
+	若一个inode对应多个别名，我们就把这些别名叫做硬链接。 
+	硬链接就是多个文件名对应相同的inode。 
+	而且对于硬链接使用引用计数的方式进行维护。
+
+	硬链接创建命令：
+
+	ln 文件名 目的链接文件名
+	
+硬链接的特点： 
+1）相同的硬链接有相同的inode和数据块 
+2）不能交叉系统创建 
+3）无法创建文件夹的硬链接 
+4）当删除一个硬链接的时候，对另外的一个硬链接是没有影响的。 
+5）硬链接的大小显示的就是你原来数据块的大小
+
+	关于软链接理解为一种windows当中常见的快捷方式，linux当中常常用它解决一些库版本的问题。将一些目录层次较深的文件链接到一个更加容易访问的目录当中。我们通常会使用到软链接。
+
+	软链接命令
+
+	ln -s 文件名 软链接文件名
+	
+当需要原文件移动后链接依然可用，这个时候使用硬链接。如果需要对文件夹创建链接或者跨文件系统，
+这个时候需要使用软链接。创建软链接，注意精良使用相对路径，还可以为不存在的文件创建软链接。只要链接到文件存在，这个链接就有效。
+
+68 stat linux的查看文件详细信息  stat * 是查看所有的文件信息
+
+	在linux中stat函数中，用st_atime表示文件数据最近的存取时间(last accessed time)；用st_mtime表示文件数据最近的修改时间(last modified time)；
+	使用st_ctime表示文件i节点数据最近的修改时间(last i-node's status changed time)。
+	
+	
+	显示文件的属性，包括inode和IO Block以及大小等信息。
+
+     find 路径 -inum 123456
+	 
+69 mysql开始慢查询日志
+ 
+   mysql每个版本的log设置不太一致所以这里建议  show variables like '%log%';
+   根据里面 的参数去 my.cnf去设置
+  比如 mysql 5.5
+   my.cnf添加 
+   log_slow_queries=ON    
+   long_query_time=2    
+   slow_query_log=ON     
+   slow_query_log_file=C:/ProgramData/MySQL/MySQL Server 5.5/Data/log/slow.log //这里的日志文件切勿手动创建 mysql会自动创建 放置的目录尽量与mysql的日志存放记录一致
+ 
+   slow_query_log_filee 设置把日志写在那里，
+   long_query_time=2中的2表示查询超过两秒才记录. 
+   
+  比如 mysql 5.7
+	   [mysqld]
+	slow_query_log = on #开启慢查询日志（或设置1）
+	slow_query_log_file = filename #指定日志文件保存路径，不指定的话默认在数据库文件目录下，名为hostname-slow.log(注意 mysql的权限问题 不然开启不成功  slow_query_log_file = /stock/mysql/data/show.log )
+	long_query_time = 2 #指定达到多少秒才算慢查询
+
+   测试
+	执行一个慢查询语句
+	select sleep(3);
+	查看文件，看日志是否生成   
+		
+  
+   日志分析
+	   -s，是order的顺序，说明写的不够详细，俺用下来，包括看了代码，主要有 
+	c,t,l,r和ac,at,al,ar，分别是按照query次数，时间，lock的时间和返回的记录数来排序，前面加了a的时倒叙 
+	-t，是top n的意思，即为返回前面多少条的数据 
+	-g，后边可以写一个正则匹配模式，大小写不敏感的 
+	mysqldumpslow -s c -t 20 host-slow.log 
+	mysqldumpslow -s r -t 20 host-slow.log 
+	上述命令可以看出访问次数最多的20个sql语句和返回记录集最多的20个sql。 
+	mysqldumpslow -t 10 -s t -g “left join” host-slow.log 
+	这个是按照时间返回前10条里面含有左连接的sql语句。
+	
+	//mysql 启动和关闭  service mysql start  和 service mysql stop
+	
+	
+70 记录ip 
+	select inet_aton('192.168.1.200');
+	// 结果为3232235976
+	select inet_ntoa('3232235976');
+	//192.168.1.200	
+	
+71 tar解压资源
+	1、*.tar 用 tar –xvf 解压
+
+	2、*.gz 用 gzip -d或者gunzip 解压
+
+	3、*.tar.gz和*.tgz 用 tar –xzf 解压
+
+	4、*.bz2 用 bzip2 -d或者用bunzip2 解压
+
+	5、*.tar.bz2用tar –xjf 解压
+
+	6、*.Z 用 uncompress 解压
+
+	7、*.tar.Z 用tar –xZf 解压	
+
+72 umask 文件 目录 //Linux新建文件和目录的默认权限-Umask 
+   用法 可以将 umask写入 /etc/profile中	
+   则默认目录权限为755，默认文件权限为644。
+   // umask 222 644:wq!
+   
+73  tar -zcvf -f skype_backup.tar.gz skype_backup   // -f是文件下所有内容都打包
+   
+74  sort
+	sort命令是帮我们依据不同的数据类型进行排序，其语法及常用参数格式：
+	　　sort [-bcfMnrtk][源文件][-o 输出文件] 
+	补充说明：sort可针对文本文件的内容，以行为单位来排序。
+
+	参　　数：
+	  -b   忽略每行前面开始出的空格字符。
+	  -c   检查文件是否已经按照顺序排序。
+	  -f   排序时，忽略大小写字母。
+	  -M   将前面3个字母依照月份的缩写进行排序。
+	  -n   依照数值的大小排序。
+	  -o<输出文件>   将排序后的结果存入指定的文件。
+	  -r   以相反的顺序来排序。
+	  -t<分隔字符>   指定排序时所用的栏位分隔字符。
+	  -k  选择以哪个区间进行排序。
+	  
+75  ps -aux中（a指代all——所有的进程，u指代userid——执行该进程的用户id，x指代显示所有程序，不以终端机来区分）	  
+
+
+76 useradd mysql //添加用户   
+   userdel mysql //删除用户
+   useradd -d /stock/logs test -m //-d用户的主目录 用户test -m如果不存在创建
+   
+77 chown [选项]... [所有者][:[组]] 文件...	
+　通过chown改变文件的拥有者和群组。在更改文件的所有者或所属群组时，可以使用用户名称和用户识别码设置。普通用户不能将自己的文件改变成其他的拥有者。其操作权限一般为管理员。
+  　//-R 处理指定目录以及其子目录下的所有文件
+ 	chown -R mysql:mysql /var/lib/mysql//赋予 mysql用户所在mysql组 获得群贤 -R是所有子项目都可以获取     
+	
+	 
+78  远程执行shell
+	ssh -p $port $user@$p 'cmd'  
+	  
+	$port : ssh连接端口号  
+	$user: ssh连接用户名  
+	$ip:ssh连接的ip地址  
+	cmd:远程服务器需要执行的操作  	
+	
+	 //一方面拷贝 war包 需要执行ssh-keygen -t ras 免登陆  另一方面 把tomcat目录下的/bin/setclasspath.sh 设置 export JAVA_HOME=/opt/zimbra/jdk1.6.0_31
+	 
+		
+79 增大swap的分区
+	1. 确定swap文件的大小，单位为M。将该值乘以1024得到块大小。例如，64MB的swap文件的块大小是65536。
+
+	2. 在root提示符下，键入下面的命令，其中count大小等于所要求的块大小：
+
+	dd if=/dev/zero  of=/root/swapfile  bs=1024 count=2048000  
+	3. 建立swap文件：
+
+	mkswap /root/swapfile
+	4. 要立即打开swap文件而不是在启动时自动开启：
+
+	swapon /root/swapfile
+	
+	5. 要想在启动时开启，需要在/etc/fstab中添加如下内容：
+
+    /root/swapfile   swap    swap   defaults 0 0	
+	当下一次系统启动时，新的swap文件就打开了。
+
+	6. 在添加新的swap文件并开启后，检查cat /proc/swaps 或者free命令的输出来查看swap是否已打开。
+
+	7.删除SWAP分区
+	 swapoff /root/swapfile   修改/etc/fstab文件  rm -rf /root/swapfile
+	 
+80  ulimit
+	-a 　显示目前资源限制的设定。
+	-c <core文件上限> 　设定core文件的最大值，单位为区块。
+	-d <数据节区大小> 　程序数据节区的最大值，单位为KB。
+	-f <文件大小> 　shell所能建立的最大文件，单位为区块。
+	-H 　设定资源的硬性限制，也就是管理员所设下的限制。
+	-m <内存大小> 　指定可使用内存的上限，单位为KB。
+	-n <文件数目> 　指定同一时间最多可开启的文件数。
+	-p <缓冲区大小> 　指定管道缓冲区的大小，单位512字节。
+	-s <堆叠大小> 　指定堆叠的上限，单位为KB。
+	-S 　设定资源的弹性限制。
+	-t <CPU时间> 　指定CPU使用时间的上限，单位为秒。
+	-u <程序数目> 　用户最多可开启的程序数目。
+	-v <虚拟内存大小> 　指定可使用的虚拟内存上限，单位为KB。
+
+81 su test1 -c 'xxx' -- su 添加  账户 test1 上 执行脚本 xxx 开机自动启动	
+   切换用户只执行一条命令的可以用: su  用户 -c command//command 最好用""表示
+   切换用户执行一个shell文件可以用:su  用户 -s "/bin/bash shell.sh"
+
+
+82 linux 新建 ftp
+  vsftpd
+  
+		  第一步>>更新库
+
+		linuxidc@linuxidc:~$ sudo apt-get update
+
+		第二步>>采用如下命令安装VSFTPD的包
+
+		linuxidc@linuxidc:~$ sudo apt-get install vsftpd
+
+		第三步>>安装完成后打开 /etc/vsftpd/vsftpd.conf	 文件，按如下所述修改。
+
+		取消如下行的注释（行号为29和33）
+
+		write_enable=YES
+		local_umask=022
+
+		>> 取消如下行的注释（行号120）来阻止除了用户文件夹意外的文件夹。
+
+		chroot_local_user=NO
+		
+
+		在文件最后增加如下一行：
+
+		allow_writeable_chroot=YES
+
+		>>添加如下行开启消极模式
+
+		pasv_enable=Yes
+		pasv_min_port=40000
+		pasv_max_port=40100
+
+		第四步>>用如下命令重启vsftpd服务
+
+		linuxidc@linuxidc:~$ sudo service vsftpd restart
+
+		第五步>>现在ftp服务器正在监听21端口。用如下命令创建用户。用 /usr/sbin/nologin 脚本来阻止ftp用户访问bash脚本。
+
+		linuxidc@linuxidc:~$ sudo useradd -m  -s /usr/sbin/nologin(有的系统是/sbin/nologin) john
+		linuxidc@linuxidc:~$ sudo passwd john
+
+		第六步>>开启nologin脚本的开机访问。打开 /etc/shells 并把如下行添加进去。
+
+		/usr/sbin/nologin
+		  
+		  
+		  
+		第七步 >>
+         
+ 		sudo vim /etc/pam.d/vsftpd 
+         注释掉#auth required pam_shells.so  重启
+		 
+		 
+		 部分解释
+		    #禁止匿名访问
+			anonymous_enable=NO
+			#接受本地用户
+			local_enable=YES
+			#允许上传
+			write_enable=YES
+			#用户只能访问限制的目录
+			chroot_local_user=YES
+			#设置固定目录，在结尾添加。如果不添加这一行，各用户对应自己的目录，当然这个文件夹自己建
+			local_root=/home/ftp
+			
+		阻止用户访问上级目录
+		当 chroot_list_enable=no，chroot_local_user=yes时，所有用户均不能切换到上级目录		
+		
+		vsftpd -v 如果是2.2.2版本打开如下配置
+		anonymous_enable=NO
+		xferlog_file=/var/log/xferlog
+		chroot_local_user=YES
+		chroot_list_enable=YES
+		chroot_list_file=/etc/vsftpd/chroot_list
+
+		新建一个文件/etc/vsftpd/chroot_list，因为上面的配置文件，在其中增加允许的用户
+						anonymous_enable=NO
+						local_enable=YES
+						write_enable=YES
+						local_umask=022
+						dirmessage_enable=YES
+						xferlog_enable=YES
+						connect_from_port_20=YES
+						xferlog_std_format=YES
+						chroot_local_user=YES
+						chroot_list_enable=YES
+						chroot_list_file=/etc/vsftpd/chroot_list
+						listen_ipv6=YES
+
+						pam_service_name=vsftpd
+						userlist_enable=YES
+						tcp_wrappers=YES
+				
+			
+83 apache的安装 
+	   2.安装pcre
+		# tar zxvf pcre-8.35.tar.gz
+		# cd pcre-8.35
+		# ./configure -prefix=/usr/local/pcre
+		# make
+		# make install
+
+
+	3.安装apr
+		# tar zxvf apr-1.5.1.tar.gz
+		# cd apr-1.5.1
+		# ./configure -prefix=/usr/local/apr -with-pcre=/usr/local/pcre
+		# make
+		# make install
+
+
+	4.安装apr-util
+		# tar zxvf apr-util-1.5.3.tar.gz
+		# cd apr-util-1.5.3
+		# ./configure -prefix=/usr/local/apr-util -with-apr=/usr/local/apr
+		# make
+		# make install
+
+
+	5.安装httpd
+		# tar zxvf httpd-2.4.9.tar.gz
+		# cd httpd-2.4.9
+		# ./configure -prefix=/usr/local/httpd -with-pcre=/usr/local/pcre -with-apr-util=/usr/local/apr-util
+		# make
+		# make install	
+84 vim  :%s/原字符串/替换字符串/g 替换所有
+		
+85  rpm
+	查询一个包是否被安装 
+	# rpm -q < rpm package name>
+
+	列出所有被安装的rpm package 
+	# rpm -qa		
+
+86 netstat 进行	端口的查看 
+		# netstat -npl
+		　　请看输出结果：:
+		　　Proto Recv-Q Send-Q Local Address Foreign Address State PID/Program name
+		　　tcp 0 0 0.0.0.0:6881 0.0.0.0:* LISTEN 6908/python
+		　　tcp 0 0 127.0.0.1:631 0.0.0.0:* LISTEN 5562/cupsd
+		　　tcp 0 0 127.0.0.1:3128 0.0.0.0:* LISTEN 6278/(squid)
+		　　tcp 0 0 127.0.0.1:25 0.0.0.0:* LISTEN 5854/exim4
+		　　udp 0 0 0.0.0.0:32769 0.0.0.0:* 6278/(squid)
+		　　udp 0 0 0.0.0.0:3130 0.0.0.0:* 6278/(squid)
+		　　udp 0 0 0.0.0.0:68 0.0.0.0:* 4583/dhclient3
+		　　udp 0 0 0.0.0.0:6881 0.0.0.0:* 6908/python
+		　　请注意，最后一栏给出了关于程序名称和端口的信息。在这里，我们解释一下各参数的含义：
+		　　-t : 指明显示TCP端口
+		　　-u : 指明显示UDP端口
+		　　-l : 仅显示监听套接字(所谓套接字就是使应用程序能够读写与收发通讯协议(
+		protocol
+		)与资料的程序)
+		　　-p : 显示
+		进程
+		标识符和程序名称，每一个套接字/端口都属于一个程序。
+		　　-n : 不进行DNS轮询(可以加速操作)
+		
+		
+87 lsof -Pnl +M -i4 | grep 20880   //lsof 进行端口的查看
+	　1) -P :这个选项约束着网络文件的端口号到端口名称的转换。约束转换可以使lsof运行得更快一些。在端口名称的查找不能奏效时，这是很有用的。
+
+	　　2) -n : 这个选项约束着网络文件的端口号到主机名称的转换。约束转换可以使lsof的运行更快一些。在主机名称的查找不能奏效���，它非常有用。
+
+	　　3) -l :这个选项约束着用户ID号到登录名的转换。在登录名的查找不正确或很慢时，这个选项就很有用。
+
+	　　4) +M :此选项支持本地TCP和UDP端口映射程序的注册报告。
+
+	　　5) -i4 :仅列示IPv4协议下的端口。
+
+	　　6) -i6 : 仅列示IPv6协议下的端口。		
+88 linux卸载挂载的驱动
+	sudo umount -l /tmp 用来解决 tmp overflower
+	https://www.vip.com/#J-sp-fjewel_mj298-wrap
+89 linux查看最大内存的前几位
+	du -a /var |sort -n -r |head -n 10	https://www.vip.com/#J-sp-fjewel_dapai-wrap
+	
+	
+	du : 计算出单个文件或者文件夹的磁盘空间占用.
+	sort : 对文件行或者标准输出行记录排序后输出.
+	head : 输出文件内容的前面部分.
+	
+	javascript:void(0);
+	du的其他用法
+	-a 为每个指定文件显示磁盘使用情况，或者为目录中每个文件显示各自磁盘使用情况。将该标志与-s标志进行对比。 
+	-g 用 GB 单位计算块数，而不是用缺省的 512 字节单位。对磁盘使用情况的输出值要用浮点数，这是因为如果用字节为单位的话，值会非常大。 
+	-H 如果在命令行指定了符号链接，du 命令将统计链接引用的文件或文件层次结构的大小。 
+	-k 用 1024 字节单位计算块数，而不是用缺省的 512 字节单位。 
+	-l 在文件链接和多链接之间均匀地分配块。根据缺省值，有两个或者更多链接的文件只计数一次。 
+	-L 如果在命令行指定了符号链接或者在文件层次结构的遍历中多次遇到符号链接，则 du 命令应统计链接引用的文件或文件层次结构的大小。 
+	 
+	-m 用 MB 单位计算块数，而不是用缺省的 512 字节单位。对磁盘使用情况的输出值要用浮点数，这是因为如果用字节为单位的话，值会非常大。 
+	-r 报告不可访问的文件或者目录名。此为缺省设置。 
+	-s 为所有指定文件显示整个磁盘使用情况，或者为一个目录中的所有文件显示总的磁盘使用情况。将该标志与-a标志进行对比。  www.2cto.com   
+	-x 在评估文件大小时，只评估那些与File参数指定的文件或者目录驻留在相同设备上的文件。例如，您可以指定一个在多个设备上包含文件的目录。这种情况下，-x标志就为与目录驻留在相同设备的所有文件显示块的大小。 
+	如果指定了全部-k、-m和-g标志，或者是其中任意两个，最后指定的那个起作用。用标志-m和-g输出磁盘使用情况就会近似成最接近的第二位十进制数。 
+	
+	eg：
+	显示前10个占用空间最大的文件或目录：
+	du -s * |sort -nr |head -n 10//注意是 *不是 .
+	
+	du -sh /* 先看看根目录下面
+	du -sh ./* 查看当前目录下
+
+	
+	
+90 groups 查看当前登录用户的组内成员
+	groups gliethttp 查看gliethttp用户所在的组,以及组内成员
+	whoami 查看当前登录用户名
+
+	/etc/group文件包含所有组
+	/etc/shadow和/etc/passwd系统存在的所有用户名	
+	
+91 /dev/null 2>$1
+		1)command:表示shell命令或者为一个可执行程序
+		2)>:表示重定向到哪里 
+		3)/dev/null:表示Linux的空设备文件 
+		4)2:表示标准错误输出
+		5)&1:&表示等同于的意思,2>&1,表示2的输出重定向等于于1
+		6)&:表示后台执行,即这条指令执行在后台运行
+
+		 
+
+		1>/dev/null:表示标准输出重定向到空设备文件,也就是不输出任何信息到终端,不显示任何信息。
+		2>&1:表示标准错误输出重定向等同于标准输出,因为之前标准输出已经重定向到了空设备文件,所以标准错误输出也重定向到空设备文件。
+
+
+		这条命令的意思就是在后台执行这个程序,并将错误输出2重定向到标准输出1,然后将标准输出1全部放到/dev/null文件,也就是清空.
+		所以可以看出" >/dev/null 2>&1 "常用来避免shell命令或者程序等运行中有内容输出。
+92 ubuntu软件无法安装时候 进行 sudo rm /var/lib/apt/lists/lock 进行解锁		
+93 curl系列的说法
+       2. 下载
+
+		curl –o baidu.html http://www.baidu.com ,执行后还可以看到下载进度提示，完成100%后会自动退出了，把网页保存到baidu.html中了。
+
+		它还有一个大写O的选项，是按照服务器上的文件名保存到本地，如果执行curl –O http://www.baidu.com ，是会报错的，提示找不到文件名，如果换成curl –O http://baike.baidu.com/view/1326315.htm , 就自动保存文件为1326315.html。
+
+		Windows下像flashget这样的工具还支持分块以及断点续传，curl也毫不示弱。
+
+		-C或--continue-at：断点续传，用法如下：
+
+		curl -C http://www.example.com
+
+		-r或--range：分块下载，用法：
+
+		curl -r 0-10240 -o "example.part1" http://www.example.com/example.zip &
+
+		curl -r 10241-20480 -o "example.part2" 
+
+		http://www.example.com/example.zip 
+
+		其中加&表示在后台执行，需要按CTRL+C才能退出。
+
+		不过下载完后需要自己把这些破碎的文件合并起来
+
+		如果你用UNIX或苹果，用 cat example.part* > example.zip就可以
+
+		如果用的是Windows，用copy /b example.part1+example.part2 example.zip来解决
+
+		3. 上传
+
+		-T/--upload-file：往服务器上传文件，用法：
+
+		curl -T "img[1-1000].png" ftp://example.com/upload/
+
+		或上传多个文件
+
+		curl -T "{file1,file2}" http://www.example.com
+
+		4. POST方法
+
+		-d或--data参数：post请求，用法为curl -d “id=1&name=test” http://example.com/example.PHP ，
+
+		需把请求的参数和URL分开，同时可以使用curl -d “id=1” -d “name=test” http://example.com/example.php ，相当于提交了两个参数。当提交的参数值中有特殊字符就需要先转义。如空格时，就需要转义成%20。
+
+		--data-urlencode参数：就可以自动转义特殊字符，无需人工事先转义。
+
+		-F或--form：将本地文件上传到服务器，用法为：curl -F “filename=@/home/test/test.pic” http://example.com/example.php 。千万不能漏掉@符号。
+
+		5. 设置referer
+
+		有时候我们如果直接请求某个URL不能成功，它需要判断referer是否正确，那就可以通过-e或--referer参数模拟
+
+		curl --referer http://www.example.com http://www.example.com
+
+		6. 指定User Agent
+
+		-A/--user-agent：伪装成指定的浏览器Chrome访问，用法：
+
+		curl -A “Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.63 Safari/537.36” http://www.example.com
+
+		7. 伪造cookie
+
+		-b或--cookie: 有两种用法，一是指定参数和值：curl --cookie "name=xxx" http://www.example.com ；二是从文件读取：curl -b /cookie.txt http://www.example.com
+
+		8. 保存cookie
+
+		-c/--cookie-jar：curl命令执行后保存操作时生成的cookie到文件：
+
+		curl -c ./cookie.txt -d username=aaaa -d pwd=****** http://www.example.com 
+
+		9. 定义输出显示内容
+
+		现在为止对它的崇拜已经是犹如滔滔江水连绵不绝了，慢！还有一个powerful的选项.
+
+		-w/--write-out: 可以定义输出的内容，如常用的http码，tcp连接时间，域名解析的时间，握手时间及第一时间响应时间等，非常强大。
+
+		用法如：
+
+		curl -o /dev/null -s -w %{http_code} "http://www.baidu.com" 打印出返回的http码
+
+curl -o /dev/null -s -w “time_total: %{time_total}\n" "http://www.baidu.com" 打印响应时间
+
+94 linux nano 
+	Ctrl]-G：取得在线帮助(help)。[Ctrl]-X：离开nano软件，若有修改过文件会提示是否需要保存。[Ctrl]-O：保存文件，若有权限的话就可以保存文件了。
+		  [Ctrl]-R：从其他文件读入数据，可以将某个文件的内容贴在本文件中。 [Ctrl]-W：查询字符串。[Ctrl]-C：说明目前光标所在处的行数与列数等信息。
+	
+95 ulimit修改普通用户的权限值
+
+	如何设置普通用户的ulimit值
+	1、vim /etc/profile
+	增加 ulimit -n 10240
+	source /etc/profile 重新启动就不需要运行这个命令了。
+	2、修改/etc/security/limits.conf
+	增加
+	*      hard     nofile     10240
+	\\限制打开文件数10240	
+	
+96 加入启动脚本  vim /etc/init.d/rc.local 最后一行添加 sh  xxx.sh	//centos在/etc/rc.local
+97 sysv-rc-conf [--level <runlevels>] <service name> <on|off> /服务的开启和关闭
+
+98 watch会以2s的间隔重复运行命令，你也可以用 -n 参数指定时间间隔. 
+		在Linux下，watch是周期性的执行下个程序，并全屏显示执行结果。 
+		-d, --differences[=cumulative]       高亮显示变动
+		-n, --interval=                      周期(秒)
+		-t 或-no-title                       会关闭watch命令在顶部的时间间隔
+		
+99 multitail -s 2 /var/log/nova/nova-scheduler.log /var/log/nova/nxxx.log		//启动两个监控窗口 监控文件
+
+100 pstack pid
+    命令可显示每个进程的栈跟踪。pstack 命令必须由相应进程的属主或 root 运行。可以使用 pstack 来确定进程挂起的位置。此命令允许使用的唯一选项是要检查的进程的 PID
+
+101 xagrs  管道是实现“将前面的标准输出作为后面的标准输入”
+			xargs是实现“将标准输入作为命令的参数”
+    eg讲redis查询出来的东西 作为删除的记录 
+	/stock/redis/src/redis-cli -p 8048 -a nessary keys 1*|xargs  /stock/redis/src/redis-cli -p 8048 -a nessary del
+	
+			
+102 strace 
+	strace命令是一个集诊断、调试、统计与一体的工具，我们可以使用strace对应用的系统调用和信号传递的跟踪结果来对应用进行分析，以达到解决问题或者是了解应用工作过程的目的
+	
+	-c 统计每一系统调用的所执行的时间,次数和出错的次数等. 
+	-d 输出strace关于标准错误的调试信息. 
+	-f 跟踪由fork调用所产生的子进程. 
+	-ff 如果提供-o filename,则所有进程的跟踪结果输出到相应的filename.pid中,pid是各进程的进程号. 
+	-F 尝试跟踪vfork调用.在-f时,vfork不被跟踪. 
+	-h 输出简要的帮助信息. 
+	-i 输出系统调用的入口指针. 
+	-q 禁止输出关于脱离的消息. 
+	-r 打印出相对时间关于,,每一个系统调用. 
+	-t 在输出中的每一行前加上时间信息. 
+	-tt 在输出中的每一行前加上时间信息,微秒级. 
+	-ttt 微秒级输出,以秒了表示时间. 
+	-T 显示每一调用所耗的时间. 
+	-p pid进程
+	eg strace -f -o strace.out ./catalina.sh run       之后打开 strace.out   从后往前搜索找到SIGINT
+		-f 跟踪fork的子进程，通俗的说会跟踪所有线程的系统调用
+		-o把内容输出到文件	
+		
+	
+103 pstack命令用来显示进程的栈跟踪 
+    eg  strace和pstack 综合用法
+	
+104 sort 
+	sort命令是帮我们依据不同的数据类型进行排序，其语法及常用参数格式：
+	　　sort [-bcfMnrtk][源文件][-o 输出文件] 
+	补充说明：sort可针对文本文件的内容，以行为单位来排序。
+
+	参　　数：
+	  -b   忽略每行前面开始出的空格字符。
+	  -c   检查文件是否已经按照顺序排序。
+	  -f   排序时，忽略大小写字母。
+	  -M   将前面3个字母依照月份的缩写进行排序。
+	  -n   依照数值的大小排序。
+	  -o<输出文件>   将排序后的结果存入指定的文件。
+	  -r   以相反的顺序来排序。
+	  -t<分隔字符>   指定排序时所用的栏位分隔字符。
+	  -k  选择以哪个区间进行排序。	
+	
+105 window查找端口占用的pid netstat -ano|findstr 8068 列表的最后一行就是 pid 然后使用 taskkill /F /PID pid  杀死	
+
+106 ps -aux | sort -k4nr | head -K  //inux下获取占用CPU资源最多的K个进程 
+
+107 赋予用户 root权限 的方法之一
+	修改 /etc/passwd 文件，找到如下行，把用户ID修改为 0 ，如下所示：
+
+	tommy:x:500:500:tommy:/home/tommy:/bin/bash
+	tommy:x:0:500:tommy:/home/tommy:/bin/bash
+108 修改某个用户的密码  su passwd 用户名   
+
+109  出现安装软件 安装不了 
+	sudo rm /var/cache/apt/archives/lock
+	 
+	sudo rm /var/lib/dpkg/lock
+110 linux平常快捷键 
+   	ALT+B 两次 快速移动到单词上  sudo apt-get^intall programname
+	文本复制到终端，可以使用快捷键”shift + insert” 
+	htop 查看和管理进程
+	ranger 浏览文件系统
+	shutdown -c 关机
+	xkill 实现图形化界面的
+
+111 chkconfig设置各个系统运行级别启动的服务	
+	--add：增加所指定的系统服务，让chkconfig指令得以管理它，并同时在系统启动的叙述文件内增加相关数据； 
+	--del：删除所指定的系统服务，不再由chkconfig指令管理，并同时在系统启动的叙述文件内删除相关数据； 
+	--level<等级代号>：指定读系统服务要在哪一个执行等级中开启或关毕。
+	eg：	
+		chkconfig --list #列出所有的系统服务。 
+		chkconfig --add httpd #增加httpd服务。
+		chkconfig --del httpd #删除httpd服务。
+		chkconfig --level httpd 2345 on #设置httpd在运行级别为2、3、4、5的情况下都是on（开启）的状态。
+		chkconfig --list #列出系统所有的服务启动情况。
+		chkconfig --list mysqld #列出mysqld服务设置情况。
+		chkconfig --level 35 mysqld on #设定mysqld在等级3和5为开机运行服务，--level 35表示操作只在等级3和5执行，on表示启动，off表示关闭。
+		chkconfig mysqld on #设定mysqld在各等级为on，“各等级”包括2、3、4、5等级。
+    
+	添加系统服务
+	1、将编写的脚本放到/etc/init.d/，将xxxx的访问权限加上“可执行” chmod +x myserviced 
+	2、增加服务 chkconfig --add xxxx  
+
+
+112 linux下查看某个时间段的日志	
+   sed -n '/2017-07-14/,/2017-07-14/p' order.out >1 
+   p打印当前模式空间内容，追加到默认输出之后，P打印当前模式空间开端至\n的内容，并追加到默认输出之前
+   
+   
+113 dig +nocmd + nostats   域名
+     1 使用+nocmd的话，可以节省输出dig版本信息。
+	 2 使用+nostat的话，最后的统计信息也不会输出
+	 用来检测是否是支持IPV6 最后got answer 为NO ERROR
+	  
+114 vmstat	  
+	-a：显示活跃和非活跃内存
+
+	-f：显示从系统启动至今的fork数量 。
+
+	-m：显示slabinfo
+
+	-n：只在开始时显示一次各字段名称。
+
+	-s：显示内存相关统计信息及多种系统活动数量。
+
+	delay：刷新时间间隔。如果不指定，只显示一条结果。
+
+	count：刷新次数。如果不指定刷新次数，但指定了刷新时间间隔，这时刷新次数为无穷。
+
+	-d：显示磁盘相关统计信息。
+
+	-p：显示指定磁盘分区统计信息
+
+	-S：使用指定单位显示。参数有 k 、K 、m 、M ，分别代表1000、1024、1000000、1048576字节（byte）。默认单位为K（1024 bytes）
+
+	-V：显示vmstat版本信息。
+	字段说明：
+
+	Procs（进程）：
+
+	r: 运行队列中进程数量，这个值也可以判断是否需要增加CPU。（长期大于1）
+	b: 等待IO的进程数量
+
+	Memory（内存）：
+
+	swpd: 使用虚拟内存大小
+
+	注意：如果swpd的值不为0，但是SI，SO的值长期为0，这种情况不会影响系统性能。
+	free: 空闲物理内存大小
+	buff: 用作缓冲的内存大小
+	cache: 用作缓存的内存大小
+
+	注意：如果cache的值大的时候，说明cache处的文件数多，如果频繁访问到的文件都能被cache处，那么磁盘的读IO bi会非常小。
+
+	Swap：
+
+	si: 每秒从交换区写到内存的大小，由磁盘调入内存
+	so: 每秒写入交换区的内存大小，由内存调入磁盘
+
+	注意：内存够用的时候，这2个值都是0，如果这2个值长期大于0时，系统性能会受到影响，磁盘IO和CPU资源都会被消耗。有些朋友看到空闲内存（free）很少的或接近于0时，就认为内存不够用了，不能光看这一点，还要结合si和so，如果free很少，但是si和so也很少（大多时候是0），那么不用担心，系统性能这时不会受到影响的。
+
+	IO：（现在的Linux版本块的大小为1kb）
+
+	bi: 每秒读取的块数
+	bo: 每秒写入的块数
+
+	注意：随机磁盘读写的时候，这2个值越大（如超出1024k)，能看到CPU在IO等待的值也会越大。
+
+	系统：
+
+	in: 每秒中断数，包括时钟中断。
+	cs: 每秒上下文切换数。
+
+	注意：上面2个值越大，会看到由内核消耗的CPU时间会越大。
+
+	CPU（以百分比表示）：
+
+	us: 用户进程执行时间百分比(user time)
+
+	注意： us的值比较高时，说明用户进程消耗的CPU时间多，但是如果长期超50%的使用，那么我们就该考虑优化程序算法或者进行加速。
+
+	sy: 内核系统进程执行时间百分比(system time)
+
+	注意：sy的值高时，说明系统内核消耗的CPU资源多，这并不是良性表现，我们应该检查原因。
+
+	wa: IO等待时间百分比
+
+	注意：wa的值高时，说明IO等待比较严重，这可能由于磁盘大量作随机访问造成，也有可能磁盘出现瓶颈（块操作）。
+
+	id: 空闲时间百分比
+	
+115 wrk性能测试 
+   安装 yum install git  
+      git clone  https://github.com/wg/wrk
+	  cd wrk &&make 
+	  cp wrk /bin //方便任何目录去执行
+	eg wrk -t12 -c100 -d30s http://www.baidu.com  
+	Running 30s test @ http://www.baidu.com  
+	12 threads and 100 connections  
+	  Thread Stats   Avg      Stdev     Max   +/- Stdev  
+		Latency   538.64ms  368.66ms   1.99s    77.33%  
+		Req/Sec    15.62     10.28    80.00     75.35%  
+	5073 requests in 30.09s, 75.28MB read  
+	  Socket errors: connect 0, read 5, write 0, timeout 64  
+	Requests/sec:    168.59  
+	Transfer/sec:      2.50MB  
+	Transfer/sec:      2.50MB  
+	解析
+	Latency: 可以理解为响应时间, 有平均值, 标准偏差, 最大值, 正负一个标准差占比. 
+	Req/Sec: 每个线程每秒钟的完成的请求数, 同样有平均值, 标准偏差, 最大值, 正负一个标准差占比.
+	
+	30秒钟总共完成请求数和读取数据量. 
+	然后是错误统计, 上面的统计可以看到, 5个读错误, 64个超时. 
+	然后是所以线程总共平均每秒钟完成168个请求. 每秒钟读取2.5兆数据量. 
+
+
+	eg wrk -t4 -c2000 -d60s -T5s --script=post.lua --latency http://192.168.31.107/user/login
+	  这样就是模拟4个线程，2000个连接，在60s内，间隔5s 执行 post.lua 的请求
+	
+116 tcpdump
+    tcpdump -c 4 -w log //抓取四次 写入 log
+    tcpdump -r log //读取log的文件
+    tcpdump -D //查看当前网卡
+    tcpdump -i eth0 -vvv //-i切换网卡 -vv越多 显示信息越多
+    tcpdump -n //不进行域名反解 使用ip	 -nn：表示以ip和port的方式显示来源主机和目的主机，而不是用主机名和服务。
+    tcpdump host 192.168.1.1 and \(192.168.1.2 or 192.168.1.3 \)	//抓取 1.1和 1.2或者1.3的通信 \是转义符号
+     类型的关键字，主要包括host，net，port, 	
+	tcpdump 查看后 的几个关键字解析
+	flags 标志由S(SYN), F(FIN), P(PUSH, R(RST), .[ACK]
+	W(ECN CWT(nt | rep:未知, 需补充))或者 E(ECN-Echo(nt | rep:未知,　需补充))组成,	
+	SYN表示建立连接，
+	FIN表示关闭连接，
+	ACK表示响应，
+    PSH表示有 DATA数据传输，
+    RST表示连接重置。
+	
+117 man
+   man tcpdump 查看tcpdump的所有参数解释 /-S 进行搜索
+	 	 
+118 cat /etc/password 查看当前所有用户和密码	
+
+119 /var/log/messages文件中存放的就是系统的日志信息,当内核程序调试时
+
+120 shutdown -h now 现在关机
+
+121 git push https://xxx  master:xxx 把本地的master提交到远程的xxx分支
+
+122 linux 其他用户需要输入sudo 管理员的shell权限 需要
+    在vi /etc/sudoers  添加 用户名 ALL = NOPASSWD: ALL这样就不需要输入密码  能够后台执行了 应用 jenkins
+	
+	
+133 eho 换行到文件中 echo -e "xxx \n xxx" > xxx.txt
+134 linux 和windows之前的 shell转换 dos2unix xxx.sh 没有命令 下载 yum install dos2unix -y
+
+135centos 开启启动 /etc/rc.d/rc.local	因为其权限降低了 所以 需要重新赋予权限 chomd +x /etc/rc.d/rc.local即可
+
+136 du -h --max-depth=1  查看深度 //超过指定层数的目录后，予以忽略 。
+
+137 
+	tar cf archive.tar files	在 Linux 上创建一个 tar 文件。
+	tar czf archive.tar.gz files	在 Linux 上创建一个 tar.gz 文件。
+
+138	nfs 文件挂载共享系统
+    yum install -y nfs-utils rpcbind service rpcbind start  service nfs start
+    1 vi /etc/exports  添加 
+		/nfs_test 192.168.1.8(rw,no_root_squash,no_all_squash,async)
+		/nfs_test 只允许192.168.1.8这个主机有访问权限，rw表示允许读写；no_root_squash表示root用户具有完全的管理权限；
+		no_all_squash表示保留共享文件的UID和GID，此项是默认不写也可以；async表示数据可以先暂时在内存中，不是直接写入磁盘，可以提高性能，另外也可以配置sync表示数据直接同步到磁盘
+		多台用, 同一个局域网可以 192.168.1.8/21 表示8到21之间都被挂载
+	2 systemctl start nfs.service  启动服务
+	3 exportfs -a 打开所有共享的服务
+	4 客户端 mkdir /mnt/test1
+	   挂载 mount -t nfs 192.168.1.3:/nfs_test /mnt/test1  
+	   卸载 umount /mnt/test1 
+	
+139 iftop 
+   yum install iftop
+	TX：发送流量
+	RX：接收流量
+	TOTAL：总流量   
+140 iotop 
+	yum install iftop
+	1、左右箭头改变排序方式，默认是按IO排序
+	2、r键是反向排序	
+	
+141 yum search python 寻找下载的资源	
+142 xagrs 使用之一
+   find . -name "*"|xagrs grep "2" 递归查找所有符合2的文件 如果是日志 会找出日志中的记录
+   
+143 find 查找类型
+	find . -type 类型参数
+		f 普通文件
+		l 符号连接
+		d 目录
+		c 字符设备
+		b 块设备
+		s 套接字
+		p Fifo   
+		
+144 固定IP 
+    vim /etc/sysconfig/network-scripts/ifcfg-ens33 (本地网卡)
+    添加 
+	IPADDR=192.168.164.100(新添加)
+	NETMASK=255.255.255.0(新添加)	
+	然后 service network start
+	
+145 uname
+	-a或--all：显示全部的信息；
+	-m或--machine：显示电脑类型；
+	-n或-nodename：显示在网络上的主机名称；
+	-r或--release：显示操作系统的发行编号；
+	-s或--sysname：显示操作系统名称；
+	-v：显示操作系统的版本；
+	-p或--processor：输出处理器类型或"unknown"；
+	-i或--hardware-platform：输出硬件平台或"unknown"；
+	-o或--operating-system：输出操作系统名称；
+	--help：显示帮助；
+	--version：显示版本信息。	
+	
+146 uniq(选项)(参数) 用于报告或忽略文件中的重复行，一般与sort命令结合使用。
+	-c或——count：在每列旁边显示该行重复出现的次数；
+	-d或--repeated：仅显示重复出现的行列；
+	-f<栏位>或--skip-fields=<栏位>：忽略比较指定的栏位；
+	-s<字符位置>或--skip-chars=<字符位置>：忽略比较指定的字符；
+	-u或——unique：仅显示出一次的行列；
+	-w<字符位置>或--check-chars=<字符位置>：指定要比较的字符。	
+	
+147 ss -nplt 可以用来获取socket统计信息，它可以显示和netstat类似的内容
+		-h：显示帮助信息；
+		-V：显示指令版本信息；
+		-n：不解析服务名称，以数字方式显示；
+		-a：显示所有的套接字；
+		-l：显示处于监听状态的套接字；
+		-o：显示计时器信息；
+		-m：显示套接字的内存使用情况；
+		-p：显示使用套接字的进程信息；
+		-i：显示内部的TCP信息；
+		-4：只显示ipv4的套接字；
+		-6：只显示ipv6的套接字；
+		-t：只显示tcp套接字；
+		-u：只显示udp套接字；
+		-d：只显示DCCP套接字；
+		-w：仅显示RAW套接字；
+		-x：仅显示UNIX域套接字。	
+148 iptables 
+    规则管理命令
+         -A：追加，在当前链的最后新增一个规则
+         -I num : 插入，把当前规则插入为第几条。
+            -I 3 :插入为第三条
+         -R num：Replays替换/修改第几条规则
+            格式：iptables -R 3 …………
+         -D num：删除，明确指定删除第几条规则
+		 -F 清空
+    
+	通用匹配：源地址目标地址的匹配
+	 -s：指定作为源地址匹配，这里不能指定主机名称，必须是IP
+		IP | IP/MASK | 0.0.0.0/0.0.0.0
+		而且地址可以取反，加一个“!”表示除了哪个IP之外
+	 -d：表示匹配目标地址
+	 -p：用于匹配协议的（这里的协议通常有3种，TCP/UDP/ICMP）
+	 -i eth0：从这块网卡流入的数据
+		流入一般用在INPUT和PREROUTING上
+	 -o eth0：从这块网卡流出的数据
+		流出一般在OUTPUT和POSTROUTING上
+	
+	-j ACTION
+
+	 常用的ACTION：
+	 DROP：悄悄丢弃
+		一般我们多用DROP来隐藏我们的身份，以及隐藏我们的链表
+	 REJECT：明示拒绝
+	 ACCEPT：接受
+		custom_chain：转向一个自定义的链
+	 DNAT
+	 SNAT
+	 MASQUERADE：源地址伪装
+	 REDIRECT：重定向：主要用于实现端口重定向
+	 MARK：打防火墙标记的
+	 RETURN：返回
+		在自定义链执行完毕后使用返回，来返回原规则链。
+		
+    -m state --state <状态>
+
+	有数种状态，状态有：
+
+	▪ INVALID：无效的封包，例如数据破损的封包状态
+
+	▪ ESTABLISHED：已经联机成功的联机状态；
+
+	▪ NEW：想要新建立联机的封包状态； 	
+
+	
+	iptables -A ACCEPT -m state --state ESTABLISHED -j ACCEPT  内部访问外网 
+    iptables -A INPUT -c tcp --dport 24500:2600 -j ACCEPT 开放最小端口和最大端口
+    iptables -A INPUT -p tcp -m multiport --dport 22,80,443 -j ACCEPT 开放多个端口	
+	iptables  -S  打印出chain
+	iptables -nvL v-输出详细信息 -L 查看当前列表所有的规则 如果查看其他表 则-t
+	iptables -t filter -I INPUT -p icmp -j ACCEPT //ping 的管理
+	iptables -t filter -I INPUT -s 192.168.89.130 -j REJECT 拒绝192.168.89.130访问
+	iptables -t nat -A PREROUTING -p  tcp  -d 192.168.89.134 --dport 23 -j DNAT --to 192.168.89.134:22 //将23端口的转发到22 端口
+	
+	
+	
+	
+	外放访问转发
+		iptables -t nat -A PREROUTING -p tcp -d 192.168.32.130 --dport 8081 -j DNAT --to 192.168.32.1:8081
+		iptables -t nat -I POSTROUTING -p tcp --dport 8081 -j MASQUERADE
+	本机访问某个防止被转发 
+        iptables -t nat -I OUTPUT -d 47.97.174.183 -j DNAT --to 127.0.0.1	
+	
+149 telnet 拼接端口和ip 按住q 退出
+150 du -shx * (必须是满的磁盘)查找列出资源 如果发现不是 则 文件被删除了还被占用 
+   lsof |grep deleted
+   
+151 ip address 查看ip 地址 等同于ifconfig   
+
+152 cd - 两个目录之间的切换
+
+153 ftp 命令
+	ftp 10.18.34.115    
+	get 下载
+	mget　 批量下载
+	put 上传
+	mput 批量上传
+	del 删除
+	mdel 批量删除
+154 linux base64解码 
+	echo "ddd"|base64 -d |cat	
+	
+ 	
+155 sysctl
+    -a 查看所有系统变量
+	-w   临时改变某个指定参数的值，如
+
+         sysctl -w net.ipv4.ip_forward=1
+156  tcp 连接吞噬
+    netstat -s |grep -i listen	//查看listen的网络协议层	
+	ss -lnt 查看 正在运行的tcp 接受情况
+     Recv-Q Send-Q 如果出现tcp问题可能是 Recv-Q > Send-Q 协议内容	 
+	
+157  pgrep 以名称为依据从运行进程队列中查找进程，并显示查找到的进程id
+
+	pgrep(选项)(参数)
+	选项
+	-o：仅显示找到的最小（起始）进程号；
+	-n：仅显示找到的最大（结束）进程号；
+	-l：显示进程名称；
+	-P：指定父进程号；
+	-g：指定进程组；
+	-t：指定开启进程的终端；
+	-u：指定进程的有效用户ID。
+158 uptime 和 w 查看用户的最大负载	
+    0.25, 0.25, 0.19分别代表着过去1分钟、5分钟、15分钟系统的平均负载量。负载量越低意味着你的系统性能越好
+
+159 短命令创建
+       vi /etc/bashrc
+       在文件末尾添加alias 别名='命令'并保存退出
+       执行source /etc/bashrc  使配置生效
+	   
+	  临时生效 
+      alias xx='xxx' 生效
+	  unalias xx='xxx'取消
+	  alias -p 查看所有的别名 
+	  如果要输入参数则 alias  logs= tail -n 100 -f $1
+	  更复杂的参数数据 
+	  alias log='query(){ docker logs -f --tail 300 miscroservice_"$1"_miscroservice_1; };query'
+	                   # 中间要有空格
+	  .bash_profile 文件用于单个用户
+	  alias run="ps -ef|grep java  |awk '{print \$2}'|xargs kill -9 |/stock/tomcat/bin/startup.sh" 针对 awk特殊符号的利用\转义符号
+160 出现 yum install 安装报镜像找不到 就去把中央仓库更改
+     ll /etc/yum.repos.d/	 找到相关的报错的 直接删除  
+	 
+161 Linux 出现紧急日志 tail -n 10 -f /var/log/secure
+    linux 单用户修改密码 启动 界面输入e 进入命令 行 找到 linx16 xxx  删除 rhgb quiet  然后 把ro 改成 rw  并且在删除的地方添加 init=/bin/bash 
+	 注意 如果开启了 selinux  需要 加一步 touch /.autorelabel 这样保证能正常启动
+    然后 ctrl + x 重启进入单用户 输入 passwd 修改  退出单用户 exec /sbin/init	
+	 
+162 rsync高效传输 只复制不同的文件,已有的同文件不会复制过去！
+	数据同步
+	选项：
+	-n 模拟复制过程
+	-v 显示详细过程  
+	-r 递归复制目录树
+	-p 保留权限
+	-t 保留时间戳
+	-g 保留组信息
+	-o 保留所有者信息
+	-l 将软链接文件本身进行复制（默认）
+	-L 将软链接文件指向的文件复制
+	-a 存档，相当于–rlptgoD，但不保留ACL（-A）和SELinux属性（-X）	
+
+163 cat <<EOF >test.test 
+     xxx 
+     xxx 
+     xxx 
+     EOF 将多行保存到test.test文件下	 
+	 
+164 denyhosts 下载  yum install denyhosts 然后vi /etc/hosts.allow  /etc/host.allow  sshd: xxx.x.x.x	 
+	 
+165 新安装的centos	 没有网络 去/etc/sysconfig/network-scipts/ip-enxxx 找到onboot=no 修改为yes 然后reoots
+
+166 chkcinfig  [--add][--del][--list][系统服务] 或 chkconfig [--level <等级代号>][系统服务][on/off/reset]
+167 ssh-copy-id -i ~/.ssh/id_rsa.pub user@server 将本地的公钥拷贝到远程服务器的authorized_keys里面
+    非root用户免密码登陆 
+	 先useradd -m /home/yjj   yjj 创建用户 
+	 然后 本机执行 ssh-keygen -t rsa  把本地服务拷贝到远程服务上去 使用命令 ssh-copy-id -i xx xxx@xxx 
+	 然后 执行ci /etc/ssh/sshd_config 修改 PasswordAuthentication yes改成no  PubkeyAuthentication yes 然后 执行 service sshd restart (一定要试下本机是否能连接)
+	 然后切换yjj用户 执行 ssh-keygen -t rsa 然后切换 root用户 执行 cp /root/.ssh/authorized_keys /home/yjj/.ssh/
+	 执行 chown  yjj:yjj authorized_keys
+	 然后切换yjj 用户授权 chmod 600 authorized_keys 就ok
+	 //如果想nginx也映射进来 那么su root 执行 chown -R 705 /home/yjj
+	 
+168 gpasswd -a user_name group_name 想要添加一个用户到一个组，同时保留以前添加的组时，请使用 gpasswd 这个命令来添加操作用户	 
+169 dmesg 我们可以使用如‘more’。 ‘tail’, ‘less ’或者‘grep’文字处理工具来处理‘dmesg’命令的输出。由于dmesg日志的输出不适合在一页中完全显示，因此我们使用管道（pipe）将其输出送到more或者less命令单页显
+170 mpstat [-P {cpu|ALL}] [internal [count]]
+  mpstat -P ALL 5 2 表示每5秒产生一个报告，总共产生2个。 
+   1.vmstat和mpstat 命令的差别：mpstat 可以显示每个处理器的统计，而 vmstat 显示所有处理器的统计。因此，编写糟糕的应用程序（不使用多线程体系结构）可能会运行在一个多处理器机器上，而不使用所有处理器。从而导致一个 CPU 过载，而其他 CPU 却很空闲。通过 mpstat 可以轻松诊断这些类型的问题。
+
+   2.vmstat中所有关于CPU的总结都适合mpstat。当您看到较低的 %idle 数字时，您知道出现了 CPU 不足的问题。当您看到较高的 %iowait 数字时，您知道在当前负载下 I/O 子系统出现了某些问题。
+   
+171 pidstat [ 选项 ] [ <时间间隔> ] [ <次数> ]
+	-u：默认的参数，显示各个进程的cpu使用统计
+	-r：显示各个进程的内存使用统计
+	-d：显示各个进程的IO使用情况
+	-p：指定进程号
+	-w：显示每个进程的上下文切换情况
+	-t：显示选择任务的线程的统计信息外的额外信息
+	-T { TASK | CHILD | ALL }
+	这个选项指定了pidstat监控的。TASK表示报告独立的task，CHILD关键字表示报告进程下所有线程统计信息。ALL表示报告独立的task和task下面的所有线程。
+	注意：task和子线程的全局的统计信息和pidstat选项无关。这些统计信息不会对应到当前的统计间隔，这些统计信息只有在子线程kill或者完成的时候才会被收集。
+	-V：版本号
+	-h：在一行上显示了所有活动，这样其他程序可以容易解析。
+	-I：在SMP环境，表示任务的CPU使用率/内核数量
+	-l：显示命令名和所有参数
+172 iostat  若 %iowait 的值过高，表示硬盘存在I/O瓶颈 	
+173 w查看已经登陆用户 pkill -kill -t pts/1
+   
+174 查询grep 关键词 grep -i sshd.*Failed /var/log/secure //查询 secure 中包含 ssh省略failed的词语  
+175 mysql 的索引建立规则 select count(distinct(concat(first_name, left(last_name, 4))))/count(*) as selectivity from `employees`.`employees`; 
+
+176 主路由器  下面接一个路由器  主路由器 地址ping不通 下一个路由器地址 那么在转发添加一个 目标地址 为 下一个路由器地址的网关 子掩码 255.255.255.0 然后下一跳为下一个路由的ip
+   eg  主 192.168.1.1   下一个路由为192.168.1.10  他所接的路由为192.168.10.xxx  那么 在192.168.1.1 添加一个  目标地址 192.168.10.0  子掩码 255.255.255.0 下一跳 192.168.1.10
+   
+177  yum install screen
+     screen -S 任意名字
+     然后运行ngrok启动命令
+     最后按快捷键 ctrl+A+D  
+     screen -ls 查看所有
+     screen -r <session-id> #登陆不上就用 screen -D  -r 	
+
+178 mysqlbinlog恢复  mysqlbinlog  --database=test  >test.sql 
+      恢复 mysql -S/stock/myql/mysqld.sock -uroot -P3310 -f -p <test.sql	
+
+
+179 linux cp 去掉提示存在即覆盖 \cp -rf 	 
+
+180 netcat linux yum install nc 更多请百度再补充 
+
+181 gpasswd -a yjj  docker 给docker添加用户
+182 wget -b 后台下载
+183 windows 批量删除相同文件forfiles /s /M out /c "cmd /c rd /s /q @path" #批量删除out文件夹 rd 文件夹  del文件 /s 是否递归 /q不需要确定

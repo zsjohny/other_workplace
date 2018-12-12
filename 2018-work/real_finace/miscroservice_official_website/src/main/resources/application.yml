@@ -1,0 +1,33 @@
+---
+#限流开关
+limter.flow.enabled: false
+
+---
+#文件加载的环境配置
+spring:
+  profiles:
+    active: test
+  application:
+            name: official_website
+
+---
+#端口
+server:
+  port: 8053
+
+
+---
+#mybatis的扫包路径
+mybatis:
+  typeAliasesPackage: com.finace.miscroservice.official_official.entity
+
+---
+#打开数据库配置
+open.datasource : true
+flyway.enabled: true
+
+---
+#日志保存名称
+log.name:  official_website
+
+

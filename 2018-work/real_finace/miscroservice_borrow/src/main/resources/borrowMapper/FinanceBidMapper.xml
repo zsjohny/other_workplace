@@ -1,0 +1,402 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.finace.miscroservice.borrow.mapper.FinanceBidMapper">
+
+    <resultMap id="BaseFinanceBidResult" type="com.finace.miscroservice.borrow.po.FinanceBidPO">
+        <result column="id" property="id" />
+        <result column="order_Sn" property="orderSn" />
+        <result column="type" property="type" />
+        <result column="borrow_Id" property="borrowId" />
+        <result column="user_Id" property="userId" />
+        <result column="pay" property="pay" />
+        <result column="pay_Channel" property="payChannel" />
+        <result column="pay_Time" property="payTime" />
+        <result column="channel" property="channel" />
+        <result column="buy_Amt" property="buyAmt" />
+        <result column="rate" property="rate" />
+        <result column="withdraw_Profit" property="withdrawProfit" />
+        <result column="withdraw_Principal" property="withdrawPrincipal" />
+        <result column="coupon_Rate" property="couponRate" />
+        <result column="coupon_Amt" property="couponAmt" />
+        <result column="pay_Name" property="payName" />
+        <result column="pay_Pid" property="payPid" />
+        <result column="bank_Card_No" property="bankCardNo" />
+        <result column="bank_No" property="bankNo" />
+        <result column="bank_Name" property="bankName" />
+        <result column="begin_Profit" property="beginProfit" />
+        <result column="end_Profit" property="endProfit" />
+        <result column="gmt_Withdraw" property="gmtWithdraw" />
+        <result column="summary" property="summary" />
+        <result column="status" property="status" />
+        <result column="gmt_Create" property="gmtCreate" />
+        <result column="gmt_Write" property="gmtWrite" />
+        <result column="repay_time" property="repayTime" />
+        <result column="reg_channel" property="regChannel" />
+        <result column="hbid" property="hbid" />
+        <result column="contract_id" property="contractId" />
+    </resultMap>
+
+    <resultMap id="MoneyInfoResult" type="com.finace.miscroservice.borrow.po.FinanceBidPO">
+        <result column="principal" property="principal" />
+        <result column="endProfit" property="endProfit" />
+        <result column="nowProfit" property="nowProfit" />
+        <result column="withdrawPrincipal" property="withdrawPrincipal" />
+        <result column="withdrawProfit" property="withdrawProfit" />
+    </resultMap>
+
+    <!-- 新增富有投资记录 -->
+    <insert id="addFinanceBid" parameterType="com.finace.miscroservice.borrow.po.FinanceBidPO">
+        INSERT INTO `finance_bid` ( `bank_card_no`, `bank_name`, `bank_no`,
+        `begin_profit`, `borrow_id`, `buy_amt`, `channel`, `coupon_amt`,
+        `coupon_rate`, `end_profit`, `gmt_create`, `gmt_withdraw`,
+        `gmt_write`, `order_sn`, `pay`, `pay_channel`, `pay_name`,
+        `pay_pid`, `pay_time`, `rate`, `status`, `summary`, `type`, `user_id`,
+        `withdraw_principal`, `withdraw_profit`, `repay_time`, `reg_channel`, `hbid`)
+        SELECT  #{bankCardNo}, #{bankName}, #{bankNo}, #{beginProfit},#{borrowId}, #{buyAmt},
+        #{channel}, #{couponAmt}, #{couponRate}, #{endProfit}, now(), #{gmtWithdraw}, now(),
+        #{orderSn}, #{pay}, #{payChannel}, #{payName}, #{payPid}, #{payTime}, #{rate}, #{status}, #{summary},
+        #{type},#{userId} ,#{withdrawPrincipal},#{withdrawProfit},#{repayTime},#{regChannel}, #{hbid}
+        FROM dual WHERE NOT EXISTS ( SELECT order_sn FROM finance_bid WHERE order_sn = #{orderSn} )
+    </insert>
+
+    <!-- 修改投资记录信息 -->
+    <update id="updateFinanceBid" parameterType="com.finace.miscroservice.borrow.po.FinanceBidPO">
+        update finance_bid set pay_time=now(),gmt_write=now(),pay=#{pay},
+        buy_Amt = #{buyAmt},
+        rate = #{rate},
+        coupon_Rate = #{couponRate},
+        coupon_Amt = #{couponAmt},
+        begin_profit = #{beginProfit},
+        end_profit = #{endProfit},
+        withdraw_principal=0,
+        withdraw_profit=0,
+        status='counting',
+        summary=#{summary}
+        where id=#{id}
+    </update>
+
+    <!-- 修改标的记录 -->
+    <update id="updateFinance" parameterType="com.finace.miscroservice.borrow.po.FinanceBidPO">
+        update finance_bid
+         <trim prefix="set" suffixOverrides=",">
+              <if test="pay != null and pay != ''">
+                  pay=#{pay},
+              </if>
+
+             <if test="couponRate != null and couponRate != ''">
+                 coupon_Rate=#{couponRate},
+             </if>
+
+             <if test="couponAmt != null and couponAmt != ''">
+                 coupon_Amt=#{couponAmt},
+             </if>
+
+             <if test="type != null and type != ''">
+                 `type`=#{type},
+             </if>
+         </trim>
+         where id=#{id}
+    </update>
+
+
+    <!-- 修改投资记录的支付状态 -->
+    <update id="updatePayFinanceBidByOrderId" parameterType="map">
+        update finance_bid set pay=#{pay} where order_sn=#{orderId}
+    </update>
+
+    <!-- 根据标的id查询标的的有效投资记录 -->
+    <select id="getRealFidByBorrowId" parameterType="java.lang.String" resultType="com.finace.miscroservice.borrow.po.FinanceBidPO">
+        SELECT fd.*,ROUND(fd.rate/36500*fd.buy_amt*datediff(fd.end_profit,fd.begin_profit),2) as interest
+        FROM finance_bid fd WHERE fd.borrow_id = #{borrowId} and fd.pay = 1 and fd.status='counting' and fd.summary is NOT null order by id desc
+    </select>
+
+    <!-- 根据订单号获取未完成投资记录 -->
+    <select id="getFidByNoOrderId" parameterType="java.lang.String" resultType="com.finace.miscroservice.borrow.po.FinanceBidPO">
+        SELECT fd.*,ROUND(fd.rate/36500*fd.buy_amt*datediff(fd.end_profit,fd.begin_profit),2) as interest
+        FROM finance_bid fd WHERE fd.order_Sn = #{orderId} and fd.pay = 0 order by id desc limit 1
+    </select>
+
+    <!-- 根据订单号获取投资记录 -->
+    <select id="getFidByOrderId" parameterType="java.lang.String" resultType="com.finace.miscroservice.borrow.po.FinanceBidPO">
+        SELECT fd.*,ROUND(fd.rate/36500*fd.buy_amt*datediff(fd.end_profit,fd.begin_profit),2) as interest
+         FROM finance_bid fd WHERE fd.order_Sn = #{orderId} order by id desc limit 1
+    </select>
+
+    <!-- 根据id获取订单信息 -->
+    <select id="getFidById" parameterType="int" resultMap="BaseFinanceBidResult">
+        SELECT fd.*,ROUND(fd.rate/36500*fd.buy_amt*datediff(fd.end_profit,fd.begin_profit),2) as interest
+        FROM finance_bid fd
+        left join borrow p3 on p3.id = fd.borrow_id
+        WHERE fd.id = #{fbid}
+    </select>
+
+    <!-- 根据用户id获取用户富有投资总数 -->
+    <select id="getFinanceMoneyInfo" resultType="com.finace.miscroservice.commons.entity.FinanceMoney">
+        select
+        sum(t.principal) as principal,
+        sum(t.end_profit) as endProfit,
+        sum(t.now_profit) as nowProfit,
+        sum(t.withdraw_principal) as withdrawPrincipal,
+        sum(t.withdraw_profit) as withdrawProfit
+        from(
+        select
+        sum(buy_amt) as principal,
+        sum(ROUND(rate/36500*buy_amt*datediff(end_profit,begin_profit),2)) + case when sum(coupon_amt) is null then 0 else sum(coupon_amt) end as end_profit,
+        0 as now_profit,
+        0 as withdraw_principal,
+        0 as withdraw_profit
+        from finance_bid
+        where user_id=#{userId} and pay = 1 and status='counting' and withdraw_principal=0
+        UNION
+        select
+        0 as principal,
+        0 as end_profit,
+        sum(ROUND(rate/36500*buy_amt*datediff(end_profit,begin_profit),2)) + case when sum(coupon_amt) is null then 0 else sum(coupon_amt) end as now_profit,
+        sum(buy_amt) as withdraw_principal,
+        sum(withdraw_profit) as withdraw_profit
+        from finance_bid
+        where user_id=#{userId} and pay = 1 and status='repayment' and withdraw_principal>0
+        ) as t
+    </select>
+
+    <!--用户待回款笔数 -->
+    <select id="getUserFidCount" resultType="int">
+        select COUNT(*)
+        from finance_bid
+        where user_id=#{userId} and pay = 1 and status='counting' and withdraw_principal=0
+    </select>
+
+    <!-- 获取用户汇付和富有投资记录 -->
+    <select id="getUserInvestRecords" parameterType="java.util.Map" resultType="com.finace.miscroservice.commons.entity.InvestRecords">
+        select alla.* from (select   p3.name as borrowName,p1.borrow_id as borrowId,p1.addtime,p1.addtime as tenderTime,p1.money,p1.interest,
+        CASE WHEN p3.status = 1
+        THEN date_add(FROM_UNIXTIME(p3.verify_time, '%Y-%m-%d'), interval p3.time_limit_day+p3.valid_time day)
+        ELSE date_add(FROM_UNIXTIME(p3.verify_time, '%Y-%m-%d'), interval p3.time_limit_day day) END as dqr,
+        p3.account,p3.status,p3.release_type as releaseType,p1.id,p3.apr,p1.repayment_yesinterest as repaymentYesinterest,
+        p3.time_limit_day as limitDay,
+        date_add(FROM_UNIXTIME(p1.addtime, '%Y-%m-%d'), interval 1 day) as qxr,
+        p1.hbid,p1.contract as contractId,p3.user_id as userId
+        from borrow_tender as p1
+        left join borrow as p3 on p1.borrow_id=p3.id
+        <trim prefix="where" prefixOverrides="and|or">
+            p1.trust_status = 1 and p1.user_id=#{userId}
+            <if test="type != null and type == 0 ">
+                and p3.status in (1,3,6,7)
+            </if>
+            <if test="type != null and type == 1 ">
+                and p3.status in (1,3,6,7,8,59)
+            </if>
+            <if test="type != null and type == 2 ">
+                and p3.status = 8
+            </if>
+        </trim>
+        UNION
+        select b.name as borrowName,b.id as borrowId,UNIX_TIMESTAMP(fd.pay_Time) as addtime,
+        UNIX_TIMESTAMP(fd.pay_Time) as tenderTime, buy_amt as money,
+        ROUND(fd.rate/36500*fd.buy_amt*datediff(fd.end_profit,fd.begin_profit),2) as interest,
+        date_format(fd.end_Profit, '%Y-%m-%d') as dqr,b.account,fd.status,b.release_type as releaseType,
+        fd.id,fd.rate as apr,
+        ROUND(fd.rate/36500*fd.buy_amt*datediff(fd.end_profit,fd.begin_profit),2) as repaymentYesinterest,
+        b.time_limit_day as limitDay,
+        date_format(date_add(fd.pay_Time, interval 1 day), '%Y-%m-%d') as qxr,
+        fd.hbid,fd.contract_id as contractId,b.user_id as userId
+        from finance_bid as fd
+        left join borrow b on b.id = fd.borrow_id
+        <trim prefix="where" prefixOverrides="and|or">
+            fd.user_id = #{userId}
+            <if test="stype != null and stype == 1 ">
+                and fd.pay = 1
+               <!-- and fd.`status` = 'counting' -->
+            </if>
+            <if test="stype != null and stype == 2 ">
+                and fd.withdraw_Principal > 0 and fd.`status` = 'repayment'
+            </if>
+        </trim>
+        )alla order by alla.addtime DESC
+
+    </select>
+
+    <!-- 获取用户本月还款情况 -->
+    <select id="getFinanceMonthInfo" resultType="com.finace.miscroservice.commons.entity.FinanceMoney">
+        select
+        sum(t.principal) as principal,
+        sum(t.end_profit) as endProfit,
+        sum(t.now_profit) as nowProfit,
+        sum(t.withdraw_principal) as withdrawPrincipal,
+        sum(t.withdraw_profit) as withdrawProfit
+        from(
+            select
+                0 as principal,
+                sum(ROUND(rate/36500*buy_amt*datediff(end_profit,begin_profit),2)) + sum(buy_amt) + case when sum(coupon_amt) is null then 0 else sum(coupon_amt) end as end_profit,
+                0 as now_profit,
+                0 as withdraw_principal,
+                0 as withdraw_profit
+            from finance_bid
+            where user_id=#{userId} and pay = 1 and date_format(end_profit,'%Y-%m') = #{tmonth}
+            UNION
+            select
+                0,0,0,
+                sum(buy_amt)+sum(withdraw_profit) + case when sum(coupon_amt) is null then 0 else sum(coupon_amt) end as withdraw_principal,
+                0 as withdraw_profit
+            from finance_bid
+            where user_id=#{userId} and pay = 1 and status='repayment'
+            and withdraw_principal>0 and date_format(end_profit,'%Y-%m') = #{tmonth}
+        ) as t
+    </select>
+
+    <!-- 获取用户每月回款日期  and date_format(end_profit,'%Y-%m') = #{tmonth} -->
+    <select id="getDayByMonth" resultType="java.lang.String">
+        select
+            distinct date_format(end_profit,'%Y-%m-%d') as sday
+        from finance_bid
+        where user_id=#{userId} and pay = 1
+    </select>
+
+
+    <!-- 获取用户每天的回款信息  and fd.status='counting' and fd.withdraw_principal=0 -->
+    <select id="getFinanceDayInfo" resultType="com.finace.miscroservice.commons.entity.FinanceMoney">
+        select
+        buy_amt  as principal,
+        ROUND(rate/36500*buy_amt*datediff(end_profit,begin_profit),2) + case when coupon_amt is null then 0 else coupon_amt end as endProfit,
+        0 as nowProfit,
+        0 as withdrawPrincipal,
+        0 as withdrawProfit,
+        b.name as borrowName,
+        fd.status as bidStatus
+        from finance_bid fd
+        LEFT JOIN  borrow b on b.id = fd.borrow_id
+        where fd.user_id=#{userId} and fd.pay = 1
+        and date_format(fd.end_profit,'%Y-%m-%d') = #{tday}
+    </select>
+
+
+    <!-- 获取投资记录 -->
+    <select id="getInvestmentRecordByBorrowId" parameterType="int" resultType="com.finace.miscroservice.borrow.po.FinanceBidPO">
+        select alla.* from (
+            SELECT a.account, DATE_FORMAT(FROM_UNIXTIME(a.addtime),'%Y-%m-%d %H:%i:%S') as addtime,
+            a.borrow_id as borrowId,a.user_id as userId
+            FROM borrow_tender a
+            where a.trust_status = 1 and a.borrow_id=#{id}
+            UNION
+            select fd.buy_amt as account, DATE_FORMAT(fd.pay_time,'%Y-%m-%d %H:%i:%S') as addtime,
+            fd.borrow_id as borrowId,fd.user_id as userId
+            from finance_bid as fd
+            where fd.pay = 1 and  fd.borrow_id=#{id}
+        ) alla order by alla.addtime desc
+    </select>
+
+     <!-- 获取用户投资总额 -->
+    <select id="getAllFinaceByUserId" parameterType="int" resultType="double">
+        select
+        CASE WHEN sum(buy_amt) IS NULL THEN 0.00 ELSE sum(buy_amt) END  as buyAmt
+        from finance_bid
+        where user_id=#{userId} and pay = 1
+    </select>
+
+    <!-- 获取用户第一次投资金额 -->
+    <select id="getUserFirstBuyAmt" parameterType="int" resultType="Double">
+        select CASE WHEN sum(buy_amt) IS NULL THEN 0.00 ELSE buy_amt END  as buyAmt
+         from finance_bid where user_id=#{userId} and pay = 1 order by id limit 1
+    </select>
+
+    <!-- 累计成交数据 -->
+    <select id="getCumulativeData" resultType="com.finace.miscroservice.borrow.po.FinanceBidPO">
+        SELECT  (e.huifuMoneyTotal+ f.fuiouMoneyTotal ) as principal,
+        d.fuiouCount as nowProfit
+         FROM
+		(SELECT  ROUND(SUM(ACCOUNT),2) as huifuMoneyTotal, count(1) as huifuMoneyCount  FROM BORROW_TENDER where trust_status=1)as e,
+        (SELECT  ROUND(SUM(buy_amt),2) as fuiouMoneyTotal, count(1) as fuiouCount   FROM finance_bid WHERE pay =1 and pay_pid is not NULL and bank_card_no is not NULL and pay_name is not null) as f,
+        (SELECT count(1) as fuiouCount from BORROW WHERE status in (1,3,6,7,8)) as d
+    </select>
+
+    <!-- 修改云合同的合同id -->
+    <update id="updateYunContractIdById" parameterType="Map">
+        update finance_bid set contract_id=#{contractId} where id=#{orderId}
+    </update>
+
+    <!-- 根据标的id获取投资记录最后一条投资记录 -->
+    <select id="getFinanceBidByDesc" parameterType="int" resultType="com.finace.miscroservice.borrow.po.FinanceBidPO">
+        select * from finance_bid where borrow_id=#{borrowId} order by id desc limit 1
+    </select>
+
+
+    <select id="getFidByOrderIdAndFail" parameterType="java.lang.String" resultType="com.finace.miscroservice.borrow.po.FinanceBidPO">
+        SELECT fd.*,ROUND(fd.rate/36500*fd.buy_amt*datediff(fd.end_profit,fd.begin_profit),2) as interest
+        FROM finance_bid fd WHERE fd.order_Sn = #{orderId} and pay = 0 order by id desc limit 1
+    </select>
+
+
+    <resultMap id="EyeInfoResult" type="com.finace.miscroservice.borrow.entity.response.EyeDataResponse">
+        <result column="mobile" property="mobile" />
+        <result column="username" property="username" />
+        <result column="reg_time" property="reg_time" />
+        <result column="order_id" property="order_id" />
+        <result column="status" property="status" />
+        <result column="amount" property="amount" />
+        <result column="bid_id" property="bid_id" />
+        <result column="bid_name" property="bid_name" />
+        <result column="rate" property="rate" />
+        <result column="pay_way" property="pay_way" />
+        <result column="period" property="period" />
+        <result column="period_type" property="period_type" />
+        <result column="trade_time" property="trade_time" />
+        <result column="start_time" property="start_time" />
+        <result column="reward" property="reward" />
+        <result column="reward_type" property="reward_type" />
+        <result column="cost" property="cost" />
+        <result column="is_bill" property="is_bill" />
+        <result column="couponAmt" property="couponAmt" />
+        <result column="couponRate" property="couponRate" />
+        <result column="userId" property="userId" />
+    </resultMap>
+
+    <!--天眼查询需要的信息  -->
+    <select id="getEyeInfoByData" parameterType="Map" resultMap="EyeInfoResult">
+
+           SELECT fb.* from (
+                SELECT ur.phone as mobile,ur.username as username,ur.addtime as reg_time,fd.order_sn as order_id,2 as status,
+                    fd.buy_amt as amount,
+                    bw.id as bid_id,bw.name as bid_name,bw.apr as rate,3 as pay_way, bw.time_limit_day as period,
+                    2 as period_type,fd.coupon_amt as couponAmt, fd.coupon_rate as couponRate,
+                    unix_timestamp(fd.pay_time) as trade_time,unix_timestamp(fd.end_profit) as start_time,fd.user_id as userId  FROM finance_bid fd
+                 left join borrow bw on bw.id = fd.borrow_id
+                 left join user ur on ur.user_id = fd.user_id
+                 <trim prefix="where" prefixOverrides="and|or" >
+                      <if test="orders != null and orders !='' ">
+                         and fd.order_Sn in (${orders})
+                      </if>
+                    <!-- <if test="startTime != null and startTime !='' ">
+                         <![CDATA[
+                         and DATE_FORMAT(fd.pay_time, '%Y%m%d%H%i%s') > DATE_FORMAT(#{startTime}, '%Y%m%d%H%i%s')
+                         ]]>
+                     </if>
+                     <if test="endTime != null and endTime !='' ">
+                         <![CDATA[
+                         and DATE_FORMAT(fd.pay_time, '%Y%m%d%H%i%s') <= DATE_FORMAT(#{endTime}, '%Y%m%d%H%i%s')
+                          ]]>
+                     </if>-->
+                     <if test="userId != null and userId !='' ">
+                         and fd.user_id = #{userId}
+                     </if>
+                     <![CDATA[
+                        and fd.pay = 1 and ur.reg_channel2 = 'tianyan' order by fd.id
+                     ]]>
+                </trim>
+          ) fb group by fb.userId
+
+    </select>
+    <select id="findInvitationDistanct" resultType="java.lang.Integer">
+
+        SELECT COUNT(DISTINCT a.user_id)  from finance_bid a,(SELECT user_id from user where invite_userid=#{user_id}) b
+        where a.pay = 1
+        and  <![CDATA[a.gmt_create<=#{endtime} and a.gmt_create>=#{starttime}]]>
+        and a.user_id = b.user_id
+    </select>
+    <select id="findAmountMoneyByUserId" resultType="java.lang.String">
+        SELECT sum(buy_amt) from finance_bid a , borrow b
+        where pay='1' and a.borrow_id = b.id and b.use <![CDATA[<>]]>0
+        and pay_time <![CDATA[>]]>#{starttime} and pay_time <![CDATA[<]]> #{endtime} and a.user_id= #{user_id}
+    </select>
+
+
+</mapper>

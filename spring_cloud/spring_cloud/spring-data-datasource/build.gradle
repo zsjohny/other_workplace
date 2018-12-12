@@ -1,0 +1,20 @@
+apply plugin: 'java'
+
+repositories {
+    mavenCentral()
+}
+
+jar {
+    baseName "spring_data_jpq"
+}
+
+ext {
+    springBootVersion = "1.5.8.RELEASE"
+}
+
+dependencies {
+    compile "org.springframework.boot:spring-boot-starter-data-jpa:$springBootVersion" //监控系统 携带refresh
+    compile "org.springframework.boot:spring-boot-starter-web:$springBootVersion" //监控系统 携带refresh
+    compile group: 'com.h2database', name: 'h2', version: '1.4.196'
+
+}

@@ -1,0 +1,27 @@
+rootProject.name = 'e'
+
+
+//include 'e-log:e-log-service'
+//include 'e-log:e-log-ui'
+
+//include 'e-upm:e-upm-api'
+//include 'e-upm:e-upm-service'
+//include 'e-upm:e-upm-ui'
+
+include 'e-example:e-example-single'
+
+include 'e-example:e-micro-service:e-example-ms-ui'
+include 'e-example:e-micro-service:e-example-ms-gateway'
+include 'e-example:e-micro-service:e-example-ms-upm'
+include 'e-example:e-micro-service:e-example-ms-log'
+include 'e-example:e-micro-service:e-example-ms-oauth2'
+include 'e-example:e-micro-service:e-example-ms-discovery'
+include 'e-example:e-micro-service:e-example-ms-db'
+include 'e-example:e-micro-service:e-example-ms-demo'
+
+include 'e-example:e-micro-service:e-example-ms-start'
+include 'e-example:e-micro-service:e-example-ms-start-w'
+
+include ':demo:demo-ui'
+include ':demo:demo-service'
+

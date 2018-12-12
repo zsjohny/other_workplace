@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>com.onway.baib</groupId>
+		<artifactId>baib-parent</artifactId>
+		<version>1.0</version>
+		<relativePath>../../../pom.xml</relativePath>
+	</parent>
+
+	<groupId>com.onway.baib</groupId>
+	<artifactId>baib-common-util</artifactId>
+	<version>1.0</version>
+	<name>baib-common-util</name>
+	<description>baib-common-util</description>
+	<packaging>jar</packaging>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.onway.baib</groupId>
+			<artifactId>baib-common-service-facade</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.onway.baib</groupId>
+			<artifactId>baib-core-model</artifactId>
+		</dependency>
+		
+		
+		
+			<!-- Spring 文件上传的包 -->
+			<dependency>
+				<groupId>commons-fileupload</groupId>
+				<artifactId>commons-fileupload</artifactId>
+			</dependency>
+
+			<!-- Spring 文件上传的依赖包 -->
+			<dependency>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-io</artifactId>
+			</dependency>
+	</dependencies>
+</project>

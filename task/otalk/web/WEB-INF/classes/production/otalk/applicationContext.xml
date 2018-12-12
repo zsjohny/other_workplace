@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:jpa="http://www.springframework.org/schema/data/jpa" xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:p="http://www.springframework.org/schema/p" xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:cache="http://www.springframework.org/schema/cache"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.1.xsd
+		http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa-1.3.xsd
+		 http://www.springframework.org/schema/cache  http://www.springframework.org/schema/cache/spring-cache.xsd">
+
+
+    <!-- 加载数据库的配置文件 <context:property-placeholder location="classpath:jdb4.properties"
+        /> -->
+    <!-- 读取配置文件 -->
+    <bean id="propertyConfigurer"
+          class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="location" value="classpath:jdb4.properties">
+        </property>
+        <!-- 加密 -->
+        <property name="propertiesPersister">
+            <bean class="com.xiaoluo.util.LoginName"/>
+        </property>
+
+        <property name="ignoreResourceNotFound" value="true"/>
+
+        <property name="fileEncoding">
+            <value>UTF-8</value>
+        </property>
+    </bean>
+
+
+    <!-- 配置数据库连接池 -->
+    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
+          destroy-method="close">
+        <property name="driverClass">
+            <value>${driverClass}</value>
+        </property>
+        <property name="jdbcUrl">
+            <value>${jdbcUrl}</value>
+        </property>
+        <property name="user">
+            <value>${user}</value>
+        </property>
+        <property name="password">
+            <value>${password}</value>
+        </property>
+        <property name="maxPoolSize">
+            <value>${maxPoolSize}</value>
+        </property>
+        <property name="minPoolSize">
+            <value>${minPoolSize}</value>
+        </property>
+        <!-- 指定连接数据库连接池的连接的最大空闲时间 -->
+        <property name="maxIdleTime">
+            <value>${maxIdleTime}</value>
+        </property>
+        <!-- 指定连接数据库连接池的初始化连接数 -->
+        <property name="initialPoolSize">
+            <value>${initialPoolSize}</value>
+        </property>
+    </bean>
+
+
+    <!-- 配置 EntityManagerFactory -->
+    <bean id="entityManagerFactory"
+          class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="dataSource" ref="dataSource">
+        </property>
+        <!-- 配置 JPA 提供商的适配器. 可以通过内部 bean 的方式来配置 -->
+        <property name="jpaVendorAdapter">
+            <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+            </bean>
+        </property>
+        <!-- 配置实体类所在的包 -->
+        <property name="packagesToScan" value="com.ouliao.domain">
+        </property>
+        <!-- 配置 JPA 的基本属性. 例如 JPA 实现产品的属性 -->
+        <property name="jpaProperties">
+            <props>
+                <!-- 配置数据库的方言 -->
+                <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+                <!-- 控制台打印sql -->
+                <prop key="hibernate.show_sql">false</prop>
+                <!--格式化sql -->
+                <prop key="hibernate.format_sql">true</prop>
+                <!-- 在启动和停止时自动地创建，更新或删除数据库模式 -->
+                <prop key="hibernate.hbm2ddl.auto">update</prop>
+            </props>
+        </property>
+    </bean>
+
+    <!-- 配置 JPA 使用的事务管理器 -->
+    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="entityManagerFactory" ref="entityManagerFactory">
+        </property>
+    </bean>
+
+    <!-- 自动包装代码，生产事务管理 -->
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+
+    <!--配置springData -->
+    <!--添加jpa的命名空间 -->
+    <!--参数解释base-package: 扫描 Repository Bean 所在的 package entity-manager-factory-ref
+        引用的实体类的对象 transaction-manager-ref所要引用的事务管理 repository-impl-postfix自定义实现的类的后缀，默认为Impl -->
+    <jpa:repositories base-package="com.ouliao.repository"
+                      transaction-manager-ref="transactionManager"
+                      entity-manager-factory-ref="entityManagerFactory">
+    </jpa:repositories>
+
+    <!-- jedisPool配置信息 -->
+    <bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
+        <property name="maxTotal" value="30"/> <!-- 控制一个pool可分配多少个jedis实例 -->
+        <property name="maxIdle" value="10"/>   <!-- 控制一个pool最多有多少个状态为idle(空闲)的jedis实例 -->
+        <property name="maxWaitMillis"
+                  value="100"/>  <!-- 表示当borrow一个jedis实例时，最大的等待时间，如果超过等待时间，则直接抛出JedisConnectionException -->
+        <property name="testOnBorrow"
+                  value="true"/> <!-- 在borrow一个jedis实例时，是否提前进行validate操作；如果为true，则得到的jedis实例均是可用的 -->
+    </bean>
+    <bean id="jedisPool" class="redis.clients.jedis.JedisPool"
+          destroy-method="destroy">
+        <!-- <constructor-arg ref="jedisPoolConfig"/>-->
+        <constructor-arg value="127.0.0.1"/>
+        <constructor-arg type="int" value="10088"/>
+    </bean>
+
+    <!--开启ehcache-->
+    <cache:annotation-driven cache-manager="cacheManager"/>
+
+    <bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager">
+        <property name="cacheManager" ref="ehcache"></property>
+    </bean>
+
+    <bean id="ehcache" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
+        <property name="configLocation" value="classpath:ehcache.xml"></property>
+    </bean>
+
+</beans>

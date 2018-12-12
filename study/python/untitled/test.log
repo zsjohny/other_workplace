@@ -1,0 +1,14 @@
+Fri, 09 Jun 2017 13:42:14 transport.py[line:1572] INFO Connected (version 2.0, client OpenSSH_5.3)
+Fri, 09 Jun 2017 13:42:15 transport.py[line:1572] INFO Authentication (password) successful!
+Fri, 09 Jun 2017 13:42:15 Test39.py[line:29] INFO ---analysis : ---
+Fri, 09 Jun 2017 13:42:15 Test39.py[line:29] INFO ---analysis : ---2017-06-09 13:42:44 21739 [Note] 第1步: 对SQL解析优化之后得到的SQL:select `*` AS `*` from `wuai`.`test` 
+
+2017-06-09 13:42:44 21739 [Note] 第2步：表test 的SQL太逆天,没有优化建议 
+
+2017-06-09 13:42:44 21739 [Note] 第3步: SQLAdvisor结束! 
+
+2017-06-09 13:42:44 21739 [Note] 第1步: 对SQL解析优化之后得到的SQL:select had some error 
+
+2017-06-09 13:42:44 21739 [Note] 第2步: SQLAdvisor结束! 
+
+

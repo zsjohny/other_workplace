@@ -1,0 +1,27 @@
+#parse("copyright.vm")
+package ${table.DAOPackage};
+##调用1次，保证参数进入
+#foreach($operation in $table.operations)$!{operation.initSimpleReturnType()}#end
+
+#foreach($importClass in $table.daoImports) 
+import $importClass;
+#end
+#foreach($importClass in $table.doImports) 
+import $importClass;
+#end
+import java.util.Map;
+
+/**
+ * A dao interface provides methods to access database table <tt>$table.sqlName</tt>.
+ *
+#parse("description-java.vm")
+ * @version $Id: ${table.DAOClassName}.java,v 1.0 2013/10/29 07:34:20 guangdong.li Exp $
+ */
+public interface ${table.DAOClassName} {
+#set ($daoName = ${table.DAOClassName})
+##parse("dao-name.vm")
+#foreach($operation in $table.operations)
+#parse("operation/op-${operation.templateSuffix}.vm");
+
+#end
+}

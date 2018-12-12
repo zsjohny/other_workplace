@@ -1,0 +1,7 @@
+server:
+  port: 9006
+security:
+  oauth2:
+    resource:
+      jwt:
+        key-uri: http://localhost:9005/oauth/token_key

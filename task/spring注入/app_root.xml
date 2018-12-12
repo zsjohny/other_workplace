@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:mongo="http://www.springframework.org/schema/data/mongo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/tx
+       http://www.springframework.org/schema/tx/spring-tx.xsd
+       http://www.springframework.org/schema/aop
+       http://www.springframework.org/schema/aop/spring-aop.xsd
+       http://www.springframework.org/schema/data/mongo 
+       http://www.springframework.org/schema/data/mongo/spring-mongo.xsd">
+
+
+    <bean id="springProperties" class="org.dream.utils.prop.SpringProperties">
+        <property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE"/>
+        <property name="ignoreResourceNotFound" value="true"/>
+        <property name="locations">
+            <list>
+                <value>classpath:${cfg.dir}/app.properties</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="curatorClientFactory" class="org.dream.utils.cache.CuratorClientFactory"
+          lazy-init="true">
+        <property name="zkServer" value="${sys.zkServer}"/>
+    </bean>
+    <bean id="curatorClient" factory-bean="curatorClientFactory" factory-method="getCuratorClient" lazy-init="true"/>
+
+
+    <!-- #TODO 不同的项目中请自行更改base-package的值 ,此处应只加载service，不同的包以英文,隔开 -->
+
+    <context:component-scan base-package="org.dream.quota.service,org.dream.quota.dao"/>
+
+    <!-- #TODO 不同的项目中请自行更改value ,此处指定由mybatis的dao接口 -->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="org.dream.quota.variety.dao"/>
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
+    </bean>
+
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean"
+          p:dataSource-ref="dataSource" p:configLocation="classpath:mybatis-config.xml"
+          p:mapperLocations="classpath:org/dream/**/dao/*.xml"/>
+
+    <bean id="transactionManager"
+          class="org.springframework.jdbc.datasource.DataSourceTransactionManager"
+          p:dataSource-ref="dataSource"/>
+
+    <tx:advice id="txAdvice" transaction-manager="transactionManager">
+        <tx:attributes>
+            <tx:method name="get*" read-only="true"/>
+            <tx:method name="select*" read-only="true"/>
+            <tx:method name="fetch*" read-only="true"/>
+            <tx:method name="list*" read-only="true"/>
+            <tx:method name="*" propagation="REQUIRED"/>
+        </tx:attributes>
+    </tx:advice>
+
+    <aop:config>
+        <aop:pointcut id="comedangServicePointCut"
+                      expression="execution(* org.dream.*.service..*.*(..))"/>
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="comedangServicePointCut"/>
+    </aop:config>
+
+    <!-- 定义默认数据源 -->
+    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource"
+          init-method="init" destroy-method="close">
+        <property name="url" value="${db_dream.url}"/>
+        <property name="username" value="${db_dream.username}"/>
+        <property name="password" value="${db_dream.password}"/>
+        <property name="filters" value="stat"/>
+        <property name="maxActive" value="50"/>
+        <property name="initialSize" value="3"/>
+        <property name="maxWait" value="60000"/>
+        <property name="minIdle" value="3"/>
+        <property name="timeBetweenEvictionRunsMillis" value="60000"/>
+        <property name="minEvictableIdleTimeMillis" value="300000"/>
+        <property name="validationQuery" value="SELECT 'x'"/>
+        <property name="testWhileIdle" value="true"/>
+        <property name="testOnBorrow" value="false"/>
+        <property name="testOnReturn" value="false"/>
+        <property name="poolPreparedStatements" value="true"/>
+        <property name="maxPoolPreparedStatementPerConnectionSize"
+                  value="50"/>
+    </bean>
+
+    <!--Mongdb 连接 -->
+    <mongo:mongo host="${sys.mongodb.host}" port="${sys.mongodb.port}"/>
+    <!-- 连接到指定mongodb库，根据实际情况修改 db-name -->
+    <mongo:db-factory mongo-ref="mongo" dbname="stock"
+                      id="loggerFactory"></mongo:db-factory>
+
+    <!-- 注册 stockLoggerTemplate, spring的mongodb操作Template类， -->
+    <!-- 类似 spring jdbc 的jdbcTemplate -->
+    <bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
+        <constructor-arg name="mongoDbFactory" ref="loggerFactory"/>
+    </bean>
+
+    <bean class="org.dream.quota.processor.VarietyPriceBeanPostProcessor"/>
+    <!-- 系统启动时自动同步所有合约最新的日K数据 -->
+    <bean class="org.dream.quota.processor.CandlestickDataBeanPostProcessor"/>
+
+    <!--启动监听tcp移动端发送-->
+    <bean class="org.dream.quota.tcp.ServerHandler"/>
+
+    <!--启动Tcp行情监听服务-->
+    <bean class="org.dream.quota.tcp.Server"/>
+
+
+    <bean class="org.dream.utils.mvc.UserUtil"><!-- 分布式session相关 -->
+        <property name="cache" ref="redisTemplate"/>
+        <property name="expiredSeconds" value="7200"/>
+    </bean>
+    <!-- spring data redis -->
+    <bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
+        <property name="maxTotal" value="20"/>
+        <property name="maxIdle" value="10"/>
+        <property name="minIdle" value="5"/>
+    </bean>
+
+    <bean id="redisConnectionFactory"
+          class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory"
+          p:hostName="${sys.redis.hostName}" p:port="${sys.redis.port}" p:usePool="${sys.redis.usePool}"
+          p:database="${sys.redis.database}" p:poolConfig-ref="jedisPoolConfig"/>
+
+    <bean id="fastJsonSerializer" class="org.dream.utils.cache.RedisJsonSerializer"/>
+    <bean id="stringSerializer"
+          class="org.springframework.data.redis.serializer.StringRedisSerializer"/>
+
+    <!-- redis template definition -->
+    <bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate"
+          p:connectionFactory-ref="redisConnectionFactory"
+          p:defaultSerializer-ref="fastJsonSerializer" p:keySerializer-ref="stringSerializer"/>
+
+    <!-- 启动分布式session -->
+    <bean class="org.dream.utils.mvc.UserUtil">
+        <property name="cache" ref="redisTemplate"/>
+        <property name="expiredSeconds" value="7200"/>
+    </bean>
+
+
+    <bean id="test" class="org.dream.quota.tcp.ThreadPoolExecutorTest"/>
+
+    <bean id="test2" factory-bean="test" factory-method="getHello" lazy-init="false"/>
+
+
+</beans>

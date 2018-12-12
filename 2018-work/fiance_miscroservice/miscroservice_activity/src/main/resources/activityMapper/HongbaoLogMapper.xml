@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.finace.miscroservice.activity.mapper.HongbaoLogMapper">
+
+    <resultMap id="BaseHongbaoLogResult" type="com.finace.miscroservice.activity.po.HongbaoLogPO" >
+        <result column="id" property="id"  />
+        <result column="user_id" property="userId"  />
+        <result column="hongbao_money" property="hongbaoMoney"  />
+        <result column="remark" property="remark"  />
+        <result column="addtime" property="addtime"  />
+        <result column="active_id" property="activeId"  />
+        <result column="status" property="status"  />
+    </resultMap>
+
+    <!-- 获取用户红包日志信息 -->
+    <select id="getHongbaoLogByUserId" parameterType="map" resultType="com.finace.miscroservice.activity.po.HongbaoLogPO">
+        SELECT * FROM HONGBAO_LOG WHERE USER_ID = #userId# and active_id = #activeId# limit 1
+    </select>
+
+    <!-- 新增红包日志-->
+    <insert id="addHongbaoLog" parameterType="com.finace.miscroservice.activity.po.HongbaoLogPO">
+        insert into hongbao_log(user_id, hongbao_money, remark, addtime, active_id, status,userTotal)
+        values(#{userId}, #{hongbaoMoney}, #{remark}, #{addtime}, #{activeId}, #{status},#{userTotal})
+    </insert>
+
+    <!-- 修改红包日志 -->
+    <update id="updateHongbaoLog" parameterType="com.finace.miscroservice.activity.po.HongbaoLogPO">
+        update hongbao_log
+        <trim prefix="set" suffixOverrides=",">
+              <if test="userId !=null and userId != '' ">
+                  user_id = #{userId},
+              </if>
+
+            <if test="hongbaoMoney !=null and hongbaoMoney != '' ">
+                hongbao_money = #{hongbaoMoney},
+            </if>
+            <if test="remark !=null and remark != '' ">
+                remark = #{remark},
+            </if>
+            <if test="addtime !=null and addtime != '' ">
+                addtime = #{addtime},
+            </if>
+            <if test="activeId !=null and activeId != '' ">
+                active_id = #{activeId},
+            </if>
+            <if test="status !=null and status != '' ">
+                status = #{status},
+            </if>
+        </trim>
+        where id = #{id}
+    </update>
+
+
+
+
+
+</mapper>
+
+
+
+
+
+
+
+
+
+
+

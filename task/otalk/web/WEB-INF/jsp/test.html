@@ -1,0 +1,173 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>资料认证</title>
+    <style type="text/css">
+        #center {
+            background-image: url("http://image.baidu.com/search/detail?ct=503316480&z=0&ipn=d&word=%E8%83%8C%E6%99%AF%E5%9B%BE%E7%89%87&pn=0&spn=0&di=93992012510&pi=&rn=1&tn=baiduimagedetail&ie=utf-8&oe=utf-8&cl=2&lm=-1&cs=2792482526%2C35266797&os=3496385875%2C3508542371&simid=4172727711%2C697198746&adpicid=0&ln=30&fr=ala&fm=&sme=&cg=&bdtype=0&oriquery=&objurl=http%3A%2F%2Fpic7.nipic.com%2F20100516%2F4446257_133609043845_2.jpg&fromurl=ippr_z2C%24qAzdH3FAzdH3Fooo_z%26e3Bgtrtv_z%26e3Bv54AzdH3Ffi5oAzdH3Fn8m8n09_z%26e3Bip4s&gsm=0");
+            text-align: center;
+            height: 1200px;
+        }
+
+        .submit {
+            border: none;
+            font-weight: bold;
+            color: #FFF;
+            margin: 10px 10px 20px 40px;
+            -webkit-border-radius: 3px;
+            -moz-border-radius: 3px;
+            border-radius: 3px;
+            -webkit-box-shadow: #CCC 0px 0px 5px;
+            -moz-box-shadow: #CCC 0px 0px 5px;
+            box-shadow: #CCC 0px 0px 5px;
+            background: #BEBEBE;
+            cursor: pointer;
+        }
+
+        .submit:hover {
+            background: #31b6e7;
+        }
+
+        .submit {
+            padding: 6px 10px;
+        }
+
+        #body {
+            position: relative;
+        }
+
+        #errorMsg {
+            position: absolute;
+            float: left;
+            top: 318px;
+            left: 780px;
+            bottom: 200px;
+        }
+
+        a {
+            color: #006600;
+            text-decoration: none;
+        }
+
+        a:hover {
+            color: #990000;
+        }
+
+        .top {
+            margin: 5px auto;
+            color: #990000;
+            text-align: center;
+        }
+
+        .info select {
+            border: 1px #993300 solid;
+            background: #FFFFFF;
+        }
+
+        .info {
+            margin: 5px;
+            text-align: center;
+        }
+
+        .info #show {
+            color: #3399FF;
+        }
+
+        .bottom {
+            text-align: right;
+            font-size: 12px;
+            color: #CCCCCC;
+            width: 1000px;
+        }
+    </style>
+
+    <script>
+        function checkParam() {
+
+            /* 	if (document.getElementById("name").value.trim().length > 0
+             && document.getElementById("phone").value.trim().length == 11
+             && document.getElementById("author").value.trim().length > 3) {
+
+             return true;
+             } */
+            if (document.getElementById("phone").value.trim().length == 11
+                    && document.getElementById("author").value.trim().length > 3) {
+
+                return true;
+            }
+
+            /* if (document.getElementById("name").value.trim().length == 0) {
+             document.getElementById("nameMsg").innerHTML = "昵称不正确";
+
+             } */
+
+            if (document.getElementById("phone").value.trim().length != 11) {
+                document.getElementById("phoneMsg").innerHTML = "手机不正确";
+
+            }
+            if (document.getElementById("author").value.trim().length != 15
+                    || document.getElementById("author").value.trim().length <= 3) {
+                document.getElementById("authorMsg").innerHTML = "认证名称不正确";
+
+            }
+            return false;
+
+        }
+
+        function clearError() {
+            document.getElementById("success").style.display = "none";
+            document.getElementById("authorMsg").innerHTML = "";
+            document.getElementById("phoneMsg").innerHTML = "";
+            document.getElementById("nameMsg").innerHTML = "";
+
+        }
+    </script>
+
+
+</head>
+<body>
+<div id="center">
+    <br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/> <br/>
+    <br/> <br/> <br/> <br/> <br/> <span></span> <br/> <br/> <br/>
+    <div id="body">
+        <form action="author" onsubmit="return checkParam()" method="POST">
+            姓&nbsp;&nbsp;名 :&nbsp;&nbsp;<input type="text" name="name" id="name"
+                                               onfocus="clearError()" placeholder="输入昵称"/> <br/> <br/> <br/>
+            手&nbsp;机号:&nbsp;&nbsp;<input type="text" name="phone" id="phone"
+                                         maxlength="11" onfocus="clearError()" placeholder="输入手机号"/> <br/>
+            <br/> <br/>认证名称:&nbsp;&nbsp;<input type="text" name="author"
+                                               id="author" maxlength="18" onfocus="clearError()"
+                                               placeholder="输入认证名称"/> <br/> <br/> <br/>
+            <br/>经典节目:&nbsp;&nbsp;&nbsp;<textarea placeholder="多个用见空格隔开" style="width: 157px"
+                                                  name="classicProgram"></textarea> <br/> <br/> <br/>
+            <br/>收听平台:&nbsp;&nbsp;&nbsp;<textarea placeholder="多个用见空格隔开" style="width: 157px"
+                                                  name="listenProgram"></textarea><br/> <br/> <br/>
+            <br/>图片简介:&nbsp;&nbsp;&nbsp;<input multiple="true"  name="disPicUrls" style="width: 160px" type="file" />
+            <br/> <br/> <br/>
+            &nbsp;&nbsp;&nbsp;<input
+                class="submit" type="reset" value="重置"/><input class="submit"
+                                                               type="submit" value="认证"/>
+        </form>
+    </div>
+    <br/>
+    <br/>
+    <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;<a href="recommondDis">点击此处进入推荐管理页面</a>
+    </div>
+    <div>
+        <form action="uploadPro" method="post" enctype="multipart/form-data">
+            &nbsp;&nbsp;&nbsp;&nbsp;<input type="file" name="file"/> <br/> <input
+                class="submit" type="submit" value="上传消息配置"/>
+        </form>
+    </div>
+    <div id="errorMsg">
+        <span style="color: red;" id="nameMsg"></span> <br/> <br/> <br/>
+        <span style="color: red;" id="phoneMsg"></span> <br/> <br/> <br/>
+        <span style="color: red;" id="authorMsg"></span>
+    </div>
+</div>
+
+
+</body>
+</html>

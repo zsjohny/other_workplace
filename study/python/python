@@ -1,0 +1,27 @@
+1. pip安装
+   python setup.py install  
+2. pylint安装
+   pip install pylint
+
+3.  pymysql
+   
+   
+4 打包exe 
+ 进入目录 python cxfreeze 得到 cxfreeze文件
+cxfreeze C:\Users\llz\PycharmProjects\HelloWord\restartRemote.py --target-dir dist D:\pyproject   
+
+5 装饰器
+   被装饰的函数的名字会被当作参数传递给装饰函数。装饰函数执行它自己内部的代码后，会将它的返回值赋值给被装饰的函数。
+   
+6 pip install pymysql   
+7 pip install beautifulsoup4
+8 pip install paramiko --upgrade//升级
+9 cxfreeze 打包 paramiko 报错  Unknown exception: cannot import name 'idnadata' 解决方式 E:\language\python\Lib\site-packages\idna 拷贝进入打包的目录中
+10 Bottle pip install bottle 是一个简单高效的遵循WSGI的微型python Web框架 除Python标准库外，它不依赖于任何第三方模块
+
+11 locusito 
+   
+  安装 https://www.visualstudio.com/zh-hans/thank-you-downloading-visual-studio/?sku=Community&rel=15#
+
+12 安装js的引擎 
+   pip install pyexecjs

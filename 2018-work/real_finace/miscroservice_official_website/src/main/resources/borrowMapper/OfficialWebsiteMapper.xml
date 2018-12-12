@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.finace.miscroservice.official_website.mapper.OfficialWebsiteMapper">
+    <!-- 获取app首页的标的信息 -->
+    <select id="getBorrowByIndex" parameterType="String" resultType="com.finace.miscroservice.official_website.entity.Product">
+        SELECT A.*,CAST(A.ACCOUNT_YES/A.ACCOUNT AS DECIMAL(8,5)) AS SCALES,
+        (A.account-A.account_yes)/A.flow_money as fen,
+        A.account-A.account_yes as surplusAccount
+        FROM BORROW A
+        <trim prefix="where" prefixOverrides="and|or">
+            <if test="type !=null and type == 'xsb'">
+                and A.STATUS IN (1,3,6,7,8)  and A.use=0
+                ORDER BY CAST(A.ACCOUNT_YES/A.ACCOUNT AS DECIMAL(8,5)) ASC, A.id DESC, A.VERIFY_TIME LIMIT 1
+            </if>
+            <if test="type !=null and type == 'sycp'">
+                and A.STATUS IN (1,3,6,7)  and A.use!=0
+                ORDER BY CAST(A.ACCOUNT_YES/A.ACCOUNT AS DECIMAL(8,5)) ASC, A.id DESC, A.VERIFY_TIME LIMIT 3
+            </if>
+
+            <if test="type !=null and type == 'success'">
+                and  A.STATUS IN (8)
+                ORDER BY CAST(A.ACCOUNT_YES/A.ACCOUNT AS DECIMAL(8,5)) ASC, A.id DESC, A.VERIFY_TIME
+            </if>
+        </trim>
+    </select>
+
+    <!--获取banner列表 -->
+    <select id="getChannelBanner" parameterType="String" resultType="com.finace.miscroservice.official_website.entity.BannerPic">
+        select it.imgurl as imgurl,it.jumurl as url,it.torder as corder,
+        it.scontent,it.stitle,it.simgurl,it.stime,it.etime,it.status
+        from channel_banners cb
+        left join images_type it on it.id = cb.corder
+        where cb.channel=#{channel} and it.imgurl is not NULL  order by it.torder,cb.addtime desc
+    </select>
+    <!--获取活动中心1app首页2活动中心3PC首页4运营报告-->
+    <select id="getImagesTypePoList" parameterType="Integer" resultType="com.finace.miscroservice.official_website.entity.ImagesTypePO" >
+        select * from images_type where `type`=#{code} and status='1'  and etime<![CDATA[>]]>NOW() and stime<![CDATA[<=]]>NOW()
+    </select>
+
+    <!-- 获取理财列表 -->
+    <select id="pcProductList" parameterType="Map" resultType="com.finace.miscroservice.official_website.entity.response.ProductsResponse">
+        SELECT A.id,A.name,A.time_limit_day as timeLimitDay,A.use,A.apr,A.litpic,A.status,A.account,A.account_yes,
+        A.account-account_yes as surplusAccount,
+        CAST(A.ACCOUNT_YES/A.ACCOUNT AS DECIMAL(8,5)) AS scales,A.lowest_account as lowestAccount,A.most_account as mostAccount,
+        (A.account-A.account_yes)/A.flow_money as fen,(A.account-A.account_yes)as residueAccount,A.add_apr as addApr
+        FROM BORROW A
+        left join USER B on A.USER_ID = B.USER_ID
+        <trim prefix="where" prefixOverrides="and|or">
+            AND A.STATUS IN (1,3,6,7,8) AND A.USE!=7
+            <if test="isxs!=null and isxs!=''">
+                and A.use=#{isxs}
+            </if>
+            <if test="time != null and time != ''">
+                and A.`time_limit_day` = #{time}
+            </if>
+        </trim>
+        ORDER BY scales ASC,A.STATUS,A.VERIFY_TIME DESC
+    </select>
+
+    <!-- 理财产品详情 -->
+    <select id="pcProductDetail" parameterType="int" resultType="com.finace.miscroservice.official_website.entity.response.ProductDetailResponse">
+        SELECT A.view_type,A.id,A.name,A.time_limit_day as timeLimitDay,A.use,A.apr,A.add_Apr as addApr,A.account,
+        A.account-account_yes as surplusAccount,
+        A.status, A.litpic,A.imgurl1,A.imgurl2,A.imgurl3,A.imgurl4,A.imgurl5,A.imgurl6,A.imgurl7,A.imgurl8,A.imgurl9,A.imgurl10,
+        A.finance_company,A.loan_usage,A.payment,
+        A.account_yes as accountYes,A.lowest_account as lowestAccount,
+        A.most_account as mostAccount,
+        B.USERNAME,
+        CAST(A.ACCOUNT_YES/A.ACCOUNT AS DECIMAL(8,5)) AS SCALES,
+        (A.account-A.account_yes)/A.flow_money as fen
+        FROM BORROW A
+        left join USER B on A.USER_ID = B.USER_ID
+        <trim prefix="where" prefixOverrides="and|or">
+            AND A.STATUS IN (1,3,6,7,8) AND A.USE!=7
+            AND A.id=#{id}
+        </trim>
+        ORDER BY SCALES ASC,A.STATUS,A.VERIFY_TIME DESC
+    </select>
+    <!-- 获取投资记录 -->
+    <select id="pcProductRecordes" parameterType="int" resultType="com.finace.miscroservice.official_website.entity.response.ProductRecordUsersResponse">
+        select alla.* from (
+        SELECT a.account, DATE_FORMAT(FROM_UNIXTIME(a.addtime),'%Y-%m-%d %H:%i:%S') as addtime,
+        a.borrow_id as borrowId,a.user_id as userId,b.phone
+        FROM borrow_tender a ,`user` b
+        where a.trust_status = 1 and a.borrow_id=#{borrowId} and a.user_id=b.user_id
+        UNION
+        select fd.buy_amt as account, DATE_FORMAT(fd.pay_time,'%Y-%m-%d %H:%i:%S') as addtime,
+        fd.borrow_id as borrowId,fd.user_id as userId,b.phone
+        from finance_bid as fd,`user` b
+        where fd.pay = 1 and  fd.borrow_id=#{borrowId} and fd.user_id=b.user_id
+        ) alla order by alla.addtime desc
+    </select>
+    <!--累计成交金额 累计用户收益 累计注册人数-->
+    <select id="getDatas" resultType="com.finace.miscroservice.official_website.entity.response.DataCollectionResponse">
+        SELECT  (e.huifuMoneyTotal+ f.fuiouMoneyTotal )as ljcjje,(e.huifuInterestTotal+d.fuiouInterestTotal)as ljyhsy,IFNULL((SELECT COUNT(0) FROM USER),0) AS ljzcyh FROM
+        (SELECT  ROUND(SUM(ACCOUNT),2) as huifuMoneyTotal, ROUND(SUM(INTEREST),2)as huifuInterestTotal FROM BORROW_TENDER where trust_status=1)as e,
+        (SELECT  ROUND(SUM(buy_amt),2) as fuiouMoneyTotal   FROM finance_bid WHERE pay =1 and pay_pid is not NULL and bank_card_no is not NULL and pay_name is not null) as f,
+        (SELECT ROUND(SUM(b.fuiouDaishou),2) as fuiouInterestTotal FROM (
+        SELECT (c.buy_amt*c.rate*(DATEDIFF(DATE(c.end_profit),DATE(c.begin_profit))/36500)) as fuiouDaishou  FROM
+        finance_bid c WHERE c.pay =1 and pay_pid is not NULL and bank_card_no is not NULL and pay_name is not null and c.begin_profit is not null) as b)d
+
+    </select>
+    <!--累计成交笔数-->
+    <select id="getLjcjbs" resultType="java.lang.Integer">
+        select
+        (
+        select count(*) as ljcjbs
+        from `borrow_tender`  where `trust_status`  = 1
+        )
+        +(
+        select count(*)
+        from finance_bid
+        where
+        pay=1
+        and pay_pid is not NULL
+        and bank_card_no is not NULL
+        and pay_name is not null
+        )
+    </select>
+    <!--累计出借人总数(人)-->
+    <select id="getLjcjrzs" resultType="java.lang.Integer">
+        select count(DISTINCT user_id) as ljcjrzs
+        FROM
+        (
+        select user_id
+        from `borrow_tender`  where `trust_status`  = 1
+        union ALL
+        (
+        select user_id
+        from finance_bid
+        where
+        pay=1
+        and pay_pid is not NULL
+        and bank_card_no is not NULL
+        and pay_name is not null
+        )
+        ) aa
+    </select>
+    <!--本年度成交金额(元)-->
+    <select id="getBndcjje" resultType="java.lang.Double">
+        select
+        CASE WHEN sum(buy_amt) IS NULL  THEN 0.00 ELSE  convert(sum(buy_amt),decimal) END AS collectTotal
+        from finance_bid
+        where
+        pay=1
+        and pay_pid is not NULL
+        and bank_card_no is not NULL
+        and pay_name is not null
+        and pay_time>=#{date}
+    </select>
+    <!--最大单户出借余额占比 -->
+    <select id="getZddhcjyezb" resultType="java.lang.Double">
+        select max(sum_buy_amount) AS zddhcjyezb
+        FROM
+        (
+        select user_id,sum(buy_amt) as sum_buy_amount
+        from finance_bid
+        where
+        pay=1
+        and pay_pid is not NULL
+        and bank_card_no is not NULL
+        and pay_name is not null
+        and status ='counting'
+        group by user_id
+        ) aa
+    </select>
+    <!--最大10户投资出借占比 -->
+    <select id="getZdshtzcjzb" resultType="java.lang.Double">
+        select sum(sum_buy_amount) AS zdshtzcjzb
+        FROM(
+        select aa.*
+        FROM
+        (
+        select user_id,sum(buy_amt) as sum_buy_amount
+        from finance_bid
+        where
+        pay=1
+        and pay_pid is not NULL
+        and bank_card_no is not NULL
+        and pay_name is not null
+        and status ='counting'
+        group by user_id
+        ) aa order by sum_buy_amount desc limit 10
+        )bb
+    </select>
+    <!--用户性别分布-->
+    <select id="userProportion" resultType="com.finace.miscroservice.official_website.entity.response.UserProportion">
+        select count(case when sex='女' then user_id else null end )/count(*) as nanzb,
+        count(case when sex='男' then user_id else null end )/count(*) as nvzb
+        FROM
+        (
+        select user_id,pid,
+        case when  CAST(substr(pid, length(pid)-1, 1) as signed) %2=0 THEN '女'
+        ELSE '男' END as sex
+        FROM
+        (
+        select  borrow_tender.user_id as user_id,  card_id as pid
+        from `borrow_tender`  left join user on borrow_tender.user_id=`user`.user_id
+        where `trust_status`  = 1
+        and card_type !=33
+        union all
+        (
+        select user_id as user_id, pay_pid as pid
+        from finance_bid
+        where
+        pay=1
+        and pay_pid is not NULL
+        and bank_card_no is not NULL
+        and pay_name is not null
+        )
+        )aa group by user_id,pid
+        ) bb
+    </select>
+    <!--待还金额笔数(笔)-->
+    <select id="dhjebs" resultType="java.lang.Integer">
+        select count(*) as dhjebs
+        from finance_bid
+        where
+        pay=1
+        and pay_pid is not NULL
+        and bank_card_no is not NULL
+        and pay_name is not null
+        and status ='counting'
+    </select>
+    <!--累计借款人总数(人)-->
+    <select id="ljjkrzs" resultType="java.lang.Integer">
+        select count(DISTINCT user_id)
+        from borrow
+        where status in (1,3,6,8)
+    </select>
+    <!--待还金额(万元)-->
+    <select id="dhje" resultType="java.lang.Double">
+        SELECT SUM(c.buy_amt)  as dhje
+        FROM finance_bid c WHERE c.pay=1 and c.status='counting' and c.bank_card_no is not null
+    </select>
+    <!--近七日成交金额-->
+    <select id="getSevenGetMoney" resultType="java.lang.Double">
+        select SUM(buy_amt) as sevenGetMoney from `finance_bid` where pay=1 and bank_card_no is not NULL
+        and  date_sub(curdate(), INTERVAL 7 DAY) <![CDATA[<=]]> date(`pay_time`);
+    </select>
+    <!--当前借款人数量-->
+    <select id="dqcjrsl" resultType="java.lang.Integer">
+SELECT COUNT(a. user_id) dqcjrsl from borrow a ,(SELECT DISTINCT(borrow_id) as borrow_id from finance_bid f where f.pay=1 and f.status='counting' and f.bank_card_no is not null)b where a.id =b.borrow_id
+    </select>
+    <!--当前出借人数量-->
+    <select id="dqjkrsl" resultType="java.lang.Integer">
+        select COUNT( DISTINCT user_id) as dqjkrsl
+        from finance_bid
+        where
+        pay=1
+        and pay_pid is not NULL
+        and bank_card_no is not NULL
+        and pay_name is not null
+        and status = 'counting'
+    </select>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.finace.miscroservice.user.mapper.AccountMapper">
+
+    <resultMap id="BaseAccountResult" type="com.finace.miscroservice.user.po.AccountPO">
+        <result property="id" column="ID"/>
+        <result property="userId" column="USER_ID" />
+        <result property="total" column="TOTAL" />
+        <result property="useMoney" column="USE_MONEY" />
+        <result property="noUseMoney" column="NO_USE_MONEY" />
+        <result property="collection" column="COLLECTION" />
+        <result property="hongbao" column="HONGBAO" />
+    </resultMap>
+
+
+    <insert id="addAccount" parameterType="com.finace.miscroservice.user.po.AccountPO" >
+        insert into account (id, user_id, hongbao, total, use_money, no_use_money, collection)
+        values (#{id}, #{userId}, #{hongbao}, #{total}, #{useMoney}, #{noUseMoney}, #{collection})
+    </insert>
+
+    <update id="updateAccount" parameterType="com.finace.miscroservice.user.po.AccountPO" >
+        UPDATE ACCOUNT
+        <trim prefix="set" suffixOverrides=",">
+             <if test="hongbao != null and hongbao !='' ">
+                 HONGBAO = #{hongbao},
+             </if>
+
+            <if test="total != null and total !='' ">
+                TOTAL = #{total},
+            </if>
+            <if test="useMoney != null and useMoney !='' ">
+                USE_MONEY = #{useMoney},
+            </if>
+            <if test="noUseMoney != null and noUseMoney !='' ">
+                NO_USE_MONEY = #{noUseMoney},
+            </if>
+            <if test="collection != null and collection !='' ">
+                COLLECTION = #{collection},
+            </if>
+        </trim>
+        WHERE ID = #{id} AND USER_ID = #{userId}
+    </update>
+
+    <update id="updateCashAccount" parameterType="com.finace.miscroservice.user.po.AccountPO" >
+        UPDATE ACCOUNT
+        <trim prefix="set" suffixOverrides=",">
+            <if test="hongbao != null and hongbao !='' ">
+                HONGBAO = #{hongbao},
+            </if>
+
+            <if test="total != null and total !='' ">
+                TOTAL = #{total},
+            </if>
+            <if test="useMoney != null and useMoney !='' ">
+                USE_MONEY = #{useMoney},
+            </if>
+            <if test="noUseMoney != null and noUseMoney !='' ">
+                NO_USE_MONEY = #{noUseMoney},
+            </if>
+            <if test="collection != null and collection !='' ">
+                COLLECTION = #{collection},
+            </if>
+        </trim>
+        WHERE ID = #{id} AND USER_ID = #{userId}
+    </update>
+
+   <!-- 根据用户id获取账户信息 -->
+    <select id="getAccountByUserId" parameterType="java.lang.String" resultMap="BaseAccountResult">
+        <![CDATA[
+		SELECT id,user_id,
+		ROUND(hongbao,2) AS hongbao,
+		ROUND(total,2) as total,
+		ROUND(use_money,2) as use_money,
+		ROUND(no_use_money,2) as no_use_money,
+		ROUND(collection,2) as collection
+		FROM account WHERE USER_ID = #{userId}
+		]]>
+    </select>
+
+
+
+</mapper>

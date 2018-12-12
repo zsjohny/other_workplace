@@ -1,0 +1,517 @@
+2016-12-29 16:19:07,655 - ResourceManager : found operation/op-update.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 16:19:07,657 - ResourceManager : found operation/op-javadoc.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 16:19:07,660 - ResourceManager : found operation/op-signature.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 16:19:07,676 - ResourceManager : found operation/opbody-update.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 16:19:07,690 - ResourceManager : found operation/op-update.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 16:19:07,692 - ResourceManager : found operation/op-javadoc.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 16:19:07,702 - ResourceManager : found operation/op-signature.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 16:19:07,717 - ResourceManager : found operation/opbody-update.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 16:19:07,720 - ResourceManager : found operation/op-select.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 16:19:07,722 - ResourceManager : found operation/op-javadoc.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 16:19:07,732 - ResourceManager : found operation/op-signature.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 16:19:07,747 - ResourceManager : found operation/opbody-select.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 16:19:07,750 - ResourceManager : found operation/op-select.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 16:19:07,752 - ResourceManager : found operation/op-javadoc.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 16:19:07,760 - ResourceManager : found operation/op-signature.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 16:19:07,768 - ResourceManager : found operation/opbody-select.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 16:19:07,785 - ResourceManager : found operation/op-select.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 16:19:07,808 - ResourceManager : found operation/op-javadoc.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 16:19:07,811 - ResourceManager : found operation/op-signature.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 16:19:07,822 - ResourceManager : found operation/opbody-select.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 16:19:07,825 - ResourceManager : found operation/op-update.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 16:19:07,826 - ResourceManager : found operation/op-javadoc.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 16:19:07,845 - ResourceManager : found operation/op-signature.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 16:19:07,852 - ResourceManager : found operation/opbody-update.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 16:19:07,854 - ResourceManager : found operation/op-select.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 16:19:07,856 - ResourceManager : found operation/op-javadoc.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 16:19:07,858 - ResourceManager : found operation/op-signature.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 16:19:07,863 - ResourceManager : found operation/opbody-select.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 16:19:07,866 - ResourceManager : found operation/op-select.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 16:19:07,868 - ResourceManager : found operation/op-javadoc.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 16:19:07,872 - ResourceManager : found operation/op-signature.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 16:19:07,877 - ResourceManager : found operation/opbody-select.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 16:19:07,880 - ResourceManager : found operation/op-select.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 16:19:07,881 - ResourceManager : found operation/op-javadoc.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 16:19:07,892 - ResourceManager : found operation/op-signature.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 16:19:07,902 - ResourceManager : found operation/opbody-select.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 16:19:07,907 - ResourceManager : found operation/op-select.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 16:19:07,909 - ResourceManager : found operation/op-javadoc.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 16:19:07,915 - ResourceManager : found operation/op-signature.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 16:19:07,921 - ResourceManager : found operation/opbody-select.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 16:19:07,925 - ResourceManager : found operation/op-select.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 16:19:07,926 - ResourceManager : found operation/op-javadoc.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 16:19:07,932 - ResourceManager : found operation/op-signature.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 16:19:07,940 - ResourceManager : found operation/opbody-select.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 16:19:07,945 - ResourceManager : found operation/op-update.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 16:19:07,946 - ResourceManager : found operation/op-javadoc.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 16:19:07,949 - ResourceManager : found operation/op-signature.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 16:19:07,953 - ResourceManager : found operation/opbody-update.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 16:19:07,955 - ResourceManager : found operation/op-update.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 16:19:07,957 - ResourceManager : found operation/op-javadoc.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 16:19:07,959 - ResourceManager : found operation/op-signature.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 16:19:07,963 - ResourceManager : found operation/opbody-update.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 18:36:13,282 - Log4JLogChute initialized using file 'velocity.log'
+2016-12-29 18:36:13,283 - Starting Apache Velocity v1.5 (compiled: 2007-02-22 08:52:29)
+2016-12-29 18:36:13,284 - Default Properties File: org\apache\velocity\runtime\defaults\velocity.properties
+2016-12-29 18:36:13,284 - Trying to use logger class middlegen.DontCloseLog4JLogSystem
+2016-12-29 18:36:13,284 - Using logger class middlegen.DontCloseLog4JLogSystem
+2016-12-29 18:36:13,290 - Default ResourceManager initializing. (class org.apache.velocity.runtime.resource.ResourceManagerImpl)
+2016-12-29 18:36:13,299 - ResourceLoader instantiated: middlegen.KindFileResourceLoader
+2016-12-29 18:36:13,301 - Do unicode file recognition:  false
+2016-12-29 18:36:13,302 - FileResourceLoader : adding path 'templates/mergedir'
+2016-12-29 18:36:13,317 - ResourceCache: initialized (class org.apache.velocity.runtime.resource.ResourceCacheImpl)
+2016-12-29 18:36:13,322 - Loaded System Directive: org.apache.velocity.runtime.directive.Literal
+2016-12-29 18:36:13,326 - Loaded System Directive: org.apache.velocity.runtime.directive.Macro
+2016-12-29 18:36:13,330 - Loaded System Directive: org.apache.velocity.runtime.directive.Parse
+2016-12-29 18:36:13,335 - Loaded System Directive: org.apache.velocity.runtime.directive.Include
+2016-12-29 18:36:13,337 - Loaded System Directive: org.apache.velocity.runtime.directive.Foreach
+2016-12-29 18:36:13,399 - Created '20' parsers.
+2016-12-29 18:36:13,422 - Velocimacro : "velocimacro.library" is not set.  Trying default library: VM_global_library.vm
+2016-12-29 18:36:13,423 - KindFileResourceLoader : file loader failed to load: VM_global_library.vm
+2016-12-29 18:36:13,424 - KindFileResourceLoader : classpath loader failed to load: VM_global_library.vm
+2016-12-29 18:36:13,424 - Velocimacro : adding VMs from VM library : VM_global_library.vm
+2016-12-29 18:36:13,427 - KindFileResourceLoader : file loader failed to load: VM_global_library.vm
+2016-12-29 18:36:13,428 - KindFileResourceLoader : classpath loader failed to load: VM_global_library.vm
+2016-12-29 18:36:13,439 - ResourceManager : found VM_global_library.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 18:36:13,439 - Velocimacro : allowInline = true : VMs can be defined inline in templates
+2016-12-29 18:36:13,439 - Velocimacro : allowInlineToOverride = false : VMs defined inline may NOT replace previous VM definitions
+2016-12-29 18:36:13,439 - Velocimacro : allowInlineLocal = false : VMs defined inline will be global in scope if allowed.
+2016-12-29 18:36:13,439 - Velocimacro : autoload off : VM system will not automatically reload global library macros
+2016-12-29 18:36:13,535 - ResourceManager : found copyright.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 18:36:13,555 - ResourceManager : found description-java.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 18:36:13,559 - Null reference [template 'middlegen', line 12, column 13] : $Id cannot be resolved.
+2016-12-29 18:36:13,569 - ResourceManager : found copyright.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 18:36:13,571 - ResourceManager : found description-java.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 18:36:13,571 - Null reference [template 'middlegen', line 14, column 13] : $Id cannot be resolved.
+2016-12-29 18:36:13,578 - ResourceManager : found copyright.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 18:36:13,580 - ResourceManager : found description-java.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 18:36:13,581 - Null reference [template 'middlegen', line 15, column 13] : $Id cannot be resolved.
+2016-12-29 18:36:13,589 - ResourceManager : found copyright.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 18:36:13,592 - ResourceManager : found description-java.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 18:36:13,593 - Null reference [template 'middlegen', line 14, column 13] : $Id cannot be resolved.
+2016-12-29 18:36:13,604 - ResourceManager : found do-fields.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 18:36:13,638 - ResourceManager : found description-xml.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 18:36:13,706 - ResourceManager : found description-xml.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 18:36:13,724 - ResourceManager : found copyright.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 18:36:13,732 - ResourceManager : found description-java.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 18:36:13,732 - Null reference [template 'middlegen', line 18, column 13] : $Id cannot be resolved.
+2016-12-29 18:36:13,733 - ResourceManager : found operation/op-insert.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 18:36:13,735 - ResourceManager : found operation/op-javadoc.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 18:36:13,739 - ResourceManager : found operation/op-signature.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 18:36:13,740 - ResourceManager : found operation/op-select.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 18:36:13,742 - ResourceManager : found operation/op-javadoc.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 18:36:13,745 - ResourceManager : found operation/op-signature.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 18:36:13,747 - ResourceManager : found operation/op-select.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 18:36:13,748 - ResourceManager : found operation/op-javadoc.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 18:36:13,752 - ResourceManager : found operation/op-signature.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 18:36:13,755 - ResourceManager : found operation/op-update.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 18:36:13,757 - ResourceManager : found operation/op-javadoc.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 18:36:13,760 - ResourceManager : found operation/op-signature.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 18:36:13,763 - ResourceManager : found operation/op-select.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 18:36:13,765 - ResourceManager : found operation/op-javadoc.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 18:36:13,767 - ResourceManager : found operation/op-signature.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 18:36:13,769 - ResourceManager : found operation/op-select.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 18:36:13,770 - ResourceManager : found operation/op-javadoc.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 18:36:13,775 - ResourceManager : found operation/op-signature.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 18:36:13,777 - ResourceManager : found operation/op-select.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 18:36:13,778 - ResourceManager : found operation/op-javadoc.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 18:36:13,781 - ResourceManager : found operation/op-signature.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 18:36:13,784 - ResourceManager : found operation/op-select.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 18:36:13,785 - ResourceManager : found operation/op-javadoc.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 18:36:13,789 - ResourceManager : found operation/op-signature.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 18:36:13,792 - ResourceManager : found operation/op-update.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 18:36:13,794 - ResourceManager : found operation/op-javadoc.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 18:36:13,796 - ResourceManager : found operation/op-signature.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 18:36:13,797 - ResourceManager : found operation/op-select.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 18:36:13,798 - ResourceManager : found operation/op-javadoc.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 18:36:13,800 - ResourceManager : found operation/op-signature.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 18:36:13,802 - ResourceManager : found operation/op-select.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 18:36:13,803 - ResourceManager : found operation/op-javadoc.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 18:36:13,804 - ResourceManager : found operation/op-signature.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 18:36:13,825 - ResourceManager : found copyright.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 18:36:13,827 - ResourceManager : found description-java.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 18:36:13,828 - Null reference [template 'middlegen', line 23, column 13] : $Id cannot be resolved.
+2016-12-29 18:36:13,829 - ResourceManager : found operation/op-insert.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 18:36:13,830 - ResourceManager : found operation/op-javadoc.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 18:36:13,833 - ResourceManager : found operation/op-signature.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 18:36:13,842 - ResourceManager : found operation/opbody-insert.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 18:36:13,844 - ResourceManager : found operation/op-select.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 18:36:13,845 - ResourceManager : found operation/op-javadoc.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 18:36:13,850 - ResourceManager : found operation/op-signature.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 18:36:13,862 - ResourceManager : found operation/opbody-select.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 18:36:13,864 - ResourceManager : found operation/op-select.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 18:36:13,866 - ResourceManager : found operation/op-javadoc.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 18:36:13,870 - ResourceManager : found operation/op-signature.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 18:36:13,878 - ResourceManager : found operation/opbody-select.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 18:36:13,882 - ResourceManager : found operation/op-update.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 18:36:13,884 - ResourceManager : found operation/op-javadoc.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 18:36:13,886 - ResourceManager : found operation/op-signature.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 18:36:13,893 - ResourceManager : found operation/opbody-update.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 18:36:13,894 - ResourceManager : found operation/op-select.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 18:36:13,896 - ResourceManager : found operation/op-javadoc.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 18:36:13,900 - ResourceManager : found operation/op-signature.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 18:36:13,909 - ResourceManager : found operation/opbody-select.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 18:36:13,915 - ResourceManager : found operation/op-select.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 18:36:13,916 - ResourceManager : found operation/op-javadoc.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 18:36:13,920 - ResourceManager : found operation/op-signature.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 18:36:13,929 - ResourceManager : found operation/opbody-select.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 18:36:13,935 - ResourceManager : found operation/op-select.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 18:36:13,937 - ResourceManager : found operation/op-javadoc.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 18:36:13,941 - ResourceManager : found operation/op-signature.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 18:36:13,951 - ResourceManager : found operation/opbody-select.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 18:36:13,955 - ResourceManager : found operation/op-select.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 18:36:13,957 - ResourceManager : found operation/op-javadoc.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 18:36:13,960 - ResourceManager : found operation/op-signature.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 18:36:13,991 - ResourceManager : found operation/opbody-select.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 18:36:13,994 - ResourceManager : found operation/op-update.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 18:36:13,996 - ResourceManager : found operation/op-javadoc.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 18:36:14,000 - ResourceManager : found operation/op-signature.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 18:36:14,013 - ResourceManager : found operation/opbody-update.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 18:36:14,017 - ResourceManager : found operation/op-select.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 18:36:14,021 - ResourceManager : found operation/op-javadoc.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 18:36:14,026 - ResourceManager : found operation/op-signature.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 18:36:14,076 - ResourceManager : found operation/opbody-select.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 18:36:14,079 - ResourceManager : found operation/op-select.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 18:36:14,081 - ResourceManager : found operation/op-javadoc.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 18:36:14,084 - ResourceManager : found operation/op-signature.vm with loader middlegen.KindFileResourceLoader
+2016-12-29 18:36:14,094 - ResourceManager : found operation/opbody-select.vm with loader middlegen.KindFileResourceLoader
+2016-12-30 13:43:37,474 - Log4JLogChute initialized using file 'velocity.log'
+2016-12-30 13:43:37,475 - Starting Apache Velocity v1.5 (compiled: 2007-02-22 08:52:29)
+2016-12-30 13:43:37,475 - Default Properties File: org\apache\velocity\runtime\defaults\velocity.properties
+2016-12-30 13:43:37,475 - Trying to use logger class middlegen.DontCloseLog4JLogSystem
+2016-12-30 13:43:37,475 - Using logger class middlegen.DontCloseLog4JLogSystem
+2016-12-30 13:43:37,481 - Default ResourceManager initializing. (class org.apache.velocity.runtime.resource.ResourceManagerImpl)
+2016-12-30 13:43:37,495 - ResourceLoader instantiated: middlegen.KindFileResourceLoader
+2016-12-30 13:43:37,498 - Do unicode file recognition:  false
+2016-12-30 13:43:37,499 - FileResourceLoader : adding path 'templates/mergedir'
+2016-12-30 13:43:37,512 - ResourceCache: initialized (class org.apache.velocity.runtime.resource.ResourceCacheImpl)
+2016-12-30 13:43:37,519 - Loaded System Directive: org.apache.velocity.runtime.directive.Literal
+2016-12-30 13:43:37,524 - Loaded System Directive: org.apache.velocity.runtime.directive.Macro
+2016-12-30 13:43:37,528 - Loaded System Directive: org.apache.velocity.runtime.directive.Parse
+2016-12-30 13:43:37,532 - Loaded System Directive: org.apache.velocity.runtime.directive.Include
+2016-12-30 13:43:37,540 - Loaded System Directive: org.apache.velocity.runtime.directive.Foreach
+2016-12-30 13:43:37,612 - Created '20' parsers.
+2016-12-30 13:43:37,635 - Velocimacro : "velocimacro.library" is not set.  Trying default library: VM_global_library.vm
+2016-12-30 13:43:37,636 - KindFileResourceLoader : file loader failed to load: VM_global_library.vm
+2016-12-30 13:43:37,637 - KindFileResourceLoader : classpath loader failed to load: VM_global_library.vm
+2016-12-30 13:43:37,637 - Velocimacro : adding VMs from VM library : VM_global_library.vm
+2016-12-30 13:43:37,641 - KindFileResourceLoader : file loader failed to load: VM_global_library.vm
+2016-12-30 13:43:37,642 - KindFileResourceLoader : classpath loader failed to load: VM_global_library.vm
+2016-12-30 13:43:37,648 - ResourceManager : found VM_global_library.vm with loader middlegen.KindFileResourceLoader
+2016-12-30 13:43:37,648 - Velocimacro : allowInline = true : VMs can be defined inline in templates
+2016-12-30 13:43:37,648 - Velocimacro : allowInlineToOverride = false : VMs defined inline may NOT replace previous VM definitions
+2016-12-30 13:43:37,648 - Velocimacro : allowInlineLocal = false : VMs defined inline will be global in scope if allowed.
+2016-12-30 13:43:37,648 - Velocimacro : autoload off : VM system will not automatically reload global library macros
+2016-12-30 13:43:37,748 - ResourceManager : found copyright.vm with loader middlegen.KindFileResourceLoader
+2016-12-30 13:43:37,771 - ResourceManager : found description-java.vm with loader middlegen.KindFileResourceLoader
+2016-12-30 13:43:37,774 - Null reference [template 'middlegen', line 12, column 13] : $Id cannot be resolved.
+2016-12-30 13:43:37,784 - ResourceManager : found copyright.vm with loader middlegen.KindFileResourceLoader
+2016-12-30 13:43:37,785 - ResourceManager : found description-java.vm with loader middlegen.KindFileResourceLoader
+2016-12-30 13:43:37,786 - Null reference [template 'middlegen', line 14, column 13] : $Id cannot be resolved.
+2016-12-30 13:43:37,794 - ResourceManager : found copyright.vm with loader middlegen.KindFileResourceLoader
+2016-12-30 13:43:37,795 - ResourceManager : found description-java.vm with loader middlegen.KindFileResourceLoader
+2016-12-30 13:43:37,796 - Null reference [template 'middlegen', line 15, column 13] : $Id cannot be resolved.
+2016-12-30 13:43:37,807 - ResourceManager : found copyright.vm with loader middlegen.KindFileResourceLoader
+2016-12-30 13:43:37,810 - ResourceManager : found description-java.vm with loader middlegen.KindFileResourceLoader
+2016-12-30 13:43:37,811 - Null reference [template 'middlegen', line 14, column 13] : $Id cannot be resolved.
+2016-12-30 13:43:37,819 - ResourceManager : found do-fields.vm with loader middlegen.KindFileResourceLoader
+2016-12-30 13:43:37,855 - ResourceManager : found description-xml.vm with loader middlegen.KindFileResourceLoader
+2016-12-30 13:43:37,908 - ResourceManager : found description-xml.vm with loader middlegen.KindFileResourceLoader
+2016-12-30 13:43:37,928 - ResourceManager : found copyright.vm with loader middlegen.KindFileResourceLoader
+2016-12-30 13:43:37,932 - ResourceManager : found description-java.vm with loader middlegen.KindFileResourceLoader
+2016-12-30 13:43:37,933 - Null reference [template 'middlegen', line 18, column 13] : $Id cannot be resolved.
+2016-12-30 13:43:37,934 - ResourceManager : found operation/op-insert.vm with loader middlegen.KindFileResourceLoader
+2016-12-30 13:43:37,936 - ResourceManager : found operation/op-javadoc.vm with loader middlegen.KindFileResourceLoader
+2016-12-30 13:43:37,940 - ResourceManager : found operation/op-signature.vm with loader middlegen.KindFileResourceLoader
+2016-12-30 13:43:37,942 - ResourceManager : found operation/op-select.vm with loader middlegen.KindFileResourceLoader
+2016-12-30 13:43:37,944 - ResourceManager : found operation/op-javadoc.vm with loader middlegen.KindFileResourceLoader
+2016-12-30 13:43:37,947 - ResourceManager : found operation/op-signature.vm with loader middlegen.KindFileResourceLoader
+2016-12-30 13:43:37,949 - ResourceManager : found operation/op-select.vm with loader middlegen.KindFileResourceLoader
+2016-12-30 13:43:37,950 - ResourceManager : found operation/op-javadoc.vm with loader middlegen.KindFileResourceLoader
+2016-12-30 13:43:37,955 - ResourceManager : found operation/op-signature.vm with loader middlegen.KindFileResourceLoader
+2016-12-30 13:43:37,958 - ResourceManager : found operation/op-select.vm with loader middlegen.KindFileResourceLoader
+2016-12-30 13:43:37,959 - ResourceManager : found operation/op-javadoc.vm with loader middlegen.KindFileResourceLoader
+2016-12-30 13:43:37,963 - ResourceManager : found operation/op-signature.vm with loader middlegen.KindFileResourceLoader
+2016-12-30 13:43:37,966 - ResourceManager : found operation/op-update.vm with loader middlegen.KindFileResourceLoader
+2016-12-30 13:43:37,967 - ResourceManager : found operation/op-javadoc.vm with loader middlegen.KindFileResourceLoader
+2016-12-30 13:43:37,971 - ResourceManager : found operation/op-signature.vm with loader middlegen.KindFileResourceLoader
+2016-12-30 13:43:37,989 - ResourceManager : found copyright.vm with loader middlegen.KindFileResourceLoader
+2016-12-30 13:43:37,991 - ResourceManager : found description-java.vm with loader middlegen.KindFileResourceLoader
+2016-12-30 13:43:37,992 - Null reference [template 'middlegen', line 23, column 13] : $Id cannot be resolved.
+2016-12-30 13:43:37,993 - ResourceManager : found operation/op-insert.vm with loader middlegen.KindFileResourceLoader
+2016-12-30 13:43:37,994 - ResourceManager : found operation/op-javadoc.vm with loader middlegen.KindFileResourceLoader
+2016-12-30 13:43:37,995 - ResourceManager : found operation/op-signature.vm with loader middlegen.KindFileResourceLoader
+2016-12-30 13:43:37,997 - ResourceManager : found operation/opbody-insert.vm with loader middlegen.KindFileResourceLoader
+2016-12-30 13:43:37,998 - ResourceManager : found operation/op-select.vm with loader middlegen.KindFileResourceLoader
+2016-12-30 13:43:38,000 - ResourceManager : found operation/op-javadoc.vm with loader middlegen.KindFileResourceLoader
+2016-12-30 13:43:38,003 - ResourceManager : found operation/op-signature.vm with loader middlegen.KindFileResourceLoader
+2016-12-30 13:43:38,013 - ResourceManager : found operation/opbody-select.vm with loader middlegen.KindFileResourceLoader
+2016-12-30 13:43:38,021 - ResourceManager : found operation/op-select.vm with loader middlegen.KindFileResourceLoader
+2016-12-30 13:43:38,023 - ResourceManager : found operation/op-javadoc.vm with loader middlegen.KindFileResourceLoader
+2016-12-30 13:43:38,026 - ResourceManager : found operation/op-signature.vm with loader middlegen.KindFileResourceLoader
+2016-12-30 13:43:38,040 - ResourceManager : found operation/opbody-select.vm with loader middlegen.KindFileResourceLoader
+2016-12-30 13:43:38,044 - ResourceManager : found operation/op-select.vm with loader middlegen.KindFileResourceLoader
+2016-12-30 13:43:38,046 - ResourceManager : found operation/op-javadoc.vm with loader middlegen.KindFileResourceLoader
+2016-12-30 13:43:38,051 - ResourceManager : found operation/op-signature.vm with loader middlegen.KindFileResourceLoader
+2016-12-30 13:43:38,063 - ResourceManager : found operation/opbody-select.vm with loader middlegen.KindFileResourceLoader
+2016-12-30 13:43:38,067 - ResourceManager : found operation/op-update.vm with loader middlegen.KindFileResourceLoader
+2016-12-30 13:43:38,068 - ResourceManager : found operation/op-javadoc.vm with loader middlegen.KindFileResourceLoader
+2016-12-30 13:43:38,071 - ResourceManager : found operation/op-signature.vm with loader middlegen.KindFileResourceLoader
+2016-12-30 13:43:38,080 - ResourceManager : found operation/opbody-update.vm with loader middlegen.KindFileResourceLoader
+2016-12-30 13:56:42,160 - Log4JLogChute initialized using file 'velocity.log'
+2016-12-30 13:56:42,162 - Starting Apache Velocity v1.5 (compiled: 2007-02-22 08:52:29)
+2016-12-30 13:56:42,162 - Default Properties File: org\apache\velocity\runtime\defaults\velocity.properties
+2016-12-30 13:56:42,162 - Trying to use logger class middlegen.DontCloseLog4JLogSystem
+2016-12-30 13:56:42,162 - Using logger class middlegen.DontCloseLog4JLogSystem
+2016-12-30 13:56:42,167 - Default ResourceManager initializing. (class org.apache.velocity.runtime.resource.ResourceManagerImpl)
+2016-12-30 13:56:42,178 - ResourceLoader instantiated: middlegen.KindFileResourceLoader
+2016-12-30 13:56:42,181 - Do unicode file recognition:  false
+2016-12-30 13:56:42,181 - FileResourceLoader : adding path 'templates/mergedir'
+2016-12-30 13:56:42,200 - ResourceCache: initialized (class org.apache.velocity.runtime.resource.ResourceCacheImpl)
+2016-12-30 13:56:42,202 - Loaded System Directive: org.apache.velocity.runtime.directive.Literal
+2016-12-30 13:56:42,210 - Loaded System Directive: org.apache.velocity.runtime.directive.Macro
+2016-12-30 13:56:42,214 - Loaded System Directive: org.apache.velocity.runtime.directive.Parse
+2016-12-30 13:56:42,219 - Loaded System Directive: org.apache.velocity.runtime.directive.Include
+2016-12-30 13:56:42,222 - Loaded System Directive: org.apache.velocity.runtime.directive.Foreach
+2016-12-30 13:56:42,281 - Created '20' parsers.
+2016-12-30 13:56:42,312 - Velocimacro : "velocimacro.library" is not set.  Trying default library: VM_global_library.vm
+2016-12-30 13:56:42,313 - KindFileResourceLoader : file loader failed to load: VM_global_library.vm
+2016-12-30 13:56:42,314 - KindFileResourceLoader : classpath loader failed to load: VM_global_library.vm
+2016-12-30 13:56:42,314 - Velocimacro : adding VMs from VM library : VM_global_library.vm
+2016-12-30 13:56:42,317 - KindFileResourceLoader : file loader failed to load: VM_global_library.vm
+2016-12-30 13:56:42,318 - KindFileResourceLoader : classpath loader failed to load: VM_global_library.vm
+2016-12-30 13:56:42,327 - ResourceManager : found VM_global_library.vm with loader middlegen.KindFileResourceLoader
+2016-12-30 13:56:42,329 - Velocimacro : allowInline = true : VMs can be defined inline in templates
+2016-12-30 13:56:42,329 - Velocimacro : allowInlineToOverride = false : VMs defined inline may NOT replace previous VM definitions
+2016-12-30 13:56:42,329 - Velocimacro : allowInlineLocal = false : VMs defined inline will be global in scope if allowed.
+2016-12-30 13:56:42,329 - Velocimacro : autoload off : VM system will not automatically reload global library macros
+2016-12-30 13:56:42,434 - ResourceManager : found copyright.vm with loader middlegen.KindFileResourceLoader
+2016-12-30 13:56:42,462 - ResourceManager : found description-java.vm with loader middlegen.KindFileResourceLoader
+2016-12-30 13:56:42,464 - Null reference [template 'middlegen', line 12, column 13] : $Id cannot be resolved.
+2016-12-30 13:56:42,476 - ResourceManager : found copyright.vm with loader middlegen.KindFileResourceLoader
+2016-12-30 13:56:42,479 - ResourceManager : found description-java.vm with loader middlegen.KindFileResourceLoader
+2016-12-30 13:56:42,479 - Null reference [template 'middlegen', line 14, column 13] : $Id cannot be resolved.
+2016-12-30 13:56:42,493 - ResourceManager : found copyright.vm with loader middlegen.KindFileResourceLoader
+2016-12-30 13:56:42,495 - ResourceManager : found description-java.vm with loader middlegen.KindFileResourceLoader
+2016-12-30 13:56:42,495 - Null reference [template 'middlegen', line 15, column 13] : $Id cannot be resolved.
+2016-12-30 13:56:42,508 - ResourceManager : found copyright.vm with loader middlegen.KindFileResourceLoader
+2016-12-30 13:56:42,510 - ResourceManager : found description-java.vm with loader middlegen.KindFileResourceLoader
+2016-12-30 13:56:42,512 - Null reference [template 'middlegen', line 14, column 13] : $Id cannot be resolved.
+2016-12-30 13:56:42,522 - ResourceManager : found do-fields.vm with loader middlegen.KindFileResourceLoader
+2016-12-30 13:56:42,565 - ResourceManager : found description-xml.vm with loader middlegen.KindFileResourceLoader
+2016-12-30 13:56:42,616 - ResourceManager : found description-xml.vm with loader middlegen.KindFileResourceLoader
+2016-12-30 13:56:42,632 - ResourceManager : found copyright.vm with loader middlegen.KindFileResourceLoader
+2016-12-30 13:56:42,637 - ResourceManager : found description-java.vm with loader middlegen.KindFileResourceLoader
+2016-12-30 13:56:42,638 - Null reference [template 'middlegen', line 18, column 13] : $Id cannot be resolved.
+2016-12-30 13:56:42,639 - ResourceManager : found operation/op-insert.vm with loader middlegen.KindFileResourceLoader
+2016-12-30 13:56:42,641 - ResourceManager : found operation/op-javadoc.vm with loader middlegen.KindFileResourceLoader
+2016-12-30 13:56:42,646 - ResourceManager : found operation/op-signature.vm with loader middlegen.KindFileResourceLoader
+2016-12-30 13:56:42,648 - ResourceManager : found operation/op-select.vm with loader middlegen.KindFileResourceLoader
+2016-12-30 13:56:42,649 - ResourceManager : found operation/op-javadoc.vm with loader middlegen.KindFileResourceLoader
+2016-12-30 13:56:42,653 - ResourceManager : found operation/op-signature.vm with loader middlegen.KindFileResourceLoader
+2016-12-30 13:56:42,655 - ResourceManager : found operation/op-select.vm with loader middlegen.KindFileResourceLoader
+2016-12-30 13:56:42,656 - ResourceManager : found operation/op-javadoc.vm with loader middlegen.KindFileResourceLoader
+2016-12-30 13:56:42,660 - ResourceManager : found operation/op-signature.vm with loader middlegen.KindFileResourceLoader
+2016-12-30 13:56:42,664 - ResourceManager : found operation/op-select.vm with loader middlegen.KindFileResourceLoader
+2016-12-30 13:56:42,666 - ResourceManager : found operation/op-javadoc.vm with loader middlegen.KindFileResourceLoader
+2016-12-30 13:56:42,669 - ResourceManager : found operation/op-signature.vm with loader middlegen.KindFileResourceLoader
+2016-12-30 13:56:42,677 - ResourceManager : found operation/op-update.vm with loader middlegen.KindFileResourceLoader
+2016-12-30 13:56:42,679 - ResourceManager : found operation/op-javadoc.vm with loader middlegen.KindFileResourceLoader
+2016-12-30 13:56:42,682 - ResourceManager : found operation/op-signature.vm with loader middlegen.KindFileResourceLoader
+2016-12-30 13:56:42,684 - ResourceManager : found operation/op-update.vm with loader middlegen.KindFileResourceLoader
+2016-12-30 13:56:42,685 - ResourceManager : found operation/op-javadoc.vm with loader middlegen.KindFileResourceLoader
+2016-12-30 13:56:42,688 - ResourceManager : found operation/op-signature.vm with loader middlegen.KindFileResourceLoader
+2016-12-30 13:56:42,709 - ResourceManager : found copyright.vm with loader middlegen.KindFileResourceLoader
+2016-12-30 13:56:42,712 - ResourceManager : found description-java.vm with loader middlegen.KindFileResourceLoader
+2016-12-30 13:56:42,712 - Null reference [template 'middlegen', line 23, column 13] : $Id cannot be resolved.
+2016-12-30 13:56:42,714 - ResourceManager : found operation/op-insert.vm with loader middlegen.KindFileResourceLoader
+2016-12-30 13:56:42,716 - ResourceManager : found operation/op-javadoc.vm with loader middlegen.KindFileResourceLoader
+2016-12-30 13:56:42,719 - ResourceManager : found operation/op-signature.vm with loader middlegen.KindFileResourceLoader
+2016-12-30 13:56:42,722 - ResourceManager : found operation/opbody-insert.vm with loader middlegen.KindFileResourceLoader
+2016-12-30 13:56:42,724 - ResourceManager : found operation/op-select.vm with loader middlegen.KindFileResourceLoader
+2016-12-30 13:56:42,725 - ResourceManager : found operation/op-javadoc.vm with loader middlegen.KindFileResourceLoader
+2016-12-30 13:56:42,728 - ResourceManager : found operation/op-signature.vm with loader middlegen.KindFileResourceLoader
+2016-12-30 13:56:42,745 - ResourceManager : found operation/opbody-select.vm with loader middlegen.KindFileResourceLoader
+2016-12-30 13:56:42,754 - ResourceManager : found operation/op-select.vm with loader middlegen.KindFileResourceLoader
+2016-12-30 13:56:42,755 - ResourceManager : found operation/op-javadoc.vm with loader middlegen.KindFileResourceLoader
+2016-12-30 13:56:42,758 - ResourceManager : found operation/op-signature.vm with loader middlegen.KindFileResourceLoader
+2016-12-30 13:56:42,770 - ResourceManager : found operation/opbody-select.vm with loader middlegen.KindFileResourceLoader
+2016-12-30 13:56:42,773 - ResourceManager : found operation/op-select.vm with loader middlegen.KindFileResourceLoader
+2016-12-30 13:56:42,775 - ResourceManager : found operation/op-javadoc.vm with loader middlegen.KindFileResourceLoader
+2016-12-30 13:56:42,778 - ResourceManager : found operation/op-signature.vm with loader middlegen.KindFileResourceLoader
+2016-12-30 13:56:42,788 - ResourceManager : found operation/opbody-select.vm with loader middlegen.KindFileResourceLoader
+2016-12-30 13:56:42,792 - ResourceManager : found operation/op-update.vm with loader middlegen.KindFileResourceLoader
+2016-12-30 13:56:42,794 - ResourceManager : found operation/op-javadoc.vm with loader middlegen.KindFileResourceLoader
+2016-12-30 13:56:42,797 - ResourceManager : found operation/op-signature.vm with loader middlegen.KindFileResourceLoader
+2016-12-30 13:56:42,803 - ResourceManager : found operation/opbody-update.vm with loader middlegen.KindFileResourceLoader
+2016-12-30 13:56:42,805 - ResourceManager : found operation/op-update.vm with loader middlegen.KindFileResourceLoader
+2016-12-30 13:56:42,806 - ResourceManager : found operation/op-javadoc.vm with loader middlegen.KindFileResourceLoader
+2016-12-30 13:56:42,809 - ResourceManager : found operation/op-signature.vm with loader middlegen.KindFileResourceLoader
+2016-12-30 13:56:42,816 - ResourceManager : found operation/opbody-update.vm with loader middlegen.KindFileResourceLoader
+2017-02-20 16:46:15,311 - Log4JLogChute initialized using file 'velocity.log'
+2017-02-20 16:46:15,312 - Starting Apache Velocity v1.5 (compiled: 2007-02-22 08:52:29)
+2017-02-20 16:46:15,312 - Default Properties File: org\apache\velocity\runtime\defaults\velocity.properties
+2017-02-20 16:46:15,312 - Trying to use logger class middlegen.DontCloseLog4JLogSystem
+2017-02-20 16:46:15,312 - Using logger class middlegen.DontCloseLog4JLogSystem
+2017-02-20 16:46:15,321 - Default ResourceManager initializing. (class org.apache.velocity.runtime.resource.ResourceManagerImpl)
+2017-02-20 16:46:15,331 - ResourceLoader instantiated: middlegen.KindFileResourceLoader
+2017-02-20 16:46:15,333 - Do unicode file recognition:  false
+2017-02-20 16:46:15,334 - FileResourceLoader : adding path 'templates/mergedir'
+2017-02-20 16:46:15,360 - ResourceCache: initialized (class org.apache.velocity.runtime.resource.ResourceCacheImpl)
+2017-02-20 16:46:15,368 - Loaded System Directive: org.apache.velocity.runtime.directive.Literal
+2017-02-20 16:46:15,374 - Loaded System Directive: org.apache.velocity.runtime.directive.Macro
+2017-02-20 16:46:15,384 - Loaded System Directive: org.apache.velocity.runtime.directive.Parse
+2017-02-20 16:46:15,390 - Loaded System Directive: org.apache.velocity.runtime.directive.Include
+2017-02-20 16:46:15,393 - Loaded System Directive: org.apache.velocity.runtime.directive.Foreach
+2017-02-20 16:46:15,455 - Created '20' parsers.
+2017-02-20 16:46:15,483 - Velocimacro : "velocimacro.library" is not set.  Trying default library: VM_global_library.vm
+2017-02-20 16:46:15,483 - KindFileResourceLoader : file loader failed to load: VM_global_library.vm
+2017-02-20 16:46:15,484 - KindFileResourceLoader : classpath loader failed to load: VM_global_library.vm
+2017-02-20 16:46:15,485 - Velocimacro : adding VMs from VM library : VM_global_library.vm
+2017-02-20 16:46:15,490 - KindFileResourceLoader : file loader failed to load: VM_global_library.vm
+2017-02-20 16:46:15,491 - KindFileResourceLoader : classpath loader failed to load: VM_global_library.vm
+2017-02-20 16:46:15,498 - ResourceManager : found VM_global_library.vm with loader middlegen.KindFileResourceLoader
+2017-02-20 16:46:15,498 - Velocimacro : allowInline = true : VMs can be defined inline in templates
+2017-02-20 16:46:15,499 - Velocimacro : allowInlineToOverride = false : VMs defined inline may NOT replace previous VM definitions
+2017-02-20 16:46:15,499 - Velocimacro : allowInlineLocal = false : VMs defined inline will be global in scope if allowed.
+2017-02-20 16:46:15,499 - Velocimacro : autoload off : VM system will not automatically reload global library macros
+2017-02-20 16:46:15,653 - ResourceManager : found copyright.vm with loader middlegen.KindFileResourceLoader
+2017-02-20 16:46:15,685 - ResourceManager : found description-java.vm with loader middlegen.KindFileResourceLoader
+2017-02-20 16:46:15,689 - Null reference [template 'middlegen', line 12, column 13] : $Id cannot be resolved.
+2017-02-20 16:46:15,705 - ResourceManager : found copyright.vm with loader middlegen.KindFileResourceLoader
+2017-02-20 16:46:15,707 - ResourceManager : found description-java.vm with loader middlegen.KindFileResourceLoader
+2017-02-20 16:46:15,707 - Null reference [template 'middlegen', line 14, column 13] : $Id cannot be resolved.
+2017-02-20 16:46:15,719 - ResourceManager : found copyright.vm with loader middlegen.KindFileResourceLoader
+2017-02-20 16:46:15,721 - ResourceManager : found description-java.vm with loader middlegen.KindFileResourceLoader
+2017-02-20 16:46:15,721 - Null reference [template 'middlegen', line 15, column 13] : $Id cannot be resolved.
+2017-02-20 16:46:15,735 - ResourceManager : found copyright.vm with loader middlegen.KindFileResourceLoader
+2017-02-20 16:46:15,737 - ResourceManager : found description-java.vm with loader middlegen.KindFileResourceLoader
+2017-02-20 16:46:15,739 - Null reference [template 'middlegen', line 14, column 13] : $Id cannot be resolved.
+2017-02-20 16:46:15,754 - ResourceManager : found do-fields.vm with loader middlegen.KindFileResourceLoader
+2017-02-20 16:46:15,797 - ResourceManager : found description-xml.vm with loader middlegen.KindFileResourceLoader
+2017-02-20 16:46:15,832 - ResourceManager : found description-xml.vm with loader middlegen.KindFileResourceLoader
+2017-02-20 16:46:15,858 - ResourceManager : found copyright.vm with loader middlegen.KindFileResourceLoader
+2017-02-20 16:46:15,860 - ResourceManager : found description-java.vm with loader middlegen.KindFileResourceLoader
+2017-02-20 16:46:15,861 - Null reference [template 'middlegen', line 18, column 13] : $Id cannot be resolved.
+2017-02-20 16:46:15,866 - ResourceManager : found operation/op-select.vm with loader middlegen.KindFileResourceLoader
+2017-02-20 16:46:15,868 - ResourceManager : found operation/op-javadoc.vm with loader middlegen.KindFileResourceLoader
+2017-02-20 16:46:15,874 - ResourceManager : found operation/op-signature.vm with loader middlegen.KindFileResourceLoader
+2017-02-20 16:46:15,901 - ResourceManager : found copyright.vm with loader middlegen.KindFileResourceLoader
+2017-02-20 16:46:15,904 - ResourceManager : found description-java.vm with loader middlegen.KindFileResourceLoader
+2017-02-20 16:46:15,905 - Null reference [template 'middlegen', line 23, column 13] : $Id cannot be resolved.
+2017-02-20 16:46:15,906 - ResourceManager : found operation/op-select.vm with loader middlegen.KindFileResourceLoader
+2017-02-20 16:46:15,908 - ResourceManager : found operation/op-javadoc.vm with loader middlegen.KindFileResourceLoader
+2017-02-20 16:46:15,915 - ResourceManager : found operation/op-signature.vm with loader middlegen.KindFileResourceLoader
+2017-02-20 16:46:15,923 - ResourceManager : found operation/opbody-select.vm with loader middlegen.KindFileResourceLoader
+2017-02-20 16:46:46,396 - Log4JLogChute initialized using file 'velocity.log'
+2017-02-20 16:46:46,398 - Starting Apache Velocity v1.5 (compiled: 2007-02-22 08:52:29)
+2017-02-20 16:46:46,398 - Default Properties File: org\apache\velocity\runtime\defaults\velocity.properties
+2017-02-20 16:46:46,399 - Trying to use logger class middlegen.DontCloseLog4JLogSystem
+2017-02-20 16:46:46,399 - Using logger class middlegen.DontCloseLog4JLogSystem
+2017-02-20 16:46:46,403 - Default ResourceManager initializing. (class org.apache.velocity.runtime.resource.ResourceManagerImpl)
+2017-02-20 16:46:46,421 - ResourceLoader instantiated: middlegen.KindFileResourceLoader
+2017-02-20 16:46:46,425 - Do unicode file recognition:  false
+2017-02-20 16:46:46,425 - FileResourceLoader : adding path 'templates/mergedir'
+2017-02-20 16:46:46,447 - ResourceCache: initialized (class org.apache.velocity.runtime.resource.ResourceCacheImpl)
+2017-02-20 16:46:46,451 - Loaded System Directive: org.apache.velocity.runtime.directive.Literal
+2017-02-20 16:46:46,455 - Loaded System Directive: org.apache.velocity.runtime.directive.Macro
+2017-02-20 16:46:46,468 - Loaded System Directive: org.apache.velocity.runtime.directive.Parse
+2017-02-20 16:46:46,474 - Loaded System Directive: org.apache.velocity.runtime.directive.Include
+2017-02-20 16:46:46,481 - Loaded System Directive: org.apache.velocity.runtime.directive.Foreach
+2017-02-20 16:46:46,554 - Created '20' parsers.
+2017-02-20 16:46:46,579 - Velocimacro : "velocimacro.library" is not set.  Trying default library: VM_global_library.vm
+2017-02-20 16:46:46,580 - KindFileResourceLoader : file loader failed to load: VM_global_library.vm
+2017-02-20 16:46:46,581 - KindFileResourceLoader : classpath loader failed to load: VM_global_library.vm
+2017-02-20 16:46:46,582 - Velocimacro : adding VMs from VM library : VM_global_library.vm
+2017-02-20 16:46:46,584 - KindFileResourceLoader : file loader failed to load: VM_global_library.vm
+2017-02-20 16:46:46,585 - KindFileResourceLoader : classpath loader failed to load: VM_global_library.vm
+2017-02-20 16:46:46,596 - ResourceManager : found VM_global_library.vm with loader middlegen.KindFileResourceLoader
+2017-02-20 16:46:46,596 - Velocimacro : allowInline = true : VMs can be defined inline in templates
+2017-02-20 16:46:46,596 - Velocimacro : allowInlineToOverride = false : VMs defined inline may NOT replace previous VM definitions
+2017-02-20 16:46:46,596 - Velocimacro : allowInlineLocal = false : VMs defined inline will be global in scope if allowed.
+2017-02-20 16:46:46,596 - Velocimacro : autoload off : VM system will not automatically reload global library macros
+2017-02-20 16:46:46,736 - ResourceManager : found copyright.vm with loader middlegen.KindFileResourceLoader
+2017-02-20 16:46:46,767 - ResourceManager : found description-java.vm with loader middlegen.KindFileResourceLoader
+2017-02-20 16:46:46,770 - Null reference [template 'middlegen', line 12, column 13] : $Id cannot be resolved.
+2017-02-20 16:46:46,784 - ResourceManager : found copyright.vm with loader middlegen.KindFileResourceLoader
+2017-02-20 16:46:46,786 - ResourceManager : found description-java.vm with loader middlegen.KindFileResourceLoader
+2017-02-20 16:46:46,787 - Null reference [template 'middlegen', line 14, column 13] : $Id cannot be resolved.
+2017-02-20 16:46:46,798 - ResourceManager : found copyright.vm with loader middlegen.KindFileResourceLoader
+2017-02-20 16:46:46,800 - ResourceManager : found description-java.vm with loader middlegen.KindFileResourceLoader
+2017-02-20 16:46:46,800 - Null reference [template 'middlegen', line 15, column 13] : $Id cannot be resolved.
+2017-02-20 16:46:46,813 - ResourceManager : found copyright.vm with loader middlegen.KindFileResourceLoader
+2017-02-20 16:46:46,815 - ResourceManager : found description-java.vm with loader middlegen.KindFileResourceLoader
+2017-02-20 16:46:46,818 - Null reference [template 'middlegen', line 14, column 13] : $Id cannot be resolved.
+2017-02-20 16:46:46,828 - ResourceManager : found do-fields.vm with loader middlegen.KindFileResourceLoader
+2017-02-20 16:46:46,845 - ResourceManager : found copyright.vm with loader middlegen.KindFileResourceLoader
+2017-02-20 16:46:46,853 - ResourceManager : found description-java.vm with loader middlegen.KindFileResourceLoader
+2017-02-20 16:46:46,854 - Null reference [template 'middlegen', line 14, column 13] : $Id cannot be resolved.
+2017-02-20 16:46:46,857 - ResourceManager : found do-fields.vm with loader middlegen.KindFileResourceLoader
+2017-02-20 16:46:46,878 - ResourceManager : found copyright.vm with loader middlegen.KindFileResourceLoader
+2017-02-20 16:46:46,887 - ResourceManager : found description-java.vm with loader middlegen.KindFileResourceLoader
+2017-02-20 16:46:46,887 - Null reference [template 'middlegen', line 14, column 13] : $Id cannot be resolved.
+2017-02-20 16:46:46,901 - ResourceManager : found do-fields.vm with loader middlegen.KindFileResourceLoader
+2017-02-20 16:46:46,952 - ResourceManager : found description-xml.vm with loader middlegen.KindFileResourceLoader
+2017-02-20 16:46:46,982 - ResourceManager : found description-xml.vm with loader middlegen.KindFileResourceLoader
+2017-02-20 16:46:47,033 - ResourceManager : found description-xml.vm with loader middlegen.KindFileResourceLoader
+2017-02-20 16:46:47,053 - ResourceManager : found description-xml.vm with loader middlegen.KindFileResourceLoader
+2017-02-20 16:46:47,064 - ResourceManager : found copyright.vm with loader middlegen.KindFileResourceLoader
+2017-02-20 16:46:47,065 - ResourceManager : found description-java.vm with loader middlegen.KindFileResourceLoader
+2017-02-20 16:46:47,072 - Null reference [template 'middlegen', line 18, column 13] : $Id cannot be resolved.
+2017-02-20 16:46:47,073 - ResourceManager : found operation/op-select.vm with loader middlegen.KindFileResourceLoader
+2017-02-20 16:46:47,076 - ResourceManager : found operation/op-javadoc.vm with loader middlegen.KindFileResourceLoader
+2017-02-20 16:46:47,078 - ResourceManager : found operation/op-signature.vm with loader middlegen.KindFileResourceLoader
+2017-02-20 16:46:47,090 - ResourceManager : found copyright.vm with loader middlegen.KindFileResourceLoader
+2017-02-20 16:46:47,094 - ResourceManager : found description-java.vm with loader middlegen.KindFileResourceLoader
+2017-02-20 16:46:47,095 - Null reference [template 'middlegen', line 18, column 13] : $Id cannot be resolved.
+2017-02-20 16:46:47,096 - ResourceManager : found operation/op-insert.vm with loader middlegen.KindFileResourceLoader
+2017-02-20 16:46:47,097 - ResourceManager : found operation/op-javadoc.vm with loader middlegen.KindFileResourceLoader
+2017-02-20 16:46:47,106 - ResourceManager : found operation/op-signature.vm with loader middlegen.KindFileResourceLoader
+2017-02-20 16:46:47,107 - ResourceManager : found operation/op-select.vm with loader middlegen.KindFileResourceLoader
+2017-02-20 16:46:47,108 - ResourceManager : found operation/op-javadoc.vm with loader middlegen.KindFileResourceLoader
+2017-02-20 16:46:47,110 - ResourceManager : found operation/op-signature.vm with loader middlegen.KindFileResourceLoader
+2017-02-20 16:46:47,112 - ResourceManager : found operation/op-update.vm with loader middlegen.KindFileResourceLoader
+2017-02-20 16:46:47,113 - ResourceManager : found operation/op-javadoc.vm with loader middlegen.KindFileResourceLoader
+2017-02-20 16:46:47,120 - ResourceManager : found operation/op-signature.vm with loader middlegen.KindFileResourceLoader
+2017-02-20 16:46:47,122 - ResourceManager : found operation/op-delete.vm with loader middlegen.KindFileResourceLoader
+2017-02-20 16:46:47,123 - ResourceManager : found operation/op-javadoc.vm with loader middlegen.KindFileResourceLoader
+2017-02-20 16:46:47,126 - ResourceManager : found operation/op-signature.vm with loader middlegen.KindFileResourceLoader
+2017-02-20 16:46:47,147 - ResourceManager : found copyright.vm with loader middlegen.KindFileResourceLoader
+2017-02-20 16:46:47,150 - ResourceManager : found description-java.vm with loader middlegen.KindFileResourceLoader
+2017-02-20 16:46:47,150 - Null reference [template 'middlegen', line 18, column 13] : $Id cannot be resolved.
+2017-02-20 16:46:47,152 - ResourceManager : found operation/op-select.vm with loader middlegen.KindFileResourceLoader
+2017-02-20 16:46:47,154 - ResourceManager : found operation/op-javadoc.vm with loader middlegen.KindFileResourceLoader
+2017-02-20 16:46:47,156 - ResourceManager : found operation/op-signature.vm with loader middlegen.KindFileResourceLoader
+2017-02-20 16:46:47,179 - ResourceManager : found copyright.vm with loader middlegen.KindFileResourceLoader
+2017-02-20 16:46:47,182 - ResourceManager : found description-java.vm with loader middlegen.KindFileResourceLoader
+2017-02-20 16:46:47,182 - Null reference [template 'middlegen', line 23, column 13] : $Id cannot be resolved.
+2017-02-20 16:46:47,183 - ResourceManager : found operation/op-select.vm with loader middlegen.KindFileResourceLoader
+2017-02-20 16:46:47,184 - ResourceManager : found operation/op-javadoc.vm with loader middlegen.KindFileResourceLoader
+2017-02-20 16:46:47,186 - ResourceManager : found operation/op-signature.vm with loader middlegen.KindFileResourceLoader
+2017-02-20 16:46:47,199 - ResourceManager : found operation/opbody-select.vm with loader middlegen.KindFileResourceLoader
+2017-02-20 16:46:47,208 - ResourceManager : found copyright.vm with loader middlegen.KindFileResourceLoader
+2017-02-20 16:46:47,214 - ResourceManager : found description-java.vm with loader middlegen.KindFileResourceLoader
+2017-02-20 16:46:47,214 - Null reference [template 'middlegen', line 23, column 13] : $Id cannot be resolved.
+2017-02-20 16:46:47,216 - ResourceManager : found operation/op-insert.vm with loader middlegen.KindFileResourceLoader
+2017-02-20 16:46:47,217 - ResourceManager : found operation/op-javadoc.vm with loader middlegen.KindFileResourceLoader
+2017-02-20 16:46:47,221 - ResourceManager : found operation/op-signature.vm with loader middlegen.KindFileResourceLoader
+2017-02-20 16:46:47,228 - ResourceManager : found operation/opbody-insert.vm with loader middlegen.KindFileResourceLoader
+2017-02-20 16:46:47,229 - ResourceManager : found operation/op-select.vm with loader middlegen.KindFileResourceLoader
+2017-02-20 16:46:47,230 - ResourceManager : found operation/op-javadoc.vm with loader middlegen.KindFileResourceLoader
+2017-02-20 16:46:47,233 - ResourceManager : found operation/op-signature.vm with loader middlegen.KindFileResourceLoader
+2017-02-20 16:46:47,240 - ResourceManager : found operation/opbody-select.vm with loader middlegen.KindFileResourceLoader
+2017-02-20 16:46:47,247 - ResourceManager : found operation/op-update.vm with loader middlegen.KindFileResourceLoader
+2017-02-20 16:46:47,249 - ResourceManager : found operation/op-javadoc.vm with loader middlegen.KindFileResourceLoader
+2017-02-20 16:46:47,251 - ResourceManager : found operation/op-signature.vm with loader middlegen.KindFileResourceLoader
+2017-02-20 16:46:47,268 - ResourceManager : found operation/opbody-update.vm with loader middlegen.KindFileResourceLoader
+2017-02-20 16:46:47,284 - ResourceManager : found operation/op-delete.vm with loader middlegen.KindFileResourceLoader
+2017-02-20 16:46:47,293 - ResourceManager : found operation/op-javadoc.vm with loader middlegen.KindFileResourceLoader
+2017-02-20 16:46:47,302 - ResourceManager : found operation/op-signature.vm with loader middlegen.KindFileResourceLoader
+2017-02-20 16:46:47,360 - ResourceManager : found operation/opbody-delete.vm with loader middlegen.KindFileResourceLoader
+2017-02-20 16:46:47,390 - ResourceManager : found copyright.vm with loader middlegen.KindFileResourceLoader
+2017-02-20 16:46:47,393 - ResourceManager : found description-java.vm with loader middlegen.KindFileResourceLoader
+2017-02-20 16:46:47,394 - Null reference [template 'middlegen', line 23, column 13] : $Id cannot be resolved.
+2017-02-20 16:46:47,400 - ResourceManager : found operation/op-select.vm with loader middlegen.KindFileResourceLoader
+2017-02-20 16:46:47,402 - ResourceManager : found operation/op-javadoc.vm with loader middlegen.KindFileResourceLoader
+2017-02-20 16:46:47,406 - ResourceManager : found operation/op-signature.vm with loader middlegen.KindFileResourceLoader
+2017-02-20 16:46:47,433 - ResourceManager : found operation/opbody-select.vm with loader middlegen.KindFileResourceLoader

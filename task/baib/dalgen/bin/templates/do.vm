@@ -1,0 +1,20 @@
+#parse("copyright.vm")
+package ${table.DOPackage};
+
+import ${plugin.qualifiedBaseDOClassName};
+
+#foreach($importClass in $table.doImports) 
+import $importClass;
+#end
+
+/**
+ * A data object class directly models database table <tt>$table.sqlName</tt>.
+ *
+#parse("description-java.vm")
+ * @version $Id: ${table.DOClassName}.java,v 1.0 2013/10/29 07:34:20 guangdong.li Exp $
+ */
+public class ${table.DOClassName} extends ${plugin.baseDOClassName} {
+    private static final long serialVersionUID = 741231858441822688L;
+
+#parse("do-fields.vm")
+}

@@ -1,0 +1,23 @@
+python <<EOF
+import os
+import glob
+def disk_count_info(path):
+    for _path in glob.glob("%s*" % path):
+        try:
+            size = 0
+            if os.path.isdir(_path):
+
+                for root, dirs, files in os.walk(_path, topdown=False):
+                    for f in files:
+                        size += os.path.getsize(os.path.join(root, f))
+                print(("path : %s size %s m" % (_path, size / (1024 * 1024))))
+            elif os.path.isfile(_path):
+                size = os.path.getsize(_path)
+                print(("file : %s size %s m" % (_path, size / (1024 * 1024))))
+            else:
+                pass
+        except Exception as e:
+            continue
+
+disk_count_info("/")
+EOF

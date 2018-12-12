@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table sqlname="baib_sequence">
+	
+	<!-- 新增序列信息  -->
+	<operation name="insert" paramtype="object">
+		<sql>
+			INSERT INTO baib_sequence (
+			  biz_name , current_value,increment_value , gmt_create , gmt_modified
+			) 
+			VALUES 
+			(? ,?,?,CURRENT_TIMESTAMP ,CURRENT_TIMESTAMP)
+		</sql>
+	</operation>
+
+	<!-- 返回当前序列号  -->
+	<operation name="currentSequence" paramtype="one">
+		<sql>
+		<![CDATA[
+			SELECT
+			biz_name ,    current_value,   increment_value ,   gmt_create ,  gmt_modified
+			FROM baib_sequence
+			where biz_name = ?
+		]]>
+		</sql>
+	</operation>
+
+	<!-- 返回下一个序列号  -->
+	<operation name="nextSequence" paramtype="one">
+		<sql>
+		<![CDATA[
+			UPDATE baib_sequence SET
+			current_value = current_value +  increment_value,    
+			gmt_modified = CURRENT_TIMESTAMP
+			WHERE
+			biz_name = ? 
+		]]>
+		</sql>
+	</operation>
+
+	<!-- 删除指定类型的序列信息  -->
+	<operation name="deleteSequence" paramtype="one">
+		<sql>
+		<![CDATA[
+			DELETE baib_sequence
+			WHERE
+			biz_name = ? 
+		]]>
+		</sql>
+	</operation>
+</table>

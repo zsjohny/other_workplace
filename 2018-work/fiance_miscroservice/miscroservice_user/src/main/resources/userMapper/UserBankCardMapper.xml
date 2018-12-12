@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.finace.miscroservice.user.mapper.UserBankCardMapper">
+
+    <resultMap id="BaseUserBankCardResult" type="com.finace.miscroservice.user.po.UserBankCardPO">
+        <result column="id" property="id" />
+        <result column="name" property="name" />
+        <result column="bank_card" property="bankCard" />
+        <result column="user_Id" property="userId" />
+        <result column="pid" property="pid" />
+        <result column="bank_Name" property="bankName" />
+        <result column="status" property="status" />
+        <result column="gmt_Create" property="gmtCreate" />
+        <result column="gmt_Write" property="gmtWrite" />
+        <result column="inscd" property="inscd" />
+        <result column="protocolno" property="protocolno" />
+        <result column="phone" property="phone" />
+    </resultMap>
+
+    <!-- 根据卡号获取用户银行卡信息 -->
+    <select id="getBaknCardByCard" parameterType="String" resultType="com.finace.miscroservice.user.po.UserBankCardPO">
+        SELECT * FROM user_bank_card WHERE bank_card = #{card} and status='enable' limit 1
+    </select>
+
+    <!-- 根据卡号获取用户协议支付银行卡信息 -->
+    <select id="getAgreeBaknCardByCard" parameterType="String" resultType="com.finace.miscroservice.user.po.UserBankCardPO">
+        SELECT * FROM user_bank_card WHERE bank_card = #{card} and status='agreeEnable' limit 1
+    </select>
+
+    <!-- 根据用户id获取用户协议支付银行卡信息 -->
+    <select id="getAgreeEnableCardByUserId" parameterType="String"  resultType="com.finace.miscroservice.user.po.UserBankCardPO">
+        SELECT * FROM user_bank_card WHERE user_Id=#{userId}  and status='agreeEnable' limit 1
+    </select>
+
+    <!--根据用户id获取用户银行卡信息 -->
+    <select id="getUserEnableCardByUserId" parameterType="String"  resultType="com.finace.miscroservice.user.po.UserBankCardPO">
+        SELECT * FROM user_bank_card WHERE user_Id=#{userId}  and status='enable' limit 1
+    </select>
+
+    <!-- 根据id获取银行卡信息 -->
+    <select id="getUserEnableCardById" parameterType="String"  resultType="com.finace.miscroservice.user.po.UserBankCardPO">
+        SELECT * FROM user_bank_card WHERE  status='enable'  and  id=#{cardId} limit 1
+    </select>
+
+    <!--新增用户银行卡号 -->
+    <insert id="addUserBankCard" parameterType="com.finace.miscroservice.user.po.UserBankCardPO">
+        INSERT INTO `user_bank_card` ( `bank_Name`, `bank_card`, `gmt_create`, `gmt_write`, `name`, `pid`, `status`, `user_id`, `inscd`, protocolno, phone)
+        VALUES ( #{bankName}, #{bankCard}, now(), now(), #{name}, #{pid}, #{status},#{userId}, #{inscd}, #{protocolno}, #{phone})
+    </insert>
+
+</mapper>

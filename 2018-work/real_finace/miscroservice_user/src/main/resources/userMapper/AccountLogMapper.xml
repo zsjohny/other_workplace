@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.finace.miscroservice.user.mapper.AccountLogMapper">
+
+    <resultMap id="BaseAccountLogResult" type="com.finace.miscroservice.user.po.AccountLogPO">
+        <result property="id" column="ID"/>
+        <result property="user_id" column="USER_ID"/>
+        <result property="type" column="type"/>
+        <result property="total" column="TOTAL"/>
+        <result property="money" column="money"/>
+        <result property="use_money" column="USE_MONEY"/>
+        <result property="no_use_money" column="NO_USE_MONEY"/>
+        <result property="collection" column="COLLECTION"/>
+        <result property="to_user" column="to_user"/>
+        <result property="remark" column="remark"/>
+        <result property="addtime" column="addtime"/>
+        <result property="addip" column="addip"/>
+        <result property="toUserName" column="toUserName"/>
+        <result property="typeMame" column="typeMame"/>
+    </resultMap>
+
+   <!-- 根据用户id获取账户信息 -->
+    <select id="getZjmxByUserId" parameterType="Map" resultType="com.finace.miscroservice.user.po.AccountLogPO">
+        select al.addtime,al.money,al.no_use_money as noUseMoney,link.name as typeName
+        from account_log as al
+        left join linkage as link on al.type=link.`value`
+        <trim prefix="where" prefixOverrides="and|or">
+              and al.user_id =#{userId}
+              <if test=" type !=null and type !='' ">
+                  and al.type =#{type}
+              </if>
+        </trim>
+        order by al.id DESC
+    </select>
+
+    <insert id="addAccountLog" useGeneratedKeys="true" keyProperty="id"  parameterType="com.finace.miscroservice.user.po.AccountLogPO">
+        insert into account_log(user_id,`type`,total,money,use_money,no_use_money,collection,to_user,remark,addtime,addip)
+        values(#{user_id},#{type},#{total},#{money},#{useMoney},#{noUseMoney},#{collection},#{toUser},#{remark},#{addtime},#{addip})
+    </insert>
+
+    <insert id="addAccountLogSeqNo" useGeneratedKeys="true" keyProperty="id"  parameterType="com.finace.miscroservice.user.po.AccountLogPO">
+        insert into account_log(user_id,`type`,total,money,use_money,no_use_money,collection,to_user,remark,addtime,addip,seqNo)
+        values(#{user_id},#{type},#{total},#{money},#{useMoney},#{noUseMoney},#{collection},#{toUser},#{remark},#{addtime},#{addip},#{seqNo})
+    </insert>
+
+    <update id="upAccountLogBySeqNo" >
+        UPDATE account_log
+        SET `type` = #{code},remark=#{remark}
+        where seqNo = #{seqNo}
+    </update>
+
+</mapper>

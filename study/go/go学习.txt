@@ -1,0 +1,5 @@
+一 go的环境安装 
+	GOBIN     : golang安装后根目录下的bin目录，即$GOROOT\bin\，windows平台下默认为c:\go\bin，安装过程中会由安装程序自动添加到PATH环境变量中。
+    GOROOT : golang安装后的根目录，windows下默认为c:\go\，安装过程中会由安装程序自动写入系统环境变量中。
+    GOPATH : golang的工作目录，是用来设置包加载路径的重要变量，也是go get和go install工具将会使用的目录。GOPATH变量可以同时制定多个目录
+	打开cmd，运行go version命令，如果看到下面信息说明环境变量配置成功

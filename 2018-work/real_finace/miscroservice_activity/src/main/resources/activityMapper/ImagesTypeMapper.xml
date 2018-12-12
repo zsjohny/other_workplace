@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.finace.miscroservice.activity.mapper.ImagesTypeMapper">
+
+    <resultMap id="BaseImagesType" type="com.finace.miscroservice.activity.po.ImagesTypePO" >
+        <result column="id" property="id"  />
+        <result column="name" property="name"  />
+        <result column="type" property="type"  />
+        <result column="status" property="status"  />
+        <result column="jumurl" property="jumurl"  />
+        <result column="imgurl" property="imgurl"  />
+        <result column="scontent" property="scontent"  />
+        <result column="surl" property="surl"  />
+        <result column="stitle" property="stitle"  />
+        <result column="simgurl" property="simgurl"  />
+        <result column="torder" property="torder"  />
+        <result column="stime" property="stime"  />
+        <result column="etime" property="etime"  />
+        <result column="addtime" property="addtime"  />
+        <result column="addip" property="addip"  />
+        <result column="remark" property="remark"  />
+    </resultMap>
+
+    <!--获取活动中心1app首页2活动中心3PC首页4运营报告-->
+    <select id="getImagesType" parameterType="Integer" resultType="com.finace.miscroservice.activity.po.ImagesTypePO" >
+        select * from images_type  where `type`=#{type}   order by torder desc,addtime desc
+    </select>
+
+
+
+
+
+
+</mapper>

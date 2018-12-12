@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="GB2312"?>
+
+<!-- ==============================================================   -->
+<!-- DTD file for table definition xml                                -->
+<!-- $Id: dalgen-table.dtd,v 1.1 2013/10/29 14:54:07 guangdong.li Exp $   -->
+<!-- ==============================================================   -->
+
+<!--
+*****************************************************************************
+* Copyright (c) 2013 ONWAY COMPANY,INC
+* Version     :V10R00
+* File        :dalgen-table.dtd
+* Project     :project-dalgen
+* Language    :DTD
+* Author      :guangdong.li
+* Date        :2013-10-29
+* Update      :
+* Notes       :
+*****************************************************************************
+-->
+
+<!ELEMENT table (column*, resultmap*, operation*)>
+ <!ATTLIST table
+		sqlname CDATA #REQUIRED
+		doname CDATA #IMPLIED
+		subpackage CDATA #IMPLIED
+		sequence CDATA #IMPLIED>
+
+<!ELEMENT column EMPTY>
+<!ATTLIST column
+		name CDATA #REQUIRED
+		javatype CDATA #IMPLIED>
+
+<!ELEMENT resultmap (column*)>
+<!ATTLIST resultmap
+		name CDATA #REQUIRED>
+
+<!ELEMENT operation (sql, sqlmap?)>
+<!ATTLIST operation
+		name  CDATA #REQUIRED
+		paramtype CDATA #IMPLIED
+		multiplicity CDATA #IMPLIED
+		paging CDATA #IMPLIED
+		resultmap CDATA #IMPLIED>
+
+<!ELEMENT sql (#PCDATA)>
+
+<!ELEMENT sqlmap (#PCDATA)>

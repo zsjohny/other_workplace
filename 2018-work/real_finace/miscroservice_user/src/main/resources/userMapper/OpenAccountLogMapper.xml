@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.finace.miscroservice.user.mapper.OpenAccountLogMapper">
+
+    <!--添加 日志-->
+    <insert id="addOpenAccountLog" parameterType="com.finace.miscroservice.user.entity.po.CreditAccountLog">
+       insert into credit_account_log(`userId`,`seqNo`,`accountId`,`txTime`,`txDate`,`txCode`,`isSuccess`,`availBal`,`txMoney`)
+       VALUES (#{accountLog.userId},#{accountLog.seqNo},#{accountLog.accountId},#{accountLog.txTime},#{accountLog.txDate},#{accountLog.txCode},#{accountLog.isSuccess},#{accountLog.availBal},#{accountLog.txMoney})
+   </insert>
+    <!--根据交易流水查找日志-->
+    <select id="findOpenAccountLogBySeqNo" resultType="com.finace.miscroservice.user.entity.po.CreditAccountLog">
+        SELECT * from credit_account_log where seqNo = #{seqNo} and txTime=#{txTime}
+    </select>
+    <!--修改 回调状态是否成功-->
+    <update id="upWithdrawIsSuccess">
+        UPDATE credit_account_log set isSuccess = #{isSuccess} where txTime=#{txTime} and seqNo = #{seqNo}
+    </update>
+    <!--根据用户id 查找 交易流水-->
+    <select id="findMoneyFlowingWaterByUserId"
+            resultType="com.finace.miscroservice.user.entity.response.OpenAccountLogResponse">
+        SELECT * FROM (SELECT txCode,createTime,availbal,txMoney,`isSuccess` from credit_account_log where userId = #{userId}
+        <if test="txCode!=null and txCode != 'unfreeze'">and txCode= #{txCode}</if>
+        <if test="txCode == 'unfreeze'">and txCode in ('unfreeze','loan_hb')</if>
+        <if test="txCode ==null">and txCode in ('directRechargePage','withdraw','unfreeze','tender','loan_hb')</if>
+        union ALL
+        SELECT `type` as txCode , from_unixtime(`addtime`,'%Y-%m-%d %H:%m:%s') as createTime ,use_money as availBal,money as txMoney,-1 as isSuccess
+        from account_log where user_id = #{userId}
+        <if test="txCode == null">and`type` in ('unfreeze','tender')</if>
+        <if test="txCode !=null">and `type` = #{txCode}
+        </if>
+
+        ) a
+        order by a.createTime DESC
+    </select>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,4 @@
+include 'microservice-producer'
+include 'microservice-producer-with-restdocs'
+include 'microservice-consumer'
+

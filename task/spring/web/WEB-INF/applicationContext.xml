@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mongo="http://www.springframework.org/schema/data/mongo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+	 http://www.springframework.org/schema/data/mongo  http://www.springframework.org/schema/data/mongo/spring-mongo.xsd">
+    <context:component-scan base-package="com.reliable"/>
+
+    <context:property-placeholder location="WEB-INF/*.properties"/>
+
+    <!--mongodb的配置  credentials表示数据库加密链接形式 例如user:password@database-->
+    <mongo:mongo-client id="mongo" host="127.0.0.1" port="8023" credentials="${dbusername}:${dbuserpass}@${dbname}">
+        <mongo:client-options connections-per-host="8"
+                              threads-allowed-to-block-for-connection-multiplier="4"
+                              connect-timeout="1000"
+                              max-wait-time="1500"
+                              socket-keep-alive="true"
+                              socket-timeout="1500" write-concern="NORMAL"/>
+
+    </mongo:mongo-client>
+
+    <!-- jedisPool配置信息 -->
+    <bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
+        <property name="maxTotal" value="1000"/> <!-- 控制一个pool可分配多少个jedis实例 -->
+        <property name="maxIdle" value="200"/>   <!-- 控制一个pool最多有多少个状态为idle(空闲)的jedis实例 -->
+        <property name="maxWaitMillis"
+                  value="2000"/>  <!-- 表示当borrow一个jedis实例时，最大的等待时间，如果超过等待时间，则直接抛出JedisConnectionException -->
+        <property name="testOnBorrow"
+                  value="true"/> <!-- 在borrow一个jedis实例时，是否提前进行validate操作；如果为true，则得到的jedis实例均是可用的 -->
+    </bean>
+    <bean id="jedisPool" class="redis.clients.jedis.JedisPool" destroy-method="destroy">
+        <!--<constructor-arg ref="jedisPoolConfig"/>-->
+        <constructor-arg value="127.0.0.1"/>
+        <constructor-arg type="int" value="10086"/>
+    </bean>
+
+    <!-- Offers convenience methods and automatic mapping between MongoDB JSON documents and your domain classes. -->
+    <bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
+        <constructor-arg ref="mongo"/>
+        <!--数据库的名称-->
+        <constructor-arg name="databaseName" value="reliable"/>
+    </bean>
+    <!--添加数据源转移到缓存中-->
+    <bean class="com.reliable.util.TransferData"></bean>
+</beans>

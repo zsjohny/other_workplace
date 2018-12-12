@@ -1,0 +1,30 @@
+{
+    "groups": [
+        {
+            "sourceType": "com.baomidou.mybatisplus.autoconfigure.MybatisPlusProperties",
+            "name": "mybatis-plus",
+            "type": "com.baomidou.mybatisplus.autoconfigure.MybatisPlusProperties"
+        },
+        {
+            "sourceType": "com.baomidou.mybatisplus.autoconfigure.MybatisPlusProperties",
+            "name": "mybatis-plus.configuration",
+            "sourceMethod": "getConfiguration()",
+            "type": "com.baomidou.mybatisplus.core.MybatisConfiguration"
+        },
+        {
+            "sourceType": "com.baomidou.mybatisplus.autoconfigure.MybatisPlusProperties",
+            "name": "mybatis-plus.global-config",
+            "sourceMethod": "getGlobalConfig()",
+            "type": "com.baomidou.mybatisplus.core.config.GlobalConfig"
+        },
+        {
+            "sourceType": "com.baomidou.mybatisplus.core.config.GlobalConfig$DbConfig",
+            "name": "mybatis-plus.global-config.db-config",
+            "sourceMethod": "getDbConfig()",
+            "type": "com.baomidou.mybatisplus.core.config.GlobalConfig$DbConfig"
+        }
+    ],
+    "properties": [
+
+    ]
+}

@@ -1,0 +1,22 @@
+apply plugin: 'java'
+
+repositories {
+    mavenCentral()
+}
+
+jar {
+    baseName "spring_rabbimq_delay"
+}
+
+
+ext {
+    springBootVersion = "1.5.8.RELEASE"
+}
+
+dependencies {
+    compile group: 'org.springframework.amqp', name: 'spring-rabbit', version: '1.7.4.RELEASE'
+    compile "org.springframework.boot:spring-boot-starter-web:$springBootVersion"
+    compile "org.springframework.boot:spring-boot-autoconfigure:$springBootVersion"
+
+
+}

@@ -1,0 +1,4 @@
+---
+#zuul的优化配置系列
+ #Ip瞬间访问大小限定
+ip.second.interceptor.count: 30

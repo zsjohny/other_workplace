@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.finace.miscroservice.activity.mapper.UserJiangPinMapper">
+
+
+    <resultMap id="BaseUserAndJiangPin" type="com.finace.miscroservice.activity.po.UserJiangPinPO" >
+        <result property="userId" column="userId"/>
+        <result property="jiangPinName" column="jiangPinName"/>
+        <result property="addTime" column="addTime"/>
+        <result property="id" column="id"/>
+        <result property="remark" column="remark"/>
+    </resultMap>
+
+    <!-- 新增奖品 -->
+    <insert id="addUserJiangPin" parameterType="com.finace.miscroservice.activity.po.UserJiangPinPO" >
+        insert into USERANDJIANGPIN(USERID,JIANGPINNAME,ADDTIME, remark) values(#{userId},#{jiangPinName},#{addTime}, #{remark})
+    </insert>
+
+    <!-- 获取用户获奖纪录 -->
+    <select id="getUserJiangPinByUserId" parameterType="String" resultType="com.finace.miscroservice.activity.po.UserJiangPinPO" >
+        select a.jiangPinName, a.addTime from USERANDJIANGPIN a where a.userId = #{userId} order by a.addTime desc
+    </select>
+
+    <!-- 获取所有获奖纪录 -->
+    <select id="getAllUserJiangPin" >
+        select * from USERANDJIANGPIN where  id > 5538
+    </select>
+
+    <!-- 获取用户奖品类型 -->
+    <select id="getUserJplx" parameterType="String"  resultType="com.finace.miscroservice.activity.po.UserJiangPinPO">
+        select COUNT(remark) as id,remark  from USERANDJIANGPIN where userId = #{userId}  group by remark
+    </select>
+    <insert id="addUserAward">
+        insert into userandjiangpin (under_user,userId,jiangpinName,addTime,remark,code,is_send)
+        VALUES (#{underUser},#{userId},#{jiangPinName},#{addTime},#{remark},#{code},#{isSend})
+    </insert>
+
+    <select id="findUserAward" resultType="com.finace.miscroservice.activity.po.UserJiangPinPO">
+        SELECT * from userandjiangpin where
+        <if test="underUser!=null">
+            under_user=#{underUser} and
+        </if>
+        <if test="code!=null">
+            code=#{code} and
+        </if>
+        userId=#{userId}
+    </select>
+
+
+    <select id="findUserAwards" resultType="com.finace.miscroservice.activity.po.GiftPO">
+        SELECT a.userId,a.jiangpinName,a.remark,a.`code`,a.under_user,a.is_send as isSend,b.phone
+        from userandjiangpin a,user b
+        where
+        a.userId=#{userId}
+        <if test="code!=null">and code = #{code}</if>
+        <if test="starttime!=null">and <![CDATA[a.addtime>=#{starttime} ]]> </if>
+        <if test="endtime!=null">and  <![CDATA[a.addtime<#{endtime}]]></if>
+        and a.under_user=b.user_id ORDER BY a.addTime ASC
+    </select>
+
+    <select id="findJdCardMoneyAmtByUserId" resultType="java.lang.Integer">
+        SELECT SUM(remark)  from userandjiangpin where userId = #{userId} and code = 2;
+    </select>
+    <select id="getInvitations" resultType="com.finace.miscroservice.activity.po.InvitationPO">
+        SELECT COUNT(user_id) as invitation from user where invite_userid=#{userId} and  <![CDATA[addtime>=#{date} and addtime<#{endTime}]]>
+    </select>
+
+</mapper>
+
+
+
+
+
+
+
+
+
+
+

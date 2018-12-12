@@ -1,0 +1,38 @@
+
+
+3.sublime安装package control（sublime的包管理插件，可以下各种插件）
+
+打开console 可以用快捷键“ctrl+`” 但是有可能被输入法占用，或者点击 sublime 菜单栏的
+
+view->showconsole 输入将以下代码复制到命令栏中安装package control并重启。
+
+import urllib.request,os; pf = 'Package Control.sublime-package'; ipp=sublime.installed_packages_path();urllib.request.install_opener(urllib.request.build_opener(urllib.request.ProxyHandler()));open(os.path.join(ipp,pf),'wb').write(urllib.request.urlopen('http://sublime.wbond.net/' + pf.replace(' ','%20')).read())4.查看sublime->Preferences->package control 有此选项，安装成功
+
+ctrl+shift+p 快捷键打开package control 
+
+输入install package 回车
+
+输入Anaconda回车 安装（集合python环境插件）
+
+输入sublimeREPL 回车 安装（调试插件，支持程序输入数据）
+
+sublimeREPL快捷键 preferences->Keybinding-User复制下列代码（详情看这）
+
+按 Ctrl+C 复制代码
+
+[
+    {
+            "keys": ["f5"],//可以自己改变
+            "caption": "SublimeREPL: Python - RUN current file",
+            "command": "run_existing_window_command", 
+            "args":
+            {
+                "id": "repl_python_run",
+                "file": "config/Python/Main.sublime-menu"
+            }
+    }
+]
+按 Ctrl+C 复制代码
+
+
+ConvertToUTF8 中文乱码插件

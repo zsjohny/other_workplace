@@ -1,0 +1,118 @@
+---
+#限流开关
+limter.flow.enabled: false
+
+---
+#服务间的认证开关
+service.auth.enabled: false
+
+---
+#数据库开关 true打开 false关闭
+datasource:
+ enabled: false
+
+
+---
+#拦截器开关 true打开 false关闭
+filter:
+  path:          #路径
+    enabled: false
+  auth:          #认证
+    enabled: true
+
+---
+#时间日期转换开关 true打开 false关闭
+dataConvert:
+ enabled: false
+
+---
+#关闭mq检查 #关闭redis检查
+management:
+  health:
+    rabbit:
+      enabled: false
+    redis:
+      enabled: false
+
+
+---
+#mq 配置
+mq:
+  host: 47.97.174.183
+  port: 5672
+  userName: etongjin
+  userPass: 123456
+  #是否打开发送开关 true是 false不是
+  openSend: true
+
+
+---
+#打开数据库配置
+open.datasource : false
+flyway.enabled: false
+
+---
+#spring security的api验证开关
+spring.security.enabled: false
+
+---
+#security的开启认证
+security:
+  user:
+    name: test
+    password: test
+
+---
+#pageHelper的配置
+pagehelper:
+  reasonable: true
+  support-methods-arguments: true
+  helper-dialect: mysql
+
+---
+#关闭spring的datasource初始化
+spring.datasource.initialize: false
+
+---
+#设置spring atomikos的日志
+spring:
+  jta:
+    log-dir: ${java.io.tmpdir}/${random.uuid}
+
+---
+#关闭jackson的默认输出null
+spring:
+  jackson:
+    default-property-inclusion: non_null
+
+---
+#zookeeper的服务器地址 多个用,分开
+zookeeper:
+  serverList: 47.97.174.183:2181
+
+
+---
+#是否打开验证频率拦截
+verityLimeter.enabled: false
+
+---
+#验证码认证拦截的前缀
+verify.limiter.rate.referer: etongjin.net
+
+---
+#是否开启druid的监控平台 true打开 false不开启
+druid.monitor.enabled: false
+
+---
+#是否打开自动生成sql的任务 true打开 false不打开
+auto.init.sql.enabled: false
+
+---
+#健康检查忽略
+security:
+  ignored: /healths
+
+
+---
+#反序列化开关
+deSerialized.enabled: true

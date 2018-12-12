@@ -1,0 +1,32 @@
+---
+#文件加载的环境配置
+spring:
+  profiles:
+    active: server
+
+  application:
+          name: eureka_server_v1
+---
+#端口
+server:
+  port: 6898
+
+
+---
+#服务配置
+eureka:
+  client:
+    service-url:
+        defaultZone: http://${security.user.name}:${security.user.password}@${eureka.instance.registerInfo}:6899/eureka
+    register-with-eureka: false #声明不注册自己
+    fetch-registry: true
+  instance:
+    registerInfo: localhost
+    prefer-ip-address: true
+
+  server:
+    enable-self-preservation: false
+
+---
+#日志保存名称
+log.name:  eureka_server_v1

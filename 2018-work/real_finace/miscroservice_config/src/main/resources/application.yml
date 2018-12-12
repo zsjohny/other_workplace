@@ -1,0 +1,56 @@
+---
+#服务间的认证开关
+service.auth.enabled: false
+
+---
+#限流开关
+limter.flow.enabled: false
+
+---
+#端口
+server:
+  port: 8068
+
+---
+#文件加载的环境配置
+spring:
+  application:
+    name: config
+  profiles:
+    active: center
+
+
+---
+#日志保存名称
+log.name:  config
+
+
+---
+#远程配置中心设置
+spring:
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://gitee.com/nessary/etj_config.git
+          search-paths: etj_config  #文件夹名称
+          password: ENC(gJ8okYupxZ7moPNJdY7qtQyNh/+4A/FO)
+          username: ENC(gRTe4HDueVb00Se91ZXW8A==)
+          #访问 的格式 http://localhost:8068/pro/test
+          #此时git 远程目录 的文件夹名称为 pro-test.properties
+
+
+
+---
+#注册服务地址设置
+eureka:
+  client:
+    register-with-eureka: true  #声明在Eureka服务注册自己
+
+
+
+
+
+---
+#反序列化开关
+deSerialized.enabled: false

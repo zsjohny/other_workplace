@@ -1,0 +1,5 @@
+{
+            System.out.println(Collections.nCopies(4, "9"));
+            System.out.println(String.join("-", new String[]{"1", "2", "4"
+            }));
+            System.out.println(String.join("", Collections.nCopies(4, "9")));

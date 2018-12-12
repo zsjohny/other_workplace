@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.finace.miscroservice.user.mapper.UserMapper">
+
+    <resultMap id="BaseUserResult" type="com.finace.miscroservice.user.po.UserPO" >
+        <id column="user_id" property="user_id"  />
+        <result column="type_id" property="typeId"  />
+        <result column="order" property="order"  />
+        <result column="purview" property="purview"  />
+        <result column="username" property="username"  />
+        <result column="password" property="password"  />
+        <result column="paypassword" property="paypassword"  />
+        <result column="islock" property="islock"  />
+        <result column="invite_userid" property="inviteUserid" />
+        <result column="invite_money" property="inviteMoney"  />
+        <result column="real_status" property="realStatus"  />
+        <result column="card_type" property="cardType"  />
+        <result column="card_id" property="cardId"  />
+        <result column="card_pic1" property="cardPic1"  />
+        <result column="card_pic2" property="cardPic2"  />
+        <result column="nation" property="nation"  />
+        <result column="realname" property="realname"  />
+        <result column="integral" property="integral"  />
+        <result column="status" property="status"  />
+        <result column="avatar_status" property="avatarStatus"  />
+        <result column="email_status" property="emailStatus"  />
+        <result column="phone_status" property="phoneStatus"  />
+        <result column="video_status" property="videoStatus"  />
+        <result column="scene_status" property="sceneStatus"  />
+        <result column="email" property="email"  />
+        <result column="sex" property="sex"  />
+        <result column="litpic" property="litpic"  />
+        <result column="tel" property="tel"  />
+        <result column="phone" property="phone"  />
+        <result column="qq" property="qq"  />
+        <result column="wangwang" property="wangwang"  />
+        <result column="question" property="question"  />
+        <result column="answer" property="answer"  />
+        <result column="birthday" property="birthday"  />
+        <result column="province" property="province"  />
+        <result column="city" property="city"  />
+        <result column="area" property="area"  />
+        <result column="address" property="address"  />
+        <result column="logintime" property="logintime"  />
+        <result column="addtime" property="addtime"  />
+        <result column="addip" property="addip"  />
+        <result column="uptime" property="uptime"  />
+        <result column="upip" property="upip"  />
+        <result column="lasttime" property="lasttime"  />
+        <result column="lastip" property="lastip"  />
+        <result column="is_phone" property="isPhone"  />
+        <result column="memberLevel" property="memberlevel"  />
+        <result column="serial_id" property="serialId"  />
+        <result column="serial_status" property="serialStatus"  />
+        <result column="hongbao" property="hongbao"  />
+        <result column="remind" property="remind"  />
+        <result column="privacy" property="privacy"  />
+        <result column="trust_UsrId" property="trustUsrId"  />
+        <result column="trust_trxId" property="trustTrxId"  />
+        <result column="trust_UsrCustId" property="trustUsrCustId"  />
+        <result column="user_level" property="user_level"  />
+        <result column="audit_Stat" property="auditStat"  />
+        <result column="age" property="age"  />
+        <result column="province_name" property="province_name"  />
+        <result column="sx" property="sx"  />
+        <result column="xz" property="xz"  />
+        <result column="is_device" property="isDevice"  />
+        <result column="pay_channel" property="payChannel"  />
+        <result column="reg_channel" property="regChannel"  />
+        <result column="reg_channel2" property="regChannel2"  />
+    </resultMap>
+
+
+    <!-- 更加电话号码获取用户信息 -->
+    <select id="findUserOneByUserPhone" parameterType="java.lang.String" resultMap="BaseUserResult" >
+        select * from user where phone = #{userPhone} OR username = #{userPhone} limit 1
+    </select>
+
+    <!-- 根据用户名获取用户信息 -->
+    <select id="findUserOneByUsername" parameterType="java.lang.String"  resultMap="BaseUserResult" >
+        select * from user where username = #{username} limit 1
+    </select>
+
+    <!-- 根据用户id获取用户信息 -->
+    <select id="findUserOneById"  parameterType="java.lang.String" resultMap="BaseUserResult" >
+        select * from user where user_id = #{userid}
+    </select>
+
+
+    <!-- 新增用户 -->
+    <insert id="insterUser" useGeneratedKeys="true" keyProperty="user_id" parameterType="com.finace.miscroservice.user.po.UserPO" >
+
+     insert into user (type_id, `order`, purview, username, password, paypassword, islock,
+      invite_userid, invite_money, real_status, card_type, card_id, card_pic1, card_pic2, nation,
+      realname, integral, status, avatar_status, email_status, phone_status, video_status,
+      scene_status, email, sex, litpic, tel, phone, qq, wangwang, question, answer, birthday,
+      province, city, area, address, logintime, addtime, addip, uptime, upip, lasttime, lastip,
+      is_phone, memberLevel, serial_id, serial_status, hongbao, remind, privacy, trust_UsrId,
+      trust_trxId, trust_UsrCustId, age, province_name, sx, xz, is_device,pay_channel,reg_channel,reg_channel2)
+     SELECT #{typeId}, #{order}, #{purview},
+      #{username}, #{password}, #{paypassword}, #{islock},
+      #{inviteUserid}, #{inviteMoney}, #{realStatus}, #{cardType},
+      #{cardId}, #{cardPic1}, #{cardPic2}, #{nation},
+      #{realname}, #{integral}, #{status}, #{avatarStatus},
+      #{emailStatus}, #{phoneStatus}, #{videoStatus}, #{sceneStatus},
+      #{email}, #{sex}, #{litpic}, #{tel}, #{phone},
+      #{qq}, #{wangwang}, #{question}, #{answer}, #{birthday},
+      #{province}, #{city}, #{area}, #{address}, #{logintime},
+      #{addtime}, #{addip}, #{uptime}, #{upip}, #{lasttime},
+      #{lastip}, #{isPhone}, #{memberlevel}, #{serialId},
+      #{serialStatus}, #{hongbao}, #{remind}, #{privacy}, #{trustUsrId}, #{trustTrxId},
+      #{trustUsrCustId}, #{age}, #{province_name}, #{sx}, #{xz}, #{isDevice}, #{payChannel},#{regChannel},#{regChannel2}
+      FROM dual WHERE NOT EXISTS ( SELECT phone FROM user WHERE phone = #{phone} )
+
+    </insert>
+
+    <!-- 用户登录 -->
+    <select id="getUserLoginInfo" parameterType="com.finace.miscroservice.user.po.UserPO" resultMap="BaseUserResult" >
+        SELECT u.* FROM user u WHERE PASSWORD = #{password}
+        AND (USERNAME = #{username} OR PHONE = #{username} ) LIMIT 1
+    </select>
+
+    <!--修改用户密码 -->
+    <update id="updateUserPass" parameterType="java.util.Map" >
+        UPDATE user SET PASSWORD=#{password} WHERE USER_ID =#{id}
+    </update>
+
+    <!-- 根据邀请人id获取被邀请人列表-->
+    <select id="getUserListByInviter" parameterType="int" resultMap="BaseUserResult" >
+        SELECT u.* FROM user u WHERE invite_userid = #{inviter}
+    </select>
+
+    <!-- 根据邀请人id获取被邀请人总数-->
+    <select id="getUserCountByInviter" parameterType="int" resultType="int" >
+        SELECT count(1) FROM user u WHERE invite_userid = #{inviter}
+    </select>
+
+    <!-- 获取新增注册人数 -->
+    <select id="getCountNewUserNum" resultType="int" >
+        select count(1) from user a  where from_unixtime(a.addtime,'%Y-%m-%d') = date_sub(curdate(),interval 1 day)
+    </select>
+
+    <!-- 修改用户风险等级-->
+    <update id="updateUserRating" parameterType="Map" >
+         UPDATE user SET memberLevel=#{memberlevel} WHERE USER_ID =#{userId}
+    </update>
+
+    <insert id="addFeedBack">
+        INSERT into feedback(`contact_type`,`contact_type_name`,`contact_address`,`words`,`user_id`,`is_reply`,`username`,`add_time`,`add_ip`)
+        select #{code},#{value},#{phone},#{content},#{userId},'0',#{username},#{addTime},#{ipadress}
+        from dual
+        where not exists
+        (select id from feedback where `user_id`=#{userId} AND `add_time`=#{addTime} and `words`=#{content})
+    </insert>
+
+    <!-- 根据用户id获取用户手机号码-->
+    <select id="getUserPhoneByUserId"  parameterType="java.lang.String" resultType="String">
+        select phone from user where user_id = #{userId}
+    </select>
+
+    <insert id="addMsg">
+        insert into msg(`msg_code`,`topic`,`user_id`,`addtime`,`msg`)
+        VALUES (#{msgCode},#{topic},#{userId},#{addtime},#{msg})
+</insert>
+<select id="findMsgSize" resultType="com.finace.miscroservice.user.entity.response.MsgSizeResponse">
+    SELECT COUNT(msg_id) as size,msg_code from msg where msg_code = 0 and user_id = #{userId}
+    union
+    SELECT COUNT(msg_id) as size,msg_code from msg where msg_code in (1,2) GROUP BY msg_code
+</select>
+
+    <select id="getUsersByInviterInTime" resultMap="BaseUserResult">
+        SELECT u.* FROM user u WHERE invite_userid = #{inviter} and <![CDATA[addtime>=#{starttime} and addtime<#{endtime}]]>
+    </select>
+    <select id="getUserCountByInviterInTime" resultType="int">
+        SELECT count(1) FROM user u WHERE invite_userid = #{inviter} and <![CDATA[addtime>=#{starttime} and addtime<#{endtime}]]>
+    </select>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+

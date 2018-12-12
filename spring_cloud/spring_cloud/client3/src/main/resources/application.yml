@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: client
+server:
+  port: 8071
+eureka:
+  instance:
+    hostname: localhost
+    prefer-ip-address: true
+  client:
+    service-url:
+        defaultZone: http://localhost:8012/eureka,http://localhost:8011/eureka #客户端配置服务端高可用的地址即可
+
+
+
+
+

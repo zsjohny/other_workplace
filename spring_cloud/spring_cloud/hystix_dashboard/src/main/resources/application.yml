@@ -1,0 +1,27 @@
+spring:
+  application:
+    name: spring_zipkin_client2
+  zipkin:
+    base-url: http://localhost:8080
+
+server:
+  port: 8084
+
+
+eureka:
+  instance:
+    hostname: localhost
+    prefer-ip-address: true
+  client:
+    service-url:
+#        defaultZone: http://${eureka.instance.hostname}:8068/eureka
+        defaultZone: http://localhost:8068/eureka
+
+
+
+
+
+
+
+
+

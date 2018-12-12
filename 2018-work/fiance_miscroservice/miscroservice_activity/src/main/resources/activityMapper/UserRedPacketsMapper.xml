@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.finace.miscroservice.activity.mapper.UserRedPacketsMapper">
+
+
+    <!-- 红包和用户红包信息 -->
+    <resultMap id="BaseUserRedPacketsResult" type="com.finace.miscroservice.activity.po.UserRedPacketsPO">
+        <result column="hbid" property="hbid"/>
+        <result column="hbmoney" property="hbmoney"/>
+        <result column="hbdetail" property="hbdetail"/>
+        <result column="hbleixingid" property="hbleixingid"/>
+        <result column="hbendtime" property="hbendtime"/>
+        <result column="hbstartime" property="hbstartime"/>
+        <result column="hbstatus" property="hbstatus"/>
+        <result column="hbname" property="hbname"/>
+        <result column="smoney" property="smoney"/>
+        <result column="sday" property="sday"/>
+        <result column="hbtype" property="hbtype"/>
+        <result column="inviter" property="inviter"/>
+    </resultMap>
+
+    <!-- 新增红包信息 -->
+    <insert id="addUserRedPackets" useGeneratedKeys="true" keyProperty="hbid"
+            parameterType="com.finace.miscroservice.activity.po.UserRedPacketsPO">
+        INSERT INTO userrepackets(USERID,HBLEIXINGID,HBSTARTIME,HBENDTIME,HBSTATUS, inviter, flag)
+        VALUES(#{userid},#{hbleixingid},#{hbstartime},#{hbendtime},#{hbstatus}, #{inviter}, #{flag})
+    </insert>
+
+    <!-- 查询用户红包列表  -->
+    <select id="getRedPacketsByUserId" parameterType="java.util.Map" resultMap="BaseUserRedPacketsResult">
+        select b.hbid,a.hbmoney,a.hbdetail,a.hbleixingid,b.hbendtime, b.hbstatus, a.hbname, b.hbstartime, a.smoney,
+        a.sday, a.hbtype
+        from userrepackets b
+        left join newhb_type a on a.hbleixingid=b.hbleixingid
+        <trim prefix="where" prefixOverrides="and|or">
+            <if test=" hbtype != null and hbtype != '' ">
+                and a.hbtype=#{hbtype}
+            </if>
+            <if test=" hbstatus != null and hbstatus != '' ">
+                and b.hbstatus=#{hbstatus}
+            </if>
+            <if test=" userId != null and userId != '' ">
+                and b.userid=#{userId}
+            </if>
+        </trim>
+    </select>
+
+    <!-- 获取用户红包列表 -->
+    <select id="getRpByUserId" parameterType="java.util.Map"
+            resultType="com.finace.miscroservice.commons.entity.UserRedPackets">
+        select b.hbid,a.hbmoney,a.hbdetail,a.hbleixingid,b.hbendtime, b.hbstatus, a.hbname, b.hbstartime, a.smoney,
+        a.sday, a.hbtype
+        from userrepackets b
+        left join newhb_type a on a.hbleixingid=b.hbleixingid
+        <trim prefix="where" prefixOverrides="and|or">
+            <if test=" hbtype != null and hbtype != '' ">
+                and a.hbtype=#{hbtype}
+            </if>
+            <if test=" hbstatus != null and hbstatus != '' ">
+                and b.hbstatus=#{hbstatus}
+            </if>
+            and b.userid=#{userId}
+        </trim>
+        order by b.hbstatus, a.hbmoney
+    </select>
+
+    <!-- 获取用户可用福利券总数 -->
+    <select id="getCountRedPacketsByUserId" parameterType="java.util.Map" resultType="int">
+        select COUNT(*)
+        from userrepackets b
+        left join newhb_type a on a.hbleixingid=b.hbleixingid
+        <trim prefix="where" prefixOverrides="and|or">
+            <if test="hbtype != null and hbtype != ''">
+                and a.hbtype=#{hbtype}
+            </if>
+
+            <if test="hbstatus != null and hbstatus != ''">
+                and b.hbstatus=#{hbstatus}
+            </if>
+
+            <if test="userId != null and userId != ''">
+                and b.userid=#{userId}
+            </if>
+        </trim>
+    </select>
+
+    <!-- 根据红包id获取红包信息 -->
+    <select id="getRpById" parameterType="int" resultType="com.finace.miscroservice.commons.entity.UserRedPackets">
+        select b.hbid,a.hbmoney,a.hbdetail,a.hbleixingid,b.hbendtime, b.hbstatus, a.hbname, b.hbstartime, a.smoney, a.sday, a.hbtype
+        from userrepackets b
+        left join newhb_type a on a.hbleixingid=b.hbleixingid
+        where b.hbid = #{id}
+    </select>
+
+    <!-- 修改红包状态 -->
+    <update id="updateRedPacketsStatus" parameterType="java.util.Map">
+        update userrepackets set
+        <choose>
+            <when test="hbstatus != null and hbstatus != ''">hbstatus = #{hbstatus}</when>
+            <otherwise>flag=#{flag}</otherwise>
+        </choose>
+        where hbid = #{hbid}
+    </update>
+
+    <!-- 获取红包列表 -->
+    <select id="getHbByParam" parameterType="Map" resultMap="BaseUserRedPacketsResult">
+        select b.hbid,a.hbmoney,a.hbdetail,a.hbleixingid,b.hbendtime, b.hbstatus,
+        a.hbname, b.hbstartime, a.smoney, a.sday, a.hbtype from userrepackets b
+        left join newhb_type a on a.hbleixingid = b.hbleixingid
+        <trim prefix="where" prefixOverrides="and|or">
+            <if test="sday !=null and sday != ''">
+                <![CDATA[ and a.sday <= #{sday} ]]>
+            </if>
+
+            <if test="smoney !=null and smoney != ''">
+                <![CDATA[ and a.smoney <= #{smoney} ]]>
+            </if>
+
+            <if test="ohb !=null and ohb != ''">
+                <![CDATA[ and  a.hbtype <> 2 ]]>
+            </if>
+
+            <if test="nhb !=null and nhb != ''">
+                <![CDATA[ and  a.hbtype <> 1 ]]>
+            </if>
+
+            <if test="hbstatus != null and hbstatus != ''">
+                and b.hbstatus=#{hbstatus}
+            </if>
+            <if test="jxqbnsy != null and jxqbnsy != ''">
+                <![CDATA[ and b.hbleixingid <> 351 ]]>
+            </if>
+            and b.userid=#{userId}
+        </trim>
+        order by a.hbmoney Desc, b.hbendtime
+
+    </select>
+
+    <!--获取红包可使用个数-->
+    <select id="getCountHbByParam" parameterType="Map" resultType="int">
+        select count(1) from userrepackets b
+        left join newhb_type a on a.hbleixingid = b.hbleixingid
+        <trim prefix="where" prefixOverrides="and|or">
+            <if test="sday !=null and sday != ''">
+                <![CDATA[ and a.sday <= #{sday} ]]>
+            </if>
+
+            <if test="smoney !=null and smoney != ''">
+                <![CDATA[ and a.smoney <= #{smoney} ]]>
+            </if>
+
+            <if test="ohb !=null and ohb != ''">
+                <![CDATA[ and  a.hbtype <> 2 ]]>
+            </if>
+
+            <if test="nhb !=null and nhb != ''">
+                <![CDATA[ and  a.hbtype <> 1 ]]>
+            </if>
+
+            <if test="hbstatus != null and hbstatus != ''">
+                and b.hbstatus=#{hbstatus}
+            </if>
+            <if test="jxqbnsy != null and jxqbnsy != ''">
+                <![CDATA[ and b.hbleixingid <> 351 ]]>
+            </if>
+            and b.userid=#{userId}
+        </trim>
+    </select>
+
+    <!-- 邀请好友获取的红包个数和红包总金额 -->
+    <select id="getInviterCountSumHb" parameterType="int"
+            resultType="com.finace.miscroservice.commons.entity.UserRedPackets">
+       <![CDATA[
+          select count(b.userid) as userid, sum(a.hbmoney) as hbmoney from userrepackets b
+        left join newhb_type a on a.hbleixingid = b.hbleixingid
+        where b.userid=#{userId} and b.inviter <> 0 and b.inviter is not null and a.hbtype = 1
+        ]]>
+    </select>
+
+    <!-- 获取邀请红包列表 -->
+    <select id="getInviterList" parameterType="int" resultType="com.finace.miscroservice.commons.entity.UserRedPackets">
+        <![CDATA[
+         select b.userid,b.inviter,a.hbmoney from userrepackets b
+        left join newhb_type a on a.hbleixingid = b.hbleixingid
+        where b.userid=#{userId} and b.inviter <> 0 and b.inviter is not null  and a.hbtype = 1
+        ]]>
+    </select>
+
+    <!-- 根据邀请人的id和被邀请人id获取红包信息 -->
+    <select id="getUserIdInviter" parameterType="Map"
+            resultType="com.finace.miscroservice.commons.entity.UserRedPackets">
+        select b.userid,b.inviter,a.hbmoney,hl.userTotal as hbdetail from userrepackets b
+        left join newhb_type a on a.hbleixingid = b.hbleixingid
+        left join hongbao_log hl on b.hbid = hl.active_id
+        where b.userid=#{userId} and b.inviter = #{inviter} and a.hbtype = 1 limit 1
+    </select>
+
+    <!--  获取未使用并且已到期 的红包信息  hbendtime < DATE_FORMAT(NOW(), '%Y-%m-%d %h:%i:%s')-->
+    <select id="getEndedUserRedPackets" resultType="com.finace.miscroservice.commons.entity.UserRedPackets">
+		<![CDATA[
+
+			SELECT * FROM userrepackets WHERE hbstatus = 0 AND hbleixingid > 5 And flag = 0
+
+        ]]>
+	</select>
+
+    <!-- 获取红包过期前三天给用户发短信 -->
+    <select id="getWillExpiredUserId" resultType="String">
+        select c.* from (
+            select b.userid
+            from userrepackets b
+            where b.hbstatus=0 and date_format(b.hbendtime,'%Y-%m-%d') = adddate(curdate(), '+3 days') order by b.hbendtime desc
+        ) c group by c.userid
+    </select>
+
+</mapper>

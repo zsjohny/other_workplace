@@ -1,0 +1,7 @@
+#同信的配置
+tongxinAttr:
+tongxinUrl:http://103.37.149.238:88/service/user/signup
+tongxinParam:
+tongxinOtherParam:
+tongxinRegMsg:该手机号已注册！
+tongxinTips:、 [同信]

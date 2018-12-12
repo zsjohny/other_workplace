@@ -1,0 +1,182 @@
+
+---
+#服务间的认证开关
+service.auth.enabled: true
+
+
+
+---
+#数据库开关 true打开 false关闭
+datasource:
+ enabled: true
+
+
+
+---
+#拦截器开关 true打开 false关闭
+filter:
+  path:          #路径
+    enabled: false
+  auth:          #认证
+    enabled: true
+
+
+---
+#时间日期转换开关 true打开 false关闭
+dataConvert:
+ enabled: true
+
+---
+#数据库配置
+jdbc:
+   read:
+       url: jdbc:mysql://118.31.129.39:10000/ytj?useUnicode=true&characterEncoding=utf8
+       user: root
+       pass: ytj
+       class: com.mysql.jdbc.Driver
+
+   write:
+       url: jdbc:mysql://118.31.129.39:10000/ytj?useUnicode=true&characterEncoding=utf8
+       user: root
+       pass: ytj
+       class: com.mysql.jdbc.Driver
+
+
+
+---
+#注册服务地址设置
+eureka:
+  client:
+    service-url:
+        defaultZone: http://${security.user.name}:${security.user.password}@${eureka.instance.registerInfo}:6898/eureka,http://${security.user.name}:${security.user.password}@${eureka.instance.registerInfo}:6899/eureka
+  instance:
+   #       测试的时候使用localhost
+       registerInfo: 47.97.174.183
+#       registerInfo: localhost
+       prefer-ip-address: true
+       instance-id: ${spring.cloud.client.ipAddress}:${server.port}
+       #        测试的时候使用112.17.92.53
+       ip-address: 47.97.174.183
+#       ip-address: 112.17.92.53
+#     ip-address: 10.139.52.31
+
+---
+#关闭mq检查
+management:
+  health:
+    rabbit:
+      enabled: false
+
+---
+#redis配置
+spring:
+  redis:
+    host: 47.97.174.183    # 120.27.222.192   47.97.174.183
+    port: 8048
+    database: 1
+    password: etongjin   #nessary    etongjin
+
+
+---
+#mybatis配置
+mybatis:
+  mapperLocations: classpath*:**/*Mapper.xml
+  configuration:
+    mapUnderscoreToCamelCase: true
+    cache-enabled: true
+
+---
+#mq 配置
+mq:
+  host: 47.97.174.183
+  port: 5672
+  userName: etongjin
+  userPass: 123456
+
+---
+#spring security的api验证开关
+spring.security.enabled: true
+
+---
+#security的开启认证
+security:
+  user:
+    name: test
+    password: test
+
+---
+#pageHelper的配置
+pagehelper:
+  reasonable: false
+  support-methods-arguments: true
+  helper-dialect: mysql
+
+---
+#关闭spring的datasource初始化
+spring.datasource.initialize: false
+
+---
+#设置spring atomikos的日志
+spring:
+  jta:
+    log-dir: ${java.io.tmpdir}/${random.uuid}
+
+---
+#关闭jackson的默认输出null
+spring:
+  jackson:
+    default-property-inclusion: non_null
+
+---
+#zookeeper的服务器地址 多个用,分开
+zookeeper:
+  serverList: 47.97.174.183:2181
+
+---
+#是否打开验证频率拦截
+verityLimeter.enabled: true
+
+---
+#验证码认证拦截的前缀
+verify.limiter.rate.referer: etongjin.net
+
+
+---
+#设定超时时间
+hystrix.command.default.execution.isolation.thread.timeoutInMilliseconds: 20000
+ribbon.ReadTimeout: 18000
+ribbon.ConnectTimeout: 18000
+---
+#druid的监控参数设置
+druid:
+  monitor:
+    enabled:  true #是否开启druid的监控平台 true打开 false不开启
+    name: admin #druid的登陆用户名
+    pass: admin #druid的登陆密码
+    allowIp: "*" #druid的白名单列表 * 为所有Ip  yml解析*用 "*"
+
+
+---
+#是否打开自动生成sql的任务 true打开 false不打开
+auto.init.sql.enabled: true
+
+---
+#反序列化开关
+deSerialized.enabled: true
+
+---
+#立即注销服务
+endpoints:
+  shutdown:
+    enabled: true
+
+
+
+
+
+
+
+
+
+
+

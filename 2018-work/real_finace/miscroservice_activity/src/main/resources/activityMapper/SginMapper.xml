@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.finace.miscroservice.activity.mapper.SginMapper">
+
+    <resultMap id="BaseSginResult" type="com.finace.miscroservice.activity.po.SginPO">
+        <result column="user_id" property="userId" />
+        <result column="username" property="username"  />
+        <result column="total_number" property="totalNumber"  />
+        <result column="number" property="number"  />
+        <result column="addtime" property="addtime"  />
+        <result column="remark" property="remark"  />
+    </resultMap>
+
+    <!-- 根据用户id获取签到信息 -->
+    <select id="getSginByUser" parameterType="String" resultType="com.finace.miscroservice.activity.po.SginPO">
+        SELECT * FROM sgin where user_id = #{userId}
+    </select>
+
+    <!-- 判断用户当前是否签到 -->
+    <select id="getNowSginByUser" parameterType="String" resultType="Integer">
+        SELECT count(user_id) FROM sgin where user_id = #{userId} and curdate() = DATE_FORMAT(FROM_UNIXTIME(addtime),'%Y-%m-%d')
+    </select>
+
+    <!-- 新增用户签到信息 -->
+    <insert id="saveSgin" parameterType="com.finace.miscroservice.activity.po.SginPO" >
+        insert into sgin (user_id, username, total_number,number, addtime, remark)
+        values (#{userId}, #{username},#{totalNumber}, #{number}, #{addtime},#{remark})
+    </insert>
+
+    <!-- 修改用户签到信息 -->
+    <update id="updateSgin" parameterType="com.finace.miscroservice.activity.po.SginPO">
+        update sgin
+
+        <trim prefix="set" suffixOverrides=",">
+             <if test="totalNumber !=null and totalNumber != ''">
+                 total_number = #{totalNumber},
+             </if>
+            <if test="number !=null and number != ''">
+                number = #{number},
+            </if>
+            <if test="addtime !=null and addtime != ''">
+                addtime = #{addtime},
+            </if>
+            <if test="remark !=null and remark != ''">
+                remark = #{remark},
+            </if>
+        </trim>
+        where user_id = #{userId}
+    </update>
+
+    <!-- 每月第一天 凌晨执行 上个月签到清零 -->
+    <update id="updateSginZero" parameterType="com.finace.miscroservice.activity.po.SginPO" >
+        update sgin set total_number = 0, number = 0;
+    </update>
+
+
+
+</mapper>
+
+
+
+
+
+
+
+
+
+
+

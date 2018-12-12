@@ -1,0 +1,31 @@
+#set ($baseClass = "org.springframework.orm.ibatis.support.SqlMapClientDaoSupport")
+#set ($base = "SqlMapClientDaoSupport")
+#parse("copyright.vm")
+package ${table.ibatisPackage};
+
+import $baseClass;
+
+import ${table.qualifiedDAOClassName};
+
+#foreach($importClass in $table.daoImports) 
+import $importClass;
+#end
+#foreach($importClass in $table.ibatisImports)
+#if(!$table.daoImports.contains($importClass))
+import $importClass;
+#end
+#end
+
+/**
+ * An ibatis based implementation of dao interface <tt>${table.qualifiedDAOClassName}</tt>.
+ *
+#parse("description-java.vm")
+ * @version $Id: ${table.ibatisClassName}.java,v 1.0 2013/10/29 07:34:20 guangdong.li Exp $
+ */
+public class ${table.ibatisClassName} extends $base implements ${table.DAOClassName} {
+#foreach($operation in $table.operations)
+#parse("operation/op-${operation.templateSuffix}.vm") #parse("operation/opbody-${operation.templateSuffix}.vm")
+
+
+#end
+}

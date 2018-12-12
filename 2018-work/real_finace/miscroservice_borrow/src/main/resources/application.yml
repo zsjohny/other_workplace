@@ -1,0 +1,40 @@
+---
+#限流开关
+limter.flow.enabled: false
+
+---
+#文件加载的环境配置
+spring:
+  profiles:
+    active: test
+  application:
+            name: borrow
+
+---
+#端口
+server:
+  port: 8084
+
+
+---
+#mybatis的扫包路径
+mybatis:
+  typeAliasesPackage: com.finace.miscroservice.borrow.po
+
+---
+#打开数据库配置
+open.datasource : true
+flyway.enabled: true
+
+---
+#日志保存名称
+log.name:  borrow
+
+
+---
+#mq管理
+mq:
+  # 发送消息的集合管理  格式  消息名称:消息的类型(fanout,direct):接受的监听类的名称(首字母小写) eg msg:fanout:demoListener
+  channels: timer_scheduler_timer_send_invest_statis_message:fanout:sendInvestStatisMessageListener,timer_scheduler_timer_send_order_delay:fanout:orderDelayListener,timer_scheduler_timer_send_order_failure_inspect:fanout:orderFailureInspectListener,generate_contract:fanout:generateContractListener,loan_money:fanout:loanMoneyListener,auto_up_borrow:fanout:autoUpBorrowListener
+  #是否打开发送开关 true是 false不是
+  openSend: true

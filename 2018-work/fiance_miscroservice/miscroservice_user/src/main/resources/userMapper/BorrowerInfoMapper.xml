@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.finace.miscroservice.user.mapper.BorrowInfoMapper">
+
+    
+    <resultMap id="BaseBorrowerInfoResult" type="com.finace.miscroservice.user.po.BorrowerInfoPO">
+        <id column="user_id" property="user_id"/>
+        <id column="id" property="id"/>
+        <id column="money" property="money"/>
+        <id column="manage" property="manage"/>
+        <id column="finance" property="finance"/>
+        <id column="repayment" property="repayment"/>
+        <id column="overdue" property="overdue"/>
+        <id column="appeal" property="appeal"/>
+        <id column="punish" property="punish"/>
+        <id column="track" property="track"/>
+        <id column="address" property="address"/>
+        <id column="person" property="person"/>
+        <id column="name" property="name"/>
+        <id column="abbreviation" property="abbreviation"/>
+        <id column="card_id" property="card_id"/>
+    </resultMap>
+
+    <!-- 根据用户id获取借款人信息 -->
+    <select id="getBorrowerInfoByUserId" parameterType="String"
+            resultType="com.finace.miscroservice.user.po.BorrowerInfoPO">
+        select * from borrower_info where user_id = #{userId} limit 1
+    </select>
+
+    <!-- 新增借款人信息 -->
+    <insert id="addBorrowerInfo" useGeneratedKeys="true" keyProperty="user_id"
+            parameterType="com.finace.miscroservice.user.po.UserPO">
+     insert into borrower_info (user_id, money, manage, finance, repayment, overdue, appeal, punish, track, address, person, `name`, abbreviation, card_id)
+        values (#{user_id},#{money},#{manage},#{finance},#{repayment},#{overdue},#{appeal},#{punish},#{track},#{address},#{person},#{name},#{abbreviation},#{card_id})
+    </insert>
+
+</mapper>
+
+
+
+
+
+
+
+
+
+
+

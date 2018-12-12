@@ -1,0 +1,154 @@
+buildscript {
+    ext {
+        springBootVersion = '1.5.8.RELEASE'
+        springCloudContractVersion = '1.2.1.RELEASE'
+        jfrogBuildInfoPluginVersion = '4.4.12'
+    }
+    repositories {
+        mavenCentral()
+        maven {
+            url 'https://eis.jfrog.io/eis/plugins-release'
+            credentials {
+                username = project.artifactory_user
+                password = project.artifactory_password
+            }
+        }
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        classpath "org.springframework.cloud:spring-cloud-contract-gradle-plugin:${springCloudContractVersion}"
+        classpath "org.jfrog.buildinfo:build-info-extractor-gradle:${jfrogBuildInfoPluginVersion}"
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'spring-cloud-contract'
+apply plugin: 'idea'
+apply plugin: 'maven'
+apply plugin: 'com.jfrog.artifactory'
+apply plugin: 'maven-publish'
+
+group = 'com.ebsco.producer.example'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+    maven {
+        url 'https://eis.jfrog.io/eis/libs-release-local'
+        credentials {
+            username = project.artifactory_user
+            password = project.artifactory_password
+        }
+    }
+}
+
+
+dependencies {
+    compile('org.springframework.boot:spring-boot-starter-web')
+    testCompile('org.springframework.boot:spring-boot-starter-test')
+    testCompile('org.springframework.cloud:spring-cloud-starter-contract-verifier')
+
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:Edgware.RELEASE"
+    }
+}
+
+contracts {
+    packageWithBaseClasses = 'com.ebsco.producer.example'
+    contractsDslDir = file("${project.projectDir}/src/test/resources/contracts/")
+}
+
+clean.doFirst {
+    delete 'build/'
+}
+
+/*def isSnapshot = project.version.endsWith('SNAPSHOT')
+def repo = version.endsWith('SNAPSHOT') ? 'libs-snapshot-local' : 'libs-release-local'
+
+artifactory {
+    //The base Artifactory URL if not overridden by the publisher/resolver
+    contextUrl = project.artifactory_contextUrl
+
+    resolve {
+        repository {
+            repoKey = 'libs-release'
+            username = project.artifactory_user
+            password = project.artifactory_password
+        }
+    }
+
+    publish {
+        repository {
+            repoKey = repo
+            username = project.artifactory_user
+            password = project.artifactory_password
+            maven = true
+        }
+
+    }
+}*/
+
+artifactory {
+    contextUrl = "https://eis.jfrog.io/eis/"
+    publish {
+        repository {
+            repoKey = 'libs-snapshot-local'
+            username = project.artifactory_user
+            password = project.artifactory_password
+            maven = true
+
+        }
+        defaults {
+            publications ('mavenJava')
+        }
+    }
+}
+
+task stubsJar(type: Jar) {
+    classifier = "stubs"
+    into('/') {
+        include('**/com/ebsco/cdc/producer/model/*.*')
+        from("${project.rootDir}/src/main/java/")
+    }
+    into('/') {
+        include('**/com/ebsco/cdc/producer/model/*.*')
+        from("${project.buildDir}/classes/main")
+    }
+    into("META-INF/${project.group}/${project.name}/${project.version}/mappings") {
+        include('**/*.*')
+        from("${project.rootDir}/target/snippets/stubs")
+    }
+    into("META-INF/${project.group}/${project.name}/${project.version}/contracts") {
+        include('**/*.groovy')
+        from("${project.rootDir}/src/test/resources/contracts")
+    }
+}
+
+// we need the tests to pass to build the stub jar
+stubsJar.dependsOn(test)
+// we want to disable the default Spring Cloud Contract stub jar generation
+verifierStubsJar.enabled = false
+
+artifacts {
+    archives stubsJar
+}
+
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+
+
+            artifact stubsJar {
+                classifier "stubs"
+            }
+        }
+    }
+}

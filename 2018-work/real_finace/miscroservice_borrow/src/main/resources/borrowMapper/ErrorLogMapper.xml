@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.finace.miscroservice.borrow.mapper.ErrorLogMapper">
+
+
+    <resultMap id="BaseErrorLogResult" type="com.finace.miscroservice.borrow.po.ErrorLogPO" >
+        <result column="id" property="id"  />
+        <result column="type" property="type"  />
+        <result column="msg" property="msg"  />
+        <result column="orderid" property="orderid"  />
+        <result column="status" property="status"  />
+        <result column="addtime" property="addtime"  />
+        <result column="addip" property="addip"  />
+        <result column="remark" property="remark"  />
+
+    </resultMap>
+
+
+    <!-- 新增错误日志 -->
+    <insert id="addErrorLog" parameterType="com.finace.miscroservice.borrow.po.ErrorLogPO">
+        INSERT INTO `error_log` ( `type`, `msg`, `orderid`,`status`, `addtime`, `addip`, `remark`)
+        SELECT  #{type}, #{msg}, #{orderid}, #{status},#{addtime}, #{addip}, #{remark}
+        FROM dual WHERE NOT EXISTS ( SELECT `type` FROM error_log WHERE `type` = #{type}
+                                     and `msg` = #{msg} and `orderid` = #{orderid} and `status`=#{status})
+    </insert>
+
+    <!-- 获取错误日志信息列表 -->
+    <select id="getErrorLogList" parameterType="java.lang.Integer" resultMap="BaseErrorLogResult">
+        <![CDATA[
+	       SELECT A.*  FROM error_log A WHERE 1=1
+	     ]]>
+    </select>
+
+
+</mapper>
+
+
+
+
+
+
+
+
+
+
+

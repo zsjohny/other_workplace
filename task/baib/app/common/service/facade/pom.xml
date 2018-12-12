@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>com.onway.baib</groupId>
+		<artifactId>baib-parent</artifactId>
+		<version>1.0</version>
+		<relativePath>../../../../pom.xml</relativePath>
+	</parent>
+
+	<groupId>com.onway.baib</groupId>
+	<artifactId>baib-common-service-facade</artifactId>
+	<version>1.0.0</version>
+	<name>baib-common-service-facade</name>
+	<description>baib-common-service-facade</description>
+	<packaging>jar</packaging>
+
+
+	<dependencies>
+		<dependency>
+			<groupId>commons-lang</groupId>
+			<artifactId>commons-lang</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.onway.framework</groupId>
+			<artifactId>platform-core</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.onway.framework</groupId>
+			<artifactId>platform-event</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.onway.framework</groupId>
+			<artifactId>platform-mvc</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.onway.framework</groupId>
+			<artifactId>platform-cache</artifactId>
+		</dependency>
+	</dependencies>
+</project>

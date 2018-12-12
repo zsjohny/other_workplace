@@ -1,0 +1,69 @@
+apply plugin: 'java'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'docker'
+repositories {
+    mavenCentral()
+
+
+}
+
+group "nessary"
+
+
+jar {
+    baseName "test"
+    version = '1.0.0'
+}
+
+
+dependencies {
+    compile "org.springframework.boot:spring-boot-starter-web:1.5.8.RELEASE"
+    compile group: 'org.javassist', name: 'javassist', version: '3.21.0-GA'
+    compile 'com.alibaba:fastjson:1.2.7'
+    compile 'org.apache.commons:commons-lang3:3.4'
+
+}
+
+
+buildscript {
+
+    repositories {
+
+        mavenCentral()
+
+
+    }
+
+
+
+
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.5.8.RELEASE")
+        classpath 'se.transmode.gradle:gradle-docker:1.2'
+
+
+    }
+
+
+}
+docker {
+    useApi true
+    hostUrl 'http://192.168.89.134:2375'
+//    apiUsername 'root'
+//    apiPassword '879227577'
+    baseImage = 'java'
+    apiEmail 'nessary@nessary.com'
+}
+
+task buildDocker(type: Docker, dependsOn: build) {
+    push = false
+
+    applicationName = jar.baseName
+    dockerfile = file('Dockerfile')
+    doFirst {
+        copy {
+            from jar
+            into stageDir
+        }
+    }
+}

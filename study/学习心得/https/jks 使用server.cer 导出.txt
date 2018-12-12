@@ -1,0 +1,5 @@
+keytool -import -alias cert -file server-cert.cer -keystore server.jks
+
+然后添加到DoubleWayTlsPool.java 文件中地址
+
+运行即可

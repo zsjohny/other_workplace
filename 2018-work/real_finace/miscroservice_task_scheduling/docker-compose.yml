@@ -1,0 +1,21 @@
+#版本信息
+version: '3'
+#服务
+services:
+  #服务的名称
+  miscroservice:
+    #构建的Dockerfile地址
+    build: .
+    #参数列表
+    environment:
+      - innerAddress=${innerAddress}
+    #共享地址
+    volumes:
+     - /stock/logs:/stock/logs
+     - /tmp:/tmp
+    #绑定端口
+    ports:
+     - 8079:8079
+     - 2080:2080
+
+

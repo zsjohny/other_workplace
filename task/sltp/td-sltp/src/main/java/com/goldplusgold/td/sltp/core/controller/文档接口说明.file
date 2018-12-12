@@ -1,0 +1,43 @@
+
+
+
+
+---------------------getAll---
+         获取某个合约的空头或者多头所有记录(不分页)
+               ------String id;//用户的Id
+               ------String name;//合约的名称
+               ------String type;//合空头还是多头(非必须字段)  0 空 1多
+
+         根据已经触发或者没有触发获取分页数据
+               ------String id;//用户的Id
+               ------Integer clickType;//用点击的类型 0 是已经触发 1是未触发
+               ------Integer page;//页数 默认是第一页 从1开始
+
+
+---------------------save---
+         新增
+               ------String id;//用户的Id
+               ------Double slPrice;//止损的价格(只能和止盈存一个)
+               ------Double tpPrice;//止盈的价格(只能和止损存一个)
+               ------Integer lots;//手数
+               ------String contract;//合约
+               ------Integer bearBull;//空头/多头  0 空头 1 多头
+               ------Integer sltpType;//止盈止损类型  0是止损  1是止盈
+               ------Integer commissionResult;//委托结果---------?
+               ------Double commissionPrice;//委托价格------------?
+               ------Double floatPrice;//委托浮动点数
+
+
+
+
+  ---------------------update---
+          更新
+                 ------String id;//用户的Id
+                 ------String uuid;//用户订单的Id
+                 ------Double slPrice;//止损的价格(只能和止盈存一个)
+                 ------Double tpPrice;//止盈的价格(只能和止损存一个)
+                 ------Integer lots;//手数
+                 ------Integer commissionResult;//委托结果---------?
+                 ------Double commissionPrice;//委托价格------------?
+                 ------Double floatPrice;//委托浮动点数
+

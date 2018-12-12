@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.finace.miscroservice.borrow.mapper.ReturnsDetailedMapper">
+
+    <select id="findUserByUserId" resultType="com.finace.miscroservice.commons.entity.User">
+        SELECT * FROM `user` WHERE user_id = #{userId}
+    </select>
+    <select id="findHuifu" resultType="com.finace.miscroservice.borrow.entity.response.HMoneyResponse">
+        SELECT
+        CASE WHEN SUM(account) IS NULL THEN 0.00 ELSE SUM(account) END as hAccount,
+        CASE WHEN SUM(interest) IS NULL THEN 0.00 ELSE SUM(interest) END as hInterest
+        from borrow_tender where user_id = #{userId} and trust_status = '1' and trust_IsFreeze = 'Y'
+    </select>
+    <!--回款= buy_amt-coupon_amt (本金) -利息收益 -加息券收益 -红包收益 -其他 -->
+    <select id="findAmtBack" resultType="com.finace.miscroservice.borrow.entity.response.ReturnsDetailedResponse">
+        SELECT
+             CASE WHEN SUM(buy_amt-IF(coupon_amt is null,0,coupon_amt)) IS NULL THEN 0.00 ELSE SUM(buy_amt-IF(coupon_amt is null,0,coupon_amt)) END
+             AS amt_principal,-- 累计已回款本金
+            CASE WHEN SUM(
+                ROUND (
+                    (rate-IF(coupon_rate is null,0,coupon_rate)) / 36500 * (
+                        buy_amt
+                    ) * datediff(end_profit, begin_profit),
+                    2
+                )
+            ) IS NULL THEN 0.00 ELSE SUM(
+                ROUND (
+                     (rate-IF(coupon_rate is null,0,coupon_rate)) / 36500 * (
+                       buy_amt
+                    ) * datediff(end_profit, begin_profit),
+                    2
+                )
+            ) END
+            as back_interest,-- 利率*  本金
+            CASE WHEN SUM(ROUND (-- 加息券 * 本金
+                    IF(coupon_rate is null,0,coupon_rate) / 36500 * (
+                        buy_amt
+                    ) * datediff(end_profit, begin_profit),
+                    2
+                )) IS NULL THEN 0.00 ELSE SUM(ROUND (-- 加息券 * 本金
+                    IF(coupon_rate is null,0,coupon_rate) / 36500 * (
+                        buy_amt
+                    ) * datediff(end_profit, begin_profit),
+                    2
+                )) END
+           as back_interest_pro,
+             CASE WHEN SUM(coupon_amt) IS NULL THEN 0.00 ELSE SUM(coupon_amt) END
+            AS back_red_packet-- 红包
+        FROM
+            finance_bid
+        WHERE
+            `user_id` =#{userId}
+        -- AND `hbid` IS NOT NULL
+        AND `status` = 'repayment'
+
+    </select>
+<!-- CASE WHEN SUM(buy_amt) IS NULL THEN 0.00 ELSE SUM(buy_amt) END-->
+    <select id="findWaitBack" resultType="com.finace.miscroservice.borrow.entity.response.ReturnsDetailedResponse">
+        SELECT
+         CASE WHEN SUM(buy_amt) IS NULL THEN 0.00 ELSE SUM(buy_amt) END AS wait_back_principal, -- 待回款本金+利息
+          CASE WHEN SUM(ROUND (
+                    rate / 36500 * (
+                        buy_amt
+                    ) * datediff(end_profit, begin_profit),
+                    2
+                )) IS NULL THEN 0.00 ELSE SUM(ROUND (
+                    rate / 36500 * (
+                        buy_amt
+                    ) * datediff(end_profit, begin_profit),
+                    2
+                )) END-- 本金+红包   *  利息+加息券
+            as wait_back_interest
+        FROM
+            finance_bid
+        WHERE
+            `user_id` =#{userId}
+        -- AND `hbid` IS NOT NULL
+        AND `status` = 'counting'
+    </select>
+    <select id="findAmtInvestmentByUserId" resultType="java.lang.Double">
+        SELECT  CASE WHEN SUM(buy_amt) IS NULL THEN 0.00 ELSE SUM(buy_amt) END from  finance_bid
+        WHERE user_id= #{userId} and pay = '1'
+    </select>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-modules id="moduleCoreId" project-version="1.5.0">
+    <wb-module deploy-name="baib">
+        <wb-resource deploy-path="/" source-path="/WebContent" tag="defaultRootSource"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/java"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/resources"/>
+        <dependent-module archiveName="baib-biz-service-impl.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/baib-biz-service-impl/baib-biz-service-impl">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="baib-biz-shared.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/baib-biz-shared/baib-biz-shared">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="baib-common-service-integration.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/baib-common-service-integration/baib-common-service-integration">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="baib-biz-task.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/baib-biz-task/baib-biz-task">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="baib-common-service-facade.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/baib-common-service-facade/baib-common-service-facade">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="baib-common-util.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/baib-common-util/baib-common-util">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="baib-core-service.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/baib-core-service/baib-core-service">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="baib-common-dal.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/baib-common-dal/baib-common-dal">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="baib-core-model.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/baib-core-model/baib-core-model">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="baib-web-home.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/baib-web-home/baib-web-home">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="baib-test.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/baib-test/baib-test">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <property name="context-root" value="baib"/>
+        <property name="java-output-path" value="/baib/target/classes"/>
+    </wb-module>
+</project-modules>

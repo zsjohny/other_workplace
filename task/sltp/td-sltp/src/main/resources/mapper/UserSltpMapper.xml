@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.goldplusgold.td.sltp.core.mapper.UserSltpMapper">
+
+    <resultMap id="UserSltpResult" type="userSltpRecord">
+        <result column="user_id" property="userId" jdbcType="VARCHAR" javaType="String"/>
+        <result column="uuid" property="uuid" jdbcType="VARCHAR" javaType="String"/>
+        <result column="sl_price" property="slPrice" jdbcType="DOUBLE" javaType="Double"/>
+        <result column="tp_price" property="tpPrice" jdbcType="DOUBLE" javaType="Double"/>
+        <result column="float_price" property="floatPrice" jdbcType="DOUBLE" javaType="Double"/>
+        <result column="contract" property="contract" jdbcType="VARCHAR" javaType="String"/>
+        <result column="bear_bull" property="bearBull" jdbcType="BIT" javaType="Integer"/>
+        <result column="sltp_type" property="sltpType" jdbcType="TINYINT" javaType="Integer"/>
+        <result column="commission_expire_type" property="commissionExpireType" jdbcType="BIT" javaType="Integer"/>
+        <result column="commission_result" property="commissionResult" jdbcType="BIT" javaType="Integer"/>
+        <result column="commission_price" property="commissionPrice" jdbcType="DOUBLE" javaType="Double"/>
+        <result column="commission_start_date" property="commissionStartDate" jdbcType="BIGINT"
+                javaType="Long"/>
+        <result column="commission_end_date" property="commissionEndDate" jdbcType="BIGINT"
+                javaType="Long"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP" javaType="java.sql.Timestamp"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" javaType="java.sql.Timestamp"/>
+    </resultMap>
+
+    <select id="findSltpOneByUuid" parameterType="string" resultMap="UserSltpResult">
+		select sl_price,uuid,create_time from t_user_sltp_record where uuid=#{uuid} and deleted =FALSE limit 1;
+
+	</select>
+
+    <select id="findSltpAllInfoByUserId" resultMap="UserSltpResult">
+        select sl_price,uuid,create_time from t_user_sltp_record where user_id=#{userId}
+        <if test="commissionResult ==null">
+            AND commission_result != 2
+        </if>
+        <if test="commissionResult == 2">
+            AND commission_result = 2
+        </if>
+        and deleted =FALSE limit #{start},#{pageCount}
+    </select>
+
+
+    <insert id="saveUserSltpOne" useGeneratedKeys="true" keyProperty="id" parameterType="userSltpRecord">
+        INSERT INTO t_user_sltp_record (`float_price`,`commission_expire_type`,`user_id`,`uuid`,`sl_price`,`lots`,`tp_price`,`contract`,`commission_price`,`commission_start_date`,`commission_end_date`,`bear_bull`,`sltp_type`,`commission_result`)
+       SELECT   #{floatPrice},#{commissionExpireType},#{userId},#{uuid},#{slPrice},#{lots},#{tpPrice},#{contract},#{commissionPrice},#{commissionStartDate},#{commissionEndDate}, #{bearBull},#{sltpType},#{commissionResult} FROM dual WHERE NOT EXISTS (SELECT  uuid from  t_user_sltp_record where uuid =#{uuid})
+
+    </insert>
+
+
+    <update id="updateUserSltpOneByUuid" parameterType="userSltpRecord">
+        UPDATE t_user_sltp_record
+        <trim prefix="set" prefixOverrides=",">
+            update_time=now()
+            <if test="slPrice !=null ">
+                , sl_price=#{slPrice}
+            </if>
+            <if test="tpPrice !=null ">
+                , tp_price=#{tpPrice}
+            </if>
+            <if test="contract !='' and contract !=null ">
+                , contract=#{contract}
+            </if>
+            <if test="lots  !=null ">
+                , lots=#{lots}
+            </if>
+            <if test="commissionPrice !=null ">
+                , commission_price=#{commissionPrice}
+            </if>
+            <if test="commissionStartDate !=null ">
+                , commission_start_date = #{commissionStartDate}
+            </if>
+            <if test="commissionEndDate !=null ">
+                , commission_end_date = #{commissionEndDate}
+            </if>
+            <if test="deleted !=null">
+                , deleted = #{deleted}
+            </if>
+            <if test="bearBull !=null">
+                , bear_bull = #{bearBull}
+            </if>
+            <if test="sltpType !=null">
+                , sltp_type = #{sltpType}
+            </if>
+            <if test="commissionExpireType !=null">
+                , commission_expire_type = #{commissionExpireType}
+            </if>
+
+            <if test="commissionResult !=null">
+                , commission_result = #{commissionResult}
+            </if>
+
+            <if test="floatPrice !=null">
+                , float_price = #{floatPrice}
+            </if>
+
+
+        </trim>
+        WHERE uuid = #{uuid}
+
+    </update>
+
+
+</mapper>

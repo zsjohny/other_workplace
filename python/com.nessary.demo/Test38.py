@@ -1,0 +1,14 @@
+import time
+
+from selenium import webdriver
+
+
+def get_content():
+    driver = webdriver.PhantomJS(executable_path=r"C:\Program Files\phantomjs\bin\phantomjs.exe")
+    driver.get("http://det.zoosnet.net/LR/Chatpre.aspx?id=DET28936291&cid=1497864989753771378854&lng=cn&sid=1497864989753771378854&p=http%3A//zehai400.com/about/%3F2.html%23%3Bbd-pc%3B%u5FAE%u4FE1%u5206%u9500%u8BA1%u5212%3B%u6838%u5FC3%u8BCD%3B%u5FAE%u4FE1%20%u4E09%u7EA7%u5206%u9500&rf1=https%3A//www.baidu.com/baidu.php%3Fsc.af0000K9MHT1D957NJrKdmqekFZ7qqIyvZ94wPOSVp73YQWbj5IBrHU3FDwRyw-e4xTD25JVzgwflodN3DsFSzEwtqLqgVQsVK9ntytQlHRUKtbiH_edx0lApKUtqyngf0ruqXvhKr_85-q7rbOzytpSbXQqcUa5auC4H_Mh0t05BKm6P0.DR_iT2phgq--BcAULm2DZxF1OlZ3Ue_SrZt5q1OJx_x3ELE45e5tEt5egtZO8OjObxY5v5egqOeE3xeMOROmOkxs5tLONO9OzOExzxvx4N2s1f_u2ePLiC0.U1YY0ZDqz5vtVoxy1Oo5VTv1ph7vmfKY5TlBYnR-nWjcOUzvVqU5S6KGUHYznWR0u1dsTLFMUMGJ0ZNG5yF9pywd0ZKGujY1n6KWpyfqnW6s0AdY5HDsnHIxnH0krNt1PW0k0AVG5H00TMfqnHDL0ANGujYkPjfzg1cknH0Lg1DLnj0kg1ckPWTkg1cznHms0AFG5HcsP7tkPHR0UynqPWDkrjnsnjRkg1mknH61nj0dP7ts0Z7spyfqn0Kkmv-b5H00ThIYmyTqn0KEIhsqnH0znW6VrNtknj64nidbX-tknj64PBYvPWT3g1DsrHczQywlg1DknH0YQywlg1DknHDkQywlg1DknHRdQHPxnHDkPH6VuZGxnHDkrjbVuZGxnHDYnjfVnNtknHRzPzYkg1DkPHfLQH7xnHDdP1DVndtknHmLraYdg1DkPWT4Qywlg1DkP1R4QH7xnHDLrHRVnNtknW0zPBdbX-tknWDVuZGxnHckPW6VnNtknWcVuZGxnHc1nHbVuZGxnHc1nWcVuZGxnHc1nWnVn-tknWnzPadbX-tknWnYPzYzg1DzPjTsQywlg1DzPWnsQHFxnHcLPH6VuZGxnHcLrHfVndtknW6YnBdbX-tknW6LPadbX-tknWbzniYkg1DzrHcYQywlg1D1njDvQH7xnHnsPjcVnNtkn103nzdbX-tkn1DsniYYg1cvPWbVuZGxnWmvrN6VuZGxrjR4QHn0mycqn7ts0ANzu1Ys0ZKs5HcYnj64nHmsnWc0UMus5H08nj0snj0snj00Ugws5H00uAwETjYs0ZFJ5H00uANv5gKW0AuY5H00TA6qn0KET1Ys0AFL5HDs0A4Y5H00TLCq0ZwdT1YvP16YnHRYPH63nWDsnHDsPH0Y0ZF-TgfqnHf4P16vPH0kPWmsn6K1pyfqmH9hnyRkP16snjD3mHKhmfKWTvYqPH7KwW0zwbmkwHR4PDfzPsK9m1Yk0ZK85H00TydY5H00Tyd15H00XMfqn0KVmdqhThqV5HKxn7ts0Aw9UMNBuNqsUA78pyw15HKxn7ts0ZK9I7qhUA7M5H00uZwGujYs0ANYpyfqQHD0mgPsmvnqn0KdTA-8mvnqn0KkUymqnHm0uhPdIjYs0AulpjYs0Au9IjYs0ZGsUZN15H00mywhUA7M5HD0UAuW5H00mLFW5Hf4njDL%26ck%3D3344.7.127.228.234.507.336.140%26shh%3Dwww.baidu.com%26us%3D2.0.1.0.2.905.0&rf2=.12%26ie%3DUTF-8%26f%3D8%26tn%3Dbaidu%26wd%3D%25E4%25B8%2589%25E7%25BA%25A7%25E5%2588%2586%25E9%2594%2580%25E7%25B3%25BB%25E7%25BB%259Fjava%26oq%3D%25E4%25B8%2589%25E7%25BA%25A7%25E5%2588%2586%25E9%2594%2580%25E7%25B3%25BB%25E7%25BB%259Fjava%26rqlang%3Dcn%26bc%3D110101&msg=&d=1497865500985&f=1")
+    time.sleep(3)
+    print(driver.page_source)
+
+if __name__ == '__main__':
+   while 1:
+       get_content()

@@ -1,0 +1,286 @@
+　　-noverify -javaagent:E:\eclipse\plugins\org.zeroturnaround.eclipse.embedder_6.2.2.RELEASE-201507291337\jr6\jrebel\jrebel.jar
+　　　　-Drebel.dirs=${project_loc}\WEB-INF\classes
+　　　　-Drebel.spring_plugin=true
+　　　　-Drebel.struts2-plugin=true
+　　　　-Xms256M -Xmx512M -XX:MaxPermSize=128m
+
+nginx 参数设置
+
+worker_processes  1;
+
+
+events {
+    worker_connections 1028;
+    multi_accept on;
+    }
+
+
+http {
+    include       mime.types;
+    default_type  application/octet-stream;
+	server_tokens off;
+    sendfile on;
+    tcp_nopush off;
+    tcp_nodelay off;
+    access_log off;
+    error_log  logs\error.log;
+	limit_conn_zone $binary_remote_addr zone=addr:5m;
+	limit_conn addr 200;
+	
+   
+
+    server {
+        listen       8048;
+        server_name  127.0.0.1:9211;
+		
+		location /ouliao/ {  
+			proxy_pass http://127.0.0.1:9211;  
+            proxy_redirect   off;
+            proxy_set_header  Host $host;
+            proxy_set_header  X-real-ip $remote_addr;
+            proxy_set_header  X-Forwarded-For $proxy_add_x_forwarded_for;
+            client_max_body_size    1000m;  
+	    	----------------------------------------------------------------------解决ajax跨域
+			add_header 'Access-Control-Allow-Headers' 'Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With';
+            add_header 'Access-Control-Allow-Origin' '*';
+			add_header 'Access-Control-Allow-Methods' 'GET,POST,OPTIONS';
+	    	----------------------------------------------------------------------
+			
+		}  
+
+        
+        listen       80;
+        server_name  127.0.0.1:8058;
+		
+		location /spring/ {  
+			proxy_pass http://127.0.0.1:8058;  
+            proxy_redirect   off;
+            proxy_set_header  Host $host;
+            proxy_set_header  X-real-ip $remote_addr;
+            proxy_set_header  X-Forwarded-For $proxy_add_x_forwarded_for;
+            client_max_body_size    1000m;  
+	    	
+		}  
+        
+		location /download/{
+		
+		
+		rewrite ^/(.*)$ http://
+		}
+		
+
+           }
+
+
+
+    }
+
+
+
+
+
+除了上文的“^~ ”可以阻止继续搜索正则location 外，你还可以加“= ”。那么如果“^~ ”和“= ”都能阻止继续搜索正则location 的话，那它们之间有什么区别呢？区别很简单，共同点是它们都能阻止继续搜索正则location ，不同点是“^~ ”依然遵守“最大前缀”匹配规则，然而“= ”不是“最大前缀”，而是必须是严格匹配（exact match ）。
+
+
+
+nginx虚拟目录设置 alias 和 root
+
+使用nginx设置root时要注意一个问题，就是如果该root设置的前端目录不是根目录，那么在写root的绝对地址时，要把前端目录的部分省略掉。
+我们用设置虚拟目录指向的alias来和root比较一下就非常明显了
+
+alias
+
+location /abc/ 
+{     
+alias /home/html/abc/; 
+}
+
+ 
+
+在这段配置下，http://test/abc/a.html就指定的是 /home/html/abc/a.html。这段配置亦可改成
+
+root
+
+ 
+
+location /abc/ 
+{     
+root /home/html/;
+}
+
+
+直接下载的配置
+if ($uri ~* ^.+\.java$) {
+    add_header Content-Type "text/plain; charset=GBK";--页面浏览
+	return 200 "OK";
+}
+
+----------------负载均衡
+
+1. 在http节点下，添加upstream节点。
+
+upstream linuxidc { 
+      server 10.0.6.108:7080; 
+      server 10.0.0.85:8980; 
+}
+
+  2.  将server节点下的location节点中的proxy_pass配置为：http:// + upstream名称，即“
+http://linuxidc”.
+
+
+location / { 
+            root  html; 
+            index  index.html index.htm; 
+            proxy_pass http://linuxidc; 
+}
+
+    3.  现在负载均衡初步完成了。upstream按照轮询（默认）方式进行负载，每个请求按时间顺序逐一分配到不同的后端服务器，如果后端服务器down掉，能自动剔除。虽然这种方式简便、成本低廉。但缺点是：可靠性低和负载分配不均衡。适用于图片服务器集群和纯静态页面服务器集群。
+
+    除此之外，upstream还有其它的分配策略，分别如下：
+
+    weight（权重）
+
+    指定轮询几率，weight和访问比率成正比，用于后端服务器性能不均的情况。如下所示，10.0.0.88的访问比率要比10.0.0.77的访问比率高一倍。
+
+upstream linuxidc{ 
+      server 10.0.0.77 weight=5; 
+      server 10.0.0.88 weight=10; 
+}
+
+    ip_hash（访问ip）
+
+    每个请求按访问ip的hash结果分配，这样每个访客固定访问一个后端服务器，可以解决session的问题。
+
+upstream favresin{ 
+      ip_hash; 
+      server 10.0.0.10:8080; 
+      server 10.0.0.11:8080; 
+}
+
+    fair（第三方）
+
+    按后端服务器的响应时间来分配请求，响应时间短的优先分配。与weight分配策略类似
+
+----------------负载均衡
+
+在配置时候 如果proxy_pass后面路径携带/可能url会重定向 不携带没事
+
+
+服务器打开文件目录浏览功能  除了设置这个 还有 conf目录下的mine.types也可以设置
+
+   location /log {
+        alias /opt/logs/notify;
+
+        autoindex on;
+
+        autoindex_exact_size off;
+
+        autoindex_localtime on;
+
+       #add_header Content-Type text/plain;
+
+        }
+		
+		
+		
+		
+----负载均衡中的失败的配置 
+		max_fails和fail_timeout —— 这俩是关联的，如果某台服务器在fail_timeout时间内出现了max_fails次连接失败，那么nginx就会认为那个服务器已经挂掉
+		，从而在 fail_timeout时间内不再去查询它，fail_timeout的默认值是10s，max_fails的默认值是1（这意味着一发生错误就认为服务器挂掉），如果把max_fails设为0则表示把这个检查取消。
+		举个例子：server 192.168.1.11 max_fails=3 fail_timeout=30s; 这表示，如果服务器192.168.1.11在30秒内出现了3次错误，那么就认为这个服务器工作不正常
+		，从而在接下来的30秒内nginx不再去访问这个服务器		
+		---eg 
+		 server {
+			 listen 9203;
+			 server_name finace.hengmo.net;
+ 
+		 location / { 
+				proxy_next_upstream error timeout invalid_header http_500 http_502 http_503 http_504;
+			    proxy_pass http://auto; 
+				proxy_redirect   off;
+				proxy_set_header  Host $host;
+				proxy_set_header  X-real-ip $remote_addr;
+				proxy_set_header  X-Forwarded-For $proxy_add_x_forwarded_for;
+					} 
+
+
+		}
+		
+		 upstream auto {
+		  server 127.0.0.1:1120 weight=10 max_fails=2 fail_timeout=120s ;
+		  server 47.91.157.122:1120 weight=10 max_fails=2 fail_timeout=120s ;
+		  
+		 }
+		   其实这里的proxy_next_upstream就是 简单来说 失败了 下一个 的upstream 去哪里寻找  简单可以 死循环 在一个里面寻找
+   
+		
+------页面直接打开文件
+			server {
+					listen       2040;
+					server_name  52woo.com,127.0.0.1,120.55.67.48;
+					charset utf-8;
+					
+					location /log {
+				  
+					alias /stock/logs/order.out;
+				   
+					 add_header  Content-Type 'text/plain; charset=utf-8';
+					}
+
+
+
+				}		
+				
+				
+	 nginx 配置 路由  以什么结尾
+             
+        location ~* \.(html|js)$ {
+
+         }		
+		 
+		 
+    location / {
+
+　　　　#匹配任何查询，所有请求都是以/开头。但是正则表达式规则和长的块规则将被优先匹配和查询；
+
+　　 }
+
+　　location ^~ /images/ {
+　　　　# 匹配任何已 /images/ 开头的任何查询并且停止搜索。任何正则表达式将不会被测试。
+　　　　}
+
+　　location ~* \.(gif|jpg|png)${
+
+　　　　#匹配任何以gif、jpg、png结尾的请求。然后所有/images/目录的请求将使用第三个
+
+　　}
+
+
+  负载均衡
+       server {
+        listen       8082;
+        server_name   114.55.207.154;
+
+                    location / {
+
+					proxy_next_upstream error timeout invalid_header http_500 http_502 http_503 http_504;
+       			    proxy_pass http://auto;
+					proxy_redirect              off;
+					proxy_set_header            Host $host;
+					proxy_set_header            X-real-ip $remote_addr;
+					proxy_set_header            X-Forwarded-For $proxy_add_x_forwarded_for;
+
+                                }
+
+        }
+
+
+				 upstream auto {
+				 #   server 120.27.222.192:8081 weight=10 max_fails=2 fail_timeout=120s ;
+				     server  101.37.151.54:8081 weight=10 max_fails=2 fail_timeout=120s ;
+
+						 }
+
+       }
+
+

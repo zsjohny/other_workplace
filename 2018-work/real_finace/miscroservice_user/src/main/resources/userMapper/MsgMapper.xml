@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.finace.miscroservice.user.mapper.MsgMapper">
+
+    <select id="findHomeMsg" resultType="com.finace.miscroservice.user.entity.response.MsgResponse">
+       SELECT * from msg where user_id = #{userId} and msg_code ='0' ORDER BY addtime desc limit 1
+    </select>
+
+
+    <select id="findMsgDetailedList" resultType="Map">
+        SELECT * from msg where
+        <if test="userId!=null">user_id = #{userId} and</if>
+        msg_code = #{msgCode} and deleted = 0 ORDER BY addtime desc
+    </select>
+
+
+    <!-- 根据类型获取消息通知  消息类型 0 系统消息 1 公告中心  2官方通知 3首页公告通知 -->
+    <select id="getMsgByAppIndex" resultType="com.finace.miscroservice.user.entity.response.MsgResponse">
+        SELECT topic,msg from msg where  msg_code = 3 and deleted = 0 ORDER BY addtime desc limit 5
+    </select>
+
+</mapper>
+
+
+
+
+
+
+
+
+
+
+

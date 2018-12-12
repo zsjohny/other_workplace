@@ -1,0 +1,6 @@
+<springProfile name="test">
+    <logger name="com.finace.miscroservice.task_scheduling.mapper" level="debug" additivity="false">
+        <appender-ref ref="INFO_FILE"/>
+        <appender-ref ref="CONSOLE_FILE"/>
+    </logger>
+</springProfile>

@@ -1,0 +1,151 @@
+1.tomcat 内存修改
+Linux下修改JVM内存大小:
+
+要添加在tomcat 的bin 下catalina.sh 里，位置cygwin=false前 。注意引号要带上,红色的为新添加的.
+
+# OS specific support. $var _must_ be set to either true or false.
+JAVA_OPTS="-Xms256m -Xmx512m -Xss1024K -XX:PermSize=128m -XX:MaxPermSize=256m"
+cygwin=false
+
+ 
+
+windows下修改JVM内存大小:
+
+情况一:解压版本的Tomcat, 要通过startup.bat启动tomcat才能加载配置
+
+要添加在tomcat 的bin 下catalina.bat 里
+
+有setenv.bat这里信息加载添加
+
+set JAVA_OPTS=-Dfile.encoding=UTF-8 -Xms128m -Xmx1024m -XX:PermSize=64m -XX:MaxPermSize=256m
+
+
+linux也可以这么做 setenv.sh
+export JAVA_OPTS="-Dfile.encoding=UTF-8 -Xms128m -Xmx1024m -XX:PermSize=64m -XX:MaxPermSize=256m"
+
+ 2 redis常见的内存的问题
+  config set stop-writes-on-bgsave-error no
+
+3 grails想使用其他的包必须 在build.gradle 添加
+   * 自动添加lib
+  // compile files('grails-app/lib/taobao-sdk-java-auto_1455552377940-20160428.jar')
+    compile fileTree(dir: 'grails-app/lib', include: '*.jar')
+   * 访问路径时候 默认的 网址+端口+后面的第一个参数 是controller下 前字母的小写，例如 UserController 访问是/http:port/user
+ 
+   * 想在其他包例如service使用utils下面的所有东西，必须加上包名，最后 都是com.xx一样最好
+  
+   *grails debug在启动界面输入grails run-app --debug-jvm” 其中grails去掉,grails是在命令窗口执行 
+ 
+
+
+3.JAVA_OPT 参数详解
+ -server:一定要作为第一个参数，在多个CPU时性能佳
+
+-Xms：初始Heap大小，使用的最小内存,cpu性能高时此值应设的大一些
+
+-Xmx：java heap最大值，使用的最大内存
+
+-XX:PermSize:设定内存的永久保存区域
+
+-XX:MaxPermSize:设定最大内存的永久保存区域
+
+-XX:MaxNewSize:
+
++XX:AggressiveHeap 会使得 Xms没有意义。这个参数让jvm忽略Xmx参数,疯狂地吃完一个G物理内存,再吃尽一个G的swap。
+
+-Xss：每个线程的Stack大小
+
+-verbose:gc 现实垃圾收集信息
+
+-Xloggc:gc.log 指定垃圾收集日志文件
+
+-Xmn：young generation的heap大小，一般设置为Xmx的3、4分之一
+
+-XX:+UseParNewGC ：缩短minor收集的时间
+
+-XX:+UseConcMarkSweepGC ：缩短major收集的时间
+
+4 nexus windows nexus.exe /run
+
+端口 在 etc目录下的 default.properties
+     
+	 nexus中说明 host是用来存储第三方jar的
+
+	修改此目录下的settings.xml
+	添加如下内容，此处id是要上传的repository的id
+	 上传第三方jar
+	 mvn deploy:deploy-file -DgroupId=jxl -DartifactId=jxl -Dversion=1.0.0 -Dpackaging=jar  -Dfile=G:\jxl.jar  -Durl=http://localhost:8081/repository/maven-releases/  -DrepositoryId=nexus
+
+	参数的解析:	 
+		DgroupId、DartifactId、Dversion——表示的是构建的基本坐标，你需要根据你上次的jar包自行改变
+		Dpackaging——表示的是上传的包的类型，一般为jar,不用改变，根据你的实际情况来改变。
+		Dfile——表示的是你需要上传的包的地址
+		Durl——表示的是你要上传到的私有仓库的地址
+		DrepositoryId——表示你的身份信息，可以从第二步获取
+		
+		
+    nexus 修改jvm属性 在 bin下的nexus.vmoptions 修改		
+5 logback 报错 ch.qos.logback.core.joran.spi.JoranException: I/O error occurred while parsing xml file  maven pom中添加 <scope>provided</scope>		
+	   <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>1.1.7</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>slf4j-api</artifactId>
+                    <groupId>org.slf4j</groupId>
+                </exclusion>
+            </exclusions>
+            <scope>provided</scope>
+        </dependency>
+		
+		要是继续报错 则 导入
+		<dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-nop</artifactId>
+            <version>1.7.20</version>
+        </dependency>
+6 maven 4中新增scop
+	<dependency>中还引入了<scope>，它主要管理依赖的部署。目前<scope>可以使用5个值：
+
+		* compile，缺省值，适用于所有阶段，会随着项目一起发布。
+		* provided，类似compile，期望JDK、容器或使用者会提供这个依赖。如servlet.jar。
+		* runtime，只在运行时使用，如JDBC驱动，适用运行和测试阶段。
+		* test，只在测试时使用，用于编译和运行测试代码。不会随项目发布。
+		* system，类似provided，需要显式提供包含依赖的jar，Maven不会在Repository中查找它。		
+7 tomcat 增加访问权限 
+  web.xml加入以下内容
+		  <security-constraint>
+				<web-resource-collection>
+					<web-resource-name>app</web-resource-name>
+					<url-pattern>/index.html</url-pattern>
+					<http-method>get</http-method>
+				</web-resource-collection>
+				<auth-constraint>
+					<role-name>admin</role-name>
+				</auth-constraint>
+			</security-constraint>
+			<login-config>
+				<auth-method>DIGEST</auth-method>
+			</login-config>
+			<security-role>
+				<role-name>admin</role-name>
+			</security-role>
+			
+	tomcat_user.xml加入以下内容
+	<role rolename="admin"/>  
+    <user username="admin" password="admin" roles="admin"/>  
+
+8  mysql常见的问题 特殊字符存储
+[client]
+default-character-set = utf8mb4
+
+[mysql]
+default-character-set = utf8mb4	
+				
+9 mysql 查看所有进程的连接
+	show processlist;    kill pid;	
+	show processlist;只列出前100条，如果想全列出请使用show full processlist; 
+
+	命令： show status;	
+		

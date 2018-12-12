@@ -1,0 +1,13 @@
+[root@bogon jpeg-6b]# make; make install
+./libtool --mode=compile gcc -O2  -I. -c ./jcapimin.c
+make: ./libtool：命令未找到
+make: *** [jcapimin.lo] 错误 127
+./libtool --mode=compile gcc -O2  -I. -c ./cjpeg.c
+make: ./libtool：命令未找到
+make: *** [cjpeg.lo] 错误 127
+解决办法：
+首先看有没有安装libtool 及 libtool-ltdl-devel
+rpm   -qa | grep   libtool
+然后进入jpeg-6b的源码目录，然后执行以下步骤，切记！COPY到当前目录注意后面的点(.)
+cp   /usr/share/libtool/config.sub  .
+cp   /usr/share/libtool/config.guess  .

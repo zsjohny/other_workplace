@@ -1,0 +1,12 @@
+<springProfile name="center">
+    <!--<logger name="org.springframework.cloud.config.client.ConfigServicePropertySourceLocator" level="INFO"
+            additivity="false">
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="INFO_FILE"/>
+    </logger>
+    <logger name="org.springframework.cloud.bootstrap.config.PropertySourceBootstrapConfiguration" level="INFO"
+            additivity="false">
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="INFO_FILE"/>
+    </logger>-->
+</springProfile>

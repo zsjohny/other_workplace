@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.finace.miscroservice.activity.mapper.AddressMapper">
+
+    <resultMap id="UserAddress" type="com.finace.miscroservice.activity.po.AddressPO" >
+        <result column="id" property="id"  />
+        <result column="user_id" property="userId"  />
+        <result column="user_name" property="userName"  />
+        <result column="toUser_name" property="toUserName"  />
+        <result column="adress" property="adress"  />
+        <result column="adress_deatil" property="adressDeatil"  />
+        <result column="post" property="post"  />
+        <result column="phone" property="phone"  />
+        <result column="status" property="status"  />
+        <result column="shengfen" property="shengfen"  />
+        <result column="city" property="city"  />
+        <result column="addtime" property="addtime"  />
+        <result column="remark" property="remark"  />
+    </resultMap>
+
+
+    <!-- 获取默认用户地址 -->
+    <select id="getAddressByUserId" parameterType="String" resultType="com.finace.miscroservice.activity.po.AddressPO">
+        SELECT id,toUser_name,adress,adress_deatil,post,phone,status,shengfen,city,addtime
+         FROM upload_address WHERE USER_ID = #{userId} and status = 1 ORDER BY addtime desc limit 1
+    </select>
+
+    <!-- 获取用户地址列表 -->
+    <select id="getAddressListByUser" parameterType="String" resultType="com.finace.miscroservice.activity.po.AddressPO">
+        SELECT id,toUser_name,adress,adress_deatil,post,phone,status,shengfen,city,addtime FROM upload_address WHERE USER_ID = #{userId} order by status desc
+    </select>
+
+    <!-- 根据id 获取地址信息 -->
+    <select id="getAddressById" parameterType="String" resultType="com.finace.miscroservice.activity.po.AddressPO">
+        SELECT id,toUser_name,adress,adress_deatil,post,phone,status,shengfen,city,addtime FROM upload_address WHERE ID = #{addressId}
+    </select>
+
+    <!-- 更加用户id 修改地址状态  -->
+    <update id="updateAddressStatusByUser" parameterType="map">
+        update upload_address set status = #{status}
+        where user_id = #{userId}
+    </update>
+
+    <!-- 根据地址id 修改地址状态 -->
+    <update id="updateAddressStatusById" parameterType="map">
+        update upload_address set status = #{status}
+        where id = #{id}
+    </update>
+
+    <!-- 修改地址信息 -->
+    <update id="updateAddress" parameterType="com.finace.miscroservice.activity.po.AddressPO">
+        update upload_address
+        <trim prefix="set" suffixOverrides=",">
+            <if test="userName !=null and userName !='' ">
+                user_name = #{userName},
+            </if>
+
+            <if test="toUserName !=null and toUserName !='' ">
+                toUser_name = #{toUserName},
+            </if>
+
+            <if test="adress !=null and adress !='' ">
+                adress = #{adress},
+            </if>
+
+            <if test="adressDeatil !=null and adressDeatil !='' ">
+                adress_deatil = #{adressDeatil},
+            </if>
+
+            <if test="post !=null and post !='' ">
+                post = #{post},
+            </if>
+
+            <if test="phone !=null and phone !='' ">
+                phone = #{phone},
+            </if>
+
+            <if test="status !=null and status !='' ">
+                status = #{status},
+            </if>
+
+            <if test="shengfen !=null and shengfen !='' ">
+                shengfen = #{shengfen},
+            </if>
+
+            <if test="city !=null and city !='' ">
+                city = #{city},
+            </if>
+
+            <if test="remark !=null and remark !='' ">
+                remark = #{remark},
+            </if>
+
+            <if test="addtime !=null ">
+                addtime = #{addtime},
+            </if>
+
+        </trim>
+        where id = #{id}
+    </update>
+
+    <!-- -->
+    <insert id="saveAddress" parameterType="com.finace.miscroservice.activity.po.AddressPO" >
+        insert into upload_address (user_id, user_name,toUser_name, adress, adress_deatil, post, phone,status,shengfen,city, addtime, remark)
+        values (#{userId}, #{userName},#{toUserName}, #{adress}, #{adressDeatil},#{post},#{phone},#{status},#{shengfen},#{city}, now(),#{remark} )
+    </insert>
+
+    <!-- 删除地址 -->
+    <delete id="delAddressById" parameterType="map">
+        delete from upload_address where id=#{addressId} and user_id = #{userId}
+    </delete>
+
+
+</mapper>
+
+
+
+
+
+
+
+
+
+
+

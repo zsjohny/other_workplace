@@ -1,0 +1,79 @@
+apply plugin: "java"
+apply plugin: "eclipse"
+apply plugin: "org.springframework.boot" 
+apply plugin: "idea"
+apply plugin: "com.bmuschko.docker-remote-api"
+
+import com.bmuschko.gradle.docker.tasks.image.DockerBuildImage
+configurations {
+    compile.exclude  group: "org.springframework.cloud" ,module: "spring-cloud-starter-eureka" 
+    compile.exclude  group: "com.17jee" ,module: "e-core-ui" 
+}
+
+description = ""
+
+jar {
+	baseName = "e-example-single"
+
+}
+
+springBoot  {
+    mainClass = "com.loy.SingleApplicationMain"
+}
+
+bootRepackage {
+    mainClass = "com.loy.SingleApplicationMain"
+}
+dependencies {
+	
+	compile ("com.17jee:e-core-static:${eversion}")
+	compile ("com.17jee:e-upm-service:${eversion}")
+	compile ("com.17jee:e-upm-ui:${eversion}")
+	compile ("com.17jee:e-security-auth:${eversion}")
+	compile ("com.17jee:e-log-service:${eversion}")
+	compile ("com.17jee:e-log-ui:${eversion}")
+	compile ("com.h2database:h2:1.4.193")
+	compile ("com.17jee:e-data-permission-service:${eversion}")
+	compile ("com.17jee:e-data-permission-impl:${eversion}")
+	compile ("com.17jee:e-data-permission-ui:${eversion}")
+	
+	compile project(":demo:demo-service")
+	compile project(":demo:demo-ui")
+	
+	runtime("mysql:mysql-connector-java:${mysqlVersion}")
+	
+	compile("org.springframework.boot:spring-boot-starter-actuator:${springBootVersion}")
+	compile "io.springfox:springfox-swagger-ui:${springfoxSwaggerVersion}"
+	
+}
+task erun(type:Exec, dependsOn: build) {
+    workingDir "${project.buildDir}/libs"
+    commandLine "java", "-Dfile.encoding=${fileEncoding}", "-jar","${project.name}-${version}.jar"
+}
+task copyJar(type: Copy) {
+    dependsOn   "build"
+    from        "build/libs/${jar.baseName}-${version}.jar"
+    into        "build/docker"
+    //rename { String fileName ->
+    //    fileName.replace("-${version}", "-docker-${version}")
+    //}
+    
+    from        "src/main/docker"
+    into        "build/docker"
+    
+}
+task buildDockerImage(type: DockerBuildImage) {
+    dependsOn   copyJar
+    if (System.env.DOCKER_HOST) {
+        url = "$System.env.DOCKER_HOST".replace("tcp","https")
+        if (System.env.DOCKER_CERT_PATH) {
+            certPath = new File(System.env.DOCKER_CERT_PATH)
+        }
+    }
+    else {
+        url = 'unix:///var/run/docker.sock'
+    }
+    
+    inputDir = file('build/docker')
+    tag = 'com.loy/singleupm'
+}

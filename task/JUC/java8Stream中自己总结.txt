@@ -1,0 +1,1 @@
+Stream 的 sort  排序方式 是根据 equal和hashCode去重

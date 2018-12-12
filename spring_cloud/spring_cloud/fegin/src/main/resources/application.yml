@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: feign
+server:
+  port: 8072
+eureka:
+  client:
+    service-url:
+        defaultZone: http://${eureka.instance.hostname}:8068/eureka
+  instance:
+    hostname: localhost
+    prefer-ip-address: true
+#开启hystrix fegin 的
+feign.hystrix.enabled: true
+
+
+
+

@@ -1,0 +1,4 @@
+#employeeProducer.url:http://localhost:8082
+stubrunner:
+    ids: com.ebsco.producer.example:microservice-producer:+:stubs:8082
+    repositoryRoot: https://eis.jfrog.io/eis/webapp/#/artifacts/browse/tree/General/libs-snapshot-local

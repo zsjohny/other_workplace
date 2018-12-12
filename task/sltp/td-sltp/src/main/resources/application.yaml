@@ -1,0 +1,77 @@
+logging:
+  path: D://log//
+  file: test.log
+spring:
+  output:
+    ansi:
+      enabled: always
+  profiles:
+    active: test
+  devtools:
+    restart:
+      enabled: true
+    livereload:
+      enabled: true
+redis:
+  session:
+    liveTime: 600
+
+
+---
+spring:
+  profiles:  dev
+
+server:
+  port: 8090
+
+debug: false
+jdbc:
+  url: jdbc:mysql://xxxxxx/test?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC&useSSL=false&verifyServerCertificate=false
+  user: xxx
+  pass: xxx
+mybatis:
+  mapperLocations: classpath:mapper/*.xml
+  typeAliasesPackage: com.goldplusgold.td.sltp.core.vo
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    log-prefix: xxxx
+
+
+
+---
+spring:
+  profiles:   test
+server:
+  port: 8068
+
+debug: false
+jdbc:
+  url: jdbc:mysql://tdmysql.hjb.com/td_crm_qa?useUnicode=true&characterEncoding=UTF-8
+  user: hjb2018
+  pass: hjb150601
+#   url: jdbc:mysql://47.91.157.122:3310/test?useUnicode=true&amp;characterEncoding=UTF-8&amp;serverTimezone=UTC&amp;useSSL=false&verifyServerCertificate=false
+#   user: root
+#   pass: 879227577
+
+mybatis:
+  mapperLocations: classpath:mapper/*.xml
+  typeAliasesPackage: com.goldplusgold.td.sltp.core.vo
+
+spring.redis:
+  host: goldredis.hjb.com
+  port: 6379
+  password: huangjinbao
+  database: 6
+  liveTime: 600
+
+td.redis:
+  host: goldredis.hjb.com
+  port: 6379
+  password: huangjinbao
+  database: 6
+
+spring.rabbitmq:
+  host: 192.168.1.65
+  port: 5672
+
+

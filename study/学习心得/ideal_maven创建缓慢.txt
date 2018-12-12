@@ -1,0 +1,3 @@
+1 将文件复制到对应的 .m2/ 的路径下去，这个为maven默认的路径，或者放在idea工具配置的settings.xml对应的文件路径下，具体情况，待后面去确认，文件放置位置只有这两个地址。
+
+2 　在使用mvn archetype:generate命令时，加上-DarchetypeCatalog=local,以替换网络上的catalog.xml

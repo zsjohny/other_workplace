@@ -1,0 +1,7 @@
+stages:
+   - build
+
+exec:
+  stage: build
+  script:
+    - sh /tmp/auto_developer.sh

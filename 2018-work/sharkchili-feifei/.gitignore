@@ -1,0 +1,16 @@
+﻿/.idea/
+/target/
+/package/
+/logs/
+
+*.iml
+*.class
+**/*.class
+**/*.lst
+
+.mtj.tmp
+
+# Package Files
+*.jar
+*.war
+*.ear

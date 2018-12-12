@@ -1,0 +1,171 @@
+1 unberture
+  打开 /etc/apt/sources.list
+  
+deb http://mirrors.aliyun.com/ubuntu trusty main restricted
+deb-src http://mirrors.aliyun.com/ubuntu trusty main restricted
+ 
+## Major bug fix updates produced after the final release of the
+## distribution.
+deb http://mirrors.aliyun.com/ubuntu trusty-updates main restricted
+deb-src http://mirrors.aliyun.com/ubuntu trusty-updates main restricted
+ 
+## N.B. software from this repository is ENTIRELY UNSUPPORTED by the Ubuntu
+## team. Also, please note that software in universe WILL NOT receive any
+## review or updates from the Ubuntu security team.
+deb http://mirrors.aliyun.com/ubuntu trusty universe
+deb-src http://mirrors.aliyun.com/ubuntu trusty universe
+deb http://mirrors.aliyun.com/ubuntu trusty-updates universe
+deb-src http://mirrors.aliyun.com/ubuntu trusty-updates universe
+ 
+## N.B. software from this repository is ENTIRELY UNSUPPORTED by the Ubuntu
+## team, and may not be under a free licence. Please satisfy yourself as to
+## your rights to use the software. Also, please note that software in
+## multiverse WILL NOT receive any review or updates from the Ubuntu
+## security team.
+deb http://mirrors.aliyun.com/ubuntu trusty multiverse
+deb-src http://mirrors.aliyun.com/ubuntu trusty multiverse
+deb http://mirrors.aliyun.com/ubuntu trusty-updates multiverse
+deb-src http://mirrors.aliyun.com/ubuntu trusty-updates multiverse
+ 
+## N.B. software from this repository may not have been tested as
+## extensively as that contained in the main release, although it includes
+## newer versions of some applications which may provide useful features.
+## Also, please note that software in backports WILL NOT receive any review
+## or updates from the Ubuntu security team.
+deb http://mirrors.aliyun.com/ubuntu trusty-backports main restricted universe multiverse
+deb-src http://mirrors.aliyun.com/ubuntu trusty-backports main restricted universe multiverse
+ 
+deb http://security.ubuntu.com/ubuntu trusty-security main restricted
+deb-src http://security.ubuntu.com/ubuntu trusty-security main restricted
+deb http://security.ubuntu.com/ubuntu trusty-security universe
+deb-src http://security.ubuntu.com/ubuntu trusty-security universe
+deb http://security.ubuntu.com/ubuntu trusty-security multiverse
+deb-src http://security.ubuntu.com/ubuntu trusty-security multiverse
+			
+			
+sudo apt-get clean
+sudo apt-get update
+
+2 svn
+
+svnadmin create /home/svn
+
+
+配置authz
+[root@localhost conf]# vi authz 
+[/]
+liuxianan=rw
+test1=r
+test2=r
+*=
+上面配置的含义是，liuxianan对/home/svn/下所有文件具有可读可写权限，test只有只读权限，除此之外，其它用户均无任何权限，最后一行*=很重要不能少。
+
+3 
+配置svnserve.conf
+[root@localhost conf]# vi svnserve.conf 
+打开下面的5个注释
+anon-access = read #匿名用户可读
+auth-access = write #授权用户可写
+password-db = /opt/passwd #使用哪个文件作为账号文件
+authz-db = /opt/authz #使用哪个文件作为权限文件
+realm = /home/svn # 认证空间名，版本库所在目录
+2点注意：
+
+最后一行的realm记得改成你的svn目录
+打开注释时切记前面不要留有空格，否则可能有问题（网上说的，我没有亲测）
+
+3 启动和停止
+	[root@localhost conf]# svnserve -d -r /home/svn（启动）--listen-port=8080//端口访问
+	[root@localhost conf]#killall svnserve（停止）
+	上述启动命令中，-d表示守护进程， -r 表示在后台执行。停止还可以采用杀死进程的方式：
+	
+4 链接
+	这里使用TortoiseSVN，输入地址svn://你的IP 即可，不出意外输入用户名和密码就能连接成功了。
+
+	默认端口3690，如果你修改了端口，那么要记得加上端口号。	
+	访问 svn://finace.hengmo.net:8028/java java
+	
+5 nginx安装 ./configure &&make&&make install	
+6
+	1、安装mysql：
+	sudo apt-get install mysql-server
+	sudo apt-get install mysql-client
+	sudo apt-get install php5-mysql(用于连接php和mysql)
+
+
+
+
+
+	查看mysql是否运行
+	ps aux | grep mysql
+
+	启动命令
+	/etc/init.d/mysql start
+
+
+	2.删除mysql
+
+	按顺序执行以下命令
+	sudo apt-get autoremove --purge mysql-server-5.0
+	sudo apt-get remove mysql-server
+	sudo apt-get autoremove mysql-server
+	sudo apt-get remove mysql-common 
+
+	清理残留数据
+	dpkg -l |grep ^rc|awk '{print $2}' |sudo xargs dpkg -P
+	
+7 mysql 允许机器访问
+1） 主要是因为server没有启动的原因；
+2）或者是在/etc/mysql/my.cnf文件(或用locate my.cnf搜索该文件位置)中注释掉bind-address 127.0.0.1（禁止远程访问，只允许本地访问）；
+3）然后在mysql中使用GRANT ALL PRIVILEGES ON *.* TO ‘myuser’@'%’IDENTIFIED BY ‘mypassword’ WITH GRANT OPTION; FLUSH   PRIVILEGES; 目的是在改mysql-server上允许任何的机器（%）以用户名（myuser）及密码（mypassword）来连接到该serve上；	
+  
+   //解析说明  with grant option  被授予的用户也可把此对象权限授予其他用户或角色，不同的是但管理员收回用with grant option授权的用户对象权限时，权限会因传播而失效
+               with  admin  option  此用户可把此系统权限授予其他用户或角色，但收回这个用户的系统权限时，这个用户已经授予其他用户或角色的此系统权限不会因传播无效
+			   flush privilegse //不需要重启 mysql 验证权限 防止因为错误的操作导致重启后进入不了
+  
+8 maven 
+  export MAVEN_HOME=
+  export PATH=$MAVEN_HOME/bin;$PATH
+  
+9 nexus
+  启动./nexus start  
+
+10 maven 安装jar到本地  先去maven repository下载jar 和查看groupId等信息
+  mvn install:install-file -Dfile=jar包的位置 -DgroupId=上面的groupId -DartifactId=上面的artifactId -Dversion=上面的version -Dpackaging=jar
+  
+  
+11 linux java启动内存export JAVA_OPTS="-Xmx1g -Xms1g";
+
+12 mysql 二进制安装 
+   启动 service mysql start   关闭 serivce mysql stop
+
+   
+13 mysql的ubuntu安装   
+ 
+	 1. mysql-common 
+javascript:sohuHD.searchKey('樊胜美',null,null);
+	2. libmysqlclient20
+
+	3. libmysqlclient-dev
+
+	4.libmysqld-dev
+
+	5. mysql-community-client
+
+	6. mysql-client
+
+	7. mysql-community-source
+
+	8. mysql-community-server
+
+	 //此时会遇到 libmecab2 可以尝试使用以下 更新 如果不行则 去谷歌下载 amd64位的 利用 dpkg -i 安装
+ 
+ 
+	  更新设置到最新系统：
+	sudo apt-get update
+	sudo apt-get upgrade
+	apt-get install libaio1
+	
+	
+14 把防火墙关掉 service iptables stop	
+	  

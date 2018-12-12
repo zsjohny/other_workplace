@@ -1,0 +1,1803 @@
+0 虚拟机的搭建 
+   搭建好后 执行 sudo apt-get install openssh-server
+       之后执行 sudo service ssh start 可以进行ssh连接
+   
+1 zookeeper环境的搭建
+  解压zookeeper文件后 重命名为zookeeper 新建 data logs文件夹
+  新建 data文件下的myid 内容为1
+  拷贝 conf下的zoo_simple.cfg  命名为zoo.cfg
+  编辑 zoo.cfg 
+dataDir=/opt/zookeeper/data
+dataLogDir=/opt/zookeeper/logs
+
+clientPort=1003 //客户端连接接口
+
+
+server.1=root1:2888:3888 //其中server下面的1代表 新建myid的内容  2888zookeep之间的通讯端口 3888是选举端口
+server.2=root2:2889:3889
+server.3=root3:2890:3890
+ 编辑 bin下的zkServer.sh 增加 JAVA_HOME="/opt/java"
+ 执行 bin/zkServer.sh start //stop  restart
+     查看jps进行
+
+
+  
+2 shiro学习
+		1、subject.hasRole(“admin”) 或 subject.isPermitted(“admin”)：自己去调用这个是否有什么角色或者是否有什么权限的时候；
+		2、@RequiresRoles("admin") ：在方法上加注解的时候；
+		3、[@shiro.hasPermission name = "admin"][/@shiro.hasPermission]：在页面上加shiro标签的时候，即进这个页面的时候扫描到有这个标签的时候。 	
+		
+3 分布式日志框架的搭建
+  elk  elasticSerach 官网 https://www.elastic.co/		
+   1-> elasticsearch的安装
+     安装Head插件（Optional）：
+
+	 download 地址 https://codeload.github.com/mobz/elasticsearch-head/zip/master
+			1.https://github.com/mobz/elasticsearch-head下载zip 解压
+			2.建立elasticsearch-1.0.0\plugins\head\_site文件
+			3.将解压后的elasticsearch-head-master文件夹下的文件copy到_site
+			4.运行es
+			5.打开http://localhost:9200/_plugin/head/
+
+    vi config/elasticsearch.yml 打开如下配置
+		cluster.name=es_cluster
+		node.name=node0
+		path.data=/tmp/elasticsearch/data
+		path.logs=/tmp/elasticsearch/logs
+		#当前hostname或IP，我这里是centos2
+		network.host=0.0.0.0
+		network.port=8068
+	./bin/elasticsearch &	 //后台访问
+	可以看到，它跟其他的节点的传输端口为9300，接受HTTP请求的端口为9200。
+	
+	虚拟机 安装时候遇到的问题
+	max virtual memory areas vm.max_map_count [65530] likely too low, increase to at least [262144]
+
+	
+			
+	解决方法	vi /etc/sysctl.conf 
+				vm.max_map_count = 262144
+				#在/etc/sysctl.conf追加上面一条
+				#并执行命令:
+				sysctl -p
+	解决 max_des_file			
+	etc/security/limits.conf   
+			*                               soft    nofile  65536
+			*                               hard    nofile  65536	  
+		  
+	2-> logstash 的安装  
+     解压 
+     cd  config修改配置 
+					需要修改logstash的配置文件  ---假设这个文件命名为 sl4j.conf
+					修改logback配置文件github-> 使用ogstash-logback-encode
+input {
+  tcp {
+    host => "192.168.5.133" 
+    port => 9250
+    mode => "server"
+    tags => ["tags"]
+    codec => json_lines  //可能需要更新logstash插件
+  }
+}
+output{
+  elasticsearch {
+   action => "index"          #The operation on ES
+    hosts  => "192.168.5.133:9200"   #ElasticSearch host, can be array.
+    index  => "applog"
+  }
+}
+					
+
+					<?xml version="1.0" encoding="UTF-8"?>
+					<configuration>
+						<property resource="properties/logback-variables.properties" />     <!-- 得到APP_NAME log_path的值 -->
+
+						<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+							<encoder charset="UTF-8"> <!-- encoder 可以指定字符集，对于中文输出有意义 -->
+								<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger - %msg%n
+								</pattern>
+							</encoder>
+						</appender>
+						<appender name="stash" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+							<destination>192.168.1.167:9250</destination>
+
+							<!-- encoder is required -->
+							<encoder charset="UTF-8" class="net.logstash.logback.encoder.LogstashEncoder" />
+						</appender>
+
+						<!--<appender name="async" class="ch.qos.logback.classic.AsyncAppender">-->
+							<!--<appender-ref ref="stash" />-->
+						<!--</appender>-->
+
+
+						<root level="info">                    <!-- 设置日志级别 -->
+							<appender-ref ref="STDOUT" />
+							<appender-ref ref="stash" />
+						</root>
+					</configuration>
+ 	 
+	 
+	  
+			因此使用agent来启动它（使用-f指定配置文件）：
+
+			./bin/logstash  -f config/sl4j.conf	 
+			
+			使用logstash debug模式
+			./bin/logstash  -f config/sl4j.conf	  -e //-e是讲信息打印在控制台
+			
+			
+4 搜索引擎的搭建  
+   elasticsearch 类似于上面一致  不过在新建用户的时候去运行出现了 权限不足的问题 利用ulimit -n 65536 进行增大max_file_dic这个 
+    并且利用 ulimit -a查看
+   logstach 文件下载好了之后 运行 
+    1 ./bin/logstash-plugin install logstash-input-jdbc   
+	
+	2 需要建立 两个文件  一个  .conf后缀的 一个 .sql 后缀
+
+	一个 mysql 的Java 驱动包  ： mysql-connector-java-5.1.40-bin.jar
+			input {
+			  stdin {
+			  }
+			  jdbc {
+			  # mysql jdbc connection string to our backup databse  后面的test对应mysql中的test数据库
+			  jdbc_connection_string => "jdbc:mysql://121.43.59.216:3310/family?useUnicode=true&characterEncoding=utf8&userSSL=false"
+			  # the user we wish to excute our statement as
+			  jdbc_user => "gjs"
+			  jdbc_password => "gjs"
+			  # the path to our downloaded jdbc driver
+			  jdbc_driver_library => "mysql-connector-java-5.1.41.jar"
+			  # the name of the driver class for mysql
+			  jdbc_driver_class => "com.mysql.jdbc.Driver"
+			  jdbc_paging_enabled => "true"
+			  jdbc_page_size => "50000"
+			#以下对应着要执行的sql的绝对路径。
+			  statement_filepath => "/opt/logstash/test.sql"
+			#定时字段 各字段含义（由左至右）分、时、天、月、年，全部为*默认含义为每分钟都更新（测试结果，不同的话请留言指出）
+			  schedule => "* */1 * * *"
+			#设定ES索引类型
+			  type => "cc_type"
+			  }
+			}
+
+			filter {
+			  json {
+			  source => "message"
+			  remove_field => ["message"]
+			  }
+			}
+
+			output {
+			  elasticsearch {
+			#ESIP地址与端口
+			  hosts => "127.0.0.1:8060"
+			#ES索引名称（自己定义的）
+            index => "contacts"
+　　　　  　#document_type => "contact"
+			#自增ID编号
+			  document_id => "%{id}"
+			  }
+			  stdout {
+			#以JSON格式输出
+			  codec => json_lines
+			  }
+			}
+					
+	3 filename.sql
+
+	select * from a				
+	
+    4. 注意： 在你的数据库里 要有一个数据库名字和filename.conf 里的对应就可以了   表明 和 filename.sql 里的对应就可以了  
+    	在表中  有一个id字段是为了和filename.conf  中document_id => "%{id}" 这个参数对应 可以执行修改
+
+	然后开始执行
+
+	bin/logstash -f fielname.conf	
+	
+	5 访问
+	
+	可以通过地址 http://192.168.199.115:9200/contacts/contact/1?pretty=true
+
+	查看
+	url 参数说明  contacts 是对应 filename.conf 中 index => "contacts" 　contact 对应document_type => "contact"   1表示id为1 的数据 
+	
+	删除
+	 curl  -XDELETE http://tools.hengmo.net:8060/merchandises
+	 
+	 中文词语IK
+	 地址 https://github.com/medcl/elasticsearch-analysis-ik 下载zip 
+	 cd /stock/elasticsearch/plugins/ 新建一个目录 加压 zip 重启elasticsearch
+	
+5 	索引的建立原则
+	select count(distinct left(test,5))/count(*) from table
+	test是要加索引的字段，5是索引长度，
+	尽量选择区分度高的列作为索引,区分度的公式是count(distinct col)/count(*)，
+	表示字段不重复的比例，比例越大我们扫描的记录数越少，唯一键的区分度是1，而一些状态、性别字段可能在大数据面前区分度就是0，
+	那可能有人会问，这个比例有什么经验值吗？使用场景不同，这个值也很难确定，一般需要join的字段我们都要求是0.1以上，即平均1条扫描10条记录
+	
+	
+6 mysql主从备份
+	1. 主服务器相关配置
+		修改/etc/my.cnf配置文件vi /etc/my.cnf
+
+		[mysqld]下添加以下参数，若文件中已经存在，则不用添加
+		server-id=1  
+		log-bin=mysql-bin  #启动MySQL二进制日志系统，
+		binlog-do-db=ourneeddb  #需要同步的数据库
+		binlog-ignore-db=mysql  #不同步mysql系统数据库，若还有其它不想同步的，继续添加	
+		
+		----扩张
+		  reset master重置mysql的binlog日志
+		  
+		----后续的
+
+		[mysqld]
+
+		basedir =/stock/mysql/
+		datadir = /stock/mysql/data
+		port = 3310
+		server_id = 12
+		socket = /stock/mysql/data/mysqld.sock
+		bind-address=0.0.0.0
+		lower_case_table_names=1
+		sql-mode=""	
+             ql_mode模式：ANSI、TRADITIONAL和STRICT_TRANS_TABLES。 
+			ANSI模式：宽松模式，对插入数据进行校验，如果不符合定义类型或长度，对数据类型调整或截断保存，报warning警告。 
+			TRADITIONAL模式：严格模式，当向mysql数据库插入数据时，进行数据的严格校验，保证错误数据不能插入，报error错误。用于事物时，会进行事物的回滚。 
+			STRICT_TRANS_TABLES模式：严格模式，进行数据的严格校验，错误数据不能插入，报error错误		
+		
+	
+	2. 从服务器相关配置
+
+	　　修改/etc/my.cnf配置文件vi /etc/my.cnf
+
+		[mysqld]下添加以下参数，若文件中已经存在，则不用添加
+		server-id=2  #设置从服务器id，必须于主服务器不同
+		log-bin=mysql-bin  #启动MySQ二进制日志系统
+		replicate-do-db=ourneeddb  #需要同步的数据库名
+		replicate-ignore-db=mysql  #不同步mysql系统数据库
+		slave-skip-errors=all #跳过错误 all 或者写入制定的错误类型 103,102等等
+		report_host=192.168.89.1 #用来汇报从服务器的地址 这样做主从校验的时候能够在主服务器 通过 show slave hosts 查询地址 
+		----扩展
+			master_password=freitag
+			master_connect_retry=60 (若master宕机或者slave连接断开，slave会定期尝试连接到master上，重试的间隔由该选项来控制，默认值是60秒。)
+			report_host=db-slave.mycompany.com
+			slave_net_timeout=3600 (slave默认会在3600秒后，若还没收到来自master的数据，则会当作网络断开的情况来处理。)
+	3. 配置主从同步
+	   ----5.6之前
+	    [root@localhost~ ]mysql -uroot -p
+		mysql>use mysql 
+		mysql>stop slave;
+		mysql>change master to
+			  master_host='192.168.1.101',
+			  master_user='testuser',
+			  master_password='12345678',
+			  master_port=3310,
+			  master_log_file='mysql-bin.000012',
+			  master_log_pos=120;  #log_file与log_pos是主服务器master状态下的File与Position //利用 show master status;可以查看
+		mysql>start slave;
+		mysql>show slave status\G; 打印如下,Slave_IO_Running: Yes,Slave_SQL_Running: Yes,基本配置成功：
+		------5.6之后
+		mysql> change master to master_host='127.0.0.1',master_user='rep',master_password='rep',master_port=3306,master_auto_position=1;
+		
+		------基本上 查看 如果slave_sql_running 为No就去查错误日志  一般都是配置不对  具体调节 可以双机互主
+7 mysql查看全局日志配置 
+	SHOW  GLOBAL VARIABLES LIKE '%log%'		
+		
+8 mysql 当什么值不存在的时候 在 插入 
+
+  INSERT into t_xml (uuid) SELECT '222' FROM 
+   dual where not EXISTS (select uuid from t_xml WHERE uuid='222')		
+   
+9 hashMap的内部结构 位置的选择 h&(length-1) 找到各自的点   
+
+10 logstach 启动慢
+
+		jruby启动的时候jdk回去从/dev/random中初始化随机数熵，新版本的jruby会用RPNG算法产生随后的随机数，但是旧版本的jruby会持续从/dev/random中获取数字。但是不幸的是，random发生器会跟不上生成速度，所以获取随机数的过程会被阻塞，直到随机数池拥有足够的熵然后恢复。这在某些系统上，尤其是虚拟化系统，熵数池可能会比较小从而会减慢jruby的启动速度。
+
+		检查了一下系统的熵数池 cat /proc/sys/kernel/random/entropy_avail ，发现只有65，正常情况这个数字推荐大于1000，对比了一下独立主机的这个数值，大约在700-900之间晃悠。
+
+		解决
+
+		最简单的解决方案是安装一个熵数发生器，比如 Haveged ，centos可从epel源中获取，安装后启动服务 sudo systemctl start haveged 就可以看到enhttp://v.youku.com/v_show/id_XMTY1ODcwOTIwNA==.html?spm=a2h0j.8191423.module_basic_relation.5~5!2~5~5!4~5~5~Atropy_avail暴涨至2000多，logstash几乎是秒启，然后再 sudo systemctl enable haveged 设为开机自启。
+		
+		
+11 sql审核工具 incption 
+      1: yum install gcc gcc-c++ cmake bison openssl-devel ncurses-devel –y		
+      2: ./inception_build.sh debug [Xcode]	
+	  3: 
+		 ubuntu  
+        1.  apt-get install cmake libncurses5-dev libssl-dev  m4  
+		2.  wget http://ftp.gnu.org/gnu/bison/bison-2.5.1.tar.gz 
+		3. tar -zxvf bison-2.5.1.tar.gz &&cd bison-2.5.1&& ./configure && make && make install
+		4.  http://www.yunmaichang.cn/miji/1144/index.html
+			
+		
+	  审核工具 sqladvisor
+	  
+      1. yum install gcc gcc-c++ cmake libaio-devel libffi-devel glib2 glib2-devel bison -y
+	  2. cd /usr/lib64/  &&  ln -s libperconaserverclient_r.so.18 libperconaserverclient_r.so
+	  3. yum install http://www.percona.com/downloads/percona-release/redhat/0.1-3/percona-release-0.1-3.noarch.rpm
+	  4. yum install Percona-Server-shared-56//倘若出现Nothing todo 重复 3 -4
+	  5. cd ./SQLAdvisor-master/ &&cmake -DBUILD_CONFIG=mysql_release -DCMAKE_BUILD_TYPE=debug -DCMAKE_INSTALL_PREFIX=/usr/local/sqlparser ./
+	  6.  make && make install
+	  7.  cd ./sqladvisor/ &&  cmake -DCMAKE_BUILD_TYPE=debug ./ && make
+	  8.  cp sqladvisor /usr/bin/sqladvisor
+	  9.  vim /etc/sql.cnf 
+	     [sqladvisor]
+			username=xxx
+			password=xxxhttp://www.emoney.cn/
+			host=xxx
+			port=xxx
+			dbname=xxx
+			sqls=sql语句;//或者-q "sql语句"
+	  10. sqladvisor -f /etc/sql.csenf  -v 1	
+			-v, --verbose           1:output logs 0:output nothing	
+       
+        ubuntu  javascript:void(0);
+        1.  sudo apt-get install cmake libffi-dev libaio-dev glib2.0-dev glib2.0 percona-server-5.6-dbg  libmysqlclient-dev  build-essential  g++ bison
+		2. 	cd /usr/lib/x86_64-linux-gnu/ && ls -lh  libperconaserverclient* && ln -s libperconaserverclient_r.so.18 libperconaserverclient_r.so
+
+		
+
+12  cetos关闭 防火墙 
+     systemctl stop iptables//关闭防火墙
+	 systemctl stop firewalld.service //关闭firewall
+	 systemctl disbale firewalld.service 
+	 
+	 yum install Percona-Server-shared-56
+	 
+13  opencv 安装
+    yum install gc cmake libv4l.i686 libv4l-devel.i686  ant
+    cmake -D CMAKE_BUILD_TYPE=RELEASE -D CMAKE_INSTALL_PREFIX=/usr/local -DBUILD_TESTS=OFF  INSTALL_C_EXAMPLES=OFF  .
+	make  
+	make install 
+	cmake -DBUILD_SHARED_LIBS=OFF  .
+	mak
+	make -j8
+	
+14 zabbix的安装
+   rpm -ivh http://repo.zabbix.com/zabbix/3.2/rhel/7/x86_64/zabbix-release-3.2-1.el7.noarch.rpm
+   上传 zabbix-server-mysql-3.2.0-1.el7.x86_64.rpm   zabbix-agent-3.2.0-1.el7.x86_64.rpm  zabbix-web-mysql-3.2.0-1.el7.noarch.rpm
+    yum install -y *.rpm
+  	
+15 tcpcopy 的安装和用法
+    yum -y install libpcap-devel
+   cd tcpcopy-master] && ./configure 	&& make  && make install
+		   /usr/local/tcpcopy/sbin/tcpcopy -x 80-192.168.0.230:80 -s 192.168.0.219 -c 10.10.10.x -d -C 4 -l tcpcopy.log  -P /var/run/tcpcopy.pid
+
+
+		指令说明：
+		-x 80-192.168.0.230:80将本机上80端口的流量复制到192.168.0.230（测试服务器）的80端口
+		-s指定intercept进程所在的服务器192.168.0.219。（丢包服务器）
+		-c修改请求的host地址为10.10.10.x，以便在230测试服务器上设置路由（设置路由是为了将应答转向丢219包服务器）
+		-C 开启4个进程
+		-d 以daemon形式运行
+		-l 记录日志
+		-P 记录pid
+		其他参数可以通过/usr/local/tcpcopy/sbin/tcpcopy -h查看
+		
+	cd ../intercept-master] && ./configure 	&& make  && make install	
+		/usr/local/intercept/sbin/intercept -i eth1 -l intercept.log -P /var/run/intercept.pid -F 'tcp and src port 80' -d
+
+
+	指令说明：
+	-i 监控网卡接口
+	-l 记录日志
+	-F 监控的协议和端口
+	-P 记录pid
+	-d 以daemon形式运行
+	其他参数可以通过/usr/local/intercept/sbin/intercept -h查看
+	
+	
+16 ab压测安装 
+	yum -y install httpd-tools
+	-n在测试会话中所执行的请求个数。默认时，仅执行一个请求。
+	-c一次产生的请求个数。默认是一次一个。
+	-t测试所进行的最大秒数。其内部隐含值是-n 50000，它可以使对服务器的测试限制在一个固定的总时间以内。默认时，没有时间限制。
+	-p包含了需要POST的数据的文件。
+	-P对一个中转代理提供BASIC认证信任。用户名和密码由一个:隔开，并以base64编码形式发送。无论服务器是否需要(即, 是否发送了401认证需求代码)，此字符串都会被发送。
+	-T POST数据所使用的Content-type头信息。
+	-v设置显示信息的详细程度-4或更大值会显示头信息，3或更大值可以显示响应代码(404,200等),2或更大值可以显示警告和其他信息。
+	-V显示版本号并退出。
+	-w以HTML表的格式输出结果。默认时，它是白色背景的两列宽度的一张表。
+	-i执行HEAD请求，而不是GET。
+	-x设置<table>属性的字符串。
+	-X对请求使用代理服务器。
+	-y设置<tr>属性的字符串。
+	-z设置<td>属性的字符串。
+	-C对请求附加一个Cookie:行。其典型形式是name=value的一个参数对，此参数可以重复。
+	-H对请求附加额外的头信息。此参数的典型形式是一个有效的头信息行，其中包含了以冒号分隔的字段和值的对(如,"Accept-Encoding:zip/zop;8bit")。
+	-A对服务器提供BASIC认证信任。用户名和密码由一个:隔开，并以base64编码形式发送。无论服务器是否需要(即,是否发送了401认证需求代码)，此字符串都会被发送。
+	-h显示使用方法。
+	-d不显示"percentage served within XX [ms] table"的消息(为以前的版本提供支持)。
+	-e产生一个以逗号分隔的(CSV)文件，其中包含了处理每个相应百分比的请求所需要(从1%到100%)的相应百分比的(以微妙为单位)时间。由于这种格式已经“二进制化”，所以比'gnuplot'格式更有用。
+	-g把所有测试结果写入一个'gnuplot'或者TSV(以Tab分隔的)文件。此文件可以方便地导入到Gnuplot,IDL,Mathematica,Igor甚至Excel中。其中的第一行为标题。
+	-i执行HEAD请求，而不是GET。
+	-k启用HTTP KeepAlive功能，即在一个HTTP会话中执行多个请求。默认时，不启用KeepAlive功能。
+	-q如果处理的请求数大于150，ab每处理大约10%或者100个请求时，会在stderr输出一个进度计数。此-q标记可以抑制这些信息。
+	四、ab性能指标
+	在进行性能测试过程中有几个指标比较重要：
+	1、吞吐率（Requests per second）
+	服务器并发处理能力的量化描述，单位是reqs/s，指的是在某个并发用户数下单位时间内处理的请求数。某个并发用户数下单位时间内能处理的最大请求数，称之为最大吞吐率。
+	记住：吞吐率是基于并发用户数的。这句话代表了两个含义：
+	a、吞吐率和并发用户数相关
+	b、不同的并发用户数下，吞吐率一般是不同的
+	计算公式：总请求数/处理完成这些请求数所花费的时间，即
+	Request per second=Complete requests/Time taken for tests
+	必须要说明的是，这个数值表示当前机器的整体性能，值越大越好。
+	2、并发连接数（The number of concurrent connections）
+	并发连接数指的是某个时刻服务器所接受的请求数目，简单的讲，就是一个会话。
+	3、并发用户数（Concurrency Level）
+	要注意区分这个概念和并发连接数之间的区别，一个用户可能同时会产生多个会话，也即连接数。在HTTP/1.1下，IE7支持两个并发连接，IE8支持6个并发连接，FireFox3支持4个并发连接，所以相应的，我们的并发用户数就得除以这个基数。
+	4、用户平均请求等待时间（Time per request）
+	计算公式：处理完成所有请求数所花费的时间/（总请求数/并发用户数），即：
+	Time per request=Time taken for tests/（Complete requests/Concurrency Level）
+	5、服务器平均请求等待时间（Time per request:across all concurrent requests）
+	计算公式：处理完成所有请求数所花费的时间/总请求数，即：
+	Time taken for/testsComplete requests
+	可以看到，它是吞吐率的倒数。
+同时，它也等于用户平均请求等待时间/并发用户数，即
+    eg
+		Server Software:        Microsoft-HTTPAPI/2.0   表示被测试的Web服务器软件名称
+		Server Hostname:        192.168.0.10                表示请求的URL主机名
+		Server Port:            80                                           表示被测试的Web服务器软件的监听端口
+		Document Path:          /                                         表示请求的URL中的根绝对路径，通过该文件的后缀名，我们一般可以了解该请求的类型
+		Document Length:        315 bytes                      表示HTTP响应数据的正文长度
+		Concurrency Level:      800                                  表示并发用户数，这是我们设置的参数之一
+		Time taken for tests:   0.914 seconds    所有这些请求处理完成所花费的时间
+		Complete requests:      800             完成请求数
+		Failed requests:        0                失败请求数
+		Write errors:           0                
+		Non-2xx responses:      800 
+		Total transferred:      393600 bytes     网络总传输量
+		HTML transferred:       252000 bytes     HTML内容传输量 
+		Requests per second:    875.22 [#/sec] (mean) 吞吐量-每秒请求数
+		Time per request:       914.052 [ms] (mean) 用户平均请求等待时间 
+		Time per request:       1.143 [ms] (mean, across all concurrent requests) 服务器平均处理时间，也就是服务器吞吐量的倒数 
+		Transfer rate:          420.52 [Kbytes/sec] received 平均每秒网络上的流量，可以帮助排除是否存在网络流量过大导致响应时间延长的问题
+		
+		网络上消耗的时间的分解： 
+		Connection Times (ms)  min  mean[+/-sd] median   max 
+		Connect:        0    1   0.5      1       3 
+		Processing:   245  534 125.2    570     682 
+		Waiting:       11  386 189.1    409     669 
+		Total:        246  535 125.0    571     684
+		整个场景中所有请求的响应情况。在场景中每个请求都有一个响应时间
+		其中 50％ 的用户响应时间小于 571 毫秒 
+		80 ％ 的用户响应时间小于 652 毫秒 
+		最大的响应时间小于 684 毫秒 
+		Percentage of the requests served within a certain time (ms) 
+		  50%    571 
+		  66%    627 
+		  75%    646 
+		  80%    652 
+		  90%    666 
+		  95%    677 
+		  98%    681 
+		  99%    682 
+		100%    684 (longest request)
+		这部分数据用于描述每个请求处理时间的分布情况，比如以上测试，80%的请求处理时间都不超过6ms，这个处理时间是指前面的Time per request，即对于单个用户而言，平均每个请求的处理时间。
+
+
+17  docker 
+    yum install docker-io		
+	docker -v
+    service docker start
+	如果service命令启动不了用下面的
+	systemctl start docker.service
+	
+	docker search <imageName> //寻找镜像
+	docker pull imageName //安装镜像
+	docker images   //所有镜像
+	docker run <相关参数> <镜像 ID> <初始命令>
+
+	-i：表示以“交互模式”运行容器
+	-t：表示容器启动后会进入其命令行
+	-v：表示需要将本地哪个目录挂载到容器中，
+	
+	docker system prune -a
+	docker rmi $(docker images | grep "^<none>"|awk '{print $3}') #删除所有为none的空的镜像
+18 https 搭建
+    证书申请 Let's Encrypt 有效期 90天 可以使用cron 自动更新 
+	 https://www.sslforfree.com/
+	 
+    命令行去申请
+	git clone https://github.com/letsencrypt/letsencrypt
+	cd letsencrypt
+	
+
+	 生成证书 ./letsencrypt-auto certonly --standalone --email nessary@foxmail.com -d  验证的域名
+					apache：生成证书并自动修改apache相关conf配置文件；
+					webroot：在本机的web目录中创建验证目录和文件；
+					nginx：适合nginx
+					standalone：适合本机还没有web服务的情况用一个单独的web服务
+					manual：需要另外进行域名验证、适合网站不在本机的情况
+			//利用webroot 
+			./letsencrypt-auto certonly --webroot  -w 网站目录的完整路径  --email nessary@foxmail.com -d  验证的域名
+	 安装成功后会有提示更新的命令
+	./letsencrypt-auto renew	 
+	证书在
+	/etc/letsencrypt/live/
+	 
+   nginx加入 这个 
+   server {
+        listen 443 ssl;
+        # listen 2040 ssl;        
+        server_name   www.52woo.com;
+      
+        # letsencrypt生成的文件
+        ssl_certificate /etc/letsencrypt/live/test.etongjin.net/fullchain.pem;
+        ssl_certificate_key /etc/letsencrypt/live/test.etongjin.net/privkey.pem;
+      
+        keepalive_timeout 70;
+        ssl_session_cache shared:SSL:10m;
+        ssl_session_timeout 10m;
+      
+        ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
+        
+        ssl_prefer_server_ciphers on;
+        
+        location / {
+        
+        root  /stock/www;
+       
+        index  login.html;        
+        }
+
+
+
+      #转移
+      if ($server_port = 80) {
+      return  https://$server_name$request_uri;
+      }
+
+      
+      }
+	  
+	 如果是在阿里云服务器配置证书 记住 公钥是fullchain1.pem 私钥是privkey1.pem 切记不是fullchain  
+	  阿里云的负载均衡技巧 先把 域名映射到本机生成证书 在用cert 映射到负载均衡机器 
+	  
+19  提交github 
+     首先 git clone github的项目地址
+      在文件夹下执行 git add . 
+        然后执行  git commit -m '提交的说明'
+          然后执行 git push 		
+	
+20 elk 环境搭建
+	./filebeat -e -c filebeat.yml -d "Publish"11
+	
+	1 elasticSerach 配置在config/elasticserach.yml
+	   chown -R 新建用户 /stock/elasticsearch
+	
+	  启动非root 用户 ./bin/elasticsearch &
+	
+	2 logstach 
+      配置在./config/logstach.yml 查找端口 http.port:9600-9700
+	  
+      新建logstach.cnf 配置类容如下
+		input {
+			beats {
+				port => "5044"
+			}
+		}
+		 filter {
+			grok {
+				match => { "message" => "%{COMBINEDAPACHELOG}"}
+			}
+			geoip {
+				source => "clientip"
+			}
+		}
+		output {
+			elasticsearch {
+				hosts => [ "localhost:9200" ]
+			}
+		}
+	 启动 ./bin/logstash -f logstash.cnf &
+
+    3 filebeat 
+      vim ./filebeat.yml
+      打开 前几行的 enable: true  
+       paths:
+           - /stock/log/* //搜集的日志路径
+     注释 output.elasticsearch :
+         打开 output.logstach
+               和hotsts:[ip:端口]		 
+	 启动 nohup ./filebeat -e -c filebeat.yml >/dev/null 2>&1 &
+	
+    4 kibana 
+      配置 vim ./config/kibana.yml
+      server.host='0.0.0.0'
+	  server.port= 8888
+      elasticsearch.url= "http:localhost:9200" 
+      启动 nohup ./bin/kibana >/dev/null 2>&1 &
+       访问 http://localhost:5601  	  
+	   
+	   
+21 lvs keepalived  nginx 
+	1 nginx 安装 ./configure --prefix=/stock/nginx/ --with-pcre=/stock/pcre --with-zlib=/stock/zlib --with-openssl=/stock/openssl --with-http_ssl_module  --with-stream
+		yum install -y gcc gcc-c++
+
+	2 lvs 安装  yum -y install ipvsadm	
+
+
+	3 keepalived 安装 yum -y install openssl-devel  之后 ./configure -prefix=/stock/keepalived  
+	   然后 mkdir /etc/keepalived && cp /stock/keepalived/etc/keepalived/keepalived.conf /etc/keepalived/keepalived.conf
+	   
+	   
+	ipvsadm --list --timeout 查看超时时间
+	ip a 查看当前网络链接的情况 就是interface设置中当前master的节点 有就是主 没有就是挂或者备
+
+
+
+	   keepalived 的 keepalived.conf 配置
+		! Configuration File for keepalived 
+		global_defs { 
+		  router_id LVS_DEVEL  # 设置lvs的id，在一个网络内应该是唯一的
+		} 
+		vrrp_script monitor_nginx{
+		   script "/stock/keepalived/monitor_nginx.sh"
+		   interval 1
+		   weight 15
+		}
+		 
+
+		vrrp_instance mail { 
+		  state BACKUP #指定Keepalived的角色，MASTER为主，BACKUP为备   
+		  interface ens33 #连接的网络 ifconfig
+		  virtual_router_id 50 #虚拟路由编号，主备要一致
+		  priority 90 #定义优先级，数字越大，优先级越高，主DR必须大于备用DR   
+		  advert_int 1 #检查间隔，默认为1s
+		  authentication { 
+		  auth_type PASS 
+		  auth_pass 1111 
+		  } 
+		  virtual_ipaddress { 
+		  192.168.89.134 #定义虚拟IP(VIP)为192.168.2.33，可多设，每行一个
+		  } 
+		  track_script {
+			  monitor_nginx
+		  }  
+		} 
+		virtual_server 192.168.89.134 80 { 
+		  delay_loop 6  # 设置健康检查时间，单位是秒      
+		  lb_algo wrr  # 设置负载调度的算法为wlc
+		  lb_kind DR  # 设置LVS实现负载的机制，有NAT、TUN、DR三个模式  
+		  persistence_timeout 0 
+		  protocol TCP 
+		  nat_mask 255.255.255.0  
+		  real_server 192.168.89.129 80 {  # 指定real server1的IP地址
+		  weight 1　  # 配置节点权值，数字越大权重越高  
+		  TCP_CHECK { 
+		  connect_timeout 3 #表示3秒无响应超时
+		  nb_get_retry 3 #表示重试次数
+		  delay_before_retry 3  #表示重试间隔
+		  connect_port 8080  #连接的端口
+		  } 
+		  } 
+		  real_server 192.168.89.129 80 { 
+		  weight 1　　 
+		  TCP_CHECK { 
+		  connect_timeout 3 
+		  nb_get_retry 3 
+		  delay_before_retry 3 
+		  connect_port 8080 
+		  } 
+		  } 
+		}
+
+
+		主从不一致主要体现在 state 和 priority
+
+22 https 的修改
+      --ca的生成
+	openssl genrsa -out root-key.key 1024  		
+	openssl req -new -out root-req.csr -key root-key.key  
+	openssl x509 -req -in root-req.csr -out root-cert.cer -signkey root-key.key -CAcreateserial -days 3650  
+	openssl pkcs12 -export -clcerts -in root-cert.cer -inkey root-key.key -out root.p12  
+	 --server的key
+	openssl genrsa -out server-key.key 1024  
+	openssl req -new -out server-req.csr -key server-key.key  
+	openssl x509 -req -in server-req.csr -out server-cert.cer -signkey server-key.key -CA root-cert.cer -CAkey root-key.key -CAcreateserial -days 3650  
+	
+	 --client的key
+	openssl genrsa -out client-key.key 1024 
+    openssl req -new -out client-req.csr -key client-key.key  
+	openssl x509 -req -in client-req.csr -out client-cert.cer -signkey client-key.key -CA root-cert.cer -CAkey root-key.key -CAcreateserial -days 3650  	
+	openssl pkcs12 -export -clcerts -in client-cert.cer -inkey client-key.key -out client.p12 
+	
+	
+	nginx 配置
+	server {  
+	listen       443 ssl;  
+	server_name  ttt.com;  
+	ssl                  on;    
+	ssl_certificate      /data/sslKey/server-cert.cer;  #server证书公钥  
+	ssl_certificate_key  /data/sslKey/server-key.key;  #server私钥  
+	ssl_client_certificate /data/sslKey/root-cert.cer;  #根级证书公钥，用于验证各个二级client  
+	ssl_verify_client on;  #开启客户端证书验证    
+
+	location / {  
+		root   html;  
+		index  index.html index.htm;  
+	}  
+	}  
+	
+	方法1 java访问 利用InstallCert生成 javac -encoding utf-8 InstallCert.java  利用 java -jar InstallCer  "域名" 将生成的文件拷贝 java/jre/lib/security下
+	在使用httpsDemo访问
+	方法2 利用服务端的cer文件生成jks密钥库然后在利用client.p12 导出的 进行访问 具体https的类  cer导出jks keytool import -alias test -file xx.cer -keystore xxx.jks 
+	
+23 阿里云rds服务器数据备份恢复
+	1下载软件 https://www.percona.com/downloads/XtraBackup/Percona-XtraBackup-2.3.2/binary/	
+	2 下载恢复脚本wget http://oss.aliyuncs.com/aliyunecs/rds_backup_extract.sh
+	 sh rds_backup_extract.sh -f /stock/mysql/hins*.tar.gz -C /stock/mysql/data
+	3 恢复数据 innobackupex --defaults-file=/stock/mysql/my.cnf --apply-log /stock/mysql/data 
+	4 赋值权限chown -R mysql:mysql /stock/mysql/data
+	5修复 mysql mysql_upgrade  -uroot  -S/stock/mysql/data/mysqld.sock --force
+24 nginx 加上tcp  则进行重新编译  --with-stream
+	
+25 mysql 注入
+	order by –+ 判断字段数目
+
+	union select –+ 联合查询收集信息
+
+	id=1′ and 1=2 UNION SELECT 1,2,database() –+ 查询当前数据库
+
+	id=1′ and 1=2 UNION SELECT 1,2,group_concat(schema_name) from information_schema.schemata –+查询所有数据库
+
+	id=1′ and 1=2 UNION SELECT 1,2,group_concat(table_name) from information_schema.tables where table_schema=database() –+ 查询表名
+
+	id=1′ and 1=2 UNION SELECT 1,2,group_concat(column_name) from information_schema.columns where table_name=’users’ –+ 查询列名
+
+	id=1′ and 1=2 UNION SELECT 1,2,group_concat(id,username,password) from users –+ 查询字段值	
+	
+26 protoc 的使用 
+	protoc -I=  --java_out= xx.proto
+	-I 后面是proto文件所在的目录， 
+	–java_out 后面是生成java文件存放地址 
+  最后一行是proto文件的名称，可以写绝对地址，也可以直接写proto文件名称
+  
+27 intercept(待测 只允许内网???)
+	1 git clone git://github.com/session-replay-tools/intercept.git
+	2 yum -y install libpcap-devel
+	3 cd ./intercept && ./configure --prefix=/opt/intercept &7 make install 
+	1 git clone git://github.com/session-replay-tools/intercept.git
+	
+   tcpcopy
+    1 git clone git://github.com/session-replay-tools/tcpcopy.git
+	2 cd ./tcpcopy && ./configure --prefix=/opt/tcpcopy & make install 	
+
+   先开 intercept 
+   /opt/intercept/sbin/intercept -i ens33 -F 'tcp and src port 8000' -d
+	-i, intercept会监听端口，和tcpcopy进行通信，-i就是指定监听在哪个端口。tcpcopy启动的时候会来连这个端口，如果连不上，就会启动失败。
+	-F, 过滤规则，语法和pcap一样。
+	-d, 已守护进程方式运行
+	再开 tcpcopy
+   /opt/tcpcopy/sbin/tcpcopy -x 8000-192.168.89.129:8000 -s 192.168.89.129 -c 192.168.89.129(设定这个跟转发一样 则n生效) -n 2 -d	
+    -x, 是指本机8000端口的流量copy到192.168.89.129的8000端口
+	-s, 指定intercept机器的地址，tcpcopy要和intercept建立连接
+	-c 伪装地址，在把流量复制到测试服务器的时候，修改数据包的源地址为192.168.2.254，这样方便指定路由。也可以写成192.168.2.x，这样源地址就是指定网段中的地址了。
+	-n 流量放大倍数，如果不是压测目的就不用指定这个参数。
+	-d 以守护模式运行。
+	
+    简单开启服务  python -m SimpleHTTPServer  8000 就是以当前目录为静态资源的访问	
+	
+28 ./goreplay --input-raw :8081 --output-http "http://47.97.174.183:8081|200%" 放大两倍
+
+		简单的 HTTP 流量复制：
+
+		gor –input-raw :80 –output-http “http://staging.com”
+
+		HTTP 流量复制频率控制：
+
+		gor –input-tcp :28020 –output-http “http://staging.com|10″
+
+		HTTP 流量复制缩小：
+
+		gor –input-raw :80 –output-tcp “replay.local:28020|10%”
+
+		HTTP 流量记录到本地文件：
+
+		gor –input-raw :80 –output-file requests.gor
+
+		HTTP 流量回放和压测：
+
+		gor –input-file “requests.gor|200%” –output-http “staging.com”
+
+		HTTP 流量过滤复制：
+
+		gor –input-raw :8080 –output-http staging.com –output-http-url-regexp ^www.
+
+		注入改变请求流量header
+
+		gor –input-raw :80 –output-http “http://staging.server”  –output-http-header “User-Agent: Replayed by Gor”   –output-http-header “Enable-Feature-X: true”	
+		
+		
+	29 nginx 开启session ticket
+     生成ticket 文件 
+	 openssl rand 80 > ticket.key
+	 添加 nginx.conf 的tickets 支持
+	 ssl_session_ticket_key ticket.key;
+     ssl_session_tickets on;
+	 
+	 
+30 openldap的环境搭建
+  单机环境
+	1    berkeley-db
+		tar -xvfz db-4.6.21.tar.gz
+		cd db-4.6.21/build_unix/
+		../dist/configure -prefix=/opt/db
+		make install
+
+
+	2  yum -y install *ltdl*
+
+
+	3 export LD_LIBRARY_PATH="/opt/db-4.6.21/build_unix/.libs" //或者添加到vi /etc/profile
+
+	4  ./configure --prefix=/opt/openldap --enable-syslog --enable-modules --enable-debug --with-tls CPPFLAGS=-I/opt/db/include/ LDFLAGS=-L/opt/db/lib/ 
+
+		make depend
+		make install
+
+	5 vi slapd.conf	
+						#
+					# See slapd.conf(5) for details on configuration options.
+					# This file should NOT be world readable.
+					#
+					include	/opt/openladp/etc/openldap/schema/core.schema
+					include /opt/openladp/etc/openldap/schema/collective.schema
+					include /opt/openladp/etc/openldap/schema/corba.schema
+					include /opt/openladp/etc/openldap/schema/cosine.schema
+					include /opt/openladp/etc/openldap/schema/duaconf.schema
+					include /opt/openladp/etc/openldap/schema/dyngroup.schema
+					include /opt/openladp/etc/openldap/schema/inetorgperson.schema
+					include /opt/openladp/etc/openldap/schema/java.schema
+					include /opt/openladp/etc/openldap/schema/misc.schema
+					include /opt/openladp/etc/openldap/schema/nis.schema
+					include /opt/openladp/etc/openldap/schema/openldap.schema
+					include /opt/openladp/etc/openldap/schema/pmi.schema
+					include /opt/openladp/etc/openldap/schema/ppolicy.schema
+
+
+					# Define global ACLs to disable default read access.
+
+					# Do not enable referrals until AFTER you have a working directory
+					# service AND an understanding of referrals.
+					#referral	ldap://root.openldap.org
+
+					pidfile		/opt/openladp/var/run/slapd.pid
+					argsfile	/opt/openladp/var/run/slapd.args
+
+					# Load dynamic backend modules:
+					# modulepath	/opt/openladp/libexec/openldap
+					# moduleload	back_mdb.la
+					# moduleload	back_ldap.la
+
+					# Sample security restrictions
+					#	Require integrity protection (prevent hijacking)
+					#	Require 112-bit (3DES or better) encryption for updates
+					#	Require 63-bit encryption for simple bind
+					# security ssf=1 update_ssf=112 simple_bind=64
+
+					# Sample access control policy:
+					#	Root DSE: allow anyone to read it
+					#	Subschema (sub)entry DSE: allow anyone to read it
+					#	Other DSEs:
+					#		Allow self write access
+					#		Allow authenticated users read access
+					#		Allow anonymous users to authenticate
+					#	Directives needed to implement policy:
+					# access to dn.base="" by * read
+					# access to dn.base="cn=Subschema" by * read
+					# access to *
+					#	by self write
+					#	by users read
+					#	by anonymous auth
+					#
+					# if no access controls are present, the default policy
+					# allows anyone and everyone to read anything but restricts
+					# updates to rootdn.  (e.g., "access to * by * read")
+					#
+					# rootdn can always read and write EVERYTHING!
+
+					#######################################################################
+					# MDB database definitions
+					#######################################################################
+
+					database	mdb
+					maxsize		1073741824
+					#suffix		"dc=my-domain,dc=com"
+					#身份的前缀
+					suffix		"dc=domain,dc=com"
+					#rootdn		"cn=Manager,dc=my-domain,dc=com"
+					rootdn		"cn=admin,dc=domain,dc=com"
+					# Cleartext passwords, especially for the rootdn, should
+					# be avoid.  See slappasswd(8) and slapd.conf(5) for details.
+					# Use of strong authentication encouraged.
+					#密码
+					rootpw		879227577
+					# The database directory MUST exist prior to running slapd AND 
+					# should only be accessible by the slapd and slap tools.
+					# Mode 700 recommended.
+					directory	/opt/openladp/var/openldap-data
+					# Indices to maintain
+					index	objectClass	eq
+					
+
+		
+
+	6 ./libexec/slapd -d 256 -h ldap://0.0.0.0:1389/ #默认端口389 不加h的话 -d 用debug模式启动 后置进程关闭-d
+
+
+    主从
+	在slapd.conf
+		modulepath /usr/lib/openldap #去掉前面的井号即可
+		modulepath ／usr/lib64/openldap #同上
+		moduleload syncprov.ld #次模块就是用来实现主从和双主的～
+		添加
+		index entryCSN,entryUUID eq  
+
+		serverID 2
+		overlay syncprov
+
+		syncrepl      rid=123  
+					  provider=ldap://192.168.89.137:1389
+					  bindmethod=simple  
+					  binddn="cn=admin,dc=domain,dc=com"  
+					  credentials=879227577  
+					  searchbase="dc=domain,dc=com"  
+					  schemachecking=off  
+					  type=refreshAndPersist  
+					  retry="60 +"  
+					  
+		mirrormode on
+
+	 双主
+		overlay syncprov  
+		syncprov-checkpoint 100 10 
+		syncprov-sessionlog 100  
+		
+		
+	 图形化工具
+     Apache Directory Studio	 
+	 
+31 mysql 主从校验工具和使用
+    0 下载 perl 依赖 
+		yum install perl-IO-Socket-SSL perl-DBD-MySQL perl-Time-HiRes perl perl-DBI -y
+		yum install perl-ExtUtils-CBuilder perl-ExtUtils-MakeMaker perl-Digest-MD5 -y 
+
+    1 下载 percona-toolkit  地址 https://www.percona.com/downloads/percona-toolkit/LATEST/
+	2   tar xzvf percona-toolkit-3.0.4_x86_64.tar.gz
+
+		cd percona-toolkit-3.0.4
+
+		perl Makefile.PL   --PREFIX=/stock/percona
+		
+	3  执行校验命令
+	 创建主从共用的账号
+	   grant all on *.*  to   'ytj_check'@'% ' identified by 'ytj_check';
+       flush privileges;
+	                                                                   #-h为主库的地址  #recursion-method=hosts 这里需要在从服务器的my.cnf 配置 report_host = 192.168.200.2 #设置成本地地址
+	   pt-table-checksum --databases ytj -u'ytj_check' -p'ytj_check' -h120.27.222.192 -P3310  2>./pt_error.log 1>./pt_info.log	--recursion-method=hosts  --no-check-binlog-format --no-check-replication-filters
+	   
+       直接显示查看
+       pt-table-checksum --databases ytj -u'ytj_check' -p'ytj_check' -h120.27.222.192 -P3310  	--recursion-method=hosts  --no-check-binlog-format --no-check-replication-filters
+	  	   
+
+	  
+	    在从库把主库的percona.checksums拷贝过来不然会报错Waiting for the --replicate table to replicate to
+	   
+	    根据上面的查找出不同的表 一张一张修复 
+		cat pt_info.log |awk  '{print $3"--"$NF}'|grep -v 0
+		
+	    修复
+		打印修复sql：指定库表 根据上面打印的 得出differ 不同的表进行修复
+		                                          #主库的地址                                     #从库的地址
+		pt-table-sync  --no-bin-log  --databases=ytj --tables=* h=120.27.222.192,P=3310,u=ytj_check,p=ytj_check h=47.97.174.183,P=3333,u=ytj_check,p=ytj_check --charset=utf8 --print 
+		
+		 执行修复
+		 将 --print 换成 --exec
+		 		                                          #主库的地址                                     #从库的地址
+		pt-table-sync --no-bin-log  --databases=ytj --tables=* h=120.27.222.192,P=3310,u=ytj_check,p=ytj_check h=47.97.174.183,P=3333,u=ytj_check,p=ytj_check --charset=utf8 --exec 
+		
+		
+		shell 
+		#!/bin/bash
+		`pt-table-checksum --databases ytj -u'ytj_check' -p'ytj_check' -h120.27.222.192 -P3310  2>./pt_error.log 1>./pt_info.log	--recursion-method=hosts  --no-check-binlog-format --no-check-replication-filters`
+
+		arr=`cat pt_info.log |awk  '{print $3"--"$NF}'|grep -v 0|awk -F . '{print $2}'`
+
+
+		for line in $arr 
+		do 
+
+
+		`pt-table-sync --no-bin-log  --databases=ytj --tables=$line h=120.27.222.192,P=3310,u=ytj_check,p=ytj_check h=47.97.174.183,P=3333,u=ytj_check,p=ytj_check --charset=utf8 --exec`
+
+
+		done 
+
+
+
+
+
+		
+		
+32 sonar 启动	  下载后 新建用户 
+              useradd -g root test 
+			  passwd test
+              chown -R  test /stock/sonarqube-6.7.2
+              su test 
+               /stock/sonarqube-6.7.2/bin/linux-x86-64/sonar.sh console 没问题换成start	
+
+
+    gradle 的安装
+    下载插件 
+
+
+		buildscript {
+			repositories {
+				mavenCentral()
+
+
+			}
+			ext {
+				springBootVersion = "1.5.8.RELEASE"
+			}
+
+			dependencies {
+				classpath("org.springframework.boot:spring-boot-gradle-plugin:$springBootVersion")
+				classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.5"
+			}
+
+
+		}	
+		
+	然后再项目中使用
+		 subprojects {
+			apply plugin: 'java'
+			apply plugin: 'org.sonarqube'
+
+		//    apply plugin: 'idea'
+		//    apply plugin: 'eclipse'
+			ext {
+				sourceCompatibility = JavaVersion.VERSION_1_8
+				[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+			}
+
+
+
+			sonarqube {
+				properties {
+					property "sonar.host.url", "http://192.168.89.134:9000"
+					property "sonar.login", "9e723982889a0d46ea2e4ea48e41acd56267712d"
+		//            property "sonar.java.binaries", "build/classes"
+				}
+			}
+
+
+		}
+		
+		最后执行 gradle clean build -x test 确定执行成功后
+		执行gradle sonarqube -x test
+
+33 nginx 开启访问日志
+	access_log off;	//关闭
+    access_log /stock/nginx/logs/access.log	1024k
+	log_not_found off; 关闭找不到favivcon 错误
+	
+	nginx 根据特定请求记录日志
+    if ( $uri ~* /qingtingFMPlus.html$){
+	 access_log ./logs/access_qingtingFMPlus.log ;		
+	}			
+				
+    pv uv 统计
+	pv   awk '{print $6}' log | wc -l
+	uv   awk '{print $10}' log | sort -r |uniq -c |wc -l
+	
+	
+	增加的功能 想在页面
+	直接显示 出来 
+	那么第一步是写出各个统计的shell
+	 然后再页面直接执行shell
+	 shell见 totoal.sh
+	 页面执行显示shell用到了python 的CGI
+	  利用linux自带的简单的CGI 服务 
+	  python -m CGIHTTPServer 8000
+	  在执行命令的目录下创建 CGI执行的目录 cgi-bin 把需要执行的sh拷贝到这里来
+	  并且赋予权限 chomd -R 777 ~/cgi-bin
+	  然后访问地址 http://ip:8000/cgi-bin/xxx.sh 即可
+	
+	
+	
+		
+34 docker 使用 
+    去官网producet 选择centos 按照命令下载ce版
+    然后修改镜像
+	 1 查询 docker 配置
+		 find / -name docker.service -type f
+		 找到 ExecStart= 这一行，在这行最后添加加速器地址 --registry-mirror=<加速器地址> 
+	 2 阿里云的镜像加速器
+	   里面有详细的说明
+	
+    docker images 查询当前下有的镜像 
+    docker search java 搜索镜像
+    docker pull java 下载镜像
+	docker run -t -i
+	docker run -d -p 127.0.0.1:5001:5000
+	默认都是绑定 tcp 端口，如果要绑定 UDP 端口，可以在端口后面加上 /udp
+	docker ps 命令来查看容器名称
+	docker run
+		-a stdin: 指定标准输入输出内容类型，可选 STDIN/STDOUT/STDERR 三项；
+
+		-d: 后台运行容器，并返回容器ID；
+
+		-i: 以交互模式运行容器，通常与 -t 同时使用；
+
+		-t: 为容器重新分配一个伪输入终端，通常与 -i 同时使用；
+
+		--name="nginx-lb": 为容器指定一个名称；
+
+		--dns 8.8.8.8: 指定容器使用的DNS服务器，默认和宿主一致；
+
+		--dns-search example.com: 指定容器DNS搜索域名，默认和宿主一致；
+
+		-h "mars": 指定容器的hostname；
+
+		-e username="ritchie": 设置环境变量；
+
+		--env-file=[]: 从指定文件读入环境变量；
+
+		--cpuset="0-2" or --cpuset="0,1,2": 绑定容器到指定CPU运行；
+
+		-m :设置容器使用内存最大值；
+
+		--net="bridge": 指定容器的网络连接类型，支持 bridge/host/none/container: 四种类型；
+
+		--link=[]: 添加链接到另一个容器
+		
+	docker pause :暂停容器中所有的进程。
+
+    docker unpause :恢复容器中所有的进程
+	docker ps [OPTIONS]	
+		-a :显示所有的容器，包括未运行的。
+
+		-f :根据条件过滤显示的内容。
+
+		--format :指定返回值的模板文件。
+
+		-l :显示最近创建的容器。
+
+		-n :列出最近创建的n个容器。
+
+		--no-trunc :不截断输出。
+
+		-q :静默模式，只显示容器编号
+	docker stop 	
+	容器运行时不一定有/bin/bash终端来交互执行top命令，而且容器还不一定有top命令，可以使用docker top来实现查看container中正在运行的进程。	
+	docker logs [OPTIONS] CONTAINER
+
+		-f : 跟踪日志输出
+
+		--since :显示某个开始时间的所有日志
+
+		-t : 显示时间戳
+
+		--tail :仅列出最新N条容器日志
+	docker port :列出指定的容器的端口映射，或者查找将PRIVATE_PORT NAT到面向公众的端口。
+
+	docker port [OPTIONS] CONTAINER [PRIVATE_PORT[/PROTO]]
+     
+    docker inspect imageName	
+
+    docker run --name ="自定义的名称" centos -i -t /bin/bash
+    docker start [-i] 重新启动容器
+    docker rm 删除已经停止的容器	
+	ctrl + p   ctrl + q 后台启动容器 exit//退出
+	docker attach 容器命令 返回后台运行的程序
+	docker run -d 后台启动容器
+	docker logs -f[一直跟进日志] -t [返回时间] --tail[返回特定的日志] 容器名
+	docker top 显示运行中的进程情况
+	docker exec 容器名 同run 在 运行的容器中执行命令
+	docker stop /kill stop 发送停止信息 kill 立即停止
+	docker -P[暴露所有的端口] -p [0.0.0.0:8080:80] ip+容器端口+宿主端口
+	docker port 查看端口的映射
+ 	docker info 查看dokcer的信息
+	镜像的操作
+	docker images
+	   -a 所有 
+    docker inspect 镜像的名称(repository:tag) 查看镜像的详细名称
+	docker rmi -f[强制删除] (removeImage)
+	docker commit 构建镜像
+	  -a 作者 -m "提交的信息" -p 暂停容器
+	docker 限制日志大小 
+       docker run -dit --log-driver json-file --log-opt max-size=1m --name memcache -p 11211:11211 memcached
+    或者
+     etc/docker/daemon.json
+	    {
+	     "registry-mirrors": ["https://z0ba35k0.mirror.aliyuncs.com"],
+		 "log-driver":"json-file",
+		 "log-opts":{ "max-size" :"50m","max-file":"1"}	
+		 } 
+	docker 的连接方式
+    nc  -U /var/run/docker.sock 连接docker	  
+	    /info HTTP/1.1
+		
+	vim /etc/default/docker
+	
+		DOCKER_OPTS="-H tcp:///0.0.0.0:2375" 更改docker连接模式 用来远程连接	
+		
+	docker -H tcp://x.x.x.x:2375  info 客户端连接服务端
+     或者 export DOCKER_HOST="tcp://x.x.x.x:2375" 则本地 客户端 直接 docker info 连接的是远程的	
+	 想要连接本地 则置空
+	 
+	 docker file 
+	 # 
+		 from 镜像名:标签名(已经存在)
+		 maintainer 作者名称和联系信息
+		 run 指定镜像的名称 
+			shell 指令 或者bash 多指令可以利用&&合并
+		 expose 指定的端口	
+		 cmd 程序运行时候的命令 如果 利用exec则 这个 命令会被覆盖
+		 entrypoint  也是程序运行时候的命令 程序指定命令 不会被覆盖 想覆盖 必须 -entrypoint
+		   利用 entrypoint 运行 利用 程序运行指定覆盖 cmd 组合
+		 copy 拷贝
+		workdir 则 cmd 和entrypoint的工作目录
+		user 用户运行的方式
+		--link  容器的名称:别名   命令的选项 在docker 运行其他容器 可以用这个别名 	
+		--icc 默认值 false 则不能进行连接 配置 文件中修改 vim /etc/default/docker 
+		特定连接  ：
+		   --icc=false  --iptables=true 配置文件添加
+		   --link 程序启动时候添加参数
+		-v 宿主机的位置:容器的位置(:后面还可以继续接权限限制:ro) 启动时候添加 
+		  或者在docker file 使用 VOLUME["/data"] 不能映射到宿主机
+		  
+		 --volumes-form 指定目录的来源
+		 tar cxf 压缩
+		 
+		docker run -i-t -v ~/stock:/data   //宿主地址 : docker中地址
+		 inspect  查看权限
+		 
+		--实战积累
+		 镜像删除
+			dcoker images 
+			必须停止其对应的container
+			docker ps -a 列出所有的container 把他
+			docker stop CONTAINER ID	
+			之后再删除
+			docker rmi images的Id (-f 强制性删除)
+			如果想要删除所有container的话再加一个指令
+			docker rm $(docker ps -a -q ) 
+			docker rmi $(docker images -q)
+			#关闭所有的进程
+			docker kill $(docker ps -q)
+		 内网互通
+          cat /etc/resolv.conf
+          vim /etc/docker/daemon.json 
+            添加 "dns":["10.101.10.22"]		  
+		   service restart docker	
+		  启动centos 
+          docker run -dit --name centos --privileged centos  /usr/sbin/init 
+		  简写 docker run -dit --name centos --privileged  centos  init
+
+          最后执行 docker exec -it centos /bin/bash	
+		  
+		  
+          安装nginx
+			docker run -itd -p 80 --privileged --name web centos init          
+		    docker exec -it -p 80 centos /bin/bash			  
+     		yum install -y  epel-release 		  
+     		yum install -y  nginx		  
+			systemctl start nginx 
+
+         springboot 
+		 vim /usr/lib/systemd/system/docker.service
+			添加
+			ExecStart=  
+			ExecStart=/usr/bin/dockerd -H tcp://0.0.0.0:2375 -H unix://var/run/docker.sock  		
+		执行
+		systemctl daemon-reload
+		systemctl restart docker 
+		执行
+		curl http://localhost:2375/info
+		 镜像的修改 812可以是容器
+		 docker commit 812a997f614a ubuntu:update
+		 镜像的导入和导出
+		 docker export cbe3cb7799ed > update.tar
+		 docker import - update < update.tar  //update 镜像的名称  
+		 nginx 多个端口映射
+		 docker run -dit -p 80:80 -p 8000:8000 --name web --privileged centos init
+		
+        docker 将容器备份 
+        docker commit -p 容器名称  镜像名称
+        docker save -o   保存的宿主地址名称 镜像名称
+         恢复
+         docker load -i 保存的素质地址名称
+		 
+		 文件的复制
+		 docker cp /root/需要复制的文件内容 centos:/stock/需要复制的文件的名称
+		 docker cp centos:/stock/需要复制的文件名称  /root/待复制的文件内容
+		 docker build -t 名称 -f Dockerfile 文件名 文件的相应目录
+		   docker build -t centos:update -f DokcerFile .
+		   
+		docker 直接看日志 或者进入
+        docker exec -it id /bin/bash 或者 /bin/sh 进入 执行
+         		
+35 docker compose的使用
+    安装
+	方法一
+	https://docs.docker.com/compose/ 查看版本
+	curl -L https://github.com/docker/compose/releases/download/1.8.1/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
+    chmod +x /usr/local/bin/docker-compose
+	方法二(可能比较旧)
+	yum -y install epel-release
+	yum -y install python-pip
+	pip install docker-compose 
+
+   使用 
+   docker-compose 
+   --verbose 输出更多调试信息。
+	--version 打印版本并退出。
+	-f, --file FILE 使用特定的 compose 模板文件，默认为 docker-compose.yml。
+	-p, --project-name NAME 指定项目名称，默认使用目录名称。
+   
+	
+	docker-compose -p spring -f docker-compose.yml build //docker-compose 的姓名
+	docker-compose -p spring -f docker-compose.yml  up  -d //启动容器
+	docker-compose -p spring -f docker-compose.yml  logs //查看日志
+	docker-compose -p spring -f docker-compose.yml  ps //查看当前的进程
+	docker-compose -p spring -f docker-compose.yml down //卸载当前的容器
+	
+36	kubernetes 的使用
+   安装 需要go 语言环境
+   git clone https://github.com/kubernetes/kubernetes.git
+   cd kubernetes
+   make release
+   安装时候会报错 根据错误的提示 从远程安装镜像 在拉取到本地 
+   dockerhub的镜像自动构建
+   关联github 的文件仓库 新建一个Dockerfile 
+   把构建失败的地址上的Dockerfile 的images 拷贝过来 
+   例如 
+   FROM k8s.gcr.io/kube-cross:v1.10.2-1
+   然后等待building 
+   building 结束后 在首页 将本地的images替换到k8s的Dockerfile 文件在./build/build-images/Dockerfile 
+   将 FROM 的镜像地址换成 自己构建的镜像地址
+   
+   
+37  syn doss 攻击
+	sudo sysctl -a  | grep ipv4 | grep syn
+	输出类似下面：
+
+	net.ipv4.tcp_max_syn_backlog = 1024
+	net.ipv4.tcp_syncookies = 0
+	net.ipv4.tcp_synack_retries = 5
+	net.ipv4.tcp_syn_retries = 5   
+	
+38  gitlab的	
+     官网步骤安装结束后
+     安装 找到 /etc/gitlab/gitlab.rb 的 exteral_url="192.168.32.130:9000"
+	 8080端口也在这里面注释并且打开
+	 执行 gitlab-ctl reconfigure 执行成功后 gitlab-ctl restart
+	 默认用户密码 root  5iveL!fe
+	  修改默认密码 
+	  gitlab-rails console production
+	    user = User.where(id: 1).first
+		user.password='879227577'
+		user.password_confirmation='879227577'
+		user.save!
+		quit
+	CI 注册 runner
+	安装 gitlab-ci-multi-runner
+	 curl  -L https://packages.gitlab.com/install/repositories/runner/gitlab-ci-multi-runner/script.rpm.sh | sudo bash
+	 sudo yum install gitlab-ci-multi-runner
+	注册runner
+	浏览器打开一个GitLab项目，到 Settings-CI/CD Pipelines 下，可以看到一个 Specific Runners
+
+	 sudo gitlab-ci-multi-runner register
+     输入上面看到的url和token
+
+  权限有关  
+	sh的执行权限	dos2unix  sh
+	gradle 的执行权限 	chown  -R gitlab-runner:gitlab-runner /opt/.gradle/	 
+
+
+     gitlab 不能执行sh
+			1    sudo visudo
+
+			2    添加免密码
+			用户名 ALL = NOPASSWD: ALL
+				
+	gitlab-runner 赋予权限
+	 直接 将 /etc/passwd 找到 gradle-runner 的Id置为0 gitlab-runner:x:983:977 -->gitlab-runner:x:0:977 	
+	
+	加速 gradle 
+		touch  /opt/.gradle/gradle.properties
+		org.gradle.daemon=true
+		org.gradle.jvmargs=-Xmx1024m  -Dfile.encoding=UTF-8
+		org.gradle.parallel=true
+		org.gradle.configureondemand=true	
+		
+		
+39 https://github.com/Yelp/detect-secrets 扫描密码相关
+
+40  select * from sys.innodb_lock_waits 查看mysql锁的问题
+
+41 cloudflare 
+42 mysql 数据转移  
+    my.cnf 配置如下选项
+	sql_mode=STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION
+    secure_file_priv=""
+   使用 select * from Table into outfile '/路径/文件名'
+    LOAD DATA INFILE "/路径/文件名" into TABLE table_name;
+   这是建立在数据表都存在的基础上进行复制数据
+   
+43 缓存失效方案  https://mp.weixin.qq.com/s?__biz=MzI0MDQ4MTM5NQ==&mid=2247486045&idx=1&sn=0d74ded789160fcce72b69e13621a43a&chksm=e91b6f41de6ce657c46a90441d4fefbec2f0ee7c1a06f90de67ccc421446256a32d892eb4564#rd
+    先查询数据库 在采用延迟双删的策略 利用消息队列或者 cancel订阅binlog日志进行 消息的补发 进行发送错误的处理
+
+   
+   
+   
+44  git clone xxxxx 
+    git branch -a 
+    git checkout  master 
+	 --此时如果 很长时间没有更新 master 执行 git pull  origin master 出现  (you need to resolve your current index first) 需要回滚 git reflog   然后选择回归的版本号  git reset --hard -xxx
+	 添加文件
+	  git add xxx   git commit -m 'd'  然后 git push  如果出现问题 有两种办法一种是强制性将本地提交到线上 git -f push origin master  或者将远程git pull 然后提交
+	  切换分支可以通过 git rm -r master/
+	  添加分支简单名称到本地 git remote add 333 xxxxx
+	git branch xx 创建新的分支  git branch 666 和 git switch 666 等于 git checkout -b 666
+	git branch -D xx (强制)删除分支
+	git push origin -d xxx 删除远程分支xxx  
+    git merge xxx 在分支b 合并xxx 出现冲突可以利用git status
+	 
+	 
+45 windows 分区失败
+	diskpart
+	list disk
+	select disk 1
+	clean
+	create partition primary	 
+		
+		
+46 spring https 
+ 
+方式一 keytool -genkey -alias tomcat -keyalg RSA  -keystore keystore.p12	
+方式二 先去 https://freessl.org/申请一年的 在利用openssl 转成tomcat需要的证书
+    openssl pkcs12 -export -in full_chain.pem -inkey private.key -out keystore.p12 -name tomcat	 (pkcs12代表p12操作的类型)
+	openssl rsa -in pkcs8.pem -out pkcs_rsa.pem 将pkcs8转rsa的证书 
+
+47  maven的打包
+    打公共依赖包的时候必须先把公共依赖包 maven install maven的install可以将项目本身编译并打包到本地仓库
+	maven 打包乱码失败 mvn install -Dfile.encoding=utf-8
+	mvn clean compile war:exploded antrun:run war:war		
+	pom.xml 配置
+	   <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-war-plugin</artifactId>
+                    <configuration>
+                        <warName>jiuy-store-api</warName>
+                        <webResources>
+                            <resource>
+                                <directory>${project.basedir}/src/lib</directory>
+                                <targetPath>WEB-INF/lib</targetPath>
+                                <includes>
+                                    <include>**/*.jar</include>
+                                </includes>
+                            </resource>
+                        </webResources>
+                        <archive>
+                            <manifest>
+                                <mainClass>com.miscroservice.Service</mainClass>
+                            </manifest>
+                        </archive>
+                        <overlays>
+                            <overlay>
+                                <groupId>com.microservice</groupId> <!--暴露在外面的依赖包-->
+                                <artifactId>server</artifactId>
+                                <type>jar</type>
+                            </overlay>
+                        </overlays>
+                    </configuration>
+                </plugin>
+
+48  查询msql所有的表
+48  查询msql所有的表
+	use information_schema;
+	select  data_length ,table_name
+		 from tables where  
+		table_schema='yjj_online'  order by data_length desc;;	
+
+
+49   别名
+	alias  start="nohup java -jar /stock/server-1.jar >/stock/work/log.log 2>&1 &"
+	alias stop="jps -q|xargs kill -9 >/dev/null 2>&1"
+	alias  run="(stop || start ) && tail -f ./log.log"		
+	
+50 logstash的配置书写到文件
+	input {
+		tcp {
+		host => "0.0.0.0"
+		port => 9111
+		mode => "server"
+		tags => ["tags"]
+		codec => json_lines
+		}
+	}
+	output {
+		stdout { codec => rubydebug }
+		#输出到一个文件中
+		file {
+		   path => "/tmp/out"
+		   codec => line 
+		}
+	}
+
+51 elasticsearch 删除所有 curl -XDELETE http://localhost:9100/_all
+
+  logstach 的同步文件 
+
+	input {
+	  jdbc {
+		jdbc_driver_library => "/stock/mysql.jar"
+		jdbc_driver_class => "com.mysql.cj.jdbc.Driver"
+		jdbc_connection_string => "jdbc:mysql://api.kuayet.com:3310/kyt?useUnicode=true&autoReconnect=true&characterEncoding=UTF-8&serverTimezone=UTC&useSSL=false&verifyServerCertificate=false"
+		jdbc_user => "kyt"
+		jdbc_password => "kyt2018"
+		jdbc_paging_enabled => "true"
+		jdbc_page_size => "50000"
+		schedule => "* * * * *"
+		statement => "SELECT * from  powerPurchaserProduct"
+	  }
+	}
+	 
+	output {
+			elasticsearch {
+			hosts => [ "localhost:9100" ]
+			document_type => "powerpurchaserproduct"
+			document_id => "%{id}"
+			index => "com.newman.dto.powerpurchaserproduct"
+		}
+	}
+
+	 text 聚合排序
+	 1--
+	   curl -XPUT 'http://localhost:9200/bank/_mapping/account' -d '
+			{       
+			  "properties": {
+					"state": {  
+						"type": "text",
+						"fielddata": true
+					}       
+				}         
+			}'
+         # bank是index、account是类型、state是你需要设置的text字段    
+		 
+	   eg:  
+			curl -H "Content-Type: application/json" -XPUT 'http://api.kuayet.com:9100/com.newman.dto.powerpurchaserproduct/_mapping/powerpurchaserproduct?p' -d'
+			{
+			"properties": {
+			"imageurl": {
+			"type": "text",
+			"fielddata": true
+			}
+			}
+			}
+			'	   
+	2---  imageurl.keyword 查询 .keyword即可	
+
+    新增ik分词 
+	input {
+	  jdbc {
+		jdbc_driver_library => "/stock/mysql.jar"
+		jdbc_driver_class => "com.mysql.cj.jdbc.Driver"
+		jdbc_connection_string => "jdbc:mysql://api.kuayet.com:3310/kyt?useUnicode=true&autoReconnect=true&characterEncoding=UTF-8&serverTimezone=UTC&useSSL=false&verifyServerCertificate=false"
+		jdbc_user => "kyt"
+		jdbc_password => "kyt2019"
+		jdbc_paging_enabled => "true"
+		jdbc_page_size => "50000"
+		schedule => "* * * * *"
+		statement => "SELECT * from  powerPurchaserProduct where source ='淘宝' and name like '%草泥马%'"
+	  }
+	}
+	 
+	output {
+			elasticsearch {
+			hosts => [ "localhost:9100" ]
+			document_type => "powerpurchaserproduct"
+			document_id => "%{id}"
+			index => "com.newman.dto.powerpurchaserproduct"
+			template_overwrite => true   #添加分词
+			template => "/stock/logstash/template/logstash-ik.json" #添加分词
+		}
+	}
+    logstash-ik.json
+	 
+	{
+    "template": "logstash-*",
+    "version": 60001,
+    "settings": {
+        "index.refresh_interval": "5s"
+    },
+    "mappings": {
+        "_default_": {
+           
+		   "dynamic_templates": [
+                {
+                    "message_field": {
+                        "path_match": "message",
+                        "match_mapping_type": "string",
+                        "mapping": {
+                            "type": "text",
+                            "norms": false
+                        }
+                    }
+                },
+                {
+                    "string_fields": {
+                        "match": "*",
+                        "match_mapping_type": "string",
+                        "mapping": {
+                            "type": "text",
+                            "norms": false,
+                            "analyzer": "ik_max_word", #这里添加ik分词
+                            "fields": {
+                                "keyword": {
+                                    "type": "keyword",
+									"ignore_above": 256
+                                }
+                            }
+                        }
+                    }
+                }
+            ],
+            "properties": {
+                "@timestamp": {
+                    "type": "date"
+                },
+                "@version": {
+                    "type": "keyword"
+                },
+				"geoip": {
+				    "dynamic": true,
+					"properties": { 
+					     "ip": {
+						     "type":"ip"
+							 },
+						  "location": {
+						     "type": "geo_point"
+							 },
+						  "latitude": {
+						     "type": "half_float"
+							 },
+						  "longitude": {
+						     "type": "half_float"
+							 }
+					  }
+				
+				}
+				
+            }
+        }
+    }
+} 
+
+或者设置
+curl -XPOST -H "Content-Type: application/json" http://api.kuayet.com:9100/com.newman.dto.powerpurchaserproduct/_close
+curl -XPUT -H "Content-Type: application/json" 'http://api.kuayet.com:9100/com.newman.dto.powerpurchaserproduct/_settings?preserve_existing=true' -d '{
+  "index.analysis.analyzer.default.type" : "ik_max_word"
+}'
+curl -XPOST -H "Content-Type: application/json" http://api.kuayet.com:9100/com.newman.dto.powerpurchaserproduct/_open
+
+
+#查看mapping
+curl -XGET http://api.kuayet.com:9500/com.newman.dto.powerpurchaserproduct/_mapping
+
+			#新增termsQueryd的方法
+ 			curl -H "Content-Type: application/json" -XGET http://yjjdev.nessary.top:9500/_template/logstash-*
+
+			得到mapping 
+             然后添加自己的字段 把类型改成keyword  type:keyword
+			 curl -H "Content-Type: application/json" -XPUT http://yjjdev.nessary.top:9500/_template/logstash 进行添加模版
+			 然后把logstash 修改   
+				 output {
+					elasticsearch {
+					hosts => [ "yjjdev.nessary.top:9500" ]
+					document_type => "powerpurchaserproduct"
+					document_id => "%{id}"
+					manage_template => false
+					template_name => "logstash"
+					template_overwrite => true
+					index => "com.newman.dto.powerpurchaserproduct"
+				}
+			然后录入即可 
+             查询即可QueryBuilders.termsQuery("searchword.keyword", word) 
+           *********后来发现 QueryBuilders.termsQuery("searchword.keyword", word)直接可以使用		 
+
+
+
+
+52 微信商公众号 先去 mp.weixin.qq.com  帮定基本配置 和接口权限用于获取用户权限
+	
+53 nginx的搭建配置 
+
+server 
+    {
+
+		listen       80;
+		server_name  local.yujiejie.com admin.yujiejie.com app.kuayet.com  api.kueyet.com;
+			  
+	   
+		location /crm
+			{
+				index index.html;
+				root /home/fpt/;
+			}
+			
+
+		location /4336847291.txt 
+			{
+			   default_type    text/plain;
+			   return 200 "0c4e10e8bc0053c3e4d25a8121dd92ae";
+			}               
+	  
+
+
+		location /www
+			{
+			   root /home/kyt/;
+			}
+
+		location /pc
+			{
+			   root /home/kyt/;
+			}
+			
+		location /down/ttt5 
+			{
+
+			   alias /home/kyt/www/down/index.html;
+
+			   add_header Content-Type 'text/html; charset=utf-8';       
+			}
+
+
+		 
+  	   	
+    }
+	 
+
+	 
+	 
+	 
+	 
+   
+server 
+
+   {
+    
+		listen       443 ssl;  
+		server_name  local.yujiejie.com; 
+		ssl_certificate      /opt/cert/full_chain.pem;
+		ssl_certificate_key  /opt/cert/private.key;  
+
+		location /proxy 
+			{
+			  index index.html;
+			  root /home/fpt;
+			}    
+
+		location / 
+			{  
+				proxy_pass http://local.yujiejie.com:8081;  
+				proxy_redirect   off;
+				proxy_set_header  Host $host;
+				proxy_set_header  X-real-ip $remote_addr;
+				proxy_set_header  X-Forwarded-For $proxy_add_x_forwarded_for;
+			}  
+
+	}  
+		 
+	
+多个 https
+直接在下面添加	

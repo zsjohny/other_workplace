@@ -1,0 +1,26 @@
+apply plugin: 'java'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'application'
+repositories {
+    mavenCentral()
+}
+
+jar {
+    baseName "miscroservice_getway"
+    mainClassName = 'com.finace.miscroservice.GetWayCenterMain'
+}
+
+ext {
+    springVersion = "1.3.5.RELEASE"
+
+
+}
+
+dependencies {
+    compile "org.apache.shiro:shiro-spring:1.3.2"
+    compile "org.springframework.cloud:spring-cloud-starter-zuul:$springVersion"
+    compile group: 'io.netty', name: 'netty-all', version: '4.1.12.Final'
+    compile group: 'com.hazelcast', name: 'hazelcast', version: '3.9.3'
+
+    compile project(":miscroservice_commons")
+}

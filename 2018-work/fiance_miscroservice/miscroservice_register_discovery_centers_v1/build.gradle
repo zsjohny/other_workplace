@@ -1,0 +1,27 @@
+apply plugin: 'java'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'application'
+repositories {
+    mavenCentral()
+}
+
+jar {
+    baseName "miscroservice_register_discovery_centers_v1"
+    mainClassName = 'com.finace.miscroservice.ServiceCenterV1Main'
+}
+
+ext {
+    springVersion = "1.3.5.RELEASE"
+    springBootVersion = "1.5.8.RELEASE"
+}
+
+dependencies {
+    compile "org.springframework.cloud:spring-cloud-starter-eureka-server:$springVersion"
+    compile(project(":miscroservice_commons")) {
+        exclude group: "org.springframework.cloud", module: "spring-cloud-starter-config"
+        exclude group: "org.springframework.cloud", module: "spring-cloud-starter-bus-amqp"
+        exclude group: "org.springframework.cloud", module: "spring-cloud-starter-eureka"
+
+    }
+
+}

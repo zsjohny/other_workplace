@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.finace.miscroservice.activity.mapper.ShopMapper">
+    <select id="showCommodities" resultType="com.finace.miscroservice.activity.po.CommoditiesPO">
+        SELECT * from shop WHERE status = 1 and deleted = 0
+    </select>
+    <insert id="addShopLog">
+        insert into shop_log(`shop_id`,`order_id`,`add_time`,`peas`,`content`,`user_id`,`status`)
+        VALUES (#{id},#{orderNo},#{nowDateStr},#{peas},#{content},#{userId},#{status})
+    </insert>
+    <update id="subCommodityCount">
+        UPDATE shop set `count` = `count` -1 where id = #{id}
+    </update>
+    <select id="findCommodityByid" resultType="com.finace.miscroservice.activity.po.CommoditiesPO">
+        SELECT  * from shop where id = #{id}
+    </select>
+    <select id="commodityRecord" parameterType="String" resultType="com.finace.miscroservice.activity.po.CommoditiesLogPO">
+        SELECT * from shop_log where user_id = #{userId}  ORDER BY add_time DESC
+    </select>
+    <select id="showCommodityDetailed" resultType="com.finace.miscroservice.activity.po.CommoditiesPO">
+        SELECT * from shop where id = #{id}
+    </select>
+    <select id="buyRecord" parameterType="String" resultType="com.finace.miscroservice.activity.po.CommodityBuyRecordsPO">
+          SELECT a.peas,a.status,a.order_id,a.add_time,b.name,b.pic from shop_log a,shop b where  a.shop_id=b.id and a.user_id =#{userId} order by a.add_time desc
+    </select>
+    <select id="CountShopLogByUserId" parameterType="String" resultType="Integer">
+        select COUNT(id) from shop_log WHERE user_id = #{userId};
+    </select>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+

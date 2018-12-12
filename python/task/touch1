@@ -1,0 +1,39 @@
+python <<EOF
+#! /usr/bin/python
+# coding=utf8
+
+import psutil
+
+mem_high_warn = 18
+
+
+def get_process(p_name):
+    process_list = []
+    all_pid = psutil.pids()
+    for pid in all_pid:
+        p = psutil.Process(pid)
+        if p_name.lower() in p.name().lower():
+            process_list.append(p)
+    return process_list
+
+
+def cpu_monitor():
+    process_info = get_process("python")
+    for process in process_info:
+        print(process.memory_percent())
+        print(process.cpu_percent(None))
+
+
+def cpu_system_info():
+    sys_mem = psutil.virtual_memory()
+    rate_mem = (sys_mem.total - sys_mem.available) / sys_mem.total * 100
+    return sys_mem
+
+
+sys_info = cpu_system_info()
+print(sys_info)
+# if __name__ == "__main__":
+#     cpu_system_info()
+#     print(psutil.net_io_counters())
+
+EOF

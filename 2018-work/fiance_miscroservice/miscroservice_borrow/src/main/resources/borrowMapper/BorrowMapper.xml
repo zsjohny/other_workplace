@@ -1,0 +1,804 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.finace.miscroservice.borrow.mapper.BorrowMapper">
+
+
+    <resultMap id="BaseBorrowResult" type="com.finace.miscroservice.borrow.po.BorrowPO">
+        <result column="id" property="id"/>
+        <result column="site_id" property="siteId"/>
+        <result column="user_id" property="userId"/>
+        <result column="name" property="name"/>
+        <result column="status" property="status"/>
+        <result column="order" property="order"/>
+        <result column="hits" property="hits"/>
+        <result column="litpic" property="litpic"/>
+        <result column="flag" property="flag"/>
+        <result column="is_vouch" property="isVouch"/>
+        <result column="type" property="type"/>
+        <result column="view_type" property="viewType"/>
+        <result column="vouch_award" property="vouchAward"/>
+        <result column="vouch_user" property="vouchUser"/>
+        <result column="vouch_account" property="vouchAccount"/>
+        <result column="vouch_times" property="vouchTimes"/>
+        <result column="source" property="source"/>
+        <result column="publish" property="publish"/>
+        <result column="customer" property="customer"/>
+        <result column="number_id" property="numberId"/>
+        <result column="verify_user" property="verifyUser"/>
+        <result column="verify_time" property="verifyTime"/>
+        <result column="verify_remark" property="verifyRemark"/>
+        <result column="repayment_user" property="repaymentUser"/>
+        <result column="forst_account" property="forstAccount"/>
+        <result column="repayment_account" property="repaymentAccount"/>
+        <result column="monthly_repayment" property="monthlyRepayment"/>
+        <result column="repayment_yesaccount" property="repaymentYesaccount"/>
+        <result column="repayment_yesinterest" property="repaymentYesinterest"/>
+        <result column="repayment_time" property="repaymentTime"/>
+        <result column="repayment_remark" property="repaymentRemark"/>
+        <result column="success_time" property="successTime"/>
+        <result column="end_time" property="endTime"/>
+        <result column="payment_account" property="paymentAccount"/>
+        <result column="each_time" property="eachTime"/>
+        <result column="use" property="use"/>
+        <result column="time_limit" property="timeLimit"/>
+        <result column="style" property="style"/>
+        <result column="account" property="account"/>
+        <result column="account_yes" property="accountYes"/>
+        <result column="tender_times" property="tenderTimes"/>
+        <result column="apr" property="apr"/>
+        <result column="lowest_account" property="lowestAccount"/>
+        <result column="most_account" property="mostAccount"/>
+        <result column="valid_time" property="validTime"/>
+        <result column="award" property="award"/>
+        <result column="part_account" property="partAccount"/>
+        <result column="funds" property="funds"/>
+        <result column="is_false" property="isFalse"/>
+        <result column="open_account" property="openAccount"/>
+        <result column="open_borrow" property="openBorrow"/>
+        <result column="open_tender" property="openTender"/>
+        <result column="open_credit" property="openCredit"/>
+        <result column="addtime" property="addtime"/>
+        <result column="addip" property="addip"/>
+        <result column="is_mb" property="isMb"/>
+        <result column="is_fast" property="isFast"/>
+        <result column="is_jin" property="isJin"/>
+        <result column="is_xin" property="isXin"/>
+        <result column="pwd" property="pwd"/>
+        <result column="isday" property="isday"/>
+        <result column="time_limit_day" property="timeLimitDay"/>
+        <result column="is_art" property="isArt"/>
+        <result column="is_charity" property="isCharity"/>
+        <result column="is_project" property="isProject"/>
+        <result column="is_flow" property="isFlow"/>
+        <result column="flow_status" property="flowStatus"/>
+        <result column="flow_money" property="flowMoney"/>
+        <result column="flow_count" property="flowCount"/>
+        <result column="flow_yescount" property="flowYescount"/>
+        <result column="is_student" property="isStudent"/>
+        <result column="is_offvouch" property="isOffvouch"/>
+        <result column="content" property="content"/>
+        <result column="content2" property="content2"/>
+        <result column="content_use56" property="content_use56"/>
+        <result column="guarantee" property="guarantee"/>
+        <result column="trust_level" property="trustLevel"/>
+        <result column="borrow_fee_apr" property="borrow_fee_apr"/>
+        <result column="borrowTypes" property="borrowTypes"/>
+        <result column="hongbao_trans" property="hongbaoTrans"/>
+        <result column="hb_flag" property="hbFlag"/>
+        <result column="jx_flag" property="jx_flag"/>
+        <result column="jxj_flag" property="jxj_flag"/>
+        <result column="release_type" property="releaseType"/>
+        <result column="add_apr" property="addApr"/>
+        <result column="fic_account" property="ficAccount"/>
+
+        <result column="borrow_group" property="borrow_group"/>
+        <result column="finance_company" property="finance_company"/>
+        <result column="loan_usage" property="loan_usage"/>
+        <result column="payment" property="payment"/>
+        <result column="imgurl1" property="imgurl1"/>
+        <result column="imgurl2" property="imgurl2"/>
+        <result column="imgurl3" property="imgurl3"/>
+        <result column="imgurl4" property="imgurl4"/>
+        <result column="imgurl5" property="imgurl5"/>
+        <result column="imgurl6" property="imgurl6"/>
+        <result column="imgurl7" property="imgurl7"/>
+        <result column="imgurl8" property="imgurl8"/>
+        <result column="imgurl9" property="imgurl9"/>
+        <result column="imgurl10" property="imgurl10"/>
+    </resultMap>
+
+    <resultMap id="BorrowUserResult" type="com.finace.miscroservice.borrow.po.BorrowPO" extends="BaseBorrowResult">
+        <result column="username" property="username"/>
+        <result column="scales" property="scales"/>
+        <result column="fen" property="fen"/>
+    </resultMap>
+
+    <!-- 根据用户id获取标的信息 -->
+    <select id="getBorrowByUserId" parameterType="java.lang.Integer" resultMap="BaseBorrowResult">
+        <![CDATA[
+
+	       SELECT A.*  FROM borrow A WHERE A.USER_ID = #{userId} AND A.STATUS IN (0,1) AND A.IS_FLOW <> 1
+
+        ]]>
+    </select>
+
+    <!-- 根据id获取标的信息 -->
+    <select id="getBorrowById" parameterType="java.lang.Integer" resultMap="BaseBorrowResult">
+        <![CDATA[
+
+          SELECT A.*  FROM borrow A WHERE A.id = #{id}
+
+        ]]>
+    </select>
+
+    <!-- 根据状态获取标的信息 -->
+    <select id="getBorrowByStatusId" parameterType="Map" resultMap="BaseBorrowResult">
+        <![CDATA[
+
+          SELECT A.*  FROM borrow A WHERE A.id = #{id} and A.status=#{status}
+
+        ]]>
+    </select>
+
+    <!-- 根据id获取标的和借款人信息 -->
+    <select id="getBorrowUserById" parameterType="java.lang.Integer" resultMap="BorrowUserResult">
+        <![CDATA[
+
+  	    SELECT A.*, B.USERNAME,CAST(A.ACCOUNT_YES/A.ACCOUNT AS DECIMAL(8,5)) AS SCALES, (A.account-A.account_yes)/A.flow_money as fen
+  	    FROM borrow A
+  	    left join user B on A.USER_ID = B.USER_ID  WHERE  1=1
+	     AND A.id=#{id}  and a.status in(0,1,3,6,7,8,9)
+
+        ]]>
+    </select>
+
+    <!-- 修改标的状态 -->
+    <update id="updateBorrowStatusById" parameterType="java.util.Map">
+        <![CDATA[
+
+ 		 update borrow set status=#{status} where id= #{id}
+
+        ]]>
+    </update>
+
+    <!-- 获取理财列表 -->
+    <select id="getShowFinaceList" parameterType="Map" resultType="com.finace.miscroservice.borrow.po.BorrowPO">
+        <!--  SELECT A.*, B.USERNAME, CAST(A.ACCOUNT_YES/A.ACCOUNT AS DECIMAL(8,5)) AS SCALES,
+         (A.account-A.account_yes)/A.flow_money as fen
+         FROM BORROW A, USER B WHERE A.USER_ID = B.USER_ID AND A.STATUS IN (1,3,6,7,8) AND A.USE!=7 -->
+
+        SELECT A.id,A.name,A.time_limit_day as timeLimitDay,A.use,A.apr,A.litpic,A.status,A.account,A.account_yes,
+        CAST(case when (A.ACCOUNT_YES/A.ACCOUNT) is null then 0 else (A.ACCOUNT_YES/A.ACCOUNT) end  AS DECIMAL(8,5)) AS SCALES,A.lowest_account as lowestAccount,A.most_account as
+        mostAccount,
+        (A.account-A.account_yes)/A.flow_money as fen,A.add_apr as addApr
+        FROM BORROW A
+        left join USER B on A.USER_ID = B.USER_ID
+        <trim prefix="where" prefixOverrides="and|or">
+            AND A.STATUS IN (1,6,7,8) AND A.USE!=7
+            <if test=" isxs !=null and isxs != '' ">
+                AND A.USE!=0
+            </if>
+        </trim>
+        ORDER BY SCALES ASC,A.STATUS,A.VERIFY_TIME DESC
+    </select>
+
+    <!-- 获取标的信息-->
+    <select id="getShowFinaceById" parameterType="int" resultType="com.finace.miscroservice.borrow.po.BorrowPO">
+        SELECT A.id,A.name,A.time_limit_day as timeLimitDay,A.use,A.apr,A.add_Apr as addApr,A.account,A.release_type as releaseType,
+        A.status, A.litpic,
+        A.account_yes as accountYes,A.lowest_account as lowestAccount,
+        A.most_account as mostAccount,
+        CAST(A.ACCOUNT_YES/A.ACCOUNT AS DECIMAL(8,5)) AS SCALES,
+        (A.account-A.account_yes)/A.flow_money as fen,
+        A.valid_time as validTime
+        FROM BORROW A
+        <trim prefix="where" prefixOverrides="and|or">
+            A.STATUS IN (1,3,6,7,8) AND A.USE!=7
+            AND A.id=#{id}
+        </trim>
+        ORDER BY SCALES ASC,A.STATUS,A.VERIFY_TIME DESC
+    </select>
+
+    <!-- 修改标的信息 -->
+    <update id="updateBorrow" parameterType="com.finace.miscroservice.borrow.po.BorrowPO">
+        update borrow set
+        account_yes = account_yes + #{accountYes},
+        tender_times = tender_times + 1,
+        status = #{status}
+        where id = #{id}
+    </update>
+
+    <!-- 修改标的信息 -->
+    <update id="updateAllBorrow" parameterType="com.finace.miscroservice.borrow.po.BorrowPO">
+        update borrow
+        <trim prefix="set" suffixOverrides=",">
+
+            <if test="siteId!=null and siteId!=''">
+                site_id = #{siteId},
+            </if>
+            <if test="userId!=null and userId!=''">
+                user_id = #{userId},
+            </if>
+            <if test="name!=null and name!=''">
+                name = #{name},
+            </if>
+            <if test="status!=null and status!=''">
+                status = #{status},
+            </if>
+            <if test="order!=null and order!=''">
+                `order` = #{order},
+            </if>
+            <if test="hits!=null and hits!=''">
+                hits = #{hits},
+            </if>
+            <if test="litpic!=null and litpic!=''">
+                litpic = #{litpic},
+            </if>
+            <if test="flag!=null and flag!=''">
+                flag = #{flag},
+            </if>
+            <if test="isVouch!=null and isVouch!=''">
+                is_vouch = #{isVouch},
+            </if>
+            <if test="type!=null and type!=''">
+                `type` = #{type},
+            </if>
+            <if test="viewType!=null and viewType!=''">
+                view_type = #{viewType},
+            </if>
+            <if test="vouchAward!=null and vouchAward!=''">
+                vouch_award = #{vouchAward},
+            </if>
+            <if test="vouchUser!=null and vouchUser!=''">
+                vouch_user = #{vouchUser},
+            </if>
+            <if test="vouchAccount!=null and vouchAccount!=''">
+                vouch_account = #{vouchAccount},
+            </if>
+            <if test="vouchTimes!=null and vouchTimes!=''">
+                vouch_times = #{vouchTimes},
+            </if>
+            <if test="source!=null and source!=''">
+                source = #{source},
+            </if>
+            <if test="publish!=null and publish!=''">
+                publish = #{publish},
+            </if>
+            <if test="customer!=null and customer!=''">
+                customer = #{customer},
+            </if>
+            <if test="numberId!=null and numberId!=''">
+                number_id = #{numberId},
+            </if>
+            <if test="verifyUser!=null and verifyUser!=''">
+                verify_user = #{verifyUser},
+            </if>
+            <if test="verifyTime!=null and verifyTime!=''">
+                verify_time = #{verifyTime},
+            </if>
+            <if test="verifyRemark!=null and verifyRemark!=''">
+                verify_remark = #{verifyRemark},
+            </if>
+            <if test="repaymentUser!=null and repaymentUser!=''">
+                repayment_user = #{repaymentUser},
+            </if>
+            <if test="forstAccount!=null and forstAccount!=''">
+                forst_account = #{forstAccount},
+            </if>
+            <if test="repaymentAccount!=null and repaymentAccount!=''">
+                repayment_account = #{repaymentAccount},
+            </if>
+            <if test="monthlyRepayment!=null and monthlyRepayment!=''">
+                monthly_repayment = #{monthlyRepayment},
+            </if>
+            <if test="repaymentYesaccount!=null and repaymentYesaccount!=''">
+                repayment_yesaccount = #{repaymentYesaccount},
+            </if>
+            <if test="repaymentYesinterest!=null and repaymentYesinterest!=''">
+                repayment_yesinterest = #{repaymentYesinterest},
+            </if>
+            <if test="repaymentTime!=null and repaymentTime!=''">
+                repayment_time = #{repaymentTime},
+            </if>
+            <if test="repaymentRemark!=null and repaymentRemark!=''">
+                repayment_remark = #{repaymentRemark},
+            </if>
+            <if test="successTime!=null and successTime!=''">
+                success_time = #{successTime},
+            </if>
+            <if test="endTime!=null and endTime!=''">
+                end_time = #{endTime},
+            </if>
+            <if test="paymentAccount!=null and paymentAccount!=''">
+                payment_account = #{paymentAccount},
+            </if>
+            <if test="eachTime!=null and eachTime!=''">
+                each_time = #{eachTime},
+            </if>
+            <if test="use!=null and use!=''">
+                `use` = #{use},
+            </if>
+            <if test="timeLimit!=null and timeLimit!=''">
+                time_limit = #{timeLimit},
+            </if>
+            <if test="style!=null and style!=''">
+                style = #{style},
+            </if>
+            <if test="account!=null and account!=''">
+                account = #{account},
+            </if>
+            <if test="accountYes!=null and accountYes!=''">
+                account_yes = #{accountYes},
+            </if>
+            <if test="tenderTimes!=null and tenderTimes!=''">
+                tender_times = #{tenderTimes},
+            </if>
+            <if test="apr!=null and apr!=''">
+                apr = #{apr},
+            </if>
+            <if test="lowestAccount!=null and lowestAccount!=''">
+                lowest_account = #{lowestAccount},
+            </if>
+            <if test="mostAccount!=null and mostAccount!=''">
+                most_account = #{mostAccount},
+            </if>
+            <if test="validTime!=null and validTime!=''">
+                valid_time = #{validTime},
+            </if>
+            <if test="award!=null and award!=''">
+                award = #{award},
+            </if>
+            <if test="partAccount!=null and partAccount!=''">
+                part_account = #{partAccount},
+            </if>
+            <if test="funds!=null and funds!=''">
+                funds = #{funds},
+            </if>
+            <if test="isFalse!=null and isFalse!=''">
+                is_false = #{isFalse},
+            </if>
+            <if test="openAccount!=null and openAccount!=''">
+                open_account = #{openAccount},
+            </if>
+            <if test="openBorrow!=null and openBorrow!=''">
+                open_borrow = #{openBorrow},
+            </if>
+            <if test="openTender!=null and openTender!=''">
+                open_tender = #{openTender},
+            </if>
+            <if test="openCredit!=null and openCredit!=''">
+                open_credit = #{openCredit},
+            </if>
+            <if test="addtime!=null and addtime!=''">
+                addtime = #{addtime},
+            </if>
+            <if test="addip!=null and addip!=''">
+                addip = #{addip},
+            </if>
+            <if test="isMb!=null and isMb!=''">
+                is_mb = #{isMb},
+            </if>
+            <if test="isFast!=null and isFast!=''">
+                is_fast = #{isFast},
+            </if>
+            <if test="isJin!=null and isJin!=''">
+                is_jin = #{isJin},
+            </if>
+            <if test="isXin!=null and isXin!=''">
+                is_xin = #{isXin},
+            </if>
+            <if test="pwd!=null and pwd!=''">
+                pwd = #{pwd},
+            </if>
+            <if test="isday!=null and isday!=''">
+                isday = #{isday},
+            </if>
+            <if test="timeLimitDay!=null and timeLimitDay!=''">
+                time_limit_day = #{timeLimitDay},
+            </if>
+            <if test="isArt!=null and isArt!=''">
+                is_art = #{isArt},
+            </if>
+            <if test="isCharity!=null and isCharity!=''">
+                is_charity = #{isCharity},
+            </if>
+            <if test="isProject!=null and isProject!=''">
+                is_project = #{isProject},
+            </if>
+            <if test="isFlow!=null and isFlow!=''">
+                is_flow = #{isFlow},
+            </if>
+            <if test="flowStatus!=null and flowStatus!=''">
+                flow_status = #{flowStatus},
+            </if>
+            <if test="flowMoney!=null and flowMoney!=''">
+                flow_money = #{flowMoney},
+            </if>
+            <if test="flowCount!=null and flowCount!=''">
+                flow_count = #{flowCount},
+            </if>
+            <if test="flowYescount!=null and flowYescount!=''">
+                flow_yescount = #{flowYescount},
+            </if>
+            <if test="isStudent!=null and isStudent!=''">
+                is_student = #{isStudent},
+            </if>
+            <if test="isOffvouch!=null and isOffvouch!=''">
+                is_offvouch = #{isOffvouch},
+            </if>
+            <if test="content!=null and content!=''">
+                content = #{content},
+            </if>
+            <if test="content2!=null and content2!=''">
+                content2 = #{content2},
+            </if>
+            <if test="content_use56!=null and content_use56!=''">
+                content_use56 = #{content_use56},
+            </if>
+            <if test="guarantee!=null and guarantee!=''">
+                guarantee = #{guarantee},
+            </if>
+            <if test="borrow_fee_apr!=null and borrow_fee_apr!=''">
+                borrow_fee_apr = #{borrow_fee_apr},
+            </if>
+            <if test="hongbaoTrans!=null and hongbaoTrans!=''">
+                hongbao_trans = #{hongbaoTrans},
+            </if>
+            <if test="addApr!=null and addApr!=''">
+                add_apr = #{addApr},
+            </if>
+            <if test="releaseType!=null and releaseType!=''">
+                release_type = #{releaseType},
+            </if>
+            <if test="ficAccount!=null and ficAccount!=''">
+                fic_account = #{ficAccount},
+            </if>
+            <if test="borrow_group!=null and borrow_group!=''">
+                borrow_group = #{borrow_group},
+            </if>
+            <if test="finance_company!=null and finance_company!=''">
+                finance_company = #{finance_company},
+            </if>
+            <if test="loan_usage!=null and loan_usage!=''">
+                loan_usage = #{loan_usage},
+            </if>
+            <if test="payment!=null and payment!=''">
+                payment = #{payment},
+            </if>
+            <if test="imgurl1!=null and imgurl1!=''">
+                imgurl1 = #{imgurl1},
+            </if>
+            <if test="imgurl2!=null and imgurl2!=''">
+                imgurl2 = #{imgurl2},
+            </if>
+            <if test="imgurl3!=null and imgurl3!=''">
+                imgurl3 = #{imgurl3},
+            </if>
+            <if test="imgurl4!=null and imgurl4!=''">
+                imgurl4 = #{imgurl4},
+            </if>
+            <if test="imgurl5!=null and imgurl5!=''">
+                imgurl5 = #{imgurl5},
+            </if>
+            <if test="imgurl6!=null and imgurl6!=''">
+                imgurl6 = #{imgurl6},
+            </if>
+            <if test="imgurl7!=null and imgurl7!=''">
+                imgurl7 = #{imgurl7},
+            </if>
+            <if test="imgurl8!=null and imgurl8!=''">
+                imgurl8 = #{imgurl8},
+            </if>
+            <if test="imgurl9!=null and imgurl9!=''">
+                imgurl9 = #{imgurl9},
+            </if>
+            <if test="imgurl10!=null and imgurl10!=''">
+                imgurl10 = #{imgurl10},
+            </if>
+            <if test="jxj_flag!=null and jxj_flag!=''">
+                jxj_flag = #{jxj_flag},
+            </if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <!-- 获取app首页的标的信息 -->
+    <select id="getBorrowByIndex" parameterType="String" resultType="com.finace.miscroservice.borrow.po.BorrowPO">
+        SELECT A.*,CAST(case when (A.ACCOUNT_YES/A.ACCOUNT) is null then 0 else (A.ACCOUNT_YES/A.ACCOUNT) end AS DECIMAL(8,5)) AS SCALES,
+        (A.account-A.account_yes)/A.flow_money as fen
+        FROM BORROW A
+        <trim prefix="where" prefixOverrides="and|or">
+            <if test="type !=null and type == 'xsb'">
+                and A.STATUS IN (1,6,7,8) and A.use=0
+                ORDER BY CAST(A.ACCOUNT_YES/A.ACCOUNT AS DECIMAL(8,5)) ASC, A.id DESC, A.VERIFY_TIME LIMIT 1
+            </if>
+
+            <if test="type !=null and type == 'sycp'">
+                and A.STATUS IN (1,6,7) and A.use!=0 and a.litpic != #{tab}
+                ORDER BY CAST(A.ACCOUNT_YES/A.ACCOUNT AS DECIMAL(8,5)) ASC, A.id DESC, A.VERIFY_TIME LIMIT 3
+            </if>
+
+            <if test="type !=null and type == 'success'">
+                and A.STATUS IN (8)
+                ORDER BY CAST(A.ACCOUNT_YES/A.ACCOUNT AS DECIMAL(8,5)) ASC, A.id DESC, A.VERIFY_TIME
+            </if>
+        </trim>
+    </select>
+ <!-- 获取app首页90天的标的信息 -->
+    <select id="getBorrowNinetyByIndex" parameterType="String" resultType="com.finace.miscroservice.borrow.po.BorrowPO">
+       SELECT
+	A.*, CAST(
+		A.ACCOUNT_YES / A.ACCOUNT AS DECIMAL (8, 5)
+	) AS SCALES,
+	(A.account - A.account_yes) / A.flow_money AS fen
+FROM
+	BORROW A
+WHERE
+	A.STATUS IN (1, 6, 7)
+AND A.USE != 0
+AND a.time_limit_day in (90,60)
+AND (ACCOUNT-ACCOUNT_YES)>0
+ORDER BY
+	a.time_limit_day desc,
+	CAST(
+		A.ACCOUNT_YES / A.ACCOUNT AS DECIMAL (8, 5)
+	) ASC,
+	A.id DESC,
+	A.VERIFY_TIME
+LIMIT 3
+    </select>
+    <!-- g根据标签获取app首页标的信息 -->
+    <select id="getBorrowByTab" parameterType="String" resultType="com.finace.miscroservice.borrow.po.BorrowPO">
+        SELECT
+        A.*, CAST(
+        A.ACCOUNT_YES / A.ACCOUNT AS DECIMAL (8, 5)
+        ) AS SCALES,
+        (A.account - A.account_yes) / A.flow_money AS fen
+        FROM
+        BORROW A
+        WHERE
+        A.STATUS IN (1, 6, 7)
+        AND A.USE != 0
+        AND a.time_limit_day in (90,60,30)
+        AND (ACCOUNT-ACCOUNT_YES)>0
+        AND litpic = #{tab}
+        ORDER BY
+        a.time_limit_day desc,
+        CAST(
+        A.ACCOUNT_YES / A.ACCOUNT AS DECIMAL (8, 5)
+        ) ASC,
+        A.id DESC,
+        A.VERIFY_TIME
+        LIMIT 3
+    </select>
+    <select id="getBorrowListByStatus" parameterType="java.lang.Integer"
+            resultType="com.finace.miscroservice.borrow.po.BorrowPO">
+		select * from borrow where status=#{status} order by valid_time asc
+	</select>
+
+    <!-- 查找在售标的个数 -->
+    <select id="getBorrowPOBySellOut" parameterType="String" resultType="com.finace.miscroservice.borrow.po.BorrowPO">
+	    select * from borrow p1 WHERE
+            <choose>
+                <when test=" borrowGroup !=null and borrowGroup == 'Novice' ">
+                      (p1.account - p1.account_yes) > p1.lowest_account + 50000
+                </when>
+                <otherwise>
+                       (p1.account - p1.account_yes) > p1.lowest_account + 30000
+                </otherwise>
+            </choose>
+            AND p1.status = 1 AND p1.borrow_group = #{borrowGroup}
+  </select>
+
+    <!-- 在售标的卖完后查找可以自动审核的标的 -->
+    <select id="getBorrowPOByAutoAdd" parameterType="String" resultType="com.finace.miscroservice.borrow.po.BorrowPO">
+  	   <![CDATA[
+
+	      select * from borrow p1 where p1.status = 0 
+	      and p1.borrow_group = #{borrowGroup} order by p1.addtime limit 1
+
+        ]]>
+  </select>
+
+
+    <!-- 存管审核通过标的 自动上标查找 -->
+    <select id="getBorrowByAutoAdd" parameterType="String" resultType="com.finace.miscroservice.borrow.po.BorrowPO">
+        <![CDATA[
+          select * from borrow p1 where p1.status = 3
+          and p1.borrow_group = #{borrowGroup} order by p1.addtime limit 1
+        ]]>
+    </select>
+ <!-- 存管审核通过标的 自动上标查找 -->
+    <select id="getBorrowAgreeByAutoAdd" parameterType="String" resultType="com.finace.miscroservice.borrow.po.BorrowPO">
+        <![CDATA[
+          select * from borrow p1 where p1.status = 0
+          and p1.borrow_group = #{borrowGroup} order by p1.addtime limit 1
+        ]]>
+    </select>
+
+    <!-- 修改标的 -->
+    <update id="updateAutoCheckBorrow" parameterType="com.finace.miscroservice.borrow.po.BorrowPO">
+		update borrow set `status`=#{status}, verify_time=#{verifyTime}, verify_remark=#{verifyRemark} where id=#{id}
+	</update>
+
+    <!--累计成交金额 累计用户收益 累计注册人数-->
+    <select id="getDatas" resultType="com.finace.miscroservice.borrow.entity.response.DataCollectionResponse">
+        SELECT  (e.huifuMoneyTotal+ f.fuiouMoneyTotal )as ljcjje,(e.huifuInterestTotal+d.fuiouInterestTotal)as ljyhsy,IFNULL((SELECT COUNT(0) FROM USER),0) AS ljzcyh FROM
+        (SELECT  ROUND(SUM(ACCOUNT),2) as huifuMoneyTotal, ROUND(SUM(INTEREST),2)as huifuInterestTotal FROM BORROW_TENDER where trust_status=1)as e,
+        (SELECT  ROUND(SUM(buy_amt),2) as fuiouMoneyTotal   FROM finance_bid WHERE pay =1 and pay_pid is not NULL and bank_card_no is not NULL and pay_name is not null) as f,
+        (SELECT ROUND(SUM(b.fuiouDaishou),2) as fuiouInterestTotal FROM (
+        SELECT (c.buy_amt*c.rate*(DATEDIFF(DATE(c.end_profit),DATE(c.begin_profit))/36500)) as fuiouDaishou  FROM
+        finance_bid c WHERE c.pay =1 and pay_pid is not NULL and bank_card_no is not NULL and pay_name is not null and c.begin_profit is not null) as b)d
+
+    </select>
+    <!--累计成交笔数-->
+    <select id="getLjcjbs" resultType="java.lang.Integer">
+        select
+        (
+        select count(*) as ljcjbs
+        from `borrow_tender`  where `trust_status`  = 1
+        )
+        +(
+        select count(*)
+        from finance_bid
+        where
+        pay=1
+        and pay_pid is not NULL
+        and bank_card_no is not NULL
+        and pay_name is not null
+        )
+    </select>
+    <!--累计出借人总数(人)-->
+    <select id="getLjcjrzs" resultType="java.lang.Integer">
+        select count(DISTINCT user_id) as ljcjrzs
+        FROM
+        (
+        select user_id
+        from `borrow_tender`  where `trust_status`  = 1
+        union ALL
+        (
+        select user_id
+        from finance_bid
+        where
+        pay=1
+        and pay_pid is not NULL
+        and bank_card_no is not NULL
+        and pay_name is not null
+        )
+        ) aa
+    </select>
+    <!--本年度成交金额(元)-->
+    <select id="getBndcjje" resultType="java.lang.Double">
+        select
+        CASE WHEN sum(buy_amt) IS NULL  THEN 0.00 ELSE  convert(sum(buy_amt),decimal) END AS collectTotal
+        from finance_bid
+        where
+        pay=1
+        and pay_pid is not NULL
+        and bank_card_no is not NULL
+        and pay_name is not null
+        and pay_time>=#{date}
+    </select>
+    <!--最大单户出借余额占比 -->
+    <select id="getZddhcjyezb" resultType="java.lang.Double">
+        select max(sum_buy_amount) AS zddhcjyezb
+        FROM
+        (
+        select user_id,sum(buy_amt) as sum_buy_amount
+        from finance_bid
+        where
+        pay=1
+        and pay_pid is not NULL
+        and bank_card_no is not NULL
+        and pay_name is not null
+        and status ='counting'
+        group by user_id
+        ) aa
+    </select>
+    <!--最大10户投资出借占比 -->
+    <select id="getZdshtzcjzb" resultType="java.lang.Double">
+        select sum(sum_buy_amount) AS zdshtzcjzb
+        FROM(
+        select aa.*
+        FROM
+        (
+        select user_id,sum(buy_amt) as sum_buy_amount
+        from finance_bid
+        where
+        pay=1
+        and pay_pid is not NULL
+        and bank_card_no is not NULL
+        and pay_name is not null
+        and status ='counting'
+        group by user_id
+        ) aa order by sum_buy_amount desc limit 10
+        )bb
+    </select>
+    <!--用户性别分布-->
+    <select id="userProportion" resultType="com.finace.miscroservice.borrow.entity.response.UserProportion">
+        select count(case when sex='女' then user_id else null end )/count(*) as nanzb,
+        count(case when sex='男' then user_id else null end )/count(*) as nvzb
+        FROM
+        (
+        select user_id,pid,
+        case when  CAST(substr(pid, length(pid)-1, 1) as signed) %2=0 THEN '女'
+        ELSE '男' END as sex
+        FROM
+        (
+        select  borrow_tender.user_id as user_id,  card_id as pid
+        from `borrow_tender`  left join user on borrow_tender.user_id=`user`.user_id
+        where `trust_status`  = 1
+        and card_type !=33
+        union all
+        (
+        select user_id as user_id, pay_pid as pid
+        from finance_bid
+        where
+        pay=1
+        and pay_pid is not NULL
+        and bank_card_no is not NULL
+        and pay_name is not null
+        )
+        )aa group by user_id,pid
+        ) bb
+    </select>
+    <!--待还金额笔数(笔)-->
+    <select id="dhjebs" resultType="java.lang.Integer">
+        select count(*) as dhjebs
+        from finance_bid
+        where
+        pay=1
+        and pay_pid is not NULL
+        and bank_card_no is not NULL
+        and pay_name is not null
+        and status ='counting'
+    </select>
+    <!--累计借款人总数(人)-->
+    <select id="ljjkrzs" resultType="java.lang.Integer">
+        select count(DISTINCT user_id)
+        from borrow
+        where status in (1,3,6,8)
+    </select>
+    <!--待还金额(万元)-->
+    <select id="dhje" resultType="java.lang.Double">
+        SELECT SUM(c.buy_amt)  as dhje
+        FROM finance_bid c WHERE c.pay=1 and c.status='counting' and c.bank_card_no is not null
+    </select>
+    <!--近七日成交金额-->
+    <select id="getSevenGetMoney" resultType="java.lang.Double">
+        select SUM(buy_amt) as sevenGetMoney from `finance_bid` where pay=1 and bank_card_no is not NULL
+        and  date_sub(curdate(), INTERVAL 7 DAY) <![CDATA[<=]]> date(`pay_time`);
+    </select>
+    <!--当前借款人数量-->
+    <select id="dqjkrsl" resultType="java.lang.Integer">
+        SELECT COUNT( DISTINCT a. user_id) dqjkrsl from borrow a ,(SELECT DISTINCT(borrow_id) as borrow_id from finance_bid f where f.pay=1 and f.status='counting' and f.bank_card_no is not null)b where a.id =b.borrow_id
+    </select>
+    <!--当前出借人数量-->
+    <select id="dqcjrsl" resultType="java.lang.Integer">
+        select COUNT( DISTINCT user_id) as dqcjrsl
+        from finance_bid
+        where
+        pay=1
+        and pay_pid is not NULL
+        and bank_card_no is not NULL
+        and pay_name is not null
+        and status = 'counting'
+    </select>
+    <select id="getUserAmtMoneyInTime" resultType="java.lang.Double">
+       SELECT sum(buy_amt) money from finance_bid a , borrow b
+        where pay='1' and a.borrow_id = b.id
+        and pay_time <![CDATA[>]]>#{starttime}
+        and pay_time <![CDATA[<]]>#{endtime} and  a.user_id= #{userId}
+    </select>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+

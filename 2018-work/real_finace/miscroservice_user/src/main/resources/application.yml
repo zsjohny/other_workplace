@@ -1,0 +1,40 @@
+---
+#限流开关
+limter.flow.enabled: false
+---
+#文件加载的环境配置
+spring:
+  profiles:
+    active: test
+  application:
+            name: user
+
+---
+#端口
+server:
+  port: 8085
+
+#开启熔断机制
+feign.hystrix.enabled: true
+
+---
+#mybatis的扫包路径
+mybatis:
+  typeAliasesPackage: com.finace.miscroservice.user.po
+
+---
+#打开数据库配置
+open.datasource : true
+flyway.enabled: true
+
+---
+#日志保存名称
+log.name:  user
+
+---
+#mq管理
+mq:
+  #是否打开发送开关 true是 false不是
+  openSend: true
+  # 发送消息的集合管理  格式  消息名称:消息的类型(fanout,direct):接受的监听类的名称(首字母小写) eg msg:fanout:demoListener
+  channels: timer_scheduler_timer_send_withdraw_deposit_bank_delay_task:fanout:withdrawDepositListener

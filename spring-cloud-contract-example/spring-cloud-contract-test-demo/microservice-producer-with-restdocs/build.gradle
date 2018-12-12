@@ -1,0 +1,123 @@
+buildscript {
+
+    ext {
+        springBootVersion = '1.5.4.RELEASE'
+    }
+    repositories {
+        mavenCentral()
+        mavenLocal()
+        maven { url "http://repo.spring.io/snapshot" }
+        maven { url "http://repo.spring.io/milestone" }
+        maven { url "http://repo.spring.io/release" }
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        classpath "org.springframework.cloud:spring-cloud-contract-gradle-plugin:${findProperty('verifierVersion') ?: verifierVersion}"
+
+        // Use for pact support
+        classpath "org.springframework.cloud:spring-cloud-contract-spec-pact:${findProperty('verifierVersion') ?: verifierVersion}"
+        classpath 'au.com.dius:pact-jvm-model:2.4.18'
+    }
+}
+
+
+
+apply plugin: 'java'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'spring-cloud-contract'
+apply plugin: 'idea'
+apply plugin: 'maven-publish'
+apply plugin: 'io.spring.dependency-management'
+
+
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+    maven { url "http://repo.spring.io/snapshot" }
+    maven { url "http://repo.spring.io/milestone" }
+    maven { url "http://repo.spring.io/release" }
+}
+
+
+ext {
+    springCloudVersion = 'Edgware.BUILD-SNAPSHOT'
+}
+
+dependencies {
+    compile('org.springframework.boot:spring-boot-starter-web')
+    testCompile('org.springframework.boot:spring-boot-starter-test')
+    testCompile('org.springframework.cloud:spring-cloud-starter-contract-verifier')
+    testCompile("org.springframework.restdocs:spring-restdocs-mockmvc")
+    testCompile("org.springframework.cloud:spring-cloud-contract-wiremock")
+    testCompile group: 'io.rest-assured', name: 'spring-mock-mvc', version: '3.0.0'
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+    }
+}
+
+/*
+contracts {
+    packageWithBaseClasses = 'com.ebsco.example'
+    contractsDslDir = file("${project.projectDir}/src/test/resources/contracts/")
+}*/
+
+task sourceJar(type: Jar) {
+    from sourceSets.main.allJava
+}
+
+group = 'com.ebsco.example'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = 1.8
+
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+
+            artifact sourceJar {
+                classifier "sources"
+            }
+        }
+    }
+}
+
+task stubsJar(type: Jar) {
+    classifier = "stubs"
+    into('/') {
+        include('**/com/ebsco/example/model/*.*')
+        from("${project.rootDir}/src/main/java/")
+    }
+    into('/') {
+        include('**/com/ebsco/example/model/*.*')
+        from("${project.buildDir}/classes/main")
+    }
+    into("META-INF/${project.group}/${project.name}/${project.version}/mappings") {
+        include('**/*.*')
+        from("${project.rootDir}/target/snippets/stubs")
+    }
+    into("META-INF/${project.group}/${project.name}/${project.version}/contracts") {
+        include('**/*.groovy')
+        from("${project.rootDir}/src/test/resources/contracts")
+    }
+}
+
+// we need the tests to pass to build the stub jar
+stubsJar.dependsOn(test)
+// we want to disable the default Spring Cloud Contract stub jar generation
+verifierStubsJar.enabled = false
+
+artifacts {
+    archives stubsJar
+}
+
+
+clean.doFirst {
+    delete 'target/'
+}

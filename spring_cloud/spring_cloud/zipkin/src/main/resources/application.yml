@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: spring_zipkin
+
+server:
+  port: 8080
+
+
+
+
+
+
+

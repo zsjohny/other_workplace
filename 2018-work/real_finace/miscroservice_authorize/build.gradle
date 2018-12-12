@@ -1,0 +1,17 @@
+apply plugin: 'java'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'application'
+repositories {
+    mavenCentral()
+}
+
+jar {
+    baseName "miscroservice_authorize"
+    mainClassName = 'com.finace.miscroservice.AuthorizeMain'
+}
+
+
+dependencies {
+    compile 'org.springframework.ldap:spring-ldap-core:2.3.1.RELEASE'
+    compile project(":miscroservice_commons")
+}

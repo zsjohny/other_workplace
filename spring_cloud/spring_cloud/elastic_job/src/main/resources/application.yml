@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: spring_elastic_job
+  profiles:
+    active: prod
+server:
+  port: ${random.int(1000,10000)}
+
+zookeeper:
+#  serverList : 192.168.89.133:2181
+  serverList : test.52woo.com:2181
+
+jdbc:
+   url: jdbc:mysql://test.etongjin:3310/test?useUnicode=true&characterEncoding=utf-8&verifyServerCertificate=false&useSSL=false&requireSSL=false
+   user: root
+   pass: ytj
+

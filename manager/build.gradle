@@ -1,0 +1,94 @@
+buildscript {
+	ext {
+	    springBootVersion = "${springBootVersion}"
+	}
+	repositories {	
+		maven { url "http://maven.aliyun.com/nexus/content/groups/public" }
+		maven { url "http://repo2.maven.org/maven2" }
+	}
+	dependencies {
+	    classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")          
+	    classpath ("com.bmuschko:gradle-docker-plugin:3.0.3")
+	}
+}
+
+apply plugin:'groovy'
+
+repositories {
+		maven { url "http://maven.aliyun.com/nexus/content/groups/public" }
+		maven { url "http://repo2.maven.org/maven2" }
+}
+
+allprojects {
+	repositories {	
+		maven { url "http://maven.aliyun.com/nexus/content/groups/public" }
+		maven { url "http://repo2.maven.org/maven2" }
+	}	
+	   
+}
+
+subprojects {
+	apply plugin:'groovy'
+	apply plugin: 'maven'
+	apply plugin: 'signing'
+
+	dependencies {
+		compile "org.codehaus.groovy:groovy-all:${groovyVersion}"
+	}
+	tasks.withType(JavaCompile) {  
+		options.encoding = "UTF-8"  
+	}
+	repositories {
+		maven { url "http://maven.aliyun.com/nexus/content/groups/public" }
+		maven { url "http://repo2.maven.org/maven2" }
+		
+	}
+	jar {
+		manifest {
+			attributes("Implementation-Title": project.name,
+			        "Implementation-Vendor": project.group,
+			        "Created-By": project.group,
+			        "Implementation-Version": project.version)
+		}
+	}
+
+	
+	tasks.withType(JavaCompile) {  
+		options.encoding = "UTF-8"  
+	}
+	task wrapper(type: Wrapper) {
+		gradleVersion = "${gradleVersion}"
+	}   
+
+
+}
+task startSingleService(dependsOn: 'e-example:e-example-single:erun') << {
+
+}
+task eclean() << {
+	allprojects.each{
+		def o = new File(it.projectDir,".project");
+		o.delete()
+		o = new File(it.projectDir,"bin");
+		o.deleteDir()
+		o = new File(it.projectDir,".settings");
+		o.deleteDir()
+		o = new File(it.projectDir,"build.gradle.bak");
+		o.delete()
+		o = new File(it.projectDir,"logs");
+		o.deleteDir()
+		o = new File(it.projectDir,"build");
+		o.deleteDir()
+		o = new File(it.projectDir,".classpath");
+		o.delete()
+		o = new File(it.projectDir,".factorypath");
+		o.delete()
+		o = new File(it.projectDir,".apt_generated");
+		o.deleteDir()
+		o = new File(it.projectDir,".metadata");
+		o.deleteDir()
+		o = new File(it.projectDir,"pids");
+		o.deleteDir()
+		
+	}
+}

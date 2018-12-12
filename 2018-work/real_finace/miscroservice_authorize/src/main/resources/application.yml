@@ -1,0 +1,61 @@
+---
+#服务间的认证开关
+service.auth.enabled: true
+
+---
+#限流开关
+limter.flow.enabled: false
+
+---
+#文件加载的环境配置
+spring:
+  profiles:
+    active: center
+  application:
+       name: authorize
+
+
+---
+#端口
+server:
+  port: 8089
+
+
+
+---
+#日志保存名称
+log.name:  authorize
+
+
+
+
+---
+#注册服务地址设置
+eureka:
+  client:
+    register-with-eureka: true #声明不在Eureka服务注册自己
+
+
+---
+#ldap的服务配置
+ldap:
+  urls:  ldap://47.97.174.183:1389  #数据连接的地址 可有多个 用,分割开
+  base:  dc=domain,dc=com #数据连接的基准
+  userName: admin #数据连接的用户名
+  userPass: 879227577 #数据连接的密码
+  objectClass: top, dcObject ,uidObject,person #数据的类型 多个利用,分割
+
+---
+#关闭ldap和redis的服务检查
+management:
+  health:
+    ldap:
+      enabled: false
+    redis:
+      enabled: false
+
+
+
+---
+#反序列化开关
+deSerialized.enabled: true

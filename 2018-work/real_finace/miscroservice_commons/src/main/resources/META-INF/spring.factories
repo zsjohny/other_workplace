@@ -1,0 +1,2 @@
+#配置中心重试的自定义工厂类
+org.springframework.cloud.bootstrap.BootstrapConfiguration=com.finace.miscroservice.commons.config.ConfigureCenterRetryConfig

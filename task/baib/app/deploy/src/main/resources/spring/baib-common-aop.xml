@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
+           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+           http://www.springframework.org/schema/task   
+		   http://www.springframework.org/schema/task/spring-task-3.0.xsd"
+	default-autowire="byName">
+
+	<!-- 配置切入点调用日志 -->
+	<bean id="serviceDigestInteceptor"
+		class="com.onway.platform.common.log.inteceptor.ServiceDigestInteceptor"></bean>
+
+	<!-- 数据层切入点调用日志 -->
+	<bean id="dalServiceDigestInteceptor"
+		class="com.onway.platform.common.log.inteceptor.DALServiceDigestInteceptor"></bean>
+
+	<!-- 事务性能监控拦截器 -->
+	<bean id="transDurationMonitorInterceptor"
+		class="com.onway.platform.common.log.inteceptor.TransDurationMonitorInterceptor"></bean>
+
+	<!-- 方法性能监控处理器 -->
+	<bean id="performanceMonitorInterceptor"
+		class="com.onway.platform.common.log.inteceptor.PerformanceMonitorInterceptor"></bean>
+
+	<!-- AOP 配置 -->
+	<aop:config>
+		<!-- pointcut -->
+		<aop:pointcut id="commonDalPoint"
+			expression="execution(* com.onway.baib.common.dal.*.*DAO.*(..))" />
+
+		<aop:pointcut id="serviceFacadePoint"
+			expression="execution(* com.onway.baib.common.service.api.*.*Service.*(..))" />
+
+		<aop:pointcut id="serviceIntegrationPoint"
+			expression="execution(* com.onway.baib.common.service.integration.*.*Client.*(..))" />
+
+		<!-- advisor -->
+		<aop:advisor advice-ref="dalServiceDigestInteceptor"
+			pointcut-ref="commonDalPoint" />
+
+		<aop:advisor advice-ref="serviceDigestInteceptor"
+			pointcut-ref="serviceFacadePoint" />
+
+		<aop:advisor advice-ref="serviceDigestInteceptor"
+			pointcut-ref="serviceIntegrationPoint" />
+	</aop:config>
+</beans>

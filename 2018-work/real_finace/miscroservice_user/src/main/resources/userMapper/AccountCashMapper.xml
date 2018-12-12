@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.finace.miscroservice.user.mapper.AccountCashMapper">
+
+    <resultMap id="BaseAccountCashResult" type="com.finace.miscroservice.user.po.AccountCashPO" >
+        <result column="id" property="id" />
+        <result column="user_id" property="userId"  />
+        <result column="status" property="status"  />
+        <result column="account" property="account"  />
+        <result column="bank" property="bank"  />
+        <result column="branch" property="branch"  />
+        <result column="total" property="total"  />
+        <result column="credited" property="credited"  />
+        <result column="fee" property="fee"  />
+        <result column="verify_userid" property="verifyUserid"  />
+        <result column="verify_time" property="verifyTime"  />
+        <result column="verify_remark" property="verifyRemark"  />
+        <result column="addtime" property="addtime"  />
+        <result column="addip" property="addip"  />
+        <result column="hongbao" property="hongbao"  />
+        <result column="trust_trade_no" property="trustTradeNo"  />
+        <result column="trust_status" property="trustStatus"  />
+        <result column="version" property="version"  />
+    </resultMap>
+
+    <select id="getAccountCashById" parameterType="int" resultType="com.finace.miscroservice.user.po.AccountCashPO">
+        SELECT * FROM ACCOUNT_CASH WHERE ID = #{id}
+    </select>
+
+    <insert id="addAccountCash" useGeneratedKeys="true" keyProperty="id" parameterType="com.finace.miscroservice.user.po.AccountCashPO" >
+        insert into account_cash (user_id, status, account, bank, branch, total, credited, fee,
+        verify_userid, verify_time, verify_remark, addtime, addip, hongbao, trust_trade_no, trust_status, `version`)
+        values (#{userId}, #{status}, #{account}, #{bank},
+        #{branch}, #{total}, #{credited}, #{fee}, #{verifyUserid},
+        #{verifyTime}, #{verifyRemark}, #{addtime}, #{addip},
+        #{hongbao}, #{trustTradeNo}, #{trustStatus}, 0)
+    </insert>
+
+
+    <update id="updateAccountCash" parameterType="com.finace.miscroservice.user.po.AccountCashPO" >
+        UPDATE ACCOUNT_CASH
+        <trim prefix="set" suffixOverrides=",">
+            <if test=" userId !=null and userId !='' ">
+                user_id = #{userId},
+            </if>
+            <if test=" status !=null and status !='' ">
+                status = #{status},
+            </if>
+            <if test=" account !=null and account !='' ">
+                account = #{account},
+            </if>
+            <if test=" bank !=null and bank !='' ">
+                bank = #{bank},
+            </if>
+            <if test=" branch !=null and branch !='' ">
+                branch = #{branch},
+            </if>
+            <if test=" total !=null and total !='' ">
+                total = #{total},
+            </if>
+            <if test=" credited !=null and credited !='' ">
+                credited = #{credited},
+            </if>
+            <if test=" fee !=null and fee !='' ">
+                fee = #{fee},
+            </if>
+            <if test=" verifyUserid !=null and verifyUserid !='' ">
+                verify_userid = #{verifyUserid},
+            </if>
+            <if test=" verifyTime !=null and verifyTime !='' ">
+                verify_time = #{verifyTime},
+            </if>
+            <if test=" verifyRemark !=null and verifyRemark !='' ">
+                verify_remark = #{verifyRemark},
+            </if>
+            <if test=" addtime !=null and addtime !='' ">
+                addtime = #{addtime},
+            </if>
+            <if test=" addip !=null and addip !='' ">
+                addip = #{addip},
+            </if>
+            <if test=" hongbao !=null and hongbao !='' ">
+                hongbao = #{hongbao},
+            </if>
+            <if test=" trustTradeNo !=null and trustTradeNo !='' ">
+                trust_trade_no = #{trustTradeNo},
+            </if>
+            <if test=" trustStatus !=null and trustStatus !='' ">
+                trust_status = #{trustStatus},
+            </if>
+            <if test=" version !=null and version !='' ">
+                version = #{version},
+            </if>
+        </trim>
+        WHERE ID = #{id} and `version` = #{version}-1
+    </update>
+
+
+
+
+
+
+
+
+
+
+</mapper>
+
+
+
+
+
+
+
+
+
+
+

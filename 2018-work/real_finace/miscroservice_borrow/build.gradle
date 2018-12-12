@@ -1,0 +1,18 @@
+apply plugin: 'java'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'application'
+repositories {
+    mavenCentral()
+}
+
+jar {
+    baseName "miscroservice_borrow"
+    mainClassName = 'com.finace.miscroservice.BorrowStartMain'
+}
+
+
+dependencies {
+
+    compile project(":miscroservice_commons")
+
+}

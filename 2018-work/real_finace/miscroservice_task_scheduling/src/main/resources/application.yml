@@ -1,0 +1,59 @@
+---
+#限流开关
+limter.flow.enabled: false
+
+---
+#文件加载的环境配置
+spring:
+  profiles:
+    active: test
+  application:
+            name: task_scheduling
+
+---
+#端口
+server:
+  port: 8079
+
+
+---
+#开启熔断机制
+feign.hystrix.enabled: true
+
+---
+#mq管理
+mq:
+  # 发送消息的集合管理  格式  消息名称:消息的类型(fanout,direct):接受的监听类的名称(首字母小写) eg msg:fanout:demoListener
+  channels: timer_scheduler_timer_accept:fanout:timerSchedulerMqListener
+  #是否打开发送开关 true是 false不是
+  openSend: true
+
+---
+#打开数据库配置
+open.datasource: true
+flyway.enabled: true
+
+---
+#日志保存名称
+log.name:  task_scheduling
+
+
+
+---
+#mybatis 的扫包配置
+mybatis:
+  typeAliasesPackage: com.finace.miscroservice.task_scheduling.po
+
+---
+#定时任务的工作空间
+task.scheduling.namespace: .task.scheduling.simple.job
+
+---
+#分布式调度任务开启
+distribute:
+  task:
+    enabled: true
+    server-list: ${zookeeper.serverList}
+    time-task-job-name: com.finace.miscroservice.task_scheduling.task.TimerSchedulerJob
+    log-util-name: com.finace.miscroservice.task_scheduling.distribute_impl.LogUtilImpl
+    ip-util-name: com.finace.miscroservice.task_scheduling.distribute_impl.IpUtilImpl

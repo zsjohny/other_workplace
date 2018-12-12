@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<table sqlname="baib_role">
+	
+
+
+	<!-- 返回当前序列号  -->
+	<operation name="selectRoleInfoById">
+		<sql>
+		<![CDATA[
+			SELECT
+			ID,
+			USER_ID,
+			USER_NAME,
+			PASSWORD,
+			ROLE,
+			CREATER,
+			GMT_CREATE,
+			MODIFIER,
+			GMT_MODIFIED,
+			MEMO
+			FROM baib_role
+			where ID = ?
+		]]>
+		</sql>
+	</operation>
+
+</table>

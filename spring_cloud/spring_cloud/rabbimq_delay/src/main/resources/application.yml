@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: spring_rabbimq_delay
+server:
+  port: 8055
+
+
+rabbit:
+      host: test.52woo.com
+      name: wuai
+      pass: wuai
+
+
+
+
+

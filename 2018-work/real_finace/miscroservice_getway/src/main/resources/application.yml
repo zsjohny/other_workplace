@@ -1,0 +1,89 @@
+---
+#服务间的认证开关
+service.auth.enabled: false
+
+---
+#限流开关
+limter.flow.enabled: true
+
+---
+#文件加载的环境配置
+spring:
+  profiles:
+    active: center
+  application:
+       name: getway_center
+
+
+---
+#端口
+server:
+  port: 8081
+
+
+---
+#mq 配置
+mq:
+  #发送消息的集合管理  格式  消息名称:消息的类型(fanout,direct):接受的监听类的名称(首字母小写) eg msg:fanout:demoListener
+  channels: service_exchange:fanout:zuulDynamicMqListener:true
+  #是否打开发送开关 true是 false不是
+  openSend: true
+
+
+
+---
+#日志保存名称
+log.name:  getway_center
+
+
+---
+#push推送服务的端口设置
+push.server.port: 1020
+
+
+---
+#注册服务地址设置
+eureka:
+  client:
+    register-with-eureka: true #声明不在Eureka服务注册自己
+
+
+---
+#zuul的配置
+zuul:
+  host:
+    connect-timeout-millis: 20000
+    socket-timeout-millis: 20000
+    max-total-connections: 1000
+    #隔离策略 Thread(用线程保证)｜Semaphore(提高并发数)
+  ribbon-isolation-strategy: semaphore
+  #开启zuul的并发支称数
+  semaphore:
+    max-semaphores: 2000
+
+---
+#开启gzip的压缩优化
+#请求和响应GZIP压缩支持
+server:
+  compression:
+    enabled: true
+    min-response-size: 1024
+    mime-types: application/json,application/xml,text/html,text/xml,text/plain;charset=utf-8
+
+
+---
+#缓存内存的服务地址 多个地址 用 ,
+cacheServerLists: 127.0.0.1
+
+---
+#反序列化开关
+deSerialized.enabled: true
+
+
+---
+#命令超时时间设置
+#hystrix.command.default.execution.timeout.enabled: false #超时开关
+hystrix.command.default.execution.isolation.thread.timeoutInMilliseconds: 30000
+ribbon.ReadTimeout: 20000
+ribbon.ConnectTimeout: 20000
+

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.finace.miscroservice.activity.mapper.UserChannelMapper">
+
+    <resultMap id="BaseUserChannelResult" type="com.finace.miscroservice.activity.po.UserChannelPO" >
+        <result column="id" property="id"  />
+        <result column="user_id" property="user_id"  />
+        <result column="phone" property="phone"  />
+        <result column="channel" property="channel"  />
+        <result column="addtime" property="addtime"  />
+        <result column="remark" property="remark"  />
+    </resultMap>
+
+    <!-- 根据手机号码获取用户临时注册渠道 -->
+    <select id="getUserChannelByPhone" parameterType="String" resultType="com.finace.miscroservice.activity.po.UserChannelPO">
+        SELECT * FROM user_channel WHERE phone = #{phone} order by addtime desc
+    </select>
+
+    <select id="getUserChannelByUid" parameterType="String" resultMap="BaseUserChannelResult">
+        SELECT * FROM user_channel WHERE remark = #{uid} or user_id = #{uid} order by addtime desc
+    </select>
+
+    <select id="getCountByUserId" parameterType="String" resultType="int" >
+        SELECT count(*) FROM user_channel WHERE user_id = #{userId} order by addtime desc
+    </select>
+
+    <select id="getUserChannelByChannel" parameterType="Map" resultType="com.finace.miscroservice.activity.po.UserChannelPO">
+        <![CDATA[
+            SELECT uc.* FROM user_channel  uc
+            WHERE uc.phone = #{phone}
+            and uc.channel=#{channel} order by uc.addtime desc limit 1
+         ]]>
+    </select>
+
+    <insert id="addUserChannel" parameterType="com.finace.miscroservice.activity.po.UserChannelPO" >
+        insert into user_channel (user_id, phone, channel, addtime, remark)
+        values (#{user_id}, #{phone}, #{channel}, #{addtime}, #{remark})
+    </insert>
+
+
+</mapper>
+
+
+
+
+
+
+
+
+
+
+

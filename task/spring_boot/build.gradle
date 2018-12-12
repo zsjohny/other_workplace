@@ -1,0 +1,46 @@
+allprojects {
+    group = 'com.test'
+    version = '1.0-SNAPSHOT'
+    apply plugin: 'java'
+    apply plugin: 'war'
+    apply plugin: 'spring-boot'
+    apply plugin: 'application'
+    repositories {
+        mavenLocal()
+        jcenter()
+        maven { url 'http://192.168.1.8:9000/repository/maven-public/' }
+    }
+
+
+}
+
+subprojects {
+
+    ext {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        springVersion = '1.5.2.RELEASE'
+
+        [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+    }
+    dependencies {
+        compile "org.springframework.boot:spring-boot-starter-web:$springVersion"
+        compile "org.springframework.boot:spring-boot-starter:$springVersion"
+
+    }
+
+}
+
+
+buildscript {
+    repositories {
+        jcenter()
+        maven { url 'http://192.168.1.8:9000/repository/maven-public/' }
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.5.1.RELEASE")
+
+    }
+}
+
+
+

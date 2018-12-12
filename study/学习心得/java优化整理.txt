@@ -1,0 +1,535 @@
+1. 水平权限漏洞的修复方案
+	水平权限漏洞一般出现在一个用户对象关联多个其他对象（订单、地址等）、并且要实现对关联对象的CRUD的时候。开发容易习惯性的在生成CRUD表单（或AJAX请求）的时候根据认证过的用户身份来找出其有权限的被操作对象id，提供入口，然后让用户提交请求，并根据这个id来操作相关对象。在处理CRUD请求时，往往默认只有有权限的用户才能得到入口，进而才能操作相关对象，因此就不再校验权限了。可悲剧的是大多数对象的ID都被设置为自增整型，所以攻击者只要对相关id加1、减1、直至遍历，就可以操作其他用户所关联的对象了。
+	 
+	水平权限漏洞的原理看似简单，但他和开发的思维、编码习惯刚好相反，因此会经常冒出来。尤其是WAP和AJAX接口，开发者往往不把这些接口当作HTTP请求看，增加了很多其实不存在的有利于安全假设条件，从而导致更加忽视对权限的鉴别。
+	 
+	因为这类关联对象的操作都和业务相关，且接口独立，所以很难实现通用的预防或解决方案，这也是这类漏洞让人头疼的原因之一。今天在修复一个水平权限漏洞时，给开发同学介绍了下水平权限漏洞的修复方案，而开发同学又提出了一个我之前没想过的方法，因此决定一起整理出来。
+	 
+	漏洞示例：
+	getAddress.do?addressId=12345
+	攻击者修改addressId即可得到他人的address信息。
+	 
+	修复方案0：
+	先看一个有问题的方案：将addressid改成一个具有一定长度的随机字符串，如5d41402abc4b2a76b9719d911017c592，认为只有有权限的人才能得到这个入口，而且不能通过加1、减1的方式预测别人的入口，因此不再做进一步的权限检查（很多初级的招聘页面都是以这种方式来管理简历的）。这个方案看上去没有问题，可是和国内的环境结合起来就会悲剧——至少我遇到过的，搜狗浏览器会把用户发送的请求上传到服务器上，作为其搜索引擎爬虫的爬取源，这样爬虫就会通告查询操作得到相关的对象信息，并展示在搜索引擎上，如果对象信息包含敏感内容，则产生隐私泄露的安全事件。
+	 
+	修复方案1：
+	这个是最直接有效的修复方案：在web层的逻辑中做鉴权，检查提交CRUD请求的操作者（通过session信息得到）与目标对象的权限所有者（查数据库）是否一致，如果不一致则阻断。这个方案实现成本低、能确保漏洞的修复质量，缺点是增加了一次查库操作。我之前一直用这种方案来对已发生的水平权限漏洞做紧急修复。
+	 
+	修复方案2：
+	我认为最正规的方案：把权限的控制转移到数据接口层中，避免出现select/update/delete ... where addressID=#addressID#的SQL语句，使用selectt/update/delete... where addressID=#addressID# and ownerId=#userId#来代替，要求web层在调用数据接口层的接口时额外提供userid，而这个userid在web层看来只能通过seesion来取到。这样在面对水平权限攻击时，web层的开发者不用额外花精力去注意鉴权的事情，也不需要增加一个SQL来专门判断权限——如果权限不对的话，那个and条件就满足不了，SQL自然就找不到相关对象去操作。而且这个方案对于一个接口多个地方使用的情况也比较有利，不需要每个地方都鉴权了。但这个方案的缺陷在于实现起来要改动底层的设计，所以不适合作为修复方案，更适合作为统一的控制方案在最开始设计时就注意这方面的问题。
+	 
+	修复方案3：
+	今天开发同学提到一种我之前没想到过的方式，实际上是对方案1的修改：在生成表单时，增加一个token参数，而token=md5(addressId+sessionId+key)；在处理请求时，用addressId、sessionId和key来验证token。这样的方案实现起来很简单，又不增加额外的SQL查询开销，看起来比方案1更好。可我之前没有想到过这种方案，乍一看又是把鉴权和操作这一串同步的操作异步化了（实际上是在生成表单的时候鉴权并生成token，然后在操作时只验证token而不鉴权），所以一时还拿不准这样会不会有啥问题～不过我是想了半天也找不到漏洞哈～
+	 
+	修复方案4：
+	把这种属主、权限、对象、操作的场景抽象成一个统一的框架，在框架内一个地方实现权限的管理和检查。当然这个说起来有点扯淡了，在产品设计阶段是不是有人愿意花大成本来设计相关框架呢？如果最开始没有框架，那么什么时候愿意花更大的成本去迁移呢？我想最终还是会按方案1、2、3来吧。
+	 
+	原文：http://hi.baidu.com/kussa/item/a85912058445c7dcdce5b01d
+	 
+	 
+	另外的方法：
+	1、可对ID加密
+	2、使用GUID
+	3、每一个信息增加一个发布人的字段，修改的人必须与发布的人为同一个人才可以访问
+	
+	
+
+2 垂直权限攻击
+	垂直权限攻击又叫做权限提升攻击。其原理是由于Web应用没有做权限控制，或仅仅在菜单上做了权限控制，导致恶意用户只要猜测其他管理页面的URL，就可以访问或控制其他角色拥有的数据或页面，达到权限提升的目的。
+
+	攻击
+	我们来看看攻击案例，下面是一个仅仅做了菜单控制的代码：
+
+	<tr><td><a href="/user.jsp">管理个人信息</a></td></tr>
+	<%if (power.indexOf("administrators")>-1){%>
+	<tr><td><a href="/userlist.jsp">管理所有用户</a></td></tr>
+	<%}%>
+
+
+
+	攻击者只需要猜中管理所有用户的页面url就可以越权操作了。
+
+	防御
+	这种攻击很容易防御，只需要在每个页面的加载之前进行权限验证即可。一个普通的权限系统，菜单是通过数据库中对应权限和角色来进行字符串拼接形成的，而不是静态的通过在页面上进行权限判断决定的。 
+	
+3 http下载防盗链接
+	针对检查refer的方式，可以在页面中间件里面先进入目的地址的另外一个页面在转到目的页面即可，
+	这样页面的refer就是目的站点自己的，如此，即做到突破。这方面可以使用的工具很多，尤其是成熟的web项目测试包，如HtmlUnit，直接在请求中设置refer都是可以的。
+	
+4 mysql建立索引
+	ALTER TABLE mytable ADD INDEX name_city_age (name(10),city,age);[code]
+	建表时，usernname长度为 16，这里用 10。这是因为一般情况下名字的长度不会超过10，这样会加速索引查询速度，还会减少索引文件的大小，提高INSERT的更新速度。
+	如果分别在 usernname，city，age上建立单列索引，让该表有3个单列索引，查询时和上述的组合索引效率也会大不一样，远远低于我们的组合索引。虽然此时有了三个索引，但MySQL只能用到其中的那个它认为似乎是最有效率的单列索引。
+	建立这样的组合索引，其实是相当于分别建立了下面三组组合索引：
+	usernname,city,age   usernname,city   usernname  为什么没有 city，age这样的组合索引呢？这是因为MySQL组合索引“最左前缀”的结果。简单的理解就是只从最左面的开始组合。并不是只要包含这三列的查询都会用到该组合索引，下面的几个SQL就会用到这个组合索引：
+	[code]
+	SELECT * FROM mytable WHREE username="admin" AND city="郑州"  SELECT * FROM mytable WHREE username="admin"	
+	
+	
+5 mysql的索引的语句
+
+2.  创建索引
+	在执行CREATE TABLE语句时可以创建索引，也可以单独用CREATE INDEX或ALTER TABLE来为表增加索引。
+	1．ALTER TABLE
+	ALTER TABLE用来创建普通索引、UNIQUE索引或PRIMARY KEY索引。
+	3
+	ALTER TABLE table_name ADD INDEX index_name (column_list)
+	ALTER TABLE table_name ADD UNIQUE (column_list)
+	ALTER TABLE table_name ADD PRIMARY KEY (column_list)
+	其中table_name是要增加索引的表名，column_list指出对哪些列进行索引，多列时各列之间用逗号分隔。索引名index_name可选，缺省时，MySQL将根据第一个索引列赋一个名称。另外，ALTER TABLE允许在单个语句中更改多个表，因此可以在同时创建多个索引。
+	2．CREATE INDEX
+	CREATE INDEX可对表增加普通索引或UNIQUE索引。
+	2
+	CREATE INDEX index_name ON table_name (column_list)
+	CREATE UNIQUE INDEX index_name ON table_name (column_list)
+	table_name、index_name和column_list具有与ALTER TABLE语句中相同的含义，索引名不可选。另外，不能用CREATE INDEX语句创建PRIMARY KEY索引。
+	3．索引类型
+	在创建索引时，可以规定索引能否包含重复值。如果不包含，则索引应该创建为PRIMARY KEY或UNIQUE索引。对于单列惟一性索引，这保证单列不包含重复的值。对于多列惟一性索引，保证多个值的组合不重复。
+	PRIMARY KEY索引和UNIQUE索引非常类似。事实上，PRIMARY KEY索引仅是一个具有名称PRIMARY的UNIQUE索引。这表示一个表只能包含一个PRIMARY KEY，因为一个表中不可能具有两个同名的索引。
+	下面的SQL语句对students表在sid上添加PRIMARY KEY索引。
+	复制代码 代码如下:
+	ALTER TABLE students ADD PRIMARY KEY (sid)
+	4.  删除索引
+	可利用ALTER TABLE或DROP INDEX语句来删除索引。类似于CREATE INDEX语句，DROP INDEX可以在ALTER TABLE内部作为一条语句处理，语法如下。
+	2
+	3
+	DROP INDEX index_name ON talbe_name
+	ALTER TABLE table_name DROP INDEX index_name
+	ALTER TABLE table_name DROP PRIMARY KEY
+	其中，前两条语句是等价的，删除掉table_name中的索引index_name。
+	第3条语句只在删除PRIMARY KEY索引时使用，因为一个表只可能有一个PRIMARY KEY索引，因此不需要指定索引名。如果没有创建PRIMARY KEY索引，但表具有一个或多个UNIQUE索引，则MySQL将删除第一个UNIQUE索引。
+	如果从表中删除了某列，则索引会受到影响。对于多列组合的索引，如果删除其中的某列，则该列也会从索引中删除。如果删除组成索引的所有列，则整个索引将被删除。
+	5．查看索引
+	2
+	mysql> show index from tblname;
+	mysql> show keys from tblname;	
+	
+	
+高手对索引看法
+
+	建索引的几大原则
+
+	1.最左前缀匹配原则，非常重要的原则，mysql会一直向右匹配直到遇到范围查询(>、<、between、like)就停止匹配，比如a = 1 and b = 2 and c > 3 and d = 4 如果建立(a,b,c,d)顺序的索引，d是用不到索引的，如果建立(a,b,d,c)的索引则都可以用到，a,b,d的顺序可以任意调整。
+
+	2.=和in可以乱序，比如a = 1 and b = 2 and c = 3 建立(a,b,c)索引可以任意顺序，mysql的查询优化器会帮你优化成索引可以识别的形式
+
+	3.尽量选择区分度高的列作为索引,区分度的公式是count(distinct col)/count(*)，表示字段不重复的比例，比例越大我们扫描的记录数越少，唯一键的区分度是1，而一些状态、性别字段可能在大数据面前区分度就是0，那可能有人会问，这个比例有什么经验值吗？使用场景不同，这个值也很难确定，一般需要join的字段我们都要求是0.1以上，即平均1条扫描10条记录
+          eg:  SELECT count(DISTINCT user_phone)/count(*) FROM dream_u_user
+	 
+	4.索引列不能参与计算，保持列“干净”，比如from_unixtime(create_time) = ’2014-05-29’就不能使用到索引，原因很简单，b+树中存的都是数据表中的字段值，但进行检索时，需要把所有元素都应用函数才能比较，显然成本太大。所以语句应该写成create_time = unix_timestamp(’2014-05-29’);
+
+	5.尽量的扩展索引，不要新建索引。比如表中已经有a的索引，现在要加(a,b)的索引，那么只需要修改原来的索引即可
+	
+6 java catalina.sh 设置 
+JAVA_OPTS='-Xms128m -Xmx216m'
+	
+7 jstat 位于java的bin目录下，主要利用JVM内建的指令对Java应用程序的资源和性能进行实时的命令行的监控，包括了对Heap
+size和垃圾回收状况的监控。可见，Jstat是轻量级的、专门针对JVM的工具，非常适用。
+
+	jstat 命令格式
+
+	 jstat -<option> [-t] [-h<lines>] <vmid> [<interval> [<count>]]
+	参数解释：
+
+	Option — 选项，我们一般使用 -gcutil 查看gc情况
+
+	vmid — VM的进程号，即当前运行的java进程号
+
+	interval– 间隔时间，单位为秒或者毫秒
+
+	count — 打印次数，如果缺省则打印无数次
+	
+	
+		-class：统计class loader行为信息 
+		-compile：统计编译行为信息 
+		-gc：统计jdk gc时heap信息 
+		-gccapacity：统计不同的generations（不知道怎么翻译好，包括新生区，老年区，permanent区）相应的heap容量情况 
+		-gccause：统计gc的情况，（同-gcutil）和引起gc的事件 
+		-gcnew：统计gc时，新生代的情况 
+		-gcnewcapacity：统计gc时，新生代heap容量 
+		-gcold：统计gc时，老年区的情况 
+		-gcoldcapacity：统计gc时，老年区heap容量 
+		-gcpermcapacity：统计gc时，permanent区heap容量 
+		-gcutil：统计gc时，heap情况 
+		-printcompilation：不知道干什么的，一直没用过。 
+	
+	
+	
+	
+		S0C 年轻代中第一个survivor（幸存区）的容量 (字节) S1C
+	年轻代中第二个survivor（幸存区）的容量 (字节) S0U
+	年轻代中第一个survivor（幸存区）目前已使用空间 (字节) S1U
+	年轻代中第二个survivor（幸存区）目前已使用空间 (字节) EC
+	年轻代中Eden（伊甸园）的容量 (字节) EU
+	年轻代中Eden（伊甸园）目前已使用空间 (字节) OC Old代的容量 (字节)
+	OU Old代目前已使用空间 (字节) PC Perm(持久代)的容量 (字节) PU
+	Perm(持久代)目前已使用空间 (字节) YGC+
+	从应用程序启动到采样时年轻代中gc次数 YGCT
+	从应用程序启动到采样时年轻代中gc所用时间(s) FGC
+	从应用程序启动到采样时old代(全gc)gc次数 FGCT
+	从应用程序启动到采样时old代(全gc)gc所用时间(s) GCT
+	从应用程序启动到采样时gc用的总时间(s)
+	
+	
+	eg: jstat -gc 16527 1000 5  //每隔1000毫秒 也就是 1秒 总共 5次 执行 进程pid 16527 的垃圾回收情况
+	
+	
+	
+8 查询java线程最高的进程
+top -p 12377 -H	 找出线程消耗 最大的  pid   shift + <-   或者 shift +  -> 进行 最大,最小命令 运行命令 	jstack 12377 > stack.log
+
+    
+   由于jstack.log文件记录的线程ID是16进制，需要将top -p 12377 -H	命令展示的线程号转换为16进制，以15100为例，在linux下输入命令：printf 0x%x 15100，得到15100的十六进制为0x3afc
+
+9 jmap 针对oom
+	jmap -dump:live,format=b,file=xxx 2657
+	这里更加强大一些，可以指定是存活的对象，还有生成heapdump的文件名。	
+	
+	生成的文件名  可以用jhat
+	 -J< flag >
+  eg jhat -J-mx768m -port <端口号:默认为7000> heap.dmp
+	 
+	因为 jhat 命令实际上会启动一个JVM来执行, 通过 -J 可以在启动JVM时传入一些启动参数. 例如, -J-Xmx512m 则指定运行 jhat 的Java虚拟机使用的最大堆内存为 512 MB. 如果需要使用多个JVM启动参数,则传入多个 -Jxxxxxx.	
+	eg jhat -J-Xmx512m -port 9008 dump.log
+	 
+10 jmap和jhat 解决
+
+	jhat命令 -- Java Head Analyse Tool 
+	用途：是用来分析Java堆的命令，可以将堆中的对象以html的形式显示出来，包括对象的数量，大小等等，并支持对象查询语言
+	第一步：导出堆
+	 
+	第二步：分析堆文件
+	 
+	第三步：查看html
+
+
+	有时你dump出来的堆很大，在启动时会报堆空间不足的错误，可以使用如下参数：
+	jhat -J-Xmx512m <heap dump file>
+
+	对于jhat启动后显示的html页面中功能：
+	（1）显示出堆中所包含的所有的类
+
+	（2）从根集能引用到的对象
+
+	（3）显示平台包括的所有类的实例数量
+
+	（4）堆实例的分布表
+
+
+	（5）执行对象查询语句
+	 
+11  mysql的sleep使用
+   select sleep(1),name from animals where name like '%ger'; 
+   针对该语句添加了sleep(1)这个函数后语句总的执行时间为3.01秒，可得出，MySQL对每条满足条件的记录停留了0.01秒中。
+   
+12 jstack 文件的分析 
+    死锁，Deadlock（重点关注）
+    执行中，Runnable  
+    等待资源，Waiting on condition（重点关注）
+    等待获取监视器，Waiting on monitor entry（重点关注）
+    暂停，Suspended
+    对象等待中，Object.wait() 或 TIMED_WAITING
+    阻塞，Blocked（重点关注） 
+    停止，Parked
+	
+	
+13 jstatd 
+
+	1、在服务器上创建安全策略文件，并命名为jstatd.all.policy
+
+	grant codebase "file:${java.home}/../lib/tools.jar" {
+		permission java.security.AllPermission;
+	};
+	2、在服务器上jstatd.all.policy所在目录下执行下面的命令
+
+	jstatd -J-Djava.security.policy=jstatd.all.policy -J-Djava.rmi.server.hostname=121.*.*.* //第二个参数代表服务器的hostname client连接时候输入的ip 最好是机器的ip
+	
+	3 在客户端机器上用
+	jps <ip>
+	eg jps 121.*.*.*  //如果能连接成功，则能看到服务端的jps列表 此时在执行 4
+	4 在客户端机器运行jvisualvm
+	
+14 jmap 还可以看堆栈	
+    -heap 打印heap的概要信息，GC使用的算法，heap的配置及wise heap的使用情况.
+    eg   
+	           sing parallel threads in the new generation.  ##新生代采用的是并行线程处理方式
+
+				using thread-local object allocation.   
+
+				Concurrent Mark-Sweep GC   ##同步并行垃圾回收
+
+				 
+
+				Heap Configuration:  ##堆配置情况
+
+				   MinHeapFreeRatio = 40 ##最小堆使用比例
+
+				   MaxHeapFreeRatio = 70 ##最大堆可用比例
+
+				   MaxHeapSize      = 2147483648 (2048.0MB) ##最大堆空间大小
+
+				   NewSize          = 268435456 (256.0MB) ##新生代分配大小
+
+				   MaxNewSize       = 268435456 (256.0MB) ##最大可新生代分配大小
+
+				   OldSize          = 5439488 (5.1875MB) ##老生代大小
+
+				   NewRatio         = 2  ##新生代比例
+
+				   SurvivorRatio    = 8 ##新生代与suvivor的比例
+
+				   PermSize         = 134217728 (128.0MB) ##perm区大小
+
+				   MaxPermSize      = 134217728 (128.0MB) ##最大可分配perm区大小
+
+				 
+
+				Heap Usage: ##堆使用情况
+
+				New Generation (Eden + 1 Survivor Space):  ##新生代（伊甸区 + survior空间）
+
+				   capacity = 241631232 (230.4375MB)  ##伊甸区容量
+
+				   used     = 77776272 (74.17323303222656MB) ##已经使用大小
+
+				   free     = 163854960 (156.26426696777344MB) ##剩余容量
+
+				   32.188004570534986% used ##使用比例
+
+				Eden Space:  ##伊甸区
+
+				   capacity = 214827008 (204.875MB) ##伊甸区容量
+
+				   used     = 74442288 (70.99369812011719MB) ##伊甸区使用
+
+				   free     = 140384720 (133.8813018798828MB) ##伊甸区当前剩余容量
+
+				   34.65220164496263% used ##伊甸区使用情况
+
+				From Space: ##survior1区
+
+				   capacity = 26804224 (25.5625MB) ##survior1区容量
+
+				   used     = 3333984 (3.179534912109375MB) ##surviror1区已使用情况
+
+				   free     = 23470240 (22.382965087890625MB) ##surviror1区剩余容量
+
+				   12.43827838477995% used ##survior1区使用比例
+
+				To Space: ##survior2 区
+
+				   capacity = 26804224 (25.5625MB) ##survior2区容量
+
+				   used     = 0 (0.0MB) ##survior2区已使用情况
+
+				   free     = 26804224 (25.5625MB) ##survior2区剩余容量
+
+				   0.0% used ## survior2区使用比例
+
+				concurrent mark-sweep generation: ##老生代使用情况
+
+				   capacity = 1879048192 (1792.0MB) ##老生代容量
+
+				   used     = 30847928 (29.41887664794922MB) ##老生代已使用容量
+
+				   free     = 1848200264 (1762.5811233520508MB) ##老生代剩余容量
+
+				   1.6416783843721663% used ##老生代使用比例
+
+				Perm Generation: ##perm区使用情况
+
+				   capacity = 134217728 (128.0MB) ##perm区容量
+
+				   used     = 47303016 (45.111671447753906MB) ##perm区已使用容量
+
+				   free     = 86914712 (82.8883285522461MB) ##perm区剩余容量
+
+				   35.24349331855774% used ##perm区使用比例
+	-histo[:live] 打印每个class的实例数目,内存占用,类全名信息. VM的内部类名字开头会加上前缀”*”. 如果live子参数加上后,只统计活的对象数量. 
+	
+	eg jmap -histo pid 的得到文件分析
+		{C is a char[]
+		[S is a short[]
+		[I is a int[]
+		[B is a byte[]
+		[[I is a int[][]
+	
+15 sleep(0)	用来给线程优先级低的线程争取 获得cpu窃取时间多
+   Thread类提供了一个holdsLock(Object obj)方法，当且仅当对象obj的监视器被某条线程持有的时候才会返回true，注意这是一个static方法，这意味着“某条线程”指的是当前线程
+ 
+16  findbugs 
+
+	Bad practice
+
+	不好的习惯
+
+	Correctness
+
+	代码的正确性
+
+	Dodgy
+
+	小问题
+
+	Malicious code vulnerability
+
+	恶意代码
+
+	Internationalization
+
+	国际化问题
+
+	Performance
+
+	性能问题
+
+	Security
+
+	安全性问题
+
+	Multithreaded currectness
+
+	线程问题
+
+	Experrimental
+
+	实验性问题
+	 
+17  jstack 打出线程组 
+		kill -3 pid之后再 jstack pid > temp.lock 得到就是一个特定的pid	 
+		
+18  Java动态编程初探——Javassist
+
+19 hashCode
+    hashCode重要么？不重要，对于List集合、数组而言，他就是一个累赘，但是对于HashMap、HashSet、HashTable而言，它变得异常重要。
+	所以在使用HashMap、HashSet、HashTable时一定要注意hashCode。对于一个对象而言，
+	其hashCode过程就是一个简单的Hash算法的实现，其实现过程对你实现对象的存取过程起到非常重要的作用。
+	
+20 dubbor 的service注解一个bug 使用@Transaction  无法暴露接口  解决方法在dubbor使用 @Inherited 表示可以继承
+    按照所解释的，使用Inherited声明的Annotation是可以被子类继承下来的：	
+	
+21   <property name="connectionInitSqls" value="set names utf8mb4;"/> 代表 durid 的 unicoem64	
+22   tomcat中无法获得资源的问题
+		 tomcat 中context.xml 配置文件加入
+
+		<Resources cachingAllowed="true" cacheMaxSize="100000" />//用于静态资源的高速缓存。如果没有指定，该标志的默认值是true。这个值可以在Web应用程序运行时进行更改
+		
+22 jstack -F <PID> # 有时候线程挂起的时候要加上-F参数才能把信息dump处理	
+
+23 jinfo  pid
+	no option  打印命令行参数和系统属性 
+	-flags  打印命令行参数 
+	-sysprops  打印系统属性 
+	-h  帮助 
+24  redis-rdb-tools 分析内存 
+    安装 pip install rdbtools 
+	 输入 rdb命令  rdb    -c (commond  包含了 json, diff, justkeys, justkeyvals, memory and protocol )
+	                      -f (输出的文件名称)
+						  -b (多少进制输出)
+						  
+	eg rdb -c memory -f dump.csv  dump.db
+      分析文件 sort -t , -k 5 dump.csv |head -n 10 (-t用,分开 排序在 -k第五个区间 )	
+	  
+	  
+25 jinfo 打开gc日志
+    jinfo -flag +PrintGCDetails pid  
+	jinfo -flag +PrintGC pid   
+	关闭
+	jinfo -flag -PrintGCDetails pid
+	jinfo -flag -PrintGC pid
+	    -XX:+PrintGC 输出GC日志  
+		-XX:+PrintGCDetails 输出GC的详细日志  
+		-XX:+PrintGCTimeStamps 输出GC的时间戳（以基准时间的形式）  
+		-XX:+PrintGCDateStamps 输出GC的时间戳（以日期的形式，如 2013-05-04T21:53:59.234+0800）  
+		-XX:+PrintHeapAtGC 在进行GC的前后打印出堆的信息  
+		-Xloggc:../logs/gc.log 日志文件的输出路径  
+	eg  
+		[GC[DefNew: 78656K->8704K(78656K), 0.0487492 secs] 135584K->80553K(253440K), 0.0488309 secs] [Times: user=0.05 sys=0.00, real=0.05 secs] 
+
+		[Full GC[Tenured: 62546K->60809K(174784K), 0.1600120 secs] 85931K->60809K(253440K), [Perm : 38404K->38404K(65536K)], 0.1600814 secs] [Times: user=0.16 sys=0.00, real=0.16 secs]
+
+		---------------------------
+
+		1. 其中的DefNew代表单线程回收yong generation。
+
+		2. 紧跟后面的 78656K->8704K(78656K) 中的 78656K 代表young generation 回收前大小，8704K 代表回收后大小，括号中的78656K 代表young generation总大小(包含2个survivor)。
+
+		3. 135584K->80553K(253440K) 则代表整个Heap(young+old)的变化与总量，含义参照前面所述(Perm也一样)。
+
+		4. Full GC 即代表 major GC, Tenured: 62546K->60809K(174784K)则表示 old generation变化及总量	
+		
+		
+	eg 
+		5.617（时间戳）: [GC（Young GC） 5.617（时间戳）:
+		[ParNew（使用ParNew作为年轻代的垃圾回收期）: 43296K（年轻代垃圾回收前的大小）->7006K（年轻代垃圾回收以后的大小）(47808K)（年轻代的总大小）, 0.0136826 secs（回收时间）] 44992K（堆区垃圾回收前的大小）->8702K（堆区垃圾回收后的大小）(252608K)（堆区总大小）, 0.0137904 secs（回收时间）] [Times: user=0.03（Young GC用户耗时） sys=0.00（Young GC系统耗时）, real=0.02 secs（Young GC实际耗时）]  	
+	
+    ***jinfo之后一般在控制台打印 如果结合 nohup java -jar xx.jar >./xx.out >2&1 & 就可以在 xx.out查看gc的日志了  可以利用 cat xx.out|grep GC  	
+		
+
+26 GC日志分析 		
+	1、第一种场景应该很明显，当年轻代或者老年代满了，Java虚拟机无法再为新的对象分配内存空间了，那么Java虚拟机就会触发一次GC去回收掉那些已经不会再被使用到的对象
+
+	2、手动调用System.gc()方法，通常这样会触发一次的Full GC以及至少一次的Minor GC
+
+	3、程序运行的时候有一条低优先级的GC线程，它是一条守护线程，当这条线程处于运行状态的时候，自然就触发了一次GC了。这点也很好证明，不过要用到WeakReference的知识，后面写WeakReference的时候会专门讲到这个
+	
+27 mysql的insert into 优化 
+		INSERT IGNORE  into user 
+		(name,age) values( "name",30) 当user表中存在唯一索引或者主键 则不会进行新增
+		
+	  INSERT   into user (name,age) values( "name",30) ON DUCPLICATE KEY UPDATE time= now() 当新增有唯一索引 当不存在时候 新增成功 存在时候 执行update语句
+
+	  insert into  user (name ,age) select 'tomm',30 from dual where not exist (select name from user where age =30) 当存在30 不插入
+	
+	 replace into user (name ,age) values("tomm",30) 当存在时候 删除  值存在时候替换新的相当于 delete和insert
+	 
+	 
+28 远程查看jvm 
+    1 编辑 $JAVA_HOME/jre/lib/security/java.policy 文件，在最后添加 permission java.security.AllPermission;	 
+	或者 在 $JAVA_HOME/bin 下创建安全策略文件，命名为 jstatd.all.policy，内容如下：
+	   grant codebase "file:${java.home}/../lib/tools.jar" {
+
+		   permission java.security.AllPermission;
+
+		};
+	3 jstatd -J-Djava.security.policy=jstatd.all.policy -J-Djava.rmi.server.hostname=xxx.xx.xx.xx 	
+	
+29 java的 !a&&!b 可以优化成!(a||b)	
+
+30  频繁GC问题或内存溢出问题
+	一、使用jps查看线程ID
+
+	二、使用jstat -gc 3331 250 20 查看gc情况，一般比较关注PERM区的情况，查看GC的增长情况。
+
+	三、使用jstat -gccause：额外输出上次GC原因
+
+	四、使用jmap -dump:format=b,file=heapDump 3331生成堆转储文件
+
+	五、使用jhat或者可视化工具（Eclipse Memory Analyzer 、IBM HeapAnalyzer）分析堆情况。
+
+	六、结合代码解决内存溢出或泄露问题。
+	
+31 贪婪模式 独占模式 惰性模式  贪婪 尽可能匹配多个词语 +? 惰性模式 尽可能少匹配词语? 会发生回溯
+ “贪婪的”是因为匹配器被强制要求第一次尝试匹配时读入整个输入串，如果第一次尝试匹配失败，则从后往前逐个字符地回退并尝试再次匹配，直到匹配成功或没有字符可回退
+  独占模式 ，尝试一次(仅且一次)匹配成功，不像Greedy，Possessive从不回退，即便这样做也可能使整体匹配成功。 使用+
+  
+32 长连接，push一类的海量服务端应用，16G内存8核心，推荐的JVM参数如下
+
+	java1.7  -Xms13g -Xmx13g -Xss512k -XX:PermSize=384m -XX:MaxPermSize=384m -XX:NewSize=12g -XX:MaxNewSize=12g 
+	-XX:SurvivorRatio=18 -XX:MaxDirectMemorySize=2g -XX:+UseParNewGC -XX:ParallelGCThreads=4 
+	-XX:MaxTenuringThreshold=15 -XX:+CMSParallelRemarkEnabled -XX:+CMSScavengeBeforeRemark -XX:+UseConcMarkSweepGC
+	-XX:+DisableExplicitGC -XX:+UseCMSInitiatingOccupancyOnly -XX:CMSInitiatingOccupancyFraction=70 
+	-XX:+ScavengeBeforeFullGC -XX:+UseCMSCompactAtFullCollection -XX:CMSFullGCsBeforeCompaction=9  
+	-XX:+CMSClassUnloadingEnabled  -XX:CMSInitiatingPermOccupancyFraction=70 -XX:+ExplicitGCInvokesConcurrent  
+	-XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+PrintGCApplicationConcurrentTime -XX:+PrintHeapAtGC 
+	-Xloggc:/data/applogs/heap_trace.txt -XX:-HeapDumpOnOutOfMemoryError 
+	-XX:HeapDumpPath=/data/applogs/HeapDumpOnOutOfMemoryError
+   
+   java1.8 -Xms13g -Xmx13g -Xss512k -XX:MetaspaceSize=384m -XX:MaxMetaspaceSize=384m -XX:NewSize=11g -XX:MaxNewSize=11g -XX:SurvivorRatio=18 -XX:MaxDirectMemorySize=2g -XX:+UseParNewGC -XX:ParallelGCThreads=4 -XX:MaxTenuringThreshold=15 -XX:+UseConcMarkSweepGC -XX:+DisableExplicitGC -XX:+UseCMSInitiatingOccupancyOnly -XX:+ScavengeBeforeFullGC -XX:+CMSScavengeBeforeRemark -XX:+CMSParallelRemarkEnabled -XX:CMSInitiatingOccupancyFraction=70 -XX:+CMSClassUnloadingEnabled -XX:SoftRefLRUPolicyMSPerMB=0 -XX:-ReduceInitialCardMarks -XX:+CMSClassUnloadingEnabled -XX:+ExplicitGCInvokesConcurrent -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+PrintGCApplicationConcurrentTime -XX:+PrintHeapAtGC -Xloggc:/data/applogs/heap_trace.txt -XX:-HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/data/applogs/HeapDumpOnOutOfMemoryError"
+   
+   
+33   -XX:MetaspaceSize    触发FGC的阈值就是配置的值 没有配置 触发FGC的阈值是21807104（约20.8m），可以通过jinfo -flag MetaspaceSize pid得到这个值
+     如果Old区配置CMS垃圾回收，那么扩容引起的FGC也会使用CMS算法进行回收；
+     
+  
+  

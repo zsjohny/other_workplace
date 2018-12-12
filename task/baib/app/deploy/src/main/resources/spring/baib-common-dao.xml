@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="GB2312"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+    <!-- ======================================================================== -->
+    <!--  DAO定义。                                                               -->
+    <!-- ======================================================================== -->
+    <bean id="sequenceDAO" class="com.onway.baib.common.dal.ibatis.IbatisSequenceDAO" parent="sqlMapClientDAO"/>
+    <bean id="sysConfigDAO" class="com.onway.baib.common.dal.ibatis.IbatisSysConfigDAO" parent="sqlMapClientDAO"/>
+
+</beans>

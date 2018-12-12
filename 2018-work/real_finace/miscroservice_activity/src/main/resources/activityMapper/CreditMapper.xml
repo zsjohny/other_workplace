@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.finace.miscroservice.activity.mapper.CreditMapper">
+
+    <resultMap id="BaseCreditResult" type="com.finace.miscroservice.activity.po.CreditPO" >
+        <result column="user_id" property="userId" />
+        <result column="value" property="value" />
+        <result column="op_user" property="opUser" />
+        <result column="addtime" property="addtime" />
+        <result column="addip" property="addip" />
+        <result column="updatetime" property="updatetime" />
+        <result column="updateip" property="updateip" />
+        <result column="tender_value" property="tenderValue" />
+    </resultMap>
+
+    <!-- 新增用户金豆信息 -->
+    <insert id="saveCredit" parameterType="com.finace.miscroservice.activity.po.CreditPO" >
+        insert into credit (user_id, value, op_user, addtime, addip, updatetime, updateip, tender_value)
+        values (#{userId}, #{value}, #{opUser}, #{addtime}, #{addip},#{updatetime}, #{updateip}, #{tenderValue})
+    </insert>
+
+    <!-- 根据用户id  获取用户的金豆信息 -->
+    <select id="getCreditByUserId" parameterType="String" resultMap="BaseCreditResult">
+        select * from credit where user_id = #{userId}
+    </select>
+
+    <!-- 获取金豆前排名前1000的用户 -->
+    <select id="getCreditByTop" resultMap="BaseCreditResult">
+        select * from credit where 1=1 order by value desc
+    </select>
+
+    <!-- 根据用户id 修改用户金豆信息  -->
+    <update id="updateCreditByUserId" parameterType="Map">
+        update credit set value = #{value} where user_id=#{userId}
+    </update>
+
+    <!-- 修改用户金豆信息  -->
+    <update id="updateCreditAddByUserId" parameterType="Map">
+        update credit set value = value + #{value} where user_id=#{userId}
+    </update>
+
+
+
+</mapper>
+
+
+
+
+
+
+
+
+
+
+

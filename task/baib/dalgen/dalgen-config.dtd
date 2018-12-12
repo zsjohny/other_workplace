@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="GB2312"?>
+
+<!-- ==============================================================   -->
+<!-- DTD file for dal-config.xml                                 .    -->
+<!-- $Id: dalgen-config.dtd,v 1.1 2013/10/29 14:54:07 guangdong.li Exp $  -->
+<!-- ==============================================================   -->
+
+<!--
+*****************************************************************************
+* Copyright (c) 2013 ONWAY COMPANY,INC
+* Version     :V10R00
+* File        :dalgen-config.dtd
+* Project     :project-dalgen
+* Language    :DTD
+* Author      :guangdong.li
+* Date        :2013-10-29
+* Update      :
+* Notes       :
+*****************************************************************************
+-->
+
+<!ELEMENT tables (typemap*,tableprefix*, include*, seq*)>
+
+<!ELEMENT typemap EMPTY>
+<!ATTLIST typemap
+		from CDATA #REQUIRED
+		to CDATA #REQUIRED>
+<!ELEMENT tableprefix EMPTY>
+<!ATTLIST tableprefix
+		prefix CDATA #REQUIRED>
+<!ELEMENT include EMPTY>
+<!ATTLIST include
+		table CDATA #REQUIRED>
+
+<!ELEMENT seq EMPTY>
+<!ATTLIST seq
+		name CDATA #REQUIRED>

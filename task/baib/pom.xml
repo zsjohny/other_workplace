@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.onway.baib</groupId>
+	<artifactId>baib-parent</artifactId>
+	<version>1.0</version>
+	<name>baib Parent</name>
+	<description>baib Application Parent</description>
+
+	<!-- 设置 Spring 的版本 -->
+	<properties>
+		<org.springframework.version>3.2.2.RELEASE</org.springframework.version>
+		<baib.version>1.0</baib.version>
+	</properties>
+	<profiles>
+		<profile>
+			<id>test</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+		<!-- jar包仓库地址 -->
+		<repositories>
+			<repository>
+				<id>public</id>
+				<url>http://120.26.212.208:8081/nexus/content/repositories/dev</url>
+				<snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+		</repositories>
+		<!-- 插件仓库地址 -->
+		<pluginRepositories>
+			<pluginRepository>
+				<id>public</id>
+				<url>http://120.26.212.208:8081/nexus/content/groups/public</url>
+				<snapshots>
+                <enabled>false</enabled>
+				</snapshots>
+			</pluginRepository>
+		</pluginRepositories>
+		</profile>
+	</profiles>	
+	
+	<!-- 自动部署 -->
+	<distributionManagement>
+	  <repository>
+	      <id>dev</id>
+	      <url>http://120.26.212.208:8081/nexus/content/repositories/dev/</url>
+	  </repository>
+	</distributionManagement>
+	
+	
+	
+	
+	
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>com.onway.framework</groupId>
+				<artifactId>core-bom</artifactId>
+				<version>1.0.0</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		
+			<!-- sub projects -->
+			<dependency>
+				<groupId>com.onway.baib</groupId>
+				<artifactId>baib-common-service-facade</artifactId>
+				<version>1.0.0</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.onway.baib</groupId>
+				<artifactId>baib-common-service-integration</artifactId>
+				<version>1.0</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.onway.baib</groupId>
+				<artifactId>baib-common-dal</artifactId>
+				<version>1.0</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.onway.baib</groupId>
+				<artifactId>baib-core-model</artifactId>
+				<version>1.0</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.onway.baib</groupId>
+				<artifactId>baib-core-service</artifactId>
+				<version>1.0</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.onway.baib</groupId>
+				<artifactId>baib-common-util</artifactId>
+				<version>1.0</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.onway.baib</groupId>
+				<artifactId>baib-biz-shared</artifactId>
+				<version>1.0</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.onway.baib</groupId>
+				<artifactId>baib-biz-service-impl</artifactId>
+				<version>1.0</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.onway.baib</groupId>
+				<artifactId>baib-biz-task</artifactId>
+				<version>1.0</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.onway.baib</groupId>
+				<artifactId>baib-web-home</artifactId>
+				<version>1.0</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.onway.baib</groupId>
+				<artifactId>baib-test</artifactId>
+				<version>1.0</version>
+			</dependency>	
+					
+			<dependency>
+				<groupId>com.onway.baib</groupId>
+				<artifactId>baib-deploy</artifactId>
+				<version>1.0</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.onway.event</groupId>
+				<artifactId>onway-common-event</artifactId>
+				<version>1.0.0</version>
+			</dependency>
+
+			<dependency>
+			  <groupId>junit</groupId>
+			  <artifactId>junit</artifactId>
+			  <version>4.12</version>
+			</dependency>
+			
+				<dependency>
+				<groupId>com.onway.cif</groupId>
+				<artifactId>cif-common-service-facade</artifactId>
+				<version>1.0.0</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.onway.account</groupId>
+				<artifactId>account-common-service-facade</artifactId>
+				<version>1.0.0</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.onway.settlecore</groupId>
+				<artifactId>settlecore-common-service-facade</artifactId>
+				<version>1.0.0</version>
+			</dependency>
+			
+			<dependency>
+			  <groupId>com.onway.ace</groupId>
+			  <artifactId>ace-common-service-facade</artifactId>
+			  <version>1.0.0</version>
+			</dependency>
+		
+
+			<dependency>
+				<groupId>com.onway.pointcore</groupId>
+				<artifactId>pointcore-common-service-facade</artifactId>
+				<version>1.0.0</version>
+			</dependency>
+
+		
+
+			<dependency>
+				<groupId>com.onway.gotone</groupId>
+				<artifactId>gotone-common-service-facade</artifactId>
+				<version>1.0.0</version>
+			</dependency>
+
+			<!-- https://mvnrepository.com/artifact/cglib/cglib-nodep -->
+			<dependency>
+			    <groupId>cglib</groupId>
+			    <artifactId>cglib-nodep</artifactId>
+			    <version>2.2.2</version>
+			</dependency>
+
+			<dependency>
+	            <groupId>org.apache.shiro</groupId>
+	            <artifactId>shiro-core</artifactId>
+	            <version>1.2.3</version>
+	        </dependency>
+			
+			<dependency> 
+               <groupId>net.glxn</groupId> 
+               <artifactId>qrgen</artifactId> 
+               <version>1.3</version> 
+            </dependency>	
+			
+		</dependencies>
+	</dependencyManagement>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<configuration>
+					<archive>
+						<manifestFile>src/main/resources/META-INF/MANIFEST.MF</manifestFile>
+					</archive>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.6</source>
+					<target>1.6</target>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+					<includes>
+						<include>**/*Test*.java</include>
+					</includes>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<version>2.0.2</version>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-eclipse-plugin</artifactId>
+				<version>2.6</version>
+				<configuration>
+					<downloadSources>true</downloadSources>
+					<ajdtVersion>true</ajdtVersion>   <!--此处是插件的特殊处理，不加此参数，eclipse不能自动依赖aspectj-->
+				</configuration>
+			</plugin>
+		</plugins>
+
+	</build>
+
+	<packaging>pom</packaging>
+	<modules>
+		<module>app/common/dal</module>
+		<module>app/common/util</module>
+		<module>app/core/model</module>
+		<module>app/core/service</module>
+		<module>app/biz/shared</module>
+		<module>app/biz/task</module>
+		<module>app/biz/service-impl</module>
+		<module>app/common/service/facade</module>
+		<module>app/common/service/integration</module>
+		<module>app/web/home</module>
+		<module>app/deploy</module>
+		<module>app/test</module>
+	</modules>
+</project>

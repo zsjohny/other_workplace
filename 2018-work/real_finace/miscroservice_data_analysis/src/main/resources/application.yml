@@ -1,0 +1,58 @@
+---
+#服务间的认证开关
+service.auth.enabled: false
+
+---
+#限流开关
+limter.flow.enabled: false
+
+---
+#文件加载的环境配置
+spring:
+  profiles:
+    active: center
+  application:
+       name: data_analysis
+
+
+---
+#端口
+server:
+  port: 9206
+
+
+---
+#mq 配置
+mq:
+  #发送消息的集合管理  格式  消息名称:消息的类型(fanout,direct):接受的监听类的名称(首字母小写) eg msg:fanout:demoListener
+  channels: data_analysis:fanout:dataAnalysisMqListener
+
+
+
+---
+#日志保存名称
+log.name:  data_analysis
+
+
+
+---
+#注册服务地址设置
+eureka:
+  client:
+    register-with-eureka: true #声明在Eureka服务注册自己
+
+
+
+---
+#反序列化开关
+deSerialized.enabled: true
+
+---
+
+#zipkin的mq收集方式
+zipkin:
+  collector:
+    rabbitmq:
+      addresses: 47.97.174.183:5672
+      password: 123456
+      username: etongjin

@@ -1,0 +1,19 @@
+apply plugin: 'java'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'application'
+repositories {
+    mavenCentral()
+}
+
+jar {
+    baseName "miscroservice_user"
+    mainClassName = 'com.finace.miscroservice.UserStartMain'
+}
+
+
+dependencies {
+    compile "org.apache.shiro:shiro-spring:1.3.2"
+    compile project(":miscroservice_commons")
+
+
+}
