@@ -1,0 +1,78 @@
+memcached:
+    #限制日志大小
+    docker run -dit --log-driver json-file --log-opt max-size=1m --name memcache -p 11211:11211 memcached
+	docker run -dit --name memcache -p 11211:11211 memcached
+
+nginx: 
+    docker run -dit -v /opt/nginx:/etc/nginx/conf.d -v /home/fpt:/home/fpt -v /home/download:/home/download  -v /home/kyt:/home/kyt -v /opt/cert:/opt/cert  -p 80:80 -p 443:443 --name nginx nginx
+jira: 
+	docker run -dit --name jira -p 9000:8080  cptactionhank/atlassian-jira
+
+	docker cp /opt/jira/atlassian-extras-3.2.jar jira:/opt/atlassian/jira/atlassian-jira/WEB-INF/lib
+ldap:
+     #domain为AAA.BBB. 代表dc=AAA,dc=BBB
+	docker run  -v /opt/ldap/database:/var/lib/ldap --env LDAP_ORGANISATION="nessary"  --env LDAP_TLS=false --env LDAP_DOMAIN="domain.com." --env LDAP_ADMIN_PASSWORD="879227577" -p 1389:389 --name ldap --detach osixia/openldap:1.2.2
+	#-D代表组织 
+	docker exec ldap ldapsearch -x -H ldap://yjj.nessary.top:1389 -b dc=domain,dc=com -D "cn=admin,dc=domain,dc=com" -w 879227577
+    
+   
+
+redis:
+ redis.conf
+   requirepass nessary
+   appendonly yes
+  #启动  
+  docker run -dit --name redis -v /opt/redis/redis.conf:/etc/redis/redis.conf  -v /opt/redis/data:/data -p 7878:6379 redis redis-server /etc/redis/redis.conf
+  #连接
+  docker exec -it redis redis-cli -a nessary  或者docker exec -it redis redis-cli  命令输入 auth nessary
+  
+zk: 
+
+   docker run -dit -v /opt/zk/data:/data -p 2180:2181 --name  zk zookeeper
+
+mq:
+   docker pull rabbitmq:management
+   docker run -dit --name rabbitmq -p 5887:5672 -p 5888:15672 rabbitmq:management
+   user: guest guest
+
+mysql: 
+   docker run -dit -p 3310:3306 -v /opt/mysql/conf/mysql.cnf:/etc/mysql/conf.d/mysql.cnf -v /opt/mysql/data:/var/lib/mysql -v /etc/localtime:/etc/localtime -e "MYSQL_ROOT_PASSWORD=985595" --name mysql mysql 
+
+   docker exec -it mysql mysql -uroot -p
+	   ALTER USER 'root'@'%' IDENTIFIED WITH mysql_native_password BY '985595';
+	 
+es:
+  docker pull  elasticsearch:6.4.2
+  echo "vm.max_map_count=262144" >>/etc/sysctl.conf &&sysctl  -p
+  docker run -dit --name es   -p 9400:9300 -p 9500:9200  -e "discovery.type=single-node" -e "cluster.name=elasticsearch" elasticsearch:6.4.2  
+  ik 
+  docker cp /opt/elasticsearch-analysis-ik-6.4.2.zip es:/usr/share/elasticsearch/plugins
+  sql
+  docker cp /opt/elasticsearch-sql-6.4.2.0.zip es:/usr/share/elasticsearch/plugins
+  执行
+  bin/elasticsearch-plugin install file:///path/to/file/x-pack-6.2.1.zip #file://
+   或者直接将解压的zip包拷贝到pluging目录
+  
+logstash:
+  docker pull  logstash
+   #里面包括了 logstash.conf 和mysql.jar
+  docker run -dit --name logstash  -v /opt/logstash/pipeline/:/usr/share/logstash/pipeline/ logstash -f /usr/share/logstash/pipeline/logstash.conf
+  
+  
+java:
+	java -Dlog.path=/opt/log -jar miscroservice_supplier-1.1.1.jar  --server.context-path=/test
+ 
+ 
+jenkins:
+   docker run -dit  --name jenkins -p 8880:8080 jenkins 
+mongodb:
+   docker run -dit -p 27017:27017 -v /opt/mongo/db:/data/db -d mongo --name mongo  mongo 
+   #设置用户名和密码
+    docker exec -it mongo mongo   
+	show dbs   use admin 
+	db.createUser( {
+
+	 user: "root",
+	 pwd: "root",
+
+	 roles: [ { role: "userAdminAnyDatabase", db: "admin" } ]})	

@@ -1450,6 +1450,10 @@ output{
 	git branch -D xx (强制)删除分支
 	git push origin -d xxx 删除远程分支xxx  
     git merge xxx 在分支b 合并xxx 出现冲突可以利用git status
+	强制把某一分支(paytest)切换到另一分支(matert)
+	git checkout matert 	
+	git reset --hard origin/paytest
+	git -f push origin paytest
 	 
 	 
 45 windows 分区失败

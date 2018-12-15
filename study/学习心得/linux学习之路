@@ -1548,6 +1548,7 @@ curl -o /dev/null -s -w “time_total: %{time_total}\n" "http://www.baidu.com" �
 	                   # 中间要有空格
 	  .bash_profile 文件用于单个用户
 	  alias run="ps -ef|grep java  |awk '{print \$2}'|xargs kill -9 |/stock/tomcat/bin/startup.sh" 针对 awk特殊符号的利用\转义符号
+	  再例如 alias bad="docker ps -a|grep \"Exited\"|awk '{print \$2}'|awk -F _ '{print \$2}'"
 160 出现 yum install 安装报镜像找不到 就去把中央仓库更改
      ll /etc/yum.repos.d/	 找到相关的报错的 直接删除  
 	 
@@ -1640,3 +1641,4 @@ curl -o /dev/null -s -w “time_total: %{time_total}\n" "http://www.baidu.com" �
 181 gpasswd -a yjj  docker 给docker添加用户
 182 wget -b 后台下载
 183 windows 批量删除相同文件forfiles /s /M out /c "cmd /c rd /s /q @path" #批量删除out文件夹 rd 文件夹  del文件 /s 是否递归 /q不需要确定
+184 awk去掉文件第一行和最后一行 awk 'NR>2{print p}{p=$0}' file
