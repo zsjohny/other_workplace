@@ -1642,3 +1642,4 @@ curl -o /dev/null -s -w “time_total: %{time_total}\n" "http://www.baidu.com" �
 182 wget -b 后台下载
 183 windows 批量删除相同文件forfiles /s /M out /c "cmd /c rd /s /q @path" #批量删除out文件夹 rd 文件夹  del文件 /s 是否递归 /q不需要确定
 184 awk去掉文件第一行和最后一行 awk 'NR>2{print p}{p=$0}' file
+185 chkdsk g: /f 修复磁盘

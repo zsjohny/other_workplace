@@ -42,6 +42,17 @@ miscroservice_arr="miscroservice_register_discovery_centers_v1 miscroservice_reg
 fi    
 
 
+#只跟新新的
+if  [[ -n "$1"   ]];then
+ miscroservice_arr="miscroservice_"$1
+fi
+
+
+
+
+
+
+
 for address in $addressArr
 do 
 

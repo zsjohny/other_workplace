@@ -10,7 +10,7 @@ docker exec ldap ldapsearch -x -H ldap://0.0.0.0:1389 -b dc=domain,dc=com -D "cn
 export name=jiuy-admin-api
 
 
-scp  root@47.96.153.80:/mnt/jiuy/$name/webroot/WEB-INF/classes/*properties  /home/nessa/Desktop/$name/WEB-INF/classes/
+scp  root@47.96.153.80:/mnt/jiuy/$name/webroot/WEB-INF/classes/*properties root@47.96.153.80:/mnt/jiuy/$name/webroot/WEB-INF/classes/*txt root@47.96.153.80:/mnt/jiuy/$name/webroot/WEB-INF/classes/*xml  /home/nessa/Desktop/$name/WEB-INF/classes/
 
 scp -r   /home/nessa/Desktop/$name/* root@47.96.153.80:/mnt/tomcat/webapps/ROOT
  

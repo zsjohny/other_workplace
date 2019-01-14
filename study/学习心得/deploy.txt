@@ -36,10 +36,25 @@ mq:
    user: guest guest
 
 mysql: 
-   docker run -dit -p 3310:3306 -v /opt/mysql/conf/mysql.cnf:/etc/mysql/conf.d/mysql.cnf -v /opt/mysql/data:/var/lib/mysql -v /etc/localtime:/etc/localtime -e "MYSQL_ROOT_PASSWORD=985595" --name mysql mysql 
+   docker run -dit -p 3310:3306  -v /opt/mysql/conf/mysql.cnf:/etc/mysql/conf.d/mysql.cnf -v /opt/mysql/data:/var/lib/mysql -v /etc/localtime:/etc/localtime -e "MYSQL_ROOT_PASSWORD=985595" --name mysql mysql 
 
    docker exec -it mysql mysql -uroot -p
 	   ALTER USER 'root'@'%' IDENTIFIED WITH mysql_native_password BY '985595';
+	   set global sql_mode='STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
+       set session sql_mode='STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
+	   #add 或者 
+	   sql_mode=''
+	#add user
+	CREATE USER 'yjj_replicator'@'%' IDENTIFIED WITH mysql_native_password BY 'yjj_replicator1020';
+	GRANT ALL PRIVILEGES ON yjj_online.* TO 'yjj_replicator'@'%';
+	--ALTER USER 'yjj_replicator'@'%' IDENTIFIED WITH mysql_native_password BY 'yjj_replicator1020';
+	GTID_MODE = OFF
+	set persist max_connections=200;
+	ALTER USER 'yjj'@'%' IDENTIFIED WITH mysql_native_password BY 'daf24fzirewafarqgwba131';
+	GRANT Select ON yjj_online.* TO 'yjj'@'%';
+	
+	
+ 
 	 
 es:
   docker pull  elasticsearch:6.4.2

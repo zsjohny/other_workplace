@@ -1,0 +1,17 @@
+[mysqld]
+sql_mode=''
+lower_case_table_names=1
+#back_up
+server-id=4
+log-bin=mysql-bin
+replicate-do-db=yjj_online
+replicate-ignore-db=mysql
+slave-skip-errors=all
+report_host=rm-bp12w6znsbed37xva35890.mysql.rds.aliyuncs.com
+#git
+gtid-mode=on
+enforce-gtid-consistency=on
+#slow-log 
+long_query_time=2    
+slow_query_log=ON     
+slow_query_log_file=/var/lib/mysql/slow.log

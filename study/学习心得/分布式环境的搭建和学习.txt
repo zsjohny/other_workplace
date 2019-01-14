@@ -268,11 +268,11 @@ output{
 		mysql>use mysql 
 		mysql>stop slave;
 		mysql>change master to
-			  master_host='192.168.1.101',
-			  master_user='testuser',
-			  master_password='12345678',
-			  master_port=3310,
-			  master_log_file='mysql-bin.000012',
+			  master_host='rm-bp12w6znsbed37xvaao.mysql.rds.aliyuncs.com',
+			  master_user='yjj_replicator',
+			  master_password='yjj_replicator1020',
+			  master_port=3306,
+			  master_log_file='mysql-bin.001431',
 			  master_log_pos=120;  #log_file与log_pos是主服务器master状态下的File与Position //利用 show master status;可以查看
 		mysql>start slave;
 		mysql>show slave status\G; 打印如下,Slave_IO_Running: Yes,Slave_SQL_Running: Yes,基本配置成功：
@@ -280,6 +280,8 @@ output{
 		mysql> change master to master_host='127.0.0.1',master_user='rep',master_password='rep',master_port=3306,master_auto_position=1;
 		
 		------基本上 查看 如果slave_sql_running 为No就去查错误日志  一般都是配置不对  具体调节 可以双机互主
+		有冲突 
+		reset slave
 7 mysql查看全局日志配置 
 	SHOW  GLOBAL VARIABLES LIKE '%log%'		
 		
@@ -1693,6 +1695,8 @@ curl -XPUT -H "Content-Type: application/json" 'http://api.kuayet.com:9100/com.n
 }'
 curl -XPOST -H "Content-Type: application/json" http://api.kuayet.com:9100/com.newman.dto.powerpurchaserproduct/_open
 
+#当为readonlys时候
+curl -XPUT 'http://api.kuayet.com:9500/com.newman.dto.powerpurchaserproduct/_settings' -H 'Content-Type: application/json' -d '{"index.blocks.read_only_allow_delete": null}'
 
 #查看mapping
 curl -XGET http://api.kuayet.com:9500/com.newman.dto.powerpurchaserproduct/_mapping
@@ -1805,3 +1809,28 @@ server
 	
 多个 https
 直接在下面添加	
+54 mysql的比较
+https://downloads.mysql.com/archives/utilities/
+55 eureka强制下线
+ curl -XDELETE http://yjjdev.nessary.top:6898/eureka/apps/JWXAPI/172.17.0.11:1990
+ 
+56 google翻墙
+		server { 
+		# ... part of server configuration 
+		server_name 你的域名; 
+		listen 80; 
+		resolver 8.8.8.8; 
+		location / { 
+		google on; 
+		} 
+		# ... 
+		}  
+57 docker 装字体
+      docker cp simsun.ttf jwxapi:/usr/share/fonts/ && docker exec -it jwxapi fc-cache -fv		
+	  
+58 jira的邮件发送配置
+	发件人:	nessary@foxmail.com
+	前缀:	[JIRA]
+	主机:	smtp.qq.com
+	SMTP端口:	465
+	用户名:	nessary@foxmail.com	  
