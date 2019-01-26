@@ -1643,3 +1643,5 @@ curl -o /dev/null -s -w “time_total: %{time_total}\n" "http://www.baidu.com" �
 183 windows 批量删除相同文件forfiles /s /M out /c "cmd /c rd /s /q @path" #批量删除out文件夹 rd 文件夹  del文件 /s 是否递归 /q不需要确定
 184 awk去掉文件第一行和最后一行 awk 'NR>2{print p}{p=$0}' file
 185 chkdsk g: /f 修复磁盘
+186 docker  根据 pid  查询容器信息 docker inspect -f '{{.State.Pid}} {{.Id}}' $(docker ps -q) | grep <Pid>
+187 linux 查找所有文件包含的特定字符的文件名称find . |grep -ri "xxx" -l  (-r 递归查询  -l只列出文件名称)
