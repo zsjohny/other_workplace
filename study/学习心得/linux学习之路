@@ -1645,3 +1645,4 @@ curl -o /dev/null -s -w “time_total: %{time_total}\n" "http://www.baidu.com" �
 185 chkdsk g: /f 修复磁盘
 186 docker  根据 pid  查询容器信息 docker inspect -f '{{.State.Pid}} {{.Id}}' $(docker ps -q) | grep <Pid>
 187 linux 查找所有文件包含的特定字符的文件名称find . |grep -ri "xxx" -l  (-r 递归查询  -l只列出文件名称)
+188 经常删除mysql时候 可以使用 OPTIMIZE TABLE  tableName 优化表

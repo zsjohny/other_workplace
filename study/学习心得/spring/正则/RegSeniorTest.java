@@ -37,6 +37,13 @@ public class RegSeniorTest {
         System.out.println(mc.find());
         System.out.println(mc.group());
 
+		 String text = "888xxxx000xxxx999xxxxx111xxx22x2";
+        Pattern compile = Pattern.compile("(\\d)\\1\\1");
+        Matcher matcher = compile.matcher(text);
+
+        while (matcher.find()) {
+            System.out.println(matcher.group());
+        }
 
     }
 	

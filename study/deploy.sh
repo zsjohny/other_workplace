@@ -20,3 +20,10 @@ scp -r   /home/nessa/Desktop/$name/* root@47.96.153.80:/mnt/tomcat/webapps/ROOT
  rm  -rf /mnt/jiuy/$name/webroot_bark &&cp -r /mnt/jiuy/$name/webroot /mnt/jiuy/$name/webroot_bark&&rm  -rf /mnt/jiuy/$name/webroot/* &&rm -rf /mnt/jiuy/$name/tomcat/logs/*&& mv /mnt/tomcat/webapps/ROOT/* /mnt/jiuy/$name/webroot/ && /mnt/jiuy/$name/tomcat/bin/shutdown.sh &&/mnt/jiuy/$name/tomcat/bin/startup.sh&&tail -n 100 -f  /mnt/jiuy/$name/tomcat/logs/catalina.out
  
 
+
+ 
+ 分布式事务
+ springboot protobuf
+ ab.exe -n 5000 -c 500 "http://yjj_dev.nessary.top:8081/miniapp/homepage/homeProductList.json?type=1&current=1&size=10&storeId=12130&memberId=105713"
+ abs.exe -n 5000 -c 500 "https://online.yujiejie.com/jstore/home/dailyNew?current=2&size=10&firstQueryTime=1550144955017"
+ 

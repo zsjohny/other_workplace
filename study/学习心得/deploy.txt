@@ -34,6 +34,7 @@ mq:
    docker pull rabbitmq:management
    docker run -dit --name rabbitmq -p 5887:5672 -p 5888:15672 rabbitmq:management
    user: guest guest
+   修改完去 管理界面添加配置文件的用户名和密码 
 
 mysql: 
    docker run -dit -p 3310:3306  -v /opt/mysql/conf/mysql.cnf:/etc/mysql/conf.d/mysql.cnf -v /opt/mysql/data:/var/lib/mysql -v /etc/localtime:/etc/localtime -e "MYSQL_ROOT_PASSWORD=985595" --name mysql mysql 
@@ -91,3 +92,6 @@ mongodb:
 	 pwd: "root",
 
 	 roles: [ { role: "userAdminAnyDatabase", db: "admin" } ]})	
+	 
+gcplot:
+     docker run -d -p 80:80 gcplot/gcplot	 

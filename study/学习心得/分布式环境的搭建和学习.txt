@@ -1834,3 +1834,44 @@ https://downloads.mysql.com/archives/utilities/
 	主机:	smtp.qq.com
 	SMTP端口:	465
 	用户名:	nessary@foxmail.com	  
+	
+59 mysq三种锁
+      Record Lock、Gap Lock 和 Next-Key Lock。	https://mp.weixin.qq.com/s/2YzsLDi0PQd0xJcFDP7OrA
+	  
+60 mysql创建函数自定义增长的id
+	-- sequence表
+	DROP TABLE IF EXISTS sequence;
+	-- 建sequence表，指定seq列为大整型，可支持：0(default)到9223372036854775807（0到2^63–1）。
+	CREATE TABLE sequence (
+	name            VARCHAR(50) NOT NULL,      -- 表名
+	current_value   BIGINT NOT NULL DEFAULT 0, -- 当前值
+	increment       INT NOT NULL DEFAULT 1,    -- 步长
+	PRIMARY KEY (name)  -- 不允许重复seq的存在
+	) ENGINE=InnoDB;
+
+
+	-- DELIMITER的作用是修改分隔符，因为语句中包含有分号需要替换成其他分隔符
+	
+	DELIMITER /
+	DROP FUNCTION IF EXISTS nextval /
+	CREATE FUNCTION nextval (seq_name VARCHAR(50))
+	RETURNS BIGINT
+	BEGIN
+		DECLARE val BIGINT;
+		UPDATE sequence
+    SET current_value = current_value + increment
+		WHERE upper(name) = upper(seq_name) ;
+    SELECT current_value FROM sequence  
+	  WHERE upper(name) = upper(seq_name)  INTO val;
+		RETURN val;
+	END;
+	/
+
+
+	insert into `sequence`(`name`,`current_value`,`increment`) values('session',1000,2);
+
+	
+	select nextval ("session");
+	  
+61 ygc的收集线程数 因为容器不是物理隔离的，部署的java应用，务必要指定-XX:ParallelGCThreads=CPU_COUNT ，以防被YGC被坑了
+    默认是 CPU<=8?CPU:3+CPU*5/8 如果核数多了是不科学的	  
