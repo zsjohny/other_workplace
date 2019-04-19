@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jiuy.core.dao.mapper.QMOrderItemDaoSqlImpl">
+	
+	<insert id="batchAdd">
+		insert yjj_QMOrderItem(Tid, BuyerNick, BuyCount, Oid, SkuId, QMSkuId, TotalMoney, TotalPay, NumIid, Status, CreateTime, UpdateTime)
+		values <foreach collection="qmOrderItems" item="qmOrderItem" open="(" separator="),(" close=")">
+			#{qmOrderItem.tid}, #{qmOrderItem.buyerNick}, #{qmOrderItem.buyCount}, #{qmOrderItem.oid}, #{qmOrderItem.skuId}, #{qmOrderItem.qMSkuId}, #{qmOrderItem.totalMoney}, #{qmOrderItem.totalPay}, 
+			#{qmOrderItem.numIid}, #{qmOrderItem.status}, #{qmOrderItem.createTime}, #{qmOrderItem.updateTime}
+		</foreach>
+		on duplicate key update UpdateTime = unix_timestamp() * 1000
+	</insert>
+	
+	<select id="search" resultType="QMOrderItem">
+		select * from yjj_QMOrderItem
+		<where>
+			<if test="tid != null">
+				and Tid = #{tid}
+			</if>
+		</where>
+	</select>
+
+</mapper>

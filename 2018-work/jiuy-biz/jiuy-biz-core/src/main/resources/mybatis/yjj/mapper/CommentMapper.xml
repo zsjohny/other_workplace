@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yujj.dao.mapper.CommentMapper">
+	<select id="getComments" resultType="Comment">
+		<![CDATA[
+			select
+				a.Id,a.UserId,a.ProductId,a.SkuId,a.BrandId,a.Liker,a.Content as EscapeContent,
+				a.ImageUrl,a.Anonymity,a.Status,a.CreateTime,a.UpdateTime,
+				b.propertyIds, c.UserName as UserNickname, c.userIcon from yjj_Comment a, yjj_ProductSKU b, yjj_User c
+		]]>
+		<where>
+			<![CDATA[ a.SkuId = b.Id and a.UserId = c.UserId and ]]>
+			<if test="userId != null">
+			    <![CDATA[a.UserId = #{userId} and a.Liker = 0]]>
+			</if>
+			<if test="productId != null">
+				<![CDATA[a.ProductId = #{productId} and a.Liker > 0]]>
+			</if>
+			<![CDATA[ and a.Status = 0 limit #{pageQuery.limit} offset #{pageQuery.offset}]]>
+		</where>
+	</select>
+	<insert id="addComment" parameterType="map" useGeneratedKeys="true" keyProperty="id" >
+		<![CDATA[ 		
+			insert into yjj_Comment
+			( UserId, ProductId, SkuId, BrandId, CreateTime, UpdateTime, OrderNo)
+			VALUES
+			( #{userId}, #{productId}, #{skuId}, #{brandId}, #{createTime}, #{updateTime}, #{orderNo})
+		]]>
+    </insert>
+	<insert id="addComments" parameterType="map">
+		<![CDATA[
+			insert into yjj_Comment
+			( UserId, ProductId, SkuId, BrandId, CreateTime, UpdateTime, OrderNo)
+			values
+		]]>
+		<foreach collection="orderItems" item="orderItem" open="(" separator="),(" close=")">
+			<![CDATA[
+				 #{orderItem.userId}, #{orderItem.productId}, #{orderItem.skuId}, #{orderItem.brandId}, #{time}, #{time}, #{orderItem.orderNo}
+			]]>
+		</foreach>
+	</insert> 
+	<update id="updateComment" parameterType="map">
+		<![CDATA[
+			update yjj_Comment
+			set Liker = #{liker}, Content = #{escapeContent}, ImageUrl = #{imageUrl}, Anonymity = #{anonymity}, UpdateTime = #{updateTime}
+			where Id = #{id} and Status = 0
+		]]>
+	</update>
+	<update id="deleteComment" parameterType="map">
+		<![CDATA[
+			update yjj_Comment
+			set Status = -1, UpdateTime = UNIX_TIMESTAMP(now())*1000
+			where Id = #{id}
+		]]>
+	</update>
+	<select id="countComment" resultType="int">
+		<![CDATA[
+			select count(*) from yjj_Comment 
+		]]>		
+		<where>
+			<if test="userId != null">
+			    <![CDATA[ UserId = #{userId} and Liker = 0]]>
+			</if>
+			<if test="productId != null">
+				<![CDATA[ ProductId = #{productId} and Liker > 0]]>
+			</if>
+			<![CDATA[ and Status = 0 ]]>
+		</where>
+	</select>
+	
+	<select id="getById" resultType="Comment">
+		select * from yjj_Comment
+		where Id = #{id}
+	</select>
+	
+</mapper>

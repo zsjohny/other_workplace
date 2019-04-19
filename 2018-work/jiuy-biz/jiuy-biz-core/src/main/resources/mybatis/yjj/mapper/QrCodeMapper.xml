@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yujj.dao.mapper.QrCodeMapper">
+	<select id="getQrCode" resultType="QrCode">
+		<![CDATA[
+			select * from yjj_qrcode
+			where qrcode_id = #{code}
+		]]>
+	</select>
+	
+	<update id="active" parameterType="map">
+		<![CDATA[
+			update yjj_qrcode
+			set status = 2, update_time = #{time}, exchange_user_id = #{userId},consumer_user_id=#{userId}
+			where qrcode_id = #{qrCode.qrcode_id} and status = 1
+		]]>
+	</update>
+</mapper>

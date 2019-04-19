@@ -1,0 +1,1080 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.jiuy.core.dao.impl.sql.ProductSKUMapperSqlImpl">
+
+	<select id="getProductSKUs" resultType="ProductSKU"
+		parameterType="map">
+		select * from yjj_ProductSKU
+		<where>
+			<![CDATA[Status > -3]]>
+			<if test="clothesNum != ''">
+				and ClothesNumber = #{clothesNum}
+			</if>
+			<if test="productId != -1">
+				and ProductId = #{productId}
+			</if>
+		</where>
+	</select>
+
+	<insert id="insertBatch" parameterType="List"> 
+		<![CDATA[
+    		insert into yjj_ProductSKU( ProductId,PropertyIds,Price, RemainCount, Status,CreateTime, UpdateTime, SkuNo, Cash) values ]]>
+		<foreach collection="list" item="item" index="index"
+			separator=",">
+			( #{item.productId},#{item.propertyIds},#{item.price},
+			#{item.remainCount},#{item.status},#{item.createTime},#{item.updateTime},
+			#{item.skuNo}, #{item.cash}
+			)
+		</foreach>
+	</insert>
+
+	<update id="updateSku">
+		update yjj_ProductSKU
+		set RemainCount = #{psvo.remainCount}, SkuNo =
+		#{psvo.skuNo}
+		where ProductId = #{psvo.productId} and PropertyIds =
+		'${psvo.propertyIds}' <![CDATA[and Status > -3]]>
+	</update>
+
+	<update id="uptProductSku" parameterType="map">
+		update yjj_ProductSKU
+		<set>
+			<if test="name!=null">
+				Name = #{name},
+			</if>
+			<if test="marketPrice!=null">
+				MarketPrice = #{marketPrice},
+			</if>
+			<if test="costPrice!=null">
+				CostPrice = #{costPrice},
+			</if>
+			<if test="weight!=null ">
+				Weight = #{weight},
+			</if>
+			<if test="position!=null ">
+				Position = #{position},
+			</if>
+			<if test="sort!=null">
+				Sort = #{sort},
+			</if>
+			<if test="status!=null">
+				Status = #{status},
+			</if>
+			<if test="saleStartTime!=null">
+				SaleStartTime = #{saleStartTime},
+			</if>
+			<if test="saleEndTime!=null">
+				SaleEndTime = #{saleEndTime},
+			</if>
+			<if test="remainCount!=null">
+				RemainCount = #{remainCount},
+			</if>
+			<if test="remainCount2!=null">
+				RemainCount2 = #{remainCount2},
+			</if>
+			<if test="remainKeepTime!=null">
+				RemainKeepTime = #{remainKeepTime},
+			</if>
+			<if test="skuNo!=null">
+				SkuNo = #{skuNo},
+			</if>
+			<if test="remainCountLock != null">
+				RemainCountLock = #{remainCountLock},
+			</if>
+			<if test="remainCountStartTime != null">
+				RemainCountStartTime = #{remainCountStartTime},
+			</if>
+			<if test="remainCountEndTime != null">
+				RemainCountEndTime = #{remainCountEndTime},
+			</if>
+			<if test="isRemainCountLock != null">
+				IsRemainCountLock = #{isRemainCountLock},
+			</if>
+			PushTime = 0
+		</set>
+		<where>
+			and Id = #{id}
+		</where>
+	</update>
+
+	<update id="addSKUCount">
+		update yjj_ProductSKU set RemainCount = RemainCount +
+		#{remaincount}
+		where Id = #{skuid}
+	</update>
+
+	<select id="getRemainCountById" parameterType="map" resultType="int">
+		select SUM(RemainCount) as RemainCount
+		from yjj_ProductSKU
+		where
+		ProductId = #{productId} <![CDATA[ and Status > -3 ]]>
+	</select>
+
+	<select id="getSkuStatus" parameterType="map" resultType="int">
+		select count(*)
+		from yjj_ProductSKU
+		where ProductId = #{productId} and
+		RemainCount = 0 <![CDATA[ and Status > -3 ]]>
+	</select>
+
+	<select id="srchSkuInfo" parameterType="map" resultType="ProductSKU">
+		select a.*, b.BrandName as BrandName , c.Type as Type,c.WholeSaleCash
+		as WholeSaleCash
+		from yjj_ProductSKU a left join yjj_Brand b
+		on
+		a.BrandId = b.BrandId left join yjj_Product c
+		on a.ProductId = c.Id 
+		LEFT JOIN jiuy_boutique_product d
+		ON a.ProductId = d.product_id
+		<where>
+		 	c.supplierId > 0
+			<![CDATA[and a.Status > -3]]>
+			<if test="id != -1">
+				and a.ProductId = #{id}
+			</if>
+			<if test="clothesNumber != ''">
+				and a.ClothesNumber like concat ("%", #{clothesNumber}
+				,"%")
+			</if>
+			<if test="name != ''">
+				and a.Name like concat ("%", #{name}, "%")
+			</if>
+			<if test="remainCountMin != -1">
+				<![CDATA[
+				and a.RemainCount >= #{remainCountMin}
+				]]>
+			</if>
+			<if test="remainCountMax != -1">
+				<![CDATA[
+				and a.RemainCount <= #{remainCountMax}
+				]]>
+			</if>
+			<if test="skuId != -1">
+				and a.SkuNo = #{skuId}
+			</if>
+			<if test="brandName != ''">
+				and b.BrandName like concat ("%", #{brandName}, "%")
+			</if>
+			<if test="skuStatus == 1">
+		    	<![CDATA[and a.RemainCount > 0]]>
+			</if>
+			<if test="skuStatus == 2">
+		    	<![CDATA[and a.RemainCount <= 0]]>
+			</if>
+			<if test="skuStatus == 3">
+		    	<![CDATA[and a.RemainCount <= 10 and a.RemainCount > 0]]>
+			</if>
+			<if test="properties!=null">
+				<![CDATA[and a.ProductId in (${properties})]]>
+			</if>
+			<if test="validity == 0">
+		    	<![CDATA[and a.Status > -2	]]>
+			</if>
+			<if test="validity == -2">
+		    	<![CDATA[and a.Status = -2 ]]>
+			</if>
+
+			<if test="type != -1">
+		    	<![CDATA[and c.Type = #{type} ]]>
+			</if>
+
+			<if test="type != -1">
+		    	<![CDATA[and c.Type = #{type} ]]>
+			</if>
+
+			<if test="isBoutique == 0">
+				<![CDATA[
+					and d.status = #{isBoutique}
+				]]>
+			</if>
+
+			<if test="isBoutique == -1">
+				<![CDATA[
+					and d.status = #{isBoutique}
+				]]>
+			</if>
+
+			<if test="warehouseIds!=null">
+				and a.LOWarehouseId in
+				<foreach collection="warehouseIds" item="warehouseId" open="("
+					separator="," close=")">
+					#{warehouseId}
+				</foreach>
+			</if>
+		    
+		    <![CDATA[
+				${saleStatusSql}
+			]]>
+		</where>
+
+		<if test="sortType == 1">
+			<![CDATA[
+			order by a.Id desc
+			]]>
+		</if>
+
+		<if test="sortType == 2">
+			<![CDATA[
+			order by a.Id asc
+			]]>
+		</if>
+
+		<if test="sortType == 3">
+			<![CDATA[
+			order by c.Cash asc
+			]]>
+		</if>
+
+		<if test="sortType == 4">
+			<![CDATA[
+			order by c.Cash desc
+			]]>
+		</if>
+
+		<if test="sortType == 5">
+			<![CDATA[
+			order by c.Weight asc
+			]]>
+		</if>
+
+		<if test="sortType == 6">
+			<![CDATA[
+			order by c.Weight desc
+			]]>
+		</if>
+
+		<if test="sortType == 7">
+			<![CDATA[
+			order by a.RemainCount desc
+			]]>
+		</if>
+
+		<if test="sortType == 8">
+			<![CDATA[
+			order by a.RemainCount asc
+			]]>
+		</if>
+
+		<if test="pageQuery != null">
+			limit #{pageQuery.limit} offset #{pageQuery.offset}
+		</if>
+	</select>
+
+	<select id="srchSkuInfoCount" parameterType="map" resultType="int">
+		select count(1)
+		from yjj_ProductSKU a left join yjj_Brand b
+		on a.BrandId
+		= b.BrandId
+		left join yjj_Product c
+		on a.ProductId = c.Id 
+		<where>
+			c.supplierId > 0
+			<![CDATA[and a.Status > -3]]>
+			<if test="id != -1">
+				and a.ProductId = #{id}
+			</if>
+			<if test="skuId != -1">
+				and a.SkuNo = #{skuId}
+			</if>
+			<if test="clothesNumber != ''">
+				and a.ClothesNumber like concat ("%", #{clothesNumber}
+				,"%")
+			</if>
+			<if test="name != ''">
+				and a.Name like concat ("%", #{name}, "%")
+			</if>
+			<if test="remainCountMin != -1">
+				<![CDATA[
+				and a.RemainCount >= #{remainCountMin}
+				]]>
+			</if>
+			<if test="remainCountMax != -1">
+				<![CDATA[
+				and a.RemainCount <= #{remainCountMax}
+				]]>
+			</if>
+			<if test="skuId != -1">
+				and a.SkuNo = #{skuId}
+			</if>
+			<if test="brandName != ''">
+				and b.BrandName like concat ("%", #{brandName}, "%")
+			</if>
+			<if test="skuStatus == 1">
+		    	<![CDATA[and a.RemainCount > 0]]>
+			</if>
+			<if test="skuStatus == 2">
+		    	<![CDATA[and a.RemainCount <= 0]]>
+			</if>
+			<if test="properties!=null">
+				<![CDATA[and a.ProductId in (${properties})]]>
+			</if>
+			<if test="validity == 0">
+		    	<![CDATA[and a.Status > -2	]]>
+			</if>
+			<if test="validity == -2">
+		    	<![CDATA[and a.Status = -2 and a.ClothesNumber like "TY%"]]>
+			</if>
+			<if test="type != -1">
+		    	<![CDATA[and c.Type = #{type} ]]>
+			</if>
+			<if test="warehouseIds!=null">
+				and a.LOWarehouseId in
+				<foreach collection="warehouseIds" item="warehouseId" open="("
+					separator="," close=")">
+					#{warehouseId}
+				</foreach>
+			</if>
+		    
+		    <![CDATA[
+				${saleStatusSql}
+			]]>
+		</where>
+	</select>
+
+	<select id="searchBoutiqueProductInfo" parameterType="map"
+		resultType="ProductBoutique">
+		SELECT a.id AS id,b.id AS productId,b.vip, b.Name AS
+		NAME,b.ClothesNumber AS clothesNumber ,c.brandName AS
+		BrandName,d.RemainCount AS stock,b.WholeSaleCash AS xprice
+		FROM
+		jiuy_boutique_product a LEFT JOIN yjj_Product b
+		ON a.product_id = b.id
+		LEFT JOIN yjj_Brand c
+		ON b.BrandId = c.BrandId
+		LEFT JOIN (SELECT
+		productId,SUM(RemainCount) AS
+		RemainCount FROM yjj_ProductSKU WHERE
+		STATUS>-1 AND RemainCount>0
+		GROUP BY productId) d
+		ON d.productId = b.id
+		<where>
+			<![CDATA[a.status=0 and c.Status=0]]>
+			<if test="id != -1">
+				and b.id = #{id}
+			</if>
+			<if test="clothesNumber != ''">
+				and b.ClothesNumber like concat ("%", #{clothesNumber}
+				,"%")
+			</if>
+			<if test="name != ''">
+				and b.Name like concat ("%", #{name}, "%")
+			</if>
+			<if test="brandName != ''">
+				and c.BrandName like concat ("%", #{brandName}, "%")
+			</if>
+			<if test="skuStatus == 1">
+		    	<![CDATA[and d.RemainCount > 0]]>
+			</if>
+			<if test="skuStatus == 2">
+		    	<![CDATA[and d.RemainCount <= 0]]>
+			</if>
+			<if test="skuStatus == 3">
+		    	<![CDATA[and d.RemainCount <= 10 and d.RemainCount > 0]]>
+			</if>
+			<if test="properties!=null">
+				<![CDATA[and b.ProductId in (${properties})]]>
+			</if>
+			<if test="vip != null">
+				and b.vip = #{vip}
+			</if>
+		</where>
+		<if test="sortType == 0">
+			<![CDATA[
+			order by b.WholeSaleCash asc
+			]]>
+		</if>
+		<if test="sortType == 1">
+			<![CDATA[
+			order by b.WholeSaleCash desc
+			]]>
+		</if>
+		<if test="sortType == 2">
+			<![CDATA[
+			order by a.create_time asc
+			]]>
+		</if>
+		<if test="sortType == 3">
+			<![CDATA[
+			order by a.create_time desc
+			]]>
+		</if>
+		<if test="pageQuery != null">
+			limit #{pageQuery.limit} offset #{pageQuery.offset}
+		</if>
+	</select>
+
+	<select id="searchBoutiqueProductCount" parameterType="map"
+		resultType="int">
+		SELECT count(1)
+		FROM jiuy_boutique_product a LEFT JOIN yjj_Product b
+		ON
+		a.product_id = b.id
+		LEFT JOIN yjj_Brand c
+		ON b.BrandId = c.BrandId
+		LEFT
+		JOIN (SELECT productId,SUM(RemainCount) AS
+		RemainCount FROM
+		yjj_ProductSKU WHERE STATUS>-1 AND RemainCount>0
+		GROUP BY productId) d
+		ON d.productId = b.id
+		<where>
+			<![CDATA[a.status=0 and c.Status=0]]>
+			<if test="id != -1">
+				and b.id = #{id}
+			</if>
+			<if test="clothesNumber != ''">
+				and b.ClothesNumber like concat ("%", #{clothesNumber}
+				,"%")
+			</if>
+			<if test="name != ''">
+				and b.Name like concat ("%", #{name}, "%")
+			</if>
+			<if test="brandName != ''">
+				and c.BrandName like concat ("%", #{brandName}, "%")
+			</if>
+			<if test="skuStatus == 1">
+		    	<![CDATA[and d.RemainCount > 0]]>
+			</if>
+			<if test="skuStatus == 2">
+		    	<![CDATA[and d.RemainCount <= 0]]>
+			</if>
+			<if test="skuStatus == 3">
+		    	<![CDATA[and d.RemainCount <= 10 and d.RemainCount > 0]]>
+			</if>
+			<if test="properties!=null">
+				<![CDATA[and b.ProductId in (${properties})]]>
+			</if>
+			<if test="vip != null">
+				and b.vip = #{vip}
+			</if>
+		</where>
+	</select>
+
+	<insert id="insertSKUs" parameterType="map">
+		insert into yjj_ProductSKU
+		(ProductId, PropertyIds, RemainCount,
+		CreateTime, UpdateTime, Weight, Position,
+		Name, MarketPrice,
+		ClothesNumber, LOWarehouseId, RemainKeepTime,
+		BrandId)
+		values
+		<foreach collection="propertyIds" item="propertyId" separator=",">
+			(#{productId}, #{propertyId}, 0, #{createTime}, #{updateTime},
+			#{weight}, #{position}, #{name}, #{marketPrice}, #{clothesNumber},
+			#{warehouseId}, #{remainKeepTime},#{brandId})
+		</foreach>
+	</insert>
+
+	<insert id="insertSKUsUpdate" parameterType="map">
+		insert into yjj_ProductSKU
+		(ProductId, PropertyIds, RemainCount,
+		CreateTime, UpdateTime, Weight, Position, Name, MarketPrice,
+		CostPrice, ClothesNumber, LOWarehouseId, RemainKeepTime, BrandId,
+		Status)
+		values
+		<foreach collection="propertyIds" item="propertyId" separator=",">
+			(#{productId}, #{propertyId}, 0, #{createTime}, #{updateTime},
+			#{weight}, #{position}, #{name}, #{marketPrice}, #{costPrice},
+			#{clothesNumber}, #{warehouseId}, #{remainKeepTime},#{brandId},
+			#{status})
+		</foreach>
+		<![CDATA[
+            ON DUPLICATE KEY UPDATE PropertyIds = VALUES(propertyIds), ClothesNumber = VALUES(clothesNumber), LOWarehouseId = VALUES(LOWarehouseId), RemainKeepTime = VALUES(remainKeepTime), BrandId=brandId
+        ]]>
+	</insert>
+
+	<update id="updateSKUsSkuNo">
+		update yjj_ProductSKU set SkuNo = Id+2000000, PushTime = 0
+		where
+		ProductId = #{productId} and CreateTime = #{time} <![CDATA[ and Status > -3 ]]>
+	</update>
+
+	<select id="productSkuOfIds" parameterType="map" resultType="ProductSKU">
+		select * from yjj_ProductSKU
+		where Id in
+		<foreach collection="skuIds" item="id" open="(" separator=","
+			close=")">
+			#{id}
+		</foreach> <![CDATA[ and Status > -3 ]]>
+	</select>
+
+	<select id="loadAllSkus" resultType="ProductSKU">
+		select * from yjj_ProductSKU
+		where <![CDATA[Status > -3]]>
+	</select>
+
+	<select id="getRemainCount" parameterType="map" resultType="int">
+		select count(RemainCount)
+		from yjj_ProductSKU
+		where ProductId =
+		#{productId} and Status = 0 <![CDATA[	and Status > -3	]]>
+	</select>
+
+	<select id="hotSaleMapOfIds" parameterType="map" resultType="map">
+		select a.Id, a.SkuNo, a.PropertyIds, b.Name,b.Cash ,b.ClothesNumber
+		from (select * from yjj_ProductSKU
+		where Id in
+		<foreach collection="skuIds" item="id" open="(" separator=","
+			close=")">
+			#{id}
+		</foreach>
+		) as a left join yjj_Product as b
+		on a.ProductId = b.Id
+	</select>
+
+	<select id="productSkuOfBlurClothesNo8SkuNo" parameterType="map"
+		resultType="ProductSKU">
+		select a.*
+		from yjj_ProductSKU as a join
+		(select * from yjj_Product
+		where ClothesNumber like concat("%",
+		#{clothesNum}, "%")) as b on
+		a.ProductId = b.Id
+		where a.SkuNo like
+		concat("%", #{skuNo}, "%") <![CDATA[	and a.Status > -3	]]>
+	</select>
+
+	<select id="remainCountOfProducts" parameterType="map"
+		resultType="map">
+		select sum(RemainCount) as totalCount, ProductId
+		from yjj_ProductSKU
+		where ProductId in
+		<foreach collection="productIds" item="productId" open="("
+			separator="," close=")">
+			#{productId}
+		</foreach> <![CDATA[and Status > -3	]]>
+		group by ProductId
+	</select>
+
+	<update id="deactivateProductSKUByIds" parameterType="map">
+		update yjj_ProductSKU set Status = -1
+		where SkuNo in
+		<foreach collection="ids" item="id" open="(" separator=","
+			close=")">
+			#{id}
+		</foreach>
+		and Status > -2
+	</update>
+
+	<update id="syncRemainCount" parameterType="map">
+		update yjj_ProductSKU
+		set RemainCount = CASE SkuNo
+		${conditions}
+		end
+		where SkuNo in ${skuNos}
+	</update>
+
+	<select id="getPushedSkus" resultType="ProductSKU">
+		select * from yjj_ProductSKU
+		<where>
+			<![CDATA[ status > -2 ]]>
+			and lOWarehouseId in
+			<foreach collection="warehouseIds" item="warehouseId" open="("
+				separator="," close=")">
+				#{warehouseId}
+			</foreach> 
+			<![CDATA[ and skuNo > 2000000 and pushTime = 0 and ClothesNumber is not null ]]>
+		</where>
+		order by productId asc
+	</select>
+
+	<select id="syncCount" resultType="int">
+		select count(1) from yjj_ProductSKU
+		where
+			<![CDATA[ 
+			status > -2 and pushTime <> 0
+			]]>
+	</select>
+
+	<select id="unSyncCount" resultType="int">
+		select count(1) from yjj_ProductSKU
+		where
+			<![CDATA[ 
+			status > -2 and pushTime = 0
+			]]>
+	</select>
+
+	<select id="lastSyncTime" resultType="long">
+		select max(pushTime) from
+		yjj_ProductSKU
+		where status > -2
+	</select>
+
+	<update id="updatePushTime">
+		update yjj_ProductSKU
+		set PushTime = #{time}
+		<where>
+			ClothesNumber in
+			<foreach collection="clothesNos" item="clothesNo" open="("
+				separator="," close=")">
+				#{clothesNo}
+			</foreach>
+		</where>
+	</update>
+
+	<select id="skuOfNo" resultType="ProductSKU">
+		select * from yjj_ProductSKU
+		where SkuNo in
+		<foreach collection="skuNos" item="skuNo" open="(" separator=","
+			close=")">
+			#{skuNo}
+		</foreach>
+	</select>
+
+	<select id="skusOfClothesNos" resultType="ProductSKU">
+		select * from yjj_ProductSKU
+		<where>
+			ClothesNumber in
+			<foreach collection="clothesNos" item="clothesNo" open="("
+				separator="," close=")">
+				#{clothesNo}
+			</foreach>
+		</where>
+	</select>
+
+	<update id="updateByProductId">
+		update yjj_ProductSKU
+		<set>
+			<if test="status != null">
+				Status = #{status},
+			</if>
+			<if test="clothesNumber != null">
+				ClothesNumber = #{clothesNumber},
+			</if>
+			<if test="warehouseId != null">
+				LOWarehouseId = #{warehouseId},
+			</if>
+			<if test="warehouseId2 != null">
+				LOWarehouseId2 = #{warehouseId2},
+			</if>
+			<if test="setWarehouseId2 != null">
+				SetLOWarehouseId2 = #{setWarehouseId2},
+			</if>
+			<if test="name != null">
+				Name = #{name},
+			</if>
+			<if test="brandId != null">
+				BrandId = #{brandId},
+			</if>
+			<if test="cash != null">
+				Cash = #{cash},
+			</if>
+			<if test="weight != null">
+				Weight = #{weight},
+			</if>
+			<if test="price != null">
+				Price = #{price},
+			</if>
+			<if test="marketPrice != null">
+				MarketPrice = #{marketPrice},
+			</if>
+			<if test="pushTime != null">
+				PushTime = 0,
+			</if>
+		</set>
+		<where>
+			ProductId in
+			<foreach collection="productIds" item="productId" open="("
+				separator="," close=")">
+				#{productId}
+			</foreach> <![CDATA[ and status > -3 ]]>
+			<if test="status != null">
+				<![CDATA[ and status > -2 ]]>
+			</if>
+		</where>
+	</update>
+
+	<select id="updateSkuSaleStatus">
+		update yjj_ProductSKU
+		set Status = #{status}, SaleStartTime =
+		#{saleStartTime}, SaleEndTime = #{saleEndTime}
+		where Id in
+		<foreach collection="skus" item="id" open="(" separator=","
+			close=")">
+			#{id}
+		</foreach> <![CDATA[ and status > -2 ]]>
+	</select>
+
+	<select id="skusOfWarehouse" resultType="ProductSKU">
+		select a.*, b.BrandName from yjj_ProductSKU as a left join yjj_Brand
+		as b
+		on a.BrandId = b.BrandId
+		where a.LOWarehouseId in
+		<foreach collection="warehouseIds" item="warehouseId" open="("
+			separator="," close=")">
+			#{warehouseId}
+		</foreach> <![CDATA[ and a.Status > -3]]>
+		and a.Status = 0 and (a.SaleEndTime = 0 or <![CDATA[a.SaleEndTime >= unix_timestamp() * 1000]]>)
+		and <![CDATA[a.RemainCount > 0 ]]>
+	</select>
+
+	<select id="skusOfWarehouse2" resultType="ProductSKU">
+		select a.*, b.BrandName from yjj_ProductSKU as a left join yjj_Brand
+		as b
+		on a.BrandId = b.BrandId
+		where a.ProductId in (select Id from
+		yjj_Product where LOWarehouseId in
+		<foreach collection="warehouseIds" item="warehouseId" open="("
+			separator="," close=")">
+			#{warehouseId}
+		</foreach>) 
+			<![CDATA[ and a.Status > -3]]>
+		and a.Status = 0 and (a.SaleEndTime = 0 or <![CDATA[a.SaleEndTime >= unix_timestamp() * 1000]]>)
+		and <![CDATA[a.RemainCount > 0 ]]>
+	</select>
+	
+	
+	<select id="skusInfo" resultType="ProductSKU">
+		select a.*, b.BrandName from yjj_ProductSKU as a left join yjj_Brand
+		as b
+		on a.BrandId = b.BrandId
+		where 
+		a.Status > -1 and (a.SaleEndTime = 0 or <![CDATA[a.SaleEndTime >= unix_timestamp() * 1000]]>)
+		and <![CDATA[a.RemainCount > 0 ]]>
+	</select>
+
+	<!-- 建议不要更新status, 需要考虑status = 1的即将上架情况 -->
+	<update id="batchUpdate">
+		update yjj_ProductSKU
+		<set>
+			<if test="clothesNo != null">
+				clothesNumber = #{clothesNo},
+			</if>
+			<if test="status != null">
+				status = #{status},
+			</if>
+		</set>
+		<where>
+			<![CDATA[status > -3]]>
+			and SkuNo in
+			<foreach collection="skuNos" item="skuNo" open="(" separator=","
+				close=")">
+				#{skuNo}
+			</foreach>
+			<if test="status != null">
+				<![CDATA[ and status > -2 ]]>
+			</if>
+		</where>
+	</update>
+
+	<update id="recoverSale">
+		update yjj_ProductSKU a, yjj_Product b
+		set a.status = 0, a.UpdateTime =
+		#{now}
+		where a.ProductId = b.Id and a.status = -1
+		and <![CDATA[b.MarketPrice > 0 and length(b.SummaryImages) > 10 and length(b.DetailImages) > 10]]>
+		and a.SkuNo in
+		<foreach collection="skuNos" item="skuNo" open="(" separator=","
+			close=")">
+			#{skuNo}
+		</foreach>
+	</update>
+
+	<select id="skusOfProductIds" resultType="ProductSKU">
+		select * from yjj_ProductSKU
+		where ProductId in
+		<foreach collection="productIds" item="productId" open="("
+			separator="," close=")">
+			#{productId}
+		</foreach><![CDATA[and Status > -3]]>
+	</select>
+
+	<update id="batchValidityUpdate">
+		update yjj_ProductSKU
+		<set>
+			<if test="clothesNo != null">
+				clothesNumber = #{clothesNo},
+			</if>
+			<if test="status != null">
+				status = #{status},
+			</if>
+		</set>
+		<where>
+			status > -3 and SkuNo in
+			<foreach collection="skuNos" item="skuNo" open="(" separator=","
+				close=")">
+				#{skuNo}
+			</foreach>
+		</where>
+	</update>
+
+	<select id="getBySkuId" resultType="Product">
+		select * from yjj_Product
+		where Id in (select ProductId from yjj_ProductSKU
+		where Id = #{skuId})
+	</select>
+
+	<select id="search" resultType="ProductSKU">
+		select * from yjj_ProductSKU
+		<where>
+			<![CDATA[ Status > -2 ]]>
+			<if test="productId != null">
+				and ProductId = #{productId}
+			</if>
+			<if test="brandIds != null">
+				and BrandId in
+				<foreach collection="brandIds" item="brandId" open="("
+					separator="," close=")">
+					#{brandId}
+				</foreach>
+			</if>
+			<if test="onSale != null">
+				and Status = 0 and (SaleEndTime = 0 or <![CDATA[SaleEndTime >= unix_timestamp() * 1000]]>)
+			</if>
+		</where>
+	</select>
+
+	<select id="searchById" resultType="ProductSKU">
+		select * from yjj_ProductSKU
+		where Id = #{id}
+	</select>
+	
+	<select id="getProductSKUByProductId" resultType="ProductSKU">
+		select * from yjj_ProductSKU
+		where ProductId = #{productId}
+	</select>
+
+	<update id="update">
+		update yjj_ProductSKU
+		<set>
+			<if test="promotionSaleCount != null">
+				PromotionSaleCount = #{promotionSaleCount},
+			</if>
+			<if test="promotionVisitCount != null">
+				PromotionVisitCount = #{promotionVisitCount},
+			</if>
+		</set>
+		<where>
+			<if test="skuNo != null">
+				and SkuNo = #{skuNo}
+			</if>
+		</where>
+	</update>
+
+	<select id="searchOne" resultType="ProductSKU">
+		select * from yjj_ProductSKU
+		<where>
+			<if test="skuNo != null">
+				and SkuNo = #{skuNo}
+			</if>
+		</where>
+	</select>
+
+	<select id="searchPrice" resultType="ProductSKU">
+		select * from yjj_ProductSKU
+		<where>
+			<if test="minCash != null">
+				and Cash <![CDATA[ >= #{minCash} ]]>
+			</if>
+			<if test="maxCash != null">
+				and Cash <![CDATA[ <= #{maxCash} ]]>
+			</if>
+		</where>
+	</select>
+
+	<select id="getOnSaleByProductId" resultType="ProductSKU">
+		<![CDATA[
+			select * from yjj_ProductSKU
+			where 
+				ProductId in  
+					<foreach collection="productIds" item="productId" open="(" separator="," close=")">
+						#{productId}
+					</foreach> 
+				and Status >= 0 and SaleStartTime <= unix_timestamp() * 1000
+				and (SaleEndTime = 0 or SaleEndTime >= unix_timestamp() * 1000)
+			order by ProductId asc
+		]]>
+	</select>
+
+	<select id="getSaleSkuNos" resultType="Long">
+		select SkuNo from yjj_ProductSKU
+		where Id in
+		(select distinct(SkuId)
+		from yjj_OrderItem
+		where OrderNo in
+		(select OrderNo from yjj_OrderNew
+		where ParentId in(select OrderNo from yjj_OrderNew where <![CDATA[PayTime >= #{startTime} and PayTime <= #{endTime} and OrderStatus <> 90]]>)))
+	</select>
+
+	<select id="getSuccessSKUNo" resultType="Long">
+		select SkuNo from yjj_ProductSKU
+		where Id in
+		(select distinct(SkuId)
+		from yjj_OrderItem
+		where OrderNo in
+		(select OrderNo from yjj_OrderNew
+		where ParentId in(select OrderNo from yjj_OrderNew where <![CDATA[PayTime >= #{startTime} and PayTime <= #{endTime} and OrderStatus <> 90]]>)))
+	</select>
+
+	<update id="updateRemainCount" parameterType="map">
+		<![CDATA[
+			update yjj_ProductSKU
+			set RemainCount = RemainCount + #{buyCount}
+			where Id = #{id} and RemainCount + #{buyCount} >= 0
+		]]>
+	</update>
+
+	<update id="updateRemainCountSecond" parameterType="map">
+		<![CDATA[
+			update yjj_ProductSKU
+			set RemainCount2 = RemainCount2 + #{buyCount}
+			where Id = #{id} and RemainCount2 + #{buyCount} >= 0
+		]]>
+	</update>
+
+	<select id="exportskudata" parameterType="map" resultType="map">
+		select a.Id, a.SkuNo, a.Cash, a.ClothesNumber, a.Name, c.BrandName,
+		a.PropertyIds, a.RemainCount
+		from yjj_ProductSKU a left join yjj_Brand
+		as c on a.BrandId = c.BrandId
+
+		where
+				<![CDATA[
+		  a.LOWarehouseId in (${warehouseIds}) and a.Status >= 0 and a.SaleStartTime <= unix_timestamp() * 1000
+				and (a.SaleEndTime = 0 or a.SaleEndTime >= unix_timestamp() * 1000)
+				]]>
+		and a.ProductId in
+		(select ProductId from yjj_ProductProperty
+		where
+		PropertyValueId in
+		<foreach collection="seasonIds" item="seasonId" open="("
+			separator="," close=")">
+			#{seasonId}
+		</foreach>
+		)
+	</select>
+
+
+	<insert id="insertBoutiqueProduct" parameterType="map">
+		INSERT INTO
+		jiuy_boutique_product
+		(product_id,STATUS,create_time,update_time)
+		VALUES
+		(#{productId},#{status},#{createTime},#{updateTime})
+	</insert>
+
+	<update id="updateBoutiqueProduct">
+		UPDATE jiuy_boutique_product SET
+		STATUS = #{status},
+		update_time = #{updateTime}
+		WHERE
+		product_id = #{productId};
+	</update>
+
+	<update id="udpateBoutiqueProductPrice">
+		UPDATE yjj_Product SET
+		WholeSaleCash = #{price}
+		WHERE
+		Id = #{productId};
+	</update>
+
+	<update id="udpateBoutiqueSetVip">
+		UPDATE yjj_Product SET
+		vip = #{vip}
+		WHERE
+		Id =
+		#{productId};
+	</update>
+	<update id="updateSaleStartTime">
+		UPDATE yjj_Product
+		set SaleStartTime = #{updateTime},
+		updateTime = #{updateTime}
+		WHERE
+		Id =
+		#{productId};
+	</update>
+
+
+	<select id="getBoutiqueProductByProductId" parameterType="map"
+		resultType="ProductBoutique">
+		SELECT * FROM jiuy_boutique_product
+		WHERE
+		product_id=#{productId};
+	</select>
+
+	<update id="updateBoutiqueProductUpdateTime" parameterType="map">
+		UPDATE jiuy_boutique_product
+		SET update_time = #{updateTime}
+		WHERE
+		product_id = #{productId}
+	</update>
+
+	<update id="udpateProductWholeSaleCash" parameterType="map">
+		UPDATE
+		yjj_Product
+		SET
+		WholeSaleCash = #{wholeSaleCash}
+		WHERE
+		Id = #{id}
+	</update>
+
+	<select id="getShopProductsByProductId" parameterType="map"
+		resultType="ShopProduct">
+		SELECT * FROM shop_product
+		WHERE product_id=#{productId} AND
+		STATUS=0;
+	</select>
+	
+	<update id="deleteVideo" parameterType="map">
+		UPDATE yjj_Product
+		SET
+		videoUrl=''
+		WHERE
+		id = #{productId}
+	</update>
+	
+	<update id="deleteShopProductVideo" parameterType="map">
+		UPDATE
+		shop_product
+		SET
+		video_url=''
+		WHERE
+		id = #{shopProductId}
+	</update>
+	
+	<select id="getProductIdBySKUIDS" parameterType="map" resultType="Long">
+	  <![CDATA[
+	    SELECT ProductId FROM yjj_ProductSKU
+	    WHERE Id IN
+	  ]]>
+		<foreach collection="productSKUIds" item="SKUId" open="("
+			close=")" separator=",">
+				
+	      <![CDATA[
+	       #{SKUId}
+	      ]]>
+		</foreach>
+	</select>
+	
+	<select id="getProductIdBySKUID" parameterType="map" resultType="Long">
+	   <![CDATA[
+	    SELECT ProductId FROM yjj_ProductSKU
+	    WHERE Id = #{productSKUId}
+	  ]]>
+	</select>
+	
+	<select id="getStoreIdsByProductId" parameterType="map" resultType="Long">
+		SELECT store_id FROM shop_product WHERE product_id=#{productId} AND STATUS=0 GROUP BY store_id
+	</select>
+	
+	<select id="getOnShelfStoreIdsByProductId" parameterType="map" resultType="Long">
+		SELECT store_id FROM shop_product WHERE product_id=#{productId} AND STATUS=0 and sold_out = 1 GROUP BY store_id
+	</select>
+	
+	<select id="getProductIdBySKUNOS" parameterType="map" resultType="Long">
+	  <![CDATA[
+	    SELECT ProductId FROM yjj_ProductSKU
+	    WHERE SkuNo IN
+	  ]]>
+		<foreach collection="productSKUNOs" item="NOs" open="("
+			close=")" separator=",">
+				
+	      <![CDATA[
+	       #{NOs}
+	      ]]>
+		</foreach>
+	</select>
+	
+</mapper>

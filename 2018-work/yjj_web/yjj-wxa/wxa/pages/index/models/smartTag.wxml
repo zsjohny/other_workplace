@@ -1,0 +1,12 @@
+
+<!-- 自定义标签导航模块 -->
+<template name="smartTag">     
+  <view class='own-nav' wx:if="{{ navigationList.length > 0 }}">
+    <block wx:for="{{navigationList}}" wx:key="{{item}}">
+      <navigator class="item" hover-class='navigator-click' url="../component/tagProduct/tagProduct?id={{item.tagId}}">
+        <image class='icon' src='{{item.navigationImage}}'></image>
+        <view class='text'>{{item.navigationName}}</view>
+      </navigator>
+    </block>
+  </view>
+</template>

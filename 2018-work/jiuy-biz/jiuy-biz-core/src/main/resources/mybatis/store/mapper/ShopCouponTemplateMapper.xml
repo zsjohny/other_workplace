@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.store.dao.mapper.coupon.ShopCouponTemplateMapper">
+
+
+
+	<!-- 获取待领取商家优惠券模板列表
+		在有效期内、状态为正常、未领取
+	 -->
+	<select id="getWaitGetShopCouponTemplateList" parameterType="map" resultType="ShopCouponTemplate">
+		<![CDATA[
+			SELECT
+				t.id,
+				t.name,
+				t.store_id as storeId,
+				t.money as money,
+				t.limit_money as limitMoney,
+				from_unixtime(t.validity_start_time/1000, "%Y-%m-%d") as validityStartTimeStr,
+				from_unixtime(t.validity_end_time/1000, "%Y-%m-%d")  as validityEndTimeStr
+			FROM
+				shop_coupon_template AS t
+			LEFT JOIN shop_member_coupon AS c ON t. STATUS = 1
+			AND t.validity_start_time < unix_timestamp() * 1000
+			AND t.validity_end_time > unix_timestamp() * 1000
+			AND t.id <> c.coupon_template_id
+			AND t.store_id = #{storeId}
+			AND c.member_id = #{memberId};
+		]]>
+	</select>
+
+
+
+
+	<update id="increaseGetCount" parameterType="map">
+		<![CDATA[
+			update shop_coupon_template
+			set get_count = get_count+1
+			where id = #{shopCouponTemplateId}
+		]]>
+	</update>
+	
+	<select id="searchMap" parameterType="map" resultType="ShopCouponTemplate">
+		select * from shop_coupon_template
+		where Id in 
+			<foreach collection="ids" item="id" open="(" separator="," close=")">
+				#{id}
+			</foreach> 
+	</select>
+
+	<select id="selectCouponTemplateById" parameterType="Long" resultType="com.jiuyuan.constant.coupon.StoreCouponTemplate">
+		select * from store_CouponTemplate
+		where Id = #{id}
+	</select>
+
+
+	<update id="updateSpecial" parameterType="map">
+		update store_CouponTemplate
+		<set>
+			<if test="money != null">
+				Money = #{money},
+			</if>
+			<if test="publishCount != null">
+				PublishCount = PublishCount + #{publishCount},
+			</if>
+			<if test="grantCount != null">
+				GrantCount = GrantCount + #{grantCount},
+			</if>
+			<if test="availableCount != null">
+				AvailableCount = AvailableCount + #{availableCount},
+			</if>
+		</set>
+		where Id = #{id}
+	</update>
+</mapper>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yujj.dao.mapper.UserQuestionMapper">
+
+
+	
+	<insert id="addQuestion" useGeneratedKeys="true" keyProperty="id">
+		<![CDATA[
+			
+			INSERT INTO yjj_UserQuestion(Content, YJJNumber, UserId, CreateTime) VALUES
+			(#{content}, #{yjjNumber}, #{userId}, #{createTime})
+		]]>
+	</insert>
+	
+	
+	<select id="getQuestionList" resultType="UserQuestion">
+	    <![CDATA[
+			select * from yjj_UserQuestion  where userId= #{userId}
+           order by CreateTime desc 
+           limit #{pageQuery.limit} offset #{pageQuery.offset}
+		]]>	
+	</select>
+	
+	
+</mapper>

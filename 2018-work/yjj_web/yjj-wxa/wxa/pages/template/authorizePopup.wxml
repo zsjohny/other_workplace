@@ -1,0 +1,14 @@
+<!--授权提示框-->
+<template name="authorizePopup">
+  <view class="authorizePopup-wrapper" wx:if="{{isShowAuthorizePopup}}">
+    <view class='authorizePopup-bg'></view>
+    <view class="authorizePopup-main">
+      <view class="authorizePopup-head">登录授权</view>
+      <view class="authorizePopup-title">请点击登录重新授权</view>
+      <view class='authorizePopup-operator'>
+        <view class='authorizePopup-close-btn' bindtap='cancelEvent'>取消</view>
+        <button class='authorizePopup-btn' open-type="getUserInfo" lang="zh_CN" bindgetuserinfo="onGotUserInfo">马上登录</button>
+      </view>
+    </view>
+  </view>
+</template>  

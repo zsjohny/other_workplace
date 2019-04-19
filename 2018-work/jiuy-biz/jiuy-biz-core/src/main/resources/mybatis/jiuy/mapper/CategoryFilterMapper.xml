@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jiuy.core.dao.impl.sql.CategoryFilterDaoSqlImpl">
+	
+	<insert id="add">
+		insert yjj_CategoryFilter(CategoryId, Type, Weight, RelatedId, QuickSetting, CreateTime, UpdateTime)
+		values 
+		<foreach collection="categoryFilters" item="item" open="(" separator="),(" close=")">
+			#{item.categoryId}, #{item.type}, #{item.weight}, #{item.relatedId}, #{item.quickSetting}, #{now}, #{now}
+		</foreach>
+		ON DUPLICATE KEY UPDATE Status = 0, Weight = VALUES(Weight), QuickSetting = VALUES(QuickSetting), UpdateTime = #{now}
+	</insert>
+	
+	<update id="delete">
+		update yjj_CategoryFilter
+		set Status = -1, UpdateTime = #{now}
+		<where>
+			<if test="categoryId != null">
+				and CategoryId = #{categoryId}
+			</if>
+		</where>
+	</update>
+	
+	<select id="getFilterInfo" resultType="map">
+		select * 
+		from (select * from yjj_CategoryFilter where CategoryId = #{categoryId} and Status = 0) as a left join 
+			<if test="type == 0">
+				yjj_Tag as b 
+			</if>
+			<if test="type == 1">
+				yjj_PropertyName as b 
+			</if>
+		on a.RelatedId = b.Id
+		where Type = #{type}
+	</select>
+	
+	<select id="search" resultType="CategoryFilter">
+		select * from yjj_CategoryFilter
+		<where>
+			Status = 0 
+			<if test="categoryIds != null">
+				and CategoryId in 
+				<foreach collection="categoryIds" item="categoryId" open="(" separator="," close=")">
+					#{categoryId}
+				</foreach>
+			</if>
+			<if test="type != null">
+				and Type = #{type}
+			</if>
+		</where>
+		<if test="sort != null">
+			${sort}
+		</if>
+	</select>
+	
+</mapper>

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="TreeDictionary">
+    <resultMap type="TreeDictionary" id="treeDictionayMap">
+    </resultMap>
+
+   <!--  <insert id="add" useGeneratedKeys="true" keyProperty="id" parameterType="Product">
+        INSERT INTO
+        Tb_Product(
+        SaleState, SaleStartTime, SaleEndTime, SaleCurrencyType, SaleTotalCount, SaleMonthlyMaxCount, Title,
+        Classification, Description, Price, DetailImages, LocationProvince, LocationCity, ExpressFree, ExpressDetails,
+        Specifications,Style,Element,Brand
+        )VALUES(
+        #{saleState}, #{saleStartTime}, #{saleEndTime}, #{saleCurrencyType}, #{saleTotalCount}, #{saleMonthlyMaxCount}, #{title},
+        #{classification}, #{description}, #{price}, #{detailImages}, #{locationProvince}, #{locationCity}, #{expressFree}, #{expressDetails},
+        #{specifications},#{style},#{element},#{brand}
+        )
+        <selectKey keyProperty="id" resultType="long">
+            SELECT
+            LAST_INSERT_ID() AS VALUE
+        </selectKey>
+    </insert>
+
+    <select id="getById" parameterType="Long" resultMap="productMap">
+		SELECT
+		*
+		FROM
+		Tb_Product
+		WHERE
+		id = #{id}
+	</select>
+
+    <select id="listByIds" parameterType="list" resultMap="productMap">
+        SELECT
+        *
+        FROM
+        Tb_Product
+        WHERE
+        id IN
+        <foreach collection="array" index="index" item="id" open="("
+                 separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+
+    <delete id="deleteByIds" parameterType="list">
+        DELETE FROM
+        Tb_Product
+        WHERE
+        id IN
+        <foreach collection="array" index="index" item="id" open="("
+                 separator="," close=")">
+            #{id}
+        </foreach>
+    </delete> -->
+
+    <select id="loadAll" resultMap="treeDictionayMap">
+		SELECT
+		*
+		FROM
+		Tb_Tree_Dictionary
+	</select>
+	
+	<!-- <update id="update" keyProperty="id" parameterType="Product">
+        update 
+        Tb_Product set
+        SaleState = #{saleState}, SaleStartTime = #{saleStartTime}, SaleEndTime =  #{saleEndTime}, SaleCurrencyType = #{saleCurrencyType}, SaleTotalCount = #{saleTotalCount}, SaleMonthlyMaxCount = #{saleMonthlyMaxCount}, Title = #{title},
+        Classification = #{classification}, Description =  #{description}, Price = #{price}, DetailImages = #{detailImages}, LocationProvince = #{locationProvince}, LocationCity= #{locationCity}, ExpressFree = #{expressFree}, ExpressDetails = #{expressDetails},
+        Specifications = #{specifications}, Favorite = #{favorite}, Style = #{style}, Brand = #{brand}, SerialNum = #{serialNum}, Season = #{season}, Element = #{element}
+        <where>
+        	id = #{id}
+        </where>
+    </update> -->
+    
+    <select id="loadList" parameterType="java.util.Map"
+		resultMap="treeDictionayMap">
+		select * from Tb_Tree_Dictionary  
+		<where>
+			<if test="groupId != null">
+				groupId = "${groupId}"
+			</if>
+			<if test="parentId != null">
+			and	parentId = "${parentId}"
+			</if>
+			<if test="dictId != null">
+			and	dictId = "${dictId}"
+			</if>
+			<if test="dictLevel != null">
+			and	dictLevel = "${dictLevel}"
+			</if>
+		</where>
+	</select>
+</mapper>

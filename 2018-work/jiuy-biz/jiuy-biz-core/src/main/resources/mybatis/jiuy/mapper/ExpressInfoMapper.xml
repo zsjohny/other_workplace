@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jiuy.core.dao.impl.sql.ExpressInfoDaoSqlImpl">
+
+	<insert id="addItem" useGeneratedKeys="true" keyProperty="id" parameterType="ExpressInfo" >
+		insert into 
+		yjj_ExpressInfo(UserId, OrderId, OrderItemGroupId, ExpressSupplier, ExpressOrderNo, ExpressUpdateTime, CreateTime, UpdateTime, OrderNo)
+		values(#{userId}, #{orderId}, #{orderItemGroupId}, #{expressSupplier}, #{expressOrderNo}, #{expressUpdateTime}, #{createTime}, #{updateTime}, #{orderNo})
+		<![CDATA[
+            ON DUPLICATE KEY UPDATE UserId = VALUES(UserId), Status = 0, OrderItemGroupId = VALUES(OrderItemGroupId), ExpressOrderNo = VALUES(ExpressOrderNo), ExpressSupplier = VALUES(ExpressSupplier), UpdateTime=UNIX_TIMESTAMP(now())*1000
+        ]]>
+	</insert>
+	
+	<select id="getExpressInfoByGroupId" parameterType="long" resultType="ExpressInfo">
+		select *
+		from yjj_ExpressInfo
+		where OrderItemGroupId = #{orderItemGroupId}
+	</select>
+	
+	<update id="updateByGroupId" parameterType="ExpressInfo">
+		update yjj_ExpressInfo
+		set OrderId = #{orderId}, OrderItemGroupId = #{orderItemGroupId}, ExpressSupplier = #{expressSupplier}, ExpressOrderNo = #{expressOrderNo}, 
+			ExpressUpdateTime = #{expressUpdateTime}, UpdateTime = #{updateTime}, OrderNo = #{orderNo}, Status = 0
+		where OrderItemGroupId = #{orderItemGroupId}
+	</update>
+	
+	<insert id="addExpressInfos" parameterType="map">
+		insert into 
+		yjj_ExpressInfo(UserId, ExpressSupplier, ExpressOrderNo, ExpressUpdateTime, CreateTime, UpdateTime, OrderNo)
+		values
+		<foreach collection="expressInfos" item="expressInfo" open="(" separator="),(" close=")">
+			#{expressInfo.userId}, #{expressInfo.expressSupplier}, #{expressInfo.expressOrderNo}, 
+			#{currentTime}, #{currentTime}, #{currentTime}, #{expressInfo.orderNo}
+		</foreach>
+		<![CDATA[
+            ON DUPLICATE KEY UPDATE UserId = VALUES(UserId), ExpressOrderNo = VALUES(ExpressOrderNo), ExpressSupplier = VALUES(ExpressSupplier), UpdateTime=UNIX_TIMESTAMP(now())*1000
+        ]]>
+	</insert>
+	
+	<select id="expressInfoOfBlurOrderNo" parameterType="map" resultType="ExpressInfo">
+		select * from yjj_ExpressInfo
+		where ExpressOrderNo like concat ("%", #{expressOrderNo}, "%")
+	</select>
+	
+	<select id="expressInfoOfOrderNos" parameterType="map" resultType="ExpressInfo">
+		select * from yjj_ExpressInfo
+		where OrderNo in 
+			<foreach collection="orderNos" item="orderNo" open="(" separator="," close=")">
+				#{orderNo}
+			</foreach>
+	</select>
+	
+	<update id="remove" parameterType="map">
+		update yjj_ExpressInfo
+		set Status = -1
+		where OrderNo in 
+			<foreach collection="orderNos" item="orderNo" open="(" separator="," close=")">
+				#{orderNo}
+			</foreach>	 
+	</update>
+	
+</mapper>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jiuy.core.dao.impl.sql.ProductTagDaoSqlImpl">
+    
+    <select id="productCountOfTagMap" resultType="map">
+    	select count(1) as count, TagId 
+    	from yjj_ProductTag
+    	where TagId in 
+    		<foreach collection="tagIds" item="tagId" open="(" separator="," close=")">
+    			#{tagId}
+    		</foreach> and Status = 0
+    	group by TagId
+    </select>
+
+	<select id="search" resultType="ProductTag">
+		select * from yjj_ProductTag
+		<where>
+			Status = 0
+			<if test="tagId != null">
+				and TagId = #{tagId}
+			</if>
+			<if test="tagIds != null">
+				and TagId in
+				<foreach collection="tagIds" item="tagId" separator="," open="(" close=")">
+					#{tagId}
+				</foreach>
+			</if>
+		</where>
+	</select>
+	
+	<insert id="add">
+		insert yjj_ProductTag(ProductId, TagId, CreateTime, UpdateTime)
+		values
+		<foreach collection="tagIds" item="tagId" open="(" separator="),(" close=")">
+			#{productId}, #{tagId}, #{now}, #{now}
+		</foreach>
+		ON DUPLICATE KEY UPDATE Status = 0, UpdateTime = #{now}
+	</insert>
+	
+	<update id="delete">
+		update yjj_ProductTag
+		set Status = -1
+		where ProductId = #{productId}
+	</update>
+	
+	<select id="tagsOfProductId" resultType="Tag">
+		select * 
+		from yjj_Tag a left join yjj_ProductTag b
+		on a.Id = b.TagId
+		where b.ProductId = #{productId} and b.Status = 0
+	</select>
+	
+	<select id="productCountOfGroupTagMap" resultType="map">
+		select GroupId, count(*) as count 
+		from (select * from yjj_ProductTag where Status = 0 ) as a left join yjj_Tag as b
+		on a.TagId = b.Id
+		where GroupId in
+		<foreach collection="groupTagIds" item="groupId" open="(" separator="," close=")">
+			#{groupId}
+		</foreach>
+		group by GroupId 
+	</select>
+
+</mapper>

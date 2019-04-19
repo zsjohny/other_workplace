@@ -1,0 +1,482 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jiuy.core.dao.impl.sql.BrandBusinessDaoSqlImpl">
+
+	<select id="search" parameterType="map" resultType="map">
+		SELECT a.*,b.PhoneNumber
+		FROM supplier_user a LEFT JOIN yjj_StoreBusiness b 
+		ON a.id = b.supplierId
+		<where>
+			<if test="brandBusinessSearch.id != 0">
+				a.id = #{brandBusinessSearch.id}
+			</if>
+			<if test="brandBusinessSearch.businessNumber != -1">
+				AND a.business_number like
+				CONCAT('%',#{brandBusinessSearch.businessNumber},'%')
+			</if>
+
+			<if test="brandBusinessSearch.phoneNumber != ''">
+				AND a.phone like
+				CONCAT('%',#{brandBusinessSearch.phoneNumber},'%')
+			</if>
+
+			<if test="brandBusinessSearch.companyName != ''">
+				AND a.company_name like
+				CONCAT('%',#{brandBusinessSearch.companyName},'%')
+			</if>
+
+			<if test="brandBusinessSearch.status != -2">
+				AND a.status = #{brandBusinessSearch.status}
+			</if>
+
+			<if test="brandBusinessSearch.status == -2">
+				AND (a.status = 1 OR a.status = 2)
+			</if>
+
+			<if test="brandBusinessSearch.createtimeMin != -1">
+				<![CDATA[
+					AND a.store_number >= #{brandBusinessSearch.storeNumberMin}
+				]]>
+			</if>
+
+			<if test="brandBusinessSearch.storeNumberMax != -1">
+				<![CDATA[
+					AND a.store_number <= #{brandBusinessSearch.storeNumberMax}
+				]]>
+			</if>
+
+			<if test="brandBusinessSearch.createTimeMin != -1">
+				<![CDATA[
+					AND a.add_createtime >= #{brandBusinessSearch.createTimeMin}
+				]]>
+			</if>
+
+			<if test="brandBusinessSearch.createTimeMax != -1">
+				<![CDATA[
+					AND a.add_createtime <= #{brandBusinessSearch.createTimeMax}
+				]]>
+			</if>
+
+			<if test="brandBusinessSearch.cashIncomeMin != -1">
+				<![CDATA[
+					AND a.cash_income >= #{brandBusinessSearch.cashIncomeMin}
+				]]>
+			</if>
+
+			<if test="brandBusinessSearch.cashIncomeMax != -1">
+				<![CDATA[
+					AND a.cash_income <= #{brandBusinessSearch.cashIncomeMax}
+				]]>
+			</if>
+
+			<if test="brandBusinessSearch.availableBalanceMin != -1">
+				<![CDATA[
+					AND a.available_balance >= #{brandBusinessSearch.availableBalanceMin}
+				]]>
+			</if>
+
+			<if test="brandBusinessSearch.availableBalanceMax != -1">
+				<![CDATA[
+					AND a.available_balance <= #{brandBusinessSearch.availableBalanceMax}
+				]]>
+			</if>
+		</where>
+		ORDER BY a.add_createtime DESC
+		limit #{pageQuery.limit} offset
+		#{pageQuery.offset}
+	</select>
+
+	<select id="searchCount" parameterType="map" resultType="int">
+		SELECT count(*)
+		FROM supplier_user
+		<where>
+			<if test="brandBusinessSearch.id != 0">
+				id = #{brandBusinessSearch.id}
+			</if>
+
+			<if test="brandBusinessSearch.businessNumber != -1">
+				AND business_number like
+				CONCAT('%',#{brandBusinessSearch.businessNumber},'%')
+			</if>
+
+			<if test="brandBusinessSearch.phoneNumber != ''">
+				AND phone like
+				CONCAT('%',#{brandBusinessSearch.phoneNumber},'%')
+			</if>
+
+			<if test="brandBusinessSearch.companyName != ''">
+				AND company_name like
+				CONCAT('%',#{brandBusinessSearch.companyName},'%')
+			</if>
+
+			<if test="brandBusinessSearch.status != -2">
+				AND status = #{brandBusinessSearch.status}
+			</if>
+
+			<if test="brandBusinessSearch.status == -2">
+				AND status = 1 OR status = 2
+			</if>
+
+			<if test="brandBusinessSearch.storeNumberMin != -1">
+				<![CDATA[
+					AND store_number >= #{brandBusinessSearch.storeNumberMin}
+				]]>
+			</if>
+
+			<if test="brandBusinessSearch.storeNumberMax != -1">
+				<![CDATA[
+					AND store_number <= #{brandBusinessSearch.storeNumberMax}
+				]]>
+			</if>
+
+			<if test="brandBusinessSearch.createTimeMin != -1">
+				<![CDATA[
+					AND add_createtime >= #{brandBusinessSearch.createTimeMin}
+				]]>
+			</if>
+
+			<if test="brandBusinessSearch.createTimeMax != -1">
+				<![CDATA[
+					AND add_createtime <= #{brandBusinessSearch.createTimeMax}
+				]]>
+			</if>
+
+			<if test="brandBusinessSearch.cashIncomeMin != -1">
+				<![CDATA[
+					AND cash_income >= #{brandBusinessSearch.cashIncomeMin}
+				]]>
+			</if>
+
+			<if test="brandBusinessSearch.cashIncomeMax != -1">
+				<![CDATA[
+					AND cash_income <= #{brandBusinessSearch.cashIncomeMax}
+				]]>
+			</if>
+
+			<if test="brandBusinessSearch.availableBalanceMin != -1">
+				<![CDATA[
+					AND cash_income >= #{brandBusinessSearch.availableBalanceMin}
+				]]>
+			</if>
+
+			<if test="brandBusinessSearch.availableBalanceMax != -1">
+				<![CDATA[
+					AND cash_income <= #{brandBusinessSearch.availableBalanceMax}
+				]]>
+			</if>
+		</where>
+	</select>
+
+	<insert id="addBrandBusiness" keyColumn="id" useGeneratedKeys="true"
+		keyProperty="id" parameterType="BrandBusiness">
+		INSERT INTO
+		supplier_user
+		(business_name, company_name, status, add_createtime,
+		updatetime, brand_id, avatar,
+		phone, business_address, license_number, organization_no, taxid,
+		legal_person, province, city, brand_description,
+		brand_logo, brand_show_imgs, commission_percentage, bank_account_name, bank_name,
+		bank_account_no, bank_card_flag, alipay_flag,
+		alipay_account,
+		alipay_name,id_card_number,lowarehouse_id,withdraw_setting,express_bank_account_name,express_bank_name,express_bank_account_no,
+		min_withdrawal,bond)
+		VALUES
+		(#{businessName}, #{companyName}, #{status},
+		#{createTime}, #{updateTime},
+		#{brandId}, #{avatar}, #{phoneNumber}, #{businessAddress}, #{licenseNumber},
+		#{organizationNo},
+		#{taxId}, #{legalPerson}, #{province}, #{city}, #{brandDescription},
+		#{brandLogo}, #{brandShowImgs}, #{commissionPercentage},
+		#{bankAccountName},
+		#{bankName}, #{bankAccountNo},#{bankCardFlag},
+		#{alipayFlag}, #{alipayAccount}, #{alipayName},
+		#{idCardNumber},
+		#{lOWarehouseId}, #{withdrawSetting}, #{expressBankAccountName},
+		#{expressBankName}, #{expressBankAccountNo},
+		#{minWithdrawal},#{bond})
+	</insert>
+
+	<update id="updateBusinessNumberAndUserName" parameterType="map">
+		UPDATE supplier_user
+		SET
+		account = #{account}, business_number = #{businessNumber}, name =
+		#{userName}, password = #{userPassword}, salt = #{salt}, roleid =
+		#{roleId}
+		WHERE
+		id = #{id}
+	</update>
+
+	<update id="updatePassword" parameterType="map">
+		UPDATE supplier_user
+		SET
+		salt = #{salt},password = #{password}
+		WHERE
+		id = #{id}
+	</update>
+
+	<update id="resetPassword" parameterType="map">
+		UPDATE supplier_user
+		SET
+		salt = #{salt},password = #{password},is_originalpassword =
+		#{isOriginalPassword}
+		WHERE
+		id = #{id}
+	</update>
+
+	<update id="updateBrandBusiness" parameterType="BrandBusiness">
+		update supplier_user
+		<set>
+			<if test="businessName != null">
+				business_name = #{businessName},
+			</if>
+
+			<if test="status != null">
+				status = #{status},
+			</if>
+
+			<if test="brandId != null">
+				brand_id = #{brandId},
+			</if>
+
+			<if test="companyName != null">
+				company_name = #{companyName},
+			</if>
+
+			<if test="updateTime != null">
+				updatetime = #{updateTime},
+			</if>
+
+			<if test="phoneNumber != null">
+				phone = #{phoneNumber},
+			</if>
+
+			<if test="businessAddress != null">
+				business_address = #{businessAddress},
+			</if>
+
+			<if test="licenseNumber != null">
+				license_number = #{licenseNumber},
+			</if>
+
+			<if test="organizationNo != null">
+				organization_no = #{organizationNo},
+			</if>
+
+			<if test="taxId != null">
+				taxid = #{taxId},
+			</if>
+
+			<if test="legalPerson != null">
+				legal_person = #{legalPerson},
+			</if>
+
+			<if test="province != null">
+				province = #{province},
+			</if>
+
+			<if test="city != null">
+				city = #{city},
+			</if>
+
+			<if test="brandDescription != null">
+				brand_description = #{brandDescription},
+			</if>
+
+
+			brand_logo = #{brandLogo},
+
+
+			<if test="brandShowImgs != null">
+				brand_show_imgs = #{brandShowImgs},
+			</if>
+
+			<if test="commissionPercentage != null">
+				commission_percentage = #{commissionPercentage},
+			</if>
+
+			<if test="settlementDate != null">
+				settlement_date = #{settlementDate},
+			</if>
+
+			<if test="bankAccountName != null">
+				bank_account_name = #{bankAccountName},
+			</if>
+
+			<if test="bankName != null">
+				bank_name = #{bankName},
+			</if>
+
+			<if test="bankAccountNo != null">
+				bank_account_no = #{bankAccountNo},
+			</if>
+
+			<if test="bankCardFlag != null">
+				bank_card_flag = #{bankCardFlag},
+			</if>
+
+			<if test="alipayFlag != null">
+				alipay_flag = #{alipayFlag},
+			</if>
+
+			<if test="alipayAccount != null">
+				alipay_account = #{alipayAccount},
+			</if>
+
+			<if test="alipayName != null">
+				alipay_name = #{alipayName},
+			</if>
+
+			<if test="idCardNumber != null">
+				id_card_number = #{idCardNumber},
+			</if>
+			<if test="lOWarehouseId != null">
+				lowarehouse_id = #{lOWarehouseId},
+			</if>
+			<if test="withdrawSetting != null">
+				withdraw_setting = #{withdrawSetting},
+			</if>
+			<if test="expressBankAccountName != null">
+				express_bank_account_name = #{expressBankAccountName},
+			</if>
+			<if test="expressBankName != null">
+				express_bank_name = #{expressBankName},
+			</if>
+			<if test="expressBankAccountNo != null">
+				express_bank_account_no = #{expressBankAccountNo},
+			</if>
+			<if test="bond !=  0">
+				bond = #{bond},
+			</if>
+			 <if test="minWithdrawal != 0">
+				min_withdrawal = #{minWithdrawal},
+			</if>  
+		</set>
+		where id = #{id}
+	</update>
+
+	<select id="getProvinces" resultType="Province">
+		SELECT *
+		FROM yjj_Province
+	</select>
+
+	<select id="getCitysByProvinceId" parameterType="long"
+		resultType="City">
+		SELECT *
+		FROM yjj_City
+		Where
+		ParentCode = #{parentId}
+	</select>
+
+	<select id="getBrandList" resultType="BrandLogo">
+		SELECT *
+		FROM yjj_Brand
+	</select>
+	
+	<select id="getBrandListWithClothNumberPrefix" resultType="BrandLogo">
+	    SELECT * 
+	    FROM yjj_Brand
+	    WHERE cloth_number_prefix IS NOT NULL OR cloth_number_prefix != ''
+	</select>
+
+	<select id="checkBusinessName" parameterType="String"
+		resultType="long">
+		Select id
+		From supplier_user
+		Where
+		business_name = #{businessName}
+	</select>
+
+	<select id="checkBrandId" parameterType="long" resultType="long">
+		Select id
+		From supplier_user
+		Where
+		brand_id = #{brandId}
+	</select>
+
+	<select id="checkLOWarehouseId" resultType="long" parameterType="long">
+		Select id
+		From supplier_user
+		Where
+		lowarehouse_id = #{lOWarehouseId}
+	</select>
+
+	<select id="getStatusOfId" parameterType="long" resultType="int">
+		SELECT status FROM supplier_user
+		where id = #{id}
+	</select>
+
+	<select id="get" resultMap="BrandBusinessMap">
+		select * from supplier_user
+		<where>
+			<if test="so.businessNumber != null">
+				and business_number = #{so.businessNumber}
+			</if>
+			<if test="so.loWarehouseId != null">
+				and lowarehouse_id = #{so.loWarehouseId}
+			</if>
+		</where>
+	</select>
+
+	<select id="getById" resultMap="BrandBusinessMap">
+		select * from supplier_user
+		where
+		id = #{id}
+	</select>
+
+	<select id="searchPhoneNumber" parameterType="map" resultType="map">
+		select phone,id from supplier_user
+		where phone = #{phoneNumber}
+	</select>
+
+	<resultMap type="BrandBusiness" id="BrandBusinessMap">
+		<id column="id" property="id" />
+		<result column="business_number" property="businessNumber" />
+		<result column="business_name" property="businessName" />
+		<result column="company_name" property="companyName" />
+		<result column="status" property="status" />
+		<result column="add_createtime" property="createTime" />
+		<result column="updatetime" property="updateTime" />
+		<result column="store_number" property="storeNumber" />
+		<result column="phone" property="phoneNumber" />
+		<result column="cash_income" property="cashIncome" />
+		<result column="available_balance" property="availableBalance" />
+		<result column="brand_id" property="brandId" />
+		<result column="business_address" property="businessAddress" />
+		<result column="license_number" property="licenseNumber" />
+		<result column="organization_no" property="organizationNo" />
+		<result column="taxid" property="taxId" />
+		<result column="legal_person" property="legalPerson" />
+		<result column="province" property="province" />
+		<result column="city" property="city" />
+		<result column="brand_description" property="brandDescription" />
+		<result column="brand_logo" property="brandLogo" />
+		<result column="brand_show_imgs" property="brandShowImgs" />
+		<result column="commission_percentage" property="commissionPercentage" />
+		<result column="settlement_date" property="settlementDate" />
+		<result column="bank_account_name" property="bankAccountName" />
+		<result column="bank_name" property="bankName" />
+		<result column="bank_account_no" property="bankAccountNo" />
+		<result column="name" property="userName" />
+		<result column="bank_card_flag" property="bankCardFlag" />
+		<result column="alipay_flag" property="alipayFlag" />
+		<result column="weixin_flag" property="weixinFlag" />
+		<result column="alipay_account" property="alipayAccount" />
+		<result column="alipay_name" property="alipayName" />
+		<result column="weixin_account" property="weixinAccount" />
+		<result column="weixin_name" property="weixinName" />
+		<result column="id_card_number" property="idCardNumber" />
+		<result column="lowarehouse_id" property="lOWarehouseId" />
+		<result column="withdraw_setting" property="withdrawSetting" />
+		<result column="express_cash_income" property="expressCashIncome" />
+		<result column="available_express_cash" property="availableExpressCash" />
+		<result column="min_withdrawal" property="minWithdrawal" />
+		<result column="bond" property="bond" />
+		<result column="express_bank_account_name" property="expressBankAccountName" />
+		<result column="express_bank_name" property="expressBankName" />
+		<result column="express_bank_account_no" property="expressBankAccountNo" />
+		<result column="add_createtime" property="addCreatetime" />
+		<result column="is_originalpassword" property="isOriginalpassword" />
+	</resultMap>
+
+</mapper>

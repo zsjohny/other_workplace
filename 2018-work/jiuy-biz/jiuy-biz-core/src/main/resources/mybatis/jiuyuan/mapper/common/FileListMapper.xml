@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jiuyuan.dao.mapper.common.FileListMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.jiuyuan.entity.common.FileList">
+		<id column="id" property="id" />
+		<result column="url" property="url" />
+		<result column="position" property="position" />
+		<result column="img_type" property="imgType" />
+		<result column="file_id" property="fileId" />
+		<result column="file_name" property="fileName" />
+		<result column="create_time" property="createTime" />
+		<result column="update_user_id" property="updateUserId" />
+		<result column="update_user_name" property="updateUserName" />
+		<result column="last_update_time" property="lastUpdateTime" />
+		<result column="last_update_user_id" property="lastUpdateUserId" />
+		<result column="last_update_user_name" property="lastUpdateUserName" />
+		<result column="file_code" property="fileCode" />
+	</resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, url, position, img_type AS imgType, file_id AS fileId, file_name AS fileName, create_time AS createTime, update_user_id AS updateUserId, update_user_name AS updateUserName, last_update_time AS lastUpdateTime, last_update_user_id AS lastUpdateUserId, last_update_user_name AS lastUpdateUserName, file_code AS fileCode
+    </sql>
+
+</mapper>

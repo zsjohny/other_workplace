@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="robots" content="noindex,nofollow,noarchive ">
+
+    <meta charset="UTF-8" >
+
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta http-equiv="cache-control" content="no-cache">
+    <!--页面关键字-->
+    <meta name="keywords" content="${page.operatorSeo.keywords}"/>
+    <!--页面描述-->
+    <meta name="description" content="${page.operatorSeo.descriptor}"/>
+    <title>
+    <%
+    if(page.operatorSeo.title == null && page.page.operatorSeo.title == ''){
+    %>
+         俞姐姐门店宝
+    <%
+    } else{
+    %>
+    ${page.operatorSeo.title}
+    <%
+    }
+    %>
+    -加入我们
+    </title>
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/swiper.min.css">
+    <link rel="stylesheet" href="css/common.css?v1.1">
+    <link rel="stylesheet" href="css/joinUs.css">
+</head>
+<body>
+<div class="header-container">
+   <div class="head-nav"></div>
+</div>
+<section class="section">
+    <div class="section-bg">
+        <div class="container section-bg-title">
+            <div class="section-bg-title-border">
+                <span class="section-bg-title-one">首页</span> <i> > </i> <span class="colorPink">加入我们</span>
+            </div>
+
+        </div>
+    </div>
+    <div class="container section-border">
+        <div class=" center section-title ">
+            <h2 class="section-title-title"><img src="img/addUs.png" alt=""></h2>
+            <div class="section-title-content">
+                <div class="section-title-content-tt">
+                    <h2 class="section-title-content-tt-h2 colorPink">01</h2>
+                    <p class="section-title-content-tt-p">品牌入驻优势</p>
+                </div>
+                <div class="section-title-content-bg">
+
+                </div>
+                <div class="section-title-content-list">
+                    <h2 class="section-title-content-list-h2">
+                        <i class="colorPink section-title-content-list-h2i">4</i>大优势
+                    </h2>
+                    <dl class="section-title-content-list-dl">
+                        <dt class="section-title-content-list-dt">品牌孵化</dt>
+                        <dd class="section-title-content-list-dd">全面资源扶持，以平台格局助力品牌孵化成长</dd>
+                        <dt class="section-title-content-list-dt">渠道整合</dt>
+                        <dd class="section-title-content-list-dd">全国渠道推广，精准客户社群整合，直面千万实体门店</dd>
+                        <dt class="section-title-content-list-dt">推广营销</dt>
+                        <dd class="section-title-content-list-dd">多元化平台营销，品牌产品全曝光，营销更精准</dd>
+                        <dt class="section-title-content-list-dt">政策优惠</dt>
+                        <dd class="section-title-content-list-dd">免费入住；保证金不交；免费推广；纯佣金模式，交易额10%；免费专业模特拍图</dd>
+                    </dl>
+                    <div class="section-title-content-list-dv">
+                            <span class="section-title-content-list-dvtt">品牌热线&nbsp;:</span><i class="colorPink section-title-content-list-dvph">400-118-0099转1号线</i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class=" center section-two ">
+            <!--<h2 class="section-two-title"><img src="img/addUs.png" alt=""></h2>-->
+            <div class="section-two-content">
+                <div class="section-two-content-tt">
+                    <h2 class="section-two-content-tt-h2 colorPink">02</h2>
+                    <p class="section-two-content-tt-p">智能门店</p>
+                </div>
+                <div class="section-two-content-bg">
+
+                </div>
+                <div class="section-two-content-list">
+                    <h2 class="section-two-content-list-h2">
+                        <i class="colorPink section-two-content-list-h2i">5</i>大优势
+                    </h2>
+                    <dl class="section-two-content-list-dl">
+                        <dd class="section-two-content-list-dd"><span class="section-two-content-list-ddspan">开店展示</span>
+                            <span class="section-two-content-list-ddspan">拓客引流</span></dd>
+                        <dd class="section-two-content-list-dd"><span class="section-two-content-list-ddspan">多元营销</span>
+                            <span class="section-two-content-list-ddspan">用户管理</span></dd>
+                        <dd class="section-two-content-list-dd"><span class="section-two-content-list-ddspan">商品管控</span>
+                            <span></span></dd>
+                        <!--<dt class="section-two-content-list-dt">品牌孵化</dt>-->
+                        <!--<dd class="section-title-content-list-dd">全面资源扶持，以平台格局助力品牌孵化成长</dd>-->
+                        <!--<dt class="section-title-content-list-dt">渠道整合</dt>-->
+                        <!--<dd class="section-title-content-list-dd">全国渠道推广，精准客户社群整合，直面千万实体门店</dd>-->
+                        <!--<dt class="section-title-content-list-dt">推广营销</dt>-->
+                        <!--<dd class="section-title-content-list-dd">多元化平台营销，品牌产品全曝光，营销更精准</dd>-->
+                        <!--<dt class="section-title-content-list-dt">政策优惠</dt>-->
+                        <!--<dd class="section-title-content-list-dd">免费入住；保证金不交；免费推广；纯佣金模式，交易额10%；免费专业模特拍图</dd>-->
+                    </dl>
+                    <div class="section-two-content-list-dv">
+                        <span class="section-two-content-list-dvtt">开店热线&nbsp;:</span><i class="colorPink section-two-content-list-dvph">400-118-0099转3号线</i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class=" center section-people ">
+            <h2 class="container section-people-title"><img src="img/people.png" alt=""></h2>
+            <div class="section-people-content">
+                <h3 class="section-people-content-contenttab-listTitle" style="font-weight: normal;">查看岗位详情,请点击以下合作网站</h3>
+                <dl class="section-people-content-list">
+                    <dd class="section-people-content-listItem"><a href="https://jobs.51job.com/all/co3650204.html"><img src="img/101.png" alt=""></a></dd>
+                    <dd class="section-people-content-listItem"><a href="https://www.liepin.com/company/8531687/"><img src="img/100.png" alt=""></a></dd>
+                </dl>
+            </div>
+
+
+        </div>
+    </div>
+
+
+
+</section>
+ <footer class="footer" id="footer-box"></footer>
+<script type="text/javascript" src="js/jquery-2.1.1.js"></script>
+<script type="text/javascript" src="js/swiper.min.js"></script>
+<script src="https://qiyukf.com/script/ca7401ee061a67fdcd669ac85f2fa84d.js"></script>
+<script src="js/adaptation.js"></script>
+<script>
+    $(".section-people-content-listItem").on("click",function () {
+        $(this).addClass("active").siblings().removeClass("active");
+        console.log();
+        var i = $(this).index();
+        $(".section-people-content-contenttab").eq(i).show().siblings().hide()
+    })
+
+</script>
+<script src="js/common.js"></script>
+</body>
+</html>

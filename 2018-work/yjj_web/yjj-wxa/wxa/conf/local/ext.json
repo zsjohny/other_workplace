@@ -1,0 +1,215 @@
+{
+  "extEnable": true,
+  "extAppid": "wxf99f985dc7f79695",
+  "ext": {
+    "storeId": "3",
+    "appId": "wxf99f985dc7f79695"
+  },
+  "extPages": {
+    "pages/index/index": {
+      "navigationBarTitleText": "门店首页"
+    },
+    "pages/footprint/footprint": {
+      "navigationBarTitleText": "我的足迹"
+    },
+    "pages/want/want": {
+      "navigationBarTitleText": "我喜欢的"
+    },
+    "pages/my/my": {
+      "navigationBarTitleText": "个人中心"
+    },
+    "pages/shoppingCart/shoppingCart": {
+      "navigationBarTitleText": "购物车"
+    },
+    "pages/component/detail/detail": {
+      "navigationBarTitleText": "详情"
+    },
+    "pages/component/confirmOrder/confirmOrder": {
+      "navigationBarTitleText": "确认订单"
+    },
+    "pages/component/chooseCoupon/chooseCoupon": {
+      "navigationBarTitleText": "选择优惠券"
+    },
+    "pages/component/useredit/useredit": {
+      "navigationBarTitleText": "我的信息"
+    },
+    "pages/component/editname/editname": {
+      "navigationBarTitleText": "更改我的用户名"
+    },
+    "pages/component/storeInfo/storeInfo": {
+      "navigationBarTitleText": "门店信息"
+    },
+    "pages/component/couponCenter/couponCenter": {
+      "navigationBarTitleText": "领券中心"
+    },
+    "pages/component/myOrder/myOrder": {
+      "navigationBarTitleText": "我的订单"
+    },
+    "pages/component/orderDetail/orderDetail": {
+      "navigationBarTitleText": "订单详情"
+    },
+    "pages/component/myCoupon/myCoupon": {
+      "navigationBarTitleText": "我的优惠券"
+    },
+    "pages/component/articleDetail/articleDetail": {
+      "navigationBarTitleText": "文章详情"
+    },
+    "pages/component/goodsWay/goodsWay": {
+      "navigationBarTitleText": "选择收货方式"
+    },
+    "pages/component/newAddress/newAddress": {
+      "navigationBarTitleText": "新增地址"
+    },
+    "pages/component/editAddress/editAddress": {
+      "navigationBarTitleText": "修改地址"
+    },
+    "pages/component/express/express": {
+      "navigationBarTitleText": "物流信息"
+    },
+    "pages/component/tagProduct/tagProduct": {
+      "navigationBarTitleText": "标签商品"
+    },
+    "pages/product/product": {
+      "navigationBarTitleText": "全部商品"
+    },
+    "pages/component/searchList/searchList": {
+      "navigationBarTitleText": "搜索商品"
+    },
+    "pages/component/myCoin/myCoin": {
+      "navigationBarTitleText": "我的颜值分"
+    },
+    "pages/component/shareRule/shareRule": {
+      "navigationBarTitleText": "邀请规则"
+    },
+    "pages/component/settlementRule/settlementRule": {
+      "navigationBarTitleText": "结算规则"
+    },
+    "pages/component/myCoinDetail/myCoinDetail": {
+      "navigationBarTitleText": "颜值分明细"
+    },
+    "pages/component/myShare/myShare": {
+      "navigationBarTitleText": "我的邀请"
+    },
+    "pages/component/withdrawRule/withdrawRule": {
+      "navigationBarTitleText": "提现规则"
+    },
+    "pages/component/withdrawCash/withdrawCash": {
+      "navigationBarTitleText": "立即提现"
+    },
+    "pages/component/withdrawSuccess/withdrawSuccess": {
+      "navigationBarTitleText": "提现成功"
+    },
+    "pages/component/teamBuyActivity/teamBuyActivity": {
+      "navigationBarTitleText": "天天拼团"
+    },
+    "pages/component/secondBuyActivity/secondBuyActivity": {
+      "navigationBarTitleText": "限时秒杀"
+    },
+    "pages/component/myTeamBuy/myTeamBuy": {
+      "navigationBarTitleText": "我的团购"
+    },
+    "pages/component/couponProduct/couponProduct": {
+      "navigationBarTitleText": "优惠券可用商品"
+    },
+    "pages/component/legalRight/legalRight": {
+      "navigationBarTitleText": "权益"
+    },
+    "pages/component/applyRights/applyRights": {
+      "navigationBarTitleText": "申请"
+    },
+    "pages/component/accountAmount/accountAmount": {
+      "navigationBarTitleText": "账户金额"
+    },
+    "pages/component/accountCoin/accountCoin": {
+      "navigationBarTitleText": "金币"
+    },
+    "pages/component/incomeDetail/incomeDetail": {
+      "navigationBarTitleText": "收支详情"
+    },
+    "pages/component/myFans/myFans": {
+      "navigationBarTitleText": "我的粉丝"
+    },
+    "pages/component/withdrawBonus/withdrawBonus": {
+      "navigationBarTitleText": "提现"
+    },
+    "pages/component/withdrawBonusSuccess/withdrawBonusSuccess": {
+      "navigationBarTitleText": "提现成功"
+    },
+    "pages/component/sign/sign": {
+      "navigationBarTitleText": "签到"
+    },
+    "pages/component/teamOrderList/teamOrderList": {
+      "navigationBarTitleText": "团队订单"
+    },
+    "pages/component/teamOrderDetail/teamOrderDetail": {
+      "navigationBarTitleText": "订单详情"
+    },
+    "pages/component/teamOrderSearch/teamOrderSearch": {
+      "navigationBarTitleText": "订单搜索"
+    },
+    "pages/component/distributorAgreement/distributorAgreement": {
+      "navigationBarTitleText": "分销商协议"
+    },
+    "pages/component/partnerAgreement/partnerAgreement": {
+      "navigationBarTitleText": "合伙人协议"
+    },
+    "pages/component/refundApply/refundApply": {
+      "navigationBarTitleText": "申请售后"
+    },
+    "pages/component/refundDetail/refundDetail": {
+      "navigationBarTitleText": "售后详情"
+    },
+    "pages/component/refundList/refundList": {
+      "navigationBarTitleText": "申请售后"
+    },
+    "pages/component/refundProgress/refundProgress": {
+      "navigationBarTitleText": "退款进度"
+    },
+    "pages/component/refundOrder/refundOrder": {
+      "navigationBarTitleText": "退款/售后"
+    },
+    "pages/component/helperCenter/helperCenter": {
+      "navigationBarTitleText": "帮助中心"
+    },
+    "pages/component/helperDetail/helperDetail": {
+      "navigationBarTitleText": "帮助中心详情"
+    }
+  },
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "门店首页",
+    "navigationBarTextStyle": "black"
+  },
+  "tabBar": {
+    "color": "#828282",
+    "selectedColor": "#fd4374",
+    "borderStyle": "black",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "iconPath": "images/icon/home.png",
+        "selectedIconPath": "images/icon/home-active.png",
+        "text": "首页"
+      },
+      {
+        "pagePath": "pages/product/product",
+        "iconPath": "images/icon/product.png",
+        "selectedIconPath": "images/icon/product-active.png",
+        "text": "商城"
+      },
+      {
+        "pagePath": "pages/shoppingCart/shoppingCart",
+        "iconPath": "images/icon/cart.png",
+        "selectedIconPath": "images/icon/cart-active.png",
+        "text": "购物车"
+      },
+      {
+        "pagePath": "pages/my/my",
+        "iconPath": "images/icon/my.png",
+        "selectedIconPath": "images/icon/my-active.png",
+        "text": "我的"
+      }
+    ]
+  }
+}

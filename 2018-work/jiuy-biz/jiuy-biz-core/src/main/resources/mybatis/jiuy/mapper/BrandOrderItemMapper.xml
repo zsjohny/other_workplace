@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jiuy.core.dao.mapper.BrandOrderItemDaoSqlImpl">
+	
+	<insert id="add" useGeneratedKeys="true" keyProperty="id">
+		insert brand_OrderItem(OrderNo, BrandBusinessId, ProductId, SkuId, TotalMoney, TotalExpressMoney, Money, ExpressMoney, TotalUnavalCoinUsed, UnavalCoinUsed, BuyCount, 
+			SkuSnapshot, Status, CreateTime, UpdateTime, BrandId, LOWarehouseId, TotalPay, TotalMarketPrice, MarketPrice, TotalAvailableCommission)
+		values <foreach collection="brandOrderItems" item="boi" open="(" separator="),(" close=")">
+			#{boi.orderNo}, #{boi.brandBusinessId}, #{boi.productId}, #{boi.skuId}, #{boi.totalMoney}, #{boi.totalExpressMoney}, #{boi.money}, #{boi.expressMoney}, #{boi.totalUnavalCoinUsed}, #{boi.unavalCoinUsed}, #{boi.buyCount},
+			#{boi.skuSnapshot}, #{boi.status}, #{boi.createTime}, #{boi.updateTime}, #{boi.brandId}, #{boi.loWarehouseId}, #{boi.totalPay}, #{boi.totalMarketPrice}, #{boi.marketPrice}, #{boi.totalAvailableCommission} 
+		</foreach>
+	</insert>
+	
+</mapper>

@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" > 
+<mapper namespace="com.jiuy.rb.mapper.product.ShopTagProductRbMapper"> 
+ 
+ 	<!-- 主要的返回映射-->
+	<resultMap id="BaseResultMap" type="com.jiuy.rb.model.product.ShopTagProductRb"	>
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="store_id"  property="storeId"  jdbcType="BIGINT" />
+		<result column="tag_id"  property="tagId"  jdbcType="BIGINT" />
+		<result column="shop_product_id"  property="shopProductId"  jdbcType="BIGINT" />
+		<result column="tag_name"  property="tagName"  jdbcType="VARCHAR" />
+		<result column="create_time"  property="createTime"  jdbcType="BIGINT" />
+		<result column="update_time"  property="updateTime"  jdbcType="BIGINT" />
+	</resultMap>
+
+	<!-- 所有的列名-->
+	<sql id="Base_Column_List" >
+		id,store_id,tag_id,shop_product_id,tag_name,create_time,update_time
+	</sql>
+
+	<!-- 精确更新的字段-->
+	<sql id="updateBase">
+		<if test="id  !=null">
+			id = #{id,jdbcType=BIGINT}, 
+		</if>
+		<if test="storeId  !=null">
+			store_id = #{storeId,jdbcType=BIGINT}, 
+		</if>
+		<if test="tagId  !=null">
+			tag_id = #{tagId,jdbcType=BIGINT}, 
+		</if>
+		<if test="shopProductId  !=null">
+			shop_product_id = #{shopProductId,jdbcType=BIGINT}, 
+		</if>
+		<if test="tagName  !=null">
+			tag_name = #{tagName,jdbcType=VARCHAR}, 
+		</if>
+		<if test="createTime  !=null">
+			create_time = #{createTime,jdbcType=BIGINT}, 
+		</if>
+		<if test="updateTime  !=null">
+			update_time = #{updateTime,jdbcType=BIGINT} 
+		</if>
+	</sql>
+
+	<!-- 通过主键查找-->
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="Long" >
+		select 
+		<include refid="Base_Column_List" />
+		from shop_tag_product
+		where  id = #{id,jdbcType=BIGINT} 
+	</select>
+
+	<!-- 通过主键删除-->
+	<delete id="deleteByPrimaryKey" parameterType="Long" >
+		delete from shop_tag_product
+		where id = #{id,jdbcType=BIGINT} 
+	</delete>
+
+	<!-- 普通插入全字段插t入-->
+	<insert id="insert" parameterType="com.jiuy.rb.model.product.ShopTagProductRb" >
+		insert into shop_tag_product
+		(
+			id,
+			store_id,
+			tag_id,
+			shop_product_id,
+			tag_name,
+			create_time,
+			update_time
+		)
+		values
+		(
+			#{id ,jdbcType=BIGINT},
+			#{storeId ,jdbcType=BIGINT},
+			#{tagId ,jdbcType=BIGINT},
+			#{shopProductId ,jdbcType=BIGINT},
+			#{tagName ,jdbcType=VARCHAR},
+			#{createTime ,jdbcType=BIGINT},
+			#{updateTime ,jdbcType=BIGINT}
+		)
+	</insert>
+
+	<!-- 批量插入，全部字段插入-->
+	<insert id="insertBach"   parameterType="List" >
+		insert into shop_tag_product
+		(
+			id,
+			store_id,
+			tag_id,
+			shop_product_id,
+			tag_name,
+			create_time,
+			update_time
+		)
+		values 
+		<foreach collection="list" item="item" separator=",">
+		(
+			#{item.id ,jdbcType=BIGINT},
+			#{item.storeId ,jdbcType=BIGINT},
+			#{item.tagId ,jdbcType=BIGINT},
+			#{item.shopProductId ,jdbcType=BIGINT},
+			#{item.tagName ,jdbcType=VARCHAR},
+			#{item.createTime ,jdbcType=BIGINT},
+			#{item.updateTime ,jdbcType=BIGINT}
+		)
+		</foreach>
+	</insert>
+
+	<!-- 精确插入，非null得字段才会插入-->
+	<insert id="insertSelective" parameterType="com.jiuy.rb.model.product.ShopTagProductRb" useGeneratedKeys="true" keyProperty="id" >
+		insert into shop_tag_product
+		<trim prefix="(" suffix=")" suffixOverrides="," > 
+			<if test="id !=null">  
+				id,
+			</if>
+			<if test="storeId !=null">  
+				store_id,
+			</if>
+			<if test="tagId !=null">  
+				tag_id,
+			</if>
+			<if test="shopProductId !=null">  
+				shop_product_id,
+			</if>
+			<if test="tagName !=null">  
+				tag_name,
+			</if>
+			<if test="createTime !=null">  
+				create_time,
+			</if>
+			<if test="updateTime !=null">  
+				update_time,
+			</if>
+		</trim>
+
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+			<if test="id  !=null">
+				#{id,jdbcType=BIGINT}, 
+			</if>
+			<if test="storeId  !=null">
+				#{storeId,jdbcType=BIGINT}, 
+			</if>
+			<if test="tagId  !=null">
+				#{tagId,jdbcType=BIGINT}, 
+			</if>
+			<if test="shopProductId  !=null">
+				#{shopProductId,jdbcType=BIGINT}, 
+			</if>
+			<if test="tagName  !=null">
+				#{tagName,jdbcType=VARCHAR}, 
+			</if>
+			<if test="createTime  !=null">
+				#{createTime,jdbcType=BIGINT}, 
+			</if>
+			<if test="updateTime  !=null">
+				#{updateTime,jdbcType=BIGINT} 
+			</if>
+		</trim>
+	</insert> 
+
+	<!-- 精确更新-->
+	<update id="updateByPrimaryKeySelective" parameterType="com.jiuy.rb.model.product.ShopTagProductRb" >
+		update shop_tag_product
+		<set>
+			<include refid="updateBase"/>
+		</set>
+		where id = #{id,jdbcType=BIGINT} 
+	</update> 
+
+	<!-- 全字段更新 需要注意-->
+	<update id="updateByPrimaryKey" parameterType="com.jiuy.rb.model.product.ShopTagProductRb" >
+		update shop_tag_product
+		set 
+			id = #{id ,jdbcType=BIGINT},
+			store_id = #{storeId ,jdbcType=BIGINT},
+			tag_id = #{tagId ,jdbcType=BIGINT},
+			shop_product_id = #{shopProductId ,jdbcType=BIGINT},
+			tag_name = #{tagName ,jdbcType=VARCHAR},
+			create_time = #{createTime ,jdbcType=BIGINT},
+			update_time = #{updateTime ,jdbcType=BIGINT}
+		where id = #{id,jdbcType=BIGINT} 
+	</update> 
+
+	<!-- 所有的条件集合-->
+	<sql id="whereCase"  >
+		where  1=1 
+		<if test="id  !=null">
+			AND id = #{id,jdbcType=BIGINT} 
+		</if>
+		<if test="storeId  !=null">
+			AND store_id = #{storeId,jdbcType=BIGINT} 
+		</if>
+		<if test="tagId  !=null">
+			AND tag_id = #{tagId,jdbcType=BIGINT} 
+		</if>
+		<if test="shopProductId  !=null">
+			AND shop_product_id = #{shopProductId,jdbcType=BIGINT} 
+		</if>
+		<if test="tagName  !=null">
+			AND tag_name = #{tagName,jdbcType=VARCHAR} 
+		</if>
+		<if test="createTime  !=null">
+			AND create_time = #{createTime,jdbcType=BIGINT} 
+		</if>
+		<if test="updateTime  !=null">
+			AND update_time = #{updateTime,jdbcType=BIGINT} 
+		</if>
+		<include refid="costomWhereCase"/>
+	</sql>
+
+	<!-- 查询一条，如果返回多条会报错-->
+	<select id="selectOne" parameterType="java.util.Map" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" /> 
+		FROM shop_tag_product 
+		<include refid="whereCase" /> 
+	</select>
+
+	<!-- 查询一个list-->
+	<select id="selectList" parameterType="java.util.Map" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" /> 
+		FROM shop_tag_product 
+		<include refid="whereCase" /> 
+	</select>
+
+	<!-- 查询一个list-->
+	<select id="selectCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+		SELECT
+		count(1) 
+		FROM shop_tag_product
+		<include refid="whereCase" /> 
+	</select>
+
+	<!--  @Costom -->
+	<!-- 从上一行注释以上为系统生成 从这一行往下为用户自定义 请将自定义的sql放在此行下面 -->
+	<sql id="costomWhereCase">
+	</sql>
+
+</mapper>

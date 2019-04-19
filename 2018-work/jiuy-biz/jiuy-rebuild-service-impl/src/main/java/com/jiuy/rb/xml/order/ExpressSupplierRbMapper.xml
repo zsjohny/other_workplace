@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" > 
+<mapper namespace="com.jiuy.rb.mapper.order.ExpressSupplierRbMapper"> 
+ 
+ 	<!-- 主要的返回映射-->
+	<resultMap id="BaseResultMap" type="com.jiuy.rb.model.order.ExpressSupplierRb"	>
+		<id column="Id" property="id" jdbcType="BIGINT" />
+		<result column="CnName"  property="cnName"  jdbcType="VARCHAR" />
+		<result column="EngName"  property="engName"  jdbcType="VARCHAR" />
+		<result column="QueryLink"  property="queryLink"  jdbcType="VARCHAR" />
+		<result column="Status"  property="status"  jdbcType="TINYINT" />
+		<result column="CreateTime"  property="createTime"  jdbcType="BIGINT" />
+		<result column="UpdateTime"  property="updateTime"  jdbcType="BIGINT" />
+	</resultMap>
+
+	<!-- 所有的列名-->
+	<sql id="Base_Column_List" >
+		Id,CnName,EngName,QueryLink,Status,CreateTime,UpdateTime
+	</sql>
+
+	<!-- 精确更新的字段-->
+	<sql id="updateBase">
+		<if test="id  !=null">
+			Id = #{id,jdbcType=BIGINT}, 
+		</if>
+		<if test="cnName  !=null">
+			CnName = #{cnName,jdbcType=VARCHAR}, 
+		</if>
+		<if test="engName  !=null">
+			EngName = #{engName,jdbcType=VARCHAR}, 
+		</if>
+		<if test="queryLink  !=null">
+			QueryLink = #{queryLink,jdbcType=VARCHAR}, 
+		</if>
+		<if test="status  !=null">
+			Status = #{status,jdbcType=TINYINT}, 
+		</if>
+		<if test="createTime  !=null">
+			CreateTime = #{createTime,jdbcType=BIGINT}, 
+		</if>
+		<if test="updateTime  !=null">
+			UpdateTime = #{updateTime,jdbcType=BIGINT} 
+		</if>
+	</sql>
+
+	<!-- 通过主键查找-->
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="Long" >
+		select 
+		<include refid="Base_Column_List" />
+		from yjj_expresssupplier
+		where  Id = #{id,jdbcType=BIGINT} 
+	</select>
+
+	<!-- 通过主键删除-->
+	<delete id="deleteByPrimaryKey" parameterType="Long" >
+		delete from yjj_expresssupplier
+		where Id = #{id,jdbcType=BIGINT} 
+	</delete>
+
+	<!-- 普通插入全字段插t入-->
+	<insert id="insert" parameterType="com.jiuy.rb.model.order.ExpressSupplierRb" >
+		insert into yjj_expresssupplier
+		(
+			Id,
+			CnName,
+			EngName,
+			QueryLink,
+			Status,
+			CreateTime,
+			UpdateTime
+		)
+		values
+		(
+			#{id ,jdbcType=BIGINT},
+			#{cnName ,jdbcType=VARCHAR},
+			#{engName ,jdbcType=VARCHAR},
+			#{queryLink ,jdbcType=VARCHAR},
+			#{status ,jdbcType=TINYINT},
+			#{createTime ,jdbcType=BIGINT},
+			#{updateTime ,jdbcType=BIGINT}
+		)
+	</insert>
+
+	<!-- 批量插入，全部字段插入-->
+	<insert id="insertBach"   parameterType="List" >
+		insert into yjj_expresssupplier
+		(
+			Id,
+			CnName,
+			EngName,
+			QueryLink,
+			Status,
+			CreateTime,
+			UpdateTime
+		)
+		values 
+		<foreach collection="list" item="item" separator=",">
+		(
+			#{item.id ,jdbcType=BIGINT},
+			#{item.cnName ,jdbcType=VARCHAR},
+			#{item.engName ,jdbcType=VARCHAR},
+			#{item.queryLink ,jdbcType=VARCHAR},
+			#{item.status ,jdbcType=TINYINT},
+			#{item.createTime ,jdbcType=BIGINT},
+			#{item.updateTime ,jdbcType=BIGINT}
+		)
+		</foreach>
+	</insert>
+
+	<!-- 精确插入，非null得字段才会插入-->
+	<insert id="insertSelective" parameterType="com.jiuy.rb.model.order.ExpressSupplierRb" useGeneratedKeys="true" keyProperty="id" >
+		insert into yjj_expresssupplier
+		<trim prefix="(" suffix=")" suffixOverrides="," > 
+			<if test="id !=null">  
+				Id,
+			</if>
+			<if test="cnName !=null">  
+				CnName,
+			</if>
+			<if test="engName !=null">  
+				EngName,
+			</if>
+			<if test="queryLink !=null">  
+				QueryLink,
+			</if>
+			<if test="status !=null">  
+				Status,
+			</if>
+			<if test="createTime !=null">  
+				CreateTime,
+			</if>
+			<if test="updateTime !=null">  
+				UpdateTime,
+			</if>
+		</trim>
+
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+			<if test="id  !=null">
+				#{id,jdbcType=BIGINT}, 
+			</if>
+			<if test="cnName  !=null">
+				#{cnName,jdbcType=VARCHAR}, 
+			</if>
+			<if test="engName  !=null">
+				#{engName,jdbcType=VARCHAR}, 
+			</if>
+			<if test="queryLink  !=null">
+				#{queryLink,jdbcType=VARCHAR}, 
+			</if>
+			<if test="status  !=null">
+				#{status,jdbcType=TINYINT}, 
+			</if>
+			<if test="createTime  !=null">
+				#{createTime,jdbcType=BIGINT}, 
+			</if>
+			<if test="updateTime  !=null">
+				#{updateTime,jdbcType=BIGINT} 
+			</if>
+		</trim>
+	</insert> 
+
+	<!-- 精确更新-->
+	<update id="updateByPrimaryKeySelective" parameterType="com.jiuy.rb.model.order.ExpressSupplierRb" >
+		update yjj_expresssupplier
+		<set>
+			<include refid="updateBase"/>
+		</set>
+		where Id = #{id,jdbcType=BIGINT} 
+	</update> 
+
+	<!-- 全字段更新 需要注意-->
+	<update id="updateByPrimaryKey" parameterType="com.jiuy.rb.model.order.ExpressSupplierRb" >
+		update yjj_expresssupplier
+		set 
+			Id = #{id ,jdbcType=BIGINT},
+			CnName = #{cnName ,jdbcType=VARCHAR},
+			EngName = #{engName ,jdbcType=VARCHAR},
+			QueryLink = #{queryLink ,jdbcType=VARCHAR},
+			Status = #{status ,jdbcType=TINYINT},
+			CreateTime = #{createTime ,jdbcType=BIGINT},
+			UpdateTime = #{updateTime ,jdbcType=BIGINT}
+		where Id = #{id,jdbcType=BIGINT} 
+	</update> 
+
+	<!-- 所有的条件集合-->
+	<sql id="whereCase"  >
+		where  1=1 
+		<if test="id  !=null">
+			AND Id = #{id,jdbcType=BIGINT} 
+		</if>
+		<if test="cnName  !=null">
+			AND CnName = #{cnName,jdbcType=VARCHAR} 
+		</if>
+		<if test="engName  !=null">
+			AND EngName = #{engName,jdbcType=VARCHAR} 
+		</if>
+		<if test="queryLink  !=null">
+			AND QueryLink = #{queryLink,jdbcType=VARCHAR} 
+		</if>
+		<if test="status  !=null">
+			AND Status = #{status,jdbcType=TINYINT} 
+		</if>
+		<if test="createTime  !=null">
+			AND CreateTime = #{createTime,jdbcType=BIGINT} 
+		</if>
+		<if test="updateTime  !=null">
+			AND UpdateTime = #{updateTime,jdbcType=BIGINT} 
+		</if>
+		<include refid="costomWhereCase"/>
+	</sql>
+
+	<!-- 查询一条，如果返回多条会报错-->
+	<select id="selectOne" parameterType="java.util.Map" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" /> 
+		FROM yjj_expresssupplier 
+		<include refid="whereCase" /> 
+	</select>
+
+	<!-- 查询一个list-->
+	<select id="selectList" parameterType="java.util.Map" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" /> 
+		FROM yjj_expresssupplier 
+		<include refid="whereCase" /> 
+	</select>
+
+	<!-- 查询一个list-->
+	<select id="selectCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+		SELECT
+		count(1) 
+		FROM yjj_expresssupplier
+		<include refid="whereCase" /> 
+	</select>
+
+	<!--  @Costom -->
+	<!-- 从上一行注释以上为系统生成 从这一行往下为用户自定义 请将自定义的sql放在此行下面 -->
+	<sql id="costomWhereCase">
+	</sql>
+
+</mapper>

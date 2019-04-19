@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" > 
+<mapper namespace="com.jiuy.rb.mapper.order.ExpressInfoRbMapper"> 
+ 
+ 	<!-- 主要的返回映射-->
+	<resultMap id="BaseResultMap" type="com.jiuy.rb.model.order.ExpressInfoRb"	>
+		<id column="Id" property="id" jdbcType="BIGINT" />
+		<result column="OrderNo"  property="orderNo"  jdbcType="BIGINT" />
+		<result column="ExpressSupplier"  property="expressSupplier"  jdbcType="VARCHAR" />
+		<result column="ExpressOrderNo"  property="expressOrderNo"  jdbcType="VARCHAR" />
+		<result column="ExpressUpdateTime"  property="expressUpdateTime"  jdbcType="BIGINT" />
+		<result column="CreateTime"  property="createTime"  jdbcType="BIGINT" />
+		<result column="UpdateTime"  property="updateTime"  jdbcType="BIGINT" />
+		<result column="Status"  property="status"  jdbcType="TINYINT" />
+		<result column="ExpressInfo"  property="expressInfo"  jdbcType="VARCHAR" />
+	</resultMap>
+
+	<!-- 所有的列名-->
+	<sql id="Base_Column_List" >
+		Id,OrderNo,ExpressSupplier,ExpressOrderNo,ExpressUpdateTime,CreateTime,UpdateTime,Status,ExpressInfo
+	</sql>
+
+	<!-- 精确更新的字段-->
+	<sql id="updateBase">
+		<if test="id  !=null">
+			Id = #{id,jdbcType=BIGINT}, 
+		</if>
+		<if test="orderNo  !=null">
+			OrderNo = #{orderNo,jdbcType=BIGINT}, 
+		</if>
+		<if test="expressSupplier  !=null">
+			ExpressSupplier = #{expressSupplier,jdbcType=VARCHAR}, 
+		</if>
+		<if test="expressOrderNo  !=null">
+			ExpressOrderNo = #{expressOrderNo,jdbcType=VARCHAR}, 
+		</if>
+		<if test="expressUpdateTime  !=null">
+			ExpressUpdateTime = #{expressUpdateTime,jdbcType=BIGINT}, 
+		</if>
+		<if test="createTime  !=null">
+			CreateTime = #{createTime,jdbcType=BIGINT}, 
+		</if>
+		<if test="updateTime  !=null">
+			UpdateTime = #{updateTime,jdbcType=BIGINT}, 
+		</if>
+		<if test="status  !=null">
+			Status = #{status,jdbcType=TINYINT}, 
+		</if>
+		<if test="expressInfo  !=null">
+			ExpressInfo = #{expressInfo,jdbcType=VARCHAR} 
+		</if>
+	</sql>
+
+	<!-- 通过主键查找-->
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="Long" >
+		select 
+		<include refid="Base_Column_List" />
+		from store_expressinfo
+		where  Id = #{id,jdbcType=BIGINT} 
+	</select>
+
+	<!-- 通过主键删除-->
+	<delete id="deleteByPrimaryKey" parameterType="Long" >
+		delete from store_expressinfo
+		where Id = #{id,jdbcType=BIGINT} 
+	</delete>
+
+	<!-- 普通插入全字段插t入-->
+	<insert id="insert" parameterType="com.jiuy.rb.model.order.ExpressInfoRb" >
+		insert into store_expressinfo
+		(
+			Id,
+			OrderNo,
+			ExpressSupplier,
+			ExpressOrderNo,
+			ExpressUpdateTime,
+			CreateTime,
+			UpdateTime,
+			Status,
+			ExpressInfo
+		)
+		values
+		(
+			#{id ,jdbcType=BIGINT},
+			#{orderNo ,jdbcType=BIGINT},
+			#{expressSupplier ,jdbcType=VARCHAR},
+			#{expressOrderNo ,jdbcType=VARCHAR},
+			#{expressUpdateTime ,jdbcType=BIGINT},
+			#{createTime ,jdbcType=BIGINT},
+			#{updateTime ,jdbcType=BIGINT},
+			#{status ,jdbcType=TINYINT},
+			#{expressInfo ,jdbcType=VARCHAR}
+		)
+	</insert>
+
+	<!-- 批量插入，全部字段插入-->
+	<insert id="insertBach"   parameterType="List" >
+		insert into store_expressinfo
+		(
+			Id,
+			OrderNo,
+			ExpressSupplier,
+			ExpressOrderNo,
+			ExpressUpdateTime,
+			CreateTime,
+			UpdateTime,
+			Status,
+			ExpressInfo
+		)
+		values 
+		<foreach collection="list" item="item" separator=",">
+		(
+			#{item.id ,jdbcType=BIGINT},
+			#{item.orderNo ,jdbcType=BIGINT},
+			#{item.expressSupplier ,jdbcType=VARCHAR},
+			#{item.expressOrderNo ,jdbcType=VARCHAR},
+			#{item.expressUpdateTime ,jdbcType=BIGINT},
+			#{item.createTime ,jdbcType=BIGINT},
+			#{item.updateTime ,jdbcType=BIGINT},
+			#{item.status ,jdbcType=TINYINT},
+			#{item.expressInfo ,jdbcType=VARCHAR}
+		)
+		</foreach>
+	</insert>
+
+	<!-- 精确插入，非null得字段才会插入-->
+	<insert id="insertSelective" parameterType="com.jiuy.rb.model.order.ExpressInfoRb" useGeneratedKeys="true" keyProperty="id" >
+		insert into store_expressinfo
+		<trim prefix="(" suffix=")" suffixOverrides="," > 
+			<if test="id !=null">  
+				Id,
+			</if>
+			<if test="orderNo !=null">  
+				OrderNo,
+			</if>
+			<if test="expressSupplier !=null">  
+				ExpressSupplier,
+			</if>
+			<if test="expressOrderNo !=null">  
+				ExpressOrderNo,
+			</if>
+			<if test="expressUpdateTime !=null">  
+				ExpressUpdateTime,
+			</if>
+			<if test="createTime !=null">  
+				CreateTime,
+			</if>
+			<if test="updateTime !=null">  
+				UpdateTime,
+			</if>
+			<if test="status !=null">  
+				Status,
+			</if>
+			<if test="expressInfo !=null">  
+				ExpressInfo,
+			</if>
+		</trim>
+
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+			<if test="id  !=null">
+				#{id,jdbcType=BIGINT}, 
+			</if>
+			<if test="orderNo  !=null">
+				#{orderNo,jdbcType=BIGINT}, 
+			</if>
+			<if test="expressSupplier  !=null">
+				#{expressSupplier,jdbcType=VARCHAR}, 
+			</if>
+			<if test="expressOrderNo  !=null">
+				#{expressOrderNo,jdbcType=VARCHAR}, 
+			</if>
+			<if test="expressUpdateTime  !=null">
+				#{expressUpdateTime,jdbcType=BIGINT}, 
+			</if>
+			<if test="createTime  !=null">
+				#{createTime,jdbcType=BIGINT}, 
+			</if>
+			<if test="updateTime  !=null">
+				#{updateTime,jdbcType=BIGINT}, 
+			</if>
+			<if test="status  !=null">
+				#{status,jdbcType=TINYINT}, 
+			</if>
+			<if test="expressInfo  !=null">
+				#{expressInfo,jdbcType=VARCHAR} 
+			</if>
+		</trim>
+	</insert> 
+
+	<!-- 精确更新-->
+	<update id="updateByPrimaryKeySelective" parameterType="com.jiuy.rb.model.order.ExpressInfoRb" >
+		update store_expressinfo
+		<set>
+			<include refid="updateBase"/>
+		</set>
+		where Id = #{id,jdbcType=BIGINT} 
+	</update> 
+
+	<!-- 全字段更新 需要注意-->
+	<update id="updateByPrimaryKey" parameterType="com.jiuy.rb.model.order.ExpressInfoRb" >
+		update store_expressinfo
+		set 
+			Id = #{id ,jdbcType=BIGINT},
+			OrderNo = #{orderNo ,jdbcType=BIGINT},
+			ExpressSupplier = #{expressSupplier ,jdbcType=VARCHAR},
+			ExpressOrderNo = #{expressOrderNo ,jdbcType=VARCHAR},
+			ExpressUpdateTime = #{expressUpdateTime ,jdbcType=BIGINT},
+			CreateTime = #{createTime ,jdbcType=BIGINT},
+			UpdateTime = #{updateTime ,jdbcType=BIGINT},
+			Status = #{status ,jdbcType=TINYINT},
+			ExpressInfo = #{expressInfo ,jdbcType=VARCHAR}
+		where Id = #{id,jdbcType=BIGINT} 
+	</update> 
+
+	<!-- 所有的条件集合-->
+	<sql id="whereCase"  >
+		where  1=1 
+		<if test="id  !=null">
+			AND Id = #{id,jdbcType=BIGINT} 
+		</if>
+		<if test="orderNo  !=null">
+			AND OrderNo = #{orderNo,jdbcType=BIGINT} 
+		</if>
+		<if test="expressSupplier  !=null">
+			AND ExpressSupplier = #{expressSupplier,jdbcType=VARCHAR} 
+		</if>
+		<if test="expressOrderNo  !=null">
+			AND ExpressOrderNo = #{expressOrderNo,jdbcType=VARCHAR} 
+		</if>
+		<if test="expressUpdateTime  !=null">
+			AND ExpressUpdateTime = #{expressUpdateTime,jdbcType=BIGINT} 
+		</if>
+		<if test="createTime  !=null">
+			AND CreateTime = #{createTime,jdbcType=BIGINT} 
+		</if>
+		<if test="updateTime  !=null">
+			AND UpdateTime = #{updateTime,jdbcType=BIGINT} 
+		</if>
+		<if test="status  !=null">
+			AND Status = #{status,jdbcType=TINYINT} 
+		</if>
+		<if test="expressInfo  !=null">
+			AND ExpressInfo = #{expressInfo,jdbcType=VARCHAR} 
+		</if>
+		<include refid="costomWhereCase"/>
+	</sql>
+
+	<!-- 查询一条，如果返回多条会报错-->
+	<select id="selectOne" parameterType="java.util.Map" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" /> 
+		FROM store_expressinfo 
+		<include refid="whereCase" /> 
+	</select>
+
+	<!-- 查询一个list-->
+	<select id="selectList" parameterType="java.util.Map" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" /> 
+		FROM store_expressinfo 
+		<include refid="whereCase" /> 
+	</select>
+
+	<!-- 查询一个list-->
+	<select id="selectCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+		SELECT
+		count(1) 
+		FROM store_expressinfo
+		<include refid="whereCase" /> 
+	</select>
+
+	<!--  @Costom -->
+	<!-- 从上一行注释以上为系统生成 从这一行往下为用户自定义 请将自定义的sql放在此行下面 -->
+	<sql id="costomWhereCase">
+	</sql>
+
+
+	<update id="updateByOrderNo">
+		update store_expressinfo
+		<set>
+			<include refid="updateBase"/>
+		</set>
+		<if test="orderNo ==null">
+			where 1 =-1
+		</if>
+		<if test="orderNo !=null">
+			where OrderNo = #{orderNo}
+		</if>
+	</update>
+
+</mapper>

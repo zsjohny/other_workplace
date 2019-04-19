@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jiuy.core.dao.impl.sql.RestrictionCombinationDaoSqlImpl">
+	
+	<select id="search" parameterType="map" resultType="RestrictionCombination">
+		select * from yjj_RestrictionCombination
+		<where>
+			<if test = "name != ''">
+				Name like concat ("%", #{name}, "%")
+			</if>
+		</where>
+		<if test="pageQuery != null">
+			limit #{pageQuery.limit} offset #{pageQuery.offset}
+		</if>
+	</select>
+	
+	<select id="searchCount" parameterType="map" resultType="int">
+		select count(1) from yjj_RestrictionCombination
+		<where>
+			<if test = "name != ''">
+				Name like concat ("%", #{name}, "%")
+			</if>
+		</where>
+	</select>
+	
+	<insert id="add" parameterType="RestrictionCombination">
+		insert into yjj_RestrictionCombination(Name, Description, HistorySetting, HistoryBuy, HistoryCycle, HistoryStartTime, 
+				DaySetting, DayBuy, DayStartTime, CreateTime, UpdateTime)
+		values(#{name}, #{description}, #{historySetting}, #{historyBuy}, #{historyCycle}, #{historyStartTime}, 
+				#{daySetting}, #{dayBuy}, #{dayStartTime}, #{createTime}, #{updateTime})
+	</insert>
+	
+	<update id="update" parameterType="RestrictionCombination">
+		update yjj_RestrictionCombination
+		set 
+			Name = #{name}, Description = #{description}, 
+			HistorySetting = #{historySetting}, HistoryBuy = #{historyBuy}, HistoryCycle = #{historyCycle}, HistoryStartTime = #{historyStartTime}, 
+		 	DaySetting = #{daySetting}, DayBuy = #{dayBuy}, DayStartTime = #{dayStartTime}, UpdateTime = #{updateTime}
+		where Id = #{id}
+	</update>
+</mapper>

@@ -1,0 +1,25 @@
+2、jiuy-biz-core业务工程包说明：
+	admin（存放老运营平台的一些老service等，尽量不要做改动）
+	jiuy（俞姐姐）
+	jiuyuan（存放各个项目可相互调用的service等）
+	store（存放俞姐姐门店宝，小程序相关service等）
+	yujj（存放老俞姐姐service等，不要做任何改动）
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

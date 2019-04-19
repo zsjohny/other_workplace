@@ -1,0 +1,124 @@
+/**退款进度**/
+page{
+  background: #f4f4f4
+}
+.body-contain{
+  padding-bottom: 120rpx;
+}
+.propress-head{
+  height: 270rpx;
+  background: #fd4374;
+  color: #fff;
+  font-size: 28rpx;
+  position: relative
+}
+.propress-head .state{
+  position: absolute;
+  left: 24rpx;
+  top: 100rpx;
+}
+.propress-box{
+  width: 702rpx;
+  min-height: 300rpx;
+  height: auto;
+  position: relative;
+  margin: -84rpx auto 0;
+  background: #fff;
+  border-radius: 10rpx;
+  padding-bottom: 50rpx;
+}
+.propress-box .item{
+  margin-left: 40rpx;
+  height: 178rpx;
+  position: relative;
+}
+.propress-box .item1{
+  padding-top: 40rpx;
+}
+.propress-box .item::after{
+  content: '';
+  width: 2rpx;
+  height: 178rpx;
+  background: #f4f4f4;
+  position: absolute;
+  left: 22rpx;
+  top: 40rpx;
+  z-index: 10;
+}
+.propress-box .item::before{
+  content: '';
+  width: 44rpx;
+  height: 44rpx;
+  position: absolute;
+  left: 0;
+  top: 80rpx;
+  z-index: 20;
+}
+.propress-box .icon1::before{
+  background: url(https://yjj-img-main.oss-cn-hangzhou.aliyuncs.com/icon/new/circle-icon1.png);
+  background-size: 44rpx;
+}
+.propress-box .icon2::before{
+  background: url(https://yjj-img-main.oss-cn-hangzhou.aliyuncs.com/icon/new/circle-icon2.png);
+  background-size: 44rpx;
+}
+.propress-box .icon3::before{
+  background: url(https://yjj-img-main.oss-cn-hangzhou.aliyuncs.com/icon/new/circle-icon3.png);
+  background-size: 44rpx;
+}
+.propress-box .icon3::after{
+  height: 50rpx;
+}
+.propress-box .active::after{
+  background: #fd4374;
+}
+.propress-box .item .state-box{
+  font-size: 28rpx;
+  padding: 80rpx 0 0  80rpx;
+  color: #959595;
+}
+.propress-box .state-box1{
+  height: auto;
+  overflow: hidden;
+}
+.propress-box .state-img{
+  width: 676rpx;
+  height: 414rpx;
+  background: url(https://yjj-img-main.oss-cn-hangzhou.aliyuncs.com/icon/new/progress.png);
+  background-size: 676rpx;
+  margin: 150rpx auto 0;
+}
+.propress-box .item .state-box .status{
+  padding-bottom: 10rpx;
+}
+.propress-box .active .state-box .status{
+  color: #333;
+}
+.propress-box .item .state-box .text{
+  color: #bfbfbf;
+  font-size: 24rpx;
+  line-height: 1.5
+}
+.propress-box .propress-tips{
+  width: 261rpx;
+  height: 261rpx;
+  background: url(https://yjj-img-main.oss-cn-hangzhou.aliyuncs.com/icon/new/time-icon.png);
+  background-size: 261rpx;
+  position: absolute;
+  top: -165rpx;
+  right: 50rpx;
+}
+/*说明*/
+.propress-dl{
+  margin-top: 34rpx;
+  color: #fd4374;
+  font-size: 26rpx;
+  padding: 0 24rpx;
+}
+.propress-dl .dt{
+  font-size: 30rpx;
+  padding-bottom: 10rpx;
+}
+.propress-dl .dd{
+  line-height: 1.8
+}

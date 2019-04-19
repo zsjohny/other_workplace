@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.e_commerce.miscroservice.operate.mapper.ShopMemberAccountMapper">
+
+
+    <select id="findUserIds" parameterType="java.util.Map" resultType="long">
+        SELECT
+        member.id AS memberId
+        FROM
+        shop_member_account_cash_out_in outIn
+        JOIN shop_member member ON outIn.user_id = member.id
+        JOIN yjj_storebusiness store ON member.store_id = store.Id
+        LEFT JOIN shop_member_order_dstb_record record ON record.order_no = outIn.order_no
+        WHERE
+        outIn.del_status = 0
+        <if test="queryCashOrGoldGoin != null and queryCashOrGoldGoin == 1">
+            AND outIn.oper_cash &gt; 0
+        </if>
+        <if test="queryCashOrGoldGoin != null and queryCashOrGoldGoin == 2">
+            AND outIn.oper_gold_coin &gt; 0
+        </if>
+        <if test="storeName != null and storeName !=''">
+            AND store.BusinessName LIKE CONCAT('%',#{storeName},'%')
+        </if>
+        <if test="userId != null">
+            AND outIn.user_id = #{userId}
+        </if>
+        <if test="userNickName != null and userNickName != ''">
+            AND member.user_nickname LIKE CONCAT('%',#{userNickName},'%')
+        </if>
+        <if test="userDstbRoleType != null">
+            AND outIn.user_dstb_grade = #{userDstbRoleType}
+        </if>
+        <if test="inOutType != null">
+            AND outIn.in_out_type = #{inOutType}
+        </if>
+        <if test="types != null">
+            AND outIn.type IN
+            <foreach collection="types" item="type" open="(" separator="," close=")">
+                #{type}
+            </foreach>
+        </if>
+        <if test="status != null">
+            AND outIn.`status` = #{status}
+        </if>
+        <if test="createTimeCeil != null and createTimeCeil != ''">
+            AND record.pay_time &lt;= #{createTimeCeil}
+        </if>
+        <if test="createTimeFloor != null and createTimeFloor != ''">
+            AND record.pay_time &gt;= #{createTimeFloor}
+        </if>
+        <if test="operTimeFloor != null and operTimeFloor != ''">
+            AND outIn.oper_time &gt;= #{operTimeFloor}
+        </if>
+        <if test="operTimeCeil != null and operTimeCeil != ''">
+            AND outIn.oper_time &lt;= #{operTimeCeil}
+        </if>
+
+    </select>
+
+
+    <select id="satisticsByUserId" resultType="java.util.Map" >
+        SELECT
+        IFNULL(SUM(alive_cash), 0) AS aliveCashSum,
+        IFNULL(SUM(alive_gold_coin), 0) AS aliveGoldCoinSum,
+        IFNULL(SUM(wait_in_total_cash), 0) AS waitInTotalCashSum,
+        IFNULL(SUM(wait_in_total_gold_coin), 0) AS waitInTotalGoldCoinSum,
+        IFNULL(SUM(frozen_cash), 0) AS frozenCashSum,
+        IFNULL(SUM(frozen_gold_coin), 0) AS frozenGoldCoinSum,
+        IFNULL(SUM(history_cash_out), 0) AS historyCashOutSum,
+        IFNULL(SUM(history_gold_coin_out), 0) AS historyGoldCoinOutSum
+        FROM
+        shop_member_account
+        WHERE
+        1 = 1
+        <if test="userIds != null">
+            AND shop_member_account.user_id IN
+            <foreach collection="userIds" item="uid" open="(" separator="," close=")">
+                #{uid}
+            </foreach>
+        </if>
+    </select>
+
+
+</mapper>
+
+
+
+
+
+
+
+
+
+

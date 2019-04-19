@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.e_commerce.miscroservice.operate.mapper.ActivityImageShareMapper">
+
+    <!--根据筛选条件 查找-->
+    <select id="findAllActivityImageShare"
+            resultType="com.e_commerce.miscroservice.commons.entity.activity.ActivityImageShare">
+        select * from activity_image_share
+        <trim prefixOverrides="where" prefix="and|or">
+            <if test="type!=null">
+                and `type` = #{type}
+            </if>
+            <if test="shareType!=null">
+                and `share_type` = #{shareType}
+            </if>
+            <if test="timeStar!=null">
+                and `create_time` <![CDATA[
+                    >=
+                ]]> #{timeStar}
+            </if>
+            <if test="timeEnd!=null">
+                and `create_time` <![CDATA[
+                  <=
+                ]]> #{timeEnd}
+            </if>
+
+        </trim>
+
+    </select>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+

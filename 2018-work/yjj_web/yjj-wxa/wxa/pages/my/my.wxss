@@ -1,0 +1,475 @@
+/**个人中心头部**/
+.user-header {
+  height: 406rpx;
+  background: -webkit-linear-gradient(#fd4375 40%, #f33265);
+  background: linear-gradient(#fd4375 40%, #f33265); 
+  position: relative;
+  padding: 20rpx 24rpx 0;
+  color: #fff;
+  box-sizing: border-box;
+}
+.user-info{
+  height: 106rpx;
+  position: relative;
+}
+.user-info .head{
+  width: 106rpx;
+  height: 106rpx;
+  border-radius: 50%;
+  float: left;
+}
+.user-info image{
+  border-radius: 50%;
+}
+.user-info .name-box{
+  float: left;
+  margin-left: 26rpx;
+}
+.user-info .name{
+  max-width:400rpx;
+  height: 50rpx;
+  overflow: hidden;
+  font-size: 34rpx;
+  line-height: 50rpx;
+}
+.user-info .rights-box{
+  width: 130rpx;
+  height: 38rpx;
+  font-size: 22rpx;
+  line-height: 38rpx;
+  position: relative;
+  margin-top: 10rpx;
+  border-radius: 19rpx;
+  background: -webkit-linear-gradient(left, #fc8447 60%, #fd7356);
+  background: linear-gradient(left, #fc8447 60%, #fd7356); 
+}
+.user-info .rights-box text{
+  padding-left: 22rpx;
+}
+.user-info .rights-box::after{
+  content: '';
+  position: absolute;
+  right: 18rpx;
+  top: 9rpx;
+  width: 12rpx;
+  height: 23rpx;
+  background: url(http://mini-img-main.oss-cn-hangzhou.aliyuncs.com/icon/new/arrow05.png) no-repeat;
+  background-size: 12rpx;
+}
+.user-info .credentials-icon{
+  position: absolute;
+  top: 0;
+  right: 68rpx;
+  width: 44rpx;
+  height: 44rpx;
+  background: url(http://mini-img-main.oss-cn-hangzhou.aliyuncs.com/icon/new/card-icon.png) no-repeat;
+  background-size: 44rpx;
+}
+.user-info .set-icon{
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 44rpx;
+  height: 44rpx;
+  background: url(http://mini-img-main.oss-cn-hangzhou.aliyuncs.com/icon/new/set-icon.png) no-repeat;
+  background-size: 44rpx;
+}
+/*可用金额模块*/
+.user-header .sum-title{
+  font-size: 24rpx;
+  color: rgba(255, 255, 255, 0.8);
+  position: relative;
+  margin-top: 44rpx;
+}
+.user-header .sum-title::after{
+  content: '';
+  position: absolute;
+  left: 150rpx;
+  top: -4rpx;
+  width: 44rpx;
+  height: 44rpx;
+  background: url(http://mini-img-main.oss-cn-hangzhou.aliyuncs.com/icon/new/qustion-icon.png) no-repeat;
+  background-size: 44rpx;
+}
+.user-header .sum{
+  font-size: 54rpx;
+  font-weight: 500;
+  line-height: 1.8
+}
+.user-header .sum-type{
+  font-size: 30rpx;
+  color: #fff;
+}
+.user-header .sum-type view{
+  float: left
+}
+.user-header .sum-type .rmb{
+  margin-right: 130rpx;
+}
+.user-header .sum-type text {
+  font-size: 22rpx;
+  color: rgba(255, 255, 255, 0.8);
+  margin-right: 20rpx;
+}
+.withdraw-box{
+  width: 726rpx;
+  height: 112rpx;
+  position: absolute;
+  left: 12rpx;
+  bottom: -56rpx;
+  z-index: 1000;
+  background: url(http://mini-img-main.oss-cn-hangzhou.aliyuncs.com/icon/new/radius-bg.png);
+  background-size: 726rpx;
+  line-height: 112rpx;
+  font-size: 32rpx;
+  color: #fd4374;
+}
+.withdraw-box .inside-box{
+  position: relative;
+}
+.withdraw-box .money{
+  width: 400rpx;
+  padding-left: 54rpx;
+}
+.withdraw-box .money text{
+  color: #333;
+  font-size: 30rpx;
+}
+.withdraw-box .btn{
+  position: absolute;
+  right: 84rpx;
+  top: 0;
+  font-size: 30rpx;
+}
+.withdraw-box .inside-box::after{
+  content: '';
+  position: absolute;
+  right: 54rpx;
+  top: 45rpx;
+  width: 12rpx;
+  height: 23rpx;
+  background: url(http://mini-img-main.oss-cn-hangzhou.aliyuncs.com/icon/new/arrow06.png) no-repeat;
+  background-size: 12rpx;
+}
+/**列表**/
+.user-list{
+  height: auto;
+  overflow: hidden;
+  background: #f6f6f6;
+  padding-bottom: 60rpx;
+}
+/*我的订单模块 */
+.user-list .order{
+  height: auto;
+  position: relative;
+  padding: 0 24rpx;
+  border-bottom:16rpx solid #eee;
+  overflow: hidden;
+}
+.user-list .myorder-col{
+  width: 100%;
+  padding: 95rpx 0 30rpx;
+  text-align: center;
+  height: auto;
+  overflow: hidden;
+  display: -webkit-flex;
+  display: flex;
+}
+.user-list .order-item{
+  width: 22%;
+  position: relative;
+  font-size: 24rpx;
+}
+.user-list .order-item .mycount{
+  position: absolute;
+  top: -14rpx;
+  background: #d53939;
+  width: 34rpx;
+  height: 34rpx;
+  border-radius: 50%;
+  font-size: 18rpx;
+  color: #fff;
+  left:80rpx;
+  text-align: center;
+  line-height: 34rpx;
+}
+.user-list .order-item1{
+  width:17%;
+  text-align: right; 
+  color: #fd4374;
+}
+.user-list .order-item2{
+  width:17%;
+  text-align: left; 
+}
+.user-list .order-item .icon{
+  margin: 0 auto;
+  padding-bottom: 10rpx;
+  width: 44rpx;
+  height: 44rpx;
+}
+/*全部订单*/
+.user-list .order-item1 .icon{
+  background: url(http://mini-img-main.oss-cn-hangzhou.aliyuncs.com/icon/3.7.7/all-order-icon.png) no-repeat;
+  background-size:44rpx;
+  margin: 0 0 0 52rpx;
+}
+/*待付款 */
+.user-list .order-item2 .icon{
+  background: url(http://mini-img-main.oss-cn-hangzhou.aliyuncs.com/icon/3.7.7/unpay-icon.png) no-repeat;
+  background-size:44rpx;
+  margin: 0 0 0 20rpx;
+}
+.user-list .order-item2 .mycount{
+  left:48rpx;
+}
+/*待发货 */
+.user-list .order-item3 .icon{
+  background: url(http://mini-img-main.oss-cn-hangzhou.aliyuncs.com/icon/3.7.7/unsend-icon.png) no-repeat;
+  background-size:44rpx;
+}
+/*待收货 */
+.user-list .order-item4 .icon{
+  background: url(http://mini-img-main.oss-cn-hangzhou.aliyuncs.com/icon/3.7.7/uncollect-icon.png) no-repeat;
+  background-size:44rpx;
+}
+/*待提货 */
+.user-list .order-item5 .icon{
+  background: url(http://mini-img-main.oss-cn-hangzhou.aliyuncs.com/icon/3.7.7/untake-icon.png) no-repeat;
+  background-size:44rpx;
+}
+.user-list .order-item5::after{
+  content: '';
+  width: 6rpx;
+  height: 78rpx;
+  background: url(http://mini-img-main.oss-cn-hangzhou.aliyuncs.com/icon/3.7.7/tips-01.png) no-repeat;
+  background-size: 6rpx 78rpx;
+  position: absolute;
+  top: 2rpx;
+  right: 0
+}
+/*其他列表样式*/
+.user-list .item{
+  display: block;
+  height: auto;
+  overflow: hidden;
+  position: relative;
+  margin: 0 24rpx;
+  border-bottom:2rpx solid #eee;
+  font-size: 30rpx;
+  padding: 30rpx 0;
+}
+.user-list .item .icon,
+.user-list .item .name{ float: left;}
+.user-list .item .icon{
+  width: 44rpx;
+  height: 44rpx;
+}
+/*我的团购*/
+.user-list .item .icon1{
+  background: url(http://mini-img-main.oss-cn-hangzhou.aliyuncs.com/icon/3.7.7/heart.png) no-repeat;
+  background-size: 44rpx;
+}
+/*关于商家信息*/
+.user-list .item .icon2{
+  background: url(http://mini-img-main.oss-cn-hangzhou.aliyuncs.com/icon/3.7.7/store-icon.png) no-repeat;
+  background-size:44rpx;
+}
+/*我的优惠券*/
+.user-list .item .icon3{
+  background: url(http://mini-img-main.oss-cn-hangzhou.aliyuncs.com/icon/3.7.7/my-coupon-icon.png) no-repeat;
+  background-size:44rpx;
+}
+/*领券中心*/
+.user-list .item .icon4{
+  background: url(http://mini-img-main.oss-cn-hangzhou.aliyuncs.com/icon/3.7.7/coupon-center-icon.png) no-repeat;
+  background-size:44rpx;
+}
+/*我的收益*/
+.user-list .item .icon5{
+  background: url(http://mini-img-main.oss-cn-hangzhou.aliyuncs.com/icon/3.7.7/jiubi-icon.png) no-repeat;
+  background-size:44rpx;
+}
+/*我的团队*/
+.user-list .item .icon6{
+  background: url(http://mini-img-main.oss-cn-hangzhou.aliyuncs.com/icon/new/team-icon.png) no-repeat;
+  background-size:44rpx;
+}
+/*我的粉丝*/
+.user-list .item .icon7{
+  background: url(http://mini-img-main.oss-cn-hangzhou.aliyuncs.com/icon/new/team-icon.png) no-repeat;
+  background-size:44rpx;
+}
+/*团队订单*/
+.user-list .item .icon8{
+  background: url(http://mini-img-main.oss-cn-hangzhou.aliyuncs.com/icon/new/fans-icon.png) no-repeat;
+  background-size:44rpx;
+}
+/*我的邀请人*/
+.user-list .item .icon9{
+  background: url(http://mini-img-main.oss-cn-hangzhou.aliyuncs.com/icon/new/inviter-icon.png) no-repeat;
+  background-size:44rpx;
+}
+.user-list .item .icon10{
+  background: url(https://yjj-img-main.oss-cn-hangzhou.aliyuncs.com/qa/icon-QaHelp.png) no-repeat;
+  background-size:44rpx;
+}
+.user-list .item .name{
+  margin-left: 24rpx;
+}
+.user-list .item .text{
+  position: absolute;
+  right: 40rpx;
+  top: 32rpx;
+  color: #B3B3B3;
+  font-size: 24rpx;
+}
+.user-list .item::after{
+  content: '';
+  position: absolute;
+  right: -4rpx;
+  top: 33rpx;
+  width: 34rpx;
+  height: 34rpx;
+  background: url(http://mini-img-main.oss-cn-hangzhou.aliyuncs.com/icon/3.7.7/arrow-icon.png) no-repeat;
+  background-size: 34rpx;
+  transition: all 200ms ease-in 30ms
+}
+.user-list .active::after{
+  transform: rotate(90deg);
+}
+/*子菜单*/
+.user-list .item .menu{
+  height: auto;
+  overflow: hidden;
+}
+.submenu{
+  width: 696rpx;
+  height: auto;
+  overflow: hidden;
+  padding: 24rpx;
+  box-shadow: -3rpx 0 3rpx 3rpx #efefef,
+              0 -1rpx 3rpx 0rpx #efefef,
+              3rpx 0 3rpx 3rpx #efefef,
+              0 3rpx 3rpx 3rpx #efefef;
+  background: #fff;
+  border-radius: 8rpx;
+  box-sizing: border-box;
+  margin: 30rpx 3rpx 0 3rpx;
+}
+.submenu1{
+  padding: 24rpx 0;
+}
+.submenu .module1,
+.submenu .module2{
+  padding: 0 24rpx 20rpx;
+  height: auto;
+  overflow: hidden;
+}
+.submenu .module1{
+  border-bottom: 2rpx solid #eee;
+}
+.submenu .module1 .section1{
+  width: 60%;
+  float: left;
+}
+.submenu .module1 .section2{
+  text-align: right;
+  float: right;
+}
+.submenu .module1 .section .num{
+  font-size: 50rpx;
+  padding-top: 10rpx;
+}
+.submenu .module1 .section .num1{
+  color: #fc8547;
+  font-size: 38rpx;
+  padding-top: 20rpx;
+}
+.team-submenu .dd .tit,
+.submenu .module2 .dd .tit,
+.submenu .module1 .tit{
+  color: rgba(51, 51, 51, 0.8);
+  font-size:24rpx;
+}
+.submenu .module2{
+  display: -webkit-flex;
+  padding: 20rpx 24rpx 0;
+  justify-content:center;
+  align-items: center
+}
+.submenu .module2 .dd{
+  width: 254rpx;
+}
+.submenu .module2 .dd:last-child{
+  width: 138rpx;
+}
+.team-submenu .dd .tit,
+.submenu .module2 .dd .tit{
+  font-size: 22rpx;
+}
+.team-submenu .dd .num,
+.submenu .module2 .dd .num{
+  font-size: 30rpx;
+}
+.submenu .module2 .dd .num{
+  padding-top: 8rpx;
+}
+.submenu .module2 .dd .detail-btn{
+  width: 134rpx;
+  height: 52rpx;
+  border-radius: 6rpx;
+  border: 2rpx solid #fd4374;
+  color: #fd4374;
+  font-size: 22rpx;
+  text-align: center;
+  line-height: 52rpx;
+}
+/*我的团队子菜单*/
+.team-submenu{
+  display: -webkit-flex;
+}
+.team-submenu .dd{
+  border-right: 2rpx solid #eee;
+  box-sizing: border-box;
+  text-align: center;
+}
+.team-submenu .dd:last-child{
+  border-right:none;
+}
+.team-submenu .dd:nth-child(1),
+.team-submenu .dd:nth-child(4){
+  width: 20%;
+}
+.team-submenu .dd:nth-child(2),
+.team-submenu .dd:nth-child(3){
+   width: 30%;
+}
+.team-submenu .dd:nth-child(1){
+  text-align: left;
+}
+/*我的邀请人子菜单*/
+.inviter-submenu .head{
+  height: 100rpx;
+  width: 100rpx;
+  border-radius: 50%;
+  float: left;
+  margin-right: 28rpx;
+}
+.inviter-submenu .info{
+  height: auto;
+  overflow: hidden;
+}
+.inviter-submenu .info .nick{
+  font-size: 30rpx;
+  padding-top: 5rpx;
+}
+.inviter-submenu .info .time{
+  font-size: 22rpx;
+  color: rgba(51, 51, 51, 0.8);
+  padding-top: 15rpx;
+}
+.inviter-submenu .no-higher{
+  text-align: center;
+  font-size: 24rpx;
+}

@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" > 
+<mapper namespace="com.jiuy.mapper.monitoring.MonitoringMetadataMapper"> 
+    <resultMap id="BaseResultMap" type="com.jiuy.model.monitoring.MonitoringMetadata"   >
+        <id   column="id"  property="id" jdbcType="BIGINT" />
+        <result column="data"  property="data"  jdbcType="VARCHAR" />
+        <result column="status"  property="status"  jdbcType="INTEGER" />
+        <result column="parse_count"  property="parseCount"  jdbcType="INTEGER" />
+        <result column="create_time"  property="createTime"  jdbcType="TIMESTAMP" />
+        <result column="parse_result"  property="parseResult"  jdbcType="VARCHAR" />
+    </resultMap>
+
+     <sql id="Base_Column_List" >
+        id,data,status,parse_count,create_time,parse_result
+    </sql>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap"  parameterType="java.lang.Long"   >
+        select
+                <include refid="Base_Column_List" />
+        from yjj_monitoring_metadata
+        where  id = #{id,jdbcType=BIGINT} 
+    </select>
+
+    <delete id="deleteByPrimaryKey"   parameterType="java.lang.Long"   >
+        delete from yjj_monitoring_metadata
+        where  id = #{id,jdbcType=BIGINT} 
+    </delete>
+
+    <insert id="insert"   parameterType="com.jiuy.model.monitoring.MonitoringMetadata"   >
+        insert into yjj_monitoring_metadata
+                (id,data,status,parse_count,create_time,parse_result)
+        values(#{id,jdbcType=BIGINT},#{data,jdbcType=VARCHAR},#{status,jdbcType=INTEGER},#{parseCount,jdbcType=INTEGER},#{createTime,jdbcType=TIMESTAMP},#{parseResult,jdbcType=VARCHAR})
+    </insert>
+
+    <insert id="insertBach"   parameterType="List"  >
+        insert into yjj_monitoring_metadata
+                 (id,data,status,parse_count,create_time,parse_result)
+        values 
+                 <foreach collection="list" item="item" separator=",">
+                 (
+                     #{item.id,jdbcType=BIGINT},
+                     #{item.data,jdbcType=VARCHAR},
+                     #{item.status,jdbcType=INTEGER},
+                     #{item.parseCount,jdbcType=INTEGER},
+                     #{item.createTime,jdbcType=TIMESTAMP},
+                     #{item.parseResult,jdbcType=VARCHAR}
+                  )
+                 </foreach>
+    </insert>
+    <insert id="insertSelective"   parameterType="com.jiuy.model.monitoring.MonitoringMetadata"  useGeneratedKeys="true"  keyProperty="id" >
+        insert into yjj_monitoring_metadata
+       <trim prefix="(" suffix=")" suffixOverrides="," >  
+              <if test="id  !=null">  
+                   id,
+              </if>
+              <if test="data  !=null">  
+                   data,
+              </if>
+              <if test="status  !=null">  
+                   status,
+              </if>
+              <if test="parseCount  !=null">  
+                   parse_count,
+              </if>
+              <if test="createTime  !=null">  
+                   create_time,
+              </if>
+              <if test="parseResult  !=null">  
+                   parse_result
+              </if>
+       </trim> 
+       <trim prefix="values (" suffix=")" suffixOverrides="," >
+              <if test="id  !=null">  
+                   #{id,jdbcType=BIGINT},
+              </if>
+              <if test="data  !=null">  
+                   #{data,jdbcType=VARCHAR},
+              </if>
+              <if test="status  !=null">  
+                   #{status,jdbcType=INTEGER},
+              </if>
+              <if test="parseCount  !=null">  
+                   #{parseCount,jdbcType=INTEGER},
+              </if>
+              <if test="createTime  !=null">  
+                   #{createTime,jdbcType=TIMESTAMP},
+              </if>
+              <if test="parseResult  !=null">  
+                   #{parseResult,jdbcType=VARCHAR}
+              </if>
+       </trim> 
+    </insert> 
+
+    <update id="updateByPrimaryKeySelective"   parameterType="com.jiuy.model.monitoring.MonitoringMetadata"   >
+        update yjj_monitoring_metadata
+             <set> 
+              <if test="id  !=null">  
+                   id  = #{id,jdbcType=BIGINT},
+              </if>
+              <if test="data  !=null">  
+                   data  = #{data,jdbcType=VARCHAR},
+              </if>
+              <if test="status  !=null">  
+                   status  = #{status,jdbcType=INTEGER},
+              </if>
+              <if test="parseCount  !=null">  
+                   parse_count  = #{parseCount,jdbcType=INTEGER},
+              </if>
+              <if test="createTime  !=null">  
+                   create_time  = #{createTime,jdbcType=TIMESTAMP},
+              </if>
+              <if test="parseResult  !=null">  
+                   parse_result  = #{parseResult,jdbcType=VARCHAR}
+              </if>
+       </set> 
+       where id = #{id,jdbcType=BIGINT} 
+    </update> 
+
+    <update id="updateByPrimaryKey"   parameterType="com.jiuy.model.monitoring.MonitoringMetadata"   >
+        update yjj_monitoring_metadata  set  
+                   id  = #{id,jdbcType=BIGINT},
+                   data  = #{data,jdbcType=VARCHAR},
+                   status  = #{status,jdbcType=INTEGER},
+                   parse_count  = #{parseCount,jdbcType=INTEGER},
+                   create_time  = #{createTime,jdbcType=TIMESTAMP},
+                   parse_result  = #{parseResult,jdbcType=VARCHAR}
+       where id = #{id,jdbcType=BIGINT} 
+    </update> 
+
+    <sql id="whereCase"  >
+         where  1=1  
+        <if test="id !=null">  
+         AND id  = #{id,jdbcType=BIGINT}
+        </if>
+        <if test="data !=null">  
+         AND data  = #{data,jdbcType=VARCHAR}
+        </if>
+        <if test="status !=null">  
+         AND status  = #{status,jdbcType=INTEGER}
+        </if>
+        <if test="parseCount !=null">  
+         AND parse_count  = #{parseCount,jdbcType=INTEGER}
+        </if>
+        <if test="createTime !=null">  
+         AND create_time  = #{createTime,jdbcType=TIMESTAMP}
+        </if>
+        <if test="parseResult !=null">  
+         AND parse_result  = #{parseResult,jdbcType=VARCHAR}
+        </if>
+        <include refid="costomWhereCase"/>
+    </sql> 
+
+    <select id="selectOne" parameterType="java.util.Map" resultMap="BaseResultMap">
+         SELECT
+         <include refid="Base_Column_List" /> 
+         FROM yjj_monitoring_metadata 
+         <include refid="whereCase" /> 
+    </select>
+
+    <select id="selectList" parameterType="java.util.Map" resultMap="BaseResultMap">
+         SELECT
+         <include refid="Base_Column_List" /> 
+         FROM yjj_monitoring_metadata 
+         <include refid="whereCase" /> 
+    </select>
+
+    <select id="selectCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+         SELECT
+         count(1) 
+         FROM yjj_monitoring_metadata 
+         <include refid="whereCase" /> 
+    </select>
+
+<!--  @Costom -->
+<!-- 从上一行注释以上为系统生成 从这一行往下为用户自定义 请将自定义的sql放在此行下面 -->
+
+    <sql id="costomWhereCase">
+        <if test="retryCount !=null">
+            AND parse_count  &lt;= #{retryCount,jdbcType=VARCHAR}
+        </if>
+    </sql>
+    
+   <update id="updateWithVersion"   parameterType="com.jiuy.model.monitoring.MonitoringMetadata"   >
+        update yjj_monitoring_metadata  set  
+                   status  = #{status,jdbcType=INTEGER},
+                   parse_count  = #{parseCount,jdbcType=INTEGER},
+                   parse_result  = #{parseResult,jdbcType=VARCHAR}
+       where id = #{id,jdbcType=BIGINT} and status = 0
+    </update>
+
+
+</mapper>

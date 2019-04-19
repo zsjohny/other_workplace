@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" > 
+<mapper namespace="com.jiuy.rb.mapper.product.SalesVolumePlainExceptionRbMapper"> 
+ 
+ 	<!-- 主要的返回映射-->
+	<resultMap id="BaseResultMap" type="com.jiuy.rb.model.product.SalesVolumePlainExceptionRb"	>
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="plan_id"  property="planId"  jdbcType="BIGINT" />
+		<result column="detail_id"  property="detailId"  jdbcType="BIGINT" />
+		<result column="except_count"  property="exceptCount"  jdbcType="BIGINT" />
+		<result column="data_status"  property="dataStatus"  jdbcType="INTEGER" />
+		<result column="execute_result"  property="executeResult"  jdbcType="VARCHAR" />
+		<result column="execute_count"  property="executeCount"  jdbcType="INTEGER" />
+		<result column="create_time"  property="createTime"  jdbcType="TIMESTAMP" />
+		<result column="update_time"  property="updateTime"  jdbcType="TIMESTAMP" />
+	</resultMap>
+
+	<!-- 所有的列名-->
+	<sql id="Base_Column_List" >
+		id,plan_id,detail_id,except_count,data_status,execute_result,execute_count,create_time,update_time
+	</sql>
+
+	<!-- 精确更新的字段-->
+	<sql id="updateBase">
+		<if test="id  !=null">
+			id = #{id,jdbcType=BIGINT}, 
+		</if>
+		<if test="planId  !=null">
+			plan_id = #{planId,jdbcType=BIGINT}, 
+		</if>
+		<if test="detailId  !=null">
+			detail_id = #{detailId,jdbcType=BIGINT}, 
+		</if>
+		<if test="exceptCount  !=null">
+			except_count = #{exceptCount,jdbcType=BIGINT}, 
+		</if>
+		<if test="dataStatus  !=null">
+			data_status = #{dataStatus,jdbcType=INTEGER}, 
+		</if>
+		<if test="executeResult  !=null">
+			execute_result = #{executeResult,jdbcType=VARCHAR}, 
+		</if>
+		<if test="executeCount  !=null">
+			execute_count = #{executeCount,jdbcType=INTEGER}, 
+		</if>
+		<if test="createTime  !=null">
+			create_time = #{createTime,jdbcType=TIMESTAMP}, 
+		</if>
+		<if test="updateTime  !=null">
+			update_time = #{updateTime,jdbcType=TIMESTAMP} 
+		</if>
+	</sql>
+
+	<!-- 通过主键查找-->
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="Long" >
+		select 
+		<include refid="Base_Column_List" />
+		from yjj_sales_volume_plain_exception
+		where  id = #{id,jdbcType=BIGINT} 
+	</select>
+
+	<!-- 通过主键删除-->
+	<delete id="deleteByPrimaryKey" parameterType="Long" >
+		delete from yjj_sales_volume_plain_exception
+		where id = #{id,jdbcType=BIGINT} 
+	</delete>
+
+	<!-- 普通插入全字段插t入-->
+	<insert id="insert" parameterType="com.jiuy.rb.model.product.SalesVolumePlainExceptionRb" >
+		insert into yjj_sales_volume_plain_exception
+		(
+			id,
+			plan_id,
+			detail_id,
+			except_count,
+			data_status,
+			execute_result,
+			execute_count,
+			create_time,
+			update_time
+		)
+		values
+		(
+			#{id ,jdbcType=BIGINT},
+			#{planId ,jdbcType=BIGINT},
+			#{detailId ,jdbcType=BIGINT},
+			#{exceptCount ,jdbcType=BIGINT},
+			#{dataStatus ,jdbcType=INTEGER},
+			#{executeResult ,jdbcType=VARCHAR},
+			#{executeCount ,jdbcType=INTEGER},
+			#{createTime ,jdbcType=TIMESTAMP},
+			#{updateTime ,jdbcType=TIMESTAMP}
+		)
+	</insert>
+
+	<!-- 批量插入，全部字段插入-->
+	<insert id="insertBach"   parameterType="List" >
+		insert into yjj_sales_volume_plain_exception
+		(
+			id,
+			plan_id,
+			detail_id,
+			except_count,
+			data_status,
+			execute_result,
+			execute_count,
+			create_time,
+			update_time
+		)
+		values 
+		<foreach collection="list" item="item" separator=",">
+		(
+			#{item.id ,jdbcType=BIGINT},
+			#{item.planId ,jdbcType=BIGINT},
+			#{item.detailId ,jdbcType=BIGINT},
+			#{item.exceptCount ,jdbcType=BIGINT},
+			#{item.dataStatus ,jdbcType=INTEGER},
+			#{item.executeResult ,jdbcType=VARCHAR},
+			#{item.executeCount ,jdbcType=INTEGER},
+			#{item.createTime ,jdbcType=TIMESTAMP},
+			#{item.updateTime ,jdbcType=TIMESTAMP}
+		)
+		</foreach>
+	</insert>
+
+	<!-- 精确插入，非null得字段才会插入-->
+	<insert id="insertSelective" parameterType="com.jiuy.rb.model.product.SalesVolumePlainExceptionRb" useGeneratedKeys="true" keyProperty="id" >
+		insert into yjj_sales_volume_plain_exception
+		<trim prefix="(" suffix=")" suffixOverrides="," > 
+			<if test="id !=null">  
+				id,
+			</if>
+			<if test="planId !=null">  
+				plan_id,
+			</if>
+			<if test="detailId !=null">  
+				detail_id,
+			</if>
+			<if test="exceptCount !=null">  
+				except_count,
+			</if>
+			<if test="dataStatus !=null">  
+				data_status,
+			</if>
+			<if test="executeResult !=null">  
+				execute_result,
+			</if>
+			<if test="executeCount !=null">  
+				execute_count,
+			</if>
+			<if test="createTime !=null">  
+				create_time,
+			</if>
+			<if test="updateTime !=null">  
+				update_time,
+			</if>
+		</trim>
+
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+			<if test="id  !=null">
+				#{id,jdbcType=BIGINT}, 
+			</if>
+			<if test="planId  !=null">
+				#{planId,jdbcType=BIGINT}, 
+			</if>
+			<if test="detailId  !=null">
+				#{detailId,jdbcType=BIGINT}, 
+			</if>
+			<if test="exceptCount  !=null">
+				#{exceptCount,jdbcType=BIGINT}, 
+			</if>
+			<if test="dataStatus  !=null">
+				#{dataStatus,jdbcType=INTEGER}, 
+			</if>
+			<if test="executeResult  !=null">
+				#{executeResult,jdbcType=VARCHAR}, 
+			</if>
+			<if test="executeCount  !=null">
+				#{executeCount,jdbcType=INTEGER}, 
+			</if>
+			<if test="createTime  !=null">
+				#{createTime,jdbcType=TIMESTAMP}, 
+			</if>
+			<if test="updateTime  !=null">
+				#{updateTime,jdbcType=TIMESTAMP} 
+			</if>
+		</trim>
+	</insert> 
+
+	<!-- 精确更新-->
+	<update id="updateByPrimaryKeySelective" parameterType="com.jiuy.rb.model.product.SalesVolumePlainExceptionRb" >
+		update yjj_sales_volume_plain_exception
+		<set>
+			<include refid="updateBase"/>
+		</set>
+		where id = #{id,jdbcType=BIGINT} 
+	</update> 
+
+	<!-- 全字段更新 需要注意-->
+	<update id="updateByPrimaryKey" parameterType="com.jiuy.rb.model.product.SalesVolumePlainExceptionRb" >
+		update yjj_sales_volume_plain_exception
+		set 
+			id = #{id ,jdbcType=BIGINT},
+			plan_id = #{planId ,jdbcType=BIGINT},
+			detail_id = #{detailId ,jdbcType=BIGINT},
+			except_count = #{exceptCount ,jdbcType=BIGINT},
+			data_status = #{dataStatus ,jdbcType=INTEGER},
+			execute_result = #{executeResult ,jdbcType=VARCHAR},
+			execute_count = #{executeCount ,jdbcType=INTEGER},
+			create_time = #{createTime ,jdbcType=TIMESTAMP},
+			update_time = #{updateTime ,jdbcType=TIMESTAMP}
+		where id = #{id,jdbcType=BIGINT} 
+	</update> 
+
+	<!-- 所有的条件集合-->
+	<sql id="whereCase"  >
+		where  1=1 
+		<if test="id  !=null">
+			AND id = #{id,jdbcType=BIGINT} 
+		</if>
+		<if test="planId  !=null">
+			AND plan_id = #{planId,jdbcType=BIGINT} 
+		</if>
+		<if test="detailId  !=null">
+			AND detail_id = #{detailId,jdbcType=BIGINT} 
+		</if>
+		<if test="exceptCount  !=null">
+			AND except_count = #{exceptCount,jdbcType=BIGINT} 
+		</if>
+		<if test="dataStatus  !=null">
+			AND data_status = #{dataStatus,jdbcType=INTEGER} 
+		</if>
+		<if test="executeResult  !=null">
+			AND execute_result = #{executeResult,jdbcType=VARCHAR} 
+		</if>
+		<if test="executeCount  !=null">
+			AND execute_count = #{executeCount,jdbcType=INTEGER} 
+		</if>
+		<if test="createTime  !=null">
+			AND create_time = #{createTime,jdbcType=TIMESTAMP} 
+		</if>
+		<if test="updateTime  !=null">
+			AND update_time = #{updateTime,jdbcType=TIMESTAMP} 
+		</if>
+		<include refid="costomWhereCase"/>
+	</sql>
+
+	<!-- 查询一条，如果返回多条会报错-->
+	<select id="selectOne" parameterType="java.util.Map" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" /> 
+		FROM yjj_sales_volume_plain_exception 
+		<include refid="whereCase" /> 
+	</select>
+
+	<!-- 查询一个list-->
+	<select id="selectList" parameterType="java.util.Map" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" /> 
+		FROM yjj_sales_volume_plain_exception 
+		<include refid="whereCase" /> 
+	</select>
+
+	<!-- 查询一个list-->
+	<select id="selectCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+		SELECT
+		count(1) 
+		FROM yjj_sales_volume_plain_exception
+		<include refid="whereCase" /> 
+	</select>
+
+	<!--  @Costom -->
+	<!-- 从上一行注释以上为系统生成 从这一行往下为用户自定义 请将自定义的sql放在此行下面 -->
+	<sql id="costomWhereCase">
+		<if test="lastExecuteCount !=null">
+			and execute_count &lt; #{lastExecuteCount}
+		</if>
+	</sql>
+
+</mapper>

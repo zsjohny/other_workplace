@@ -1,0 +1,15 @@
+<div class="container friend-link">
+   <div class="friend-link-title">友情链接:</div>
+   <ul class="friend-link-list">
+       <%
+       for(item in page.operatorRelationUrls){
+       %>
+	   <li class="item">
+		   <a href="${item.jumpUrl}" target="_blank">
+			   <img src="${item.imageUrl}" alt="${item.imageTitle}">
+			   <p>${item.title}</p>
+		   </a>
+	   </li>
+	   <% } %>
+   </ul>
+</div><!-- friend-link end -->

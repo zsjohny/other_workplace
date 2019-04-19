@@ -1,0 +1,104 @@
+<!--确认订单-->
+<form report-submit="true" bindsubmit="confirmPay">
+  <view class='wrap'>
+    <view class="order-address  arrow-mod" wx:if="{{orderType==0}}">
+      <view class='name-mod'>
+        <view class='name'> {{businessName}}</view>
+      </view>
+      <view class='address'>{{address}}</view>
+      <view class='address-border'></view>
+    </view>
+    <block wx:if="{{ orderType == 1 }}">
+      <view class="order-address arrow-mod" wx:if="{{hasAddressInfo==1}}"  bindtap="edit" data-id='{{deliveryAddressId}}'>
+        <view>
+          <view class='name-mod'>
+            <view class='name'>{{linkmanName}}</view> 
+            <view class='phone'>{{phoneNumber}}</view> 
+          </view>
+          <view class='address'>{{address}}</view>
+        </view>
+        <view class='address-border'></view>
+      </view>
+      <view class="order-address arrow-mod" wx:else if="{{hasAddressInfo == 0}}" bindtap='editAddressBtn'>
+        <view class='edit-address'> 点击编辑收货地址</view>
+        <view class='address-border'></view>
+      </view> 
+    </block>
+    <view class='order-mod arrow-mod' bindtap='goodsWayType' data-Type='{{orderType}}'>
+      <view class='l'>
+        <view class='l' wx:if="{{orderType==0}}">到店提货</view>
+        <view class='l' wx:else if="{{orderType == 1 }}">送货上门</view>
+      </view>
+      <view class='r color-red arrow-margin'>更多收货方式</view>
+    </view>
+    <view class='order-product'>
+      <view class="list-box">
+          <view class='item' wx:for="{{ productList }}" wx:key="{{item}}">
+            <image class="img" mode='aspectFit' src="{{ item.image }}"></image>
+            <view class='info'>
+                <view class='name'>{{item.name}}</view>
+                <view class='sku'>
+                  <view class='type' wx:if="{{ item.color }}">颜色：<text class="color-red">{{item.color}}</text></view>
+                  <view class='type' wx:if="{{ item.size }}">尺寸：<text class="color-red">{{item.size}}</text></view>
+                  <view class='type'>数量：<text class="color-red">{{item.count}}</text></view>
+                </view>
+                <view class='price'>￥{{item.price}}</view>
+                <view wx:if="{{item.isStock}}" class='noStock'>库存不足</view>
+            </view>
+          </view><!-- item end-->
+      </view>
+    </view>  
+    <view class='order-mod'>
+      <view class='l'>配送方式</view>
+      <view class='r'>快递<text class="explain">(卖家承担运费)</text></view>
+    </view>
+    <view class="order-mod order-mod-border">
+      <view class='l'>买家留言：</view>
+      <view class='l'><input class='remark' bindinput="bindKeyInput" placeholder-class='remark-color' placeholder="选填：给商家留言(100字以内)"/></view>
+    </view>
+    <view class='order-mod'>
+      <view class='l'>支付方式</view>
+      <view class='r explain'>微信在线支付</view>
+    </view>
+    <view class='order-mod arrow-mod order-mod-border' wx:if="{{buyType == 0}}">
+        <view class='l'>优惠券</view>
+        <view class='r arrow-margin' wx:if="{{ shopCouponCount == 0 }}">暂无可用的券</view>
+        <view class='r arrow-margin' bindtap='chooseCoupon' wx:else>
+          <view wx:if="{{ couponName }}">{{ couponName }}</view>
+          <view wx:else><text class='color-red'>{{ shopCouponCount }}</text>张可用优惠券</view>
+        </view>
+    </view>
+    <view class='order-mod' wx:else>
+      <view class='l'>购买方式</view>
+      <view class='r color-red' wx:if="{{buyType == 1}}">团购</view>
+      <view class='r color-red' wx:elif="{{buyType == 2}}">秒杀</view>
+    </view>
+    <view class='order-mod'>
+      <view class='l'>商品金额</view>
+      <view class='r ft-red'>￥{{productInfos.allProductPrice}}</view>
+    </view>
+    <view class='order-mod' wx:if="{{ couponAmount }}">
+      <view class='l'>优惠券立减</view>
+      <view class='r ft-red'>-￥{{ couponAmount }}</view>
+    </view>
+    <view class='order-mod order-mod-border'>
+      <view class='l'>运费</view>
+      <view class='r ft-red'>+￥0.00</view>
+    </view>
+  </view>    
+  <view class="order-buy {{ couponAmount > 0 ? 'order-buy1' : '' }}">
+    <view class='main'>
+      <view class='pay-amount'>
+          <view class='pay-money' wx:if="{{ paymentAmount }}">实付金额：
+              <text wx:if="{{ paymentAmount <=0 }}">￥0</text>
+              <text wx:else>￥{{ paymentAmount }}</text>
+          </view>
+          <view class='discount-money' wx:if="{{ couponAmount }}">已为您优惠：<text>￥{{ couponAmount }}</text></view>
+      </view>
+      <button form-type="submit" class='order-btn' disabled="{{ btnDisabled ? fasle : true }}" data-type='{{orderType}}'>提交订单</button>
+    </view>
+  </view>
+</form>  
+<!--弹窗提示-->
+<import src="../../template/prompt.wxml" />
+<template is="promptXbox" data="{{...activityPromptData}}"/>

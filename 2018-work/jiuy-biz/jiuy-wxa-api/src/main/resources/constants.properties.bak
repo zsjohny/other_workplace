@@ -1,0 +1,18 @@
+db.driver=com.mysql.jdbc.Driver
+db.server=jdbc:mysql://10.81.47.21:3306/yjjtest?useUnicode=true&characterEncoding=utf8&allowMultiQueries=true
+db.username=mysql
+db.password=Hap4QTjtuNOhZ0d1tecsQsd
+
+memcached.servers=10.81.47.21:11211
+
+freemarker.template.update.delay=0
+
+env.runtime=test
+
+task.create.index.interval=0 0/1 * * * ?
+
+server.url=http://test.yujiejie.com
+server.url.https=https://test.yujiejie.com
+
+mybatisplus.maxTime=50000
+mybatisplus.format=false

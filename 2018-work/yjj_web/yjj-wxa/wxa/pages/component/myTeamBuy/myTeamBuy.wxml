@@ -1,0 +1,117 @@
+<!--我的团购-->
+<view class="teamBuy-nav">
+  <view class="item item1 {{ tabState1 ? 'active' : '' }}" bindtap="tabFun" data-tab="1">即将成团</view>
+  <view class="item {{ tabState2 ? 'active' : '' }}" bindtap="tabFun" data-tab="2">团购成功</view>
+</view>
+<view class='teamBuy-notice'>
+    <view class='text'>{{noticeText}}</view>
+</view>
+<view class="teamBuy-box">
+  <view class="teamBuy-list" wx:if="{{activityData.length > 0}}">
+    <block wx:for="{{activityData}}" wx:key="{{item.teamBuyActivityId}}">
+      <view class="item">
+        <view class="head">
+          <view class="order">订单号：<text>{{item.orderNumber}}</text></view>
+          <view class='state'>
+              <block wx:if="{{item.isTeamSuccess}}">已成团，请尽快付款</block>
+              <block wx:if="{{item.isTeamSuccess == false}}">拼团中</block>
+              <block wx:if="{{item.orderStatus == 5}}">已付款，等待卖家发货</block>
+              <block wx:if="{{item.orderStatus == 1 || item.orderStatus == 6}}">待收货</block>
+              <block wx:if="{{item.orderStatus == 4}}">交易完成</block>
+          </view>
+        </view>
+        <view class="item-box">
+          <view class="img" bindtap='gotoProductDetail' data-productid='{{item.shopProductId}}'>
+            <image mode='aspectFit' src='{{item.showcaseImgList[0]}}'></image>
+          </view>
+          <view class="info" bindtap='gotoProductDetail' data-productid='{{item.shopProductId}}'>
+            <view class='title'>{{item.shopProductName}}</view>
+            <view class='param'>
+              <view class='type type1'>拼团价：<text class="color-red"><text class="rmb">￥</text><text class="price">{{item.activityPrice}}</text></text></view>
+              <view class='type type1'>原价：<text><text class="rmb">￥</text><text class="old-price">{{item.activityProductPrice}}</text></text></view>
+            </view>
+            <view class='param'>
+              <view class='type'>颜色：<text class="color-red">{{item.color}}</text></view>
+              <view class='type'>尺寸：<text class="color-red">{{item.size}}</text></view>
+              <view class='type'>数量：<text class="color-red">{{item.count}}</text></view>
+            </view>
+          </view>
+        </view>
+        <!-- 团购成功 -->
+        <block wx:if="{{item.orderStatus != 0}}">
+          <view class="total total-box1">
+            合计：<text class="color-red">￥<text class="sum">{{item.totalExpressAndMoney}}</text></text>(含运费￥{{item.expressMoney}})
+          </view>
+          <!-- 待收货 -->
+          <view class='btn-box' wx:if="{{item.orderStatus == 6}}">
+            <view class='btn express-btn' bindtap='openExpressDetail' data-id='{{item.orderId}}'>查看物流</view>
+            <view class='btn take-btn' bindtap='showReceiptPopup' data-id='{{item.orderId}}'>确认收货</view>
+          </view>
+          <view class='btn-box' wx:if="{{item.orderStatus == 1}}">
+            <view class='btn take-btn' bindtap='showCodeImgBox' data-id='{{item.orderId}}'>查看提货二维码</view>
+          </view>
+        </block>
+        <!-- 即将成团 -->
+        <block wx:else>
+          <view class='down-time'>
+            距离活动时间结束还有： <text>{{item.timeFormat}}</text>
+          </view>
+          <view class='operator-box'>
+            <view class='total total-box'>合计：<text class="ft-red">￥<text class="sum">{{item.totalExpressAndMoney}}</text></text>(含运费￥{{item.expressMoney}})</view>
+            <view class='btn-box'>               
+              <block wx:if="{{item.isTeamSuccess}}">
+                <button class='btn take-btn' bindtap='confirmPay' data-id='{{item.orderId}}' disabled="{{ payBtnState ? fasle : true }}">付款</button>
+              </block>
+               <button wx:else class='btn take-btn share-btn' data-productid='{{item.shopProductId}}' data-activityid='{{item.teamBuyActivityId}}' data-title='{{item.shopProductName}}' data-img='{{item.showcaseImgList[0]}}' open-type="share">邀请拼团</button>
+            </view>
+          </view>
+        </block>
+      </view><!-- item end -->
+    </block>
+  </view>  
+  <!-- 无数据时 -->
+  <view wx:else class='no-record-box'>
+    <view class='icon coupon-icon'></view>
+    <view class='text'>暂无数据</view>
+  </view>
+  <!--上拉加载更多-->
+  <view class="more-load2">
+    <!--底部加载loadding-->
+    <view wx:if="{{ hasMore }}" class="go-loading more-loading">
+      <view class="loading-mod"></view>
+      <text class="tx">正在载入中…</text> 
+    </view>
+    <view wx:if="{{ moreOver }}" class="tips2"><text>已显示全部</text></view>
+  </view>
+</view><!-- teamBuy-box end -->
+<!-- 确认收货 -->
+<view class="prompt-xbox hide {{ confirmReceipt ? 'show' : ''}}">
+    <view class='bg' bindtap='closexbox'></view>
+    <view class='prompt-content'>
+        <view class='title'>您已收到该订单的全部商品了吗？</view>
+        <view class='btn-wrap btn-wrap1'>
+           <view class='btn1 confirm-btn' bindtap='closeReceiptXbox'>取消</view>
+           <view class='btn1 close-xbox' bindtap='checkReceipt'>确定</view>
+        </view>
+    </view>
+</view>  
+<!--查看提货二维码-->
+<view class="check-codeImg" wx:if="{{ boxShow }}">
+    <view class="check-bg" bindtap="closeCodeImgBox"></view>
+    <view class="check-box">
+        <view class="title">提货二维码</view>
+        <view class="code-box">
+          <image wx:if="{{codeImgState}}" src="{{codeImgUrl}}" class="img"></image>
+          <view class="reflesh-box" bindtap="refleshCode" wx:if="{{refleshBtn}}">
+              <view class="icon"></view>
+              <view class="text">点击刷新</view>
+          </view>
+        </view>
+        <view class='code-explain'>请到门店，出示二维码取货</view>
+        <view class="explain" wx:if="{{ codePrompt }}">
+          <view class="ct">注意：提货前请先预约店家，联系电话<text data-phone="{{phoneNumber}}" bindtap="makePhone">{{ phoneNumber }}</text></view>  
+        </view>
+        <view class="prompt" wx:if="{{invalidPrompt}}">二维码失效！<view>使用超时，请点击刷新再试</view></view>
+    </view>
+    <view class="close-btn" bindtap="closeCodeImgBox">关闭</view>
+</view>

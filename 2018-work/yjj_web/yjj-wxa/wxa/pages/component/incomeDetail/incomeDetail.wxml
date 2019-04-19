@@ -1,0 +1,117 @@
+<view class='body-contain'>
+  <view class="detail-box">
+    <view class='title'>流水信息</view>
+    <view class='content'>
+      <view class='detail-item'>
+        <view class='tit'>交易流水：</view>
+        <view class='text'>
+          <block wx:if="{{detailData.type == 2 }}">{{detailData.orderNo}}</block>
+          <block wx:else>{{detailData.paymentNo}}</block>
+        </view>
+      </view>
+      <view class='detail-item'>
+        <view class='tit'>类型：</view>
+        <view class='text'>
+          <block wx:if="{{detailData.type == 0 }}">订单佣金</block>
+          <block wx:if="{{detailData.type == 1 }}">管理奖金</block>
+          <block wx:if="{{detailData.type == 2 }}">提现</block>
+          <block wx:if="{{detailData.type == 3 }}">签到</block>
+          <block wx:if="{{detailData.type == 40 || detailData.type == 41}}">分享商品</block>
+        </view>
+      </view>
+      <view class='detail-item' wx:if="{{detailData.type != 2}}">
+        <view class='tit'>状态：</view>
+        <view class='text'>
+          <block wx:if="{{detailData.status == 1 }}">待结算</block>
+          <block wx:if="{{detailData.status == 2 }}">已结算</block>
+          <block wx:if="{{detailData.status == 3 }}">已冻结</block>
+          <block wx:if="{{detailData.status == 5 }}">预结算</block>
+        </view>
+      </view>
+      <view class='detail-item'>
+        <view class='tit'>
+          <block wx:if="{{inOutType == 1}}">收入：</block>
+          <block wx:if="{{inOutType == 2}}">支出：</block>
+        </view>
+        <view class='text'>
+          <block wx:if="{{flag == 'amount'}}">{{detailData.money}}</block>
+          <block wx:if="{{flag == 'coin'}}">{{detailData.coin}}</block>
+        </view>
+      </view>
+      <view class='detail-item'>
+        <view class='tit'>时间：</view>
+        <view class='text'>{{detailData.operTime}}</view>
+      </view>
+    </view>
+  </view>
+  <!-- 签到和提现无订单信息模块 -->
+  <view class="detail-box" wx:if="{{detailData.type == 0 || detailData.type == 1}}">
+    <view class='title'>订单信息</view>
+    <view class='content content1'>
+      <view class='sub-title'>
+        <view class='order-no'>订单编号：{{detailData.orderNumber}}</view>
+        <view class='copy-btn' bindtap='clipboardOrderNo' data-no='{{detailData.orderNumber}}'>复制</view>
+        <view class='state'>
+          <block wx:if="{{detailData.orderStatus == 0}}">待付款</block>
+          <block wx:if="{{detailData.orderStatus == 1}}">待提货</block>
+          <block wx:if="{{detailData.orderStatus == 2}}">退款中</block>
+          <block wx:if="{{detailData.orderStatus == 3}}">订单关闭</block>
+          <block wx:if="{{detailData.orderStatus == 4}}">订单完成</block>
+          <block wx:if="{{detailData.orderStatus == 5}}">待发货</block>
+          <block wx:if="{{detailData.orderStatus == 6}}">已发货</block>
+        </view>
+      </view>
+      <view class='product-item' wx:for="{{skuVoList}}" wx:key="{{item.img}}">
+        <image class="img" mode='aspectFit' src="{{item.img}}"></image>
+        <view class='info'>
+          <view class='name'>{{item.name}}</view>
+          <view class='sku'>
+            <view class='type type1'>颜色：<text class="color-red">{{item.color}}</text></view>
+            <view class='type'>尺寸：<text class="color-red">{{item.size}}</text></view>
+            <view class='type'>数量：<text class="color-red">{{item.count}}</text></view>
+          </view>
+          <view class='price'>￥{{item.price}}</view>
+        </view>
+      </view><!--product-item end-->
+    </view>
+    <view class='detail-item item-marginTop'>
+      <view class='tit'>商品总价</view>
+      <view class='text'>{{detailData.payMoney}}</view>
+    </view>
+    <view class='detail-item'>
+      <view class='tit'>运费（快递）</view>
+      <view class='text'>{{detailData.expressMoney}}</view>
+    </view>
+    <view class='detail-item'>
+      <view class='tit'>优惠劵</view>
+      <view class='text'>{{detailData.saleMoney}}</view>
+    </view>
+    <view class='detail-item'>
+      <view class='tit'>金币</view>
+      <view class='text'>{{detailData.goldCoin}}</view>
+    </view>
+    <view class='detail-item'>
+      <view class='tit'>实际付款</view>
+      <view class='text'>{{detailData.payMoney}}</view>
+    </view>
+    <view class='detail-item detail-item1' wx:if="{{flag == 'amount'}}">
+      <view class='tit'>佣金收益<text class='explain'>（实际付款×16%×80%）</text></view>
+      <view class='text color-red'>¥{{detailData.money}}</view>
+    </view>
+    <view class='detail-item detail-item1' wx:if="{{flag == 'coin'}}">
+      <view class='tit'>金币收益<text class='explain'>（实际付款×16%×20%）</text></view>
+      <view class='text color-red'>¥{{detailData.coin}}</view>
+    </view>
+  </view> 
+  <view class='detail-box detail-box1' wx:if="{{detailData.type == 0 || detailData.type == 1}}">
+    <view class='detail-item detail-item1'>
+      <view class='tit'>下单人：<text>{{detailData.userNickname}}</text></view>
+    </view>
+    <view class='detail-item detail-item1'>
+      <view class='tit'>下单时间：<text>{{detailData.payTime}}</text></view>
+    </view>
+    <view class='detail-item detail-item1'>
+      <view class='tit'>确认收货时间：<text>{{detailData.confirmSignedTime}}</text></view>
+    </view>
+  </view>  
+</view>

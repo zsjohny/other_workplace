@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jiuy.core.dao.mapper.RoleDaoSqlImpl">
+
+	<select id="searchCount" resultType="int">
+		select count(*) from yjj_Role
+		<where>
+			Status = 0 
+			<if test="name != null">
+				and Name like concat ("%", #{name}, "%")
+			</if>
+		</where>
+	</select>
+	
+	<select id="search" resultType="Role">
+		select * from yjj_Role
+		<where>
+			Status = 0
+			<if test="name != null">
+				and Name like concat("%", #{name}, "%")
+			</if>
+		</where>
+		<if test="pageQuery != null">
+			limit #{pageQuery.limit} offset #{pageQuery.offset}
+		</if>
+	</select>
+	
+	<update id="update">
+		update yjj_Role
+		<set>
+			<if test="name != null">
+				Name = #{name},
+			</if>
+			<if test="description != null">
+				Description = #{description},
+			</if>
+			<if test="status != null">
+				Status = #{status},
+			</if>
+		</set>
+		<where>
+			<if test="id != null">
+				and Id = #{id}
+			</if>
+		</where>
+	</update>
+	
+	<insert id="add">
+		insert yjj_Role(Name, Description, CreateTime, UpdateTime)
+		values(#{name}, #{description}, #{createTime}, #{updateTime})
+	</insert>
+	
+	<select id="roleOfId" resultType="Role">
+		select * from yjj_Role
+		where Status = 0
+	</select>
+	
+	<select id="getByName" resultType="Role">
+		select * from yjj_Role
+		where Status = 0 and Name = #{name}
+	</select>
+</mapper>

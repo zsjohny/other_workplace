@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.e_commerce.miscroservice.operate.mapper.StoreWxaMapper">
+
+
+
+    <!-- 店铺所有资料 -->
+    <select id="listAll" resultType="map" parameterType="map">
+        SELECT
+        store.Id AS storeId,
+        IFNULL(aud.boss_name, '') AS businessName,
+        IFNULL(aud.shop_name, '') AS shopName,
+        store.PhoneNumber AS phone,
+        IFNULL(aud.industry, '') AS industry,
+        IFNULL(aud.main_business, '') AS mainBusiness,
+        store.wxa_business_type AS businessType,
+        store.is_open_wxa AS isOpenWxa,
+        store.wxa_close_time AS wxaCloseTime,
+        store.wxa_open_time AS wxaOpenTime,
+        IFNULL(member.del_state, 1) AS memberDelState,
+        IFNULL(member.id, 0) AS memberId,
+        IFNULL(member.end_time, - 1) AS memberEndTime
+        FROM
+        yjj_storebusiness store
+        LEFT JOIN yjj_store_wxa_shop_audit_data aud ON aud.store_id = store.Id
+        AND aud.del_status = 0
+        LEFT JOIN yjj_member member ON member.platform_type = 1
+        AND member.user_id = store.Id
+        WHERE
+        1 = 1
+        AND store.wxa_business_type > 0
+        <if test="businessName != null and businessName != ''">
+            AND aud.boss_name LIKE CONCAT('%', #{businessName}, '%')
+        </if>
+        <if test="phone != null and phone != ''">
+          AND store.PhoneNumber = #{phone}
+        </if>
+        <if test="shopName != null and shopName != ''">
+          AND aud.shop_name LIKE CONCAT('%', #{shopName}, '%')
+        </if>
+        <if test="wxaOpenTimeCeil != null and wxaOpenTimeCeil > 0">
+          AND store.wxa_open_time &lt; #{wxaOpenTimeCeil}
+        </if>
+        <if test="wxaOpenTimeFloor != null and wxaOpenTimeFloor > 0">
+          AND store.wxa_close_time &gt; #{wxaOpenTimeFloor}
+        </if>
+        <if test="businessType != null">
+          AND store.wxa_business_type = #{businessType}
+        </if>
+        ORDER BY store.wxa_open_time DESC
+    </select>
+
+</mapper>
+
+
+
+
+
+
+
+
+
+
+

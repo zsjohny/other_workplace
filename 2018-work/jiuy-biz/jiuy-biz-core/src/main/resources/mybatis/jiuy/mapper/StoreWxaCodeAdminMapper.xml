@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jiuy.core.dao.impl.sql.StoreWxaCodeAdminMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="StoreWxaCode">
+		<id column="id" property="id" />
+		<result column="wxa_id" property="wxaId" />
+		<result column="online_template" property="onlineTemplate" />
+		<result column="online_version" property="onlineVersion" />
+		<result column="online_release_time" property="onlineReleaseTime" />
+		<result column="test_template" property="testTemplate" />
+		<result column="test_desc" property="testDesc" />
+		
+		<result column="test_version" property="testVersion" />
+		<result column="test_upload_time" property="testUploadTime" />
+		<result column="test_qrcode_url" property="testQrcodeUrl" />
+		<result column="test_weiXinNums" property="testWeiXinNums" />
+		<result column="submit_audit_time" property="submitAuditTime" />
+		<result column="submit_audit_admin_id" property="submitAuditAdminId" />
+		<result column="audit_template" property="auditTemplate" />
+		<result column="audit_version" property="auditVersion" />
+		<result column="audit_state" property="auditState" />
+		<result column="audit_back_time" property="auditBackTime" />
+		<result column="audit_back_result_msg" property="auditBackResultMsg" />
+		<result column="audit_back_result_json" property="auditBackResultJson" />
+		<result column="create_time" property="createTime" />
+	</resultMap>
+    
+	
+	<select id="getByWxaId" parameterType="map" resultMap="BaseResultMap">
+		SELECT * FROM jiuy_store_wxa_code 
+		WHERE wxa_id=#{wxaId} ;
+	</select>
+	
+	<!-- 插入 -->
+	<insert id="insertWxaCode" useGeneratedKeys="true" keyProperty="id" parameterType="StoreWxaCode">
+		INSERT INTO jiuy_store_wxa_code(wxa_id,test_template, test_version, test_desc, test_upload_time,create_time)
+		VALUES (#{wxaId}, #{testTemplate}, #{testVersion}, #{testDesc}, #{testUploadTime}, #{createTime})
+	</insert>
+	
+	<!-- 修改 -->
+	<update id="updateWxaCodeUploadCode" parameterType="StoreWxaCode">
+		UPDATE
+			jiuy_store_wxa_code
+		SET
+			 test_template = #{testTemplate}, test_version = #{testVersion},
+			 test_desc = #{testDesc}, test_upload_time = #{testUploadTime}
+		WHERE
+			id = #{id}
+	</update>
+	
+	<!-- 修改storeWxaCodeNew.setId(storeWxaCode.getId());
+		storeWxaCodeNew.setAuditVersion(storeWxaCode.getTestVersion());
+		storeWxaCodeNew.setAuditTemplate(storeWxaCode.getTestTemplate());
+		storeWxaCodeNew.setSubmitAuditTime(now); -->
+	<update id="updateWxaCodeSubmitAudit" parameterType="StoreWxaCode">
+		UPDATE
+			jiuy_store_wxa_code
+		SET
+			audit_version = #{auditVersion}, audit_template = #{auditTemplate},submit_audit_time = #{submitAuditTime}
+		WHERE
+			id = #{id}
+	</update>
+
+</mapper>

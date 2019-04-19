@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jiuy.core.dao.mapper.UserDaoSqlImpl">
+	<resultMap type="User" id="userMap">
+		<id property="userId" column="UserId"/>
+		<result property="userName" column="UserName"/>
+		<result property="userRelatedName" column="UserRelatedName"/>
+		<result property="userNickname" column="UserNickname"/>
+		<result property="yJJNumber" column="YJJNumber"/>
+        <result column="Status" property="status"  typeHandler="com.jiuyuan.ext.mybatis.IntEnumTypeHandler"/>
+        <result column="UserType" property="userType" typeHandler="com.jiuyuan.ext.mybatis.IntEnumTypeHandler"/>
+	</resultMap>
+
+	<select id="search" resultMap="userMap">
+      	select * from yjj_User
+		<where>
+ 			Status = 0
+	    	<if test="yJJNumbers != null">
+	    		and YJJNumber in
+	    		<foreach collection="yJJNumbers" item="yJJNumber" open="(" separator="," close=")">
+	    			#{yJJNumber}
+	    		</foreach>
+	    	</if>
+	    	<if test="userType != null">
+	    		and UserType = #{userType}
+	    	</if>
+	    	<if test="userRelatedNames != null">
+	    		and UserRelatedName in
+	    		<foreach collection="userRelatedNames" item="userRelatedName" open="(" separator="," close=")">
+	    			#{userRelatedName}
+	    		</foreach>
+	    	</if>
+	    	<if test="startTime != null">
+	    		<![CDATA[and CreateTime >= #{startTime} ]]>
+	    	</if>
+	    	<if test="endTime != null">
+	    		<![CDATA[and CreateTime <= #{endTime} ]]>
+	    	</if>
+      	</where>
+    </select>
+    
+    <select id="searchCount" resultType="int">
+      	select count(1) from yjj_User
+		<where>
+ 			Status = 0
+	    	<if test="yJJNumbers != null">
+	    		and YJJNumber in
+	    		<foreach collection="yJJNumbers" item="yJJNumber" open="(" separator="," close=")">
+	    			#{yJJNumber}
+	    		</foreach>
+	    	</if>
+	    	<if test="userType != null">
+	    		and UserType = #{userType}
+	    	</if>
+	    	<if test="userRelatedNames != null">
+	    		and UserRelatedName in
+	    		<foreach collection="userRelatedNames" item="userRelatedName" open="(" separator="," close=")">
+	    			#{userRelatedName}
+	    		</foreach>
+	    	</if>
+	    	<if test="startTime != null">
+	    		<![CDATA[and CreateTime >= #{startTime} ]]>
+	    	</if>
+	    	<if test="endTime != null">
+	    		<![CDATA[and CreateTime <= #{endTime} ]]>
+	    	</if>
+      	</where>
+    </select>
+    
+    <select id="excludeSearch" resultMap="userMap">
+    	select * from yjj_User
+    	<where>
+    	 	YJJNumber not in
+    		<foreach collection="yJJNumbers" item="yJJNumber" open="(" separator="," close=")">
+    			#{yJJNumber}
+    		</foreach> and Status = 0
+    	</where>
+    </select>
+    
+    <select id="excludeSearchCount" resultType="int">
+    	select count(1) from yjj_User
+    	<where>
+    	 	YJJNumber not in
+    		<foreach collection="yJJNumbers" item="yJJNumber" open="(" separator="," close=")">
+    			#{yJJNumber}
+    		</foreach> and Status = 0
+    	</where>
+    </select>
+
+	<select id="getUserByProperty" parameterType="User"
+		resultMap="userMap">
+		SELECT
+		*
+		FROM
+		yjj_User
+		<where>
+			<if test="userName != null">
+				UserName = #{userName}
+			</if>
+			<if test="userRelatedName != null">
+				UserRelatedName = #{userRelatedName}
+			</if>
+			<if test="userPassword != null">
+				and UserPassword = #{userPassword}
+			</if>
+		</where>
+	</select>
+	
+	<select id="userOfIds" parameterType="map" resultMap="userMap">
+		select a.*, b.ReceiverName, b.Telephone, b.AddrFull from yjj_User a, (select * from yjj_Address where AddrId in 
+		(select min(AddrId) as AddrId from yjj_Address group by UserId)) b
+		where a.UserId=b.UserId and a.UserId in 
+		<foreach collection="userIds" item="userId" open="(" separator="," close=")">
+			#{userId}
+		</foreach>
+	</select>
+
+	<select id="registerPerDay" resultType="map">
+		select count(*) as count, from_unixtime(CreateTime/1000, "%Y-%m-%d") as day 
+		from yjj_User
+		where 
+		<![CDATA[
+			Status = 0 and CreateTime > #{startTime} and CreateTime <= #{endTime}  			
+		]]>
+		group by Day 
+	</select>
+	
+	<select id="registerForTypePerDay" resultType="map">
+		select count(*) as count, from_unixtime(CreateTime/1000, "%Y-%m-%d") as day 
+		from yjj_User
+		where 
+		<![CDATA[
+			Status = 0 and CreateTime > #{startTime} and CreateTime <= #{endTime}  			
+		]]>
+		<if test = "userType != -1">
+			and UserType = #{userType}
+		</if>
+		group by Day 
+	</select>
+	
+	<select id="loginPerDay" resultType="map">
+		select count(*) as login, from_unixtime(CreateTime/1000, "%Y-%m-%d") as day 
+		from yjj_UserSign
+		where 
+		<![CDATA[
+			CreateTime > #{startTime} and CreateTime <= #{endTime}  			
+		]]>
+		group by day 
+	</select>
+	
+	<select id="uninterruptedSignIn" resultType="map">
+		select YJJNumber, UserId, UserRelatedName, UserType  
+		from yjj_User where userId in (
+			select userId
+			from yjj_UserSign
+			<where>
+				<![CDATA[CreateTime >= #{startTime}
+			        and CreateTime <= #{endTime} ]]>
+			</where> 
+			group by UserId having <![CDATA[count(1) >= #{days}]]>)
+	</select>
+
+	<select id="searchOne" resultMap="userMap">
+		select * from yjj_User
+		<where>
+			<if test="yJJNumber != null">
+				and YJJNumber = #{yJJNumber}
+			</if>
+		</where>
+	</select>
+	
+	<select id="getByUserId" resultMap="userMap">
+		select * from yjj_User
+		where UserId = #{userId}
+	</select>
+	
+	<select id="getUserCount" resultType="int">
+		select count(1) from yjj_User
+		where Status = 0 
+		 	<if test="startTime != null">
+				and <![CDATA[ CreateTime > #{startTime}]]>
+			</if>
+			<if test="endTime != null">
+				and <![CDATA[ CreateTime < #{endTime}]]>
+			</if>
+	</select>
+	
+	<select id="searchByCoin" resultType="map">
+		select UserName as username, YJJNumber as yjj_number, BindPhone as bind_phone, UnavalCoins as jiuCoin 
+		from yjj_User as a left join yjj_UserCoin as b
+		on a.UserId = b.UserId
+		<where>
+ 			Status = 0
+	    	<if test="startTime != null">
+	    		<![CDATA[and a.CreateTime >= #{startTime} ]]>
+	    	</if>
+	    	<if test="endTime != null">
+	    		<![CDATA[and a.CreateTime <= #{endTime} ]]>
+	    	</if>
+   			<if test="minJiuCoin != null">
+	    		<![CDATA[and b.UnavalCoins >= #{minJiuCoin} ]]>
+	    	</if>
+	    	<if test="maxJiuCoin != null">
+	    		<![CDATA[and b.UnavalCoins <= #{maxJiuCoin} ]]>
+	    	</if>
+      	</where>
+	</select>
+	
+	<select id="perMonthRegister" resultType="map">
+		select count(*) as count, from_unixtime(CreateTime/1000, "%Y-%m") as dateTimes 
+		from yjj_User 
+		group by dateTimes
+	</select>
+
+	<select id="usersOfPhones" parameterType="map" resultMap="userMap">
+		select * from yjj_User
+		<where>
+ 			Status = 0
+ 			<if test="phones != null">
+ 			<![CDATA[
+	    		and  UserRelatedName in
+	    	]]>
+	    		<foreach collection="phones" item="phone" open="(" separator="," close=")">
+	    			#{phone}
+	    		</foreach>
+	    		and UserType = 1
+	    	</if>
+ 		</where>
+	</select>
+	
+	<select id="searchByPhone" resultMap="userMap">
+		select * from yjj_User
+		where UserName in
+	    		<foreach collection="phones" item="phone" open="(" separator="," close=")">
+	    			#{phone}
+	    		</foreach>
+	    		or BindPhone in 
+	    		<foreach collection="phones" item="phone" open="(" separator="," close=")">
+	    			#{phone}
+	    		</foreach>
+	</select>
+
+	<select id="loginDay" resultType="map">
+		select count(*) as count, day from (select count(*),userId, from_unixtime(CreateTime/1000, "%Y-%m-%d") as day 
+			from yjj_UserVisitHistory where 
+			<![CDATA[
+				userId <>0 and	CreateTime >= #{startTime} and CreateTime <= #{endTime}
+			]]>
+			group by day ,userId) as a
+       	 group by day;
+	</select>
+	
+	<select id="getPerday" resultType="map">
+		select * from yjj_TempData
+	</select>
+	
+	<select id="fuzzySearchUserByYJJNumber" resultType="User">
+		select * from yjj_User
+		where 
+			YJJNumber like CONCAT ("%",#{yJJNumber},"%")
+	</select>
+</mapper>

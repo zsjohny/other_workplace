@@ -1,0 +1,438 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" > 
+<mapper namespace="com.jiuy.rb.mapper.product.CategoryRbMapper"> 
+ 
+ 	<!-- 主要的返回映射-->
+	<resultMap id="BaseResultMap" type="com.jiuy.rb.model.product.CategoryRb"	>
+		<id column="Id" property="id" jdbcType="BIGINT" />
+		<result column="CategoryName"  property="categoryName"  jdbcType="VARCHAR" />
+		<result column="ParentId"  property="parentId"  jdbcType="BIGINT" />
+		<result column="Status"  property="status"  jdbcType="TINYINT" />
+		<result column="CreateTime"  property="createTime"  jdbcType="BIGINT" />
+		<result column="UpdateTime"  property="updateTime"  jdbcType="BIGINT" />
+		<result column="CategoryType"  property="categoryType"  jdbcType="TINYINT" />
+		<result column="Description"  property="description"  jdbcType="VARCHAR" />
+		<result column="Weight"  property="weight"  jdbcType="INTEGER" />
+		<result column="IconUrl"  property="iconUrl"  jdbcType="VARCHAR" />
+		<result column="IconOnUrl"  property="iconOnUrl"  jdbcType="VARCHAR" />
+		<result column="CategoryUrl"  property="categoryUrl"  jdbcType="VARCHAR" />
+		<result column="IsDiscount"  property="isDiscount"  jdbcType="TINYINT" />
+		<result column="ExceedMoney"  property="exceedMoney"  jdbcType="DECIMAL" />
+		<result column="MinusMoney"  property="minusMoney"  jdbcType="DECIMAL" />
+		<result column="categoryLevel"  property="categoryLevel"  jdbcType="TINYINT" />
+		<result column="code"  property="code"  jdbcType="VARCHAR" />
+	</resultMap>
+
+	<!-- 所有的列名-->
+	<sql id="Base_Column_List" >
+		Id,CategoryName,ParentId,Status,CreateTime,UpdateTime,CategoryType,Description,Weight,
+		IconUrl,IconOnUrl,CategoryUrl,IsDiscount,ExceedMoney,MinusMoney,categoryLevel,code
+	</sql>
+
+	<!-- 精确更新的字段-->
+	<sql id="updateBase">
+		<if test="id  !=null">
+			Id = #{id,jdbcType=BIGINT}, 
+		</if>
+		<if test="categoryName  !=null">
+			CategoryName = #{categoryName,jdbcType=VARCHAR}, 
+		</if>
+		<if test="parentId  !=null">
+			ParentId = #{parentId,jdbcType=BIGINT}, 
+		</if>
+		<if test="status  !=null">
+			Status = #{status,jdbcType=TINYINT}, 
+		</if>
+		<if test="createTime  !=null">
+			CreateTime = #{createTime,jdbcType=BIGINT}, 
+		</if>
+		<if test="updateTime  !=null">
+			UpdateTime = #{updateTime,jdbcType=BIGINT}, 
+		</if>
+		<if test="categoryType  !=null">
+			CategoryType = #{categoryType,jdbcType=TINYINT}, 
+		</if>
+		<if test="description  !=null">
+			Description = #{description,jdbcType=VARCHAR}, 
+		</if>
+		<if test="weight  !=null">
+			Weight = #{weight,jdbcType=INTEGER}, 
+		</if>
+		<if test="iconUrl  !=null">
+			IconUrl = #{iconUrl,jdbcType=VARCHAR}, 
+		</if>
+		<if test="iconOnUrl  !=null">
+			IconOnUrl = #{iconOnUrl,jdbcType=VARCHAR}, 
+		</if>
+		<if test="categoryUrl  !=null">
+			CategoryUrl = #{categoryUrl,jdbcType=VARCHAR}, 
+		</if>
+		<if test="isDiscount  !=null">
+			IsDiscount = #{isDiscount,jdbcType=TINYINT}, 
+		</if>
+		<if test="exceedMoney  !=null">
+			ExceedMoney = #{exceedMoney,jdbcType=DECIMAL}, 
+		</if>
+		<if test="minusMoney  !=null">
+			MinusMoney = #{minusMoney,jdbcType=DECIMAL}, 
+		</if>
+		<if test="categoryLevel  !=null">
+			categoryLevel = #{categoryLevel,jdbcType=TINYINT}, 
+		</if>
+		<if test="code  !=null">
+			code = #{code,jdbcType=VARCHAR} 
+		</if>
+	</sql>
+
+	<!-- 通过主键查找-->
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="Long" >
+		select 
+		<include refid="Base_Column_List" />
+		from yjj_category
+		where  Id = #{id,jdbcType=BIGINT} 
+	</select>
+
+	<!-- 通过主键删除-->
+	<delete id="deleteByPrimaryKey" parameterType="Long" >
+		delete from yjj_category
+		where Id = #{id,jdbcType=BIGINT} 
+	</delete>
+
+	<!-- 普通插入全字段插t入-->
+	<insert id="insert" parameterType="com.jiuy.rb.model.product.CategoryRb" >
+		insert into yjj_category
+		(
+			Id,
+			CategoryName,
+			ParentId,
+			Status,
+			CreateTime,
+			UpdateTime,
+			CategoryType,
+			Description,
+			Weight,
+			IconUrl,
+			IconOnUrl,
+			CategoryUrl,
+			IsDiscount,
+			ExceedMoney,
+			MinusMoney,
+			categoryLevel,
+			code
+		)
+		values
+		(
+			#{id ,jdbcType=BIGINT},
+			#{categoryName ,jdbcType=VARCHAR},
+			#{parentId ,jdbcType=BIGINT},
+			#{status ,jdbcType=TINYINT},
+			#{createTime ,jdbcType=BIGINT},
+			#{updateTime ,jdbcType=BIGINT},
+			#{categoryType ,jdbcType=TINYINT},
+			#{description ,jdbcType=VARCHAR},
+			#{weight ,jdbcType=INTEGER},
+			#{iconUrl ,jdbcType=VARCHAR},
+			#{iconOnUrl ,jdbcType=VARCHAR},
+			#{categoryUrl ,jdbcType=VARCHAR},
+			#{isDiscount ,jdbcType=TINYINT},
+			#{exceedMoney ,jdbcType=DECIMAL},
+			#{minusMoney ,jdbcType=DECIMAL},
+			#{categoryLevel ,jdbcType=TINYINT},
+			#{code ,jdbcType=VARCHAR}
+		)
+	</insert>
+
+	<!-- 批量插入，全部字段插入-->
+	<insert id="insertBach"   parameterType="List" >
+		insert into yjj_category
+		(
+			Id,
+			CategoryName,
+			ParentId,
+			Status,
+			CreateTime,
+			UpdateTime,
+			CategoryType,
+			Description,
+			Weight,
+			IconUrl,
+			IconOnUrl,
+			CategoryUrl,
+			IsDiscount,
+			ExceedMoney,
+			MinusMoney,
+			categoryLevel,
+			code
+		)
+		values 
+		<foreach collection="list" item="item" separator=",">
+		(
+			#{item.id ,jdbcType=BIGINT},
+			#{item.categoryName ,jdbcType=VARCHAR},
+			#{item.parentId ,jdbcType=BIGINT},
+			#{item.status ,jdbcType=TINYINT},
+			#{item.createTime ,jdbcType=BIGINT},
+			#{item.updateTime ,jdbcType=BIGINT},
+			#{item.categoryType ,jdbcType=TINYINT},
+			#{item.description ,jdbcType=VARCHAR},
+			#{item.weight ,jdbcType=INTEGER},
+			#{item.iconUrl ,jdbcType=VARCHAR},
+			#{item.iconOnUrl ,jdbcType=VARCHAR},
+			#{item.categoryUrl ,jdbcType=VARCHAR},
+			#{item.isDiscount ,jdbcType=TINYINT},
+			#{item.exceedMoney ,jdbcType=DECIMAL},
+			#{item.minusMoney ,jdbcType=DECIMAL},
+			#{item.categoryLevel ,jdbcType=TINYINT},
+			#{item.code ,jdbcType=VARCHAR}
+		)
+		</foreach>
+	</insert>
+
+	<!-- 精确插入，非null得字段才会插入-->
+	<insert id="insertSelective" parameterType="com.jiuy.rb.model.product.CategoryRb" useGeneratedKeys="true" keyProperty="id" >
+		insert into yjj_category
+		<trim prefix="(" suffix=")" suffixOverrides="," > 
+			<if test="id !=null">  
+				Id,
+			</if>
+			<if test="categoryName !=null">  
+				CategoryName,
+			</if>
+			<if test="parentId !=null">  
+				ParentId,
+			</if>
+			<if test="status !=null">  
+				Status,
+			</if>
+			<if test="createTime !=null">  
+				CreateTime,
+			</if>
+			<if test="updateTime !=null">  
+				UpdateTime,
+			</if>
+			<if test="categoryType !=null">  
+				CategoryType,
+			</if>
+			<if test="description !=null">  
+				Description,
+			</if>
+			<if test="weight !=null">  
+				Weight,
+			</if>
+			<if test="iconUrl !=null">  
+				IconUrl,
+			</if>
+			<if test="iconOnUrl !=null">  
+				IconOnUrl,
+			</if>
+			<if test="categoryUrl !=null">  
+				CategoryUrl,
+			</if>
+			<if test="isDiscount !=null">  
+				IsDiscount,
+			</if>
+			<if test="exceedMoney !=null">  
+				ExceedMoney,
+			</if>
+			<if test="minusMoney !=null">  
+				MinusMoney,
+			</if>
+			<if test="categoryLevel !=null">  
+				categoryLevel,
+			</if>
+			<if test="code !=null">  
+				code,
+			</if>
+		</trim>
+
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+			<if test="id  !=null">
+				#{id,jdbcType=BIGINT}, 
+			</if>
+			<if test="categoryName  !=null">
+				#{categoryName,jdbcType=VARCHAR}, 
+			</if>
+			<if test="parentId  !=null">
+				#{parentId,jdbcType=BIGINT}, 
+			</if>
+			<if test="status  !=null">
+				#{status,jdbcType=TINYINT}, 
+			</if>
+			<if test="createTime  !=null">
+				#{createTime,jdbcType=BIGINT}, 
+			</if>
+			<if test="updateTime  !=null">
+				#{updateTime,jdbcType=BIGINT}, 
+			</if>
+			<if test="categoryType  !=null">
+				#{categoryType,jdbcType=TINYINT}, 
+			</if>
+			<if test="description  !=null">
+				#{description,jdbcType=VARCHAR}, 
+			</if>
+			<if test="weight  !=null">
+				#{weight,jdbcType=INTEGER}, 
+			</if>
+			<if test="iconUrl  !=null">
+				#{iconUrl,jdbcType=VARCHAR}, 
+			</if>
+			<if test="iconOnUrl  !=null">
+				#{iconOnUrl,jdbcType=VARCHAR}, 
+			</if>
+			<if test="categoryUrl  !=null">
+				#{categoryUrl,jdbcType=VARCHAR}, 
+			</if>
+			<if test="isDiscount  !=null">
+				#{isDiscount,jdbcType=TINYINT}, 
+			</if>
+			<if test="exceedMoney  !=null">
+				#{exceedMoney,jdbcType=DECIMAL}, 
+			</if>
+			<if test="minusMoney  !=null">
+				#{minusMoney,jdbcType=DECIMAL}, 
+			</if>
+			<if test="categoryLevel  !=null">
+				#{categoryLevel,jdbcType=TINYINT}, 
+			</if>
+			<if test="code  !=null">
+				#{code,jdbcType=VARCHAR} 
+			</if>
+		</trim>
+	</insert> 
+
+	<!-- 精确更新-->
+	<update id="updateByPrimaryKeySelective" parameterType="com.jiuy.rb.model.product.CategoryRb" >
+		update yjj_category
+		<set>
+			<include refid="updateBase"/>
+		</set>
+		where Id = #{id,jdbcType=BIGINT} 
+	</update> 
+
+	<!-- 全字段更新 需要注意-->
+	<update id="updateByPrimaryKey" parameterType="com.jiuy.rb.model.product.CategoryRb" >
+		update yjj_category
+		set 
+			Id = #{id ,jdbcType=BIGINT},
+			CategoryName = #{categoryName ,jdbcType=VARCHAR},
+			ParentId = #{parentId ,jdbcType=BIGINT},
+			Status = #{status ,jdbcType=TINYINT},
+			CreateTime = #{createTime ,jdbcType=BIGINT},
+			UpdateTime = #{updateTime ,jdbcType=BIGINT},
+			CategoryType = #{categoryType ,jdbcType=TINYINT},
+			Description = #{description ,jdbcType=VARCHAR},
+			Weight = #{weight ,jdbcType=INTEGER},
+			IconUrl = #{iconUrl ,jdbcType=VARCHAR},
+			IconOnUrl = #{iconOnUrl ,jdbcType=VARCHAR},
+			CategoryUrl = #{categoryUrl ,jdbcType=VARCHAR},
+			IsDiscount = #{isDiscount ,jdbcType=TINYINT},
+			ExceedMoney = #{exceedMoney ,jdbcType=DECIMAL},
+			MinusMoney = #{minusMoney ,jdbcType=DECIMAL},
+			categoryLevel = #{categoryLevel ,jdbcType=TINYINT},
+			code = #{code ,jdbcType=VARCHAR}
+		where Id = #{id,jdbcType=BIGINT} 
+	</update> 
+
+	<!-- 所有的条件集合-->
+	<sql id="whereCase"  >
+		where  1=1 
+		<if test="id  !=null">
+			AND Id = #{id,jdbcType=BIGINT} 
+		</if>
+		<if test="categoryName  !=null">
+			AND CategoryName = #{categoryName,jdbcType=VARCHAR} 
+		</if>
+		<if test="parentId  !=null">
+			AND ParentId = #{parentId,jdbcType=BIGINT} 
+		</if>
+		<if test="status  !=null">
+			AND Status = #{status,jdbcType=TINYINT} 
+		</if>
+		<if test="createTime  !=null">
+			AND CreateTime = #{createTime,jdbcType=BIGINT} 
+		</if>
+		<if test="updateTime  !=null">
+			AND UpdateTime = #{updateTime,jdbcType=BIGINT} 
+		</if>
+		<if test="categoryType  !=null">
+			AND CategoryType = #{categoryType,jdbcType=TINYINT} 
+		</if>
+		<if test="description  !=null">
+			AND Description = #{description,jdbcType=VARCHAR} 
+		</if>
+		<if test="weight  !=null">
+			AND Weight = #{weight,jdbcType=INTEGER} 
+		</if>
+		<if test="iconUrl  !=null">
+			AND IconUrl = #{iconUrl,jdbcType=VARCHAR} 
+		</if>
+		<if test="iconOnUrl  !=null">
+			AND IconOnUrl = #{iconOnUrl,jdbcType=VARCHAR} 
+		</if>
+		<if test="categoryUrl  !=null">
+			AND CategoryUrl = #{categoryUrl,jdbcType=VARCHAR} 
+		</if>
+		<if test="isDiscount  !=null">
+			AND IsDiscount = #{isDiscount,jdbcType=TINYINT} 
+		</if>
+		<if test="exceedMoney  !=null">
+			AND ExceedMoney = #{exceedMoney,jdbcType=DECIMAL} 
+		</if>
+		<if test="minusMoney  !=null">
+			AND MinusMoney = #{minusMoney,jdbcType=DECIMAL} 
+		</if>
+		<if test="categoryLevel  !=null">
+			AND categoryLevel = #{categoryLevel,jdbcType=TINYINT} 
+		</if>
+		<if test="code  !=null">
+			AND code = #{code,jdbcType=VARCHAR} 
+		</if>
+		<include refid="costomWhereCase"/>
+	</sql>
+
+	<!-- 查询一条，如果返回多条会报错-->
+	<select id="selectOne" parameterType="java.util.Map" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" /> 
+		FROM yjj_category 
+		<include refid="whereCase" /> 
+	</select>
+
+	<!-- 查询一个list-->
+	<select id="selectList" parameterType="java.util.Map" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" /> 
+		FROM yjj_category 
+		<include refid="whereCase" /> 
+	</select>
+
+	<!-- 查询一个list-->
+	<select id="selectCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+		SELECT
+		count(1) 
+		FROM yjj_category
+		<include refid="whereCase" /> 
+	</select>
+
+	<!--  @Costom -->
+	<!-- 从上一行注释以上为系统生成 从这一行往下为用户自定义 请将自定义的sql放在此行下面 -->
+	<sql id="costomWhereCase">
+		<if test="notDel !=null">
+			and status &lt;&gt; -1
+		</if>
+		<if test="weightMin !=null">
+			and Weight &gt;= #{weightMin}
+		</if>
+		<if test="weightMax !=null">
+			and Weight &lt;= #{weightMax}
+		</if>
+	</sql>
+
+
+	<select id="selectMaxCode" resultType="String" parameterType="com.jiuy.rb.model.product.CategoryRbQuery">
+		select max(code) from yjj_Category
+		<include refid="whereCase" />
+	</select>
+
+
+</mapper>

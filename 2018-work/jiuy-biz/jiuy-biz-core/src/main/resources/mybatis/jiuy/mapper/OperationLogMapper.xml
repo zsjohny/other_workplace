@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jiuy.core.dao.impl.sql.OperationLogDaoSqlImpl">
+	
+	<select id="search" parameterType="map" resultType="map">
+		SELECT *
+		FROM yjj_OperationLog op, yjj_AdminUser ad, yjj_Authority au
+		<where>
+	<![CDATA[
+			op.WorkNo = ad.WorkNo AND op.AuthorityId = au.Id AND
+			op.CreateTime > #{startTimeMillions} AND op.CreateTime < #{endTimeMillions}
+	]]>
+			<if test="userId != -1 ">
+				AND ad.UserId like CONCAT("%", #{userId} ,"%")
+			</if>
+			<if test="userName !='' ">
+				AND ad.UserName like CONCAT("%", #{userName} ,"%")
+			</if>
+			<if test="workNo !='' ">
+				AND ad.WorkNo like CONCAT("%", #{workNo} ,"%")
+			</if>
+			<if test="roleId !=-1 ">
+				AND ad.UserRole like CONCAT("%", #{roleId} ,"%")
+			</if>
+		</where>
+		limit #{pageQuery.limit} offset #{pageQuery.offset}
+	</select>
+	
+	<select id="searchCount" parameterType="OperationLogVO" resultType="int">
+		SELECT count(*)
+		FROM yjj_OperationLog op, yjj_AdminUser ad, yjj_Authority au
+		<where>
+	<![CDATA[
+			op.WorkNo = ad.WorkNo AND op.AuthorityId = au.Id AND
+			op.CreateTime > #{startTime} AND op.CreateTime < #{endTime}
+	]]>
+			<if test="userId != -1 ">
+				AND ad.UserId like CONCAT("%", #{userId} ,"%")
+			</if>
+			<if test="userName !='' ">
+				AND ad.UserName like CONCAT("%", #{userName} ,"%")
+			</if>
+			<if test="workNo !='' ">
+				AND ad.WorkNo like CONCAT("%", #{workNo} ,"%")
+			</if>
+			<if test="roleId !=-1 ">
+				AND ad.UserRole like CONCAT("%", #{roleId} ,"%")
+			</if>
+		</where>
+	</select>
+	
+</mapper>

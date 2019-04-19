@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.e_commerce.miscroservice.product.mapper.LiveProductMapper">
+
+
+    <insert id="insertSafe" parameterType="map">
+      INSERT INTO `yjj_live_product`
+		 (`shop_product_id`, `supplier_product_id`, `type`, room_num, anchor_id,live_price, `sort_no`)
+		SELECT
+			#{shopProductId},
+			#{supplierProductId},
+			#{type},
+			#{roomNum},
+			#{anchorId},
+			#{livePrice},
+			#{sortNo}
+		FROM
+			DUAL
+		WHERE
+			NOT EXISTS (SELECT
+				1
+			FROM
+				`yjj_live_product` AS temp
+			WHERE temp.`del_status`= 0
+			AND temp.`shop_product_id`= #{shopProductId}
+			AND temp.`supplier_product_id`= #{supplierProductId}
+			AND temp.`type`= #{type}
+			AND temp.`live_status`= 0
+			AND temp.`room_num`= #{roomNum}
+			AND temp.`anchor_id`=#{anchorId}
+		)
+    </insert>
+
+
+    <!-- 查询直播商品列表 -->
+    <select id="findLiveProductIdsByRoomId" resultType="com.e_commerce.miscroservice.product.vo.LiveProductVO">
+        SELECT
+        live.id AS id,
+        live.shop_product_id AS shopProductId,
+        live.supplier_product_id AS supplierProductId,
+        live.type,
+        live.anchor_id AS anchorId,
+        live.live_price AS livePrice,
+        live.live_status AS liveStatus,
+        live.sort_no AS sortNo
+        FROM yjj_live_product live
+        <if test="productName != null and productName != '' and anchorType == 1">
+            JOIN yjj_product product ON product.Id = live.supplier_product_id
+        </if>
+        <if test="productName != null and productName != '' and anchorType == 2">
+            JOIN shop_product shopProduct ON shopProduct.id = live.shop_product_id
+        </if>
+        WHERE live.del_status = 0
+            AND live.room_num IN
+            <foreach collection="roomNumList" item="roomNum" open="("  separator="," close=")">
+               #{roomNum}
+            </foreach>
+        <if test="liveStatus != null">
+            AND live.live_status = #{liveStatus}
+        </if>
+        <if test="productName != null and productName != '' and anchorType == 1">
+            AND product.`Name` LIKE CONCAT('%',#{productName},'%')
+        </if>
+        <if test="productName != null and productName != '' and anchorType == 2">
+            AND shopProduct.`name` LIKE CONCAT('%',#{productName},'%')
+        </if>
+        ORDER BY live.sort_no DESC
+    </select>
+
+
+    <select id="countAnchorProduct" resultType="java.util.Map">
+        SELECT anchor_id AS anchorId, COUNT(anchor_id) AS pCount
+        FROM yjj_live_product lp
+        WHERE lp.del_status = 0
+        AND lp.live_status = 0
+        AND lp.anchor_id IN
+        <foreach collection="anchorIdList" item="anchorId" open="(" separator="," close=")">
+            #{anchorId}
+        </foreach>
+        GROUP BY lp.anchor_id
+    </select>
+    <select id="findOrderCountByProductIds" resultType="java.lang.Integer">
+        select count(id) from shop_member_order_item where create_time <![CDATA[>=]]> #{create} and create_time <![CDATA[<=]]> #{current}
+        and live_product_id  in
+        <foreach collection="list" item="id" index="index"
+                 open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </select>
+
+
+</mapper>
+
+
+
+
+
+
+
+
+
+
+

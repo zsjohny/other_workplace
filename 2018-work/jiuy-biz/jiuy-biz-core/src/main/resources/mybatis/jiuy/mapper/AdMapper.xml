@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Ad">
+    
+    <sql id="listAd">
+        <foreach collection="collection" item="item" separator=",">
+            (#{item.adType},#{item.adOrder},#{item.newPage},#{item.imageUrl},#{item.linkUrl},#{item.adTitle},unix_timestamp()*1000,unix_timestamp()*1000)
+        </foreach>
+    </sql>
+	<insert id="insertAd" useGeneratedKeys="true" keyProperty="id">
+	    insert into yjj_ad(adType,adOrder,newPage,imageUrl,linkUrl,adTitle,updateTime,createTime)
+	    values<include refid="listAd"/>
+	</insert>
+	
+	<update id="updateAd">
+	    update yjj_ad set adOrder=#{adOrder},adType=#{adType},newPage=#{newPage},imageUrl=#{imageUrl},linkUrl=#{linkUrl},adTitle=#{adTitle},
+	    updateTime=unix_timestamp()*1000 where id=#{id}
+	</update>
+	
+	<delete id="deleteAd">
+	    delete from yjj_ad where id=#{id}
+	</delete>
+	
+	<select id="getAdListByType" resultType="Ad">
+	    <![CDATA[
+	    select id,adType,adOrder,newPage,imageUrl,linkUrl,updateTime,createTime,adTitle
+	    from yjj_ad 
+	    where adType=#{adType}
+	    order by adOrder
+	    ]]>
+	</select>
+</mapper>

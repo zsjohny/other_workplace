@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jiuyuan.dao.mapper.store.UserLoginLogNewMapper">
+
+
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.jiuyuan.entity.log.UserLoginLogNew">
+		<id column="id" property="id" />
+		<result column="create_time" property="createTime" />
+		<result column="device_id" property="deviceId" />
+		<result column="device_name" property="deviceName" />
+		<result column="version" property="version" />
+		<result column="alive" property="alive" />
+		<result column="offline_time" property="offlineTime" />
+		<result column="platform" property="platform" />
+		<result column="user_name" property="userName" />
+		<result column="cid" property="cid" />
+		<result column="login_way" property="loginWay" />
+	</resultMap>
+
+	<!-- 通用查询结果列 -->
+	<sql id="Base_Column_List">
+		id, create_time AS createTime, device_id AS deviceId, device_name AS deviceName, version, alive, offline_time AS offlineTime, platform, user_name AS userName, cid, login_way AS loginWay
+	</sql>
+
+
+	<update id="logout">
+		update yjj_user_login_log_new set alive = 0,offline_time = UNIX_TIMESTAMP()*1000 where device_id = #{deviceId} and user_name = #{phone}
+	</update>
+
+</mapper>

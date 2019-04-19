@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" > 
+<mapper namespace="com.jiuy.rb.mapper.product.ShopProductRbTempInfoMapper"> 
+ 
+ 	<!-- 主要的返回映射-->
+	<resultMap id="BaseResultMap" type="com.jiuy.rb.model.product.ShopProductRbTempInfo"	>
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="shop_product_id"  property="shopProductId"  jdbcType="BIGINT" />
+		<result column="sku_json"  property="skuJson"  jdbcType="VARCHAR" />
+		<result column="status"  property="status"  jdbcType="TINYINT" />
+	</resultMap>
+
+	<!-- 所有的列名-->
+	<sql id="Base_Column_List" >
+		id,shop_product_id,sku_json,status
+	</sql>
+
+	<!-- 精确更新的字段-->
+	<sql id="updateBase">
+		<if test="id  !=null">
+			id = #{id,jdbcType=BIGINT}, 
+		</if>
+		<if test="shopProductId  !=null">
+			shop_product_id = #{shopProductId,jdbcType=BIGINT}, 
+		</if>
+		<if test="skuJson  !=null">
+			sku_json = #{skuJson,jdbcType=VARCHAR}, 
+		</if>
+		<if test="status  !=null">
+			status = #{status,jdbcType=TINYINT} 
+		</if>
+	</sql>
+
+	<!-- 通过主键查找-->
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="Long" >
+		select 
+		<include refid="Base_Column_List" />
+		from shop_product_temp_info
+		where  id = #{id,jdbcType=BIGINT} 
+	</select>
+
+	<!-- 通过主键删除-->
+	<delete id="deleteByPrimaryKey" parameterType="Long" >
+		delete from shop_product_temp_info
+		where id = #{id,jdbcType=BIGINT} 
+	</delete>
+
+	<!-- 普通插入全字段插t入-->
+	<insert id="insert" parameterType="com.jiuy.rb.model.product.ShopProductRbTempInfo" >
+		insert into shop_product_temp_info
+		(
+			id,
+			shop_product_id,
+			sku_json,
+			status
+		)
+		values
+		(
+			#{id ,jdbcType=BIGINT},
+			#{shopProductId ,jdbcType=BIGINT},
+			#{skuJson ,jdbcType=VARCHAR},
+			#{status ,jdbcType=TINYINT}
+		)
+	</insert>
+
+	<!-- 批量插入，全部字段插入-->
+	<insert id="insertBach"   parameterType="List" >
+		insert into shop_product_temp_info
+		(
+			id,
+			shop_product_id,
+			sku_json,
+			status
+		)
+		values 
+		<foreach collection="list" item="item" separator=",">
+		(
+			#{item.id ,jdbcType=BIGINT},
+			#{item.shopProductId ,jdbcType=BIGINT},
+			#{item.skuJson ,jdbcType=VARCHAR},
+			#{item.status ,jdbcType=TINYINT}
+		)
+		</foreach>
+	</insert>
+
+	<!-- 精确插入，非null得字段才会插入-->
+	<insert id="insertSelective" parameterType="com.jiuy.rb.model.product.ShopProductRbTempInfo" useGeneratedKeys="true" keyProperty="id" >
+		insert into shop_product_temp_info
+		<trim prefix="(" suffix=")" suffixOverrides="," > 
+			<if test="id !=null">  
+				id,
+			</if>
+			<if test="shopProductId !=null">  
+				shop_product_id,
+			</if>
+			<if test="skuJson !=null">  
+				sku_json,
+			</if>
+			<if test="status !=null">  
+				status,
+			</if>
+		</trim>
+
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+			<if test="id  !=null">
+				#{id,jdbcType=BIGINT}, 
+			</if>
+			<if test="shopProductId  !=null">
+				#{shopProductId,jdbcType=BIGINT}, 
+			</if>
+			<if test="skuJson  !=null">
+				#{skuJson,jdbcType=VARCHAR}, 
+			</if>
+			<if test="status  !=null">
+				#{status,jdbcType=TINYINT} 
+			</if>
+		</trim>
+	</insert> 
+
+	<!-- 精确更新-->
+	<update id="updateByPrimaryKeySelective" parameterType="com.jiuy.rb.model.product.ShopProductRbTempInfo" >
+		update shop_product_temp_info
+		<set>
+			<include refid="updateBase"/>
+		</set>
+		where id = #{id,jdbcType=BIGINT} 
+	</update> 
+
+	<!-- 全字段更新 需要注意-->
+	<update id="updateByPrimaryKey" parameterType="com.jiuy.rb.model.product.ShopProductRbTempInfo" >
+		update shop_product_temp_info
+		set 
+			id = #{id ,jdbcType=BIGINT},
+			shop_product_id = #{shopProductId ,jdbcType=BIGINT},
+			sku_json = #{skuJson ,jdbcType=VARCHAR},
+			status = #{status ,jdbcType=TINYINT}
+		where id = #{id,jdbcType=BIGINT} 
+	</update> 
+
+	<!-- 所有的条件集合-->
+	<sql id="whereCase"  >
+		where  1=1 
+		<if test="id  !=null">
+			AND id = #{id,jdbcType=BIGINT} 
+		</if>
+		<if test="shopProductId  !=null">
+			AND shop_product_id = #{shopProductId,jdbcType=BIGINT} 
+		</if>
+		<if test="skuJson  !=null">
+			AND sku_json = #{skuJson,jdbcType=VARCHAR} 
+		</if>
+		<if test="status  !=null">
+			AND status = #{status,jdbcType=TINYINT} 
+		</if>
+		<include refid="costomWhereCase"/>
+	</sql>
+
+	<!-- 查询一条，如果返回多条会报错-->
+	<select id="selectOne" parameterType="java.util.Map" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" /> 
+		FROM shop_product_temp_info 
+		<include refid="whereCase" /> 
+	</select>
+
+	<!-- 查询一个list-->
+	<select id="selectList" parameterType="java.util.Map" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" /> 
+		FROM shop_product_temp_info 
+		<include refid="whereCase" /> 
+	</select>
+
+	<!-- 查询一个list-->
+	<select id="selectCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+		SELECT
+		count(1) 
+		FROM shop_product_temp_info
+		<include refid="whereCase" /> 
+	</select>
+
+	<!--  @Costom -->
+	<!-- 从上一行注释以上为系统生成 从这一行往下为用户自定义 请将自定义的sql放在此行下面 -->
+	<sql id="costomWhereCase">
+	</sql>
+
+	<update id="deleteByShopProductId">
+		UPDATE shop_product_temp_info
+		SET `status` = 0
+		WHERE shop_product_id = #{shopProductId}
+		AND `status` = 1
+	</update>
+
+</mapper>

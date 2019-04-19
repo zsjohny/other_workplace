@@ -1,0 +1,79 @@
+
+/*审核弹窗样式*/
+
+$color:#333;
+.examine-box {
+  dt{
+    color: $color;
+    font-weight: 600;
+  }
+  dd{
+    color: #666;
+  }
+  .base-info{
+    padding-bottom: 20px;
+     img{
+        width:80px;
+        height: 80px;
+        border-radius: 6px;
+        display: block;
+        margin: 0 auto;
+     }
+    dd{
+      text-align: center;
+      p{
+        padding-top: 10px;
+      }
+    }
+  }
+  .apply-info{
+    padding-top: 15px;
+    border-top: 1px dashed #ccc;
+    dt{
+      padding-bottom: 8px;
+    }
+    dd{
+      line-height: 30px;
+    }
+  }
+}
+.examine-success{
+  text-align: center;
+  color: $color;
+  .icon{
+    width: 80px;
+    height: 80px;
+    display: block;
+    margin: 0 auto 10px;
+    background: url(../../assets/succes-icon.png);
+    background-size: 80px;
+  }
+  .title{
+    font-size: 20px;
+    font-weight: 100;
+    padding: 10px 0 30px;
+  }
+  .text{
+    padding-top: 10px;
+    color: #999
+  }
+}
+.examine-refuse{
+  .label-title{
+     line-height: 40px;
+     span{
+        color: #F4516C
+     }
+  }
+  textarea{
+    height: 150px;
+  }
+}
+.area-select-wrap{
+  .area-select{
+    height: 45px;
+    .area-selected-trigger{
+      padding: 0 20px 7px 12px;
+    }
+  }
+}

@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jiuyuan.dao.mapper.supplier.ShopMemberOrderNewMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.jiuyuan.entity.newentity.ShopMemberOrder">
+		<id column="id" property="id" />
+		<result column="order_number" property="orderNumber" />
+		<result column="store_id" property="storeId" />
+		<result column="member_id" property="memberId" />
+		<result column="total_express_and_money" property="totalExpressAndMoney" />
+		<result column="total_money" property="totalMoney" />
+		<result column="pay_money" property="payMoney" />
+		<result column="sale_money" property="saleMoney" />
+		<result column="express_money" property="expressMoney" />
+		<result column="count" property="count" />
+		<result column="summary_images" property="summaryImages" />
+		<result column="order_type" property="orderType" />
+		<result column="order_status" property="orderStatus" />
+		<result column="payment_no" property="paymentNo" />
+		<result column="cancel_reason_type" property="cancelReasonType" />
+		<result column="cancel_reason" property="cancelReason" />
+		<result column="order_stop_time" property="orderStopTime" />
+		<result column="pay_time" property="payTime" />
+		<result column="take_delivery_time" property="takeDeliveryTime" />
+		<result column="order_finish_time" property="orderFinishTime" />
+		<result column="update_time" property="updateTime" />
+		<result column="create_time" property="createTime" />
+		<result column="user_nickname" property="userNickname" />
+		<result column="coupon_id" property="couponId" />
+		<result column="coupon_name" property="couponName" />
+		<result column="coupon_limit_money" property="couponLimitMoney" />
+		<result column="send_message" property="sendMessage" />
+		<result column="pay_form_id" property="payFormId" />
+		<result column="payment_type" property="paymentType" />
+		<result column="expree_supplier_cnname" property="expreeSupplierCnname" />
+		<result column="express_supplier" property="expressSupplier" />
+		<result column="express_no" property="expressNo" />
+		<result column="receiver_name" property="receiverName" />
+		<result column="receiver_phone" property="receiverPhone" />
+		<result column="receiver_address" property="receiverAddress" />
+		<result column="delivery_time" property="deliveryTime" />
+		<result column="confirmSignedDate" property="confirmSignedDate" />
+		<result column="confirmSignedTime" property="confirmSignedTime" />
+	</resultMap>
+
+	<!-- 取消团购活动结束时未付款的团购订单 -->
+	<select id="stopMemberTeamOrderOvertime" resultType="ShopMemberOrder">
+	<![CDATA[
+		SELECT
+		shop_member_order.id as id,
+		shop_member_order.second_id as secondId,
+		shop_member_order.team_id as teamId,
+		shop_member_order.order_number AS orderNumber, 
+		shop_member_order.store_id AS storeId, 
+		shop_member_order.member_id AS memberId, 
+		shop_member_order.total_express_and_money AS totalExpressAndMoney, 
+		shop_member_order.total_money AS totalMoney, 
+		shop_member_order.pay_money AS payMoney, 
+		shop_member_order.sale_money AS saleMoney, 
+		shop_member_order.express_money AS expressMoney, 
+		shop_member_order.COUNT AS count, 
+		shop_member_order.summary_images AS summaryImages, 
+		shop_member_order.order_type AS orderType, 
+		shop_member_order.order_status AS orderStatus, 
+		shop_member_order.payment_no AS paymentNo, 
+		shop_member_order.cancel_reason_type AS cancelReasonType, 
+		shop_member_order.cancel_reason AS cancelReason, 
+		shop_member_order.order_stop_time AS orderStopTime, 
+		shop_member_order.pay_time AS payTime, 
+		shop_member_order.take_delivery_time AS takeDeliveryTime, 
+		shop_member_order.order_finish_time AS orderFinishTime, 
+		shop_member_order.update_time AS updateTime, 
+		shop_member_order.create_time AS createTime, 
+		shop_member_order.user_nickname AS userNickname, 
+		shop_member_order.coupon_id AS couponId, 
+		shop_member_order.coupon_name AS couponName, 
+		shop_member_order.coupon_limit_money AS couponLimitMoney, 
+		shop_member_order.payment_type AS paymentType 
+		FROM
+		shop_member_order,
+		store_team_buy_activity
+		WHERE
+		shop_member_order.team_id = store_team_buy_activity.id
+		AND (
+		store_team_buy_activity.activity_hand_end_time > 0
+		OR store_team_buy_activity.activity_end_time < #{nowTime}
+		)
+		AND store_team_buy_activity.del_state = 0
+		AND shop_member_order.order_status = 0
+		]]>
+	</select>
+
+
+	<select id="getMemberSecondOvertimeOrder" resultType="ShopMemberOrder">
+	<![CDATA[
+		SELECT
+		shop_member_order.id as id,
+		shop_member_order.second_id as secondId,
+		shop_member_order.team_id as teamId,
+		shop_member_order.order_number AS orderNumber, 
+		shop_member_order.store_id AS storeId, 
+		shop_member_order.member_id AS memberId, 
+		shop_member_order.total_express_and_money AS totalExpressAndMoney, 
+		shop_member_order.total_money AS totalMoney, 
+		shop_member_order.pay_money AS payMoney, 
+		shop_member_order.sale_money AS saleMoney, 
+		shop_member_order.express_money AS expressMoney, 
+		shop_member_order.COUNT AS count, 
+		shop_member_order.summary_images AS summaryImages, 
+		shop_member_order.order_type AS orderType, 
+		shop_member_order.order_status AS orderStatus, 
+		shop_member_order.payment_no AS paymentNo, 
+		shop_member_order.cancel_reason_type AS cancelReasonType, 
+		shop_member_order.cancel_reason AS cancelReason, 
+		shop_member_order.order_stop_time AS orderStopTime, 
+		shop_member_order.pay_time AS payTime, 
+		shop_member_order.take_delivery_time AS takeDeliveryTime, 
+		shop_member_order.order_finish_time AS orderFinishTime, 
+		shop_member_order.update_time AS updateTime, 
+		shop_member_order.create_time AS createTime, 
+		shop_member_order.user_nickname AS userNickname, 
+		shop_member_order.coupon_id AS couponId, 
+		shop_member_order.coupon_name AS couponName, 
+		shop_member_order.coupon_limit_money AS couponLimitMoney, 
+		shop_member_order.payment_type AS paymentType 
+		FROM
+		shop_member_order,
+		store_second_buy_activity
+		WHERE
+		shop_member_order.second_id = store_second_buy_activity.id
+		AND store_second_buy_activity.del_state = 0
+		AND shop_member_order.order_status = 0
+		AND #{nowTime} - shop_member_order.create_time >= 2 * 60 * 60 * 1000
+		]]>
+	</select>
+</mapper>

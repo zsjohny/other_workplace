@@ -1,0 +1,19 @@
+<!--文章列表模块-->
+<template name="smartArticle">
+  <view class='article-box' wx:if="{{ articleList.length > 0 }}">
+    <view class="article-title"><view class='text'>专题精选</view></view>
+    <view class="article-list">
+      <scroll-view class="article-scroll" scroll-x="true">
+        <block wx:for="{{ articleList }}" wx:key="{{item}}">
+          <view class="item" data-id='{{item.id}}' bindtap='gotoArticleDetail'>
+            <image wx:if="{{item.headImage}}" class="img" src='{{item.headImage}}' data-id='{{item.id}}'></image>
+            <view class="article-info">
+                <view class="title">{{item.articleTitle}}</view>
+                <view class='more'>查看全文</view>
+            </view>
+          </view>
+        </block>
+      </scroll-view>  
+    </view>
+  </view>
+</template>

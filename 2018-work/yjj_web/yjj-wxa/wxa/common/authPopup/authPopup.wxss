@@ -1,0 +1,71 @@
+/**自定义弹窗组件样式**/
+.popup-bg{
+  width: 100%;
+  height: 100%;
+  z-index: 999999;
+  position: fixed;
+  left: 0;
+  top: 0;
+  background: rgba(0, 0, 0, 0.50);
+}
+.popup-main{
+  width: 620rpx;
+  height: auto;
+  overflow: hidden;
+  background: #fff;
+  border-radius: 8rpx;
+  z-index: 1000000;
+  position: fixed;
+  left: 50%;
+  top: 30%;
+  margin: 0 -310rpx;
+}
+.popup-head{
+  height: 100rpx;
+  line-height: 100rpx;
+  text-align: center;
+  font-size: 32rpx;
+  border-bottom: 2rpx solid #dad8db
+}
+.popup-title{
+  width: 500rpx;
+  height: auto;
+  overflow: hidden;
+  margin: 0 auto;
+  text-align: center;
+  font-size: 28rpx;
+  padding: 40rpx 0 30rpx;
+}
+.popup-content{
+  font-size: 28rpx;
+  padding: 20px 0;
+  color: #999;
+  text-align: center;
+}
+.popup-operator{
+  display: -webkit-box;
+  height: 90rpx;
+  line-height: 90rpx;
+  text-align: center;
+  font-size: 28rpx;
+  border-top: 2rpx solid #dad8db
+}
+.popup-operator .popup-close-btn{
+  width: 50%;
+  box-sizing: border-box;
+  border-right: 2rpx solid #dad8db
+}
+.popup-operator .popup-btn{
+  width: 50%;
+  display: block;
+  box-sizing: border-box;
+  color: #3d9b3d;
+  margin: 0;
+  background: #fff;
+  padding: 0;
+  font-size: 28rpx;
+  line-height: 90rpx;
+}
+.popup-operator .popup-btn::after{
+  border:none;
+}

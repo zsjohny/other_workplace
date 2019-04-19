@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jiuyuan.dao.mapper.supplier.SmsRecordMapper">
+	<select id="getRecordCount" parameterType="map" resultType="int">
+		<![CDATA[
+			select count(1) from yjj_SmsRecord
+			where Phone = #{phone} and CreateTime >= #{startTime}
+		]]>
+	</select>
+	
+	<select id="getStoreRecordCount" parameterType="map" resultType="int">
+		<![CDATA[
+			select count(1) from store_SmsRecord
+			where Phone = #{phone} and CreateTime >= #{startTime} and SendChannel = #{sendChannel}
+		]]>
+	</select>
+	
+	<insert id="addSmsRecord" parameterType="map">
+		<![CDATA[
+			insert into yjj_SmsRecord
+			(CreateTime, Phone, Content)
+			VALUES
+			(#{time}, #{phone}, #{content})
+		]]>
+    </insert>
+    <insert id="addStoreSmsRecord" parameterType="map">
+		<![CDATA[
+			insert into store_SmsRecord
+			(CreateTime, Phone, Content, Type, SendType, SendChannel)
+			VALUES
+			(#{time}, #{phone}, #{content}, #{type}, #{sendType}, #{sendChannel})
+		]]>
+    </insert>
+</mapper>

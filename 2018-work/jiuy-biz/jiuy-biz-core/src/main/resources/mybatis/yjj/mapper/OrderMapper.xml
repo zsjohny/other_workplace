@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yujj.dao.mapper.OrderMapper">
+<!-- 
+	<insert id="insertOrder" useGeneratedKeys="true" keyProperty="id">
+		<![CDATA[
+			insert into yjj_Order
+			(OrderNo, UserId, OrderType, OrderStatus, TotalMoney, TotalExpressMoney, ExpressInfo, AvalCoinUsed, UnavalCoinUsed, PayAmountInCents, Remark, Status, CreateTime, UpdateTime, Platform, PlatformVersion, ip)
+			values
+			(#{orderNo}, #{userId}, #{orderType}, #{orderStatus}, #{totalMoney}, #{totalExpressMoney}, #{expressInfo}, #{avalCoinUsed}, #{unavalCoinUsed}, #{payAmountInCents}, #{remark}, #{status}, #{createTime}, #{updateTime}, #{platform}, #{platformVersion}, #{ip})
+		]]>
+	</insert> -->
+	<!-- 
+	<select id="getOrderByNo" resultType="Order">
+		<![CDATA[
+			select * from yjj_Order
+			where OrderNo = #{orderNo} and Status = 0
+		]]>
+	</select>
+	 -->
+	<!-- 
+	<select id="getOrderById" resultType="Order">
+		<![CDATA[
+			select * from yjj_Order
+			where Id = #{id} and Status = 0
+		]]>
+	</select> -->
+	<!--  删除旧表
+	<select id="getOrderByNoAllStatus" resultType="Order">
+		<![CDATA[
+			select * from yjj_Order
+			where OrderNo = #{orderNo} 
+		]]>
+	</select> -->
+	<!-- 
+	<select id="getUserOrderByNo" parameterType="map" resultType="Order">
+		<![CDATA[
+			select * from yjj_Order
+			where UserId = #{userId} and OrderNo = #{orderNo} and Status = 0
+		]]>
+	</select> -->
+	<!-- 
+	<select id="getUserOrderByNoAll" parameterType="map" resultType="Order">
+		<![CDATA[
+			select * from yjj_Order
+			where UserId = #{userId} and OrderNo = #{orderNo}
+		]]>
+	</select> -->
+	<!-- 
+	<select id="getUserOrderCount" parameterType="map" resultType="int">
+		<![CDATA[
+			select count(*) from yjj_Order
+			where UserId = #{userId} and Status = 0
+		]]>
+		<if test="orderStatus != null">
+			<![CDATA[
+				and OrderStatus = #{orderStatus}
+			]]>
+		</if>
+	</select> -->
+	<!-- 
+	<select id="getUserOrderNewCount" parameterType="map" resultType="int">
+		<![CDATA[
+			select count(*) from yjj_OrderNew
+			where UserId = #{userId} and Status = 0  and orderType = 0
+		]]>
+		<if test="orderStatus != null">
+			<![CDATA[
+				and OrderStatus = #{orderStatus}
+			]]>
+		</if>
+	</select> -->
+	<!--
+	<select id="getUserOrders" parameterType="map" resultType="Order">
+		<![CDATA[
+			select * from yjj_Order
+			where UserId = #{userId} and Status = 0
+		]]>
+		<if test="orderStatus != null">
+			<![CDATA[
+				and OrderStatus = #{orderStatus}
+			]]>
+		</if>
+		<![CDATA[
+			order by CreateTime desc
+			limit #{pageQuery.limit} offset #{pageQuery.offset}
+		]]>
+	</select>  -->
+	<!-- 
+	<select id="getOrderCountMap" parameterType="map" resultType="map">
+		<![CDATA[
+			select OrderStatus, count(*) as Count from yjj_Order
+			where UserId = #{userId} and Status = 0
+			group by OrderStatus;
+		]]>
+	</select> -->
+	<!-- 
+	<update id="updateOrderPayStatus" parameterType="map">
+		<![CDATA[
+			update yjj_Order
+			set OrderStatus = #{newStatus}, PaymentNo = #{paymentNo}, PaymentType = #{paymentType}, UpdateTime = #{time}
+			where Id = #{id} and OrderStatus = #{oldStatus}
+		]]>
+	</update> -->
+	<!-- 
+	<update id="cancelOrder" parameterType="map">
+		<![CDATA[
+			update yjj_Order
+			set Status = -1, UpdateTime = #{time} , OrderStatus = 100
+			where Id = #{id} and Status = 0
+		]]>
+	</update> -->
+	<!-- 
+	<update id="updateOrderAsSended" parameterType="map">
+		<![CDATA[
+			update yjj_Order
+			set Sended = 1, UpdateTime = #{time}
+			where Id = #{id} and Sended = 0
+		]]>
+	</update> -->
+	<!-- 删除旧表
+	<update id="updateOrderStatus" parameterType="map">
+		<![CDATA[
+			update yjj_Order
+			set OrderStatus = #{newStatus}, UpdateTime = #{time}
+			where Id = #{id} and OrderStatus = #{oldStatus}
+		]]>
+	</update> -->
+	<!-- 
+	<select id="getUserDeliverOrders" parameterType="map" resultType="Order">
+			SELECT 
+			    *
+			FROM
+			    yjj_Order
+			WHERE
+			    Status = 0 AND UserId = #{userId}
+			    AND (OrderStatus = 50
+			        OR (OrderStatus = 10
+			        AND Id IN (SELECT 
+			            OrderId
+			        FROM
+			            yjj_OrderItemGroup
+			        WHERE
+			            OrderStatus = 50)))
+			ORDER BY CreateTime DESC
+			limit #{pageQuery.limit} offset #{pageQuery.offset}
+	</select> -->
+	<!-- 
+	<select id="getUserDeliverOrderCount" parameterType="map" resultType="int">
+			SELECT 
+			    COUNT(*)
+			FROM
+			    yjj_Order
+			WHERE
+			    Status = 0 AND UserId = #{userId}
+			    AND (OrderStatus = 50
+			        OR (OrderStatus = 10
+			        AND Id IN (SELECT 
+			            OrderId
+			        FROM
+			            yjj_OrderItemGroup
+			        WHERE
+			            OrderStatus = 50)))
+	</select> -->
+	<!-- 
+	<select id="getUserDeliverOrderNewCount" parameterType="map" resultType="int">
+			SELECT 
+			    COUNT(*)
+			FROM
+			    yjj_OrderNew
+			WHERE
+			    Status = 0 AND UserId = #{userId}
+			    AND OrderStatus = 50
+			       
+	</select> -->
+</mapper>

@@ -1,0 +1,448 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.e_commerce.miscroservice.supplier.mapper.RefundOrderMapper">
+    <!--查询所有售后工单-->
+    <!--,`yjj_product` y-->
+    <!--, y.`Name` as shopName-->
+    <select id="findAllRefunOrder" resultType="com.e_commerce.miscroservice.commons.entity.application.order.RefundOrderResponce">
+        select
+        a.id,
+        a.`refund_order_no` as refundOrderNo,
+        a.`store_id` as storeId,
+        a.`store_phone` as storePhone,
+        a.`store_name` as storeName,
+        a.`supplier_id` as supplierId,
+        a.`order_no` as orderNo,
+        a.`brand_id` as brandId,
+        a.`brand_name` as brandName,
+        a.`refund_type` as refundType,
+        a.`refund_status` as refundStatus,
+        a.`refund_cost` as refundCost,
+        a.`return_count` as returnCount,
+        a.`refund_reason_id` as refundReasonId,
+        a.`refund_reason` as refundReason,
+        a.`refund_remark` as refundRemark,
+        a.`refund_proof_images` as refundProofImages,
+        a.`refund_way` as refundWay,
+        a.`refund_time` as refundTime,
+        a.`apply_time` as applyTime,
+        a.`customer_return_time` as customerReturnTime,
+        a.`confirm_time` as confirmTime,
+        a.`platform_intervene_time` as platformInterveneTime,
+        a.`platform_intervene_close_time` as platformInterveneCloseTime,
+        a.`customer_express_no` as customerExpressNo,
+        a.`customer_express_company` as customerExpressCompany,
+        a.`store_allow_refund_time` as storeAllowRefundTime,
+        a.`store_refuse_refund_time` as storeRefuseRefundTime,
+        a.`store_refuse_reason` as storeRefuseReason,
+        a.`handling_suggestion` as handlingSuggestion,
+        a.`store_agree_remark` as storeAgreeRemark,
+        a.`platform_close_reason` as platformCloseReason,
+        a.`platform_intervene_state` as platformInterveneState,
+        a.`receiver`,
+        a.`supplier_receive_address` as supplierReceiveAddress,
+        a.`receiver_phone` as receiverPhone,
+        a.`supplier_auto_take_delivery_pause_time` as supplierAutoTakeDeliveryPauseTime,
+        a.`supplier_auto_take_delivery_pause_time_length` as supplierAutoTakeDeliveryPauseTimeLength,
+        a.`customer_cancel_time` as customerCancelTime,
+        a.`customer_overtime_time_no_delivery` as customerOvertimeTimeNoDelivery,
+        a.`express_info` as expressInfo,
+        a.`customer_express_company_name` as customerExpressCompanyName,
+        a.`sku_id` as skuId,
+        a.`store_back_money` as storeBackMoney,
+        a.`real_back_money` as realBackMoney,
+        a.`store_order_item_id` as storeOrderItemId
+        from `store_refund_order` a where 1=1
+--             供应商id
+            <if test="request.supplierId !=null">
+                and a.`supplier_id`=#{request.supplierId}
+            </if>
+            -- 售后单号
+            <if test="request.refundOrderNo!=null">
+                and a.`refund_order_no` = #{request.refundOrderNo}
+            </if>
+            -- 订单号
+            <if test="request.orderNo!=null">
+                and a.`order_no` = #{request.orderNo}
+            </if>
+            -- 退款号码
+            <if test="request.storePhone!=null">
+                and a.`store_phone` = #{request.storePhone}
+            </if>
+            -- 退款人名称
+            <if test="request.storeName!=null">
+                and a.`store_name` = #{request.shopName}
+            </if>
+            -- 售后状态
+            <if test="request.refundStatus!=null">
+                and a.`refund_status` = #{request.refundStatus}
+            </if>
+            -- 售后类型
+            <if test="request.refundType!=null">
+                and a.`refund_type` = #{request.refundType}
+            </if>
+            -- 退款理由
+            <if test="request.refundReason!=null and request.refundReason!=''">
+                and a.`refund_reason` = #{request.refundReason}
+            </if>
+
+            -- 商品名称
+            <!--<if test="request.shopName!=null and request.shopName!='' ">-->
+                <!--and y.`Name` LIKE CONCAT('%',#{request.shopName},'%')-->
+            <!--</if>-->
+            -- 申请退款费用
+            <if test="request.refundCostMin!=null ">
+                and  <![CDATA[
+                a.`refund_cost`>=#{request.refundCostMin}
+                ]]>
+            </if>
+            <if test="request.refundCostMax!=null">
+                and  <![CDATA[
+                a.`refund_cost` <=#{request.refundCostMinMax}
+                ]]>
+            </if>
+            -- 申请退款数量
+            <if test="request.returnCountMin!=null">
+                and  <![CDATA[
+                a.`return_count`>=#{request.returnCountMin}
+                ]]>
+            </if>
+            <if test="request.returnCountMax!=null">
+                and  <![CDATA[
+                a.`return_count` <=#{request.returnCountMax}
+                ]]>
+            </if>
+            -- 实际退款金额
+            <if test="request.refundMoneyMin!=null">
+                and  <![CDATA[
+                a.`real_back_money`>=#{request.refundMoneyMin}
+                ]]>
+            </if>
+            <if test="request.refundMoneyMax!=null">
+                and  <![CDATA[
+                 a.`real_back_money` <=#{request.refundMoneyMax}
+                ]]>
+            </if>
+
+            -- 申请退款时间
+            <if test="request.applyTimeMin!=null and request.applyTimeMin!=''">
+                and  <![CDATA[
+                a.`apply_time`>=#{request.applyTimeMin}
+                ]]>
+            </if>
+            <if test="request.applyTimeMax!=null and request.applyTimeMax!=''">
+                and  <![CDATA[
+                a.`apply_time` <=#{request.applyTimeMax}
+                ]]>
+            </if>
+
+            -- 卖家受理时间
+            <if test="request.storeDealRefundTimeMin!=null and request.storeDealRefundTimeMin!=''">
+                and  <![CDATA[
+                a.`store_allow_refund_time`>=#{request.storeDealRefundTimeMin}
+                ]]>
+            </if>
+            <if test="request.storeDealRefundTimeMax!=null and request.storeDealRefundTimeMax!=''">
+                and  <![CDATA[
+                a.`store_allow_refund_time` <=#{request.storeDealRefundTimeMax}
+                ]]>
+            </if>
+
+            <if test="request.storeDealRefundTimeMin!=null and request.storeDealRefundTimeMin!=''">
+                and  <![CDATA[
+                a.`store_refuse_refund_time`>=#{request.storeDealRefundTimeMin}
+                ]]>
+            </if>
+            <if test="request.storeDealRefundTimeMax!=null and request.storeDealRefundTimeMax!=''">
+                and  <![CDATA[
+                a.`store_refuse_refund_time` <=#{request.storeDealRefundTimeMax}
+                ]]>
+            </if>
+
+        order by `apply_time` desc
+    </select>
+
+
+    <!--查询订单详情-->
+    <select id="getRefundOrderInfo" parameterType="Long"
+            resultType="com.e_commerce.miscroservice.commons.entity.application.order.RefundOrder">
+      select
+        a.`id`,
+        a.`refund_order_no` as refundOrderNo,
+        a.`store_id` as storeId,
+        a.`store_phone` as storePhone,
+        a.`store_name` as storeName,
+        a.`supplier_id` as supplierId,
+        a.`order_no` as orderNo,
+        a.`brand_id` as brandId,
+        a.`brand_name` as brandName,
+        a.`refund_type` as refundType,
+        a.`refund_status` as refundStatus,
+        a.`refund_cost` as refundCost,
+        a.`return_count` as returnCount,
+        a.`refund_reason_id` as refundReasonId,
+        a.`refund_reason` as refundReason,
+        a.`refund_remark` as refundRemark,
+        a.`refund_proof_images` as refundProofImages,
+        a.`refund_way` as refundWay,
+        a.`refund_time` as refundTime,
+        a.`apply_time` as applyTime,
+        a.`customer_return_time` as customerReturnTime,
+        a.`confirm_time` as confirmTime,
+        a.`platform_intervene_time` as platformInterveneTime,
+        a.`platform_intervene_close_time` as platformInterveneCloseTime,
+        a.`customer_express_no` as customerExpressNo,
+        a.`customer_express_company` as customerExpressCompany,
+        a.`store_allow_refund_time` as storeAllowRefundTime,
+        a.`store_refuse_refund_time` as storeRefuseRefundTime,
+        a.`store_refuse_reason` as storeRefuseReason,
+        a.`handling_suggestion` as handlingSuggestion,
+        a.`store_agree_remark` as storeAgreeRemark,
+        a.`platform_close_reason` as platformCloseReason,
+        a.`platform_intervene_state` as platformInterveneState,
+        a.`receiver`,
+        a.`supplier_receive_address` as supplierReceiveAddress,
+        a.`receiver_phone` as receiverPhone,
+        a.`supplier_auto_take_delivery_pause_time` as supplierAutoTakeDeliveryPauseTime,
+        a.`supplier_auto_take_delivery_pause_time_length` as supplierAutoTakeDeliveryPauseTimeLength,
+        a.`customer_cancel_time` as customerCancelTime,
+        a.`customer_overtime_time_no_delivery` as customerOvertimeTimeNoDelivery,
+        a.`express_info` as expressInfo,
+        a.`customer_express_company_name` as customerExpressCompanyName,
+        a.`sku_id` as skuId,
+        a.`store_back_money` as storeBackMoney,
+        a.`real_back_money` as realBackMoney,
+        a.`store_order_item_id` as storeOrderItemId
+        from `store_refund_order` a  where `refund_order_no`=#{refundOrderNo}
+    </select>
+
+    <!--查询供应商收货地址-->
+    <select id="selectListBySupplierId" parameterType="Long"
+            resultType="com.e_commerce.miscroservice.commons.entity.application.order.SupplierDeliveryAddress">
+      select
+      id,
+      supplier_id as supplierId,
+      receipt_info_name as receiptInfoName,
+      receiver_name as receiverName,
+      phone_number as phoneNumber,
+      address,
+      status,
+      default_address as defaultAddress,
+      create_time as createTime,
+      update_time as updateTime
+      from `supplier_delivery_address`where `supplier_id`=#{supplierId}
+    </select>
+
+    <!--selectProdectById根据商品id查询商品信息-->
+    <select id="selectProdectById" parameterType="Long"
+            resultType="com.e_commerce.miscroservice.commons.entity.application.order.ProductNew">
+	select
+	DetailImages as detailImages,
+	`Name` as name,
+	ClothesNumber as clothesNumber,
+	`BrandName` as brandName
+	from `yjj_product` where `Id`=#{id}
+</select>
+
+    <!--根据skuid查询订单详情-->
+    <select id="selectItem" resultType="com.e_commerce.miscroservice.commons.entity.application.order.StoreOrderItem">
+        select
+        Id as id,
+        orderNo as orderNo,
+        storeId as storeId,
+        productId as productId,
+        skuId as skuId,
+        totalMoney as totalMoney,
+        totalExpressMoney as totalExpressMoney,
+        money as money,
+        expressMoney as expressMoney,
+        totalUnavalCoinUsed as totalUnavalCoinUsed,
+        unavalCoinUsed as unavalCoinUsed,
+        buyCount as buyCount,
+        skuSnapshot as skuSnapshot,
+        status as status,
+        createTime as createTime,
+        updateTime as updateTime,
+        brandId as brandId,
+        lOWarehouseId as lOWarehouseId,
+        totalPay as totalPay,
+        totalMarketPrice as totalMarketPrice,
+        marketPrice as marketPrice,
+        totalAvailableCommission as totalAvailableCommission,
+        `position` as position,
+        supplierId as supplierId,
+        member_package_type as memberPackageType
+         from `store_OrderItem` where `OrderNo`=#{orderNo} and `SkuId`=#{skuId}  and `Status`=0
+    </select>
+
+
+    <update id="refundGoodsMoney">
+        update store_refund_order
+        <trim prefix="set" suffixOverrides=",">
+            <!--售后处理 退款-->
+            -- 卖家同意
+            <if test=" obj.status==0 and obj.type==1">
+                <if test="obj.msg!=null and obj.msg!=''">
+                    store_agree_remark = #{obj.msg},
+                </if>
+                <if test="obj.operTime!=null and obj.operTime!=''">
+                    store_allow_refund_time = #{obj.operTime},
+                </if>
+                <if test="obj.money!=null and obj.money!=''">
+                    real_back_money = #{obj.money},
+                </if>
+            </if>
+            -- 卖家拒绝
+            <if test="obj.status==1 and obj.type==1">
+                <if test="obj.msg!=null and obj.msg!=''">
+                    store_refuse_reason = #{obj.store_agree_remark},
+                </if>
+                <if test="obj.operTime!=null and obj.operTime!=''">
+                    store_refuse_refund_time = #{obj.operTime},
+                </if>
+
+            </if>
+
+            <!--售后处理 退货退款-->
+            -- 卖家同意
+            <if test=" obj.status==0 and obj.type==2">
+                <if test="obj.msg!=null and obj.msg!=''">
+                    store_agree_remark = #{obj.msg},
+                </if>
+                <if test="obj.operTime!=null and obj.operTime!=''">
+                    store_allow_refund_time = #{obj.operTime},
+                </if>
+                <if test="obj.money!=null and obj.money!=''">
+                    real_back_money = #{obj.money},
+                </if>
+            </if>
+            -- 卖家拒绝
+            <if test=" obj.status==1 and obj.type==2">
+                <if test="obj.msg!=null and obj.msg!=''">
+                    store_refuse_reason = #{obj.store_agree_remark},
+                </if>
+                <if test="obj.operTime!=null and obj.operTime!=''">
+                    store_refuse_refund_time = #{obj.operTime},
+                </if>
+
+            </if>
+            <if test="obj.refundStatus!=null and obj.refundStatus!=''">
+                refund_status=#{obj.refundStatus},
+            </if>
+        </trim>
+        where id = #{obj.id}
+    </update>
+    <update id="confirmTackGoods">
+         update store_refund_order
+         <set>
+             refund_status=#{code},
+         </set>
+        where id = #{id}
+    </update>
+
+
+    <!--查询售后单号-->
+    <select id="selectRefundNo" parameterType="Long" resultType="Long">
+            select  `refund_order_no` from `store_refund_order` where  `id`=#{id}
+    </select>
+
+    <!--插入日志-->
+    <insert id="insertLog" parameterType="com.e_commerce.miscroservice.supplier.entity.request.StoreRefundOrderActionLog">
+			insert into `store_refund_order_action_log`(`refund_order_id`,`action_time`,`action_name`) values (
+			#{refundOrderId},
+			#{actionTime},
+			#{actionName}
+			)
+	</insert>
+
+    <!--添加地址-->
+    <update id="updateAdress">
+            update `store_refund_order` set `receiver`=#{obj.receiverName},`receiver_phone`=#{obj.receiverPhone},`supplier_receive_address`=#{obj.receiverAddress} where `id`=#{obj.id}
+    </update>
+
+    <select id="selectRefundOrder" parameterType="Long" resultType="com.e_commerce.miscroservice.commons.entity.application.order.RefundOrder">
+      select *from `store_refund_order` where `id`=#{id}
+    </select>
+
+    <select id="selectStoreOrder" parameterType="Long" resultType="com.e_commerce.miscroservice.commons.entity.application.order.StoreOrder">
+            select *from `store_order` where `OrderNo`=#{orderNo}
+    </select>
+
+    <select id="selectStoreOrderNew" resultType="com.e_commerce.miscroservice.supplier.entity.request.StoreOrderNew">
+        select *from `store_order`
+        <trim prefixOverrides="and|or" prefix="Where">
+            <if test="query.orderNo!=null">
+                and `OrderNo` = #{query.orderNo}
+            </if>
+            <if test="query.parentId!=null">
+                and `ParentId` = #{query.parentId}
+            </if>
+            <if test="query.stauts!=null">
+                and `Status` = #{query.stauts}
+            </if>
+        </trim>
+    </select>
+    <select id="findRefundUser" resultType="com.e_commerce.miscroservice.commons.entity.application.order.StoreBusiness">
+        select a.* from  yjj_storebusiness a,store_refund_order b where a.id = b.store_id and b.id = #{id}
+    </select>
+    <select id="selectMoney" resultType="com.e_commerce.miscroservice.commons.entity.application.user.YjjStoreBusinessAccount">
+			select
+			 id,
+			 count_money as countMoney,
+			 frozen_money as frozenMoney,
+			 use_money as useMoney,
+			 user_id as userId,
+			 del_status as delStatus,
+			 create_time as createTime,
+			 update_time as updateTime,
+			 status,
+			 wait_in_money as waitInMoney,
+			 real_use_money as realUseMoney,
+			 remainder_money as remainderMoney
+			from `yjj_storebusiness_account` where `user_id`=#{storeId} and `del_status`=0 and `status`=0
+	</select>
+
+    <select id="selectPayTypeAndTotalMoney" resultType="com.e_commerce.miscroservice.commons.entity.application.order.StoreOrder">
+            select  TotalPay as totalPay,PaymentType as paymentType from `store_order` where `OrderNo`=#{orderNo}
+    </select>
+
+    <select id="selectProductIdByOrderNo" resultType="com.e_commerce.miscroservice.commons.entity.application.order.StoreOrderItem">
+            select `ProductId` as productId from `store_orderitem` where `OrderNo`=#{orderNo}
+    </select>
+
+    <select id="selectNameById" resultType="com.e_commerce.miscroservice.commons.entity.application.order.Product">
+            select `Name` as name  from `yjj_product` where `Id`=#{id}
+    </select>
+
+    <select id="selectByName" resultType="com.e_commerce.miscroservice.commons.entity.application.order.Product">
+            select ID as id from `yjj_product` where `Name` LIKE CONCAT('%',#{request.shopName},'%')
+    </select>
+    <select id="selectItemByProductId" resultType="com.e_commerce.miscroservice.commons.entity.application.order.StoreOrderItem">
+            select OrderNo as orderNo from `store_orderitem` where `ProductId`=#{id}
+    </select>
+
+    <select id="selectRefundByOrderNew" resultType="com.e_commerce.miscroservice.commons.entity.application.order.RefundOrder">
+            select id  from `store_refund_order` where `order_no`=#{orderNo}
+    </select>
+
+    <update id="updateOrderStatus">
+            update `store_order` set `OrderStatus`=#{orderStatus}  where `OrderNo`=#{orderNo}
+    </update>
+
+    <select id="selectRefundNew" resultType="com.e_commerce.miscroservice.commons.entity.application.order.RefundOrder">
+            select
+            order_no as orderNo,
+             store_id as storeId ,
+            real_back_money as realBackMoney,
+            refund_reason as refundReason,
+            refund_status as refundStatus,
+
+             from `store_refund_order`
+            where `id`=#{id}
+
+    </select>
+
+    <select id="selectSupplierName" resultType="Integer">
+            select id from `supplier_user` where account=#{name}
+    </select>
+</mapper>

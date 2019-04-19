@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jiuy.mapper.monitoring.MonitoringSmsMapper">
+    <resultMap id="BaseResultMap" type="com.jiuy.model.monitoring.MonitoringSms">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="page_code" property="pageCode" jdbcType="VARCHAR"/>
+        <result column="page_name" property="pageName" jdbcType="VARCHAR"/>
+        <result column="open_time" property="openTime" jdbcType="TIMESTAMP"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="url" property="url" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, page_code, page_name, open_time, create_time, url
+    </sql>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long">
+        select
+        <include refid="Base_Column_List"/>
+        from yjj_monitoring_sms
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete from yjj_monitoring_sms
+        where id = #{id,jdbcType=BIGINT}
+    </delete>
+
+    <insert id="insert" parameterType="com.jiuy.model.monitoring.MonitoringSms">
+        insert into yjj_monitoring_sms
+        (id, page_code, page_name, open_time, create_time, url)
+        values (#{id,jdbcType=BIGINT}, #{pageCode,jdbcType=VARCHAR}, #{pageName,jdbcType=VARCHAR},
+                #{openTime,jdbcType=TIMESTAMP}, #{createTime,jdbcType=TIMESTAMP}, #{url,jdbcType=VARCHAR})
+    </insert>
+
+    <insert id="insertBach" parameterType="List">
+        insert into yjj_monitoring_sms
+        (id,page_code,page_name,open_time,create_time,url)
+        values
+        <foreach collection="list" item="item" separator=",">
+            (
+            #{item.id,jdbcType=BIGINT},
+            #{item.pageCode,jdbcType=VARCHAR},
+            #{item.pageName,jdbcType=VARCHAR},
+            #{item.openTime,jdbcType=TIMESTAMP},
+            #{item.createTime,jdbcType=TIMESTAMP},
+            #{item.url,jdbcType=VARCHAR}
+            )
+        </foreach>
+    </insert>
+    <insert id="insertSelective" parameterType="com.jiuy.model.monitoring.MonitoringSms" useGeneratedKeys="true"
+            keyProperty="id">
+        insert into yjj_monitoring_sms
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id  !=null">
+                id,
+            </if>
+            <if test="pageCode  !=null">
+                page_code,
+            </if>
+            <if test="pageName  !=null">
+                page_name,
+            </if>
+            <if test="openTime  !=null">
+                open_time,
+            </if>
+            <if test="createTime  !=null">
+                create_time,
+            </if>
+            <if test="url  !=null">
+                url
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id  !=null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="pageCode  !=null">
+                #{pageCode,jdbcType=VARCHAR},
+            </if>
+            <if test="pageName  !=null">
+                #{pageName,jdbcType=VARCHAR},
+            </if>
+            <if test="openTime  !=null">
+                #{openTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createTime  !=null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="url  !=null">
+                #{url,jdbcType=VARCHAR}
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.jiuy.model.monitoring.MonitoringSms">
+        update yjj_monitoring_sms
+        <set>
+            <if test="id  !=null">
+                id = #{id,jdbcType=BIGINT},
+            </if>
+            <if test="pageCode  !=null">
+                page_code = #{pageCode,jdbcType=VARCHAR},
+            </if>
+            <if test="pageName  !=null">
+                page_name = #{pageName,jdbcType=VARCHAR},
+            </if>
+            <if test="openTime  !=null">
+                open_time = #{openTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createTime  !=null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="url  !=null">
+                url = #{url,jdbcType=VARCHAR}
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <update id="updateByPrimaryKey" parameterType="com.jiuy.model.monitoring.MonitoringSms">
+        update yjj_monitoring_sms
+        set
+            id          = #{id,jdbcType=BIGINT},
+            page_code   = #{pageCode,jdbcType=VARCHAR},
+            page_name   = #{pageName,jdbcType=VARCHAR},
+            open_time   = #{openTime,jdbcType=TIMESTAMP},
+            create_time = #{createTime,jdbcType=TIMESTAMP},
+            url         = #{url,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+
+    <sql id="whereCase">
+        where 1=1
+        <if test="id !=null">
+            AND id = #{id,jdbcType=BIGINT}
+        </if>
+        <if test="pageCode !=null">
+            AND page_code = #{pageCode,jdbcType=VARCHAR}
+        </if>
+        <if test="pageName !=null">
+            AND page_name = #{pageName,jdbcType=VARCHAR}
+        </if>
+        <if test="openTime !=null">
+            AND open_time = #{openTime,jdbcType=TIMESTAMP}
+        </if>
+        <if test="createTime !=null">
+            AND create_time = #{createTime,jdbcType=TIMESTAMP}
+        </if>
+        <if test="url !=null">
+            AND url = #{url,jdbcType=VARCHAR}
+        </if>
+        <include refid="costomWhereCase"/>
+    </sql>
+
+    <select id="selectOne" parameterType="java.util.Map" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM yjj_monitoring_sms
+        <include refid="whereCase"/>
+    </select>
+
+    <select id="selectList" parameterType="java.util.Map" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM yjj_monitoring_sms
+        <include refid="whereCase"/>
+    </select>
+
+    <select id="selectCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+        SELECT
+        count(1)
+        FROM yjj_monitoring_sms
+        <include refid="whereCase"/>
+    </select>
+
+    <!--  @Costom -->
+    <!-- 从上一行注释以上为系统生成 从这一行往下为用户自定义 请将自定义的sql放在此行下面 -->
+
+    <sql id="costomWhereCase">
+        <if test="beginTime!=null">
+            and open_time &gt;= #{beginTime}
+        </if>
+        <if test="endTime!=null">
+            AND open_time &lt;= #{endTime}
+        </if>
+        <if test="pageCode!=null">
+            AND page_code = #{pageCode}
+        </if>
+        <if test="pageName!=null">
+            AND page_name like concat('%',#{pageName},'%')
+        </if>
+        <if test="urlLike!=null">
+            AND url like concat('%',#{urlLike},'%')
+        </if>
+    </sql>
+
+    <select id="selectSmsReport" resultType="Map" parameterType="Map">
+        SELECT
+            page_code as pageCode,
+            page_name as pageName,
+            url,
+            COUNT(1) as openCount
+        FROM
+            yjj_monitoring_sms AS sms
+            <include refid="whereCase"/>
+        GROUP BY
+            page_code,page_name,url
+    </select>
+</mapper>

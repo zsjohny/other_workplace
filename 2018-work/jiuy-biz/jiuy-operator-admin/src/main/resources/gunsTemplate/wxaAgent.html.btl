@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="robots" content="noindex,nofollow,noarchive ">
+    <meta charset="UTF-8" >
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="cache-control" content="no-cache">
+    <!--页面关键字-->
+    <meta name="keywords" content="${page.operatorSeo.keywords}"/>
+    <!--页面描述-->
+    <meta name="description" content="${page.operatorSeo.descriptor}"/>
+    <title>
+    <%
+    if(page.operatorSeo.title == null && page.page.operatorSeo.title == ''){
+    %>
+         俞姐姐门店宝
+    <%
+    } else{
+    %>
+    ${page.operatorSeo.title}
+    <%
+    }
+    %>
+    -小程序加盟
+    </title>
+    
+    
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/swiper.min.css">
+    <link rel="stylesheet" href="css/common.css?v1.1">
+	<link rel="stylesheet" href="css/wxaAgent.css?v2018-07-18">
+</head>
+<body>
+<div class="header-container">
+   <div class="head-nav"></div>
+</div>
+<div class="body-form">
+    <div class="body-form-container">
+        <div class="body-form-input">
+             <script charset="UTF-8" defer>(function(h){function n(a){return null===a?null:a.scrollHeight>a.clientHeight?a:n(a.parentNode)}function t(b){if(b.data){var f=JSON.parse(b.data);!f.height||p||q||(d.style.height=+f.height+"px");if(f.getter){b={};var f=[].concat(f.getter),k,h=f.length,m,c,g,e;for(k=0;k<h;k++){m=k;c=f[k]||{};c.n&&(m=c.n);g=null;try{switch(c.t){case "window":e=window;break;case "scrollParent":e=n(a)||window;break;default:e=a}if(c.e)if("rect"===c.v){g={};var l=e.getBoundingClientRect();g={top:l.top,left:l.left,width:l.width,height:l.height}}else g=e[c.v].apply(e,[].concat(c.e))||!0;else c.s?(e[c.v]=c.s,g=!0):g=e[c.v]||!1}catch(u){}b[m]=g}b.innerState=!p&&!q;a.contentWindow.postMessage(JSON.stringify({queryRes:b}),"*")}}}for(var r=h.document,b=r.documentElement;b.childNodes.length&&1==b.lastChild.nodeType;)b=b.lastChild;var d=b.parentNode,a=r.createElement("iframe");d.style.overflowY="auto";d.style.overflowX="hidden";var p=d.style.height&&"auto"!==d.style.height,q="absolute"===d.style.position||window.getComputedStyle&&"absolute"===window.getComputedStyle(d,null).getPropertyValue("position")||d.currentStyle&&"absolute"===d.currentStyle.position;h.addEventListener&&h.addEventListener("message",t,!1);a.src="http://cn.mikecrm.com/yYQTzAj";a.id="mkinyYQTzAj";a.onload=function(){a.contentWindow.postMessage(JSON.stringify({cif:1}),"*")};a.frameBorder=0;a.scrolling="no";a.style.display="block";a.style.minWidth="100%";a.style.width="100px";a.style.height="100%";a.style.border="none";a.style.overflow="auto";d.insertBefore(a,b)})(window);</script>
+        </div>
+    </div>
+</div>
+<!-- 底部模块 -->
+<footer class="footer" id="footer-box"></footer>
+<script type="text/javascript" src="js/jquery-2.1.1.js"></script>
+<script type="text/javascript" src="js/swiper.min.js"></script>
+<script src="https://qiyukf.com/script/ca7401ee061a67fdcd669ac85f2fa84d.js"></script>
+<script src="js/adaptation.js"></script>
+<script src="js/common.js"></script>
+</body>
+</html>

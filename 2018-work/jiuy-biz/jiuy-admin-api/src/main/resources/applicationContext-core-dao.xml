@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="baseSqlDao" class="com.jiuy.core.dao.support.DomainDaoSqlSupport">
+        <property name="sqlSessionFactory" ref="sqlSessionFactory"/>
+        <property name="sqlSessionTemplate" ref="sqlSessionTemplate"/>
+    </bean>
+    <!--
+        <bean id="orderDao" class="com.jiuy.core.dao.impl.sql.OrderDaoSqlImpl"
+            parent="baseSqlDao">
+        </bean>
+     -->
+    <bean id="orderItemDao" class="com.jiuy.core.dao.impl.sql.OrderItemDaoSqlImpl"
+          parent="baseSqlDao">
+    </bean>
+
+    <bean id="articalDao" class="com.jiuy.core.dao.impl.sql.ArticalDaoSqlImpl"
+          parent="baseSqlDao">
+    </bean>
+
+    <bean id="brandDao" class="com.jiuy.core.dao.impl.sql.BrandDaoSqlImpl"
+          parent="baseSqlDao">
+    </bean>
+
+    <bean id="memberDao" class="com.jiuy.core.dao.impl.sql.MemberDaoSqlImpl"
+          parent="baseSqlDao">
+    </bean>
+
+    <bean id="TemplateDao" class="com.jiuy.core.dao.impl.sql.TemplateDaoSqlImpl"
+          parent="baseSqlDao">
+    </bean>
+
+    <bean id="PartnerInnerCatDao" class="com.jiuy.core.dao.impl.sql.PartnerInnerCatDaoSqlImpl"
+          parent="baseSqlDao">
+    </bean>
+
+    <bean id="PartnerCatManageDao" class="com.jiuy.core.dao.impl.sql.PartnerCatManageDaoSqlImpl"
+          parent="baseSqlDao">
+    </bean>
+
+    <bean id="NotificationDao" class="com.jiuy.core.dao.impl.sql.NotificationDaoSqlImpl"
+          parent="baseSqlDao">
+    </bean>
+
+    <bean id="CommentDao" class="com.jiuy.core.dao.impl.sql.CommentDaoSqlImpl"
+          parent="baseSqlDao">
+    </bean>
+
+    <bean id="HomeTemplateDao" class="com.jiuy.core.dao.impl.sql.HomeTemplateDaoSqlImpl"
+          parent="baseSqlDao">
+    </bean>
+
+    <bean id="ARCategoryDao" class="com.jiuy.core.dao.impl.sql.ARCategoryDaoSqlImpl"
+          parent="baseSqlDao">
+    </bean>
+
+    <bean id="operationLogDao" class="com.jiuy.core.dao.impl.sql.OperationLogDaoSqlImpl"
+          parent="baseSqlDao">
+    </bean>
+
+    <bean id="ServiceTicketDao" class="com.jiuy.core.dao.impl.sql.ServiceTicketDaoSqlImpl"
+          parent="baseSqlDao">
+    </bean>
+
+    <bean id="MessageBoardDao" class="com.jiuy.core.dao.impl.sql.MessageBoardDaoSqlImpl"
+          parent="baseSqlDao">
+    </bean>
+
+    <bean id="StoreMessageBoardDao" class="com.jiuy.core.dao.impl.sql.StoreMessageBoardDaoSqlImpl"
+          parent="baseSqlDao">
+    </bean>
+
+    <bean id="FinanceTicketDao" class="com.jiuy.core.dao.impl.sql.FinanceTicketDaoSqlImpl"
+          parent="baseSqlDao">
+    </bean>
+
+    <bean id="expressInfoDao" class="com.jiuy.core.dao.impl.sql.ExpressInfoDaoSqlImpl"
+          parent="baseSqlDao">
+    </bean>
+
+    <bean id="SubscriptDao" class="com.jiuy.core.dao.impl.sql.SubscriptDaoSqlImpl"
+          parent="baseSqlDao">
+    </bean>
+    <!--
+    <bean id="orderItemGroupDao" class="com.jiuy.core.dao.impl.sql.OrderItemGroupDaoSqlImpl"
+        parent="baseSqlDao">
+    </bean> -->
+
+    <bean id="sendBackDao" class="com.jiuy.core.dao.impl.sql.SendBackDaoSqlImpl"
+          parent="baseSqlDao">
+    </bean>
+
+    <bean id="userCoinDao" class="com.jiuy.core.dao.impl.sql.UserCoinDaoSqlImpl"
+          parent="baseSqlDao">
+    </bean>
+
+    <bean id="adDao" class="com.jiuy.core.dao.impl.sql.AdDaoSqlImpl"
+          parent="baseSqlDao">
+    </bean>
+
+    <bean id="brandCategoryDao" class="com.jiuy.core.dao.impl.sql.BrandCategoryDaoSqlImpl"
+          parent="baseSqlDao">
+    </bean>
+
+    <bean id="userCoinLogDao" class="com.jiuy.core.dao.impl.sql.UserCoinLogDaoSqlImpl"
+          parent="baseSqlDao">
+    </bean>
+
+    <bean id="userDao" class="com.jiuy.core.dao.impl.cache.UserDaoCacheImpl">
+        <property name="sqlDao">
+            <bean class="com.jiuy.core.dao.impl.sql.UserDaoSqlImpl" parent="baseSqlDao"/>
+        </property>
+        <property name="tableName" value="yjj_user"/>
+        <property name="cacheManager" ref="daoCacheManager"/>
+    </bean>
+
+    <bean id="productDao" class="com.jiuy.core.dao.impl.cache.ProductDaoCacheImpl">
+        <property name="sqlDao">
+            <bean class="com.jiuy.core.dao.impl.sql.ProductDaoSqlImpl"
+                  parent="baseSqlDao"/>
+        </property>
+        <property name="tableName" value="Tb_Product"/>
+        <property name="cacheManager" ref="daoCacheManager"/>
+    </bean>
+
+    <bean id="dictionaryDao" class="com.jiuy.core.dao.impl.cache.DictionaryDaoCacheImpl">
+        <property name="sqlDao">
+            <bean class="com.jiuy.core.dao.impl.sql.DictionaryDaoSqlImpl"
+                  parent="baseSqlDao"/>
+        </property>
+        <property name="tableName" value="Tb_Dictionary"/>
+        <property name="cacheManager" ref="daoCacheManager"/>
+    </bean>
+
+    <bean id="classificationDefinitionDao"
+          class="com.jiuy.core.dao.impl.cache.ClassificationDefinitionDaoCacheImpl">
+        <property name="sqlDao">
+            <bean class="com.jiuy.core.dao.impl.sql.ClassificationDefinitionDaoSqlImpl"
+                  parent="baseSqlDao"/>
+        </property>
+        <property name="tableName" value="Tb_ClassificationDefinitionl"/>
+        <property name="cacheManager" ref="daoCacheManager"/>
+    </bean>
+
+    <bean id="treeDictionaryDao" class="com.jiuy.core.dao.impl.cache.TreeDictionaryDaoCacheImpl">
+        <property name="sqlDao">
+            <bean class="com.jiuy.core.dao.impl.sql.TreeDictionaryDaoSqlImpl"
+                  parent="baseSqlDao"/>
+        </property>
+        <property name="tableName" value="Tb_Tree_Dictionary"/>
+        <property name="cacheManager" ref="daoCacheManager"/>
+    </bean>
+
+    <bean id="productMapper" class="com.jiuy.core.dao.impl.sql.ProductMapperSqlImpl">
+        <property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+    </bean>
+
+    <bean id="categoryMapper" class="com.jiuy.core.dao.impl.sql.CategoryMapperSqlImpl">
+        <property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+    </bean>
+
+    <bean id="productPropertyMapper" class="com.jiuy.core.dao.impl.sql.ProductPropertyMapperSqlImpl">
+        <property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+    </bean>
+
+    <bean id="productSKUMapper" class="com.jiuy.core.dao.impl.sql.ProductSKUMapperSqlImpl">
+        <property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+    </bean>
+
+    <bean id="propertyNameMapper" class="com.jiuy.core.dao.impl.sql.PropertyNameMapperSqlImpl">
+        <property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+    </bean>
+
+    <bean id="propertyValueMapper" class="com.jiuy.core.dao.impl.sql.ProductCategoryMapperSqlImpl">
+        <property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+    </bean>
+
+    <bean id="productCategoryMapper" class="com.jiuy.core.dao.impl.sql.PropertyValueMapperSqlImpl">
+        <property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+    </bean>
+    <!--
+    <bean id="orderLogDao" class="com.jiuy.core.dao.impl.sql.OrderLogDaoSqlImpl">
+        <property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+    </bean> -->
+
+    <bean id="adminLogDao" class="com.jiuy.core.dao.impl.sql.AdminLogDaoSqlImpl">
+        <property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+    </bean>
+
+    <bean id="brandHomeUrlDao" class="com.jiuy.core.dao.impl.sql.BrandHomeUrlDaoSqlImpl">
+        <property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+    </bean>
+
+    <bean id="brandPartnerDao" class="com.jiuy.core.dao.impl.sql.BrandPartnerDaoSqlImpl">
+        <property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+    </bean>
+
+    <bean id="LOWarehouseDao" class="com.jiuy.core.dao.impl.sql.LOWarehouseDaoSqlImpl">
+        <property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+    </bean>
+
+    <bean id="LOPostageDao" class="com.jiuy.core.dao.impl.sql.LOPostageDaoSqlImpl">
+        <property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+    </bean>
+
+    <bean id="LOLocationDao" class="com.jiuy.core.dao.impl.sql.LOLocationDaoSqlImpl">
+        <property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+    </bean>
+
+    <bean id="AddressDao" class="com.jiuy.core.dao.impl.sql.AddressDaoSqlImpl">
+        <property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+    </bean>
+
+    <bean id="UserDao" class="com.jiuy.core.dao.mapper.UserDaoSqlImpl">
+        <property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+    </bean>
+
+    <bean id="OrderNewDao" class="com.jiuy.core.dao.impl.sql.OrderNewDaoSqlImpl">
+        <property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+    </bean>
+
+    <bean id="OrderNewLogDao" class="com.jiuy.core.dao.impl.sql.OrderNewLogDaoSqlImpl">
+        <property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+    </bean>
+
+    <bean id="RestrictionCombinationDao" class="com.jiuy.core.dao.impl.sql.RestrictionCombinationDaoSqlImpl">
+        <property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+    </bean>
+
+    <bean id="ActivityPlaceDao" class="com.jiuy.core.dao.impl.sql.ActivityPlaceDaoSqlImpl">
+        <property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+    </bean>
+
+    <bean id="DiscountInfoDao" class="com.jiuy.core.dao.impl.sql.DiscountInfoDaoSqlImpl">
+        <property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+    </bean>
+
+    <bean id="OrderDiscountLogDao" class="com.jiuy.core.dao.impl.sql.OrderDiscountLogDaoImpl">
+        <property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+    </bean>
+
+    <bean id="OrderMessageBoardDao" class="com.jiuy.core.dao.impl.sql.OrderMessageBoardDaoSqlImpl">
+        <property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+    </bean>
+
+    <bean id="CouponTemplateDao" class="com.jiuy.core.dao.impl.sql.CouponTemplateDaoSqlImpl">
+        <property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+    </bean>
+
+    <bean id="CouponDao" class="com.jiuy.core.dao.impl.sql.CouponDaoSqlImpl">
+        <property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+    </bean>
+    <bean id="StoreCouponTemplateDao" class="com.jiuy.core.dao.impl.sql.StoreCouponTemplateDaoSqlImpl">
+        <property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+    </bean>
+
+    <bean id="StoreCouponDao" class="com.jiuy.core.dao.impl.sql.StoreCouponDaoSqlImpl">
+        <property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+    </bean>
+
+    <bean id="CategoryFilterDao" class="com.jiuy.core.dao.impl.sql.CategoryFilterDaoSqlImpl">
+        <property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+    </bean>
+
+    <bean id="ProductTagDao" class="com.jiuy.core.dao.impl.sql.ProductTagDaoSqlImpl">
+        <property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+    </bean>
+
+    <bean id="TagDao" class="com.jiuy.core.dao.impl.sql.TagDaoSqlImpl">
+        <property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+    </bean>
+
+    <bean id="UserBankCardPayDiscountDao" class="com.jiuy.core.dao.impl.sql.UserBankCardPayDiscountDaoSqlImpl">
+        <property name="sqlSessionTemplate" ref="sqlSessionTemplate"></property>
+    </bean>
+
+
+</beans>

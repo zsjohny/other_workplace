@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>会员首页</title>
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <script src="js/adaptation.js"></script>
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/common.css?v20181016004">
+    <link rel="stylesheet" href="css/swiper.min.css">
+</head>
+<body class="body-bg">
+    <div class="ui-box swiper-container">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide vip-btn" data-type="6"><img src="images/vip6-1.png" alt="极致爆款会员套餐"></div>
+            <div class="swiper-slide vip-btn" data-type="7"><img src="images/vip7-1.png" alt="新零售智能门店超值套餐"></div>
+            <div class="swiper-slide vip-btn" data-type="8"><img src="images/vip8-1.png" alt="新零售智能门店至尊套餐"></div>
+        </div>
+    </div>
+    <div class="vip-box box-padding">
+        <div class="title" id="vip-title">会员套餐特权</div>
+        <ul>
+            <li class="item">
+                <span class="icon icon1"></span>
+                <p class="text">千家专业<br/>设计工作室</p>
+            </li>
+            <li class="item">
+                <span class="icon icon2"></span>
+                <p class="text">优质厂商<br/>精选品牌</p>
+            </li>
+            <li class="item">
+                <span class="icon icon3"></span>
+                <p class="text">低于市场<br/>30%以上</p>
+            </li>
+            <li class="item">
+                <span class="icon icon4"></span>
+                <p class="text">爆款货源<br/>直供价</p>
+            </li>
+            <li class="item">
+                <span class="icon icon5"></span>
+                <p class="text">周周上新款<br/>天天有爆款</p>
+            </li>
+            <li class="item">
+                <span class="icon icon6"></span>
+                <p class="text">会员专属<br/>拒绝同质化</p>
+            </li>
+            <li class="item">
+                <span class="icon icon11"></span>
+                <p class="text">平台至尊<br/>会员一年</p>
+            </li>
+            <li class="item">
+                <span class="icon icon7"></span>
+                <p class="text">亚洲爆款<br/>买手选货</p>
+            </li>
+            <li class="item swiper-content2" style="display: none;">
+                <span class="icon icon8"></span>
+                <p class="text">价值1万<br/>小程序</p>
+            </li>
+            <li class="item swiper-content3" style="display: none;">
+                 <span class="icon icon8"></span>
+                <p class="text">价值2万<br/>小程序</p>
+            </li>
+            <li class="item swiper-content3" style="display: none;">
+                <span class="icon icon10"></span>
+                <p class="text">12次门店<br/>活动策划</p>
+            </li>
+        </ul>
+    </div>
+    <script type="text/javascript" src="js/jquery.min-3.3.0.js"></script>
+    <script type="text/javascript" src="js/common.js?v201801124"></script>
+    <script type="text/javascript" src="js/swiper.min.js"></script>
+    <script type="text/javascript">
+        /**
+         * 获取token和userId
+         */
+        var userObj = {};
+        function getToken(token, userId) {
+            userObj = {
+                "token":token,
+                "uid":userId
+            }
+            //alert(token, userId);
+        }
+        /**
+         * 滑动
+         */
+        $(function () {
+           var swiper = new Swiper('.swiper-container', {
+               slidesPerView: 'auto',
+               centeredSlides: true,
+               spaceBetween: 15
+           });
+           swiper.on('slideChange', function () {
+                //获取轮播index
+                var index = this.realIndex;
+                //console.log("当前index",index);
+                if(index == 0){
+                    $(".swiper-content2, .swiper-content3").hide();
+                    $("#vip-title").html("会员套餐特权");
+                }
+                else if(index == 1){
+                    $(".swiper-content3").hide();
+                    $(".swiper-content2").show();
+                    $("#vip-title").html("超值套餐特权");
+                }
+                else if(index == 2){
+                    $(".swiper-content2").hide();
+                    $(".swiper-content3").show();
+                    $("#vip-title").html("至尊套餐特权");
+                }
+           });
+       })
+
+        /**
+         * 未登录函数
+         */
+        function loginState(code) {
+            var systemFlag = systemType();
+            if(systemFlag == "Android"){
+               member.loginFunc(code);
+            }else if (systemFlag == "iOS") {
+                return code
+            }
+        }
+
+        //判断是否是对象
+        function isObject(obj){ 
+            return (typeof obj == 'object') && obj.constructor == Object; 
+        } 
+
+        /**
+         * 会员下单
+         *
+         * @param packageType：4:试用版, 5:体验版, 6:会员套餐, 7:超值套餐, 8:至尊套餐
+         */
+        function createOrder(packageType){
+            $.ajax({
+                url: apiUrl + "/shop/shopOrderCreate/weiChatApp/auth",
+                type: 'POST',
+				headers:userObj,
+                data: {
+                   packageType: packageType    
+                },
+                success: function (res) {
+                    var resData = {};
+                    if(isObject(res)){
+                        resData = res;
+                    }else{
+                        resData = JSON.parse(res);
+                    }
+                    console.log(resData);
+                    if(resData.successful){
+                        var orderNo = resData.data.orderNo,
+                            isCanOrder = resData.data.isCanOrder;
+                        //登录状态且初次购买成功后，则跳转到支付页面
+                        if(isCanOrder){
+                            //0元试用版
+                            if(resData.data.isPaySuccess){
+                                location.href=apiUrl + "/static/wap/memberSuccess.html?packageType=" + packageType 
+                            }else{
+                                location.href=apiUrl + "/static/wap/memberPay.html?packageType=" + packageType + "&orderNo=" + orderNo
+                            }
+                        }else{
+                            popupPrompt("无法再次购买，如有疑问请咨询客服","知道了");
+                        }
+                    }else{
+                        //未登录时，跳转至登录页面
+                       if(resData.code =='-999'){
+                           //popupPrompt(resData.error)
+                           loginState(resData.code);
+                       }else{
+                           popupPrompt(resData.error)
+                       }
+                    }
+                },
+                error: function(data) {
+                    popupPrompt("网络不佳，请重试");
+                }
+            });
+        }
+        $(".vip-btn").on("click",function(){
+            var packageType = $(this).attr("data-type");
+            console.log(packageType);
+            createOrder(packageType);
+        })
+
+    </script>
+</body>
+</html>

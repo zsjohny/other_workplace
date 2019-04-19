@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jiuyuan.dao.mapper.supplier.express.ExpressModelMapper">
+
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.jiuyuan.entity.express.ExpressModel">
+		<id column="id" property="id" />
+		<result column="province" property="province" />
+		<result column="city" property="city" />
+		<result column="province_name" property="provinceName" />
+		<result column="city_name" property="cityName" />
+		<result column="model_name" property="modelName" />
+		<result column="calculation_way" property="calculationWay" />
+		<result column="min_weight" property="minWeight" />
+		<result column="min_money" property="minMoney" />
+		<result column="each_group_weight" property="eachGroupWeight" />
+		<result column="each_group_money" property="eachGroupMoney" />
+		<result column="store_id" property="storeId" />
+	</resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, province, city, province_name AS provinceName, city_name AS cityName, model_name AS modelName, calculation_way AS calculationWay, min_weight AS minWeight, min_money AS minMoney, each_group_weight AS eachGroupWeight, each_group_money AS eachGroupMoney, store_id AS storeId
+    </sql>
+	
+	
+	<select id="selectMiniMoney" resultMap="BaseResultMap">
+		SELECT
+			MIN(md.min_money) AS min_money
+		FROM
+			yjj_express_model_detail AS md
+			LEFT JOIN yjj_express_model as em on em.id = md.model_id
+		WHERE
+			em.supplier_id = #{supplierId}
+	</select>
+
+</mapper>

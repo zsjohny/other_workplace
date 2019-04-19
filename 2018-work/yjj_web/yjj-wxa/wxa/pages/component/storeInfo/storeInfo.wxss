@@ -1,0 +1,30 @@
+/*门店信息 */
+.store-box{
+  margin: 0 24rpx;
+  font-size: 30rpx;
+  box-sizing: border-box
+}
+.store-box .item{
+  display: -webkit-box;
+  border-bottom:2rpx solid #E1E1E1;
+  padding: 30rpx 0;
+}
+.store-box .item .title{
+  margin-right: 50rpx;
+  color: #333
+}
+.store-box .item .content{
+  color: #858585;
+  width: 590rpx;
+  line-height: 1.5;
+  -webkit-box-flex: 1;
+  font-size: 28rpx;
+}
+.no-info{
+  height: 50rpx;
+  line-height: 50rpx;
+  text-align: center;
+  font-size: 30rpx;
+  color: #858585;
+  padding-top: 300rpx;
+}

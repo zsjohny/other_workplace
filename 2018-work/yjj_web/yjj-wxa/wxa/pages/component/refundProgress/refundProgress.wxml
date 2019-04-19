@@ -1,0 +1,53 @@
+<!--退款进度-->
+<view class='body-contain'>
+  <view class='propress-head'>
+    <text class='state'>退款申请</text>
+  </view>
+  <view class='propress-box'>
+    <view class='state-box1'><view class='state-img' wx:if="{{stateData.status == 0}}"></view></view>
+    <block wx:if="{{stateData.status == 3}}">
+      <view class="item icon2 active">
+        <view class='state-box'>
+          <view class='status'>退款申请商家已受理</view>
+          <view class='text'>受理时间：{{stateData.dealTime}}</view>
+          <view class='text'>退款金额：{{stateData.applyMoney}}元</view>
+        </view>
+      </view>
+      <view class="item icon3">
+        <view class='state-box'>
+          <view class='status'>到账情况视商家速度而定，请注意查收!</view>
+        </view>
+      </view>
+    </block>
+    <block wx:if="{{stateData.status == 2}}">
+      <view class="item icon2 active">
+        <view class='state-box'>
+          <view class='status'>退款申请商家已受理</view>
+          <view class='text'>受理时间：{{stateData.dealTime}}</view>
+          <view class='text'>退款金额：{{stateData.applyMoney}}元</view>
+        </view>
+      </view>
+      <view class="item icon3 active}}">
+        <view class='state-box'>
+          <view class='status'>退款已处理成功</view>
+          <view class='text'>退款时间：{{stateData.refundTime}}</view>
+          <view class='text'>实退金额：{{stateData.realyMonry}}元</view>
+        </view>
+      </view>
+    </block>
+    <view class='propress-tips'></view>
+  </view>
+  <view class='propress-dl'>
+    <view class='dt'>说明:</view>
+    <view class='dd'>1.商家同意退款后平台会监督商家在48小时内完成退款</view>
+    <view class='dd'>2.实际退款金额以商家退款金额为准</view>
+    <view class='dd'>3.商家电话：{{stateData.phone}}</view>
+    <view class='dd'>4.平台客服电话：400-118-0099（工作时间：9:00～18:00）</view>
+  </view>
+</view>
+
+
+
+
+
+

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:replace="pc/common::header-common-seo"></div>
+    <link rel="stylesheet" href="/css/news.css">
+</head>
+<body class="gray-body">
+    <div th:include="pc/common::#nav-common"></div>
+    <div class="news-head"></div>
+    <!--  新闻动态 -->
+    <div class="wd1200 news-section01">
+        <div class="public-title">
+            <h2 class="title">新闻动态</h2>
+            <div class="sub-title">
+                <span class="line"></span>
+                <span class="name">NEWS INFORMATION</span>
+                <span class="line"></span>
+            </div>
+        </div>
+        <div class="news-list">
+            <article class="item" th:each="article:${articles.rows}">
+                <div class="time">
+                    <div class="box">
+                        <p class="date" th:text="${#dates.format(article.createTime,'dd')}"></p>
+                        <p class="year" th:text="${#dates.format(article.createTime,'yyyy-MM')}"></p>
+                    </div>
+                </div>
+                <a class="thumb" th:href="@{'/articleDetail/'+${article.id}+'.html'}" target="_blank">
+                    <img th:src="${article.previewImageUrl}" th:alt="${article.title}">
+                </a>
+                <div class="info">
+                    <h3 class="title">
+                        <a class="title" th:href="@{'/articleDetail/'+${article.id}+'.html'}" target="_blank" th:text="${article.title}"></a>
+                    </h3>
+                    <p class="summary"  th:text="${article.abstracts}"></p>
+                    <div class="tag">新闻报道</div>
+                </div>
+            </article>
+        </div>
+		<div class="news-page" >
+
+             <span th:each="i:${#numbers.sequence(1,articles.pages)}">
+                <a th:class="${articles.pageNum==i ? 'active item ' : 'item'}" class="item active" th:href="@{'/news/list'+${i}+'.html'}" th:text="${i}"></a>
+            </span>
+            <span class="total" th:text="@{'共'+${articles.pages}+'页'}"></span>
+        </div>
+    </div>
+    <!-- 底部 -->
+	<div th:replace="pc/common::#foot-common"></div>
+</body>
+</html>

@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yujj.dao.mapper.OrderItemMapper">
+	<insert id="insertOrderItems" parameterType="map">
+		<![CDATA[
+			insert into yjj_OrderItem
+
+			( UserId, ProductId, SkuId, TotalMoney, 
+			TotalExpressMoney, Money, ExpressMoney, BuyCount, 
+			SkuSnapshot, Status, CreateTime, UpdateTime, BrandId, 
+			LOWarehouseId, GroupId, TotalUnavalCoinUsed, UnavalCoinUsed, TotalPay, OrderNo , TotalMarketPrice, MarketPrice, StatisticsId, ParentId, Position, WholesaleType, DeductCoinNum)
+
+			values
+		]]>
+		<foreach collection="orderItems" item="orderItem" open="(" separator="),(" close=")">
+			<![CDATA[
+
+				#{orderItem.userId}, #{orderItem.productId}, #{orderItem.skuId}, #{orderItem.totalMoney}, 
+				#{orderItem.totalExpressMoney}, #{orderItem.money}, #{orderItem.expressMoney}, #{orderItem.buyCount}, 
+				#{orderItem.skuSnapshot}, #{orderItem.status}, #{orderItem.createTime}, #{orderItem.updateTime}, #{orderItem.brandId}, 
+				#{orderItem.lOWarehouseId}, #{orderItem.groupId}, #{orderItem.totalUnavalCoinUsed}, #{orderItem.unavalCoinUsed}, #{orderItem.totalPay},
+				#{orderItem.orderNo}, #{orderItem.totalMarketPrice}, #{orderItem.marketPrice}, #{orderItem.statisticsId}, #{orderItem.parentId}, #{orderItem.position}, #{orderItem.wholesaleType}, #{orderItem.deductCoinNum}
+
+			]]>
+		</foreach>
+	</insert>
+	<!-- 
+	<select id="getOrderItems" parameterType="map" resultType="OrderItem">
+		<![CDATA[
+			select * from yjj_OrderItem
+			where UserId = #{userId} and OrderNo in
+		]]>
+		<foreach collection="orderNos" item="orderNo" open="(" separator="," close=")">
+			<![CDATA[
+				#{orderNo}
+			]]>
+		</foreach>
+		<![CDATA[
+			 order by lOWarehouseId
+			]]>
+	</select> -->
+	
+	<select id="getOrderNewItems" parameterType="map" resultType="OrderItem">
+		<![CDATA[
+			select * from yjj_OrderItem
+			where UserId = #{userId} and OrderNo in
+		]]>
+		<foreach collection="orderNos" item="orderNo" open="(" separator="," close=")">
+			<![CDATA[
+				#{orderNo}
+			]]>
+		</foreach>
+		<![CDATA[
+			 order by lOWarehouseId
+			]]>
+	</select>
+	
+	<select id="getOrderNewItemsByItemIds" parameterType="map" resultType="OrderItem">
+		<![CDATA[
+			select * from yjj_OrderItem
+			where UserId = #{userId} and id in
+		]]>
+		<foreach collection="orderItemIds" item="orderItemId" open="(" separator="," close=")">
+			<![CDATA[
+				#{orderItemId}
+			]]>
+		</foreach>
+		
+	</select>
+	
+	<select id="getOrderNewItemsByOrderNO" parameterType="map" resultType="OrderItem">
+		<![CDATA[
+			select * from yjj_OrderItem
+			where UserId = #{userId} and OrderNo = #{orderNo}
+		
+			 order by lOWarehouseId
+			]]>
+	</select>
+	
+	<select id="getOrderItemById" parameterType="map" resultType="OrderItem">
+		<![CDATA[
+			select * from yjj_OrderItem
+			where UserId = #{userId} and id = #{orderItemId}
+		
+			
+			]]>
+	</select>
+	<!-- 
+	<select id="getOrderItemsByOrderId" parameterType="map" resultType="OrderItem">
+		<![CDATA[
+			select * from yjj_OrderItem
+			where OrderId = #{orderId}
+		
+			 order by lOWarehouseId
+			]]>
+	</select> -->
+	<!-- 
+	<update id="cancelOrder" parameterType="map">
+		<![CDATA[
+			update yjj_OrderItem
+			set Status = -1, UpdateTime = #{time}
+			where OrderId = #{orderId}
+		]]>
+	</update> -->
+	<update id="cancelOrderNew" parameterType="map">
+		<![CDATA[
+			update yjj_OrderItem
+			set Status = -1, UpdateTime = #{time}
+			where OrderNo = #{orderNo}
+		]]>
+	</update>
+	<update id="updateOrderNo" parameterType="map">
+		<![CDATA[
+			update yjj_OrderItem
+			set   OrderNo=#{orderNo}, UpdateTime = #{time}
+			where Id = #{itemId}
+		]]>
+	</update>
+	<update id="updateItemsCommssion" parameterType="map">
+		<![CDATA[
+			update yjj_OrderItem
+			set   TotalCommission = TotalPay*#{percentage}, UpdateTime = #{time}
+			where OrderNo = #{orderNo} and WholesaleType in(1,2)
+		]]>
+	</update>
+	<select id="getItemsCommssionTotal" parameterType="map" resultType="double" >
+		<![CDATA[
+			select ifnull(sum(TotalCommission),0) from yjj_OrderItem
+			where OrderNo = #{orderNo} and WholesaleType in(1,2)
+		
+			
+			]]>
+	</select>
+</mapper>

@@ -1,0 +1,72 @@
+
+<!--拼团模块-->
+<template name="smartGroup">
+  <view class='activity-box' wx:if="{{activityGruopData.activityPrice}}">
+    <view class='activity-title group-title'>
+      <view class='title'>天天拼团</view>
+      <view class='time-box'>
+        <view class='down-time' wx:if="{{activityGroupTime.second >= 0}}">
+          <text class='hours'>{{activityGroupTime.hours}}</text>:
+          <text class='minute'>{{activityGroupTime.minute}}</text>:
+          <text class='second'>{{activityGroupTime.second}}</text> 
+        </view>
+      </view>
+      <view class='more-activity' bindtap='gotoTeamBuyActivity'>
+        <view class='text'>更多</view>
+        <view class='arrow'></view>
+      </view>
+    </view>
+    <view class="activity-list">
+      <view class='item'>
+        <navigator class='navigator' hover-class='navigator-click' url="/pages/component/detail/detail?productId={{activityGruopData.shopProductId}}&activityId={{activityGruopData.activityId}}&targetType=1">
+          <block wx:if="{{activityGruopImgs.length == 1}}">
+              <image class='img bigImg' mode="aspectFit" src='{{activityGruopImgs[0]}}'></image>
+          </block>
+          <block wx:if="{{activityGruopImgs.length > 1}}">
+              <image class='img img1' mode="aspectFit" src='{{activityGruopImgs[0]}}'></image>
+              <image class='img img2' mode="aspectFit" src='{{activityGruopImgs[1]}}'></image>
+          </block>
+          <block wx:if="{{activityGruopData.activityStatus == 3}}">
+            <view class='over-bg'>已结束</view>
+          </block>
+        </navigator>
+                <view class='tit' wx:if="{{activityGruopData.activityTitle}}"><navigator hover-class='navigator-click' url="pages/component/detail/detail?productId={{activityGruopData.shopProductId}}&activityId={{activityGruopData.activityId}}&targetType=1">{{activityGruopData.activityTitle}}</navigator></view>
+        <view class='activity-info'>
+          <view class='info1'>
+            <view class='new-price'>¥<text>{{activityGruopData.activityPrice}}</text></view>
+            <view class='old-price' wx:if="{{activityGruopData.activityProductPrice > 0}}"><text class="del">原价<text class="del-price">¥{{activityGruopData.activityProductPrice}}</text></text></view>
+          </view>
+          <view class='info2'>
+            <view class='tips1'>
+              <!-- 3.7.7和之前的老版本是人数成团 -->
+              <block wx:if="{{activityGruopData.conditionType == 1}}">满足{{activityGruopData.userCount}}人下单</block>
+              <block wx:else>满足{{activityGruopData.meetProductCount}}件下单</block>
+            </view>
+            <view class='tips2'><text>即享优惠价</text></view>
+          </view> 
+          <block wx:if="{{activityGruopData.activityStatus != 3}}">
+            <button class='info3 invite-btn' open-type="share" data-type='1'>邀请好友</button>
+          </block>
+          <!-- 已结束 -->
+          <block wx:else>
+            <button class='info3 invite-btn'>售罄啦</button>
+          </block>
+        </view><!-- activity-info end -->
+        <block wx:if="{{activityGruopData.activityStatus == 1 || activityGruopData.activityStatus == 2}}">
+          <view class='progress-bar' wx:if="{{activityProgressWidth >= 698}}">
+            <view class='progress-bar-active'>已成团！</view>
+          </view>
+          <view class='progress-bar' wx:else>
+            <view class='progress-bar-active' style='width:{{activityProgressWidth}}rpx'></view>
+            <view class='propress-content' wx:if="{{activityGruopData.conditionType == 1}}">
+              当前已拼<text>{{activityGruopData.activityMemberCount}}</text>人，还差<text>{{activityGruopData.differMemberCount}}</text>人成团
+            </view>
+            <view class='propress-content' wx:else>
+              当前已拼<text>{{activityGruopData.orderedProductCount}}</text>件，还差<text>{{activityGruopData.differProductCount}}</text>件成团
+            </view>
+          </view>
+        </block>  
+      </view>
+    </view><!-- activity-list end -->
+  </view><!-- activity-box end -->
+</template>

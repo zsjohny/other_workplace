@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jiuy.core.dao.mapper.StatisticsDaoImpl">
+
+	<insert id="add" useGeneratedKeys="true" keyProperty="id">
+		insert yjj_Statistics(Type,PageId, RelatedId, Code, CreateTime, UpdateTime, Element)
+		values
+		<if test="statistics_list != null">
+			<foreach collection="statistics_list" item="statistics" open="(" separator="),(" close=")">
+				#{statistics.type},#{statistics.pageId}, #{statistics.relatedId}, #{statistics.code}, #{statistics.createTime}, #{statistics.updateTime}, #{statistics.element}
+			</foreach>
+		</if>
+		<if test="statistics != null">
+			(#{statistics.type},#{statistics.pageId}, #{statistics.relatedId}, #{statistics.code}, #{statistics.createTime}, #{statistics.updateTime}, #{statistics.element})
+		</if>
+	</insert>
+	
+	<insert id="addOne" useGeneratedKeys="true" keyProperty="id">
+		insert yjj_Statistics(Type,PageId, RelatedId, Code, CreateTime, UpdateTime, Element)
+		values (#{type},#{pageId}, #{relatedId}, #{code}, #{createTime}, #{updateTime}, #{element})
+	</insert>
+
+	<update id="update">
+		update yjj_Statistics
+		<set>
+			<if test="code != null">
+				Code = #{code},
+			</if>
+		</set>
+		<where>
+			<if test="id != null">
+				and Id = #{id}
+			</if>
+		</where>
+	</update>
+	
+	<update id="closeCode">
+		update yjj_Statistics
+		set LifeEndTime = #{time}
+		<where>
+			Id in
+				<foreach collection="ids" item="id" open="(" separator="," close=")">
+					#{id}
+				</foreach>
+		</where>
+	</update>
+
+	<update id="startCode">
+		update yjj_Statistics
+		set LifeStartTime = #{time}
+		<where>
+			Id in
+				<foreach collection="ids" item="id" open="(" separator="," close=")">
+					#{id}
+				</foreach> and (LifeStartTime is null or LifeStartTime = 0)
+		</where>
+	</update>
+	
+	<update id="removeLifeEndTime">
+		update yjj_Statistics
+		set LifeEndTime = null
+		<where>
+			Id in
+				<foreach collection="ids" item="id" open="(" separator="," close=")">
+					#{id}
+				</foreach>
+		</where>
+	</update>
+	
+	<update id="closeCodeByRemove">
+		update yjj_Statistics
+		set LifeEndTime = #{time}
+		where Code like concat("%", #{halfCode}, "%") and LifeEndTime is null and LifeStartTime is not null
+	</update>
+</mapper>

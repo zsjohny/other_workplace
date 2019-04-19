@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yujj.dao.mapper.StoreCouponTemplateMapper">
+
+    <select id="searchValidity" resultType="StoreCouponTemplate">
+		select * from store_CouponTemplate
+		where Status = 0 and Id = #{templateId} 
+	</select>
+	
+	<!-- 更新发行量 -->
+	<update id="updateCount">
+		update store_CouponTemplate
+		set PublishCount = PublishCount + #{count}
+		where Id = #{templateId}
+	</update>
+	
+	<!-- 更新发放量 -->
+	<update id="updateGrant">
+		update store_CouponTemplate
+		set GrantCount = GrantCount + #{count}
+		where Id = #{templateId}
+	</update>
+    
+</mapper>

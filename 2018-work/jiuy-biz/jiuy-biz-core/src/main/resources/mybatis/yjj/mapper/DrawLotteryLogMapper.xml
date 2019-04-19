@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yujj.dao.mapper.DrawLotteryLogMapper">
+
+	<insert id="add" useGeneratedKeys="true" keyProperty="id">
+		insert yjj_DrawLotteryLog(Type, Name, RankName, UserId, Count, RelatedId, Status, JiuCoin, CreateTime)
+		values(#{type}, #{name}, #{rankName}, #{userId}, #{count}, #{relatedId}, #{status}, #{jiuCoin}, #{createTime})
+	</insert>
+	
+	<select id="getDrawLottery" resultType="DrawLotteryLog">
+		<![CDATA[
+			select * from yjj_DrawLotteryLog
+			where UserId = #{userId} and CreateTime >= #{startTime} and CreateTime <= #{endTime}
+		]]>
+	</select>
+
+	<select id="getFirstPrice" resultType="DrawLotteryLog">
+		select * from yjj_DrawLotteryLog
+		where RelatedId = #{relatedId} and Status = 0
+		order by Id desc
+		limit #{limit}
+	</select>
+	
+	<select id="getOtherPrice" resultType="DrawLotteryLog">
+		<![CDATA[
+			select * from yjj_DrawLotteryLog
+			where RelatedId <> #{relatedId} and Status = 0
+			order by Id desc
+			limit #{limit}
+		]]>
+	</select>
+
+	<select id="getByUser" resultType="DrawLotteryLog">
+		select * from yjj_DrawLotteryLog
+		where UserId = #{userId} and Status = #{status} and Type = #{type}
+		order by Id desc
+		limit #{pageQuery.limit} offset #{pageQuery.offset}
+	</select>
+	
+	<select id="getByUserCount" resultType="int">
+		select count(1) from yjj_DrawLotteryLog
+		where UserId = #{userId} and Status = #{status} and Type = #{type}
+	</select>
+
+	<select id="getTotalJiuCoinByUser" resultType="Integer">
+		select sum(JiuCoin) from yjj_DrawLotteryLog
+		where UserId = #{userId}
+	</select>
+	
+	<select id="getTotalLuckyTimes" resultType="int">
+		select count(1) from yjj_DrawLotteryLog
+		where UserId = #{userId} and Status = 0
+	</select>
+	
+	<select id="getAllUserCount" resultType="int">
+		select count(1) from yjj_DrawLotteryLog
+		where Status = #{status} and Type = #{type}
+	</select>
+	
+	<select id="getAllUser" resultType="DrawLotteryLog">
+		select * from yjj_DrawLotteryLog
+		where Status = #{status} and Type = #{type}
+		order by Id desc
+		limit #{pageQuery.limit} offset #{pageQuery.offset}
+	</select>
+
+</mapper>

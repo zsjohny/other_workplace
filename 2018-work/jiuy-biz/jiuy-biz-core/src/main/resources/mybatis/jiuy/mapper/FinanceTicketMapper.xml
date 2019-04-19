@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jiuy.core.dao.impl.sql.FinanceTicketDaoSqlImpl">
+	
+	<select id="search" parameterType="map" resultType="map">
+		SELECT a.*, b.*
+		FROM yjj_FinanceTicket a left join yjj_ServiceTicket b on a.ServiceId=b.Id 
+		<where>
+			<if test="params.serviceTicket.id != -1 ">
+				and a.ServiceId = #{params.serviceTicket.id}
+			</if>
+			<if test="params.serviceTicket.orderNo != -1 ">
+				and b.OrderNo = #{params.serviceTicket.orderNo}
+			</if>
+			<if test="params.returnNo != '' ">
+				and a.ReturnNo like CONCAT("%", #{params.returnNo} ,"%")
+			</if>
+			<if test="params.status != -1 ">
+				and a.Status = #{params.status}
+			</if>
+			<if test="params.returnType != -1 ">
+				and a.ReturnType = #{params.returnType}
+			</if>
+			<if test="params.startReturnMoney != -1">
+				<![CDATA[
+				and a.ReturnMoney >= #{params.startReturnMoney}
+				]]>
+			</if>
+			<if test="params.endReturnMoney != -1">
+				<![CDATA[
+				and a.ReturnMoney <= #{params.endReturnMoney}
+				]]>
+			</if>
+			<if test="params.startApplyTime != 0">
+				<![CDATA[
+				and b.ApplyTime >= #{params.startApplyTime}
+				]]>
+			</if>
+			<if test="params.endApplyTime != 0">
+				<![CDATA[
+				and b.ApplyTime <= #{params.endApplyTime}
+				]]>
+			</if>
+			<if test="params.startCreateTime != 0">
+				<![CDATA[
+				and a.CreateTime >= #{params.startCreateTime}
+				]]>
+			</if>
+			<if test="params.endCreateTime != 0">
+				<![CDATA[
+				and a.CreateTime <= #{params.endCreateTime}
+				]]>
+			</if>
+			<if test="params.startReturnTime != 0">
+				<![CDATA[
+				and a.ReturnTime >= #{params.startReturnTime}
+				]]>
+			</if>
+			<if test="params.endReturnTime != 0">
+				<![CDATA[
+				and a.ReturnTime <= #{params.endReturnTime}
+				]]>
+			</if>			
+		</where>
+		order by a.CreateTime desc
+		limit #{pageQuery.limit} offset #{pageQuery.offset}
+	</select>
+	
+	<select id="searchCount" parameterType="map" resultType="int">
+		SELECT count(1)
+		FROM yjj_FinanceTicket a left join yjj_ServiceTicket b on a.ServiceId=b.Id 
+		<where>
+			<if test="params.serviceTicket.id != -1 ">
+				and a.ServiceId = #{params.serviceTicket.id}
+			</if>
+			<if test="params.serviceTicket.orderNo != -1 ">
+				and b.OrderNo = #{params.serviceTicket.orderNo}
+			</if>
+			<if test="params.returnNo != '' ">
+				and a.ReturnNo like CONCAT("%", #{params.returnNo} ,"%")
+			</if>
+			<if test="params.status != -1 ">
+				and a.Status = #{params.status}
+			</if>
+			<if test="params.returnType != -1 ">
+				and a.ReturnType = #{params.returnType}
+			</if>
+			<if test="params.startReturnMoney != -1">
+				<![CDATA[
+				and a.ReturnMoney >= #{params.startReturnMoney}
+				]]>
+			</if>
+			<if test="params.endReturnMoney != -1">
+				<![CDATA[
+				and a.ReturnMoney <= #{params.endReturnMoney}
+				]]>
+			</if>
+			<if test="params.startApplyTime != 0">
+				<![CDATA[
+				and b.ApplyTime >= #{params.startApplyTime}
+				]]>
+			</if>
+			<if test="params.endApplyTime != 0">
+				<![CDATA[
+				and b.ApplyTime <= #{params.endApplyTime}
+				]]>
+			</if>
+			<if test="params.startCreateTime != 0">
+				<![CDATA[
+				and a.CreateTime >= #{params.startCreateTime}
+				]]>
+			</if>
+			<if test="params.endCreateTime != 0">
+				<![CDATA[
+				and a.CreateTime >= #{params.endCreateTime}
+				]]>
+			</if>
+			<if test="params.startReturnTime != 0">
+				<![CDATA[
+				and a.ReturnTime >= #{params.startReturnTime}
+				]]>
+			</if>
+			<if test="params.endReturnTime != 0">
+				<![CDATA[
+				and a.ReturnTime >= #{params.endReturnTime}
+				]]>
+			</if>			
+		</where>
+	</select>
+	
+	<insert id="addFinance" parameterType="map">
+		INSERT INTO yjj_FinanceTicket(ServiceId, ReturnType, CreateTime,ReturnSource,ReturnUser)
+		VALUES(#{serviceId}, #{returnType}, #{time}, #{returnSource}, #{returnUser})
+	</insert>	
+
+	<update id="updateFinanceTicket" parameterType="map">
+		update yjj_FinanceTicket
+		<set>
+	        <if test="params.serviceId!=null">
+	            ServiceId = #{params.serviceId},
+	        </if>
+	        <if test="params.status!=null">
+	            Status = #{params.status},
+	        </if>
+	        <if test="params.returnMoney!=null">
+	            ReturnMoney = #{params.returnMoney},
+	        </if>
+	        <if test="params.returnType!=null">
+	            ReturnType = #{params.returnType},
+	        </if>
+	        <if test="params.returnNo!=null">
+	            ReturnNo = #{params.returnNo},
+	        </if>
+	        <if test="params.returnMemo!=null">
+	            ReturnMemo = #{params.returnMemo},
+	        </if>
+	        <if test="params.returnTime!=null">
+	            ReturnTime = #{params.returnTime}
+	        </if>
+		</set>
+		<where>
+			<![CDATA[
+				Id = #{params.id}
+			]]>
+		</where>
+	</update>
+	
+	<insert id="addFromRevoke" parameterType="FinanceTicket">
+		INSERT INTO yjj_FinanceTicket(ServiceId, CreateTime, status,ReturnType,ReturnMemo,ReturnSource,ReturnUser)
+		VALUES
+        (#{serviceId}, #{createTime}, #{status},#{returnType},#{returnMemo},#{returnSource},#{returnUser})
+	</insert>	
+	
+</mapper>

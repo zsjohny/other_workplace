@@ -1,0 +1,48 @@
+server:
+  port: 8090
+  address: 0.0.0.0
+  servlet:
+    context-path: /
+spring:
+    thymeleaf:
+        enabled: true
+        cache: false
+        prefix: classpath:/templates/
+        suffix: .html
+    datasource:
+        driver-class-name:  com.mysql.jdbc.Driver
+        url: jdbc:mysql://127.0.0.1:3306/yjjrebuild?autoReconnect=true&useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull
+        username: root
+        password: root
+        initialSize: 10
+        minIdle: 10
+        maxActive: 300
+        maxWait: 200
+        validationQuery: select 1
+        timeBetweenEvictionRunsMillis: 60000
+        minEvictableIdleTimeMillis: 300000
+        testWhileIdle: true
+        testOnBorrow: false
+        testOnReturn: false
+        filters: stat,wall,log4j2
+        logSlowSql: true
+    jackson:
+      date-format: yyyy-MM-dd HH:mm:ss
+      time-zone: GMT+8
+mybatis:
+  mapperLocations: classpath*:com/jiuy/**/xml/**/*.xml
+  config-location: classpath:mybatis-config-jdbc.xml
+
+oss:
+  ossBucket: yjj-img-www
+  ossAccessKeyId: LTAII886vJs3n5ZQ
+  ossAccessKeySecret: RvluqO8ioAnpjRoTdABjbl6VQnxDwZ
+  ossUrl: oss-cn-hangzhou.aliyuncs.com
+
+
+
+
+
+
+
+

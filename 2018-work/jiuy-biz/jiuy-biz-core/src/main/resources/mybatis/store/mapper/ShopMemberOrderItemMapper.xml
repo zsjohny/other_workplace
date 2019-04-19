@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.store.dao.mapper.ShopMemberOrderItemMapper">
+
+    <!--根据订单号查询-->
+    <select id="findOrderItemByOrderId" resultType="com.jiuyuan.entity.order.ShopMemberOrderItem">
+        select
+          shop_product_id shopProductId,
+          `name`,
+          color,
+          `size`,
+          summary_images summaryImages,
+          `count`,
+          price
+        from shop_member_order_item
+        where order_id = #{orderId}
+    </select>
+    <select id="selectShopMemberOrderItem" resultType="com.jiuyuan.entity.order.ShopMemberOrderItem">
+            select `name`,`shop_product_id` as shopProductId  from `shop_member_order_item` where `order_id`=#{orderId}
+    </select>
+</mapper>

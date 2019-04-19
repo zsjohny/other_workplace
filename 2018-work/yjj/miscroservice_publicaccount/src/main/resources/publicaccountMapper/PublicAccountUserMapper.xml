@@ -1,0 +1,332 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" > 
+<mapper namespace="com.e_commerce.miscroservice.publicaccount.mapper.PublicAccountUserMapper">
+ 
+ 	<!-- 主要的返回映射-->
+	<resultMap id="BaseResultMap" type="com.e_commerce.miscroservice.commons.entity.application.user.PublicAccountUser"	>
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="store_id"  property="storeId"  jdbcType="BIGINT" />
+		<result column="open_id"  property="openId"  jdbcType="VARCHAR" />
+		<result column="phone"  property="phone"  jdbcType="VARCHAR" />
+		<result column="del_status"  property="delStatus"  jdbcType="SMALLINT" />
+		<result column="wx_user_icon"  property="wxUserIcon"  jdbcType="VARCHAR" />
+		<result column="wx_name"  property="wxName"  jdbcType="VARCHAR" />
+		<result column="create_time"  property="createTime"  jdbcType="TIMESTAMP" />
+		<result column="update_time"  property="updateTime"  jdbcType="TIMESTAMP" />
+		<result column="subject_account"  property="subjectAccount"  jdbcType="SMALLINT" />
+	</resultMap>
+
+	<!-- 所有的列名-->
+	<sql id="Base_Column_List" >
+		id,store_id,open_id,phone,del_status,wx_user_icon,wx_name,create_time,update_time,
+		subject_account
+	</sql>
+
+
+	<!-- 精确更新的字段-->
+	<sql id="updateBase">
+		<if test="id  !=null">
+			id = #{id,jdbcType=BIGINT}, 
+		</if>
+		<if test="storeId  !=null">
+			store_id = #{storeId,jdbcType=BIGINT}, 
+		</if>
+		<if test="openId  !=null">
+			open_id = #{openId,jdbcType=VARCHAR}, 
+		</if>
+		<if test="phone  !=null">
+			phone = #{phone,jdbcType=VARCHAR}, 
+		</if>
+		<if test="delStatus  !=null">
+			del_status = #{delStatus,jdbcType=SMALLINT}, 
+		</if>
+		<if test="wxUserIcon  !=null">
+			wx_user_icon = #{wxUserIcon,jdbcType=VARCHAR}, 
+		</if>
+		<if test="wxName  !=null">
+			wx_name = #{wxName,jdbcType=VARCHAR}, 
+		</if>
+		<if test="createTime  !=null">
+			create_time = #{createTime,jdbcType=TIMESTAMP}, 
+		</if>
+		<if test="updateTime  !=null">
+			update_time = #{updateTime,jdbcType=TIMESTAMP}, 
+		</if>
+		<if test="subjectAccount  !=null">
+			subject_account = #{subjectAccount,jdbcType=SMALLINT} 
+		</if>
+	</sql>
+
+	<!-- 通过主键查找-->
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="Long" >
+		select 
+		<include refid="Base_Column_List" />
+		from yjj_public_account_user
+		where  id = #{id,jdbcType=BIGINT} 
+	</select>
+
+	<!-- 通过主键删除-->
+	<delete id="deleteByPrimaryKey" parameterType="Long" >
+		delete from yjj_public_account_user
+		where id = #{id,jdbcType=BIGINT} 
+	</delete>
+
+	<!-- 普通插入全字段插t入-->
+	<insert id="insert" parameterType="com.e_commerce.miscroservice.commons.entity.application.user.PublicAccountUser" >
+		insert into yjj_public_account_user
+		(
+			id,
+			store_id,
+			open_id,
+			phone,
+			del_status,
+			wx_user_icon,
+			wx_name,
+			create_time,
+			update_time,
+			subject_account
+		)
+		values
+		(
+			#{id ,jdbcType=BIGINT},
+			#{storeId ,jdbcType=BIGINT},
+			#{openId ,jdbcType=VARCHAR},
+			#{phone ,jdbcType=VARCHAR},
+			#{delStatus ,jdbcType=SMALLINT},
+			#{wxUserIcon ,jdbcType=VARCHAR},
+			#{wxName ,jdbcType=VARCHAR},
+			#{createTime ,jdbcType=TIMESTAMP},
+			#{updateTime ,jdbcType=TIMESTAMP},
+			#{subjectAccount ,jdbcType=SMALLINT}
+		)
+	</insert>
+
+	<!-- 批量插入，全部字段插入-->
+	<insert id="insertBach"   parameterType="List" >
+		insert into yjj_public_account_user
+		(
+			id,
+			store_id,
+			open_id,
+			phone,
+			del_status,
+			wx_user_icon,
+			wx_name,
+			create_time,
+			update_time,
+			subject_account
+		)
+		values 
+		<foreach collection="list" item="item" separator=",">
+		(
+			#{item.id ,jdbcType=BIGINT},
+			#{item.storeId ,jdbcType=BIGINT},
+			#{item.openId ,jdbcType=VARCHAR},
+			#{item.phone ,jdbcType=VARCHAR},
+			#{item.delStatus ,jdbcType=SMALLINT},
+			#{item.wxUserIcon ,jdbcType=VARCHAR},
+			#{item.wxName ,jdbcType=VARCHAR},
+			#{item.createTime ,jdbcType=TIMESTAMP},
+			#{item.updateTime ,jdbcType=TIMESTAMP},
+			#{item.subjectAccount ,jdbcType=SMALLINT}
+		)
+		</foreach>
+	</insert>
+
+	<!-- 精确插入，非null得字段才会插入-->
+	<insert id="insertSelective" parameterType="com.e_commerce.miscroservice.commons.entity.application.user.PublicAccountUser" useGeneratedKeys="true" keyProperty="id" >
+		insert into yjj_public_account_user
+		<trim prefix="(" suffix=")" suffixOverrides="," > 
+			<if test="id !=null">  
+				id,
+			</if>
+			<if test="storeId !=null">  
+				store_id,
+			</if>
+			<if test="openId !=null">  
+				open_id,
+			</if>
+			<if test="phone !=null">  
+				phone,
+			</if>
+			<if test="delStatus !=null">  
+				del_status,
+			</if>
+			<if test="wxUserIcon !=null">  
+				wx_user_icon,
+			</if>
+			<if test="wxName !=null">  
+				wx_name,
+			</if>
+			<if test="createTime !=null">  
+				create_time,
+			</if>
+			<if test="updateTime !=null">  
+				update_time,
+			</if>
+			<if test="subjectAccount !=null">  
+				subject_account,
+			</if>
+		</trim>
+
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+			<if test="id  !=null">
+				#{id,jdbcType=BIGINT}, 
+			</if>
+			<if test="storeId  !=null">
+				#{storeId,jdbcType=BIGINT}, 
+			</if>
+			<if test="openId  !=null">
+				#{openId,jdbcType=VARCHAR}, 
+			</if>
+			<if test="phone  !=null">
+				#{phone,jdbcType=VARCHAR}, 
+			</if>
+			<if test="delStatus  !=null">
+				#{delStatus,jdbcType=SMALLINT}, 
+			</if>
+			<if test="wxUserIcon  !=null">
+				#{wxUserIcon,jdbcType=VARCHAR}, 
+			</if>
+			<if test="wxName  !=null">
+				#{wxName,jdbcType=VARCHAR}, 
+			</if>
+			<if test="createTime  !=null">
+				#{createTime,jdbcType=TIMESTAMP}, 
+			</if>
+			<if test="updateTime  !=null">
+				#{updateTime,jdbcType=TIMESTAMP}, 
+			</if>
+			<if test="subjectAccount  !=null">
+				#{subjectAccount,jdbcType=SMALLINT} 
+			</if>
+		</trim>
+	</insert> 
+
+	<!-- 精确更新-->
+	<update id="updateByPrimaryKeySelective" parameterType="com.e_commerce.miscroservice.commons.entity.application.user.PublicAccountUser" >
+		update yjj_public_account_user
+		<set>
+			<include refid="updateBase"/>
+		</set>
+		where id = #{id,jdbcType=BIGINT} 
+	</update> 
+
+	<!-- 全字段更新 需要注意-->
+	<update id="updateByPrimaryKey" parameterType="com.e_commerce.miscroservice.commons.entity.application.user.PublicAccountUser" >
+		update yjj_public_account_user
+		set 
+			id = #{id ,jdbcType=BIGINT},
+			store_id = #{storeId ,jdbcType=BIGINT},
+			open_id = #{openId ,jdbcType=VARCHAR},
+			phone = #{phone ,jdbcType=VARCHAR},
+			del_status = #{delStatus ,jdbcType=SMALLINT},
+			wx_user_icon = #{wxUserIcon ,jdbcType=VARCHAR},
+			wx_name = #{wxName ,jdbcType=VARCHAR},
+			create_time = #{createTime ,jdbcType=TIMESTAMP},
+			update_time = #{updateTime ,jdbcType=TIMESTAMP},
+			subject_account = #{subjectAccount ,jdbcType=SMALLINT}
+		where id = #{id,jdbcType=BIGINT} 
+	</update> 
+
+	<!-- 所有的条件集合-->
+	<sql id="whereCase"  >
+		where  1=1 
+		<if test="id  !=null">
+			AND id = #{id,jdbcType=BIGINT} 
+		</if>
+		<if test="storeId  !=null">
+			AND store_id = #{storeId,jdbcType=BIGINT} 
+		</if>
+		<if test="openId  !=null">
+			AND open_id = #{openId,jdbcType=VARCHAR} 
+		</if>
+		<if test="phone  !=null">
+			AND phone = #{phone,jdbcType=VARCHAR} 
+		</if>
+		<if test="delStatus  !=null">
+			AND del_status = #{delStatus,jdbcType=SMALLINT} 
+		</if>
+		<if test="wxUserIcon  !=null">
+			AND wx_user_icon = #{wxUserIcon,jdbcType=VARCHAR} 
+		</if>
+		<if test="wxName  !=null">
+			AND wx_name = #{wxName,jdbcType=VARCHAR} 
+		</if>
+		<if test="createTime  !=null">
+			AND create_time = #{createTime,jdbcType=TIMESTAMP} 
+		</if>
+		<if test="updateTime  !=null">
+			AND update_time = #{updateTime,jdbcType=TIMESTAMP} 
+		</if>
+		<if test="subjectAccount  !=null">
+			AND subject_account = #{subjectAccount,jdbcType=SMALLINT} 
+		</if>
+		<include refid="costomWhereCase"/>
+	</sql>
+
+	<!-- 查询一条，如果返回多条会报错-->
+	<select id="selectOne" parameterType="java.util.Map" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" /> 
+		FROM yjj_public_account_user 
+		<include refid="whereCase" /> 
+	</select>
+
+	<!-- 查询一个list-->
+	<select id="selectList" parameterType="java.util.Map" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" /> 
+		FROM yjj_public_account_user 
+		<include refid="whereCase" /> 
+	</select>
+
+	<!-- 查询一个list-->
+	<select id="selectCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+		SELECT
+		count(1) 
+		FROM yjj_public_account_user
+		<include refid="whereCase" /> 
+	</select>
+
+	<!--  @Costom -->
+	<!-- 从上一行注释以上为系统生成 从这一行往下为用户自定义 请将自定义的sql放在此行下面 -->
+	<sql id="costomWhereCase">
+	</sql>
+
+
+
+	<select id="listUser" parameterType="map" resultType="com.e_commerce.miscroservice.commons.entity.user.PublicAccountUserQuery">
+		SELECT
+		b.`name` AS userName,
+		a.id AS id,
+		a.wx_name AS wxName,
+		a.phone AS phone,
+		a.create_time AS createTime,
+		a.del_status AS delStatus,
+		a.open_id AS openId,
+		a.store_id AS storeId
+		FROM yjj_public_account_user a
+		LEFT JOIN yjj_proxy_customer b
+		ON a.id = b.user_id
+		WHERE
+		1=1
+		<if test="phone != null and phone != ''">
+			AND a.phone = #{phone}
+		</if>
+		<if test="userName != null and userName != ''">
+			AND b.`name` LIKE CONCAT('%',#{userName},'%')
+		</if>
+		<if test="wxName != null and wxName != ''">
+			AND a.`wx_name` LIKE CONCAT('%',#{wxName},'%')
+		</if>
+		<if test="createTimeBefore != null and createTimeBefore != ''">
+			AND a.create_time &gt; #{createTimeBefore}
+		</if>
+		<if test="createTimeAfter != null and createTimeAfter != ''">
+			AND a.create_time &lt; #{createTimeAfter}
+		</if>
+		ORDER BY a.create_time DESC
+	</select>
+
+</mapper>

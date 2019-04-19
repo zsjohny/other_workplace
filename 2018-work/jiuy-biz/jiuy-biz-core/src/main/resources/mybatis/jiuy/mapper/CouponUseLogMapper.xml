@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jiuy.core.dao.impl.sql.CouponUseLogDaoSqlImpl">
+	
+	<select id="search" resultType="CouponUseLog">
+		select * from yjj_CouponUseLog
+		<where>
+			<if test="orderNos != null">
+				and OrderNo in
+				<foreach collection="orderNos" item="orderNo" open="(" separator="," close=")">
+					#{orderNo}
+				</foreach>
+			</if>
+			<if test="status != null">
+				and Status = #{status}
+			</if>
+		</where>
+		<if test="sortSQL != null">
+			${sortSQL}
+		</if>
+	</select>
+	
+	<insert id="add">
+		insert yjj_CouponUseLog(CouponId, UserId, OrderNo, ActualDiscount, Status, CreateTime)
+		values
+		<if test="couponUseLogs != null and couponUseLogs.size > 0">
+			<foreach collection="couponUseLogs" item="item" open="(" separator="),(" close=")" >
+				#{item.couponId}, #{item.userId}, #{item.orderNo}, #{item.actualDiscount}, #{item.status}, #{item.createTime}
+			</foreach>
+		</if>
+		<if test="couponUseLog != null">
+			(#{couponUseLog.couponId}, #{couponUseLog.userId}, #{couponUseLog.orderNo}, #{couponUseLog.actualDiscount}, #{couponUseLog.status}, #{couponUseLog.createTime})
+		</if>
+	</insert>
+	
+</mapper>

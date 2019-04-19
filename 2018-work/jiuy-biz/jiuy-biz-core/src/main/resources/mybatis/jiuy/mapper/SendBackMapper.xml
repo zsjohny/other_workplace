@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="SendBack">
+
+    <resultMap type="SendBack" id="sendBack_only">
+        <id property="id" column="s_id"/>
+        <result property="expressSupplier" column="s_ExpressSupplier" />
+        <result property="expressOrderNo" column="s_ExpressOrderNo" />
+        <result property="phone" column="phone"></result>
+    </resultMap>
+
+	<insert id="addSendBack">
+		<![CDATA[
+			insert into yjj_SendBack
+			(UserId, OrderId, CreateTime, UpdateTime, Status, ExpressSupplier, ExpressOrderNo, Phone)
+			values
+			(#{userId}, #{orderId}, #{createTime}, #{updateTime}, #{status}, #{expressSupplier}, #{expressOrderNo}, #{phone})
+		]]>
+	</insert>
+</mapper>

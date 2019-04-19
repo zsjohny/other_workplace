@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.store.dao.mapper.StoreSearchLogMapper">
+	
+	<select id="getUserSearchLogs" resultType="StoreSearchLog">
+	<![CDATA[
+		select * from store_UserSearchLog
+		where StoreBusinessId = #{storeBusinessId}
+	]]>
+	<![CDATA[
+          order by CreateTime desc 
+          limit #{pageQuery.limit} offset #{pageQuery.offset}
+	]]>		
+	</select>
+	
+	<insert id="addUserSearchLog" useGeneratedKeys="true" keyProperty="id">
+		<![CDATA[			
+			INSERT INTO store_UserSearchLog(Content, StoreBusinessId, CreateTime) VALUES
+			(#{content}, #{storeBusinessId}, #{createTime})
+		]]>
+	</insert>
+		
+</mapper>

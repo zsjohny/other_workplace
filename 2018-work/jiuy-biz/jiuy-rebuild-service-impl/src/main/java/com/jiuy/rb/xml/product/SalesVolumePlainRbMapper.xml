@@ -1,0 +1,537 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" > 
+<mapper namespace="com.jiuy.rb.mapper.product.SalesVolumePlainRbMapper"> 
+ 
+ 	<!-- 主要的返回映射-->
+	<resultMap id="BaseResultMap" type="com.jiuy.rb.model.product.SalesVolumePlainRb"	>
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="name"  property="name"  jdbcType="VARCHAR" />
+		<result column="status"  property="status"  jdbcType="INTEGER" />
+		<result column="comment"  property="comment"  jdbcType="VARCHAR" />
+		<result column="product_count"  property="productCount"  jdbcType="BIGINT" />
+		<result column="count_type"  property="countType"  jdbcType="INTEGER" />
+		<result column="count_random_mini"  property="countRandomMini"  jdbcType="BIGINT" />
+		<result column="count_random_max"  property="countRandomMax"  jdbcType="BIGINT" />
+		<result column="each_add_count"  property="eachAddCount"  jdbcType="BIGINT" />
+		<result column="today_expect_all_count"  property="todayExpectAllCount"  jdbcType="BIGINT" />
+		<result column="today_added_all_count"  property="todayAddedAllCount"  jdbcType="BIGINT" />
+		<result column="execute_type"  property="executeType"  jdbcType="INTEGER" />
+		<result column="execute_time_begin"  property="executeTimeBegin"  jdbcType="VARCHAR" />
+		<result column="execute_time_end"  property="executeTimeEnd"  jdbcType="VARCHAR" />
+		<result column="each_time"  property="eachTime"  jdbcType="INTEGER" />
+		<result column="product_query_type"  property="productQueryType"  jdbcType="INTEGER" />
+		<result column="product_query_detail"  property="productQueryDetail"  jdbcType="VARCHAR" />
+		<result column="expect_all_count"  property="expectAllCount"  jdbcType="BIGINT" />
+		<result column="added_all_count"  property="addedAllCount"  jdbcType="BIGINT" />
+		<result column="create_time"  property="createTime"  jdbcType="TIMESTAMP" />
+		<result column="update_time"  property="updateTime"  jdbcType="TIMESTAMP" />
+		<result column="init_date"  property="initDate"  jdbcType="DATE" />
+		<result column="job_name"  property="jobName"  jdbcType="VARCHAR" />
+	</resultMap>
+
+	<!-- 所有的列名-->
+	<sql id="Base_Column_List" >
+		id,name,status,comment,product_count,count_type,count_random_mini,count_random_max,each_add_count,
+		today_expect_all_count,today_added_all_count,execute_type,execute_time_begin,execute_time_end,each_time,product_query_type,product_query_detail,
+		expect_all_count,added_all_count,create_time,update_time,init_date,job_name
+	</sql>
+
+	<!-- 精确更新的字段-->
+	<sql id="updateBase">
+		<if test="id  !=null">
+			id = #{id,jdbcType=BIGINT}, 
+		</if>
+		<if test="name  !=null">
+			name = #{name,jdbcType=VARCHAR}, 
+		</if>
+		<if test="status  !=null">
+			status = #{status,jdbcType=INTEGER}, 
+		</if>
+		<if test="comment  !=null">
+			comment = #{comment,jdbcType=VARCHAR}, 
+		</if>
+		<if test="productCount  !=null">
+			product_count = #{productCount,jdbcType=BIGINT}, 
+		</if>
+		<if test="countType  !=null">
+			count_type = #{countType,jdbcType=INTEGER}, 
+		</if>
+		<if test="countRandomMini  !=null">
+			count_random_mini = #{countRandomMini,jdbcType=BIGINT}, 
+		</if>
+		<if test="countRandomMax  !=null">
+			count_random_max = #{countRandomMax,jdbcType=BIGINT}, 
+		</if>
+		<if test="eachAddCount  !=null">
+			each_add_count = #{eachAddCount,jdbcType=BIGINT}, 
+		</if>
+		<if test="todayExpectAllCount  !=null">
+			today_expect_all_count = #{todayExpectAllCount,jdbcType=BIGINT}, 
+		</if>
+		<if test="todayAddedAllCount  !=null">
+			today_added_all_count = #{todayAddedAllCount,jdbcType=BIGINT}, 
+		</if>
+		<if test="executeType  !=null">
+			execute_type = #{executeType,jdbcType=INTEGER}, 
+		</if>
+		<if test="executeTimeBegin  !=null">
+			execute_time_begin = #{executeTimeBegin,jdbcType=VARCHAR}, 
+		</if>
+		<if test="executeTimeEnd  !=null">
+			execute_time_end = #{executeTimeEnd,jdbcType=VARCHAR}, 
+		</if>
+		<if test="eachTime  !=null">
+			each_time = #{eachTime,jdbcType=INTEGER}, 
+		</if>
+		<if test="productQueryType  !=null">
+			product_query_type = #{productQueryType,jdbcType=INTEGER}, 
+		</if>
+		<if test="productQueryDetail  !=null">
+			product_query_detail = #{productQueryDetail,jdbcType=VARCHAR}, 
+		</if>
+		<if test="expectAllCount  !=null">
+			expect_all_count = #{expectAllCount,jdbcType=BIGINT}, 
+		</if>
+		<if test="addedAllCount  !=null">
+			added_all_count = #{addedAllCount,jdbcType=BIGINT}, 
+		</if>
+		<if test="createTime  !=null">
+			create_time = #{createTime,jdbcType=TIMESTAMP}, 
+		</if>
+		<if test="updateTime  !=null">
+			update_time = #{updateTime,jdbcType=TIMESTAMP}, 
+		</if>
+		<if test="initDate  !=null">
+			init_date = #{initDate,jdbcType=DATE}, 
+		</if>
+		<if test="jobName  !=null">
+			job_name = #{jobName,jdbcType=VARCHAR} 
+		</if>
+	</sql>
+
+	<!-- 通过主键查找-->
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="Long" >
+		select 
+		<include refid="Base_Column_List" />
+		from yjj_sales_volume_plain
+		where  id = #{id,jdbcType=BIGINT} 
+	</select>
+
+	<!-- 通过主键删除-->
+	<delete id="deleteByPrimaryKey" parameterType="Long" >
+		delete from yjj_sales_volume_plain
+		where id = #{id,jdbcType=BIGINT} 
+	</delete>
+
+	<!-- 普通插入全字段插t入-->
+	<insert id="insert" parameterType="com.jiuy.rb.model.product.SalesVolumePlainRb" >
+		insert into yjj_sales_volume_plain
+		(
+			id,
+			name,
+			status,
+			comment,
+			product_count,
+			count_type,
+			count_random_mini,
+			count_random_max,
+			each_add_count,
+			today_expect_all_count,
+			today_added_all_count,
+			execute_type,
+			execute_time_begin,
+			execute_time_end,
+			each_time,
+			product_query_type,
+			product_query_detail,
+			expect_all_count,
+			added_all_count,
+			create_time,
+			update_time,
+			init_date,
+			job_name
+		)
+		values
+		(
+			#{id ,jdbcType=BIGINT},
+			#{name ,jdbcType=VARCHAR},
+			#{status ,jdbcType=INTEGER},
+			#{comment ,jdbcType=VARCHAR},
+			#{productCount ,jdbcType=BIGINT},
+			#{countType ,jdbcType=INTEGER},
+			#{countRandomMini ,jdbcType=BIGINT},
+			#{countRandomMax ,jdbcType=BIGINT},
+			#{eachAddCount ,jdbcType=BIGINT},
+			#{todayExpectAllCount ,jdbcType=BIGINT},
+			#{todayAddedAllCount ,jdbcType=BIGINT},
+			#{executeType ,jdbcType=INTEGER},
+			#{executeTimeBegin ,jdbcType=VARCHAR},
+			#{executeTimeEnd ,jdbcType=VARCHAR},
+			#{eachTime ,jdbcType=INTEGER},
+			#{productQueryType ,jdbcType=INTEGER},
+			#{productQueryDetail ,jdbcType=VARCHAR},
+			#{expectAllCount ,jdbcType=BIGINT},
+			#{addedAllCount ,jdbcType=BIGINT},
+			#{createTime ,jdbcType=TIMESTAMP},
+			#{updateTime ,jdbcType=TIMESTAMP},
+			#{initDate ,jdbcType=DATE},
+			#{jobName ,jdbcType=VARCHAR}
+		)
+	</insert>
+
+	<!-- 批量插入，全部字段插入-->
+	<insert id="insertBach"   parameterType="List" >
+		insert into yjj_sales_volume_plain
+		(
+			id,
+			name,
+			status,
+			comment,
+			product_count,
+			count_type,
+			count_random_mini,
+			count_random_max,
+			each_add_count,
+			today_expect_all_count,
+			today_added_all_count,
+			execute_type,
+			execute_time_begin,
+			execute_time_end,
+			each_time,
+			product_query_type,
+			product_query_detail,
+			expect_all_count,
+			added_all_count,
+			create_time,
+			update_time,
+			init_date,
+			job_name
+		)
+		values 
+		<foreach collection="list" item="item" separator=",">
+		(
+			#{item.id ,jdbcType=BIGINT},
+			#{item.name ,jdbcType=VARCHAR},
+			#{item.status ,jdbcType=INTEGER},
+			#{item.comment ,jdbcType=VARCHAR},
+			#{item.productCount ,jdbcType=BIGINT},
+			#{item.countType ,jdbcType=INTEGER},
+			#{item.countRandomMini ,jdbcType=BIGINT},
+			#{item.countRandomMax ,jdbcType=BIGINT},
+			#{item.eachAddCount ,jdbcType=BIGINT},
+			#{item.todayExpectAllCount ,jdbcType=BIGINT},
+			#{item.todayAddedAllCount ,jdbcType=BIGINT},
+			#{item.executeType ,jdbcType=INTEGER},
+			#{item.executeTimeBegin ,jdbcType=VARCHAR},
+			#{item.executeTimeEnd ,jdbcType=VARCHAR},
+			#{item.eachTime ,jdbcType=INTEGER},
+			#{item.productQueryType ,jdbcType=INTEGER},
+			#{item.productQueryDetail ,jdbcType=VARCHAR},
+			#{item.expectAllCount ,jdbcType=BIGINT},
+			#{item.addedAllCount ,jdbcType=BIGINT},
+			#{item.createTime ,jdbcType=TIMESTAMP},
+			#{item.updateTime ,jdbcType=TIMESTAMP},
+			#{item.initDate ,jdbcType=DATE},
+			#{item.jobName ,jdbcType=VARCHAR}
+		)
+		</foreach>
+	</insert>
+
+	<!-- 精确插入，非null得字段才会插入-->
+	<insert id="insertSelective" parameterType="com.jiuy.rb.model.product.SalesVolumePlainRb" useGeneratedKeys="true" keyProperty="id" >
+		insert into yjj_sales_volume_plain
+		<trim prefix="(" suffix=")" suffixOverrides="," > 
+			<if test="id !=null">  
+				id,
+			</if>
+			<if test="name !=null">  
+				name,
+			</if>
+			<if test="status !=null">  
+				status,
+			</if>
+			<if test="comment !=null">  
+				comment,
+			</if>
+			<if test="productCount !=null">  
+				product_count,
+			</if>
+			<if test="countType !=null">  
+				count_type,
+			</if>
+			<if test="countRandomMini !=null">  
+				count_random_mini,
+			</if>
+			<if test="countRandomMax !=null">  
+				count_random_max,
+			</if>
+			<if test="eachAddCount !=null">  
+				each_add_count,
+			</if>
+			<if test="todayExpectAllCount !=null">  
+				today_expect_all_count,
+			</if>
+			<if test="todayAddedAllCount !=null">  
+				today_added_all_count,
+			</if>
+			<if test="executeType !=null">  
+				execute_type,
+			</if>
+			<if test="executeTimeBegin !=null">  
+				execute_time_begin,
+			</if>
+			<if test="executeTimeEnd !=null">  
+				execute_time_end,
+			</if>
+			<if test="eachTime !=null">  
+				each_time,
+			</if>
+			<if test="productQueryType !=null">  
+				product_query_type,
+			</if>
+			<if test="productQueryDetail !=null">  
+				product_query_detail,
+			</if>
+			<if test="expectAllCount !=null">  
+				expect_all_count,
+			</if>
+			<if test="addedAllCount !=null">  
+				added_all_count,
+			</if>
+			<if test="createTime !=null">  
+				create_time,
+			</if>
+			<if test="updateTime !=null">  
+				update_time,
+			</if>
+			<if test="initDate !=null">  
+				init_date,
+			</if>
+			<if test="jobName !=null">  
+				job_name,
+			</if>
+		</trim>
+
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+			<if test="id  !=null">
+				#{id,jdbcType=BIGINT}, 
+			</if>
+			<if test="name  !=null">
+				#{name,jdbcType=VARCHAR}, 
+			</if>
+			<if test="status  !=null">
+				#{status,jdbcType=INTEGER}, 
+			</if>
+			<if test="comment  !=null">
+				#{comment,jdbcType=VARCHAR}, 
+			</if>
+			<if test="productCount  !=null">
+				#{productCount,jdbcType=BIGINT}, 
+			</if>
+			<if test="countType  !=null">
+				#{countType,jdbcType=INTEGER}, 
+			</if>
+			<if test="countRandomMini  !=null">
+				#{countRandomMini,jdbcType=BIGINT}, 
+			</if>
+			<if test="countRandomMax  !=null">
+				#{countRandomMax,jdbcType=BIGINT}, 
+			</if>
+			<if test="eachAddCount  !=null">
+				#{eachAddCount,jdbcType=BIGINT}, 
+			</if>
+			<if test="todayExpectAllCount  !=null">
+				#{todayExpectAllCount,jdbcType=BIGINT}, 
+			</if>
+			<if test="todayAddedAllCount  !=null">
+				#{todayAddedAllCount,jdbcType=BIGINT}, 
+			</if>
+			<if test="executeType  !=null">
+				#{executeType,jdbcType=INTEGER}, 
+			</if>
+			<if test="executeTimeBegin  !=null">
+				#{executeTimeBegin,jdbcType=VARCHAR}, 
+			</if>
+			<if test="executeTimeEnd  !=null">
+				#{executeTimeEnd,jdbcType=VARCHAR}, 
+			</if>
+			<if test="eachTime  !=null">
+				#{eachTime,jdbcType=INTEGER}, 
+			</if>
+			<if test="productQueryType  !=null">
+				#{productQueryType,jdbcType=INTEGER}, 
+			</if>
+			<if test="productQueryDetail  !=null">
+				#{productQueryDetail,jdbcType=VARCHAR}, 
+			</if>
+			<if test="expectAllCount  !=null">
+				#{expectAllCount,jdbcType=BIGINT}, 
+			</if>
+			<if test="addedAllCount  !=null">
+				#{addedAllCount,jdbcType=BIGINT}, 
+			</if>
+			<if test="createTime  !=null">
+				#{createTime,jdbcType=TIMESTAMP}, 
+			</if>
+			<if test="updateTime  !=null">
+				#{updateTime,jdbcType=TIMESTAMP}, 
+			</if>
+			<if test="initDate  !=null">
+				#{initDate,jdbcType=DATE}, 
+			</if>
+			<if test="jobName  !=null">
+				#{jobName,jdbcType=VARCHAR} 
+			</if>
+		</trim>
+	</insert> 
+
+	<!-- 精确更新-->
+	<update id="updateByPrimaryKeySelective" parameterType="com.jiuy.rb.model.product.SalesVolumePlainRb" >
+		update yjj_sales_volume_plain
+		<set>
+			<include refid="updateBase"/>
+		</set>
+		where id = #{id,jdbcType=BIGINT} 
+	</update> 
+
+	<!-- 全字段更新 需要注意-->
+	<update id="updateByPrimaryKey" parameterType="com.jiuy.rb.model.product.SalesVolumePlainRb" >
+		update yjj_sales_volume_plain
+		set 
+			id = #{id ,jdbcType=BIGINT},
+			name = #{name ,jdbcType=VARCHAR},
+			status = #{status ,jdbcType=INTEGER},
+			comment = #{comment ,jdbcType=VARCHAR},
+			product_count = #{productCount ,jdbcType=BIGINT},
+			count_type = #{countType ,jdbcType=INTEGER},
+			count_random_mini = #{countRandomMini ,jdbcType=BIGINT},
+			count_random_max = #{countRandomMax ,jdbcType=BIGINT},
+			each_add_count = #{eachAddCount ,jdbcType=BIGINT},
+			today_expect_all_count = #{todayExpectAllCount ,jdbcType=BIGINT},
+			today_added_all_count = #{todayAddedAllCount ,jdbcType=BIGINT},
+			execute_type = #{executeType ,jdbcType=INTEGER},
+			execute_time_begin = #{executeTimeBegin ,jdbcType=VARCHAR},
+			execute_time_end = #{executeTimeEnd ,jdbcType=VARCHAR},
+			each_time = #{eachTime ,jdbcType=INTEGER},
+			product_query_type = #{productQueryType ,jdbcType=INTEGER},
+			product_query_detail = #{productQueryDetail ,jdbcType=VARCHAR},
+			expect_all_count = #{expectAllCount ,jdbcType=BIGINT},
+			added_all_count = #{addedAllCount ,jdbcType=BIGINT},
+			create_time = #{createTime ,jdbcType=TIMESTAMP},
+			update_time = #{updateTime ,jdbcType=TIMESTAMP},
+			init_date = #{initDate ,jdbcType=DATE},
+			job_name = #{jobName ,jdbcType=VARCHAR}
+		where id = #{id,jdbcType=BIGINT} 
+	</update> 
+
+	<!-- 所有的条件集合-->
+	<sql id="whereCase"  >
+		where  1=1 
+		<if test="id  !=null">
+			AND id = #{id,jdbcType=BIGINT} 
+		</if>
+		<if test="name  !=null">
+			AND name = #{name,jdbcType=VARCHAR} 
+		</if>
+		<if test="status  !=null">
+			AND status = #{status,jdbcType=INTEGER} 
+		</if>
+		<if test="comment  !=null">
+			AND comment = #{comment,jdbcType=VARCHAR} 
+		</if>
+		<if test="productCount  !=null">
+			AND product_count = #{productCount,jdbcType=BIGINT} 
+		</if>
+		<if test="countType  !=null">
+			AND count_type = #{countType,jdbcType=INTEGER} 
+		</if>
+		<if test="countRandomMini  !=null">
+			AND count_random_mini = #{countRandomMini,jdbcType=BIGINT} 
+		</if>
+		<if test="countRandomMax  !=null">
+			AND count_random_max = #{countRandomMax,jdbcType=BIGINT} 
+		</if>
+		<if test="eachAddCount  !=null">
+			AND each_add_count = #{eachAddCount,jdbcType=BIGINT} 
+		</if>
+		<if test="todayExpectAllCount  !=null">
+			AND today_expect_all_count = #{todayExpectAllCount,jdbcType=BIGINT} 
+		</if>
+		<if test="todayAddedAllCount  !=null">
+			AND today_added_all_count = #{todayAddedAllCount,jdbcType=BIGINT} 
+		</if>
+		<if test="executeType  !=null">
+			AND execute_type = #{executeType,jdbcType=INTEGER} 
+		</if>
+		<if test="executeTimeBegin  !=null">
+			AND execute_time_begin = #{executeTimeBegin,jdbcType=VARCHAR} 
+		</if>
+		<if test="executeTimeEnd  !=null">
+			AND execute_time_end = #{executeTimeEnd,jdbcType=VARCHAR} 
+		</if>
+		<if test="eachTime  !=null">
+			AND each_time = #{eachTime,jdbcType=INTEGER} 
+		</if>
+		<if test="productQueryType  !=null">
+			AND product_query_type = #{productQueryType,jdbcType=INTEGER} 
+		</if>
+		<if test="productQueryDetail  !=null">
+			AND product_query_detail = #{productQueryDetail,jdbcType=VARCHAR} 
+		</if>
+		<if test="expectAllCount  !=null">
+			AND expect_all_count = #{expectAllCount,jdbcType=BIGINT} 
+		</if>
+		<if test="addedAllCount  !=null">
+			AND added_all_count = #{addedAllCount,jdbcType=BIGINT} 
+		</if>
+		<if test="createTime  !=null">
+			AND create_time = #{createTime,jdbcType=TIMESTAMP} 
+		</if>
+		<if test="updateTime  !=null">
+			AND update_time = #{updateTime,jdbcType=TIMESTAMP} 
+		</if>
+		<if test="initDate  !=null">
+			AND init_date = #{initDate,jdbcType=DATE} 
+		</if>
+		<if test="jobName  !=null">
+			AND job_name = #{jobName,jdbcType=VARCHAR} 
+		</if>
+		<include refid="costomWhereCase"/>
+	</sql>
+
+	<!-- 查询一条，如果返回多条会报错-->
+	<select id="selectOne" parameterType="java.util.Map" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" /> 
+		FROM yjj_sales_volume_plain 
+		<include refid="whereCase" /> 
+	</select>
+
+	<!-- 查询一个list-->
+	<select id="selectList" parameterType="java.util.Map" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" /> 
+		FROM yjj_sales_volume_plain 
+		<include refid="whereCase" /> 
+	</select>
+
+	<!-- 查询一个list-->
+	<select id="selectCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+		SELECT
+		count(1) 
+		FROM yjj_sales_volume_plain
+		<include refid="whereCase" /> 
+	</select>
+
+	<!--  @Costom -->
+	<!-- 从上一行注释以上为系统生成 从这一行往下为用户自定义 请将自定义的sql放在此行下面 -->
+	<sql id="costomWhereCase">
+		<if test="nameLike!=null">
+			and `name` like concat('%',#{nameLike},'%')
+		</if>
+		<if test="commentLike!=null">
+			and `comment` like concat('%',#{commentLike},'%')
+		</if>
+	</sql>
+
+</mapper>

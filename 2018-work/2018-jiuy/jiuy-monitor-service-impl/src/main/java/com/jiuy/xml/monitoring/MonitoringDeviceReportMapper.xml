@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" > 
+<mapper namespace="com.jiuy.mapper.monitoring.MonitoringDeviceReportMapper"> 
+    <resultMap id="BaseResultMap" type="com.jiuy.model.monitoring.MonitoringDeviceReport"   >
+        <id   column="id"  property="id" jdbcType="BIGINT" />
+        <result column="open_count"  property="openCount"  jdbcType="BIGINT" />
+    </resultMap>
+
+     <sql id="Base_Column_List" >
+        id,open_count
+    </sql>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap"  parameterType="java.lang.Long"   >
+        select
+                <include refid="Base_Column_List" />
+        from yjj_monitoring_device_report
+        where  id = #{id,jdbcType=BIGINT} 
+    </select>
+
+    <delete id="deleteByPrimaryKey"   parameterType="java.lang.Long"   >
+        delete from yjj_monitoring_device_report
+        where  id = #{id,jdbcType=BIGINT} 
+    </delete>
+
+    <insert id="insert"   parameterType="com.jiuy.model.monitoring.MonitoringDeviceReport"   >
+        insert into yjj_monitoring_device_report
+                (id,open_count)
+        values(#{id,jdbcType=BIGINT},#{openCount,jdbcType=BIGINT})
+    </insert>
+
+    <insert id="insertBach"   parameterType="List"  >
+        insert into yjj_monitoring_device_report
+                 (id,open_count)
+        values 
+                 <foreach collection="list" item="item" separator=",">
+                 (
+                     #{item.id,jdbcType=BIGINT},
+                     #{item.openCount,jdbcType=BIGINT}
+                  )
+                 </foreach>
+    </insert>
+    <insert id="insertSelective"   parameterType="com.jiuy.model.monitoring.MonitoringDeviceReport"  useGeneratedKeys="true"  keyProperty="id" >
+        insert into yjj_monitoring_device_report
+       <trim prefix="(" suffix=")" suffixOverrides="," >  
+              <if test="id  !=null">  
+                   id,
+              </if>
+              <if test="openCount  !=null">  
+                   open_count
+              </if>
+       </trim> 
+       <trim prefix="values (" suffix=")" suffixOverrides="," >
+              <if test="id  !=null">  
+                   #{id,jdbcType=BIGINT},
+              </if>
+              <if test="openCount  !=null">  
+                   #{openCount,jdbcType=BIGINT}
+              </if>
+       </trim> 
+    </insert> 
+
+    <update id="updateByPrimaryKeySelective"   parameterType="com.jiuy.model.monitoring.MonitoringDeviceReport"   >
+        update yjj_monitoring_device_report
+             <set> 
+              <if test="id  !=null">  
+                   id  = #{id,jdbcType=BIGINT},
+              </if>
+              <if test="openCount  !=null">  
+                   open_count  = #{openCount,jdbcType=BIGINT}
+              </if>
+       </set> 
+       where id = #{id,jdbcType=BIGINT} 
+    </update> 
+
+    <update id="updateByPrimaryKey"   parameterType="com.jiuy.model.monitoring.MonitoringDeviceReport"   >
+        update yjj_monitoring_device_report  set  
+                   id  = #{id,jdbcType=BIGINT},
+                   open_count  = #{openCount,jdbcType=BIGINT}
+       where id = #{id,jdbcType=BIGINT} 
+    </update> 
+
+    <sql id="whereCase"  >
+         where  1=1  
+        <if test="id !=null">  
+         AND id  = #{id,jdbcType=BIGINT}
+        </if>
+        <if test="openCount !=null">  
+         AND open_count  = #{openCount,jdbcType=BIGINT}
+        </if>
+        <include refid="costomWhereCase"/>
+    </sql> 
+
+    <select id="selectOne" parameterType="java.util.Map" resultMap="BaseResultMap">
+         SELECT
+         <include refid="Base_Column_List" /> 
+         FROM yjj_monitoring_device_report 
+         <include refid="whereCase" /> 
+    </select>
+
+    <select id="selectList" parameterType="java.util.Map" resultMap="BaseResultMap">
+         SELECT
+         <include refid="Base_Column_List" /> 
+         FROM yjj_monitoring_device_report 
+         <include refid="whereCase" /> 
+    </select>
+
+    <select id="selectCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+         SELECT
+         count(1) 
+         FROM yjj_monitoring_device_report 
+         <include refid="whereCase" /> 
+    </select>
+
+<!--  @Costom -->
+<!-- 从上一行注释以上为系统生成 从这一行往下为用户自定义 请将自定义的sql放在此行下面 -->
+
+    <sql id="costomWhereCase">
+</sql>
+</mapper>

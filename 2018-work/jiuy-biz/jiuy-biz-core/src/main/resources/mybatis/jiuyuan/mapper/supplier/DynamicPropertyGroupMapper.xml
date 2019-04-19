@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.jiuyuan.dao.mapper.dynamicproperty.DynamicPropertyGroupMapper">
+
+	<select id="selectPageList" parameterType="com.baomidou.mybatisplus.plugins.Page" resultType="map">
+		SELECT
+		yjj_dynamic_property_group.id as id,
+		yjj_dynamic_property_group.name as name,
+		yjj_dynamic_property_group.weight as weight,
+		count(yjj_dynamic_property.id) as count
+		FROM
+		yjj_dynamic_property_group left join
+		yjj_dynamic_property
+		on	yjj_dynamic_property_group.id =yjj_dynamic_property.dyna_prop_group_id
+		<where>
+			yjj_dynamic_property_group.id > 0
+			<if test="name != ''">
+				and yjj_dynamic_property_group.name like concat ("%", #{name}, "%") 
+			</if>
+		</where>
+		GROUP BY
+		yjj_dynamic_property_group.id
+		order by 
+		yjj_dynamic_property_group.weight desc
+	</select>
+
+</mapper>

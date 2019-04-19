@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yujj.dao.mapper.OrderDiscountLogMapper">
+	<insert id="insertOrderDiscountLogs" parameterType="map">
+		<![CDATA[
+			insert into yjj_OrderDiscountLog
+			( RelatedId, Type, Discount, Comment, CreateTime, OrderNo)
+			values
+		]]>
+		<foreach collection="orderDiscountLogs" item="orderDiscountLog" open="(" separator="),(" close=")">
+			<![CDATA[
+				 #{orderDiscountLog.relatedId}, #{orderDiscountLog.type}, #{orderDiscountLog.discount}, #{orderDiscountLog.comment}, #{orderDiscountLog.createTime}, #{orderDiscountLog.orderNo}
+			]]>
+		</foreach>
+	</insert>
+</mapper>

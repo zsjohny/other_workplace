@@ -1,535 +1,119 @@
-1. Ë®Æ½È¨ÏÞÂ©¶´µÄÐÞ¸´·½°¸
-	Ë®Æ½È¨ÏÞÂ©¶´Ò»°ã³öÏÖÔÚÒ»¸öÓÃ»§¶ÔÏó¹ØÁª¶à¸öÆäËû¶ÔÏó£¨¶©µ¥¡¢µØÖ·µÈ£©¡¢²¢ÇÒÒªÊµÏÖ¶Ô¹ØÁª¶ÔÏóµÄCRUDµÄÊ±ºò¡£¿ª·¢ÈÝÒ×Ï°¹ßÐÔµÄÔÚÉú³ÉCRUD±íµ¥£¨»òAJAXÇëÇó£©µÄÊ±ºò¸ù¾ÝÈÏÖ¤¹ýµÄÓÃ»§Éí·ÝÀ´ÕÒ³öÆäÓÐÈ¨ÏÞµÄ±»²Ù×÷¶ÔÏóid£¬Ìá¹©Èë¿Ú£¬È»ºóÈÃÓÃ»§Ìá½»ÇëÇó£¬²¢¸ù¾ÝÕâ¸öidÀ´²Ù×÷Ïà¹Ø¶ÔÏó¡£ÔÚ´¦ÀíCRUDÇëÇóÊ±£¬ÍùÍùÄ¬ÈÏÖ»ÓÐÓÐÈ¨ÏÞµÄÓÃ»§²ÅÄÜµÃµ½Èë¿Ú£¬½ø¶ø²ÅÄÜ²Ù×÷Ïà¹Ø¶ÔÏó£¬Òò´Ë¾Í²»ÔÙÐ£ÑéÈ¨ÏÞÁË¡£¿É±¯¾çµÄÊÇ´ó¶àÊý¶ÔÏóµÄID¶¼±»ÉèÖÃÎª×ÔÔöÕûÐÍ£¬ËùÒÔ¹¥»÷ÕßÖ»Òª¶ÔÏà¹Øid¼Ó1¡¢¼õ1¡¢Ö±ÖÁ±éÀú£¬¾Í¿ÉÒÔ²Ù×÷ÆäËûÓÃ»§Ëù¹ØÁªµÄ¶ÔÏóÁË¡£
-	 
-	Ë®Æ½È¨ÏÞÂ©¶´µÄÔ­Àí¿´ËÆ¼òµ¥£¬µ«ËûºÍ¿ª·¢µÄË¼Î¬¡¢±àÂëÏ°¹ß¸ÕºÃÏà·´£¬Òò´Ë»á¾­³£Ã°³öÀ´¡£ÓÈÆäÊÇWAPºÍAJAX½Ó¿Ú£¬¿ª·¢ÕßÍùÍù²»°ÑÕâÐ©½Ó¿Úµ±×÷HTTPÇëÇó¿´£¬Ôö¼ÓÁËºÜ¶àÆäÊµ²»´æÔÚµÄÓÐÀûÓÚ°²È«¼ÙÉèÌõ¼þ£¬´Ó¶øµ¼ÖÂ¸ü¼ÓºöÊÓ¶ÔÈ¨ÏÞµÄ¼ø±ð¡£
-	 
-	ÒòÎªÕâÀà¹ØÁª¶ÔÏóµÄ²Ù×÷¶¼ºÍÒµÎñÏà¹Ø£¬ÇÒ½Ó¿Ú¶ÀÁ¢£¬ËùÒÔºÜÄÑÊµÏÖÍ¨ÓÃµÄÔ¤·À»ò½â¾ö·½°¸£¬ÕâÒ²ÊÇÕâÀàÂ©¶´ÈÃÈËÍ·ÌÛµÄÔ­ÒòÖ®Ò»¡£½ñÌìÔÚÐÞ¸´Ò»¸öË®Æ½È¨ÏÞÂ©¶´Ê±£¬¸ø¿ª·¢Í¬Ñ§½éÉÜÁËÏÂË®Æ½È¨ÏÞÂ©¶´µÄÐÞ¸´·½°¸£¬¶ø¿ª·¢Í¬Ñ§ÓÖÌá³öÁËÒ»¸öÎÒÖ®Ç°Ã»Ïë¹ýµÄ·½·¨£¬Òò´Ë¾ö¶¨Ò»ÆðÕûÀí³öÀ´¡£
-	 
-	Â©¶´Ê¾Àý£º
-	getAddress.do?addressId=12345
-	¹¥»÷ÕßÐÞ¸ÄaddressId¼´¿ÉµÃµ½ËûÈËµÄaddressÐÅÏ¢¡£
-	 
-	ÐÞ¸´·½°¸0£º
-	ÏÈ¿´Ò»¸öÓÐÎÊÌâµÄ·½°¸£º½«addressid¸Ä³ÉÒ»¸ö¾ßÓÐÒ»¶¨³¤¶ÈµÄËæ»ú×Ö·û´®£¬Èç5d41402abc4b2a76b9719d911017c592£¬ÈÏÎªÖ»ÓÐÓÐÈ¨ÏÞµÄÈË²ÅÄÜµÃµ½Õâ¸öÈë¿Ú£¬¶øÇÒ²»ÄÜÍ¨¹ý¼Ó1¡¢¼õ1µÄ·½Ê½Ô¤²â±ðÈËµÄÈë¿Ú£¬Òò´Ë²»ÔÙ×ö½øÒ»²½µÄÈ¨ÏÞ¼ì²é£¨ºÜ¶à³õ¼¶µÄÕÐÆ¸Ò³Ãæ¶¼ÊÇÒÔÕâÖÖ·½Ê½À´¹ÜÀí¼òÀúµÄ£©¡£Õâ¸ö·½°¸¿´ÉÏÈ¥Ã»ÓÐÎÊÌâ£¬¿ÉÊÇºÍ¹úÄÚµÄ»·¾³½áºÏÆðÀ´¾Í»á±¯¾ç¡ª¡ªÖÁÉÙÎÒÓöµ½¹ýµÄ£¬ËÑ¹·ä¯ÀÀÆ÷»á°ÑÓÃ»§·¢ËÍµÄÇëÇóÉÏ´«µ½·þÎñÆ÷ÉÏ£¬×÷ÎªÆäËÑË÷ÒýÇæÅÀ³æµÄÅÀÈ¡Ô´£¬ÕâÑùÅÀ³æ¾Í»áÍ¨¸æ²éÑ¯²Ù×÷µÃµ½Ïà¹ØµÄ¶ÔÏóÐÅÏ¢£¬²¢Õ¹Ê¾ÔÚËÑË÷ÒýÇæÉÏ£¬Èç¹û¶ÔÏóÐÅÏ¢°üº¬Ãô¸ÐÄÚÈÝ£¬Ôò²úÉúÒþË½Ð¹Â¶µÄ°²È«ÊÂ¼þ¡£
-	 
-	ÐÞ¸´·½°¸1£º
-	Õâ¸öÊÇ×îÖ±½ÓÓÐÐ§µÄÐÞ¸´·½°¸£ºÔÚweb²ãµÄÂß¼­ÖÐ×ö¼øÈ¨£¬¼ì²éÌá½»CRUDÇëÇóµÄ²Ù×÷Õß£¨Í¨¹ýsessionÐÅÏ¢µÃµ½£©ÓëÄ¿±ê¶ÔÏóµÄÈ¨ÏÞËùÓÐÕß£¨²éÊý¾Ý¿â£©ÊÇ·ñÒ»ÖÂ£¬Èç¹û²»Ò»ÖÂÔò×è¶Ï¡£Õâ¸ö·½°¸ÊµÏÖ³É±¾µÍ¡¢ÄÜÈ·±£Â©¶´µÄÐÞ¸´ÖÊÁ¿£¬È±µãÊÇÔö¼ÓÁËÒ»´Î²é¿â²Ù×÷¡£ÎÒÖ®Ç°Ò»Ö±ÓÃÕâÖÖ·½°¸À´¶ÔÒÑ·¢ÉúµÄË®Æ½È¨ÏÞÂ©¶´×ö½ô¼±ÐÞ¸´¡£
-	 
-	ÐÞ¸´·½°¸2£º
-	ÎÒÈÏÎª×îÕý¹æµÄ·½°¸£º°ÑÈ¨ÏÞµÄ¿ØÖÆ×ªÒÆµ½Êý¾Ý½Ó¿Ú²ãÖÐ£¬±ÜÃâ³öÏÖselect/update/delete ... where addressID=#addressID#µÄSQLÓï¾ä£¬Ê¹ÓÃselectt/update/delete... where addressID=#addressID# and ownerId=#userId#À´´úÌæ£¬ÒªÇóweb²ãÔÚµ÷ÓÃÊý¾Ý½Ó¿Ú²ãµÄ½Ó¿ÚÊ±¶îÍâÌá¹©userid£¬¶øÕâ¸öuseridÔÚweb²ã¿´À´Ö»ÄÜÍ¨¹ýseesionÀ´È¡µ½¡£ÕâÑùÔÚÃæ¶ÔË®Æ½È¨ÏÞ¹¥»÷Ê±£¬web²ãµÄ¿ª·¢Õß²»ÓÃ¶îÍâ»¨¾«Á¦È¥×¢Òâ¼øÈ¨µÄÊÂÇé£¬Ò²²»ÐèÒªÔö¼ÓÒ»¸öSQLÀ´×¨ÃÅÅÐ¶ÏÈ¨ÏÞ¡ª¡ªÈç¹ûÈ¨ÏÞ²»¶ÔµÄ»°£¬ÄÇ¸öandÌõ¼þ¾ÍÂú×ã²»ÁË£¬SQL×ÔÈ»¾ÍÕÒ²»µ½Ïà¹Ø¶ÔÏóÈ¥²Ù×÷¡£¶øÇÒÕâ¸ö·½°¸¶ÔÓÚÒ»¸ö½Ó¿Ú¶à¸öµØ·½Ê¹ÓÃµÄÇé¿öÒ²±È½ÏÓÐÀû£¬²»ÐèÒªÃ¿¸öµØ·½¶¼¼øÈ¨ÁË¡£µ«Õâ¸ö·½°¸µÄÈ±ÏÝÔÚÓÚÊµÏÖÆðÀ´Òª¸Ä¶¯µ×²ãµÄÉè¼Æ£¬ËùÒÔ²»ÊÊºÏ×÷ÎªÐÞ¸´·½°¸£¬¸üÊÊºÏ×÷ÎªÍ³Ò»µÄ¿ØÖÆ·½°¸ÔÚ×î¿ªÊ¼Éè¼ÆÊ±¾Í×¢ÒâÕâ·½ÃæµÄÎÊÌâ¡£
-	 
-	ÐÞ¸´·½°¸3£º
-	½ñÌì¿ª·¢Í¬Ñ§Ìáµ½Ò»ÖÖÎÒÖ®Ç°Ã»Ïëµ½¹ýµÄ·½Ê½£¬Êµ¼ÊÉÏÊÇ¶Ô·½°¸1µÄÐÞ¸Ä£ºÔÚÉú³É±íµ¥Ê±£¬Ôö¼ÓÒ»¸ötoken²ÎÊý£¬¶øtoken=md5(addressId+sessionId+key)£»ÔÚ´¦ÀíÇëÇóÊ±£¬ÓÃaddressId¡¢sessionIdºÍkeyÀ´ÑéÖ¤token¡£ÕâÑùµÄ·½°¸ÊµÏÖÆðÀ´ºÜ¼òµ¥£¬ÓÖ²»Ôö¼Ó¶îÍâµÄSQL²éÑ¯¿ªÏú£¬¿´ÆðÀ´±È·½°¸1¸üºÃ¡£¿ÉÎÒÖ®Ç°Ã»ÓÐÏëµ½¹ýÕâÖÖ·½°¸£¬Õ§Ò»¿´ÓÖÊÇ°Ñ¼øÈ¨ºÍ²Ù×÷ÕâÒ»´®Í¬²½µÄ²Ù×÷Òì²½»¯ÁË£¨Êµ¼ÊÉÏÊÇÔÚÉú³É±íµ¥µÄÊ±ºò¼øÈ¨²¢Éú³Étoken£¬È»ºóÔÚ²Ù×÷Ê±Ö»ÑéÖ¤token¶ø²»¼øÈ¨£©£¬ËùÒÔÒ»Ê±»¹ÄÃ²»×¼ÕâÑù»á²»»áÓÐÉ¶ÎÊÌâ¡«²»¹ýÎÒÊÇÏëÁË°ëÌìÒ²ÕÒ²»µ½Â©¶´¹þ¡«
-	 
-	ÐÞ¸´·½°¸4£º
-	°ÑÕâÖÖÊôÖ÷¡¢È¨ÏÞ¡¢¶ÔÏó¡¢²Ù×÷µÄ³¡¾°³éÏó³ÉÒ»¸öÍ³Ò»µÄ¿ò¼Ü£¬ÔÚ¿ò¼ÜÄÚÒ»¸öµØ·½ÊµÏÖÈ¨ÏÞµÄ¹ÜÀíºÍ¼ì²é¡£µ±È»Õâ¸öËµÆðÀ´ÓÐµã³¶µ­ÁË£¬ÔÚ²úÆ·Éè¼Æ½×¶ÎÊÇ²»ÊÇÓÐÈËÔ¸Òâ»¨´ó³É±¾À´Éè¼ÆÏà¹Ø¿ò¼ÜÄØ£¿Èç¹û×î¿ªÊ¼Ã»ÓÐ¿ò¼Ü£¬ÄÇÃ´Ê²Ã´Ê±ºòÔ¸Òâ»¨¸ü´óµÄ³É±¾È¥Ç¨ÒÆÄØ£¿ÎÒÏë×îÖÕ»¹ÊÇ»á°´·½°¸1¡¢2¡¢3À´°É¡£
-	 
-	Ô­ÎÄ£ºhttp://hi.baidu.com/kussa/item/a85912058445c7dcdce5b01d
-	 
-	 
-	ÁíÍâµÄ·½·¨£º
-	1¡¢¿É¶ÔID¼ÓÃÜ
-	2¡¢Ê¹ÓÃGUID
-	3¡¢Ã¿Ò»¸öÐÅÏ¢Ôö¼ÓÒ»¸ö·¢²¼ÈËµÄ×Ö¶Î£¬ÐÞ¸ÄµÄÈË±ØÐëÓë·¢²¼µÄÈËÎªÍ¬Ò»¸öÈË²Å¿ÉÒÔ·ÃÎÊ
-	
-	
-
-2 ´¹Ö±È¨ÏÞ¹¥»÷
-	´¹Ö±È¨ÏÞ¹¥»÷ÓÖ½Ð×öÈ¨ÏÞÌáÉý¹¥»÷¡£ÆäÔ­ÀíÊÇÓÉÓÚWebÓ¦ÓÃÃ»ÓÐ×öÈ¨ÏÞ¿ØÖÆ£¬»ò½ö½öÔÚ²Ëµ¥ÉÏ×öÁËÈ¨ÏÞ¿ØÖÆ£¬µ¼ÖÂ¶ñÒâÓÃ»§Ö»Òª²Â²âÆäËû¹ÜÀíÒ³ÃæµÄURL£¬¾Í¿ÉÒÔ·ÃÎÊ»ò¿ØÖÆÆäËû½ÇÉ«ÓµÓÐµÄÊý¾Ý»òÒ³Ãæ£¬´ïµ½È¨ÏÞÌáÉýµÄÄ¿µÄ¡£
-
-	¹¥»÷
-	ÎÒÃÇÀ´¿´¿´¹¥»÷°¸Àý£¬ÏÂÃæÊÇÒ»¸ö½ö½ö×öÁË²Ëµ¥¿ØÖÆµÄ´úÂë£º
-
-	<tr><td><a href="/user.jsp">¹ÜÀí¸öÈËÐÅÏ¢</a></td></tr>
-	<%if (power.indexOf("administrators")>-1){%>
-	<tr><td><a href="/userlist.jsp">¹ÜÀíËùÓÐÓÃ»§</a></td></tr>
-	<%}%>
-
-
-
-	¹¥»÷ÕßÖ»ÐèÒª²ÂÖÐ¹ÜÀíËùÓÐÓÃ»§µÄÒ³Ãæurl¾Í¿ÉÒÔÔ½È¨²Ù×÷ÁË¡£
-
-	·ÀÓù
-	ÕâÖÖ¹¥»÷ºÜÈÝÒ×·ÀÓù£¬Ö»ÐèÒªÔÚÃ¿¸öÒ³ÃæµÄ¼ÓÔØÖ®Ç°½øÐÐÈ¨ÏÞÑéÖ¤¼´¿É¡£Ò»¸öÆÕÍ¨µÄÈ¨ÏÞÏµÍ³£¬²Ëµ¥ÊÇÍ¨¹ýÊý¾Ý¿âÖÐ¶ÔÓ¦È¨ÏÞºÍ½ÇÉ«À´½øÐÐ×Ö·û´®Æ´½ÓÐÎ³ÉµÄ£¬¶ø²»ÊÇ¾²Ì¬µÄÍ¨¹ýÔÚÒ³ÃæÉÏ½øÐÐÈ¨ÏÞÅÐ¶Ï¾ö¶¨µÄ¡£ 
-	
-3 httpÏÂÔØ·ÀµÁÁ´½Ó
-	Õë¶Ô¼ì²éreferµÄ·½Ê½£¬¿ÉÒÔÔÚÒ³ÃæÖÐ¼ä¼þÀïÃæÏÈ½øÈëÄ¿µÄµØÖ·µÄÁíÍâÒ»¸öÒ³ÃæÔÚ×ªµ½Ä¿µÄÒ³Ãæ¼´¿É£¬
-	ÕâÑùÒ³ÃæµÄrefer¾ÍÊÇÄ¿µÄÕ¾µã×Ô¼ºµÄ£¬Èç´Ë£¬¼´×öµ½Í»ÆÆ¡£Õâ·½Ãæ¿ÉÒÔÊ¹ÓÃµÄ¹¤¾ßºÜ¶à£¬ÓÈÆäÊÇ³ÉÊìµÄwebÏîÄ¿²âÊÔ°ü£¬ÈçHtmlUnit£¬Ö±½ÓÔÚÇëÇóÖÐÉèÖÃrefer¶¼ÊÇ¿ÉÒÔµÄ¡£
-	
-4 mysql½¨Á¢Ë÷Òý
-	ALTER TABLE mytable ADD INDEX name_city_age (name(10),city,age);[code]
-	½¨±íÊ±£¬usernname³¤¶ÈÎª 16£¬ÕâÀïÓÃ 10¡£ÕâÊÇÒòÎªÒ»°ãÇé¿öÏÂÃû×ÖµÄ³¤¶È²»»á³¬¹ý10£¬ÕâÑù»á¼ÓËÙË÷Òý²éÑ¯ËÙ¶È£¬»¹»á¼õÉÙË÷ÒýÎÄ¼þµÄ´óÐ¡£¬Ìá¸ßINSERTµÄ¸üÐÂËÙ¶È¡£
-	Èç¹û·Ö±ðÔÚ usernname£¬city£¬ageÉÏ½¨Á¢µ¥ÁÐË÷Òý£¬ÈÃ¸Ã±íÓÐ3¸öµ¥ÁÐË÷Òý£¬²éÑ¯Ê±ºÍÉÏÊöµÄ×éºÏË÷ÒýÐ§ÂÊÒ²»á´ó²»Ò»Ñù£¬Ô¶Ô¶µÍÓÚÎÒÃÇµÄ×éºÏË÷Òý¡£ËäÈ»´ËÊ±ÓÐÁËÈý¸öË÷Òý£¬µ«MySQLÖ»ÄÜÓÃµ½ÆäÖÐµÄÄÇ¸öËüÈÏÎªËÆºõÊÇ×îÓÐÐ§ÂÊµÄµ¥ÁÐË÷Òý¡£
-	½¨Á¢ÕâÑùµÄ×éºÏË÷Òý£¬ÆäÊµÊÇÏàµ±ÓÚ·Ö±ð½¨Á¢ÁËÏÂÃæÈý×é×éºÏË÷Òý£º
-	usernname,city,age   usernname,city   usernname  ÎªÊ²Ã´Ã»ÓÐ city£¬ageÕâÑùµÄ×éºÏË÷ÒýÄØ£¿ÕâÊÇÒòÎªMySQL×éºÏË÷Òý¡°×î×óÇ°×º¡±µÄ½á¹û¡£¼òµ¥µÄÀí½â¾ÍÊÇÖ»´Ó×î×óÃæµÄ¿ªÊ¼×éºÏ¡£²¢²»ÊÇÖ»Òª°üº¬ÕâÈýÁÐµÄ²éÑ¯¶¼»áÓÃµ½¸Ã×éºÏË÷Òý£¬ÏÂÃæµÄ¼¸¸öSQL¾Í»áÓÃµ½Õâ¸ö×éºÏË÷Òý£º
-	[code]
-	SELECT * FROM mytable WHREE username="admin" AND city="Ö£ÖÝ"  SELECT * FROM mytable WHREE username="admin"	
-	
-	
-5 mysqlµÄË÷ÒýµÄÓï¾ä
-
-2.  ´´½¨Ë÷Òý
-	ÔÚÖ´ÐÐCREATE TABLEÓï¾äÊ±¿ÉÒÔ´´½¨Ë÷Òý£¬Ò²¿ÉÒÔµ¥¶ÀÓÃCREATE INDEX»òALTER TABLEÀ´Îª±íÔö¼ÓË÷Òý¡£
-	1£®ALTER TABLE
-	ALTER TABLEÓÃÀ´´´½¨ÆÕÍ¨Ë÷Òý¡¢UNIQUEË÷Òý»òPRIMARY KEYË÷Òý¡£
-	3
-	ALTER TABLE table_name ADD INDEX index_name (column_list)
-	ALTER TABLE table_name ADD UNIQUE (column_list)
-	ALTER TABLE table_name ADD PRIMARY KEY (column_list)
-	ÆäÖÐtable_nameÊÇÒªÔö¼ÓË÷ÒýµÄ±íÃû£¬column_listÖ¸³ö¶ÔÄÄÐ©ÁÐ½øÐÐË÷Òý£¬¶àÁÐÊ±¸÷ÁÐÖ®¼äÓÃ¶ººÅ·Ö¸ô¡£Ë÷ÒýÃûindex_name¿ÉÑ¡£¬È±Ê¡Ê±£¬MySQL½«¸ù¾ÝµÚÒ»¸öË÷ÒýÁÐ¸³Ò»¸öÃû³Æ¡£ÁíÍâ£¬ALTER TABLEÔÊÐíÔÚµ¥¸öÓï¾äÖÐ¸ü¸Ä¶à¸ö±í£¬Òò´Ë¿ÉÒÔÔÚÍ¬Ê±´´½¨¶à¸öË÷Òý¡£
-	2£®CREATE INDEX
-	CREATE INDEX¿É¶Ô±íÔö¼ÓÆÕÍ¨Ë÷Òý»òUNIQUEË÷Òý¡£
-	2
-	CREATE INDEX index_name ON table_name (column_list)
-	CREATE UNIQUE INDEX index_name ON table_name (column_list)
-	table_name¡¢index_nameºÍcolumn_list¾ßÓÐÓëALTER TABLEÓï¾äÖÐÏàÍ¬µÄº¬Òå£¬Ë÷ÒýÃû²»¿ÉÑ¡¡£ÁíÍâ£¬²»ÄÜÓÃCREATE INDEXÓï¾ä´´½¨PRIMARY KEYË÷Òý¡£
-	3£®Ë÷ÒýÀàÐÍ
-	ÔÚ´´½¨Ë÷ÒýÊ±£¬¿ÉÒÔ¹æ¶¨Ë÷ÒýÄÜ·ñ°üº¬ÖØ¸´Öµ¡£Èç¹û²»°üº¬£¬ÔòË÷ÒýÓ¦¸Ã´´½¨ÎªPRIMARY KEY»òUNIQUEË÷Òý¡£¶ÔÓÚµ¥ÁÐÎ©Ò»ÐÔË÷Òý£¬Õâ±£Ö¤µ¥ÁÐ²»°üº¬ÖØ¸´µÄÖµ¡£¶ÔÓÚ¶àÁÐÎ©Ò»ÐÔË÷Òý£¬±£Ö¤¶à¸öÖµµÄ×éºÏ²»ÖØ¸´¡£
-	PRIMARY KEYË÷ÒýºÍUNIQUEË÷Òý·Ç³£ÀàËÆ¡£ÊÂÊµÉÏ£¬PRIMARY KEYË÷Òý½öÊÇÒ»¸ö¾ßÓÐÃû³ÆPRIMARYµÄUNIQUEË÷Òý¡£Õâ±íÊ¾Ò»¸ö±íÖ»ÄÜ°üº¬Ò»¸öPRIMARY KEY£¬ÒòÎªÒ»¸ö±íÖÐ²»¿ÉÄÜ¾ßÓÐÁ½¸öÍ¬ÃûµÄË÷Òý¡£
-	ÏÂÃæµÄSQLÓï¾ä¶Ôstudents±íÔÚsidÉÏÌí¼ÓPRIMARY KEYË÷Òý¡£
-	¸´ÖÆ´úÂë ´úÂëÈçÏÂ:
-	ALTER TABLE students ADD PRIMARY KEY (sid)
-	4.  É¾³ýË÷Òý
-	¿ÉÀûÓÃALTER TABLE»òDROP INDEXÓï¾äÀ´É¾³ýË÷Òý¡£ÀàËÆÓÚCREATE INDEXÓï¾ä£¬DROP INDEX¿ÉÒÔÔÚALTER TABLEÄÚ²¿×÷ÎªÒ»ÌõÓï¾ä´¦Àí£¬Óï·¨ÈçÏÂ¡£
-	2
-	3
-	DROP INDEX index_name ON talbe_name
-	ALTER TABLE table_name DROP INDEX index_name
-	ALTER TABLE table_name DROP PRIMARY KEY
-	ÆäÖÐ£¬Ç°Á½ÌõÓï¾äÊÇµÈ¼ÛµÄ£¬É¾³ýµôtable_nameÖÐµÄË÷Òýindex_name¡£
-	µÚ3ÌõÓï¾äÖ»ÔÚÉ¾³ýPRIMARY KEYË÷ÒýÊ±Ê¹ÓÃ£¬ÒòÎªÒ»¸ö±íÖ»¿ÉÄÜÓÐÒ»¸öPRIMARY KEYË÷Òý£¬Òò´Ë²»ÐèÒªÖ¸¶¨Ë÷ÒýÃû¡£Èç¹ûÃ»ÓÐ´´½¨PRIMARY KEYË÷Òý£¬µ«±í¾ßÓÐÒ»¸ö»ò¶à¸öUNIQUEË÷Òý£¬ÔòMySQL½«É¾³ýµÚÒ»¸öUNIQUEË÷Òý¡£
-	Èç¹û´Ó±íÖÐÉ¾³ýÁËÄ³ÁÐ£¬ÔòË÷Òý»áÊÜµ½Ó°Ïì¡£¶ÔÓÚ¶àÁÐ×éºÏµÄË÷Òý£¬Èç¹ûÉ¾³ýÆäÖÐµÄÄ³ÁÐ£¬Ôò¸ÃÁÐÒ²»á´ÓË÷ÒýÖÐÉ¾³ý¡£Èç¹ûÉ¾³ý×é³ÉË÷ÒýµÄËùÓÐÁÐ£¬ÔòÕû¸öË÷Òý½«±»É¾³ý¡£
-	5£®²é¿´Ë÷Òý
-	2
-	mysql> show index from tblname;
-	mysql> show keys from tblname;	
-	
-	
-¸ßÊÖ¶ÔË÷Òý¿´·¨
-
-	½¨Ë÷ÒýµÄ¼¸´óÔ­Ôò
-
-	1.×î×óÇ°×ºÆ¥ÅäÔ­Ôò£¬·Ç³£ÖØÒªµÄÔ­Ôò£¬mysql»áÒ»Ö±ÏòÓÒÆ¥ÅäÖ±µ½Óöµ½·¶Î§²éÑ¯(>¡¢<¡¢between¡¢like)¾ÍÍ£Ö¹Æ¥Åä£¬±ÈÈça = 1 and b = 2 and c > 3 and d = 4 Èç¹û½¨Á¢(a,b,c,d)Ë³ÐòµÄË÷Òý£¬dÊÇÓÃ²»µ½Ë÷ÒýµÄ£¬Èç¹û½¨Á¢(a,b,d,c)µÄË÷ÒýÔò¶¼¿ÉÒÔÓÃµ½£¬a,b,dµÄË³Ðò¿ÉÒÔÈÎÒâµ÷Õû¡£
-
-	2.=ºÍin¿ÉÒÔÂÒÐò£¬±ÈÈça = 1 and b = 2 and c = 3 ½¨Á¢(a,b,c)Ë÷Òý¿ÉÒÔÈÎÒâË³Ðò£¬mysqlµÄ²éÑ¯ÓÅ»¯Æ÷»á°ïÄãÓÅ»¯³ÉË÷Òý¿ÉÒÔÊ¶±ðµÄÐÎÊ½
-
-	3.¾¡Á¿Ñ¡ÔñÇø·Ö¶È¸ßµÄÁÐ×÷ÎªË÷Òý,Çø·Ö¶ÈµÄ¹«Ê½ÊÇcount(distinct col)/count(*)£¬±íÊ¾×Ö¶Î²»ÖØ¸´µÄ±ÈÀý£¬±ÈÀýÔ½´óÎÒÃÇÉ¨ÃèµÄ¼ÇÂ¼ÊýÔ½ÉÙ£¬Î¨Ò»¼üµÄÇø·Ö¶ÈÊÇ1£¬¶øÒ»Ð©×´Ì¬¡¢ÐÔ±ð×Ö¶Î¿ÉÄÜÔÚ´óÊý¾ÝÃæÇ°Çø·Ö¶È¾ÍÊÇ0£¬ÄÇ¿ÉÄÜÓÐÈË»áÎÊ£¬Õâ¸ö±ÈÀýÓÐÊ²Ã´¾­ÑéÖµÂð£¿Ê¹ÓÃ³¡¾°²»Í¬£¬Õâ¸öÖµÒ²ºÜÄÑÈ·¶¨£¬Ò»°ãÐèÒªjoinµÄ×Ö¶ÎÎÒÃÇ¶¼ÒªÇóÊÇ0.1ÒÔÉÏ£¬¼´Æ½¾ù1ÌõÉ¨Ãè10Ìõ¼ÇÂ¼
-          eg:  SELECT count(DISTINCT user_phone)/count(*) FROM dream_u_user
-	 
-	4.Ë÷ÒýÁÐ²»ÄÜ²ÎÓë¼ÆËã£¬±£³ÖÁÐ¡°¸É¾»¡±£¬±ÈÈçfrom_unixtime(create_time) = ¡¯2014-05-29¡¯¾Í²»ÄÜÊ¹ÓÃµ½Ë÷Òý£¬Ô­ÒòºÜ¼òµ¥£¬b+Ê÷ÖÐ´æµÄ¶¼ÊÇÊý¾Ý±íÖÐµÄ×Ö¶ÎÖµ£¬µ«½øÐÐ¼ìË÷Ê±£¬ÐèÒª°ÑËùÓÐÔªËØ¶¼Ó¦ÓÃº¯Êý²ÅÄÜ±È½Ï£¬ÏÔÈ»³É±¾Ì«´ó¡£ËùÒÔÓï¾äÓ¦¸ÃÐ´³Écreate_time = unix_timestamp(¡¯2014-05-29¡¯);
-
-	5.¾¡Á¿µÄÀ©Õ¹Ë÷Òý£¬²»ÒªÐÂ½¨Ë÷Òý¡£±ÈÈç±íÖÐÒÑ¾­ÓÐaµÄË÷Òý£¬ÏÖÔÚÒª¼Ó(a,b)µÄË÷Òý£¬ÄÇÃ´Ö»ÐèÒªÐÞ¸ÄÔ­À´µÄË÷Òý¼´¿É
-	
-6 java catalina.sh ÉèÖÃ 
-JAVA_OPTS='-Xms128m -Xmx216m'
-	
-7 jstat Î»ÓÚjavaµÄbinÄ¿Â¼ÏÂ£¬Ö÷ÒªÀûÓÃJVMÄÚ½¨µÄÖ¸Áî¶ÔJavaÓ¦ÓÃ³ÌÐòµÄ×ÊÔ´ºÍÐÔÄÜ½øÐÐÊµÊ±µÄÃüÁîÐÐµÄ¼à¿Ø£¬°üÀ¨ÁË¶ÔHeap
-sizeºÍÀ¬»ø»ØÊÕ×´¿öµÄ¼à¿Ø¡£¿É¼û£¬JstatÊÇÇáÁ¿¼¶µÄ¡¢×¨ÃÅÕë¶ÔJVMµÄ¹¤¾ß£¬·Ç³£ÊÊÓÃ¡£
-
-	jstat ÃüÁî¸ñÊ½
-
-	 jstat -<option> [-t] [-h<lines>] <vmid> [<interval> [<count>]]
-	²ÎÊý½âÊÍ£º
-
-	Option ¡ª Ñ¡Ïî£¬ÎÒÃÇÒ»°ãÊ¹ÓÃ -gcutil ²é¿´gcÇé¿ö
-
-	vmid ¡ª VMµÄ½ø³ÌºÅ£¬¼´µ±Ç°ÔËÐÐµÄjava½ø³ÌºÅ
-
-	interval¨C ¼ä¸ôÊ±¼ä£¬µ¥Î»ÎªÃë»òÕßºÁÃë
-
-	count ¡ª ´òÓ¡´ÎÊý£¬Èç¹ûÈ±Ê¡Ôò´òÓ¡ÎÞÊý´Î
-	
-	
-		-class£ºÍ³¼Æclass loaderÐÐÎªÐÅÏ¢ 
-		-compile£ºÍ³¼Æ±àÒëÐÐÎªÐÅÏ¢ 
-		-gc£ºÍ³¼Æjdk gcÊ±heapÐÅÏ¢ 
-		-gccapacity£ºÍ³¼Æ²»Í¬µÄgenerations£¨²»ÖªµÀÔõÃ´·­ÒëºÃ£¬°üÀ¨ÐÂÉúÇø£¬ÀÏÄêÇø£¬permanentÇø£©ÏàÓ¦µÄheapÈÝÁ¿Çé¿ö 
-		-gccause£ºÍ³¼ÆgcµÄÇé¿ö£¬£¨Í¬-gcutil£©ºÍÒýÆðgcµÄÊÂ¼þ 
-		-gcnew£ºÍ³¼ÆgcÊ±£¬ÐÂÉú´úµÄÇé¿ö 
-		-gcnewcapacity£ºÍ³¼ÆgcÊ±£¬ÐÂÉú´úheapÈÝÁ¿ 
-		-gcold£ºÍ³¼ÆgcÊ±£¬ÀÏÄêÇøµÄÇé¿ö 
-		-gcoldcapacity£ºÍ³¼ÆgcÊ±£¬ÀÏÄêÇøheapÈÝÁ¿ 
-		-gcpermcapacity£ºÍ³¼ÆgcÊ±£¬permanentÇøheapÈÝÁ¿ 
-		-gcutil£ºÍ³¼ÆgcÊ±£¬heapÇé¿ö 
-		-printcompilation£º²»ÖªµÀ¸ÉÊ²Ã´µÄ£¬Ò»Ö±Ã»ÓÃ¹ý¡£ 
-	
-	
-	
-	
-		S0C ÄêÇá´úÖÐµÚÒ»¸ösurvivor£¨ÐÒ´æÇø£©µÄÈÝÁ¿ (×Ö½Ú) S1C
-	ÄêÇá´úÖÐµÚ¶þ¸ösurvivor£¨ÐÒ´æÇø£©µÄÈÝÁ¿ (×Ö½Ú) S0U
-	ÄêÇá´úÖÐµÚÒ»¸ösurvivor£¨ÐÒ´æÇø£©Ä¿Ç°ÒÑÊ¹ÓÃ¿Õ¼ä (×Ö½Ú) S1U
-	ÄêÇá´úÖÐµÚ¶þ¸ösurvivor£¨ÐÒ´æÇø£©Ä¿Ç°ÒÑÊ¹ÓÃ¿Õ¼ä (×Ö½Ú) EC
-	ÄêÇá´úÖÐEden£¨ÒÁµéÔ°£©µÄÈÝÁ¿ (×Ö½Ú) EU
-	ÄêÇá´úÖÐEden£¨ÒÁµéÔ°£©Ä¿Ç°ÒÑÊ¹ÓÃ¿Õ¼ä (×Ö½Ú) OC Old´úµÄÈÝÁ¿ (×Ö½Ú)
-	OU Old´úÄ¿Ç°ÒÑÊ¹ÓÃ¿Õ¼ä (×Ö½Ú) PC Perm(³Ö¾Ã´ú)µÄÈÝÁ¿ (×Ö½Ú) PU
-	Perm(³Ö¾Ã´ú)Ä¿Ç°ÒÑÊ¹ÓÃ¿Õ¼ä (×Ö½Ú) YGC+
-	´ÓÓ¦ÓÃ³ÌÐòÆô¶¯µ½²ÉÑùÊ±ÄêÇá´úÖÐgc´ÎÊý YGCT
-	´ÓÓ¦ÓÃ³ÌÐòÆô¶¯µ½²ÉÑùÊ±ÄêÇá´úÖÐgcËùÓÃÊ±¼ä(s) FGC
-	´ÓÓ¦ÓÃ³ÌÐòÆô¶¯µ½²ÉÑùÊ±old´ú(È«gc)gc´ÎÊý FGCT
-	´ÓÓ¦ÓÃ³ÌÐòÆô¶¯µ½²ÉÑùÊ±old´ú(È«gc)gcËùÓÃÊ±¼ä(s) GCT
-	´ÓÓ¦ÓÃ³ÌÐòÆô¶¯µ½²ÉÑùÊ±gcÓÃµÄ×ÜÊ±¼ä(s)
-	
-	
-	eg: jstat -gc 16527 1000 5  //Ã¿¸ô1000ºÁÃë Ò²¾ÍÊÇ 1Ãë ×Ü¹² 5´Î Ö´ÐÐ ½ø³Ìpid 16527 µÄÀ¬»ø»ØÊÕÇé¿ö
-	
-	
-	
-8 ²éÑ¯javaÏß³Ì×î¸ßµÄ½ø³Ì
-top -p 12377 -H	 ÕÒ³öÏß³ÌÏûºÄ ×î´óµÄ  pid   shift + <-   »òÕß shift +  -> ½øÐÐ ×î´ó,×îÐ¡ÃüÁî ÔËÐÐÃüÁî 	jstack 12377 > stack.log
-
-    
-   ÓÉÓÚjstack.logÎÄ¼þ¼ÇÂ¼µÄÏß³ÌIDÊÇ16½øÖÆ£¬ÐèÒª½«top -p 12377 -H	ÃüÁîÕ¹Ê¾µÄÏß³ÌºÅ×ª»»Îª16½øÖÆ£¬ÒÔ15100ÎªÀý£¬ÔÚlinuxÏÂÊäÈëÃüÁî£ºprintf 0x%x 15100£¬µÃµ½15100µÄÊ®Áù½øÖÆÎª0x3afc
-
-9 jmap Õë¶Ôoom
-	jmap -dump:live,format=b,file=xxx 2657
-	ÕâÀï¸ü¼ÓÇ¿´óÒ»Ð©£¬¿ÉÒÔÖ¸¶¨ÊÇ´æ»îµÄ¶ÔÏó£¬»¹ÓÐÉú³ÉheapdumpµÄÎÄ¼þÃû¡£	
-	
-	Éú³ÉµÄÎÄ¼þÃû  ¿ÉÒÔÓÃjhat
-	 -J< flag >
-  eg jhat -J-mx768m -port <¶Ë¿ÚºÅ:Ä¬ÈÏÎª7000> heap.dmp
-	 
-	ÒòÎª jhat ÃüÁîÊµ¼ÊÉÏ»áÆô¶¯Ò»¸öJVMÀ´Ö´ÐÐ, Í¨¹ý -J ¿ÉÒÔÔÚÆô¶¯JVMÊ±´«ÈëÒ»Ð©Æô¶¯²ÎÊý. ÀýÈç, -J-Xmx512m ÔòÖ¸¶¨ÔËÐÐ jhat µÄJavaÐéÄâ»úÊ¹ÓÃµÄ×î´ó¶ÑÄÚ´æÎª 512 MB. Èç¹ûÐèÒªÊ¹ÓÃ¶à¸öJVMÆô¶¯²ÎÊý,Ôò´«Èë¶à¸ö -Jxxxxxx.	
-	eg jhat -J-Xmx512m -port 9008 dump.log
-	 
-10 jmapºÍjhat ½â¾ö
-
-	jhatÃüÁî -- Java Head Analyse Tool 
-	ÓÃÍ¾£ºÊÇÓÃÀ´·ÖÎöJava¶ÑµÄÃüÁî£¬¿ÉÒÔ½«¶ÑÖÐµÄ¶ÔÏóÒÔhtmlµÄÐÎÊ½ÏÔÊ¾³öÀ´£¬°üÀ¨¶ÔÏóµÄÊýÁ¿£¬´óÐ¡µÈµÈ£¬²¢Ö§³Ö¶ÔÏó²éÑ¯ÓïÑÔ
-	µÚÒ»²½£ºµ¼³ö¶Ñ
-	 
-	µÚ¶þ²½£º·ÖÎö¶ÑÎÄ¼þ
-	 
-	µÚÈý²½£º²é¿´html
-
-
-	ÓÐÊ±Äãdump³öÀ´µÄ¶ÑºÜ´ó£¬ÔÚÆô¶¯Ê±»á±¨¶Ñ¿Õ¼ä²»×ãµÄ´íÎó£¬¿ÉÒÔÊ¹ÓÃÈçÏÂ²ÎÊý£º
-	jhat -J-Xmx512m <heap dump file>
-
-	¶ÔÓÚjhatÆô¶¯ºóÏÔÊ¾µÄhtmlÒ³ÃæÖÐ¹¦ÄÜ£º
-	£¨1£©ÏÔÊ¾³ö¶ÑÖÐËù°üº¬µÄËùÓÐµÄÀà
-
-	£¨2£©´Ó¸ù¼¯ÄÜÒýÓÃµ½µÄ¶ÔÏó
-
-	£¨3£©ÏÔÊ¾Æ½Ì¨°üÀ¨µÄËùÓÐÀàµÄÊµÀýÊýÁ¿
-
-	£¨4£©¶ÑÊµÀýµÄ·Ö²¼±í
-
-
-	£¨5£©Ö´ÐÐ¶ÔÏó²éÑ¯Óï¾ä
-	 
-11  mysqlµÄsleepÊ¹ÓÃ
-   select sleep(1),name from animals where name like '%ger'; 
-   Õë¶Ô¸ÃÓï¾äÌí¼ÓÁËsleep(1)Õâ¸öº¯ÊýºóÓï¾ä×ÜµÄÖ´ÐÐÊ±¼äÎª3.01Ãë£¬¿ÉµÃ³ö£¬MySQL¶ÔÃ¿ÌõÂú×ãÌõ¼þµÄ¼ÇÂ¼Í£ÁôÁË0.01ÃëÖÐ¡£
-   
-12 jstack ÎÄ¼þµÄ·ÖÎö 
-    ËÀËø£¬Deadlock£¨ÖØµã¹Ø×¢£©
-    Ö´ÐÐÖÐ£¬Runnable  
-    µÈ´ý×ÊÔ´£¬Waiting on condition£¨ÖØµã¹Ø×¢£©
-    µÈ´ý»ñÈ¡¼àÊÓÆ÷£¬Waiting on monitor entry£¨ÖØµã¹Ø×¢£©
-    ÔÝÍ££¬Suspended
-    ¶ÔÏóµÈ´ýÖÐ£¬Object.wait() »ò TIMED_WAITING
-    ×èÈû£¬Blocked£¨ÖØµã¹Ø×¢£© 
-    Í£Ö¹£¬Parked
-	
-	
-13 jstatd 
-
-	1¡¢ÔÚ·þÎñÆ÷ÉÏ´´½¨°²È«²ßÂÔÎÄ¼þ£¬²¢ÃüÃûÎªjstatd.all.policy
-
-	grant codebase "file:${java.home}/../lib/tools.jar" {
-		permission java.security.AllPermission;
-	};
-	2¡¢ÔÚ·þÎñÆ÷ÉÏjstatd.all.policyËùÔÚÄ¿Â¼ÏÂÖ´ÐÐÏÂÃæµÄÃüÁî
-
-	jstatd -J-Djava.security.policy=jstatd.all.policy -J-Djava.rmi.server.hostname=121.*.*.* //µÚ¶þ¸ö²ÎÊý´ú±í·þÎñÆ÷µÄhostname clientÁ¬½ÓÊ±ºòÊäÈëµÄip ×îºÃÊÇ»úÆ÷µÄip
-	
-	3 ÔÚ¿Í»§¶Ë»úÆ÷ÉÏÓÃ
-	jps <ip>
-	eg jps 121.*.*.*  //Èç¹ûÄÜÁ¬½Ó³É¹¦£¬ÔòÄÜ¿´µ½·þÎñ¶ËµÄjpsÁÐ±í ´ËÊ±ÔÚÖ´ÐÐ 4
-	4 ÔÚ¿Í»§¶Ë»úÆ÷ÔËÐÐjvisualvm
-	
-14 jmap »¹¿ÉÒÔ¿´¶ÑÕ»	
-    -heap ´òÓ¡heapµÄ¸ÅÒªÐÅÏ¢£¬GCÊ¹ÓÃµÄËã·¨£¬heapµÄÅäÖÃ¼°wise heapµÄÊ¹ÓÃÇé¿ö.
-    eg   
-	           sing parallel threads in the new generation.  ##ÐÂÉú´ú²ÉÓÃµÄÊÇ²¢ÐÐÏß³Ì´¦Àí·½Ê½
-
-				using thread-local object allocation.   
-
-				Concurrent Mark-Sweep GC   ##Í¬²½²¢ÐÐÀ¬»ø»ØÊÕ
-
-				 
-
-				Heap Configuration:  ##¶ÑÅäÖÃÇé¿ö
-
-				   MinHeapFreeRatio = 40 ##×îÐ¡¶ÑÊ¹ÓÃ±ÈÀý
-
-				   MaxHeapFreeRatio = 70 ##×î´ó¶Ñ¿ÉÓÃ±ÈÀý
-
-				   MaxHeapSize      = 2147483648 (2048.0MB) ##×î´ó¶Ñ¿Õ¼ä´óÐ¡
-
-				   NewSize          = 268435456 (256.0MB) ##ÐÂÉú´ú·ÖÅä´óÐ¡
-
-				   MaxNewSize       = 268435456 (256.0MB) ##×î´ó¿ÉÐÂÉú´ú·ÖÅä´óÐ¡
-
-				   OldSize          = 5439488 (5.1875MB) ##ÀÏÉú´ú´óÐ¡
-
-				   NewRatio         = 2  ##ÐÂÉú´ú±ÈÀý
-
-				   SurvivorRatio    = 8 ##ÐÂÉú´úÓësuvivorµÄ±ÈÀý
-
-				   PermSize         = 134217728 (128.0MB) ##permÇø´óÐ¡
-
-				   MaxPermSize      = 134217728 (128.0MB) ##×î´ó¿É·ÖÅäpermÇø´óÐ¡
-
-				 
-
-				Heap Usage: ##¶ÑÊ¹ÓÃÇé¿ö
-
-				New Generation (Eden + 1 Survivor Space):  ##ÐÂÉú´ú£¨ÒÁµéÇø + survior¿Õ¼ä£©
-
-				   capacity = 241631232 (230.4375MB)  ##ÒÁµéÇøÈÝÁ¿
-
-				   used     = 77776272 (74.17323303222656MB) ##ÒÑ¾­Ê¹ÓÃ´óÐ¡
-
-				   free     = 163854960 (156.26426696777344MB) ##Ê£ÓàÈÝÁ¿
-
-				   32.188004570534986% used ##Ê¹ÓÃ±ÈÀý
-
-				Eden Space:  ##ÒÁµéÇø
-
-				   capacity = 214827008 (204.875MB) ##ÒÁµéÇøÈÝÁ¿
-
-				   used     = 74442288 (70.99369812011719MB) ##ÒÁµéÇøÊ¹ÓÃ
-
-				   free     = 140384720 (133.8813018798828MB) ##ÒÁµéÇøµ±Ç°Ê£ÓàÈÝÁ¿
-
-				   34.65220164496263% used ##ÒÁµéÇøÊ¹ÓÃÇé¿ö
-
-				From Space: ##survior1Çø
-
-				   capacity = 26804224 (25.5625MB) ##survior1ÇøÈÝÁ¿
-
-				   used     = 3333984 (3.179534912109375MB) ##surviror1ÇøÒÑÊ¹ÓÃÇé¿ö
-
-				   free     = 23470240 (22.382965087890625MB) ##surviror1ÇøÊ£ÓàÈÝÁ¿
-
-				   12.43827838477995% used ##survior1ÇøÊ¹ÓÃ±ÈÀý
-
-				To Space: ##survior2 Çø
-
-				   capacity = 26804224 (25.5625MB) ##survior2ÇøÈÝÁ¿
-
-				   used     = 0 (0.0MB) ##survior2ÇøÒÑÊ¹ÓÃÇé¿ö
-
-				   free     = 26804224 (25.5625MB) ##survior2ÇøÊ£ÓàÈÝÁ¿
-
-				   0.0% used ## survior2ÇøÊ¹ÓÃ±ÈÀý
-
-				concurrent mark-sweep generation: ##ÀÏÉú´úÊ¹ÓÃÇé¿ö
-
-				   capacity = 1879048192 (1792.0MB) ##ÀÏÉú´úÈÝÁ¿
-
-				   used     = 30847928 (29.41887664794922MB) ##ÀÏÉú´úÒÑÊ¹ÓÃÈÝÁ¿
-
-				   free     = 1848200264 (1762.5811233520508MB) ##ÀÏÉú´úÊ£ÓàÈÝÁ¿
-
-				   1.6416783843721663% used ##ÀÏÉú´úÊ¹ÓÃ±ÈÀý
-
-				Perm Generation: ##permÇøÊ¹ÓÃÇé¿ö
-
-				   capacity = 134217728 (128.0MB) ##permÇøÈÝÁ¿
-
-				   used     = 47303016 (45.111671447753906MB) ##permÇøÒÑÊ¹ÓÃÈÝÁ¿
-
-				   free     = 86914712 (82.8883285522461MB) ##permÇøÊ£ÓàÈÝÁ¿
-
-				   35.24349331855774% used ##permÇøÊ¹ÓÃ±ÈÀý
-	-histo[:live] ´òÓ¡Ã¿¸öclassµÄÊµÀýÊýÄ¿,ÄÚ´æÕ¼ÓÃ,ÀàÈ«ÃûÐÅÏ¢. VMµÄÄÚ²¿ÀàÃû×Ö¿ªÍ·»á¼ÓÉÏÇ°×º¡±*¡±. Èç¹ûlive×Ó²ÎÊý¼ÓÉÏºó,Ö»Í³¼Æ»îµÄ¶ÔÏóÊýÁ¿. 
-	
-	eg jmap -histo pid µÄµÃµ½ÎÄ¼þ·ÖÎö
-		{C is a char[]
-		[S is a short[]
-		[I is a int[]
-		[B is a byte[]
-		[[I is a int[][]
-	
-15 sleep(0)	ÓÃÀ´¸øÏß³ÌÓÅÏÈ¼¶µÍµÄÏß³ÌÕùÈ¡ »ñµÃcpuÇÔÈ¡Ê±¼ä¶à
-   ThreadÀàÌá¹©ÁËÒ»¸öholdsLock(Object obj)·½·¨£¬µ±ÇÒ½öµ±¶ÔÏóobjµÄ¼àÊÓÆ÷±»Ä³ÌõÏß³Ì³ÖÓÐµÄÊ±ºò²Å»á·µ»Øtrue£¬×¢ÒâÕâÊÇÒ»¸östatic·½·¨£¬ÕâÒâÎ¶×Å¡°Ä³ÌõÏß³Ì¡±Ö¸µÄÊÇµ±Ç°Ïß³Ì
+Skip to content
  
-16  findbugs 
+Search or jump toâ€¦
 
-	Bad practice
-
-	²»ºÃµÄÏ°¹ß
-
-	Correctness
-
-	´úÂëµÄÕýÈ·ÐÔ
-
-	Dodgy
-
-	Ð¡ÎÊÌâ
-
-	Malicious code vulnerability
-
-	¶ñÒâ´úÂë
-
-	Internationalization
-
-	¹ú¼Ê»¯ÎÊÌâ
-
-	Performance
-
-	ÐÔÄÜÎÊÌâ
-
-	Security
-
-	°²È«ÐÔÎÊÌâ
-
-	Multithreaded currectness
-
-	Ïß³ÌÎÊÌâ
-
-	Experrimental
-
-	ÊµÑéÐÔÎÊÌâ
-	 
-17  jstack ´ò³öÏß³Ì×é 
-		kill -3 pidÖ®ºóÔÙ jstack pid > temp.lock µÃµ½¾ÍÊÇÒ»¸öÌØ¶¨µÄpid	 
-		
-18  Java¶¯Ì¬±à³Ì³õÌ½¡ª¡ªJavassist
-
-19 hashCode
-    hashCodeÖØÒªÃ´£¿²»ÖØÒª£¬¶ÔÓÚList¼¯ºÏ¡¢Êý×é¶øÑÔ£¬Ëû¾ÍÊÇÒ»¸öÀÛ×¸£¬µ«ÊÇ¶ÔÓÚHashMap¡¢HashSet¡¢HashTable¶øÑÔ£¬Ëü±äµÃÒì³£ÖØÒª¡£
-	ËùÒÔÔÚÊ¹ÓÃHashMap¡¢HashSet¡¢HashTableÊ±Ò»¶¨Òª×¢ÒâhashCode¡£¶ÔÓÚÒ»¸ö¶ÔÏó¶øÑÔ£¬
-	ÆähashCode¹ý³Ì¾ÍÊÇÒ»¸ö¼òµ¥µÄHashËã·¨µÄÊµÏÖ£¬ÆäÊµÏÖ¹ý³Ì¶ÔÄãÊµÏÖ¶ÔÏóµÄ´æÈ¡¹ý³ÌÆðµ½·Ç³£ÖØÒªµÄ×÷ÓÃ¡£
-	
-20 dubbor µÄservice×¢½âÒ»¸öbug Ê¹ÓÃ@Transaction  ÎÞ·¨±©Â¶½Ó¿Ú  ½â¾ö·½·¨ÔÚdubborÊ¹ÓÃ @Inherited ±íÊ¾¿ÉÒÔ¼Ì³Ð
-    °´ÕÕËù½âÊÍµÄ£¬Ê¹ÓÃInheritedÉùÃ÷µÄAnnotationÊÇ¿ÉÒÔ±»×ÓÀà¼Ì³ÐÏÂÀ´µÄ£º	
-	
-21   <property name="connectionInitSqls" value="set names utf8mb4;"/> ´ú±í durid µÄ unicoem64	
-22   tomcatÖÐÎÞ·¨»ñµÃ×ÊÔ´µÄÎÊÌâ
-		 tomcat ÖÐcontext.xml ÅäÖÃÎÄ¼þ¼ÓÈë
-
-		<Resources cachingAllowed="true" cacheMaxSize="100000" />//ÓÃÓÚ¾²Ì¬×ÊÔ´µÄ¸ßËÙ»º´æ¡£Èç¹ûÃ»ÓÐÖ¸¶¨£¬¸Ã±êÖ¾µÄÄ¬ÈÏÖµÊÇtrue¡£Õâ¸öÖµ¿ÉÒÔÔÚWebÓ¦ÓÃ³ÌÐòÔËÐÐÊ±½øÐÐ¸ü¸Ä
-		
-22 jstack -F <PID> # ÓÐÊ±ºòÏß³Ì¹ÒÆðµÄÊ±ºòÒª¼ÓÉÏ-F²ÎÊý²ÅÄÜ°ÑÐÅÏ¢dump´¦Àí	
-
-23 jinfo  pid
-	no option  ´òÓ¡ÃüÁîÐÐ²ÎÊýºÍÏµÍ³ÊôÐÔ 
-	-flags  ´òÓ¡ÃüÁîÐÐ²ÎÊý 
-	-sysprops  ´òÓ¡ÏµÍ³ÊôÐÔ 
-	-h  °ïÖú 
-24  redis-rdb-tools ·ÖÎöÄÚ´æ 
-    °²×° pip install rdbtools 
-	 ÊäÈë rdbÃüÁî  rdb    -c (commond  °üº¬ÁË json, diff, justkeys, justkeyvals, memory and protocol )
-	                      -f (Êä³öµÄÎÄ¼þÃû³Æ)
-						  -b (¶àÉÙ½øÖÆÊä³ö)
-						  
-	eg rdb -c memory -f dump.csv  dump.db
-      ·ÖÎöÎÄ¼þ sort -t , -k 5 dump.csv |head -n 10 (-tÓÃ,·Ö¿ª ÅÅÐòÔÚ -kµÚÎå¸öÇø¼ä )	
-	  
-	  
-25 jinfo ´ò¿ªgcÈÕÖ¾
-    jinfo -flag +PrintGCDetails pid  
-	jinfo -flag +PrintGC pid   
-	¹Ø±Õ
-	jinfo -flag -PrintGCDetails pid
-	jinfo -flag -PrintGC pid
-	    -XX:+PrintGC Êä³öGCÈÕÖ¾  
-		-XX:+PrintGCDetails Êä³öGCµÄÏêÏ¸ÈÕÖ¾  
-		-XX:+PrintGCTimeStamps Êä³öGCµÄÊ±¼ä´Á£¨ÒÔ»ù×¼Ê±¼äµÄÐÎÊ½£©  
-		-XX:+PrintGCDateStamps Êä³öGCµÄÊ±¼ä´Á£¨ÒÔÈÕÆÚµÄÐÎÊ½£¬Èç 2013-05-04T21:53:59.234+0800£©  
-		-XX:+PrintHeapAtGC ÔÚ½øÐÐGCµÄÇ°ºó´òÓ¡³ö¶ÑµÄÐÅÏ¢  
-		-Xloggc:../logs/gc.log ÈÕÖ¾ÎÄ¼þµÄÊä³öÂ·¾¶  
-	eg  
-		[GC[DefNew: 78656K->8704K(78656K), 0.0487492 secs] 135584K->80553K(253440K), 0.0488309 secs] [Times: user=0.05 sys=0.00, real=0.05 secs] 
-
-		[Full GC[Tenured: 62546K->60809K(174784K), 0.1600120 secs] 85931K->60809K(253440K), [Perm : 38404K->38404K(65536K)], 0.1600814 secs] [Times: user=0.16 sys=0.00, real=0.16 secs]
-
-		---------------------------
-
-		1. ÆäÖÐµÄDefNew´ú±íµ¥Ïß³Ì»ØÊÕyong generation¡£
-
-		2. ½ô¸úºóÃæµÄ 78656K->8704K(78656K) ÖÐµÄ 78656K ´ú±íyoung generation »ØÊÕÇ°´óÐ¡£¬8704K ´ú±í»ØÊÕºó´óÐ¡£¬À¨ºÅÖÐµÄ78656K ´ú±íyoung generation×Ü´óÐ¡(°üº¬2¸ösurvivor)¡£
-
-		3. 135584K->80553K(253440K) Ôò´ú±íÕû¸öHeap(young+old)µÄ±ä»¯Óë×ÜÁ¿£¬º¬Òå²ÎÕÕÇ°ÃæËùÊö(PermÒ²Ò»Ñù)¡£
-
-		4. Full GC ¼´´ú±í major GC, Tenured: 62546K->60809K(174784K)Ôò±íÊ¾ old generation±ä»¯¼°×ÜÁ¿	
-		
-		
-	eg 
-		5.617£¨Ê±¼ä´Á£©: [GC£¨Young GC£© 5.617£¨Ê±¼ä´Á£©:
-		[ParNew£¨Ê¹ÓÃParNew×÷ÎªÄêÇá´úµÄÀ¬»ø»ØÊÕÆÚ£©: 43296K£¨ÄêÇá´úÀ¬»ø»ØÊÕÇ°µÄ´óÐ¡£©->7006K£¨ÄêÇá´úÀ¬»ø»ØÊÕÒÔºóµÄ´óÐ¡£©(47808K)£¨ÄêÇá´úµÄ×Ü´óÐ¡£©, 0.0136826 secs£¨»ØÊÕÊ±¼ä£©] 44992K£¨¶ÑÇøÀ¬»ø»ØÊÕÇ°µÄ´óÐ¡£©->8702K£¨¶ÑÇøÀ¬»ø»ØÊÕºóµÄ´óÐ¡£©(252608K)£¨¶ÑÇø×Ü´óÐ¡£©, 0.0137904 secs£¨»ØÊÕÊ±¼ä£©] [Times: user=0.03£¨Young GCÓÃ»§ºÄÊ±£© sys=0.00£¨Young GCÏµÍ³ºÄÊ±£©, real=0.02 secs£¨Young GCÊµ¼ÊºÄÊ±£©]  	
-	
-    ***jinfoÖ®ºóÒ»°ãÔÚ¿ØÖÆÌ¨´òÓ¡ Èç¹û½áºÏ nohup java -jar xx.jar >./xx.out >2&1 & ¾Í¿ÉÒÔÔÚ xx.out²é¿´gcµÄÈÕÖ¾ÁË  ¿ÉÒÔÀûÓÃ cat xx.out|grep GC  	
-		
-
-26 GCÈÕÖ¾·ÖÎö 		
-	1¡¢µÚÒ»ÖÖ³¡¾°Ó¦¸ÃºÜÃ÷ÏÔ£¬µ±ÄêÇá´ú»òÕßÀÏÄê´úÂúÁË£¬JavaÐéÄâ»úÎÞ·¨ÔÙÎªÐÂµÄ¶ÔÏó·ÖÅäÄÚ´æ¿Õ¼äÁË£¬ÄÇÃ´JavaÐéÄâ»ú¾Í»á´¥·¢Ò»´ÎGCÈ¥»ØÊÕµôÄÇÐ©ÒÑ¾­²»»áÔÙ±»Ê¹ÓÃµ½µÄ¶ÔÏó
-
-	2¡¢ÊÖ¶¯µ÷ÓÃSystem.gc()·½·¨£¬Í¨³£ÕâÑù»á´¥·¢Ò»´ÎµÄFull GCÒÔ¼°ÖÁÉÙÒ»´ÎµÄMinor GC
-
-	3¡¢³ÌÐòÔËÐÐµÄÊ±ºòÓÐÒ»ÌõµÍÓÅÏÈ¼¶µÄGCÏß³Ì£¬ËüÊÇÒ»ÌõÊØ»¤Ïß³Ì£¬µ±ÕâÌõÏß³Ì´¦ÓÚÔËÐÐ×´Ì¬µÄÊ±ºò£¬×ÔÈ»¾Í´¥·¢ÁËÒ»´ÎGCÁË¡£ÕâµãÒ²ºÜºÃÖ¤Ã÷£¬²»¹ýÒªÓÃµ½WeakReferenceµÄÖªÊ¶£¬ºóÃæÐ´WeakReferenceµÄÊ±ºò»á×¨ÃÅ½²µ½Õâ¸ö
-	
-27 mysqlµÄinsert into ÓÅ»¯ 
-		INSERT IGNORE  into user 
-		(name,age) values( "name",30) µ±user±íÖÐ´æÔÚÎ¨Ò»Ë÷Òý»òÕßÖ÷¼ü Ôò²»»á½øÐÐÐÂÔö
-		
-	  INSERT   into user (name,age) values( "name",30) ON DUCPLICATE KEY UPDATE time= now() µ±ÐÂÔöÓÐÎ¨Ò»Ë÷Òý µ±²»´æÔÚÊ±ºò ÐÂÔö³É¹¦ ´æÔÚÊ±ºò Ö´ÐÐupdateÓï¾ä
-
-	  insert into  user (name ,age) select 'tomm',30 from dual where not exist (select name from user where age =30) µ±´æÔÚ30 ²»²åÈë
-	
-	 replace into user (name ,age) values("tomm",30) µ±´æÔÚÊ±ºò É¾³ý  Öµ´æÔÚÊ±ºòÌæ»»ÐÂµÄÏàµ±ÓÚ deleteºÍinsert
-	 
-	 
-28 Ô¶³Ì²é¿´jvm 
-    1 ±à¼­ $JAVA_HOME/jre/lib/security/java.policy ÎÄ¼þ£¬ÔÚ×îºóÌí¼Ó permission java.security.AllPermission;	 
-	»òÕß ÔÚ $JAVA_HOME/bin ÏÂ´´½¨°²È«²ßÂÔÎÄ¼þ£¬ÃüÃûÎª jstatd.all.policy£¬ÄÚÈÝÈçÏÂ£º
-	   grant codebase "file:${java.home}/../lib/tools.jar" {
-
-		   permission java.security.AllPermission;
-
-		};
-	3 jstatd -J-Djava.security.policy=jstatd.all.policy -J-Djava.rmi.server.hostname=xxx.xx.xx.xx 	
-	
-29 javaµÄ !a&&!b ¿ÉÒÔÓÅ»¯³É!(a||b)	
-
-30  Æµ·±GCÎÊÌâ»òÄÚ´æÒç³öÎÊÌâ
-	Ò»¡¢Ê¹ÓÃjps²é¿´Ïß³ÌID
-
-	¶þ¡¢Ê¹ÓÃjstat -gc 3331 250 20 ²é¿´gcÇé¿ö£¬Ò»°ã±È½Ï¹Ø×¢PERMÇøµÄÇé¿ö£¬²é¿´GCµÄÔö³¤Çé¿ö¡£
-
-	Èý¡¢Ê¹ÓÃjstat -gccause£º¶îÍâÊä³öÉÏ´ÎGCÔ­Òò
-
-	ËÄ¡¢Ê¹ÓÃjmap -dump:format=b,file=heapDump 3331Éú³É¶Ñ×ª´¢ÎÄ¼þ
-
-	Îå¡¢Ê¹ÓÃjhat»òÕß¿ÉÊÓ»¯¹¤¾ß£¨Eclipse Memory Analyzer ¡¢IBM HeapAnalyzer£©·ÖÎö¶ÑÇé¿ö¡£
-
-	Áù¡¢½áºÏ´úÂë½â¾öÄÚ´æÒç³ö»òÐ¹Â¶ÎÊÌâ¡£
-	
-31 Ì°À·Ä£Ê½ ¶ÀÕ¼Ä£Ê½ ¶èÐÔÄ£Ê½  Ì°À· ¾¡¿ÉÄÜÆ¥Åä¶à¸ö´ÊÓï +? ¶èÐÔÄ£Ê½ ¾¡¿ÉÄÜÉÙÆ¥Åä´ÊÓï? »á·¢Éú»ØËÝ
- ¡°Ì°À·µÄ¡±ÊÇÒòÎªÆ¥ÅäÆ÷±»Ç¿ÖÆÒªÇóµÚÒ»´Î³¢ÊÔÆ¥ÅäÊ±¶ÁÈëÕû¸öÊäÈë´®£¬Èç¹ûµÚÒ»´Î³¢ÊÔÆ¥ÅäÊ§°Ü£¬Ôò´ÓºóÍùÇ°Öð¸ö×Ö·ûµØ»ØÍË²¢³¢ÊÔÔÙ´ÎÆ¥Åä£¬Ö±µ½Æ¥Åä³É¹¦»òÃ»ÓÐ×Ö·û¿É»ØÍË
-  ¶ÀÕ¼Ä£Ê½ £¬³¢ÊÔÒ»´Î(½öÇÒÒ»´Î)Æ¥Åä³É¹¦£¬²»ÏñGreedy£¬Possessive´Ó²»»ØÍË£¬¼´±ãÕâÑù×öÒ²¿ÉÄÜÊ¹ÕûÌåÆ¥Åä³É¹¦¡£ Ê¹ÓÃ+
-  
-32 ³¤Á¬½Ó£¬pushÒ»ÀàµÄº£Á¿·þÎñ¶ËÓ¦ÓÃ£¬16GÄÚ´æ8ºËÐÄ£¬ÍÆ¼öµÄJVM²ÎÊýÈçÏÂ
-
-	java1.7  -Xms13g -Xmx13g -Xss512k -XX:PermSize=384m -XX:MaxPermSize=384m -XX:NewSize=12g -XX:MaxNewSize=12g 
-	-XX:SurvivorRatio=18 -XX:MaxDirectMemorySize=2g -XX:+UseParNewGC -XX:ParallelGCThreads=4 
-	-XX:MaxTenuringThreshold=15 -XX:+CMSParallelRemarkEnabled -XX:+CMSScavengeBeforeRemark -XX:+UseConcMarkSweepGC
-	-XX:+DisableExplicitGC -XX:+UseCMSInitiatingOccupancyOnly -XX:CMSInitiatingOccupancyFraction=70 
-	-XX:+ScavengeBeforeFullGC -XX:+UseCMSCompactAtFullCollection -XX:CMSFullGCsBeforeCompaction=9  
-	-XX:+CMSClassUnloadingEnabled  -XX:CMSInitiatingPermOccupancyFraction=70 -XX:+ExplicitGCInvokesConcurrent  
-	-XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+PrintGCApplicationConcurrentTime -XX:+PrintHeapAtGC 
-	-Xloggc:/data/applogs/heap_trace.txt -XX:-HeapDumpOnOutOfMemoryError 
-	-XX:HeapDumpPath=/data/applogs/HeapDumpOnOutOfMemoryError
-   
-   java1.8 -Xms13g -Xmx13g -Xss512k -XX:MetaspaceSize=384m -XX:MaxMetaspaceSize=384m -XX:NewSize=11g -XX:MaxNewSize=11g -XX:SurvivorRatio=18 -XX:MaxDirectMemorySize=2g -XX:+UseParNewGC -XX:ParallelGCThreads=4 -XX:MaxTenuringThreshold=15 -XX:+UseConcMarkSweepGC -XX:+DisableExplicitGC -XX:+UseCMSInitiatingOccupancyOnly -XX:+ScavengeBeforeFullGC -XX:+CMSScavengeBeforeRemark -XX:+CMSParallelRemarkEnabled -XX:CMSInitiatingOccupancyFraction=70 -XX:+CMSClassUnloadingEnabled -XX:SoftRefLRUPolicyMSPerMB=0 -XX:-ReduceInitialCardMarks -XX:+CMSClassUnloadingEnabled -XX:+ExplicitGCInvokesConcurrent -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+PrintGCApplicationConcurrentTime -XX:+PrintHeapAtGC -Xloggc:/data/applogs/heap_trace.txt -XX:-HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/data/applogs/HeapDumpOnOutOfMemoryError"
-   
-   
-33   -XX:MetaspaceSize    ´¥·¢FGCµÄãÐÖµ¾ÍÊÇÅäÖÃµÄÖµ Ã»ÓÐÅäÖÃ ´¥·¢FGCµÄãÐÖµÊÇ21807104£¨Ô¼20.8m£©£¬¿ÉÒÔÍ¨¹ýjinfo -flag MetaspaceSize pidµÃµ½Õâ¸öÖµ
-     Èç¹ûOldÇøÅäÖÃCMSÀ¬»ø»ØÊÕ£¬ÄÇÃ´À©ÈÝÒýÆðµÄFGCÒ²»áÊ¹ÓÃCMSËã·¨½øÐÐ»ØÊÕ£»
-     
-  
-  
+Pull requests
+Issues
+Marketplace
+Explore
+ @nessary Sign out
+1
+0 2 nessary/other_workplace
+ Code  Issues 0  Pull requests 0  Projects 0  Wiki  Insights  Settings
+ Weâ€™ve detected the file encoding as GB18030. When you commit changes we will transcode it to UTF-8.
+other_workplace/study/å­¦ä¹ å¿ƒå¾—/ 
+javaä¼˜åŒ–æ•´ç†.txt
+  or cancel
+ Indent modeIndent sizeLine wrap mode
+1
+1. æ°´å¹³æƒé™æ¼æ´žçš„ä¿®å¤æ–¹æ¡ˆ
+2
+        æ°´å¹³æƒé™æ¼æ´žä¸€èˆ¬å‡ºçŽ°åœ¨ä¸€ä¸ªç”¨æˆ·å¯¹è±¡å…³è”å¤šä¸ªå…¶ä»–å¯¹è±¡ï¼ˆè®¢å•ã€åœ°å€ç­‰ï¼‰ã€å¹¶ä¸”è¦å®žçŽ°å¯¹å…³è”å¯¹è±¡çš„CRUDçš„æ—¶å€™ã€‚å¼€å‘å®¹æ˜“ä¹ æƒ¯æ€§çš„åœ¨ç”ŸæˆCRUDè¡¨å•ï¼ˆæˆ–AJAXè¯·æ±‚ï¼‰çš„æ—¶å€™æ ¹æ®è®¤è¯è¿‡çš„ç”¨æˆ·èº«ä»½æ¥æ‰¾å‡ºå…¶æœ‰æƒé™çš„è¢«æ“ä½œå¯¹è±¡idï¼Œæä¾›å…¥å£ï¼Œç„¶åŽè®©ç”¨æˆ·æäº¤è¯·æ±‚ï¼Œå¹¶æ ¹æ®è¿™ä¸ªidæ¥æ“ä½œç›¸å…³å¯¹è±¡ã€‚åœ¨å¤„ç†CRUDè¯·æ±‚æ—¶ï¼Œå¾€å¾€é»˜è®¤åªæœ‰æœ‰æƒé™çš„ç”¨æˆ·æ‰èƒ½å¾—åˆ°å…¥å£ï¼Œè¿›è€Œæ‰èƒ½æ“ä½œç›¸å…³å¯¹è±¡ï¼Œå› æ­¤å°±ä¸å†æ ¡éªŒæƒé™äº†ã€‚å¯æ‚²å‰§çš„æ˜¯å¤§å¤šæ•°å¯¹è±¡çš„IDéƒ½è¢«è®¾ç½®ä¸ºè‡ªå¢žæ•´åž‹ï¼Œæ‰€ä»¥æ”»å‡»è€…åªè¦å¯¹ç›¸å…³idåŠ 1ã€å‡1ã€ç›´è‡³éåŽ†ï¼Œå°±å¯ä»¥æ“ä½œå…¶ä»–ç”¨æˆ·æ‰€å…³è”çš„å¯¹è±¡äº†ã€‚
+3
+         
+4
+        æ°´å¹³æƒé™æ¼æ´žçš„åŽŸç†çœ‹ä¼¼ç®€å•ï¼Œä½†ä»–å’Œå¼€å‘çš„æ€ç»´ã€ç¼–ç ä¹ æƒ¯åˆšå¥½ç›¸åï¼Œå› æ­¤ä¼šç»å¸¸å†’å‡ºæ¥ã€‚å°¤å…¶æ˜¯WAPå’ŒAJAXæŽ¥å£ï¼Œå¼€å‘è€…å¾€å¾€ä¸æŠŠè¿™äº›æŽ¥å£å½“ä½œHTTPè¯·æ±‚çœ‹ï¼Œå¢žåŠ äº†å¾ˆå¤šå…¶å®žä¸å­˜åœ¨çš„æœ‰åˆ©äºŽå®‰å…¨å‡è®¾æ¡ä»¶ï¼Œä»Žè€Œå¯¼è‡´æ›´åŠ å¿½è§†å¯¹æƒé™çš„é‰´åˆ«ã€‚
+5
+         
+6
+        å› ä¸ºè¿™ç±»å…³è”å¯¹è±¡çš„æ“ä½œéƒ½å’Œä¸šåŠ¡ç›¸å…³ï¼Œä¸”æŽ¥å£ç‹¬ç«‹ï¼Œæ‰€ä»¥å¾ˆéš¾å®žçŽ°é€šç”¨çš„é¢„é˜²æˆ–è§£å†³æ–¹æ¡ˆï¼Œè¿™ä¹Ÿæ˜¯è¿™ç±»æ¼æ´žè®©äººå¤´ç–¼çš„åŽŸå› ä¹‹ä¸€ã€‚ä»Šå¤©åœ¨ä¿®å¤ä¸€ä¸ªæ°´å¹³æƒé™æ¼æ´žæ—¶ï¼Œç»™å¼€å‘åŒå­¦ä»‹ç»äº†ä¸‹æ°´å¹³æƒé™æ¼æ´žçš„ä¿®å¤æ–¹æ¡ˆï¼Œè€Œå¼€å‘åŒå­¦åˆæå‡ºäº†ä¸€ä¸ªæˆ‘ä¹‹å‰æ²¡æƒ³è¿‡çš„æ–¹æ³•ï¼Œå› æ­¤å†³å®šä¸€èµ·æ•´ç†å‡ºæ¥ã€‚
+7
+         
+8
+        æ¼æ´žç¤ºä¾‹ï¼š
+9
+        getAddress.do?addressId=12345
+10
+        æ”»å‡»è€…ä¿®æ”¹addressIdå³å¯å¾—åˆ°ä»–äººçš„addressä¿¡æ¯ã€‚
+11
+         
+12
+        ä¿®å¤æ–¹æ¡ˆ0ï¼š
+13
+        å…ˆçœ‹ä¸€ä¸ªæœ‰é—®é¢˜çš„æ–¹æ¡ˆï¼šå°†addressidæ”¹æˆä¸€ä¸ªå…·æœ‰ä¸€å®šé•¿åº¦çš„éšæœºå­—ç¬¦ä¸²ï¼Œå¦‚5d41402abc4b2a76b9719d911017c592ï¼Œè®¤ä¸ºåªæœ‰æœ‰æƒé™çš„äººæ‰èƒ½å¾—åˆ°è¿™ä¸ªå…¥å£ï¼Œè€Œä¸”ä¸èƒ½é€šè¿‡åŠ 1ã€å‡1çš„æ–¹å¼é¢„æµ‹åˆ«äººçš„å…¥å£ï¼Œå› æ­¤ä¸å†åšè¿›ä¸€æ­¥çš„æƒé™æ£€æŸ¥ï¼ˆå¾ˆå¤šåˆçº§çš„æ‹›è˜é¡µé¢éƒ½æ˜¯ä»¥è¿™ç§æ–¹å¼æ¥ç®¡ç†ç®€åŽ†çš„ï¼‰ã€‚è¿™ä¸ªæ–¹æ¡ˆçœ‹ä¸ŠåŽ»æ²¡æœ‰é—®é¢˜ï¼Œå¯æ˜¯å’Œå›½å†…çš„çŽ¯å¢ƒç»“åˆèµ·æ¥å°±ä¼šæ‚²å‰§â€”â€”è‡³å°‘æˆ‘é‡åˆ°è¿‡çš„ï¼Œæœç‹—æµè§ˆå™¨ä¼šæŠŠç”¨æˆ·å‘é€çš„è¯·æ±‚ä¸Šä¼ åˆ°æœåŠ¡å™¨ä¸Šï¼Œä½œä¸ºå…¶æœç´¢å¼•æ“Žçˆ¬è™«çš„çˆ¬å–æºï¼Œè¿™æ ·çˆ¬è™«å°±ä¼šé€šå‘ŠæŸ¥è¯¢æ“ä½œå¾—åˆ°ç›¸å…³çš„å¯¹è±¡ä¿¡æ¯ï¼Œå¹¶å±•ç¤ºåœ¨æœç´¢å¼•æ“Žä¸Šï¼Œå¦‚æžœå¯¹è±¡ä¿¡æ¯åŒ…å«æ•æ„Ÿå†…å®¹ï¼Œåˆ™äº§ç”Ÿéšç§æ³„éœ²çš„å®‰å…¨äº‹ä»¶ã€‚
+14
+         
+15
+        ä¿®å¤æ–¹æ¡ˆ1ï¼š
+16
+        è¿™ä¸ªæ˜¯æœ€ç›´æŽ¥æœ‰æ•ˆçš„ä¿®å¤æ–¹æ¡ˆï¼šåœ¨webå±‚çš„é€»è¾‘ä¸­åšé‰´æƒï¼Œæ£€æŸ¥æäº¤CRUDè¯·æ±‚çš„æ“ä½œè€…ï¼ˆé€šè¿‡sessionä¿¡æ¯å¾—åˆ°ï¼‰ä¸Žç›®æ ‡å¯¹è±¡çš„æƒé™æ‰€æœ‰è€…ï¼ˆæŸ¥æ•°æ®åº“ï¼‰æ˜¯å¦ä¸€è‡´ï¼Œå¦‚æžœä¸ä¸€è‡´åˆ™é˜»æ–­ã€‚è¿™ä¸ªæ–¹æ¡ˆå®žçŽ°æˆæœ¬ä½Žã€èƒ½ç¡®ä¿æ¼æ´žçš„ä¿®å¤è´¨é‡ï¼Œç¼ºç‚¹æ˜¯å¢žåŠ äº†ä¸€æ¬¡æŸ¥åº“æ“ä½œã€‚æˆ‘ä¹‹å‰ä¸€ç›´ç”¨è¿™ç§æ–¹æ¡ˆæ¥å¯¹å·²å‘ç”Ÿçš„æ°´å¹³æƒé™æ¼æ´žåšç´§æ€¥ä¿®å¤ã€‚
+17
+         
+18
+        ä¿®å¤æ–¹æ¡ˆ2ï¼š
+19
+        æˆ‘è®¤ä¸ºæœ€æ­£è§„çš„æ–¹æ¡ˆï¼šæŠŠæƒé™çš„æŽ§åˆ¶è½¬ç§»åˆ°æ•°æ®æŽ¥å£å±‚ä¸­ï¼Œé¿å…å‡ºçŽ°select/update/delete ... where addressID=#addressID#çš„SQLè¯­å¥ï¼Œä½¿ç”¨selectt/update/delete... where addressID=#addressID# and ownerId=#userId#æ¥ä»£æ›¿ï¼Œè¦æ±‚webå±‚åœ¨è°ƒç”¨æ•°æ®æŽ¥å£å±‚çš„æŽ¥å£æ—¶é¢å¤–æä¾›useridï¼Œè€Œè¿™ä¸ªuseridåœ¨webå±‚çœ‹æ¥åªèƒ½é€šè¿‡seesionæ¥å–åˆ°ã€‚è¿™æ ·åœ¨é¢å¯¹æ°´å¹³æƒé™æ”»å‡»æ—¶ï¼Œwebå±‚çš„å¼€å‘è€…ä¸ç”¨é¢å¤–èŠ±ç²¾åŠ›åŽ»æ³¨æ„é‰´æƒçš„äº‹æƒ…ï¼Œä¹Ÿä¸éœ€è¦å¢žåŠ ä¸€ä¸ªSQLæ¥ä¸“é—¨åˆ¤æ–­æƒé™â€”â€”å¦‚æžœæƒé™ä¸å¯¹çš„è¯ï¼Œé‚£ä¸ªandæ¡ä»¶å°±æ»¡è¶³ä¸äº†ï¼ŒSQLè‡ªç„¶å°±æ‰¾ä¸åˆ°ç›¸å…³å¯¹è±¡åŽ»æ“ä½œã€‚è€Œä¸”è¿™ä¸ªæ–¹æ¡ˆå¯¹äºŽä¸€ä¸ªæŽ¥å£å¤šä¸ªåœ°æ–¹ä½¿ç”¨çš„æƒ…å†µä¹Ÿæ¯”è¾ƒæœ‰åˆ©ï¼Œä¸éœ€è¦æ¯ä¸ªåœ°æ–¹éƒ½é‰´æƒäº†ã€‚ä½†è¿™ä¸ªæ–¹æ¡ˆçš„ç¼ºé™·åœ¨äºŽå®žçŽ°èµ·æ¥è¦æ”¹åŠ¨åº•å±‚çš„è®¾è®¡ï¼Œæ‰€ä»¥ä¸é€‚åˆä½œä¸ºä¿®å¤æ–¹æ¡ˆï¼Œæ›´é€‚åˆä½œä¸ºç»Ÿä¸€çš„æŽ§åˆ¶æ–¹æ¡ˆåœ¨æœ€å¼€å§‹è®¾è®¡æ—¶å°±æ³¨æ„è¿™æ–¹é¢çš„é—®é¢˜ã€‚
+20
+         
+21
+        ä¿®å¤æ–¹æ¡ˆ3ï¼š
+22
+        ä»Šå¤©å¼€å‘åŒå­¦æåˆ°ä¸€ç§æˆ‘ä¹‹å‰æ²¡æƒ³åˆ°è¿‡çš„æ–¹å¼ï¼Œå®žé™…ä¸Šæ˜¯å¯¹æ–¹æ¡ˆ1çš„ä¿®æ”¹ï¼šåœ¨ç”Ÿæˆè¡¨å•æ—¶ï¼Œå¢žåŠ ä¸€ä¸ªtokenå‚æ•°ï¼Œè€Œtoken=md5(addressId+sessionId+key)ï¼›åœ¨å¤„ç†è¯·æ±‚æ—¶ï¼Œç”¨addressIdã€sessionIdå’Œkeyæ¥éªŒè¯tokenã€‚è¿™æ ·çš„æ–¹æ¡ˆå®žçŽ°èµ·æ¥å¾ˆç®€å•ï¼Œåˆä¸å¢žåŠ é¢å¤–çš„SQLæŸ¥è¯¢å¼€é”€ï¼Œçœ‹èµ·æ¥æ¯”æ–¹æ¡ˆ1æ›´å¥½ã€‚å¯æˆ‘ä¹‹å‰æ²¡æœ‰æƒ³åˆ°è¿‡è¿™ç§æ–¹æ¡ˆï¼Œä¹ä¸€çœ‹åˆæ˜¯æŠŠé‰´æƒå’Œæ“ä½œè¿™ä¸€ä¸²åŒæ­¥çš„æ“ä½œå¼‚æ­¥åŒ–äº†ï¼ˆå®žé™…ä¸Šæ˜¯åœ¨ç”Ÿæˆè¡¨å•çš„æ—¶å€™é‰´æƒå¹¶ç”Ÿæˆtokenï¼Œç„¶åŽåœ¨æ“ä½œæ—¶åªéªŒè¯tokenè€Œä¸é‰´æƒï¼‰ï¼Œæ‰€ä»¥ä¸€æ—¶è¿˜æ‹¿ä¸å‡†è¿™æ ·ä¼šä¸ä¼šæœ‰å•¥é—®é¢˜ï½žä¸è¿‡æˆ‘æ˜¯æƒ³äº†åŠå¤©ä¹Ÿæ‰¾ä¸åˆ°æ¼æ´žå“ˆï½ž
+23
+         
+24
+        ä¿®å¤æ–¹æ¡ˆ4ï¼š
+25
+        æŠŠè¿™ç§å±žä¸»ã€æƒé™ã€å¯¹è±¡ã€æ“ä½œçš„åœºæ™¯æŠ½è±¡æˆä¸€ä¸ªç»Ÿä¸€çš„æ¡†æž¶ï¼Œåœ¨æ¡†æž¶å†…ä¸€ä¸ªåœ°æ–¹å®žçŽ°æƒé™çš„ç®¡ç†å’Œæ£€æŸ¥ã€‚å½“ç„¶è¿™ä¸ªè¯´èµ·æ¥æœ‰ç‚¹æ‰¯æ·¡äº†ï¼Œåœ¨äº§å“è®¾è®¡é˜¶æ®µæ˜¯ä¸æ˜¯æœ‰äººæ„¿æ„èŠ±å¤§æˆæœ¬æ¥è®¾è®¡ç›¸å…³æ¡†æž¶å‘¢ï¼Ÿå¦‚æžœæœ€å¼€å§‹æ²¡æœ‰æ¡†æž¶ï¼Œé‚£ä¹ˆä»€ä¹ˆæ—¶å€™æ„¿æ„èŠ±æ›´å¤§çš„æˆæœ¬åŽ»è¿ç§»å‘¢ï¼Ÿæˆ‘æƒ³æœ€ç»ˆè¿˜æ˜¯ä¼šæŒ‰æ–¹æ¡ˆ1ã€2ã€3æ¥å§ã€‚
+26
+         
+27
+        åŽŸæ–‡ï¼šhttp://hi.baidu.com/kussa/item/a85912058445c7dcdce5b01d
+28
+         
+29
+         
+30
+        å¦å¤–çš„æ–¹æ³•ï¼š
+31
+        1ã€å¯å¯¹IDåŠ å¯†
+32
+        2ã€ä½¿ç”¨GUID
+33
+        3ã€æ¯ä¸€ä¸ªä¿¡æ¯å¢žåŠ ä¸€ä¸ªå‘å¸ƒäººçš„å­—æ®µï¼Œä¿®æ”¹çš„äººå¿…é¡»ä¸Žå‘å¸ƒçš„äººä¸ºåŒä¸€ä¸ªäººæ‰å¯ä»¥è®¿é—®
+34
+        
+35
+        
+36
+â€‹
+37
+2 åž‚ç›´æƒé™æ”»å‡»
+38
+        åž‚ç›´æƒé™æ”»å‡»åˆå«åšæƒé™æå‡æ”»å‡»ã€‚å…¶åŽŸç†æ˜¯ç”±äºŽWebåº”ç”¨æ²¡æœ‰åšæƒé™æŽ§åˆ¶ï¼Œæˆ–ä»…ä»…åœ¨èœå•ä¸Šåšäº†æƒé™æŽ§åˆ¶ï¼Œå¯¼è‡´æ¶æ„ç”¨æˆ·åªè¦çŒœæµ‹å…¶ä»–ç®¡ç†é¡µé¢çš„URLï¼Œå°±å¯ä»¥è®¿é—®æˆ–æŽ§åˆ¶å…¶ä»–è§’è‰²æ‹¥æœ‰çš„æ•°æ®æˆ–é¡µé¢ï¼Œè¾¾åˆ°æƒé™æå‡çš„ç›®çš„ã€‚
+39
+â€‹
+40
+        æ”»å‡»
+@nessary
+Commit changes
+Commit summary 
+Update javaä¼˜åŒ–æ•´ç†.txt
+Optional extended description
+Add an optional extended descriptionâ€¦
+  Commit directly to the master branch.
+  Create a new branch for this commit and start a pull request. Learn more about pull requests.
+ 
+Â© 2019 GitHub, Inc.
+Terms
+Privacy
+Security
+Status
+Help
+Contact GitHub
+Pricing
+API
+Training
+Blog
+About
+Press h to open a hovercard with more details.

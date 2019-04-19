@@ -1,0 +1,76 @@
+.container{
+  padding-bottom: 100rpx;
+}
+page{
+  background: #fff;
+}
+.scroll-box{
+  width: 702rpx;
+  margin: 30rpx auto;
+}
+.questionWrap{
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  font-size: 32rpx;
+  color: rgb(52, 52, 52);
+  border-bottom: 2rpx solid #f4f4f4;
+  padding-bottom: 30rpx;
+}
+.questionWrap .img, .answerWrap .img{
+  width: 41rpx;
+  height: 37rpx;
+  margin-right: 30rpx;
+}
+.answerWrap{
+  display: flex;
+  /* align-items: baseline; */
+  /* justify-content: flex-start; */
+  font-size: 26rpx;
+  color: rgb(132, 132, 132);
+  padding: 30rpx 0;
+}
+.answerWrap .content{
+  width: 628rpx;
+}
+.evaluation{
+  width: 750rpx;
+  height: 2rpx;
+  background-color: #f4f4f4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgb(107, 107, 107);
+  font-size: 28rpx;
+}
+.evaluation .info{
+  width: 400rpx;
+  background-color: #fff;
+  text-align: center;
+}
+.btnWrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  margin-top: 100rpx;
+}
+.btnWrap .btn{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 198rpx;
+  height: 66rpx;
+  border: 2rpx solid rgb(253, 67, 116);
+  border-radius: 34rpx;
+  color: rgb(253, 67, 116);
+  font-size: 24rpx;
+}
+.btnWrap .btn .img{
+  width: 36rpx;
+  height: 36rpx;
+  margin-right: 20rpx;
+}
+.userfulWrap{
+  text-align: center;
+  margin-top: 100rpx;
+}

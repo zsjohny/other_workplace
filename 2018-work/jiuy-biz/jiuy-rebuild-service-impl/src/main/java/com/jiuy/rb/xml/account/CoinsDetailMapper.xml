@@ -1,0 +1,404 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" > 
+<mapper namespace="com.jiuy.rb.mapper.account.CoinsDetailMapper"> 
+ 
+ 	<!-- 主要的返回映射-->
+	<resultMap id="BaseResultMap" type="com.jiuy.rb.model.account.CoinsDetail"	>
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="coins_id"  property="coinsId"  jdbcType="BIGINT" />
+		<result column="coins_detail_id"  property="coinsDetailId"  jdbcType="BIGINT" />
+		<result column="in_out"  property="inOut"  jdbcType="INTEGER" />
+		<result column="TYPE"  property="type"  jdbcType="INTEGER" />
+		<result column="order_no"  property="orderNo"  jdbcType="VARCHAR" />
+		<result column="COUNT"  property="count"  jdbcType="BIGINT" />
+		<result column="deadline"  property="deadline"  jdbcType="TIMESTAMP" />
+		<result column="STATUS"  property="status"  jdbcType="INTEGER" />
+		<result column="create_time"  property="createTime"  jdbcType="BIGINT" />
+		<result column="update_time"  property="updateTime"  jdbcType="BIGINT" />
+		<result column="target_id"  property="targetId"  jdbcType="BIGINT" />
+		<result column="description"  property="description"  jdbcType="VARCHAR" />
+		<result column="note"  property="note"  jdbcType="VARCHAR" />
+		<result column="is_lost"  property="isLost"  jdbcType="INTEGER" />
+	</resultMap>
+
+	<!-- 所有的列名-->
+	<sql id="Base_Column_List" >
+		id,coins_id,coins_detail_id,in_out,TYPE,order_no,COUNT,deadline,STATUS,
+		create_time,update_time,target_id,description,note,is_lost
+	</sql>
+
+	<!-- 精确更新的字段-->
+	<sql id="updateBase">
+		<if test="id  !=null">
+			id = #{id,jdbcType=BIGINT}, 
+		</if>
+		<if test="coinsId  !=null">
+			coins_id = #{coinsId,jdbcType=BIGINT}, 
+		</if>
+		<if test="coinsDetailId  !=null">
+			coins_detail_id = #{coinsDetailId,jdbcType=BIGINT}, 
+		</if>
+		<if test="inOut  !=null">
+			in_out = #{inOut,jdbcType=INTEGER}, 
+		</if>
+		<if test="type  !=null">
+			TYPE = #{type,jdbcType=INTEGER}, 
+		</if>
+		<if test="orderNo  !=null">
+			order_no = #{orderNo,jdbcType=VARCHAR}, 
+		</if>
+		<if test="count  !=null">
+			COUNT = #{count,jdbcType=BIGINT}, 
+		</if>
+		<if test="deadline  !=null">
+			deadline = #{deadline,jdbcType=TIMESTAMP}, 
+		</if>
+		<if test="status  !=null">
+			STATUS = #{status,jdbcType=INTEGER}, 
+		</if>
+		<if test="createTime  !=null">
+			create_time = #{createTime,jdbcType=BIGINT}, 
+		</if>
+		<if test="updateTime  !=null">
+			update_time = #{updateTime,jdbcType=BIGINT}, 
+		</if>
+		<if test="targetId  !=null">
+			target_id = #{targetId,jdbcType=BIGINT}, 
+		</if>
+		<if test="description  !=null">
+			description = #{description,jdbcType=VARCHAR}, 
+		</if>
+		<if test="note  !=null">
+			note = #{note,jdbcType=VARCHAR}, 
+		</if>
+		<if test="isLost  !=null">
+			is_lost = #{isLost,jdbcType=INTEGER} 
+		</if>
+	</sql>
+
+	<!-- 通过主键查找-->
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="Long" >
+		select 
+		<include refid="Base_Column_List" />
+		from yjj_coins_detail
+		where  id = #{id,jdbcType=BIGINT} 
+	</select>
+
+	<!-- 通过主键删除-->
+	<delete id="deleteByPrimaryKey" parameterType="Long" >
+		delete from yjj_coins_detail
+		where id = #{id,jdbcType=BIGINT} 
+	</delete>
+
+	<!-- 普通插入全字段插t入-->
+	<insert id="insert" parameterType="com.jiuy.rb.model.account.CoinsDetail" >
+		insert into yjj_coins_detail
+		(
+			id,
+			coins_id,
+			coins_detail_id,
+			in_out,
+			TYPE,
+			order_no,
+			COUNT,
+			deadline,
+			STATUS,
+			create_time,
+			update_time,
+			target_id,
+			description,
+			note,
+			is_lost
+		)
+		values
+		(
+			#{id ,jdbcType=BIGINT},
+			#{coinsId ,jdbcType=BIGINT},
+			#{coinsDetailId ,jdbcType=BIGINT},
+			#{inOut ,jdbcType=INTEGER},
+			#{type ,jdbcType=INTEGER},
+			#{orderNo ,jdbcType=VARCHAR},
+			#{count ,jdbcType=BIGINT},
+			#{deadline ,jdbcType=TIMESTAMP},
+			#{status ,jdbcType=INTEGER},
+			#{createTime ,jdbcType=BIGINT},
+			#{updateTime ,jdbcType=BIGINT},
+			#{targetId ,jdbcType=BIGINT},
+			#{description ,jdbcType=VARCHAR},
+			#{note ,jdbcType=VARCHAR},
+			#{isLost ,jdbcType=INTEGER}
+		)
+	</insert>
+
+	<!-- 批量插入，全部字段插入-->
+	<insert id="insertBach"   parameterType="List" >
+		insert into yjj_coins_detail
+		(
+			id,
+			coins_id,
+			coins_detail_id,
+			in_out,
+			TYPE,
+			order_no,
+			COUNT,
+			deadline,
+			STATUS,
+			create_time,
+			update_time,
+			target_id,
+			description,
+			note,
+			is_lost
+		)
+		values 
+		<foreach collection="list" item="item" separator=",">
+		(
+			#{item.id ,jdbcType=BIGINT},
+			#{item.coinsId ,jdbcType=BIGINT},
+			#{item.coinsDetailId ,jdbcType=BIGINT},
+			#{item.inOut ,jdbcType=INTEGER},
+			#{item.type ,jdbcType=INTEGER},
+			#{item.orderNo ,jdbcType=VARCHAR},
+			#{item.count ,jdbcType=BIGINT},
+			#{item.deadline ,jdbcType=TIMESTAMP},
+			#{item.status ,jdbcType=INTEGER},
+			#{item.createTime ,jdbcType=BIGINT},
+			#{item.updateTime ,jdbcType=BIGINT},
+			#{item.targetId ,jdbcType=BIGINT},
+			#{item.description ,jdbcType=VARCHAR},
+			#{item.note ,jdbcType=VARCHAR},
+			#{item.isLost ,jdbcType=INTEGER}
+		)
+		</foreach>
+	</insert>
+
+	<!-- 精确插入，非null得字段才会插入-->
+	<insert id="insertSelective" parameterType="com.jiuy.rb.model.account.CoinsDetail" useGeneratedKeys="true" keyProperty="id" >
+		insert into yjj_coins_detail
+		<trim prefix="(" suffix=")" suffixOverrides="," > 
+			<if test="id !=null">  
+				id,
+			</if>
+			<if test="coinsId !=null">  
+				coins_id,
+			</if>
+			<if test="coinsDetailId !=null">  
+				coins_detail_id,
+			</if>
+			<if test="inOut !=null">  
+				in_out,
+			</if>
+			<if test="type !=null">  
+				TYPE,
+			</if>
+			<if test="orderNo !=null">  
+				order_no,
+			</if>
+			<if test="count !=null">  
+				COUNT,
+			</if>
+			<if test="deadline !=null">  
+				deadline,
+			</if>
+			<if test="status !=null">  
+				STATUS,
+			</if>
+			<if test="createTime !=null">  
+				create_time,
+			</if>
+			<if test="updateTime !=null">  
+				update_time,
+			</if>
+			<if test="targetId !=null">  
+				target_id,
+			</if>
+			<if test="description !=null">  
+				description,
+			</if>
+			<if test="note !=null">  
+				note,
+			</if>
+			<if test="isLost !=null">  
+				is_lost,
+			</if>
+		</trim>
+
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+			<if test="id  !=null">
+				#{id,jdbcType=BIGINT}, 
+			</if>
+			<if test="coinsId  !=null">
+				#{coinsId,jdbcType=BIGINT}, 
+			</if>
+			<if test="coinsDetailId  !=null">
+				#{coinsDetailId,jdbcType=BIGINT}, 
+			</if>
+			<if test="inOut  !=null">
+				#{inOut,jdbcType=INTEGER}, 
+			</if>
+			<if test="type  !=null">
+				#{type,jdbcType=INTEGER}, 
+			</if>
+			<if test="orderNo  !=null">
+				#{orderNo,jdbcType=VARCHAR}, 
+			</if>
+			<if test="count  !=null">
+				#{count,jdbcType=BIGINT}, 
+			</if>
+			<if test="deadline  !=null">
+				#{deadline,jdbcType=TIMESTAMP}, 
+			</if>
+			<if test="status  !=null">
+				#{status,jdbcType=INTEGER}, 
+			</if>
+			<if test="createTime  !=null">
+				#{createTime,jdbcType=BIGINT}, 
+			</if>
+			<if test="updateTime  !=null">
+				#{updateTime,jdbcType=BIGINT}, 
+			</if>
+			<if test="targetId  !=null">
+				#{targetId,jdbcType=BIGINT}, 
+			</if>
+			<if test="description  !=null">
+				#{description,jdbcType=VARCHAR}, 
+			</if>
+			<if test="note  !=null">
+				#{note,jdbcType=VARCHAR}, 
+			</if>
+			<if test="isLost  !=null">
+				#{isLost,jdbcType=INTEGER} 
+			</if>
+		</trim>
+	</insert> 
+
+	<!-- 精确更新-->
+	<update id="updateByPrimaryKeySelective" parameterType="com.jiuy.rb.model.account.CoinsDetail" >
+		update yjj_coins_detail
+		<set>
+			<include refid="updateBase"/>
+		</set>
+		where id = #{id,jdbcType=BIGINT} 
+	</update> 
+
+	<!-- 全字段更新 需要注意-->
+	<update id="updateByPrimaryKey" parameterType="com.jiuy.rb.model.account.CoinsDetail" >
+		update yjj_coins_detail
+		set 
+			id = #{id ,jdbcType=BIGINT},
+			coins_id = #{coinsId ,jdbcType=BIGINT},
+			coins_detail_id = #{coinsDetailId ,jdbcType=BIGINT},
+			in_out = #{inOut ,jdbcType=INTEGER},
+			TYPE = #{type ,jdbcType=INTEGER},
+			order_no = #{orderNo ,jdbcType=VARCHAR},
+			COUNT = #{count ,jdbcType=BIGINT},
+			deadline = #{deadline ,jdbcType=TIMESTAMP},
+			STATUS = #{status ,jdbcType=INTEGER},
+			create_time = #{createTime ,jdbcType=BIGINT},
+			update_time = #{updateTime ,jdbcType=BIGINT},
+			target_id = #{targetId ,jdbcType=BIGINT},
+			description = #{description ,jdbcType=VARCHAR},
+			note = #{note ,jdbcType=VARCHAR},
+			is_lost = #{isLost ,jdbcType=INTEGER}
+		where id = #{id,jdbcType=BIGINT} 
+	</update> 
+
+	<!-- 所有的条件集合-->
+	<sql id="whereCase"  >
+		where  1=1 
+		<if test="id  !=null">
+			AND id = #{id,jdbcType=BIGINT} 
+		</if>
+		<if test="coinsId  !=null">
+			AND coins_id = #{coinsId,jdbcType=BIGINT} 
+		</if>
+		<if test="coinsDetailId  !=null">
+			AND coins_detail_id = #{coinsDetailId,jdbcType=BIGINT} 
+		</if>
+		<if test="inOut  !=null">
+			AND in_out = #{inOut,jdbcType=INTEGER} 
+		</if>
+		<if test="type  !=null">
+			AND TYPE = #{type,jdbcType=INTEGER} 
+		</if>
+		<if test="orderNo  !=null">
+			AND order_no = #{orderNo,jdbcType=VARCHAR} 
+		</if>
+		<if test="count  !=null">
+			AND COUNT = #{count,jdbcType=BIGINT} 
+		</if>
+		<if test="deadline  !=null">
+			AND deadline = #{deadline,jdbcType=TIMESTAMP} 
+		</if>
+		<if test="status  !=null">
+			AND STATUS = #{status,jdbcType=INTEGER} 
+		</if>
+		<if test="createTime  !=null">
+			AND create_time = #{createTime,jdbcType=BIGINT} 
+		</if>
+		<if test="updateTime  !=null">
+			AND update_time = #{updateTime,jdbcType=BIGINT} 
+		</if>
+		<if test="targetId  !=null">
+			AND target_id = #{targetId,jdbcType=BIGINT} 
+		</if>
+		<if test="description  !=null">
+			AND description = #{description,jdbcType=VARCHAR} 
+		</if>
+		<if test="note  !=null">
+			AND note = #{note,jdbcType=VARCHAR} 
+		</if>
+		<if test="isLost  !=null">
+			AND is_lost = #{isLost,jdbcType=INTEGER} 
+		</if>
+		<include refid="costomWhereCase"/>
+	</sql>
+
+	<!-- 查询一条，如果返回多条会报错-->
+	<select id="selectOne" parameterType="java.util.Map" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" /> 
+		FROM yjj_coins_detail 
+		<include refid="whereCase" /> 
+	</select>
+
+	<!-- 查询一个list-->
+	<select id="selectList" parameterType="java.util.Map" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" /> 
+		FROM yjj_coins_detail 
+		<include refid="whereCase" /> 
+	</select>
+
+	<!-- 查询一个list-->
+	<select id="selectCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+		SELECT
+		count(1) 
+		FROM yjj_coins_detail
+		<include refid="whereCase" /> 
+	</select>
+
+	<!--  @Costom -->
+	<!-- 从上一行注释以上为系统生成 从这一行往下为用户自定义 请将自定义的sql放在此行下面 -->
+	<sql id="costomWhereCase">
+	</sql>
+
+
+	<!--查询需要释放的玖币-->
+	<select id="selectReleaseOrderCoins" resultMap="BaseResultMap">
+		SELECT
+			<include refid="Base_Column_List" />
+		from yjj_coins_detail
+		where order_no &lt;&gt; '' and type =2 and  `status` = 0 and create_time &lt; #{releaseTime} and is_lost = 0
+	</select>
+
+	<!--状态机来更新数据-->
+	<update id="updateCoinsDetail" >
+		update yjj_coins_detail set `status` = #{toStatus},update_time = UNIX_TIMESTAMP()*1000 where id = #{id} and  `status` = #{status}
+	</update>
+	
+	<select id="sumCount" resultType="Long" parameterType="java.util.Map" >
+		select sum(count) from yjj_coins_detail
+		<include refid="whereCase" />
+	</select>
+</mapper>

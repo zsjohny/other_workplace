@@ -1,0 +1,418 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" > 
+<mapper namespace="com.jiuy.rb.mapper.account.CoinsLogMapper"> 
+ 
+ 	<!-- 主要的返回映射-->
+	<resultMap id="BaseResultMap" type="com.jiuy.rb.model.account.CoinsLog"	>
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="coins_id"  property="coinsId"  jdbcType="BIGINT" />
+		<result column="coins_detail_id"  property="coinsDetailId"  jdbcType="BIGINT" />
+		<result column="before_total_coins"  property="beforeTotalCoins"  jdbcType="BIGINT" />
+		<result column="before_avlied_coins"  property="beforeAvliedCoins"  jdbcType="BIGINT" />
+		<result column="before_unavlied_coins"  property="beforeUnavliedCoins"  jdbcType="BIGINT" />
+		<result column="after_total_coins"  property="afterTotalCoins"  jdbcType="BIGINT" />
+		<result column="after_avlied_coins"  property="afterAvliedCoins"  jdbcType="BIGINT" />
+		<result column="after_unavlied_coins"  property="afterUnavliedCoins"  jdbcType="BIGINT" />
+		<result column="opt_user_id"  property="optUserId"  jdbcType="BIGINT" />
+		<result column="create_time"  property="createTime"  jdbcType="BIGINT" />
+		<result column="status"  property="status"  jdbcType="INTEGER" />
+		<result column="type"  property="type"  jdbcType="INTEGER" />
+		<result column="count"  property="count"  jdbcType="BIGINT" />
+		<result column="in_out"  property="inOut"  jdbcType="INTEGER" />
+		<result column="detail"  property="detail"  jdbcType="VARCHAR" />
+	</resultMap>
+
+	<!-- 所有的列名-->
+	<sql id="Base_Column_List" >
+		id,coins_id,coins_detail_id,before_total_coins,before_avlied_coins,before_unavlied_coins,after_total_coins,after_avlied_coins,after_unavlied_coins,
+		opt_user_id,create_time,status,type,count,in_out,detail
+	</sql>
+
+	<!-- 精确更新的字段-->
+	<sql id="updateBase">
+		<if test="id  !=null">
+			id = #{id,jdbcType=BIGINT}, 
+		</if>
+		<if test="coinsId  !=null">
+			coins_id = #{coinsId,jdbcType=BIGINT}, 
+		</if>
+		<if test="coinsDetailId  !=null">
+			coins_detail_id = #{coinsDetailId,jdbcType=BIGINT}, 
+		</if>
+		<if test="beforeTotalCoins  !=null">
+			before_total_coins = #{beforeTotalCoins,jdbcType=BIGINT}, 
+		</if>
+		<if test="beforeAvliedCoins  !=null">
+			before_avlied_coins = #{beforeAvliedCoins,jdbcType=BIGINT}, 
+		</if>
+		<if test="beforeUnavliedCoins  !=null">
+			before_unavlied_coins = #{beforeUnavliedCoins,jdbcType=BIGINT}, 
+		</if>
+		<if test="afterTotalCoins  !=null">
+			after_total_coins = #{afterTotalCoins,jdbcType=BIGINT}, 
+		</if>
+		<if test="afterAvliedCoins  !=null">
+			after_avlied_coins = #{afterAvliedCoins,jdbcType=BIGINT}, 
+		</if>
+		<if test="afterUnavliedCoins  !=null">
+			after_unavlied_coins = #{afterUnavliedCoins,jdbcType=BIGINT}, 
+		</if>
+		<if test="optUserId  !=null">
+			opt_user_id = #{optUserId,jdbcType=BIGINT}, 
+		</if>
+		<if test="createTime  !=null">
+			create_time = #{createTime,jdbcType=BIGINT}, 
+		</if>
+		<if test="status  !=null">
+			status = #{status,jdbcType=INTEGER}, 
+		</if>
+		<if test="type  !=null">
+			type = #{type,jdbcType=INTEGER}, 
+		</if>
+		<if test="count  !=null">
+			count = #{count,jdbcType=BIGINT}, 
+		</if>
+		<if test="inOut  !=null">
+			in_out = #{inOut,jdbcType=INTEGER}, 
+		</if>
+		<if test="detail  !=null">
+			detail = #{detail,jdbcType=VARCHAR} 
+		</if>
+	</sql>
+
+	<!-- 通过主键查找-->
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="Long" >
+		select 
+		<include refid="Base_Column_List" />
+		from yjj_coins_log
+		where  id = #{id,jdbcType=BIGINT} 
+	</select>
+
+	<!-- 通过主键删除-->
+	<delete id="deleteByPrimaryKey" parameterType="Long" >
+		delete from yjj_coins_log
+		where id = #{id,jdbcType=BIGINT} 
+	</delete>
+
+	<!-- 普通插入全字段插t入-->
+	<insert id="insert" parameterType="com.jiuy.rb.model.account.CoinsLog" >
+		insert into yjj_coins_log
+		(
+			id,
+			coins_id,
+			coins_detail_id,
+			before_total_coins,
+			before_avlied_coins,
+			before_unavlied_coins,
+			after_total_coins,
+			after_avlied_coins,
+			after_unavlied_coins,
+			opt_user_id,
+			create_time,
+			status,
+			type,
+			count,
+			in_out,
+			detail
+		)
+		values
+		(
+			#{id ,jdbcType=BIGINT},
+			#{coinsId ,jdbcType=BIGINT},
+			#{coinsDetailId ,jdbcType=BIGINT},
+			#{beforeTotalCoins ,jdbcType=BIGINT},
+			#{beforeAvliedCoins ,jdbcType=BIGINT},
+			#{beforeUnavliedCoins ,jdbcType=BIGINT},
+			#{afterTotalCoins ,jdbcType=BIGINT},
+			#{afterAvliedCoins ,jdbcType=BIGINT},
+			#{afterUnavliedCoins ,jdbcType=BIGINT},
+			#{optUserId ,jdbcType=BIGINT},
+			#{createTime ,jdbcType=BIGINT},
+			#{status ,jdbcType=INTEGER},
+			#{type ,jdbcType=INTEGER},
+			#{count ,jdbcType=BIGINT},
+			#{inOut ,jdbcType=INTEGER},
+			#{detail ,jdbcType=VARCHAR}
+		)
+	</insert>
+
+	<!-- 批量插入，全部字段插入-->
+	<insert id="insertBach"   parameterType="List" >
+		insert into yjj_coins_log
+		(
+			id,
+			coins_id,
+			coins_detail_id,
+			before_total_coins,
+			before_avlied_coins,
+			before_unavlied_coins,
+			after_total_coins,
+			after_avlied_coins,
+			after_unavlied_coins,
+			opt_user_id,
+			create_time,
+			status,
+			type,
+			count,
+			in_out,
+			detail
+		)
+		values 
+		<foreach collection="list" item="item" separator=",">
+		(
+			#{item.id ,jdbcType=BIGINT},
+			#{item.coinsId ,jdbcType=BIGINT},
+			#{item.coinsDetailId ,jdbcType=BIGINT},
+			#{item.beforeTotalCoins ,jdbcType=BIGINT},
+			#{item.beforeAvliedCoins ,jdbcType=BIGINT},
+			#{item.beforeUnavliedCoins ,jdbcType=BIGINT},
+			#{item.afterTotalCoins ,jdbcType=BIGINT},
+			#{item.afterAvliedCoins ,jdbcType=BIGINT},
+			#{item.afterUnavliedCoins ,jdbcType=BIGINT},
+			#{item.optUserId ,jdbcType=BIGINT},
+			#{item.createTime ,jdbcType=BIGINT},
+			#{item.status ,jdbcType=INTEGER},
+			#{item.type ,jdbcType=INTEGER},
+			#{item.count ,jdbcType=BIGINT},
+			#{item.inOut ,jdbcType=INTEGER},
+			#{item.detail ,jdbcType=VARCHAR}
+		)
+		</foreach>
+	</insert>
+
+	<!-- 精确插入，非null得字段才会插入-->
+	<insert id="insertSelective" parameterType="com.jiuy.rb.model.account.CoinsLog" useGeneratedKeys="true" keyProperty="id" >
+		insert into yjj_coins_log
+		<trim prefix="(" suffix=")" suffixOverrides="," > 
+			<if test="id !=null">  
+				id,
+			</if>
+			<if test="coinsId !=null">  
+				coins_id,
+			</if>
+			<if test="coinsDetailId !=null">  
+				coins_detail_id,
+			</if>
+			<if test="beforeTotalCoins !=null">  
+				before_total_coins,
+			</if>
+			<if test="beforeAvliedCoins !=null">  
+				before_avlied_coins,
+			</if>
+			<if test="beforeUnavliedCoins !=null">  
+				before_unavlied_coins,
+			</if>
+			<if test="afterTotalCoins !=null">  
+				after_total_coins,
+			</if>
+			<if test="afterAvliedCoins !=null">  
+				after_avlied_coins,
+			</if>
+			<if test="afterUnavliedCoins !=null">  
+				after_unavlied_coins,
+			</if>
+			<if test="optUserId !=null">  
+				opt_user_id,
+			</if>
+			<if test="createTime !=null">  
+				create_time,
+			</if>
+			<if test="status !=null">  
+				status,
+			</if>
+			<if test="type !=null">  
+				type,
+			</if>
+			<if test="count !=null">  
+				count,
+			</if>
+			<if test="inOut !=null">  
+				in_out,
+			</if>
+			<if test="detail !=null">  
+				detail,
+			</if>
+		</trim>
+
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+			<if test="id  !=null">
+				#{id,jdbcType=BIGINT}, 
+			</if>
+			<if test="coinsId  !=null">
+				#{coinsId,jdbcType=BIGINT}, 
+			</if>
+			<if test="coinsDetailId  !=null">
+				#{coinsDetailId,jdbcType=BIGINT}, 
+			</if>
+			<if test="beforeTotalCoins  !=null">
+				#{beforeTotalCoins,jdbcType=BIGINT}, 
+			</if>
+			<if test="beforeAvliedCoins  !=null">
+				#{beforeAvliedCoins,jdbcType=BIGINT}, 
+			</if>
+			<if test="beforeUnavliedCoins  !=null">
+				#{beforeUnavliedCoins,jdbcType=BIGINT}, 
+			</if>
+			<if test="afterTotalCoins  !=null">
+				#{afterTotalCoins,jdbcType=BIGINT}, 
+			</if>
+			<if test="afterAvliedCoins  !=null">
+				#{afterAvliedCoins,jdbcType=BIGINT}, 
+			</if>
+			<if test="afterUnavliedCoins  !=null">
+				#{afterUnavliedCoins,jdbcType=BIGINT}, 
+			</if>
+			<if test="optUserId  !=null">
+				#{optUserId,jdbcType=BIGINT}, 
+			</if>
+			<if test="createTime  !=null">
+				#{createTime,jdbcType=BIGINT}, 
+			</if>
+			<if test="status  !=null">
+				#{status,jdbcType=INTEGER}, 
+			</if>
+			<if test="type  !=null">
+				#{type,jdbcType=INTEGER}, 
+			</if>
+			<if test="count  !=null">
+				#{count,jdbcType=BIGINT}, 
+			</if>
+			<if test="inOut  !=null">
+				#{inOut,jdbcType=INTEGER}, 
+			</if>
+			<if test="detail  !=null">
+				#{detail,jdbcType=VARCHAR} 
+			</if>
+		</trim>
+	</insert> 
+
+	<!-- 精确更新-->
+	<update id="updateByPrimaryKeySelective" parameterType="com.jiuy.rb.model.account.CoinsLog" >
+		update yjj_coins_log
+		<set>
+			<include refid="updateBase"/>
+		</set>
+		where id = #{id,jdbcType=BIGINT} 
+	</update> 
+
+	<!-- 全字段更新 需要注意-->
+	<update id="updateByPrimaryKey" parameterType="com.jiuy.rb.model.account.CoinsLog" >
+		update yjj_coins_log
+		set 
+			id = #{id ,jdbcType=BIGINT},
+			coins_id = #{coinsId ,jdbcType=BIGINT},
+			coins_detail_id = #{coinsDetailId ,jdbcType=BIGINT},
+			before_total_coins = #{beforeTotalCoins ,jdbcType=BIGINT},
+			before_avlied_coins = #{beforeAvliedCoins ,jdbcType=BIGINT},
+			before_unavlied_coins = #{beforeUnavliedCoins ,jdbcType=BIGINT},
+			after_total_coins = #{afterTotalCoins ,jdbcType=BIGINT},
+			after_avlied_coins = #{afterAvliedCoins ,jdbcType=BIGINT},
+			after_unavlied_coins = #{afterUnavliedCoins ,jdbcType=BIGINT},
+			opt_user_id = #{optUserId ,jdbcType=BIGINT},
+			create_time = #{createTime ,jdbcType=BIGINT},
+			status = #{status ,jdbcType=INTEGER},
+			type = #{type ,jdbcType=INTEGER},
+			count = #{count ,jdbcType=BIGINT},
+			in_out = #{inOut ,jdbcType=INTEGER},
+			detail = #{detail ,jdbcType=VARCHAR}
+		where id = #{id,jdbcType=BIGINT} 
+	</update> 
+
+	<!-- 所有的条件集合-->
+	<sql id="whereCase"  >
+		where  1=1 
+		<if test="id  !=null">
+			AND id = #{id,jdbcType=BIGINT} 
+		</if>
+		<if test="coinsId  !=null">
+			AND coins_id = #{coinsId,jdbcType=BIGINT} 
+		</if>
+		<if test="coinsDetailId  !=null">
+			AND coins_detail_id = #{coinsDetailId,jdbcType=BIGINT} 
+		</if>
+		<if test="beforeTotalCoins  !=null">
+			AND before_total_coins = #{beforeTotalCoins,jdbcType=BIGINT} 
+		</if>
+		<if test="beforeAvliedCoins  !=null">
+			AND before_avlied_coins = #{beforeAvliedCoins,jdbcType=BIGINT} 
+		</if>
+		<if test="beforeUnavliedCoins  !=null">
+			AND before_unavlied_coins = #{beforeUnavliedCoins,jdbcType=BIGINT} 
+		</if>
+		<if test="afterTotalCoins  !=null">
+			AND after_total_coins = #{afterTotalCoins,jdbcType=BIGINT} 
+		</if>
+		<if test="afterAvliedCoins  !=null">
+			AND after_avlied_coins = #{afterAvliedCoins,jdbcType=BIGINT} 
+		</if>
+		<if test="afterUnavliedCoins  !=null">
+			AND after_unavlied_coins = #{afterUnavliedCoins,jdbcType=BIGINT} 
+		</if>
+		<if test="optUserId  !=null">
+			AND opt_user_id = #{optUserId,jdbcType=BIGINT} 
+		</if>
+		<if test="createTime  !=null">
+			AND create_time = #{createTime,jdbcType=BIGINT} 
+		</if>
+		<if test="status  !=null">
+			AND status = #{status,jdbcType=INTEGER} 
+		</if>
+		<if test="type  !=null">
+			AND type = #{type,jdbcType=INTEGER} 
+		</if>
+		<if test="count  !=null">
+			AND count = #{count,jdbcType=BIGINT} 
+		</if>
+		<if test="inOut  !=null">
+			AND in_out = #{inOut,jdbcType=INTEGER} 
+		</if>
+		<if test="detail  !=null">
+			AND detail = #{detail,jdbcType=VARCHAR} 
+		</if>
+		<include refid="costomWhereCase"/>
+	</sql>
+
+	<!-- 查询一条，如果返回多条会报错-->
+	<select id="selectOne" parameterType="java.util.Map" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" /> 
+		FROM yjj_coins_log 
+		<include refid="whereCase" /> 
+	</select>
+
+	<!-- 查询一个list-->
+	<select id="selectList" parameterType="java.util.Map" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" /> 
+		FROM yjj_coins_log 
+		<include refid="whereCase" /> 
+	</select>
+
+	<!-- 查询一个list-->
+	<select id="selectCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+		SELECT
+		count(1) 
+		FROM yjj_coins_log
+		<include refid="whereCase" /> 
+	</select>
+
+	<!--  @Costom -->
+	<!-- 从上一行注释以上为系统生成 从这一行往下为用户自定义 请将自定义的sql放在此行下面 -->
+	<sql id="costomWhereCase">
+	</sql>
+
+	<!--进出帐分组-->
+	<select id="selectInOutGroup" parameterType="java.util.Map" resultMap="BaseResultMap">
+		SELECT
+			sum(count) AS count,
+			log.*
+		FROM
+			yjj_coins_log log
+		<include refid="whereCase" />
+			and in_out >= 0
+		GROUP BY
+			coins_id,
+			in_out
+	</select>
+
+</mapper>

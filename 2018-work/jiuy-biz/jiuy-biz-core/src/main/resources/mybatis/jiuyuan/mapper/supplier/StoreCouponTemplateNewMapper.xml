@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jiuyuan.dao.mapper.supplier.StoreCouponTemplateNewMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.jiuyuan.entity.newentity.StoreCouponTemplateNew">
+		<id column="Id" property="Id" />
+		<result column="Name" property="Name" />
+		<result column="Type" property="Type" />
+		<result column="Money" property="Money" />
+		<result column="RangeType" property="RangeType" />
+		<result column="RangeContent" property="RangeContent" />
+		<result column="ValidityStartTime" property="ValidityStartTime" />
+		<result column="ValidityEndTime" property="ValidityEndTime" />
+		<result column="IsLimit" property="IsLimit" />
+		<result column="PublishCount" property="PublishCount" />
+		<result column="GrantCount" property="GrantCount" />
+		<result column="AvailableCount" property="AvailableCount" />
+		<result column="Coexist" property="Coexist" />
+		<result column="Status" property="Status" />
+		<result column="CreateTime" property="CreateTime" />
+		<result column="UpdateTime" property="UpdateTime" />
+		<result column="LimitMoney" property="LimitMoney" />
+		<result column="ExchangeJiuCoinSetting" property="ExchangeJiuCoinSetting" />
+		<result column="ExchangeJiuCoinCost" property="ExchangeJiuCoinCost" />
+		<result column="ExchangeLimitTotalCount" property="ExchangeLimitTotalCount" />
+		<result column="ExchangeLimitSingleCount" property="ExchangeLimitSingleCount" />
+		<result column="ExchangeCount" property="ExchangeCount" />
+		<result column="ExchangeStartTime" property="ExchangeStartTime" />
+		<result column="ExchangeEndTime" property="ExchangeEndTime" />
+		<result column="PromotionJiuCoinSetting" property="PromotionJiuCoinSetting" />
+		<result column="PromotionJiuCoin" property="PromotionJiuCoin" />
+		<result column="PromotionStartTime" property="PromotionStartTime" />
+		<result column="PromotionEndTime" property="PromotionEndTime" />
+		<result column="RangeTypeIds" property="RangeTypeIds" />
+		<result column="RangeTypeNames" property="RangeTypeNames" />
+		<result column="supplier_id" property="supplierId" />
+		<result column="limit_draw" property="limitDraw" />
+		<result column="draw_start_time" property="drawStartTime" />
+		<result column="draw_end_time" property="drawEndTime" />
+		<result column="publisher" property="publisher" />
+		<result column="publish_status" property="publishStatus" />
+		<result column="valid_total_count" property="validTotalCount" />
+		<result column="valid_total_amount" property="validTotalAmount" />
+		<result column="used_count" property="usedCount" />
+		<result column="cancel_count" property="cancelCount" />
+		<result column="draw_status" property="drawStatus" />
+	</resultMap>
+	      <!--获取某个品牌下面的可以领取的优惠券模板列表  -->
+	<select id="getSupplierCouponTemplate" resultType="java.util.Map">
+	    <![CDATA[
+SELECT
+  a.id,
+  a.name,
+  a.Money,
+  a.ValidityStartTime,
+  a.ValidityEndTime,
+  a.publisher,
+  a.LimitMoney
+FROM store_CouponTemplate a
+  LEFT JOIN (SELECT
+               COUNT(CouponTemplateId) AS totalCount,
+               CouponTemplateId
+             FROM store_Coupon
+             WHERE supplier_id IN(SELECT
+                                    id
+                                  FROM supplier_user
+                                  WHERE brand_id = #{brandId})
+             GROUP BY CouponTemplateId) c
+    ON c.CouponTemplateId = a.Id
+WHERE a.RangeType = 0
+    AND a.type = 0
+    AND a.Status = 0
+    AND a.publish_status = 1
+    AND a.draw_status = 0
+    AND FIND_IN_SET(#{brandId},a.RangeTypeIds)
+    AND a.draw_start_time <= UNIX_TIMESTAMP() * 1000
+    AND a.draw_end_time > UNIX_TIMESTAMP() * 1000
+    AND (a.valid_total_count + a.used_count > c.totalCount
+          OR c.totalCount IS NULL)
+ORDER BY a.id DESC
+	    ]]>
+	
+	</select>
+	
+	<!--获取某个品牌下面的可以领取的优惠券模板数量  -->
+	<select id="getSupplierCouponTemplateCount" resultType="int">
+	    <![CDATA[
+SELECT count(a.id)
+FROM store_CouponTemplate a
+  LEFT JOIN (SELECT
+               COUNT(CouponTemplateId) AS totalCount,
+               CouponTemplateId
+             FROM store_Coupon
+             WHERE supplier_id IN(SELECT
+                                    id
+                                  FROM supplier_user
+                                  WHERE brand_id = #{brandId})
+             GROUP BY CouponTemplateId) c
+    ON c.CouponTemplateId = a.Id
+WHERE a.RangeType = 0
+    AND a.type = 0
+    AND a.Status = 0
+    AND a.publish_status = 1
+    AND a.draw_status = 0
+    AND FIND_IN_SET(#{brandId},a.RangeTypeIds)
+    AND a.draw_start_time <= UNIX_TIMESTAMP() * 1000
+    AND a.draw_end_time > UNIX_TIMESTAMP() * 1000
+    AND (a.valid_total_count + a.used_count > c.totalCount
+          OR c.totalCount IS NULL)
+	    ]]>
+	
+	</select>
+
+
+	<select id="selectCouponGroup" parameterType="List" resultMap="BaseResultMap">
+		SELECT
+		 a.*
+		FROM
+		store_CouponTemplate AS a
+		LEFT JOIN (
+		SELECT
+		COUNT(1) totalCount,
+		CouponTemplateId
+		FROM
+		store_coupon
+		GROUP BY
+		CouponTemplateId
+		) AS c ON c.CouponTemplateId = a.Id
+		WHERE
+		RangeType = 0
+		AND type = 0
+		AND STATUS = 0
+		AND publish_status = 1
+		AND draw_status = 0
+		AND draw_start_time &lt;= UNIX_TIMESTAMP() * 1000
+		AND draw_end_time > UNIX_TIMESTAMP() * 1000
+		AND (
+		valid_total_count + used_count > c.totalCount
+		OR c.totalCount IS NULL
+		)
+		<if test="supplierIds !=null and supplierIds.size()>0">
+			and supplier_id in (
+			 <foreach collection="supplierIds" item="id" separator=",">
+				 #{id}
+			 </foreach>
+			)
+		</if>
+		<if test="supplierIds ==null || supplierIds.size() == 0">
+			and 1 = -1
+		</if>
+	</select>
+
+</mapper>

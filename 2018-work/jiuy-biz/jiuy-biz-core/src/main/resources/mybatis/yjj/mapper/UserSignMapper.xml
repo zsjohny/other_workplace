@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yujj.dao.mapper.UserSignMapper">
+	<insert id="insertUserSign">
+		<![CDATA[
+			insert into yjj_UserSign
+			(UserId, DayTime, MondayTime, WeekDay, GrantCoins, CreateTime, UpdateTime)
+			values
+			(#{userId}, #{dayTime}, #{mondayTime}, #{weekDay}, #{grantCoins}, #{createTime}, #{updateTime})
+		]]>
+	</insert>
+	
+	<select id="getUserSign" parameterType="map" resultType="UserSign">
+		<![CDATA[
+			select * from yjj_UserSign
+			where UserId = #{userId} and DayTime = #{dayTime}
+		]]>
+	</select>
+	
+	<select id="getUserSignOfWeek" parameterType="map" resultType="UserSign">
+		<![CDATA[
+			select * from yjj_UserSign
+			where UserId = #{userId} and MondayTime = #{mondayTime}
+		]]>
+	</select>
+	
+	<select id="getTotalSignCount" resultType="int">
+		<![CDATA[
+			select count(*) from yjj_UserSign
+			where UserId = #{userId} and CreateTime >= 1483200000000
+		]]>
+	</select>
+
+	<select id="getTotalSignCoins" resultType="int">
+		<![CDATA[
+			select coalesce(sum(GrantCoins), 0) from yjj_UserSign
+			where UserId = #{userId} and CreateTime >= 1483200000000
+		]]>
+	</select>
+</mapper>

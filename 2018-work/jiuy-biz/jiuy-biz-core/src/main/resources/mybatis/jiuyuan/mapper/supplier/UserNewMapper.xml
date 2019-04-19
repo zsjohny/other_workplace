@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jiuyuan.dao.mapper.supplier.UserNewMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.jiuyuan.entity.newentity.UserNew">
+		<id column="id" property="id" />
+		<result column="avatar" property="avatar" />
+		<result column="account" property="account" />
+		<result column="password" property="password" />
+		<result column="salt" property="salt" />
+		<result column="name" property="name" />
+		<result column="birthday" property="birthday" />
+		<result column="sex" property="sex" />
+		<result column="email" property="email" />
+		<result column="phone" property="phone" />
+		<result column="roleid" property="roleid" />
+		<result column="deptid" property="deptid" />
+		<result column="status" property="status" />
+		<result column="createtime" property="createtime" />
+		<result column="version" property="version" />
+		<result column="alipay_name" property="alipayName" />
+		<result column="business_name" property="businessName" />
+		<result column="company_name" property="companyName" />
+		<result column="business_address" property="businessAddress" />
+		<result column="license_number" property="licenseNumber" />
+		<result column="taxid" property="taxid" />
+		<result column="legal_person" property="legalPerson" />
+		<result column="id_card_number" property="idCardNumber" />
+		<result column="province" property="province" />
+		<result column="city" property="city" />
+		<result column="bank_card_flag" property="bankCardFlag" />
+		<result column="bank_account_name" property="bankAccountName" />
+		<result column="bank_name" property="bankName" />
+		<result column="bank_account_no" property="bankAccountNo" />
+		<result column="alipay_flag" property="alipayFlag" />
+		<result column="alipay_account" property="alipayAccount" />
+		<result column="lowarehouse_id" property="lowarehouseId" />
+		<result column="brand_id" property="brandId" />
+		<result column="updatetime" property="updatetime" />
+		<result column="store_number" property="storeNumber" />
+		<result column="cash_income" property="cashIncome" />
+		<result column="available_balance" property="availableBalance" />
+		<result column="organization_no" property="organizationNo" />
+		<result column="brand_description" property="brandDescription" />
+		<result column="brand_logo" property="brandLogo" />
+		<result column="brand_show_imgs" property="brandShowImgs" />
+		<result column="commission_percentage" property="commissionPercentage" />
+		<result column="settlement_date" property="settlementDate" />
+		<result column="weixin_flag" property="weixinFlag" />
+		<result column="weixin_account" property="weixinAccount" />
+		<result column="weixin_name" property="weixinName" />
+		<result column="withdraw_setting" property="withdrawSetting" />
+		<result column="express_cash_income" property="expressCashIncome" />
+		<result column="available_express_cash" property="availableExpressCash" />
+		<result column="min_withdrawal" property="minWithdrawal" />
+		<result column="bond" property="bond" />
+		<result column="business_number" property="businessNumber" />
+		<result column="express_bank_account_name" property="expressBankAccountName" />
+		<result column="express_bank_name" property="expressBankName" />
+		<result column="express_bank_account_no" property="expressBankAccountNo" />
+		<result column="add_createtime" property="addCreatetime" />
+		<result column="is_originalpassword" property="isOriginalpassword" />
+		<result column="receiver" property="receiver" />
+		<result column="supplier_receive_address" property="supplierReceiveAddress" />
+		<result column="receiver_phone" property="receiverPhone" />
+		
+	</resultMap>
+
+
+
+	<select id="getShareShopLoginQr" resultType="map">
+		SELECT  IFNULL(`share_qr_code_url`, "") AS shareQcCodeUrl, id AS id from `yjj_store_wxa_shop_audit_data` where `store_id`=#{storeId} and `del_status`=0
+	</select>
+
+	<update id="updateShareShopLoginQr">
+			update  `yjj_store_wxa_shop_audit_data` set `share_qr_code_url`=#{shareQcCodeUrl} where `id`=#{id}
+	</update>
+
+
+
+	<select id="selectStoreWxaList" parameterType="Long" resultType="com.jiuyuan.entity.store.StoreWxa">
+			select
+			`app_id` as appId
+			 from `jiuy_store_wxa` where `store_id`=#{storeId}
+	</select>
+
+</mapper>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jiuyuan.dao.mapper.MarketingSMSMapper">
+	<select id="getTestStores" parameterType="map" resultType="StoreBusiness">
+		<![CDATA[
+			SELECT * FROM yjj_StoreBusiness where length(PhoneNumber) = 11;
+		]]>
+	</select>
+	<select id="getOtherStores" parameterType="map" resultType="map">
+		<![CDATA[
+			SELECT * FROM jiuy_send_sms where length(Phone) = 11;
+		]]>
+	</select>
+</mapper>

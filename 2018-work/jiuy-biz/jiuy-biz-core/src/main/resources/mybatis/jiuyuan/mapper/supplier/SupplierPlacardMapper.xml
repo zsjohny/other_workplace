@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jiuyuan.dao.mapper.supplier.SupplierPlacardMapper">
+	<!-- 通用查询映射结果 -->
+	<resultMap id="resultMap" type="com.jiuyuan.entity.newentity.SupplierPlacard">
+		<id column="id" property="id" />
+		<result column="title" property="title" />
+		<result column="type" property="type" />
+		<result column="state" property="state" />
+		<result column="content" property="content" />
+		<result column="notifyCount" property="notifyCount" />
+		<result column="readCount" property="readCount" />
+		<result column="publish_time" property="publishTime" />
+		<result column="stop_time" property="stopTime" />
+		<result column="create_time" property="createTime" />
+		<result column="publish_type" property="publishType" />
+		<result column="is_send_advice" property="isSendAdvice" />
+		<result column="apply_end_time" property="applyEndTime" />
+		<result column="admin_id" property="adminId" />
+	</resultMap>
+	
+	<!--  获取5条发布的且通知的公告，按发布时间排序 -->
+	<select id="getAdvicePlacardTop5" parameterType="map" resultMap="resultMap">
+		<![CDATA[
+			select * from store_supplier_placard p where is_send_advice = 1 and publish_time <= UNIX_TIMESTAMP()*1000 and state in (0,1)
+		]]>
+		<![CDATA[
+				 order by publish_time desc 
+		]]>
+		<![CDATA[
+				   limit 0,5 
+		]]>
+		
+	</select>
+    
+	<!--  获取未读公告列表，按发布时间排序 -->
+	<select id="getNoReadPlacardTop5" parameterType="map" resultMap="resultMap">
+		<![CDATA[
+			select * from store_supplier_placard  p where  state in (0,1) and  publish_time <= UNIX_TIMESTAMP()*1000 and p.id not in(
+			 	select r.placard_id from store_placard_read r where r.supplier_id = #{supplierId} ) 
+		]]>
+		<![CDATA[
+				 order by publish_time desc 
+		]]>
+		<![CDATA[
+				   limit 0,5 
+		]]>
+		
+	</select>
+	
+	<!--  获取未读公告数量 -->
+	<select id="getNoReadCount" parameterType="map" resultType="int">
+		<![CDATA[
+			select count(*) from store_supplier_placard  p where  state in (0,1) and publish_time <= UNIX_TIMESTAMP()*1000 and 
+			 p.id not in(
+			 	select r.placard_id from store_placard_read r where r.supplier_id = #{supplierId} ) 
+		]]>
+		
+	</select>
+	
+	
+	<update id="increaseReadCount" parameterType="map">
+		<![CDATA[
+			update store_supplier_placard
+			set readCount = readCount + 1
+			where id = #{placardId}
+		]]>
+	</update>
+	
+	<update id="increaseNotifyCount" parameterType="map">
+		<![CDATA[
+			update store_supplier_placard
+			set notifyCount = notifyCount + 1
+			where id = #{placardId}
+		]]>
+	</update>
+	
+	
+</mapper>

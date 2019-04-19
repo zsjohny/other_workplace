@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" > 
+<mapper namespace="com.jiuy.mapper.monitoring.MonitoringDeviceMapper"> 
+    <resultMap id="BaseResultMap" type="com.jiuy.model.monitoring.MonitoringDevice"   >
+        <id   column="id"  property="id" jdbcType="BIGINT" />
+        <result column="device_id"  property="deviceId"  jdbcType="VARCHAR" />
+        <result column="open_time"  property="openTime"  jdbcType="TIMESTAMP" />
+        <result column="close_time"  property="closeTime"  jdbcType="TIMESTAMP" />
+        <result column="phone"  property="phone"  jdbcType="VARCHAR" />
+        <result column="create_time"  property="createTime"  jdbcType="TIMESTAMP" />
+        <result column="version"  property="version"  jdbcType="VARCHAR" />
+        <result column="os_name"  property="osName"  jdbcType="VARCHAR" />
+        <result column="app_stay_time"  property="appStayTime"  jdbcType="BIGINT" />
+    </resultMap>
+
+     <sql id="Base_Column_List" >
+        id,device_id,open_time,close_time,phone,create_time,version,os_name,app_stay_time
+    </sql>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap"  parameterType="java.lang.Long"   >
+        select
+                <include refid="Base_Column_List" />
+        from yjj_monitoring_device
+        where  id = #{id,jdbcType=BIGINT} 
+    </select>
+
+    <delete id="deleteByPrimaryKey"   parameterType="java.lang.Long"   >
+        delete from yjj_monitoring_device
+        where  id = #{id,jdbcType=BIGINT} 
+    </delete>
+
+    <insert id="insert"   parameterType="com.jiuy.model.monitoring.MonitoringDevice"   >
+        insert into yjj_monitoring_device
+                (id,device_id,open_time,close_time,phone,create_time,version,os_name,app_stay_time)
+        values(#{id,jdbcType=BIGINT},#{deviceId,jdbcType=VARCHAR},#{openTime,jdbcType=TIMESTAMP},#{closeTime,jdbcType=TIMESTAMP},#{phone,jdbcType=VARCHAR},#{createTime,jdbcType=TIMESTAMP},#{version,jdbcType=VARCHAR},#{osName,jdbcType=VARCHAR},#{appStayTime,jdbcType=BIGINT},
+                 )
+    </insert>
+
+    <insert id="insertBach"   parameterType="List"  >
+        insert into yjj_monitoring_device
+                 (id,device_id,open_time,close_time,phone,create_time,version,os_name,app_stay_time)
+        values 
+                 <foreach collection="list" item="item" separator=",">
+                 (
+                     #{item.id,jdbcType=BIGINT},
+                     #{item.deviceId,jdbcType=VARCHAR},
+                     #{item.openTime,jdbcType=TIMESTAMP},
+                     #{item.closeTime,jdbcType=TIMESTAMP},
+                     #{item.phone,jdbcType=VARCHAR},
+                     #{item.createTime,jdbcType=TIMESTAMP},
+                     #{item.version,jdbcType=VARCHAR},
+                     #{item.osName,jdbcType=VARCHAR},
+                     #{item.appStayTime,jdbcType=BIGINT}
+                  )
+                 </foreach>
+    </insert>
+    <insert id="insertSelective"   parameterType="com.jiuy.model.monitoring.MonitoringDevice"  useGeneratedKeys="true"  keyProperty="id" >
+        insert into yjj_monitoring_device
+       <trim prefix="(" suffix=")" suffixOverrides="," >  
+              <if test="id  !=null">  
+                   id,
+              </if>
+              <if test="deviceId  !=null">  
+                   device_id,
+              </if>
+              <if test="openTime  !=null">  
+                   open_time,
+              </if>
+              <if test="closeTime  !=null">  
+                   close_time,
+              </if>
+              <if test="phone  !=null">  
+                   phone,
+              </if>
+              <if test="createTime  !=null">  
+                   create_time,
+              </if>
+              <if test="version  !=null">  
+                   version,
+              </if>
+              <if test="osName  !=null">  
+                   os_name,
+              </if>
+              <if test="appStayTime  !=null">  
+                   app_stay_time
+              </if>
+       </trim> 
+       <trim prefix="values (" suffix=")" suffixOverrides="," >
+              <if test="id  !=null">  
+                   #{id,jdbcType=BIGINT},
+              </if>
+              <if test="deviceId  !=null">  
+                   #{deviceId,jdbcType=VARCHAR},
+              </if>
+              <if test="openTime  !=null">  
+                   #{openTime,jdbcType=TIMESTAMP},
+              </if>
+              <if test="closeTime  !=null">  
+                   #{closeTime,jdbcType=TIMESTAMP},
+              </if>
+              <if test="phone  !=null">  
+                   #{phone,jdbcType=VARCHAR},
+              </if>
+              <if test="createTime  !=null">  
+                   #{createTime,jdbcType=TIMESTAMP},
+              </if>
+              <if test="version  !=null">  
+                   #{version,jdbcType=VARCHAR},
+              </if>
+              <if test="osName  !=null">  
+                   #{osName,jdbcType=VARCHAR},
+              </if>
+              <if test="appStayTime  !=null">  
+                   #{appStayTime,jdbcType=BIGINT}
+              </if>
+       </trim> 
+    </insert> 
+
+    <update id="updateByPrimaryKeySelective"   parameterType="com.jiuy.model.monitoring.MonitoringDevice"   >
+        update yjj_monitoring_device
+             <set> 
+              <if test="id  !=null">  
+                   id  = #{id,jdbcType=BIGINT},
+              </if>
+              <if test="deviceId  !=null">  
+                   device_id  = #{deviceId,jdbcType=VARCHAR},
+              </if>
+              <if test="openTime  !=null">  
+                   open_time  = #{openTime,jdbcType=TIMESTAMP},
+              </if>
+              <if test="closeTime  !=null">  
+                   close_time  = #{closeTime,jdbcType=TIMESTAMP},
+              </if>
+              <if test="phone  !=null">  
+                   phone  = #{phone,jdbcType=VARCHAR},
+              </if>
+              <if test="createTime  !=null">  
+                   create_time  = #{createTime,jdbcType=TIMESTAMP},
+              </if>
+              <if test="version  !=null">  
+                   version  = #{version,jdbcType=VARCHAR},
+              </if>
+              <if test="osName  !=null">  
+                   os_name  = #{osName,jdbcType=VARCHAR},
+              </if>
+              <if test="appStayTime  !=null">  
+                   app_stay_time  = #{appStayTime,jdbcType=BIGINT}
+              </if>
+       </set> 
+       where id = #{id,jdbcType=BIGINT} 
+    </update> 
+
+    <update id="updateByPrimaryKey"   parameterType="com.jiuy.model.monitoring.MonitoringDevice"   >
+        update yjj_monitoring_device  set  
+                   id  = #{id,jdbcType=BIGINT},
+                   device_id  = #{deviceId,jdbcType=VARCHAR},
+                   open_time  = #{openTime,jdbcType=TIMESTAMP},
+                   close_time  = #{closeTime,jdbcType=TIMESTAMP},
+                   phone  = #{phone,jdbcType=VARCHAR},
+                   create_time  = #{createTime,jdbcType=TIMESTAMP},
+                   version  = #{version,jdbcType=VARCHAR},
+                   os_name  = #{osName,jdbcType=VARCHAR},
+                   app_stay_time  = #{appStayTime,jdbcType=BIGINT}
+       where id = #{id,jdbcType=BIGINT} 
+    </update> 
+
+    <sql id="whereCase"  >
+         where  1=1  
+        <if test="id !=null">  
+         AND id  = #{id,jdbcType=BIGINT}
+        </if>
+        <if test="deviceId !=null">  
+         AND device_id  = #{deviceId,jdbcType=VARCHAR}
+        </if>
+        <if test="openTime !=null">  
+         AND open_time  = #{openTime,jdbcType=TIMESTAMP}
+        </if>
+        <if test="closeTime !=null">  
+         AND close_time  = #{closeTime,jdbcType=TIMESTAMP}
+        </if>
+        <if test="phone !=null">  
+         AND phone  = #{phone,jdbcType=VARCHAR}
+        </if>
+        <if test="createTime !=null">  
+         AND create_time  = #{createTime,jdbcType=TIMESTAMP}
+        </if>
+        <if test="version !=null">  
+         AND version  = #{version,jdbcType=VARCHAR}
+        </if>
+        <if test="osName !=null">  
+         AND os_name  = #{osName,jdbcType=VARCHAR}
+        </if>
+        <if test="appStayTime !=null">  
+         AND app_stay_time  = #{appStayTime,jdbcType=BIGINT}
+        </if>
+        <include refid="costomWhereCase"/>
+    </sql> 
+
+    <select id="selectOne" parameterType="java.util.Map" resultMap="BaseResultMap">
+         SELECT
+         <include refid="Base_Column_List" /> 
+         FROM yjj_monitoring_device 
+         <include refid="whereCase" /> 
+    </select>
+
+    <select id="selectList" parameterType="java.util.Map" resultMap="BaseResultMap">
+         SELECT
+         <include refid="Base_Column_List" /> 
+         FROM yjj_monitoring_device 
+         <include refid="whereCase" /> 
+    </select>
+
+    <select id="selectCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+         SELECT
+         count(1) 
+         FROM yjj_monitoring_device 
+         <include refid="whereCase" /> 
+    </select>
+
+<!--  @Costom -->
+<!-- 从上一行注释以上为系统生成 从这一行往下为用户自定义 请将自定义的sql放在此行下面 -->
+
+    <sql id="costomWhereCase">
+    	<if test="openTimeGreater!=null">  
+         AND open_time  &gt;= #{openTimeGreater,jdbcType=TIMESTAMP}
+        </if>
+        <if test="closeTimeLess !=null">  
+         AND close_time  &lt;= #{closeTimeLess,jdbcType=TIMESTAMP}
+        </if>
+    </sql>
+    
+    
+   <select id="opendDeviceCount" resultType="java.lang.Long">
+     select count(1) from (
+		select device_id from yjj_monitoring_device where to_days(close_time) = to_days(#{date}) GROUP BY device_id
+	  ) t;
+   </select>
+   
+   <select id="openAppCount" resultType="java.lang.Long">
+      select count(1) from yjj_monitoring_device where to_days(close_time) = to_days(#{date});
+   </select>
+   
+    <select id="appStayTimeCount" resultType="java.lang.Long">
+      select IFNULL(SUM(app_stay_time),0) from yjj_monitoring_device where to_days(close_time) = to_days(#{date})
+   </select>
+
+</mapper>

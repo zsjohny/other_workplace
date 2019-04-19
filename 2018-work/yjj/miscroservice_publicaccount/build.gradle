@@ -1,0 +1,21 @@
+apply plugin: 'java'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'application'
+repositories {
+    mavenCentral()
+}
+
+jar {
+    baseName "miscroservice_publicaccount"
+    mainClassName = 'com.e_commerce.miscroservice.PublicaccountStartMain'
+}
+
+
+dependencies {
+    compile 'com.aliyun.oss:aliyun-sdk-oss:2.8.3'
+    compile "org.apache.shiro:shiro-spring:1.3.2"
+    compile 'com.github.jsqlparser:jsqlparser:1.2'
+    compile project(":miscroservice_commons")
+
+
+}

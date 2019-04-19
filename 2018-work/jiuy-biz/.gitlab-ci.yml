@@ -1,0 +1,7 @@
+stages:
+   - build
+
+exec:
+  stage: build
+  script:
+    - sh /opt/auto_developer_docker.sh

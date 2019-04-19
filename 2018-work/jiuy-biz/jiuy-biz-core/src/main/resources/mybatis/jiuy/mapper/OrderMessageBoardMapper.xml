@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jiuy.core.dao.impl.sql.OrderMessageBoardDaoSqlImpl">
+
+	<insert id="add">
+		insert yjj_OrderMessageBoard(OrderNo, AdminId, AdminName, Type, Operation, Message, Status, CreateTime)
+		values(#{orderNo}, #{adminId}, #{adminName}, #{type}, #{operation}, #{message}, #{status}, #{createTime})
+	</insert>
+    
+    <select id="search" resultType="OrderMessageBoard">
+    	select * from yjj_OrderMessageBoard
+    	where OrderNo = #{orderNo} and Type = #{type}
+    		<![CDATA[ and CreateTime > #{startTime} and CreateTime < #{endTime}]]>
+    		<if test="adminId != -1">
+    			and AdminId = #{adminId}
+    		</if>
+    	limit #{pageQuery.limit} offset #{pageQuery.offset}
+    </select>
+    
+    <select id="searchCount" resultType="int">
+    	select count(1) from yjj_OrderMessageBoard
+    	where OrderNo = #{orderNo} and Type = #{type}
+    	<![CDATA[ and CreateTime > #{startTime} and CreateTime < #{endTime}]]>
+    		<if test="adminId != -1">
+    			and AdminId = #{adminId}
+    		</if>
+    </select>
+    
+</mapper>

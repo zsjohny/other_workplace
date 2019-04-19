@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+           http://www.springframework.org/schema/aop     http://www.springframework.org/schema/aop/spring-aop.xsd
+           http://www.springframework.org/schema/beans   http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+           http://www.springframework.org/schema/tx      http://www.springframework.org/schema/tx/spring-tx.xsd
+       ">
+
+	<!-- ======================================================================== -->
+	<!-- 连接池定义 -->
+	<!-- ======================================================================== -->
+	<bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close">
+		<property name="driverClassName">
+			<value>${jdbc.driverclassname}</value>
+		</property>
+		<property name="url">
+			<value>${jdbc.url}</value>
+		</property>
+		<property name="username">
+			<value>${jdbc.username}</value>
+		</property>
+		<property name="password">
+			<value>${jdbc.password}</value>
+		</property>
+		<property name="defaultReadOnly">
+			<value>false</value>
+		</property>
+		<property name="maxTotal">
+			<value>50</value>
+		</property>
+		<property name="initialSize">
+			<value>1</value>
+		</property>
+		<property name="maxWaitMillis">
+			<value>60000</value>
+		</property>
+		<property name="maxIdle">
+			<value>20</value>
+		</property>
+		<property name="minIdle">
+			<value>1</value>
+		</property>
+		<property name="removeAbandonedTimeout">
+			<value>180</value>
+		</property>
+		<property name="timeBetweenEvictionRunsMillis">
+			<value>20000</value>
+		</property>
+		<property name="minEvictableIdleTimeMillis">
+			<value>1800000</value>
+		</property>
+		<property name="testWhileIdle">
+			<value>true</value>
+		</property>
+		<property name="testOnBorrow">
+			<value>false</value>
+		</property>
+		<property name="testOnReturn">
+			<value>false</value>
+		</property>
+		<property name="validationQuery">
+			<value>SELECT 1</value>
+		</property>
+		<property name="numTestsPerEvictionRun">
+			<value>20</value>
+		</property>
+		<property name="connectionProperties">
+			<value>LoginTimeout=1</value>
+		</property> 
+	</bean>
+
+	<tx:annotation-driven transaction-manager="txManager" />
+
+	<bean id="txManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+	
+	<bean id="sqlSessionFactory" class="com.baomidou.mybatisplus.spring.MybatisSqlSessionFactoryBean">
+	    <!-- 配置数据源 -->
+	    <property name="dataSource" ref="dataSource"/>
+	    <!-- 自动扫描 Xml 文件位置 
+	    <property name="mapperLocations" value="classpath:mybatis/*/*.xml"/>-->
+	    <property name="mapperLocations">
+			<list>
+			<value>classpath*:mybatis/jiuy/mapper/**/*.xml</value>
+			<value>classpath*:mybatis/jiuyuan/mapper/**/*.xml</value>
+			<!-- <value>classpath*:mybatis/store/mapper/**/*.xml</value>
+			<value>classpath:/mybatis/jiuy/mapper/*Mapper.xml</value> -->
+			</list>
+		</property>
+	    <!-- 配置 Mybatis 配置文件（可无）
+	    <property name="configLocation" value="classpath:mybatis/mybatis-config.xml"/> -->
+	    <property name="configLocation" value="classpath:mybatis/jiuy/mybatis-config.xml" />
+	    <!-- 配置包别名
+	    <property name="typeAliasesPackage" value="com.baomidou.springmvc.model"/> 
+	    <property name="handledTypesPackages" value="com.jiuyuan.constant;com.store.constant" />
+		<property name="handledTypesBaseClasses">
+			<list>
+				<value>com.jiuyuan.util.enumeration.IntEnum</value>
+				<value>com.jiuyuan.util.enumeration.StringEnum</value>
+			</list>
+		</property>-->
+	    <!-- 以上配置和传统 Mybatis 一致 -->
+	
+	    <!-- 插件配置 -->
+	    <property name="plugins">
+	        <array>
+	            <!-- 分页插件配置 -->
+	            <bean id="paginationInterceptor" class="com.baomidou.mybatisplus.plugins.PaginationInterceptor">
+	                <!-- 指定数据库方言 -->
+	                <property name="dialectType" value="mysql"/>
+	            </bean>
+	            <!-- 如需要开启其他插件，可配置于此 -->
+	            
+	            
+	             <!-- 性能分析插件配置 ：性能分析拦截器，用于输出每条 SQL 语句及其执行时间-->
+	             <!-- SQL 执行性能分析，开发环境使用，线上不推荐。 maxTime 指的是 sql 最大执行时长 -->
+	             		<!-- 参数：maxTime 毫秒 SQL 执行最大时长，超过自动停止运行，有助于发现问题。 -->
+	                     <!-- 参数：format SQL SQL是否格式化，默认false。-->
+			     <!-- 注意！该插件只用于开发环境，不建议生产环境使用 
+			    <bean id="performanceInterceptor"  class="com.baomidou.mybatisplus.plugins.PerformanceInterceptor">
+			    	
+			        <property name="maxTime">
+						<value>${mybatisplus.maxTime}</value>
+					</property>
+			
+			        <property name="format">
+						<value>${mybatisplus.format}</value>
+					</property>
+			    </bean>-->
+	        </array>
+	    </property>
+	
+	    <!-- MP 全局配置注入-->
+	    <property name="globalConfig" ref="globalConfig"/> 
+	</bean>
+	
+	<!-- 定义 MP 全局策略 -->
+	<bean id="globalConfig" class="com.baomidou.mybatisplus.entity.GlobalConfiguration">
+	    <!-- 主键策略配置 -->
+	    <!-- 可选参数：AUTO->`0`("数据库ID自增")、INPUT->`1`(用户输入ID")、 ID_WORKER->`2`("全局唯一ID")、 UUID->`3`("全局唯一ID")
+	    -->
+	    <property name="idType" value="0"/>
+	
+	    <!-- 数据库类型配置 -->
+	    <!-- 可选参数（默认mysql）：MYSQL->`mysql`、ORACLE->`oracle`、 DB2->`db2`、H2->`h2`、HSQL->`hsql`、 SQLITE->`sqlite`、POSTGRE->`postgresql`、SQLSERVER2005->`sqlserver2005`、 SQLSERVER->`sqlserver`
+	   
+	    <property name="dbType" value="mysql"/> -->
+	
+	    <!-- 全局表为下划线命名设置 true  表名和字段名是否使用下划线命名 
+	    <property name="dbColumnUnderline" value="true"/>-->
+	    
+	</bean>
+	
+
+	<!-- 配置sqlSessionTemplate 得到sqlSession-->
+    <bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate" scope="prototype">
+        <constructor-arg name="sqlSessionFactory" ref="sqlSessionFactory"/>
+    </bean>
+	
+	<bean id="daoCacheManager" class="com.jiuy.core.dao.support.util.DAOCacheManagerMemcachedImpl" />
+	<bean id="springBeanFactory" class="com.jiuy.core.spring.SpringBeanFactory" />
+	
+	
+	
+	<!-- 注解方式注入dao mapper 
+	为了现在后台工具不能调用俞姐姐代码所以把俞姐姐mapper XML路径指定去掉
+				<value>classpath*:mybatis/yjj/mapper/**/*.xml</value>
+	<bean id="sqlSessionFactory2" class="com.jiuyuan.ext.mybatis.CustomSqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="configLocation" value="classpath:mybatis/yjj/mybatis-config.xml" />
+		<property name="mapperLocations">
+			<list>
+				<value>classpath*:mybatis/jiuyuan/mapper/**/*.xml</value>
+			</list>
+		</property>
+		<property name="handledTypesPackages" value="com.yujj.constant;com.jiuyuan.constant" />
+		<property name="handledTypesBaseClasses">
+			<list>
+				<value>com.jiuyuan.util.enumeration.IntEnum</value>
+				<value>com.jiuyuan.util.enumeration.StringEnum</value>
+			</list>
+		</property>
+	</bean>-->
+
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+	<!-- 为了现在后台工具不能调用俞姐姐代码所以把俞姐姐mapper 路径指定去掉
+		<property name="basePackage" value="com.yujj.dao.mapper;com.jiuyuan.dao.mapper" /> -->
+		<property name="basePackage" value="com.jiuyuan.dao.mapper" />
+		<property name="annotationClass" value="com.jiuyuan.dao.annotation.DBMaster" />
+		<!-- optional unless there are multiple session factories defined -->
+		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
+	</bean>
+	
+	
+	
+</beans>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.e_commerce.miscroservice.activity.mapper.SecondBuyActivityMapper">
+
+
+    <select id="recentlyShopProductActivity"
+            resultType="com.e_commerce.miscroservice.activity.entity.SecondBuyActivity"
+            parameterType="map">
+        SELECT
+        a.*
+		,
+		CASE
+			WHEN a.activity_start_time &lt;= #{currentTime} THEN 2
+			ELSE 1
+			END AS startTimeOrder
+		FROM store_second_buy_activity a
+		WHERE del_state = 0
+		AND activity_hand_end_time = 0
+		AND activity_end_time > #{currentTime}
+		AND shop_product_id = #{shopProductId}
+		<if test="id != null">
+            AND id = #{id}
+        </if>
+		ORDER BY startTimeOrder DESC, activity_end_time ASC
+        LIMIT 1
+    </select>
+
+</mapper>
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,955 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yujj.dao.mapper.ProductMapper">
+	 <sql id="guideProduct">
+		  and ( Type = 0 or Type = 1)
+    </sql>
+	<select id="getProductByIds" resultType="Product">
+		<![CDATA[
+			select a.member_ladder_price_json as ladderPriceJson *,(select logo from yjj_Subscript where id = a.SubscriptId) subscriptLogo, (SELECT count(1) FROM yjj_ProductSKU sku where   sku.Status >= 0 and sku.SaleStartTime < unix_timestamp()*1000 and (sku.SaleEndTime = 0 or sku.SaleEndTime > unix_timestamp()*1000) and ProductId =a.Id) skuOnSaleNum
+			,(SELECT count(1) FROM yjj_ProductSKU sku where   sku.Status >= 0 and sku.SaleStartTime < unix_timestamp()*1000 and (sku.SaleEndTime = 0 or sku.SaleEndTime > unix_timestamp()*1000) and ProductId =a.Id) skuOnSaleNum
+			 from yjj_Product a
+			where (type = 0 or type = 1) and Id in
+		]]>
+		<foreach collection="ids" item="id" open="(" separator="," close=")">
+			<![CDATA[
+				#{id}
+			]]>
+		</foreach>
+	</select>
+	
+	<select id="getProducts" resultType="Product">
+		<![CDATA[
+			select Id, Name, DetailImages, SaleTotalCount, PromotionImage, BrandId, MarketPrice, Cash, JiuCoin, Weight, PromotionSetting, PromotionStartTime, PromotionEndTime, PromotionCash, PromotionJiuCoin, PromotionSaleCount, PromotionVisitCount, CreateTime, DeductPercent,(select logo from yjj_Subscript where id= SubscriptId) subscriptLogo, (SELECT count(1) FROM yjj_ProductSKU sku where   sku.Status >= 0 and sku.SaleStartTime < unix_timestamp()*1000 and (sku.SaleEndTime = 0 or sku.SaleEndTime > unix_timestamp()*1000) and ProductId =a.Id) skuOnSaleNum from yjj_Product a
+			where (type = 0 or type = 1) and JiuCoin = 0 ;
+		]]>
+	</select>
+	
+	<select id="getProductById" resultType="Product">
+		<![CDATA[
+			select * from yjj_Product a
+			where Id = #{id}
+		]]>
+	</select>
+	
+	<select id="getProductShareByProId" resultType="ProductShare">
+		<![CDATA[
+			select * from yjj_ProductShare
+			where ProductId = #{id} limit 1
+		]]>
+	</select>
+	
+	<select id="getRestrictById" resultType="RestrictionCombination">
+		<![CDATA[
+			select * from yjj_RestrictionCombination
+			where Id = #{restrictId} and status = 0
+		]]>
+		
+	</select>
+	
+	<select id="getSubscriptById" resultType="Subscript">
+		<![CDATA[
+			select * from yjj_Subscript
+			where Id = #{id} and status = 0
+		]]>
+		
+	</select>
+	
+	<select id="getRestrictByIdSet" resultType="RestrictionCombination">
+		<![CDATA[
+			select * from yjj_RestrictionCombination
+			where status = 0 and Id in
+		]]>
+		<foreach collection="ids" item="id" open="(" separator="," close=")">
+			<![CDATA[
+				#{id}
+			]]>
+		</foreach>
+		
+	</select>
+	
+	<select id="getProductCountOfCategory" parameterType="map" resultType="int">
+		<![CDATA[
+			select count(1) from yjj_Product a
+			where (type = 0 or type = 1) and a.id in (
+		]]>
+		<![CDATA[
+			select ProductId from yjj_ProductCategory where Status = 0 and CategoryId in
+		]]>
+		<foreach collection="categoryIds" item="categoryId" open="(" separator="," close=")">
+			<![CDATA[
+				#{categoryId}
+			]]>
+		</foreach>
+		<![CDATA[
+			)  and a.id in (
+            select sku.ProductId from yjj_ProductSKU sku
+			where  sku.Status >= 0 and sku.SaleStartTime < unix_timestamp()*1000 and (sku.SaleEndTime = 0 or sku.SaleEndTime > unix_timestamp()*1000)
+			)  and a.ShowStatus = 0 
+		]]>
+	</select>
+	
+	<select id="getProductCountOfCategoryByFilter" parameterType="map" resultType="int">
+		<![CDATA[
+			select count(1) from yjj_Product a
+			where (type = 0 or type = 1) and a.id in (
+		]]>
+		<![CDATA[
+			select ProductId from yjj_ProductCategory where Status = 0 and CategoryId in
+		]]>
+		<foreach collection="categoryIds" item="categoryId" open="(" separator="," close=")">
+			<![CDATA[
+				#{categoryId}
+			]]>
+		</foreach>
+		
+		<![CDATA[
+			)  and a.id in (
+            select sku.ProductId from yjj_ProductSKU sku
+			where  sku.Status >= 0 and sku.SaleStartTime < unix_timestamp()*1000 and (sku.SaleEndTime = 0 or sku.SaleEndTime > unix_timestamp()*1000)
+			)  and a.ShowStatus = 0 
+		]]>
+		<if test="brandId > 0">
+		<![CDATA[
+		and a.BrandId = #{brandId}
+		]]>
+		</if>
+		<if test="minPrice > 0">
+		<![CDATA[
+		and a.cash >= #{minPrice}
+		]]>
+		</if>
+		<if test="maxPrice > 0">
+		<![CDATA[
+		and a.cash <= #{maxPrice}
+		]]>	
+		</if>
+		
+		<if test="inStock">
+		<![CDATA[
+		and  a.id in (select ProductId from yjj_ProductSKU /*where RemainCount > 0*/ )
+		]]>	
+		</if>
+		<if test="onSale">
+		<![CDATA[
+		and   unix_timestamp() * 1000 < PromotionEndTime  and unix_timestamp() * 1000 > PromotionStartTime   and PromotionSetting = 1
+		]]>	
+		</if>
+		<if test="deductFlag">
+		<![CDATA[
+		and  a.DeductPercent > 0
+		]]>	
+		</if>
+		<if test="filterMap.size() > 0">
+				and
+		  <foreach collection="filterMap" index="key"   item="id" separator="and"  >
+                <![CDATA[
+			 a.id in (select ProductId from yjj_ProductProperty where  PropertyNameId = #{key} and PropertyValueId in (
+			 ]]>
+			 <foreach collection="id"    item="vls" separator=","  >
+                <![CDATA[
+			 #{vls}
+			
+			]]>
+            </foreach>
+             <![CDATA[
+			 
+			 ) )
+		
+			]]>
+            </foreach>
+			
+		</if>
+		<if test="colorSizeMap.size() > 0">
+				and
+		   <foreach collection="colorSizeMap" index="key"   item="id" separator="and"  >
+                <![CDATA[
+			a.id in (select ProductId from yjj_ProductSKU where status >= 0 and (
+			 ]]>
+			 <foreach collection="id" index="key"   item="colorSize" separator="OR"  >
+                <![CDATA[
+			  PropertyIds like   '%${colorSize}%'
+			]]>
+            </foreach>
+             <![CDATA[
+			 
+			 )) 
+		
+			]]>
+            </foreach>
+		</if>
+
+		<if test="tagFilterMap.size() > 0">
+				and
+		  <foreach collection="tagFilterMap" index="key"   item="id" separator="and"  >
+                <![CDATA[
+			 a.id in (SELECT  ProductId FROM yjj_ProductTag where TagId in (
+			 ]]>
+			
+			 <foreach collection="id"    item="vl" separator=","  >
+                <![CDATA[
+			 #{vl}
+			
+			]]>
+            </foreach>
+             <![CDATA[
+			 ) and Status = 0 )
+		
+			]]>
+            </foreach>
+			
+		</if>
+	</select>
+
+	<select id="getProductOfCategory" parameterType="map" resultType="Product">
+		<![CDATA[
+			select *,(select logo from yjj_Subscript where id= SubscriptId) subscriptLogo
+			]]>
+		<if test="sortType.intValue == 10">
+		<![CDATA[
+		,(select visitCount from yjj_ProductVisitTemp where ProductId = a.id ) visitCount 
+		]]>
+		</if>
+		<![CDATA[
+			 from yjj_Product a
+			where (type = 0 or type = 1) and a.id in (
+		]]>
+		<![CDATA[
+			select ProductId from yjj_ProductCategory where Status = 0 and CategoryId in
+		]]>
+		<foreach collection="categoryIds" item="categoryId" open="(" separator="," close=")">
+			<![CDATA[
+				#{categoryId}
+			]]>
+		</foreach>
+		<![CDATA[
+			) and a.id in (
+            select sku.ProductId from yjj_ProductSKU sku
+			where  sku.Status >= 0 and sku.SaleStartTime < unix_timestamp()*1000 and (sku.SaleEndTime = 0 or sku.SaleEndTime > unix_timestamp()*1000)
+			)  and a.ShowStatus = 0 
+		]]>
+		<if test="sortType != null">
+			<![CDATA[
+				${sortType.orderSql}
+			]]>
+		</if>
+		<![CDATA[
+			limit #{pageQuery.limit} offset #{pageQuery.offset}
+		]]>
+	</select>
+
+	<select id="getProductByFilter" parameterType="map" resultType="Product">
+		<![CDATA[
+			select a.*,(select logo from yjj_Subscript where id = SubscriptId) subscriptLogo
+			]]>
+		<if test="sortType.intValue == 10">
+		<![CDATA[
+		,(select visitCount from yjj_ProductVisitTemp where ProductId = a.id ) visitCount 
+		]]>
+		</if>
+		<![CDATA[
+			from yjj_Product a
+			where (type = 0 or type = 1) and a.id in (
+		]]>
+		<![CDATA[
+			select ProductId from yjj_ProductCategory where Status = 0 and CategoryId in
+		]]>
+		<foreach collection="categoryIds" item="categoryId" open="(" separator="," close=")">
+			<![CDATA[
+				#{categoryId}
+			]]>
+		</foreach>
+		
+
+		<![CDATA[
+			) and a.id in (
+            select sku.ProductId from yjj_ProductSKU sku
+			where  sku.Status >= 0 and sku.SaleStartTime < unix_timestamp()*1000 and (sku.SaleEndTime = 0 or sku.SaleEndTime > unix_timestamp()*1000)
+			)  and a.ShowStatus = 0 
+			
+		]]>
+		<if test="brandId > 0">
+		<![CDATA[
+		and a.BrandId = #{brandId}
+		]]>
+		</if>
+		<if test="minPrice > 0">
+		<![CDATA[
+		and a.cash >= #{minPrice}
+		]]>
+		</if>
+		<if test="maxPrice > 0">
+		<![CDATA[
+		and a.cash <= #{maxPrice}
+		]]>	
+		</if>
+		
+		<if test="inStock">
+		<![CDATA[
+		and  a.id in (select ProductId from yjj_ProductSKU/* where RemainCount > 0*/ )
+		]]>	
+		</if>
+		<if test="onSale">
+		<![CDATA[
+		and   unix_timestamp() * 1000 < PromotionEndTime  and unix_timestamp() * 1000 > PromotionStartTime   and PromotionSetting = 1
+		]]>	
+		</if>
+		<if test="deductFlag">
+		<![CDATA[
+		and  a.DeductPercent > 0
+		]]>	
+		</if>
+		
+		<if test="filterMap.size() > 0">
+				and
+		  <foreach collection="filterMap" index="key"   item="id" separator="and"  >
+                <![CDATA[
+			 a.id in (select ProductId from yjj_ProductProperty where  PropertyNameId = #{key} and PropertyValueId in (
+			 ]]>
+			
+			 <foreach collection="id"    item="vls" separator=","  >
+                <![CDATA[
+			 #{vls}
+			
+			]]>
+            </foreach>
+             <![CDATA[
+			 ) )
+		
+			]]>
+            </foreach>
+			
+		</if>
+				<if test="colorSizeMap.size() > 0">
+				and
+		  <foreach collection="colorSizeMap" index="key"   item="id" separator="and"  >
+                <![CDATA[
+			a.id in (select ProductId from yjj_ProductSKU where status >= 0 and (
+			 ]]>
+			 <foreach collection="id" index="key"   item="colorSize" separator="OR"  >
+                <![CDATA[
+			  PropertyIds like   '%${colorSize}%'
+			]]>
+            </foreach>
+             <![CDATA[
+			 
+			 )) 
+		
+			]]>
+            </foreach>
+		</if>
+		<if test="tagFilterMap.size() > 0">
+				and
+		  <foreach collection="tagFilterMap" index="key"   item="id" separator="and"  >
+                <![CDATA[
+			 a.id in (SELECT  ProductId FROM yjj_ProductTag where TagId in (
+			 ]]>
+			
+			 <foreach collection="id"    item="vl" separator=","  >
+                <![CDATA[
+			 #{vl}
+			
+			]]>
+            </foreach>
+             <![CDATA[
+			 ) and Status = 0 )
+		
+			]]>
+            </foreach>
+			
+		</if>
+		
+		<if test="sortType != null">
+			<![CDATA[
+				${sortType.orderSql}
+			]]>
+		</if>
+		<![CDATA[
+			limit #{pageQuery.limit} offset #{pageQuery.offset}
+		]]>
+	</select>
+	
+	
+		
+
+	
+	<select id="getProductCountOfBrand" parameterType="map" resultType="int">
+		<![CDATA[
+			select count(1) from yjj_Product a
+			where (type = 0 or type = 1) and a.BrandId=#{brandId} 
+		]]>
+		<![CDATA[
+			  and a.id in (
+            select sku.ProductId from yjj_ProductSKU sku
+			where  sku.Status >= 0 and sku.SaleStartTime < unix_timestamp()*1000 and (sku.SaleEndTime = 0 or sku.SaleEndTime > unix_timestamp()*1000)
+			)  and a.ShowStatus = 0 
+			 and a.id not in (select ProductId from yjj_Category b, yjj_ProductCategory c where b.id=c.categoryid and b.categorytype=2 and c.status=0)
+		]]>
+	</select>
+
+	<select id="getProductOfBrand" parameterType="map" resultType="Product">
+		<![CDATA[
+			select * ,(select logo from yjj_Subscript where id= SubscriptId) subscriptLogo
+			]]>
+		<if test="sortType.intValue == 10">
+		<![CDATA[
+		,(select visitCount from yjj_ProductVisitTemp where ProductId = a.id ) visitCount 
+		]]>
+		</if>
+		<![CDATA[
+			 from yjj_Product a
+			where (type = 0 or type = 1) and a.BrandId=#{brandId} 
+		]]>
+		<![CDATA[
+			 and a.id in (
+            select sku.ProductId from yjj_ProductSKU sku
+			where  sku.Status >= 0 and sku.SaleStartTime < unix_timestamp()*1000 and (sku.SaleEndTime = 0 or sku.SaleEndTime > unix_timestamp()*1000)
+			)  and a.ShowStatus = 0  
+			and a.id not in (select ProductId from yjj_Category b, yjj_ProductCategory c where b.id=c.categoryid and b.categorytype=2 and c.status=0)
+		]]>
+		<if test="sortType != null">
+			<![CDATA[
+				${sortType.orderSql}
+			]]>
+		</if>
+		<![CDATA[
+			limit #{pageQuery.limit} offset #{pageQuery.offset}
+		]]>
+	</select>
+	
+	<select id="getProductCountOfCategoryProperty" parameterType="map" resultType="int">
+		<![CDATA[
+			select count(1) from yjj_Product a
+			where (type = 0 or type = 1) and a.id in (
+		]]>
+		<![CDATA[
+			select b.ProductId from yjj_ProductCategory b, yjj_ProductProperty c where b.Status = 0 and b.CategoryId in
+		]]>
+		<foreach collection="categoryIds" item="categoryId" open="(" separator="," close=")">
+			<![CDATA[
+				#{categoryId}
+			]]>
+		</foreach>
+		<![CDATA[
+			and b.ProductId = c.ProductId and c.PropertyValueId in
+		]]>
+		<foreach collection="propertyValueIds" item="propertyValueId" open="(" separator="," close=")">
+			<![CDATA[
+				#{propertyValueId}
+			]]>
+		</foreach>
+		<![CDATA[
+			)  and a.id in (
+            select sku.ProductId from yjj_ProductSKU sku
+			where  sku.Status >= 0 and sku.SaleStartTime < unix_timestamp()*1000 and (sku.SaleEndTime = 0 or sku.SaleEndTime > unix_timestamp()*1000)
+			)  and a.ShowStatus = 0 
+		]]>
+	</select>
+
+	<select id="getProductOfCategoryProperty" parameterType="map" resultType="Product">
+		<![CDATA[
+			select *,(select logo from yjj_Subscript where id= SubscriptId) subscriptLogo
+			]]>
+		<if test="sortType.intValue == 10">
+		<![CDATA[
+		,(select visitCount from yjj_ProductVisitTemp where ProductId = a.id ) visitCount 
+		]]>
+		</if>
+		<![CDATA[
+			 from yjj_Product a
+			where (type = 0 or type = 1) and a.id in (
+				select b.ProductId from yjj_ProductCategory b, yjj_ProductProperty c where b.Status = 0 and b.CategoryId in
+		]]>
+		<foreach collection="categoryIds" item="categoryId" open="(" separator="," close=")">
+			<![CDATA[
+				#{categoryId}
+			]]>
+		</foreach>
+		<![CDATA[
+			and b.ProductId = c.ProductId and c.PropertyValueId in
+		]]>
+		<foreach collection="propertyValueIds" item="propertyValueId" open="(" separator="," close=")">
+			<![CDATA[
+				#{propertyValueId}
+			]]>
+		</foreach>
+		<![CDATA[
+			)  and a.id in (
+            select sku.ProductId from yjj_ProductSKU sku
+			where  sku.Status >= 0 and sku.SaleStartTime < unix_timestamp()*1000 and (sku.SaleEndTime = 0 or sku.SaleEndTime > unix_timestamp()*1000)
+			)  and a.ShowStatus = 0 
+		]]>
+		<if test="sortType != null">
+			<![CDATA[
+				${sortType.orderSql}
+			]]>
+		</if>
+		<![CDATA[
+			limit #{pageQuery.limit} offset #{pageQuery.offset}
+		]]>
+	</select>
+	
+	<select id="getBestSellerProductCount" resultType="int">
+		<![CDATA[
+			select count(1) from yjj_Product a
+			where (type = 0 or type = 1) and  a.id in (
+            select sku.ProductId from yjj_ProductSKU sku
+			where  sku.Status >= 0 and /*sku.remainCount > 0 and*/ sku.SaleStartTime < unix_timestamp()*1000 and (sku.SaleEndTime = 0 or sku.SaleEndTime > unix_timestamp()*1000)
+			)  and a.ShowStatus = 0 
+		]]>
+	</select>
+	
+	<select id="getBestSellerProductList" parameterType="map" resultType="Product">
+		<![CDATA[
+			select *,(select logo from yjj_Subscript where id= SubscriptId) subscriptLogo from yjj_Product a
+			where  (type = 0 or type = 1) and   a.id in (
+            select sku.ProductId from yjj_ProductSKU sku
+			where  sku.Status >= 0 and/* sku.remainCount > 0 and*/ sku.SaleStartTime < unix_timestamp()*1000 and (sku.SaleEndTime = 0 or sku.SaleEndTime > unix_timestamp()*1000 )
+			)  and a.ShowStatus = 0 and a.JiuCoin = 0
+			order by a.Createtime desc
+			limit #{pageQuery.limit} offset #{pageQuery.offset}
+		]]>
+	</select>
+	
+
+	
+	<select id="getUserBestSellerProductList186" parameterType="map" resultType="Product">
+		<![CDATA[
+			select a.*,(select logo from yjj_Subscript where id= SubscriptId) subscriptLogo  from yjj_Product a
+			where  (type = 0 or type = 1) and   a.ShowStatus = 0 
+            and a.brandId <> 572 and a.JiuCoin = 0 and a.id in (
+            select sku.ProductId from yjj_ProductSKU sku
+			where  sku.Status >= 0 and sku.SaleStartTime < unix_timestamp()*1000 and (sku.SaleEndTime = 0 or sku.SaleEndTime > unix_timestamp()*1000)
+			)
+			
+			]]>
+			<if test = "userId > 0">
+			<![CDATA[
+			order by  (a.HotSttstcs - (SELECT 30 * 0.4 * ifnull(sum(BuyCount),0) FROM yjj_OrderItem where userId = #{userId} and ProductId = a.Id)
+				            	- 0.25 * (SELECT IFNULL(Count, 0) FROM yjj_UserVisitHistory where type=0 and RelatedId = a.Id and userId = #{userId} )
+				 				-10 * 0.25 * (SELECT count(1) FROM yjj_UserFavorite where type=0 and status =0 and RelatedId = a.Id and userId = #{userId})
+								-20 * 0.25 * (select count(1)  FROM yjj_ShoppingCart where ProductId = a.Id and userId = #{userId})
+								)* ifnull(( select Weight from yjj_ProductSeasonWeight where SeasonValue =  (SELECT PropertyValueId FROM yjj_ProductProperty where  PropertyNameId = 9 and ProductId = a.id)),1) desc
+			]]>
+			</if>
+			<if test = "userId == 0">
+			<![CDATA[
+			order by a.HotSttstcs * ifnull(( select Weight from yjj_ProductSeasonWeight where SeasonValue =  (SELECT PropertyValueId FROM yjj_ProductProperty where  PropertyNameId = 9 and ProductId = a.id)),1)  desc
+			]]>
+			</if>
+			<![CDATA[
+		
+			limit #{pageQuery.limit} offset #{pageQuery.offset}
+			
+		]]>
+	</select>
+	
+	<select id="getUserBuyGuessProduct186" parameterType="map" resultType="Product">
+		<![CDATA[
+			select a.*,(select logo from yjj_Subscript where id= SubscriptId) subscriptLogo  from yjj_Product a
+			where (type = 0 or type = 1) and   a.ShowStatus = 0 
+            and a.brandId <> 572 and a.JiuCoin = 0 and a.id in (
+            select sku.ProductId from yjj_ProductSKU sku
+			where  sku.Status >= 0 and sku.SaleStartTime < unix_timestamp()*1000 and (sku.SaleEndTime = 0 or sku.SaleEndTime > unix_timestamp()*1000)
+			)
+			
+			]]>
+			<if test = "userId > 0">
+			<![CDATA[
+			order by (a.CartSttstcs - (SELECT 30 * 0.3 * ifnull(sum(BuyCount),0) FROM yjj_OrderItem where userId = #{userId} and ProductId = a.Id)
+				            	+ (15 - 0.2) * (SELECT IFNULL(Count, 0) FROM yjj_UserVisitHistory where type=0 and RelatedId = a.Id and userId = #{userId} )
+				 				- 10 * 0.2 * (SELECT count(1) FROM yjj_UserFavorite where type=0 and status =0 and RelatedId = a.Id and userId = #{userId})
+								- 20 * 0.2 * (select count(1)  FROM yjj_ShoppingCart where ProductId = a.Id and userId = #{userId})
+			) * ifnull(( select Weight from yjj_ProductSeasonWeight where SeasonValue =  (SELECT PropertyValueId FROM yjj_ProductProperty where  PropertyNameId = 9 and ProductId = a.id)),1)  desc
+			]]>
+			</if>
+			<if test = "userId == 0">
+			<![CDATA[
+			order by a.CartSttstcs * ifnull(( select Weight from yjj_ProductSeasonWeight where SeasonValue =  (SELECT PropertyValueId FROM yjj_ProductProperty where  PropertyNameId = 9 and ProductId = a.id)),1) desc
+			]]>
+			</if>
+			<![CDATA[
+			
+			limit #{pageQuery.limit} offset #{pageQuery.offset}
+			
+		]]>
+	</select>
+		
+	<select id="getBestSellerProductList185" parameterType="map" resultType="Product">
+		<![CDATA[
+			select * ,(select logo from yjj_Subscript where id= SubscriptId) subscriptLogo
+			]]>
+		<if test="sortType.intValue == 10">
+		<![CDATA[
+		,(select visitCount from yjj_ProductVisitTemp where ProductId = a.id ) visitCount 
+		]]>
+		</if>
+		<![CDATA[
+			 from yjj_Product a
+			where (type = 0 or type = 1) and   a.id in (
+            select sku.ProductId from yjj_ProductSKU sku
+			where  sku.Status >= 0 and /*sku.remainCount > 0 and */sku.SaleStartTime < unix_timestamp()*1000 and (sku.SaleEndTime = 0 or sku.SaleEndTime > unix_timestamp()*1000 )
+			)  and a.ShowStatus = 0 and JiuCoin = 0
+			
+			]]>
+		<if test="sortType != null">
+			<![CDATA[
+				${sortType.orderSql}
+			]]>
+		</if>
+		<![CDATA[
+			limit #{pageQuery.limit} offset #{pageQuery.offset}
+		]]>
+	</select>
+	
+	<update id="updateSaleCount" parameterType="map">
+		<![CDATA[
+			update yjj_Product
+			set SaleTotalCount = SaleTotalCount + #{by}
+			where Id = #{id} and SaleTotalCount + #{by} >= 0
+		]]>
+	</update>
+	
+	<select id="getProductBySaleTime" parameterType="map" resultType="Product">
+		<![CDATA[
+			select *,(select logo from yjj_Subscript where id= SubscriptId) subscriptLogo, (SELECT count(1) FROM yjj_ProductSKU sku where   sku.Status >= 0 and sku.SaleStartTime < unix_timestamp()*1000 and (sku.SaleEndTime = 0 or sku.SaleEndTime > unix_timestamp()*1000) and ProductId =a.Id) skuOnSaleNum
+			]]>
+		<if test="sortType.intValue == 10">
+		<![CDATA[
+		,(select visitCount from yjj_ProductVisitTemp where ProductId = a.id ) visitCount 
+		]]>
+		</if>
+		<![CDATA[
+			 from yjj_Product a
+			where  (type = 0 or type = 1) and  a.id in (
+		]]>
+		<![CDATA[
+			select ProductId from yjj_ProductCategory where Status = 0 and CategoryId in
+		]]>
+		<foreach collection="categoryIds" item="categoryId" open="(" separator="," close=")">
+			<![CDATA[
+				#{categoryId}
+			]]>
+		</foreach>
+		<![CDATA[
+			) and a.Status = 0 and a.ShowStatus > 0 and a.SaleStartTime >= #{startTimeBegin} and a.SaleStartTime <= #{startTimeEnd}
+		]]>
+		<if test="sortType != null">
+			<![CDATA[
+				${sortType.orderSql}
+			]]>
+		</if>
+	</select>
+	
+	<select id="getBrandIds" resultType="long">
+		<![CDATA[
+			select distinct(a.BrandId) from yjj_Product a
+			where  (type = 0 or type = 1) and  a.id in 
+		]]>
+		<foreach collection="productIds" item="productId" open="(" separator="," close=")">
+			<![CDATA[
+				#{productId}
+			]]>
+		</foreach>
+		<![CDATA[
+			 and a.Status = 0 
+		]]>
+	</select>
+	
+	<select id="getProductListByCollection" resultType="Product">
+		<![CDATA[
+			select * from yjj_Product a
+			where  (type = 0 or type = 1) and  a.id in 
+		]]>
+		<foreach collection="productIds" item="productId" open="(" separator="," close=")">
+			<![CDATA[
+				#{productId}
+			]]>
+		</foreach>
+		<![CDATA[
+			 and a.Status = 0 
+		]]>
+	</select>
+	
+	<select id="getProductListMostRecommendList" resultType="Product">
+		<![CDATA[
+			select * from yjj_Product a
+			where  (type = 0 or type = 1) 
+			 and a.Status = 0  order
+			 by weight desc
+			 limit #{limit}
+		]]>
+	</select>
+	<select id="getProductListBestSell" resultType="Product">
+		<![CDATA[
+			select * from yjj_Product a
+			where  (type = 0 or type = 1) 
+			 and a.Status = 0  
+             and id in ( select productId  from yjj_OrderItem where ParentId in (SELECT orderno FROM yjj_OrderNew where createTime > #{time}  and orderstatus in (10,50,70)) group by productId  )
+             order by ( select  count(productId)  from yjj_OrderItem where ParentId in (SELECT orderno FROM yjj_OrderNew where createTime >#{time}  and orderstatus in (10,50,70)) and productId=a.id group by productId  )  desc
+			 limit #{limit}
+		]]>
+	</select>
+	<select id="getProductListMostCollect" resultType="Product">
+		<![CDATA[
+			select * from yjj_Product a
+			where  (type = 0 or type = 1) 
+			 and a.Status = 0
+			  and id in (SELECT relatedId FROM yjj_UserFavorite where type =0 and status=0 and createTime>#{time}  group by relatedId   )
+             order by ( SELECT  count(relatedId) FROM yjj_UserFavorite where type =0 and status=0 and createTime>#{time} and relatedId= a.Id  group by relatedId)  desc
+			 limit #{limit}
+		]]>
+	</select>
+	<select id="getProductListMostView" resultType="Product">
+		<![CDATA[
+			select * from yjj_Product a
+			where  (type = 0 or type = 1) 
+			 and a.Status = 0 
+			  and id in (SELECT SrcRelatedId FROM yjj_Log where SrcId = -5 and SrcRelatedId> 0  and  createTime > #{time}  group by SrcRelatedId)
+             order by ( SELECT count(SrcRelatedId) FROM yjj_Log where SrcId = -5 and SrcRelatedId> 0  and  createTime > #{time} and SrcRelatedId = a.Id group by SrcRelatedId )  desc
+			 
+			 
+			  limit #{limit}
+		]]>
+	</select>
+	
+	<select id="getBuyAlsoProduct" resultType="Product">
+		SELECT 
+		    *
+		FROM
+		    (SELECT 
+		        ProductId, COUNT(*)
+		    FROM
+		        (SELECT a.*
+		    	FROM
+		        	(SELECT DISTINCT (UserId)
+		    		FROM
+		        		yjj_OrderItem
+		    		WHERE
+		        		ProductId in 
+					<foreach collection="productIds" item="productId" open="(" separator="," close=")">
+						<![CDATA[
+							#{productId}
+						]]>
+					</foreach>) AS e
+		    		LEFT JOIN yjj_OrderItem a ON e.UserId = a.UserId
+		    	WHERE
+		        	ProductId NOT IN 
+		        	<foreach collection="productIds" item="productId" open="(" separator="," close=")">
+						<![CDATA[
+							#{productId}
+						]]>
+					</foreach>) AS b
+		    	GROUP BY 
+		    		ProductId
+		    	ORDER BY 
+		    		COUNT(*) DESC limit #{count}) AS c
+		LEFT JOIN
+		    yjj_Product d ON c.ProductId = d.Id
+		WHERE 
+	 		<![CDATA[
+				d.JiuCoin = 0 and ProductId in (select productId from yjj_ProductSKU 
+		 			where name <> "补差价" and status > -1 /*and remainCount > 0 */
+		 				and saleStartTime < unix_timestamp()*1000 and (saleEndTime = 0 or saleEndTime > unix_timestamp()*1000))
+		 	]]>
+		LIMIT #{pageQuery.limit}
+	</select>
+	
+		
+	<select id="getZeroBuyerLog" parameterType="map" resultType="int">
+		<![CDATA[
+			select IFNULL(sum(BuyCount), 0) from yjj_OrderItem a
+			where a.UserId = #{userId} and Money < 1.0
+		]]>
+		<![CDATA[
+			and a.CreateTime >= #{time}
+		]]>
+	</select>
+		
+	<select id="getZeroBuyerMonthly" parameterType="map" resultType="int">
+		<![CDATA[
+			select IFNULL(sum(BuyCount), 0) from yjj_OrderItem a
+			where a.UserId = #{userId} and Money < 1.0
+		
+			and a.CreateTime >= #{startTime}
+			and a.CreateTime <= #{endTime}
+		]]>
+	</select>
+	
+	<select id="getUserRestrictBuy" parameterType="map" resultType="int">
+		<![CDATA[
+			select IFNULL(sum(BuyCount), 0) from yjj_OrderItem a
+			where a.UserId = #{userId} and ProductId in(
+			select id FROM yjj_Product where RestrictId = #{restrictId}
+			) and a.CreateTime >= #{startTime}
+			and a.CreateTime <= #{endTime}
+		]]>
+	</select>
+		<!-- 
+	<select id="getBuyerLog" parameterType="map" resultType="RestrictProductVO">
+		SELECT 
+		    c.Id AS ProductId,
+		    c.RestrictCycle,
+		    c.RestrictDayBuy,
+		    c.RestrictHistoryBuy,
+		    c.RestrictDayBuyTime,
+		    c.RestrictHistoryBuyTime,
+		    b.BuyCount,
+		    a.CreateTime
+		FROM
+		    (SELECT 
+		        *
+		    FROM
+		        yjj_OrderNew
+		    WHERE
+		        orderStatus NOT IN (100 , 90)
+		            AND Status = 0
+		            AND UserId = #{userId}) AS a
+		        JOIN
+		    yjj_OrderItem b ON a.OrderNo = b.OrderNo
+		        JOIN
+		    yjj_Product c ON c.Id = b.ProductId
+		WHERE
+		    b.Status = 0 AND ProductId IN
+		    	<foreach collection="productIds" item="productId" open="(" separator="," close=")">
+					<![CDATA[
+						#{productId}
+					]]>
+				</foreach>
+		order by ProductId
+	</select> -->
+	
+	<select id="getBuyerLogNew" parameterType="map" resultType="RestrictProductVO">
+		SELECT 
+		    c.Id AS ProductId,
+		    c.RestrictCycle,
+		    c.RestrictDayBuy,
+		    c.RestrictHistoryBuy,
+		    c.RestrictDayBuyTime,
+		    c.RestrictHistoryBuyTime,
+		    b.BuyCount,
+		    a.CreateTime
+		FROM
+		    (SELECT 
+		        *
+		    FROM
+		        yjj_OrderNew
+		    WHERE
+		        orderStatus NOT IN (100 , 90)
+		            AND Status = 0
+		            AND UserId = #{userId}) AS a
+		        JOIN
+		    yjj_OrderItem b ON a.OrderNo = b.OrderNo
+		        JOIN
+		    yjj_Product c ON c.Id = b.ProductId
+		WHERE
+		    b.Status = 0 AND ProductId IN
+		    	<foreach collection="productIds" item="productId" open="(" separator="," close=")">
+					<![CDATA[
+						#{productId}
+					]]>
+				</foreach>
+		order by ProductId
+	</select>
+	
+	<select id="getProductOfWarehouse" parameterType="map" resultType="Product">
+		<![CDATA[
+			select *,(select logo from yjj_Subscript where id= SubscriptId) subscriptLogo
+			]]>
+		<if test="sortType.intValue == 10">
+		<![CDATA[
+		,(select visitCount from yjj_ProductVisitTemp where ProductId = a.id ) visitCount 
+		]]>
+		</if>
+		<![CDATA[
+			 from yjj_Product a
+			where  (type = 0 or type = 1) and  a.LOWarehouseId = #{loWarehouseId} 
+		]]>
+		<![CDATA[
+			 and a.id in (
+            select sku.ProductId from yjj_ProductSKU sku
+			where  sku.Status >= 0 and sku.SaleStartTime < unix_timestamp()*1000 and (sku.SaleEndTime = 0 or sku.SaleEndTime > unix_timestamp()*1000)
+			)  and a.ShowStatus = 0  
+		]]>
+		<if test="sortType != null">
+			<![CDATA[
+				${sortType.orderSql}
+			]]>
+		</if>
+		<![CDATA[
+			limit #{pageQuery.limit} offset #{pageQuery.offset}
+		]]>
+	</select>
+	
+		
+	<select id="getStoreAvailableBrandStr" parameterType="map" resultType="String">
+		<![CDATA[
+			SELECT  group_concat(brandId) str FROM yjj_StoreBrandRelation where StoreId= #{storeId} and Status = 0
+			
+		]]>
+	</select>
+	
+		
+	<select id="getProductByBrandIds" resultType="ProductVO">
+		<![CDATA[
+		select * from yjj_Product a  where  a.Id in (
+            select sku.ProductId from yjj_ProductSKU sku
+			where  sku.Status >= 0 and sku.SaleStartTime < unix_timestamp()*1000 and (sku.SaleEndTime = 0 or sku.SaleEndTime > unix_timestamp()*1000)
+			)  and a.ShowStatus = 0 and 
+			a.id in (
+		]]>
+		<![CDATA[
+			select ProductId from yjj_ProductCategory where Status = 0 and CategoryId in
+		]]>
+		<foreach collection="categoryIds" item="categoryId" open="(" separator="," close=")">
+			<![CDATA[
+				#{categoryId}
+			]]>
+		</foreach>
+		<![CDATA[
+			)
+		]]>
+		<if test="brandIds.size > 0">
+		<![CDATA[
+		and BrandId IN
+		]]>
+		<foreach collection="brandIds" item="brandId" open="(" separator="," close=")">
+			<![CDATA[
+				#{brandId}
+			]]>
+		</foreach>
+		</if>
+		
+		<![CDATA[
+		and (Type = 0 or Type = 1)
+		]]>
+		
+		<if test="type == 0">
+		<![CDATA[
+		
+		order by CartSttstcs desc
+		]]>
+		</if>
+		<if test="type > 0">
+		<![CDATA[
+		
+		order by HotSttstcs desc
+		]]>
+		</if>
+	</select>
+	
+	<select id="getProductCountOfWarehouse" parameterType="map" resultType="int">
+		<![CDATA[
+			select count(1) from yjj_Product a
+			where  (type = 0 or type = 1) and  a.LOWarehouseId = #{loWarehouseId} 
+		]]>
+		<![CDATA[
+			  and a.id in (
+            select sku.ProductId from yjj_ProductSKU sku
+			where  sku.Status >= 0 and sku.SaleStartTime < unix_timestamp()*1000 and (sku.SaleEndTime = 0 or sku.SaleEndTime > unix_timestamp()*1000)
+			)  and a.ShowStatus = 0 
+		]]>
+	</select>
+	
+</mapper>

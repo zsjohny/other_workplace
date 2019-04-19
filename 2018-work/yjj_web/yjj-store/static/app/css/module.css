@@ -1,0 +1,85 @@
+/*收入支出列表*/
+.tabsbox .bill-list { padding-top: 185px; }
+.tabsbox .bill-list li .date p, .tabsbox .bill-list li .detailed h2, .tabsbox .bill-list li .detailed p { text-overflow: ellipsis; white-space: nowrap; overflow: hidden; }
+.tabsbox .bill-list li { position: relative; clear: both; width: 100%; height: 56px; padding: 0px 10px; border-bottom: 1px solid #eaeaea; }
+.tabsbox .bill-list li .date, .tabsbox .bill-list li .detailed { position: relative; float: left; width: 50%; }
+.tabsbox .bill-list li .date { padding: 8px 40px 7px 0px; font-size: 11px; line-height: 20px; color: #a6a6a6; }
+.tabsbox .bill-list li .date p { width: 100%; word-wrap: normal; }
+.tabsbox .bill-list li .date .icon { position: absolute; top: 10px; right: 0px; display: block; width: 34px; height: 34px; border-radius: 50%; overflow: hidden; }
+.tabsbox .bill-list li .date .icon img { width: 100%; }
+.tabsbox .bill-list li .detailed { height: 55px; padding: 3px 10px 3px 15px; background: url(../images/icon_05.png) right center no-repeat; background-size: 7px; }
+.tabsbox .bill-list li .detailed h2 { font-size: 16px; color: #333; line-height: 28px; }
+
+/*开关按钮*/
+.chk_3{ display: none; }
+.chk_3 + label { background-color: #fafbfa; border-radius:1em; display: inline-block; position: relative; margin-right: 30px; -webkit-transition: all 0.1s ease-in; transition: all 0.1s ease-in; width: 50px; height: 26px; }
+.chk_3 + label:after { content: ' '; position: absolute; top: 0; -webkit-transition: box-shadow 0.1s ease-in; transition: box-shadow 0.1s ease-in; left: 0; width: 100%; height: 100%; border-radius: 100px; box-shadow: inset 0 0 0 0 #eee, 0 0 1px rgba(0,0,0,0.4); }
+.chk_3 + label:before { content: ' '; position: absolute; background: white; top: -2px; left: -4px; z-index: 999999; width: 30px; -webkit-transition: all 0.1s ease-in; transition: all 0.1s ease-in; height: 30px; border-radius: 100px; box-shadow: 0 3px 1px rgba(0,0,0,0.05), 0 0px 1px rgba(0,0,0,0.3); }
+.chk_3:checked + label:before { content: ' '; position: absolute; left:24px; border-radius: 100px; }
+.chk_3:checked + label:after { content: ' '; font-size: 1.5em; position: absolute; background: #fd4374; box-shadow: 0 0 1px #4cda60; }
+
+.btnCom{position: fixed;left: 0;right: 0;bottom: 0 ;display: inline-block; width: 100%; height: 40px; line-height: 38px; font-size: 18px; color: #ccc; text-align: center; border: 1px solid #ccc; border-radius:4px;}
+.btnCom.active{ color: #fff; background-color: #fd4374;}
+.btnCom.cancel{color: #fff; background: #a6a6a6; border: 1px solid #a6a6a6; }
+
+
+/*搜索框*/
+.memberSearch{ position: relative; width: 92%; height: 30px; margin: 10px 4%; padding-left: 33px; border-radius: 4px; background-color: #f5f5f5;}
+.memberSearch .icon{position: absolute; left: 10px; top: 6px; width: 18px; height: 18px; }
+.memberSearch .icon img{ width: 100%; width: 100%;}
+.memberSearch input{position: absolute; z-index: 999; width: 100%; height: 30px; background-color:transparent; border: none; }
+
+/*消息提示模态框*/
+.MsgModal .modal-dialog{position: absolute; top: 45%; left: 19%; width: 62%; min-height: 130px; margin-top: -75px; background: #fff; border-radius: 5px; padding: 15px;}
+.MsgModal .modalContent{ width: 100%; text-align: center; min-height: 70px;}
+.modalContent .p1{ color: #333; font-size: 18px; margin-top: 10px; line-height: 30px;}
+.modalContent .p1 span{ font-size: 12px;}
+.modalContent .p2{ color: #a6a6a6;}
+.modalContent .p3{color: #333; font-size: 14px; margin-top: 25px; line-height: 30px;}
+.MsgModal .btnSM{ float: left; width: 50%; padding: 0px 8px; height: 30px; line-height: 28px;}
+.MsgModal .btnSMCom{ display: inline-block; width: 100%; height: 30px; line-height: 28px; font-size: 14px; color: #fff; text-align: center; background-color: #a6a6a6; border: 1px solid #a6a6a6; border-radius:4px;}
+.MsgModal .btnSMCom.active{ color: #fff; background-color: #fd4374;border: 1px solid #fd4374;}
+
+/*留言板查询版块*/
+.MessageSearch{position: absolute; top: 31px; left: 0px; width: 100%; height: 100%;}
+
+/*消息中心*/
+.MessageUl li{width: 100%; height: 62px; border-bottom: 1px solid #d2d2d2; padding: 0px 10px; background: #fff;}
+.MessageUl li a{ position: relative; display: block; width: 100%; height: 100%; padding: 8px 0px 4px 65px;}
+.MessageUl li .userPic{position: absolute; top: 8px; left: 0px; width: 45px; height: 45px; border-radius: 5px; overflow: hidden;}
+.MessageUl li .userPic img{width: 100%; height: 100%;}
+.MessageUl li .p1{font-size:15px ; color: #555555; line-height: 23px;}
+.MessageUl li .p2{ font-size: 13px; line-height: 23px;}
+
+#MessageCenter .MessageList{ margin-top: 10px; padding: 0px 10px;}
+#MessageCenter .MessageList .illustration {width: 100%; padding: 5px 10px;}
+#MessageCenter .MessageList .illustration img{width: 100%;}
+#MessageCenter .MessageList .Article{ width: 100%; padding: 0px 10px;}
+#MessageCenter .MessageList .TitleArticle{font-size: 15px; line-height: 20px; margin-bottom: 10px;}
+#MessageCenter .MessageList .briefIntroduction{ font-size:13px; color: #a6a6a6; line-height: 16px;}
+#MessageCenter .MessageList .showMore .Read{ width: 100%; color: #666; text-align:left; background: url(../images/icon_35.png) right center no-repeat; background-size:7px ;}
+#MessageCenter .MessageList .TransactionInfor{ position: relative; padding: 5px 20% 5px 10px;}
+#MessageCenter .MessageList .TransactionInfor p{ font-size: 13px; color: #333333; line-height: 30px;}
+#MessageCenter .MessageList .TransactionInfor .Price{position: absolute; top: 8px; right: 10px; font-size: 15px; color: #fd4374;}
+.MessageList li .txt2 .icon2{ right: -10px;top: 8px;background: url(../images/icon_32.png) left top no-repeat;background-size: 100% 100%;}
+
+/**新增下单确定按钮样式**/
+#Specifications div.sure1,#Specifications div.sure2{
+	padding:0;
+	height:40px;
+}
+.ui-btn.active {
+    color: #fff;
+    background-color: #fd4374;
+}
+.ui-btn {
+    display: inline-block;
+    width: 100%;
+    height: 40px;
+    line-height: 38px;
+    font-size: 18px;
+    color: #ccc;
+    text-align: center;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}

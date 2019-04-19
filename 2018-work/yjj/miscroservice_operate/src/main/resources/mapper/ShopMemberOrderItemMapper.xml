@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" > 
+<mapper namespace="com.e_commerce.miscroservice.operate.mapper.ShopMemberOrderItemMapper">
+
+
+
+    <!--SELECT-->
+    <!--item.id AS id,-->
+    <!--item.product_sku_id AS productSkuId,-->
+    <!--item.count as count,-->
+    <!--item.color AS color,-->
+    <!--item.size AS size,-->
+    <!--item.price as price,-->
+    <!--product.`name` AS productName,-->
+    <!--CASE WHEN product.product_id > 0 THEN yProduct.ClothesNumber ELSE product.clothes_number END-->
+    <!--AS clothesNumber,-->
+    <!--CASE WHEN product.product_id > 0 THEN yProduct.SummaryImages ELSE product.summary_images END-->
+    <!--AS summaryImages,-->
+    <!--product.product_id-->
+    <!--FROM shop_member_order_item item-->
+    <!--JOIN shop_product product ON product.id = item.shop_product_id-->
+
+    <!--LEFT JOIN yjj_product yProduct ON yProduct.Id = product.product_id-->
+    <!--WHERE item.order_number = #{orderNo}-->
+	<select id="findProductInfoByOrderNo" resultType="com.e_commerce.miscroservice.commons.entity.order.ShopMemberOrderItemQuery">
+		SELECT
+		item.id AS id,
+		item.product_sku_id AS productSkuId,
+		item.count as count,
+		item.color AS color,
+		item.size AS size,
+		item.price as price,
+		product.summary_images AS summaryImages,
+		product.`name` AS productName,
+		product.clothes_number AS clothesNumber
+
+		FROM shop_member_order_item item
+		JOIN shop_product product ON product.id = item.shop_product_id
+	    WHERE item.order_number = #{orderNo}
+	</select>
+
+</mapper>

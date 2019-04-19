@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans   
+        http://www.springframework.org/schema/beans/spring-beans-4.0.xsd   
+        http://www.springframework.org/schema/util
+        http://www.springframework.org/schema/util/spring-util-4.0.xsd">
+
+	<!-- thread pool -->
+    <bean id="threadPoolTaskExecutor" class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
+        <property name="corePoolSize" value="10"/>
+        <property name ="keepAliveSeconds" value ="120" /> 
+        <property name="maxPoolSize" value="200"/>
+        <property name="queueCapacity" value="1000"/>
+        <property name="waitForTasksToCompleteOnShutdown" value="true"/>
+  	</bean>
+
+    <!-- 设置Task调度 -->
+    <bean id="schedulerFactoryBean"
+	class="org.springframework.scheduling.quartz.SchedulerFactoryBean"
+	autowire="no">
+		<property name="triggers">
+			<list>
+				<ref bean="indexCreateTrigger"/>
+			</list>
+		</property>
+		<property name="taskExecutor" ref="threadPoolTaskExecutor" />
+		<!-- 初始化后是否延时多少秒启动Scheduler，默认是0马上启动，通过startupDelay属性让Scheduler延迟一小段时间后启动，以便让Spring能够更快初始化容器中剩余的Bean. -->
+		<property name="startupDelay">
+			<value>0</value>
+		</property>
+	</bean>
+	
+	<bean id="indexCreateJob" class="com.yujj.business.service.task.IndexCreateJob"/> 
+   	<bean id="indexCreateJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">   
+        <property name="targetObject" ref="indexCreateJob"/>  
+        <property name="targetMethod" value="execute"/>  
+        <property name="concurrent" value="false"/>
+        <!-- 是否允许任务并发执行。当值为false时，表示必须等到前一个线程处理完毕后才再启一个新的线程 -->  
+	</bean>
+	<bean id="indexCreateTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">  
+       <property name="jobDetail" ref="indexCreateJobDetail"/>  
+       <property name="cronExpression" value="${task.create.index.interval}"/>
+    </bean>	
+</beans>  

@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jiuy.core.dao.impl.sql.OrderItemDaoSqlImpl">
+
+    <resultMap type="OrderItemVO" id="items_Product">
+        <id property="id" column="Id"/>
+        <result property="orderId" column="OrderId"/>
+        <result property="productId" column="ProductId"/>
+        <result property="skuId" column="SkuId"/>
+        <result property="skuSnapshot" column="SkuSnapshot"/>
+        <result property="buyCount" column="BuyCount"/>
+        <result property="brandId" column="BrandId"/>
+        <result property="totalMoney" column="TotalMoney"/>
+        <result property="money" column="Money"/>
+        <association  property="product" resultMap="com.jiuy.core.dao.impl.sql.ProductMapperSqlImpl.Product" column="ProductId">
+        </association>
+    </resultMap>
+
+<!--  	<insert id="insertOrderItems" parameterType="map">
+		<![CDATA[
+			insert into yjj_OrderItem
+			(OrderId, UserId, ProductId, SkuId, TotalMoney, TotalExpressMoney, Money, ExpressMoney, BuyCount, SkuSnapshot, Status, CreateTime, UpdateTime)
+			values
+		]]>
+		<foreach collection="orderItems" item="orderItem" open="(" separator="),(" close=")">
+			<![CDATA[
+				#{orderId}, #{orderItem.userId}, ${orderItem.productId}, #{orderItem.skuId}, #{orderItem.totalMoney}, #{orderItem.totalExpressMoney}, #{orderItem.money}, #{orderItem.expressMoney}, #{orderItem.buyCount}, #{orderItem.skuSnapshot}, #{orderItem.status}, #{orderItem.createTime}, #{orderItem.updateTime}
+			]]>
+		</foreach>
+	</insert>
+-->
+	
+	<select id="getOrderItems" parameterType="map" resultType="OrderItem">
+		<![CDATA[
+			select * from yjj_OrderItem
+			where OrderId in
+		]]>
+		<foreach collection="orderIds" item="orderId" open="(" separator="," close=")">
+			<![CDATA[
+				#{orderId}
+			]]>
+		</foreach> and Status = 0
+	</select>
+	
+	<select id="getByOrderId" parameterType="long" resultMap="items_Product">
+		select a.*,b.*
+		from yjj_OrderItem a, yjj_Product b
+		where OrderId = #{orderId} and a.ProductId = b.Id and a.Status = 0
+		order by a.BrandId
+	</select>
+	
+	<select id="getOrderItemGroup" parameterType="map" resultMap="items_Product">
+		select 
+			a.*,b.*
+		from 
+			yjj_OrderItem a, yjj_Product b
+		where 
+			a.OrderId = #{orderId} and a.ProductId = b.Id and a.Status = 0 and a.BrandId = #{brandId}
+	</select>
+	
+	<select id="orderItemsOfGroupIds" parameterType="map" resultType="OrderItem">
+		select * from yjj_OrderItem
+		where GroupId in 
+		<foreach collection="orderGroupIds" item="groupId" open="(" separator="," close=")">
+			#{groupId}
+		</foreach>  and Status = 0
+		order by GroupId
+	</select>
+	
+	<select id="orderItemsOfIds" parameterType="map" resultType="OrderItem">
+		select * from yjj_OrderItem
+		where Id in 
+		<foreach collection="Ids" item="id" open="(" separator="," close=")">
+			#{id}
+		</foreach> and Status = 0
+	</select>
+	
+	<select id="orderItemsOfId" parameterType="map" resultType="OrderItem">
+		select * from yjj_OrderItem
+		where Id = #{orderItemId} and Status = 0
+	</select>
+	
+	<select id="orderItemsOfOrderNos" parameterType="map" resultType="OrderItem">
+		select * from yjj_OrderItem
+		where OrderNo in 
+		<foreach collection="orderNos" item="orderNo" open="(" separator="," close=")">
+			#{orderNo}
+		</foreach> and Status = 0
+		order by OrderNo asc
+	</select>
+	
+	<select id="orderItemsOfOrderNo" parameterType="map" resultType="OrderItem">
+		select * from yjj_OrderItem
+		where OrderNo = #{orderNo} and Status = 0
+		order by OrderNo asc
+	</select>
+	
+	<select id="buyCountMapOfOrderNo" parameterType="map" resultType="map">
+		select sum(BuyCount) as TotalBuyCount, OrderNo
+		from yjj_OrderItem
+		where OrderNo in 
+		<foreach collection="orderNos" item="orderNo" open="(" separator="," close=")">
+			#{orderNo}
+		</foreach>
+		group by OrderNo
+	</select>
+	
+	<select id="orderItemsOfSkuIds" parameterType="map" resultType="OrderItem">
+		select * from yjj_OrderItem
+		where SkuId in 
+		<foreach collection="skuIds" item="skuId" open="(" separator="," close=")">
+			#{skuId}
+		</foreach> 
+		<if test = "orderNos != null">
+			and OrderNo not in 
+				<foreach collection="orderNos" item="orderNo" open="(" separator="," close=")">
+					#{orderNo}
+				</foreach> 
+		</if>
+	</select>
+	
+	<select id="srchSelfParamsOfOrderNos" parameterType="map" resultType="map">
+		select c.DetailImages, b.SkuNo, c.ClothesNumber, a.SkuSnapshot, a.TotalMoney, a.BuyCount, a.TotalPay, 
+			a.OrderNo, b.ProductId, b.Name as ProductName, d.BrandName, a.UnavalCoinUsed,e.Code
+		from (select * from yjj_OrderItem 
+			where OrderNo in
+			<foreach collection="orderNos" item="orderNo" open="(" separator="," close=")">
+				#{orderNo}
+			</foreach> ) as a left join yjj_ProductSKU as b on a.SkuId = b.Id
+			left join yjj_Product as c on b.ProductId = c.Id left join yjj_Brand as d on d.BrandId = c.BrandId
+			left join yjj_Statistics as e on a.StatisticsId = e.Id
+	</select>
+	
+	<select id="getBuyCountOfOrderStatus" parameterType="map" resultType="int">
+		select sum(BuyCount) from yjj_OrderItem
+		where UserId = #{userId} and OrderNo in ( select OrderNo from yjj_OrderNew where OrderStatus in 
+			<foreach collection="groupOrderStatus" item="orderStatus" open="(" separator="," close=")">
+				#{orderStatus}
+			</foreach> and UserId = #{userId})
+	</select>
+	
+	<select id="orderItemsOfOrderId" parameterType="map" resultType="OrderItem">
+		select * from yjj_OrderItem
+		where OrderId in 
+			<foreach collection="orderIds" item="orderId" open="(" separator="," close=")">
+					#{orderId}
+			</foreach> 
+	</select>
+	
+	<select id="getExpectedSaleCount" resultType="map">
+	select b.SkuNo, a.TotalBuyCount 
+	from (select SkuId, sum(BuyCount) as TotalBuyCount from yjj_OrderItem 
+			where OrderNo in (select OrderNo from yjj_OrderNew where (ParentId > 0 and PushTime = 0 
+			and OrderStatus = 10 ) or OrderStatus = 0 and Status = 0 and LOWarehouseId in (1, 16)) group by SkuId) as a 
+		left join yjj_ProductSKU as b on a.SkuId = b.Id ;
+	</select>
+	
+	
+	<select id="orderItemsOfStatisticsIds" parameterType="map" resultType="OrderItem">
+		select * from yjj_OrderItem
+		where StatisticsId in 
+		<foreach collection="statisticsIds" item="statisticsId" open="(" separator="," close=")">
+			#{statisticsId}
+		</foreach> 
+		<if test = "orderNos != null">
+			and OrderNo not in 
+				<foreach collection="orderNos" item="orderNo" open="(" separator="," close=")">
+					#{orderNo}
+				</foreach> 
+		</if>
+	</select>
+	
+	<select id="getPerdaySalesAmount" resultType="map">
+		select dateTimeStr, SkuNo, sum(TotalPay) as pay from 
+			(select OrderNo, from_unixtime(CreateTime/1000, "%Y-%m-%d") as dateTimeStr
+			from yjj_OrderNewLog 
+			<![CDATA[
+			where CreateTime >= #{startTime} and CreateTime < #{endTime} and OldStatus = 0 and NewStatus = 10
+				and OrderNo not in 
+				(select OrderNo from yjj_OrderNewLog
+					where NewStatus = 90 and CreateTime >= #{startTime} )) as a left join (select SkuId, TotalPay, OrderNo from yjj_OrderItem) as b 
+					on a.OrderNo = b.OrderNo left join (select Id, SkuNo from yjj_ProductSKU) as c 
+					on b.SkuId = c.Id
+			]]>
+		where SkuNo is not null
+		group by dateTimeStr, SkuNo
+		order by SkuNo, dateTimeStr asc
+	</select>
+	
+	<select id="getPerdaySalesVolume" resultType="map">
+		select dateTimeStr, SkuNo, sum(BuyCount) as buyCount from 
+			(select OrderNo, from_unixtime(CreateTime/1000, "%Y-%m-%d") as dateTimeStr
+			from yjj_OrderNewLog 
+			<![CDATA[
+			where CreateTime >= #{startTime} and CreateTime < #{endTime} and OldStatus = 0 and NewStatus = 10
+				and OrderNo not in 
+				(select OrderNo from yjj_OrderNewLog
+					where NewStatus = 90 and CreateTime >= #{startTime} )) as a left join (select SkuId, BuyCount, OrderNo from yjj_OrderItem) as b 
+					on a.OrderNo = b.OrderNo left join (select Id, SkuNo from yjj_ProductSKU) as c 
+					on b.SkuId = c.Id
+			]]>
+		where SkuNo is not null
+		group by dateTimeStr, SkuNo
+		order by SkuNo, dateTimeStr asc
+	</select>
+	
+	
+	<select id="getMonthSales" resultType="map">
+		select a1.*, a2.buyCount from 
+			(select dateTimeStr, sum(TotalPay) + sum(TotalExpressMoney) as total from 
+				(select OrderNo, from_unixtime(CreateTime/1000, "%Y-%m") as dateTimeStr
+					from yjj_OrderNewLog 
+					where  OldStatus = 0 and NewStatus = 10
+						and OrderNo not in (select OrderNo from yjj_OrderNewLog where NewStatus = 90)) as a 
+				left join (select * from yjj_OrderNew) as b 
+				on a.OrderNo = b.OrderNo 
+			group by dateTimeStr) as a1 
+		left join
+			(select dateTimeStr, sum(BuyCount) as buyCount 
+				from (select OrderNo, from_unixtime(CreateTime/1000, "%Y-%m") as dateTimeStr
+						from yjj_OrderNewLog 
+						where  OldStatus = 0 and NewStatus = 10
+							and OrderNo not in (select OrderNo from yjj_OrderNewLog where NewStatus = 90  )) as a 
+					left join (select BuyCount, OrderNo from yjj_OrderItem) as b 
+					on a.OrderNo = b.OrderNo 
+				group by dateTimeStr) as a2
+			on a1.dateTimeStr = a2.dateTimeStr
+		order by a1.dateTimeStr asc
+	</select>
+	
+	<select id="searchOfOrderNos" resultType="int">
+		select sum(BuyCount) from yjj_OrderItem
+		<where>
+			<if test = "orderNos != null">
+				OrderNo in
+				<foreach collection="orderNos" item="orderNo" open="(" separator="," close=")">
+					#{orderNo}
+				</foreach> 
+			</if>
+		</where>
+	</select>
+	
+	<select id="orderItemsOfProductIds" resultType="OrderItem">
+		select * from yjj_OrderItem
+		where ProductId in <foreach collection="productIds" item="productId" open="(" separator="," close=")">
+			#{productId}
+		</foreach>
+	</select>
+	
+	
+	<select id="getProductCountMap" resultType="map">
+		select OrderNo, sum(BuyCount) from yjj_OrderItem
+		where OrderNo in 
+			<foreach collection="orderNos" item="orderNo" open="(" separator="," close=")">
+				#{orderNo}
+			</foreach>
+		group by OrderNo
+	</select>
+	
+	<select id="searchDeductDetailRecord" resultType="map">
+		select o.ProductId as productId,o.TotalMoney as totalMoney,o.DeductCoinNum as deductCoinNum ,o.UserId as userId,o.CreateTime as createTime,
+		from_unixtime(o.CreateTime/1000,'%Y-%m-%d %k:%i:%s') as createTimeStr, p.Name as name,p.ClothesNumber as clothesNumber,
+		(select YJJNumber from yjj_User where UserId = o.UserId) as YJJNumber
+		from yjj_OrderItem o left join yjj_Product p on o.ProductId = p.Id
+		<where>
+			<![CDATA[
+				o.CreateTime >= #{startTime} AND o.CreateTime <= #{endTime} AND DeductCoinNum > 0
+				]]>
+			<if test="userIds != null">
+				AND o.UserId in
+				<foreach collection="userIds" item="userId" open="(" separator="," close=")">
+					#{userId}
+				</foreach> 
+			</if>
+			<if test="productIds != null">
+				AND o.ProductId in
+				<foreach collection="productIds" item="productId" open="(" separator="," close=")">
+					#{productId}
+				</foreach> 
+			</if>
+		</where>
+		order by o.CreateTime desc
+		limit #{pageQuery.limit} offset #{pageQuery.offset}
+	</select>
+	
+	<select id="searchDeductDetailRecordCount" resultType="int">
+		select count(1) from yjj_OrderItem
+		<where>
+			<![CDATA[
+				CreateTime >= #{startTime} AND CreateTime <= #{endTime} AND DeductCoinNum > 0
+				]]>
+			<if test="userIds != null">
+				AND UserId in
+				<foreach collection="userIds" item="userId" open="(" separator="," close=")">
+					#{userId}
+				</foreach> 
+			</if>
+			<if test="productIds != null">
+				AND ProductId in
+				<foreach collection="productIds" item="productId" open="(" separator="," close=")">
+					#{productId}
+				</foreach> 
+			</if>
+		</where>
+	</select>
+</mapper>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jiuy.core.dao.SupplierFinanceLogDaoImpl">
+	<insert id="addSupplierFinanceLog" parameterType="com.jiuyuan.entity.newentity.FinanceLogNew">
+		insert supplier_finance_log(supplier_id,type,relatedid,cash,createtime,updatetime,old_available_balance,new_available_balance) 
+		values(#{supplierId},#{type},#{relatedid},#{cash},#{createtime},#{updatetime},#{oldAvailableBalance},#{newAvailableBalance})
+	</insert>
+
+    
+</mapper>

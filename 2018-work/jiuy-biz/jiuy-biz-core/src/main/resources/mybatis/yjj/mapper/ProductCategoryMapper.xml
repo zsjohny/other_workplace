@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yujj.dao.mapper.ProductCategoryMapper">
+	<select id="getProductCategorys" resultType="ProductCategoryVO">
+		<![CDATA[
+			select a.ProductId, group_concat(b.CategoryName Separator ' ') as CategoryNames, max(b.Weight) as maxWeight FROM yjj_ProductCategory a, yjj_Category b where a.CategoryId = b.Id and a.status > -1 group by ProductId;
+		]]>
+	</select>
+
+	<select id="getProductCount" parameterType="collection" resultType="int">
+		<![CDATA[
+			select count(distinct ProductId) from yjj_ProductCategory
+			where Status = 0 and CategoryId in
+		]]>
+		<foreach collection="categoryIds" item="categoryId" open="(" separator="," close=")">
+			<![CDATA[
+				#{categoryId}
+			]]>
+		</foreach>
+	</select>
+
+	<select id="getProductIds" parameterType="map" resultType="long">
+		<![CDATA[
+			select distinct ProductId from yjj_ProductCategory
+			where Status = 0 and CategoryId in
+		]]>
+		<foreach collection="categoryIds" item="categoryId" open="(" separator="," close=")">
+			<![CDATA[
+				#{categoryId}
+			]]>
+		</foreach>
+		<![CDATA[
+			limit #{pageQuery.limit} offset #{pageQuery.offset}
+		]]>
+	</select>
+
+	<select id="getCategoryIdsAll" parameterType="map" resultType="long">
+		<![CDATA[
+			select distinct CategoryId from yjj_ProductCategory
+			where Status = 0 and ProductId in
+		]]>
+		<foreach collection="productIds" item="productId" open="(" separator="," close=")">
+			<![CDATA[
+				#{productId}
+			]]>
+		</foreach>
+		
+	</select>
+	<select id="getProductCategoryListByProductIds" parameterType="map" resultType="ProductCategory">
+		<![CDATA[
+			select * from yjj_ProductCategory
+			where Status = 0 and ProductId in
+		]]>
+		<foreach collection="productIds" item="productId" open="(" separator="," close=")">
+			<![CDATA[
+				#{productId}
+			]]>
+		</foreach>
+		
+	</select>
+	
+	<select id="getProductVirtualCategory" parameterType="map" resultType="CategoryV0">
+        SELECT 
+		    a.*,  b.ProductId
+		FROM
+		    yjj_Category a
+		        RIGHT JOIN
+		    (SELECT 
+		        *
+		    FROM
+		        yjj_ProductCategory b
+		    WHERE
+		    	ProductId in
+		        <foreach collection="productIds" item="productId" open="(" close=")" separator=",">
+		        	#{productId}
+		        </foreach>) AS b ON a.Id = b.CategoryId
+		WHERE 
+			a.CategoryType = 2 and b.status=0 order by b.createTime desc
+	</select>
+</mapper>

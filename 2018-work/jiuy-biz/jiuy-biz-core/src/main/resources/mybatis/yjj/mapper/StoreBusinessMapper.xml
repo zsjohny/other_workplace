@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yujj.dao.mapper.StoreBusinessMapper">
+	<select id="getById" resultType="StoreBusiness">
+		select * from yjj_StoreBusiness
+		where Id = #{id}
+	</select>
+	
+	<select id="getBelongStoreBusinessByUserId" resultType="StoreBusiness">
+		SELECT * FROM yjj_StoreBusiness where  Id in (SELECT BelongStoreId FROM yjj_UserMember where userId= #{userId}) limit 1
+	</select>	
+	
+	<select id="getAll" resultType="StoreBusiness">
+		select * from yjj_StoreBusiness
+		where Status = 0
+	</select>
+	
+	<update id="addMemberNumber">
+		update yjj_StoreBusiness
+		set MemberNumber = MemberNumber + 1
+		where id = #{id}
+	</update>
+	
+	<update id="updateStoreIncome" parameterType="map" >
+		update yjj_StoreBusiness
+		<set>
+			<if test="params.availableBalance != null">
+				<![CDATA[
+					AvailableBalance = AvailableBalance + #{params.availableBalance},
+				]]>
+			</if>
+			<if test="params.commission != null">
+				<![CDATA[
+					CashIncome = CashIncome + #{params.commission},
+				]]>
+			</if>
+		</set>
+		 
+		where id = #{id}
+	</update>
+	
+	<select id="getStoreMap" parameterType="map" resultType="StoreBusiness">
+		select * from yjj_StoreBusiness
+		where Id in
+		<foreach collection="storeIds" item="storeId" open="(" separator="," close=")">
+			#{storeId}
+		</foreach>
+	</select>
+	
+</mapper>

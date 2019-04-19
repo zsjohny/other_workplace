@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" > 
+<mapper namespace="com.e_commerce.miscroservice.operate.mapper.RefundOrderMapper">
+	<!--售后订单管理-->
+	<select id="findAllRefundOrder" resultType="com.e_commerce.miscroservice.commons.entity.application.order.RefundOrderResponce">
+		select * from store_refund_order
+		<trim prefix="where" prefixOverrides="and|or">
+			<if test="obj.refundOrderNo !=null and obj.refundOrderNo !=''">
+				and refund_order_no = #{obj.refundOrderNo}
+			</if>
+			<if test="obj.countStr !=null and obj.countStr !=''">
+				and return_count <![CDATA[>=]]> #{obj.countStr}
+			</if>
+			<if test="obj.countEnd !=null and obj.countEnd !=''">
+				and return_count <![CDATA[<=]]> #{obj.countEnd}
+			</if>
+			<if test="obj.brandName !=null and obj.brandName !=''">
+				and brand_name = #{obj.brandName}
+			</if>
+			<if test="obj.name !=null and obj.name !=''">
+				and receiver = #{obj.name}
+			</if>
+			<if test="obj.applyTimeStr !=null and obj.applyTimeStr !=''">
+				and apply_time  <![CDATA[>=]]> #{obj.applyTimeStr}
+			</if>
+			<if test="obj.applyTimeEnd !=null and obj.applyTimeEnd !=''">
+				and apply_time  <![CDATA[<=]]> #{obj.applyTimeStr}
+			</if>
+			<if test="obj.orderNo !=null and obj.orderNo !=''">
+				and order_no  = #{obj.orderNo}
+			</if>
+			<if test="obj.refundMoneyStr !=null and obj.refundMoneyStr !=''">
+				and refund_cost  <![CDATA[>=]]> #{obj.refundMoneyStr}
+			</if>
+			<if test="obj.refundMoneyEnd !=null and obj.refundMoneyEnd !=''">
+				and refund_cost  <![CDATA[<=]]> #{obj.refundMoneyEnd}
+			</if>
+		</trim>
+
+	</select>
+	<select id="findRefundOrderById" resultType="com.e_commerce.miscroservice.commons.entity.application.order.RefundOrder">
+
+		SELECT
+			`id` AS id,
+			`refund_order_no` AS refundOrderNo,
+			`order_no` AS orderNo,
+			`store_phone` AS storePhone,
+			`store_name` AS storeName,
+			`store_id` AS storeId,
+			`supplier_id` AS supplierId,
+			`brand_id` AS brandId,
+			`brand_name` AS brandName,
+			`refund_type` AS refundType,
+			`refund_status` AS refundStatus,
+			`refund_cost` AS refundCost,
+			`return_count` AS returnCount,
+			`refund_reason_id` AS refundReasonId,
+			`refund_reason` AS refundReason,
+			`refund_remark` AS refundRemark,
+			`refund_proof_images` AS refundProofImages,
+			`customer_express_no` AS customerExpressNo,
+			`customer_express_company` AS customerExpressCompany,
+			`customer_express_company_name` AS customerExpressCompanyName,
+			`refund_way` AS refundWay,
+			`apply_time` AS applyTime,
+			`customer_return_time` AS customerReturnTime,
+			`confirm_time` AS confirmTime,
+			`refund_time` AS refundTime,
+			`store_allow_refund_time` AS storeAllowRefundTime,
+			`store_refuse_refund_time` AS storeRefuseRefundTime,
+			`store_agree_remark` AS storeAgreeRemark,
+			`store_refuse_reason` AS storeRefuseReason,
+			`platform_close_reason` AS platformCloseReason,
+			`handling_suggestion` AS handlingSuggestion,
+			`receiver` AS receiver,
+			`supplier_receive_address` AS supplierReceiveAddress,
+			`receiver_phone` AS receiverPhone,
+			`platform_intervene_state` AS platformInterveneState,
+			`platform_intervene_time` AS platformInterveneTime,
+			`platform_intervene_close_time` AS platformInterveneCloseTime,
+			`customer_cancel_time` AS customerCancelTime,
+			`customer_overtime_time_no_delivery` AS customerOvertimeTimeNoDelivery,
+			`express_info` AS expressInfo,
+			`supplier_auto_take_delivery_pause_time` AS supplierAutoTakeDeliveryPauseTime,
+			`supplier_auto_take_delivery_pause_time_length` AS supplierAutoTakeDeliveryPauseTimeLength,
+			`store_back_money` AS storeBackMoney,
+			`real_back_money` AS realBackMoney
+		FROM
+			`store_refund_order`
+		WHERE
+			`id` = #{id}
+		LIMIT 1
+	</select>
+	<update id="updateRefundOrder">
+		update store_refund_order
+		<trim prefix="set" suffixOverrides=",">
+			<if test="money!=null">
+				 real_back_money = #{money},
+			</if>
+			<if test="msg!=null">
+				handling_suggestion = #{msg},
+			</if>
+		</trim>
+
+		where id = #{id}
+	</update>
+</mapper>

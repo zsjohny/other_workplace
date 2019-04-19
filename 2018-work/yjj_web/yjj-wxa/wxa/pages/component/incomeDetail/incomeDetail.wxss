@@ -1,0 +1,152 @@
+/**收支详情**/
+.body-contain{
+  padding-bottom: 50rpx;
+}
+.detail-box{
+  padding: 0 24rpx;
+  margin: 30rpx 0 20rpx;
+}
+.detail-box .title{
+  height: 70rpx;
+  line-height: 70rpx;
+  font-size: 26rpx;
+  position: relative;
+  padding-left: 54rpx;
+  background: #f8f8f8;
+}
+.detail-box .title::before{
+  content: '';
+  position: absolute;
+  top: 18rpx;
+  left:024rpx;
+  width: 10rpx;
+  height: 36rpx;
+  background: #fe28ab;
+  border-radius: 4rpx;
+}
+.detail-box .content{
+  border:2rpx solid #eee;
+  padding: 18rpx 24rpx;
+}
+.detail-item{
+  line-height: 54rpx;
+  color: #9a9a9a;
+  display: -webkit-flex;
+  font-size: 26rpx;
+}
+.detail-item .tit{
+  width: 30%;
+}
+.detail-item .tit .explain{
+  font-size: 24rpx;
+  color: #9a9a9a;
+}
+.detail-item .text{
+  width: 70%;
+  text-align: right
+}
+.detail-box .content1{
+  padding: 0;
+}
+.detail-box .content .sub-title{
+  font-size: 26rpx;
+  height: 84rpx;
+  line-height: 84rpx;
+  color: #9a9a9a;
+  position: relative;
+  border-bottom:2rpx solid #eee;
+  padding: 0 24rpx;
+}
+.detail-box .content .sub-title .order-no{
+  float: left;
+}
+.detail-box .content .sub-title .copy-btn{
+  width:100rpx;
+  height: 50rpx;
+  line-height: 50rpx; 
+  float: left;
+  border: 2rpx solid #fd4374;
+  color: #fd4374;
+  text-align: center;
+  font-size: 24rpx;
+  margin:17rpx 0 0 20rpx;
+  border-radius: 6rpx;
+}
+.detail-box .content .sub-title .state{
+  float: right;
+  color: #ff0073;
+}
+.detail-box .detail-item1 .tit{
+  width: 80%;
+  color: #333;
+  font-size: 30rpx;
+}
+.detail-box .detail-item1 .text{
+  width: 20%;
+}
+.detail-box1{
+  border-top: 20rpx solid #eee;
+  padding-top: 20rpx;
+}
+.detail-box1 .detail-item .tit text{
+  color: #9a9a9a;
+  font-size: 24rpx;
+}
+.item-marginTop{
+  padding-top: 20rpx;
+}
+/* 订单商品模块 */
+.product-item{
+  height: auto;
+  overflow: hidden;
+  padding: 24rpx;
+  display: -webkit-box;
+  color: #6c6c6c;
+  font-size: 28rpx;
+  border-bottom: 2rpx solid #f4f4f4;
+}
+.product-item:last-child{
+  border-bottom:none;
+}
+.product-item image{
+  width: 180rpx;
+  height: 180rpx;
+  margin-right: 24rpx;
+}
+.product-item .info{
+  -webkit-box-flex: 1;
+  position: relative;
+}
+.product-item .name{
+  font-size: 28rpx;
+  height: 70rpx;
+  line-height: 35rpx;
+  overflow : hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+}
+.product-item .sku{
+  margin-top: 14rpx;
+  font-size: 20rpx;
+  display: -webkit-flex;
+  display: flex;
+  color: #cacaca
+}
+.product-item .sku .type{
+  width: 33.33%;
+}
+.product-item .sku .type1{
+  width: 45%;
+}
+.product-item .sku .type .color-red,
+.product-item .sku .type text{
+  font-size: 24rpx;
+}
+.product-item .price{
+  height: auto;
+  overflow: hidden;
+  color: #ff2742;
+  font-size: 32rpx;
+  padding-top: 28rpx;
+}

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jiuy.core.dao.mapper.QMProductSKUDaoSqlImpl">
+	
+	<insert id="batchAdd">
+		insert yjj_QMProductSKU(ClothesNumber, ProductId, NumIid, SkuId, QMSkuId, CostPrice, Weight, Price, MarketPrice, CreateTime, UpdateTime)
+		values
+			<foreach collection="qmProductSKUs" item="qmProductSKU" open="(" separator="),(" close=")">
+				#{qmProductSKU.clothesNumber}, #{qmProductSKU.productId}, #{qmProductSKU.numIid}, #{qmProductSKU.skuId}, #{qmProductSKU.qMSkuId}, #{qmProductSKU.costPrice}, #{qmProductSKU.weight}, 
+				#{qmProductSKU.price}, #{qmProductSKU.marketPrice}, #{qmProductSKU.createTime}, #{qmProductSKU.updateTime}
+			</foreach>
+	</insert>
+	
+</mapper>

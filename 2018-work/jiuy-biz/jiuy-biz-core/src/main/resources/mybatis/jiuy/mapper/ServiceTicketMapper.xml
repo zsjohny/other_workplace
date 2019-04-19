@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jiuy.core.dao.impl.sql.ServiceTicketDaoSqlImpl">
+	<select id="search" parameterType="map" resultType="map">
+		select a.*, b.* from (select * from yjj_ServiceTicket
+		<where>
+			<if test="params.id != -1 ">
+				and Id = #{params.id}
+			</if>
+			<if test="params.orderNo != -1 ">
+				and (OrderNo = #{params.orderNo} or OrderNo = (select ifnull(ParentId,0) from yjj_OrderNew where OrderNo = #{params.orderNo}))
+			</if>
+			<if test="params.skuNo != -1 ">
+				and SkuNo = #{params.skuNo}
+			</if>
+			<if test="params.skuNo == -1 ">
+				<![CDATA[
+					and SkuNo > 0
+				]]>
+			</if>
+			<if test="params.yjjNumber != -1 ">
+				and YjjNumber = #{params.yjjNumber}
+			</if>
+			<if test="params.userRealName !='' ">
+				and UserRealName like CONCAT("%", #{params.userRealName} ,"%")
+			</if>
+			<if test="params.userTelephone !='' ">
+				and UserTelephone like CONCAT("%", #{params.userTelephone} ,"%")
+			</if>
+			<if test="params.status != -1 ">
+				<if test="params.status != 9 and params.status !=8">
+					and Status = #{params.status}
+				</if>
+				<if test="params.status == 8">
+					and Status in (6, 7)
+				</if>
+				<if test="params.status == 9">
+					and Status in (0, 1, 2, 3, 4, 5)
+				</if>
+			</if>
+			<if test="params.type != -1 ">
+				and Type = #{params.type}
+			</if>
+			<if test="params.startApplyTime != 0">
+				<![CDATA[
+				and ApplyTime >= #{params.startApplyTime}
+				]]>
+			</if>
+			<if test="params.endApplyTime != 0">
+				<![CDATA[
+				and ApplyTime <= #{params.endApplyTime}
+				]]>
+			</if>
+			<if test="params.startExamineTime != 0">
+				<![CDATA[
+				and ExamineTime >= #{params.startExamineTime}
+				]]>
+			</if>
+			<if test="params.endExamineTime != 0">
+				<![CDATA[
+				and ExamineTime <= #{params.endExamineTime}
+				]]>
+			</if>
+		</where>) as a left join yjj_FinanceTicket as b
+		on a.Id = b.ServiceId  order by a.ApplyTime desc
+		limit #{pageQuery.limit} offset #{pageQuery.offset}
+	</select>
+	
+	<select id="searchCount" parameterType="map" resultType="int">
+		select count(1) from (select * from yjj_ServiceTicket
+		<where>
+			<if test="params.id != -1 ">
+				and Id = #{params.id}
+			</if>
+			<if test="params.orderNo != -1 ">
+				and OrderNo = #{params.orderNo}
+			</if>
+			<if test="params.skuNo != -1 ">
+				and SkuNo = #{params.skuNo}
+			</if>
+			<if test="params.yjjNumber != -1 ">
+				and YjjNumber = #{params.yjjNumber}
+			</if>
+			<if test="params.userRealName !='' ">
+				and UserRealName like CONCAT("%", #{params.userRealName} ,"%")
+			</if>
+			<if test="params.userTelephone !='' ">
+				and UserTelephone like CONCAT("%", #{params.userTelephone} ,"%")
+			</if>
+			<if test="params.status != -1 ">
+				<if test="params.status != 9 and params.status !=8">
+					and Status = #{params.status}
+				</if>
+				<if test="params.status == 8">
+					and Status in (6, 7)
+				</if>
+				<if test="params.status == 9">
+					and Status in (0, 1, 2, 3, 4, 5)
+				</if>
+			</if>
+			<if test="params.type != -1 ">
+				and Type = #{params.type}
+			</if>
+			<if test="params.startApplyTime != 0">
+				<![CDATA[
+				and ApplyTime >= #{params.startApplyTime}
+				]]>
+			</if>
+			<if test="params.endApplyTime != 0">
+				<![CDATA[
+				and ApplyTime <= #{params.endApplyTime}
+				]]>
+			</if>
+			<if test="params.startExamineTime != 0">
+				<![CDATA[
+				and ExamineTime >= #{params.startExamineTime}
+				]]>
+			</if>
+			<if test="params.endExamineTime != 0">
+				<![CDATA[
+				and ExamineTime <= #{params.endExamineTime}
+				]]>
+			</if>
+		</where>) as a left join yjj_FinanceTicket as b
+		on a.Id = b.ServiceId		
+	</select>
+	
+	<update id="updateServiceTicket" parameterType="map">
+		update yjj_ServiceTicket
+		<set>
+	        <if test="status!=null">
+	            Status = #{status},
+	        </if>
+	        <if test="examineTime!=null">
+	            ExamineTime = #{examineTime},
+	        </if>
+	        <if test="examineMemo!=null">
+	            ExamineMemo = #{examineMemo},
+	        </if>
+	        <if test="processResult!=null">
+	            ProcessResult = #{processResult},
+	        </if>
+	        <if test="processMoney!=null">
+	            ProcessMoney = #{processMoney},
+	        </if>
+	        <if test="processExpressMoney!=null">
+	            ProcessExpressMoney = #{processExpressMoney},
+	        </if>
+	        <if test="processReturnJiuCoin!=null">
+	            ProcessReturnJiuCoin = #{processReturnJiuCoin},
+	        </if>
+	        <if test="processReturnMemo!=null">
+	            ProcessReturnMemo = #{processReturnMemo},
+	        </if>
+	        <if test="processTime!=null">
+	            ProcessTime = #{processTime},
+	        </if> 
+	        <if test="sellerExpressCom!=null">
+	            SellerExpressCom = #{sellerExpressCom},
+	        </if>
+	        <if test="sellerExpressNo!=null">
+	            SellerExpressNo = #{sellerExpressNo},
+	        </if>
+	        <if test="sellerExpressMoney!=null">
+	            SellerExpressMoney = #{sellerExpressMoney},
+	        </if>
+	        <if test="sellerMemo!=null">
+	            SellerMemo = #{sellerMemo},
+	        </if>
+	        <if test="sellerTime!=null">
+	            SellerTime = #{sellerTime},
+	        </if>
+	        <if test="status != null">
+	        	Status = #{status},
+	        </if>
+	        <if test="orderNo != null">
+	        	ProcessOrderNo = #{orderNo},
+	        </if>
+	        <if test="exchangeReceivedTime != null">
+	        	ExchangeReceivedTime = #{exchangeReceivedTime},
+	        </if>
+		</set>
+		<where>
+			<if test="serviceId != null">
+				and Id = #{serviceId}
+			</if>
+			<if test="serviceIds != null">
+				and Id in 
+				<foreach collection="serviceIds" item="serviceId" open="(" separator="," close=")">
+					#{serviceId}
+				</foreach>
+			</if>
+		</where>
+	</update>	
+	
+	<select id="ServiceTicketOfId" resultType="ServiceTicket">
+		select * from yjj_ServiceTicket
+		where Id = #{serviceId}
+	</select>
+	
+	<select id="getItems" resultType="ServiceTicket">
+		select * from yjj_ServiceTicket
+		<where>
+			<if test="status != null">
+				and Status = #{status}
+			</if>
+			<if test="type != null">
+				and Type = #{type}
+			</if>
+		</where>
+	</select>
+	
+	<select id="getByStatus" resultType="ServiceTicket">
+		select * from yjj_ServiceTicket
+		<where>
+			<if test="status_list != null">
+				and Status in 
+				<foreach collection="status_list" item="status" open="(" separator="," close=")">
+					#{status}
+				</foreach>
+			</if>
+		</where>
+	</select>
+	
+	<select id="getByNotStatus" resultType="ServiceTicket">
+		select * from yjj_ServiceTicket
+		<where>
+			<if test="status_list != null">
+				and Status not in 
+				<foreach collection="status_list" item="status" open="(" separator="," close=")">
+					#{status}
+				</foreach>
+			</if>
+		</where>
+	</select>
+	
+	<insert id="addFromRevoke" keyColumn="id" useGeneratedKeys="true" keyProperty="id" parameterType="ServiceTicket" >
+		insert into yjj_ServiceTicket (OrderNo,OrderItemId,SkuNo,UserId,YJJNumber,Type,Status,ApplyTime,ApplyReturnReason,ProcessResult,ProcessMoney,ProcessExpressMoney) 
+		values
+    	(#{orderNo},#{OrderItemId},#{skuNo},#{userId},#{yjjNumber},#{type},#{status},#{applyTime},#{applyReturnReason},#{processResult},#{processMoney},#{processExpressMoney}) 	
+	</insert>
+	
+</mapper>

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--<mapper namespace="com.jiuy.core.dao.impl.sql.YjjMemberDeprecatedDaoSqlImpl">-->
+<mapper namespace="com.jiuy.core.dao.impl.sql.YjjMemberDeprecatedDaoSqlImpl">
+
+
+	<resultMap id="BaseResultMap" type="com.yujj.entity.product.YjjMember" >
+		<result column="id" property="id" jdbcType="BIGINT" />
+		<result column="valid_time_queue" property="validTimeQueue" jdbcType="BIGINT" />
+		<result column="platform_type" property="platformType" jdbcType="TINYINT" />
+		<result column="user_id" property="userId" jdbcType="TINYINT" />
+		<result column="member_level" property="memberLevel" jdbcType="TINYINT" />
+		<result column="end_time" property="endTime" jdbcType="VARCHAR" />
+		<result column="money_total" property="moneyTotal" jdbcType="DECIMAL" />
+		<result column="del_state" property="delState" jdbcType="TINYINT" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+		<result column="type" property="type" jdbcType="TINYINT" />
+	</resultMap>
+	<sql id="BaseList" >
+		d.id,
+		d.platform_type,
+		d.user_id,
+		d.member_level,
+		d.end_time,
+		d.money_total,
+		d.del_state,
+		d.create_time,
+		d.update_time,
+		d.`type`,
+		d.valid_time_queue
+	  </sql>
+
+	<!--根据用户id查询 会员信息-->
+	<select id="selectOne" resultMap="BaseResultMap">
+		select
+		<include refid="BaseList" />
+		from yjj_member d
+		where user_id = #{userId} and platform_type = #{platformType}
+	</select>
+
+
+	<update id="switchToDelState">
+		UPDATE yjj_member
+		SET del_state = #{state}
+		WHERE id = #{id}
+	</update>
+
+
+	<insert id="insertOne">
+		INSERT INTO `yjj_member` (
+		`platform_type`,
+		`user_id`,
+		`member_level`,
+		`end_time`,
+		`money_total`,
+		`valid_time_queue`,
+		`del_state`
+		)
+		VALUES
+			(
+				#{platformType},
+				#{userId},
+				#{memberLevel},
+				#{endTime},
+				#{moneyTotal},
+				#{validTimeQueue},
+				#{delState}
+			)
+
+	</insert>
+
+	<update id="updateEndTime">
+		UPDATE `yjj_member`
+		SET
+		money_total = money_total + #{totalMoney}
+		, end_time = #{endTime}
+		, `type` = #{memberPackageType}
+		, valid_time_queue = #{validTimeQueue}
+		WHERE
+		id = #{id}
+		AND (money_total + #{totalMoney} >= 0 OR money_total IS NULL)
+		AND valid_time_queue = #{historyValidTimeQueue}
+	</update>
+
+
+
+
+
+	<select id="selectDirtyEndTime" resultMap="BaseResultMap">
+		select
+		<include refid="BaseList"/>
+		FROM yjj_member d
+		WHERE end_time > 0
+		AND end_time
+		<![CDATA[ < ]]>
+		#{current}
+	</select>
+
+</mapper>

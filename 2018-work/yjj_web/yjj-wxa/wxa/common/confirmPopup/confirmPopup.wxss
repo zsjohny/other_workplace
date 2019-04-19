@@ -1,0 +1,109 @@
+/**确定框组件样式**/
+.popup-bg{
+  width: 100%;
+  height: 100%;
+  z-index: 999999;
+  position: fixed;
+  left: 0;
+  top: 0;
+  background: rgba(0, 0, 0, 0.50);
+}
+.popup-main{
+  width: 550rpx;
+  height: auto;
+  background: #fff;
+  z-index: 1000000;
+  position: fixed;
+  left: 50%;
+  top: 30%;
+  margin: 0 -275rpx;
+  border-radius: 20rpx;
+}
+.popup-head{
+  border-bottom: 2rpx solid #dad8db;
+  position: relative;
+  padding-top: 100rpx;
+}
+.popup-head .icon{
+  width: 232rpx;
+  height: 168rpx;
+  position: absolute;
+  left: 50%;
+  top: -80rpx;
+  background: url(https://yjj-img-main.oss-cn-hangzhou.aliyuncs.com/icon/new/delete-icon.png);
+  background-size: 232rpx 168rpx;
+  margin-left: -116rpx;
+}
+/*成功类型图标*/
+.popup-head .success-icon{
+  background: url(https://yjj-img-main.oss-cn-hangzhou.aliyuncs.com/icon/new/xbox-icon3.png);
+  background-size: 232rpx 168rpx;
+}
+/*询问类型图标*/
+.popup-head .ask-icon{
+  background: url(https://yjj-img-main.oss-cn-hangzhou.aliyuncs.com/icon/new/xbox-icon2.png);
+  background-size: 232rpx 168rpx;
+}
+/*警告类型图标*/
+.popup-head .warn-icon{
+  background: url(https://yjj-img-main.oss-cn-hangzhou.aliyuncs.com/icon/new/xbox-icon.png);
+  background-size: 232rpx 168rpx;
+}
+/*关闭类型图标*/
+.popup-head .close-icon{
+  background: url(https://yjj-img-main.oss-cn-hangzhou.aliyuncs.com/icon/new/xbox-icon1.png);
+  background-size: 232rpx 168rpx;
+}
+.popup-content{
+  font-size: 30rpx;
+  padding: 0 20rpx 30rpx;
+  color: #848484;
+  text-align: center;
+}
+.popup-content .content{
+  color: #fd4374;
+  font-size: 28rpx;
+  line-height: 1.5;
+  padding-top: 10rpx;
+}
+.popup-operator{
+  display: -webkit-box;
+  height: 90rpx;
+  line-height: 90rpx;
+  text-align: center;
+  font-size: 30rpx;
+}
+.popup-operator .btn{
+  -webkit-box-flex: 1;
+  line-height: 90rpx;
+}
+.popup-operator .popup-close-btn{
+  border-left: 2rpx solid #dad8db;
+  color: #fd4374;
+}
+@-webkit-keyframes zoomIn {
+  from {
+    opacity: 0;
+    -webkit-transform: scale3d(.3, .3, .3);
+    transform: scale3d(.3, .3, .3);
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+@keyframes zoomIn {
+  from {
+    opacity: 0;
+    -webkit-transform: scale3d(.3, .3, .3);
+    transform: scale3d(.3, .3, .3);
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+.zoomIn {
+  -webkit-animation-name: zoomIn;
+  animation-name: zoomIn;
+}

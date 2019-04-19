@@ -1,0 +1,96 @@
+.Trade{position: fixed; left: 0px; bottom: 0px; width: 100%; height:60px; background: #fff; border-top: 1px solid #d2d2d2;}
+.Tradebtn{display: inline-block;height: 60px; line-height: 60px; font-size: 18px;color: #fd4374;text-align: center;border: 1px solid #fd4374;}
+.Trade li{float: left;height: 60px;text-align: center;}/* color: #fd4374;*/
+.Trade li img{width: 50%;height: 30px;}
+.Trade li:nth-child(1){width: 16%;border-right:1px solid rgb(235,235,235);padding-top: 10px;}
+.Trade li:nth-child(2){width: 16%;border-right:1px solid rgb(235,235,235);padding-top: 10px;}
+.Trade li:nth-child(3){ width: 16%;border-right:1px solid rgb(235,235,235);padding-top: 10px;}
+.Trade li:nth-child(4){line-height: 60px;background:rgb(255,186,66);color: #fff;}
+.Trade li:nth-child(5){line-height: 60px;background: rgb(253,67,116);color: #fff;}
+
+body{background-color:#fff; font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;}
+#m-pro-see img{display:block; border:none; outline:none; width:100%; height:auto; margin:0; padding:5px;}
+#m-pro-guess img{display:block; border:none; outline:none; width:100%; height:auto; margin:0; padding:5px;}
+#m-pro-see2 img{display:block; border:none; outline:none; width:100%; height:auto; margin:0; padding:5px;}
+#m-pro-guess2 img{display:block; border:none; outline:none; width:100%; height:auto; margin:0; padding:5px;}
+.wrap img{ width:100%;padding: 5px;}
+.g-wrap{ padding:0 5px}
+.m-pro-pic{ margin-top:1rem; padding-bottom:10px}
+#details h3{font-size:16px;;color:#444;text-align: center;font-family: "黑体"; line-height:40px; padding:0; margin:0;}
+#product h3{font-size:16px;;color:#444;text-align: center;font-family: "黑体"; line-height:40px; padding:0; margin:0;}
+.m-pro-see,.m-pro-guess { width:100%;margin-bottom: 15%;}
+#m-pro-see div.half:nth-child(even){display:block; width:49%; float:left;}
+#m-pro-see div.half:nth-child(odd){display:block; width:49%; float:right;}
+#m-pro-guess div.half:nth-child(even){display:block; width:49%; float:left;}
+#m-pro-guess div.half:nth-child(odd){display:block; width:49%; float:right;}
+#m-pro-see2 div.half:nth-child(even){display:block; width:49%; float:left;}
+#m-pro-see2 div.half:nth-child(odd){display:block; width:49%; float:right;}
+#m-pro-guess2 div.half:nth-child(even){display:block; width:50%; float:left;}
+#m-pro-guess2 div.half:nth-child(odd){display:block; width:49%; float:right;}
+.m-pro-see .see,.m-pro-guess .guess{ width:100%; height:auto;text-align:center;}
+.m-pro-see2 .see,.m-pro-guess .guess{ width:100%; height:auto;text-align:center;}
+.price2{margin-left:0.5rem;display:block;color:#fd4374;font-family:"方正兰亭黑简体";font-size:14px;margin-top:10px; text-align:left; line-height:25px;font-weight:600; background-size:25px 25px;float: left;}
+.marketPrice{display:block;color:#a6a6a6 !important;font-size:12px;margin-top:0.5rem; text-align:left; margin-bottom:10px;clear: both;zoom:1;display: block;text-decoration: line-through;}
+.m-pro-see .see .jiubi{display:none;}
+.m-pro-see2 .see .jiubi{display:none;}
+#prewimg img{ margin-bottom:0.5rem;}
+#prewimg img:last-child{ margin-bottom:0;}
+#detailCon { width:100%}
+#detailCon table{ width:100% !important}
+table{ width:100%;}
+.promotionCashtext{float: left;border: 1px solid #ff801a;color: #ff801a;font-size: 10px;padding: 1px;border-radius: 3px;margin-top: 10px;margin-left: 15px;}
+.promotionCash{margin-left: 5px;font-size: 14px;color: #ff801a;margin-top:12px;float: left;font-weight: 600}
+/*.logoPic span{text-align: -webkit-center;display: inline-block;height: 100%;line-height: 24px;color: #333;font-size: 14px;margin-left: 1rem;}*/
+#size img{width: 100%;padding: 5px;}
+#size2 img{width: 100%;padding: 5px;}
+.together img{width: 100%;padding: 5px;}
+.SpecificationsSelect ul li{margin-bottom:5px;}
+#JoinShppingCart{font-size: 15px;background: rgb(255,186,66);color: #fff;border: none;}
+#right_buy{font-size: 15px;background: rgb(253,67,116);color: #fff;border: none;}
+.SpecificationsSelect ul li.active {color: #fd4374!important;background-color: #fff!important;border-color: #fd4374!important;}
+
+/* #skuinfo table tbody{height:120px;width:100%;border:1px solid #f00;overflow-y: auto;} */
+
+#skuinfo{position: relative;width: 100%;overflow-y: auto;margin-top: 1.5rem;height:280px;}
+
+.Trade #cartcounts span.badge{padding: 3px 1px!important;background-color: #ff0a0a!important;width: 20px!important;height: 20px!important;border-radius: 20px!important;text-align: -webkit-center!important;font-size: 16px!important;margin-left: -15px!important;}
+
+.Controller{width: 120px!important;}
+.Controller .controllerBtn{width: 30px!important;}
+.Controller input{width: 30px!important;font-size: 20px;}
+.Controller .controllerBtn{width: 40px!important;font-size: 20px;}
+.ProductID{user-select: none;}
+
+#myTabContent #detailCon2 table{width:100%!important;}
+
+
+.Trade ul li.forth_li.disable{background: #9a9a9a;border: 1px solid #9a9a9a;}
+.Trade ul li.forth_li.disable #JoinShppingCart{background: #9a9a9a;}
+.Trade ul li.fifth_li.disable{background: #9a9a9a;border: 1px solid #9a9a9a;}
+.Trade ul li.fifth_li.disable #right_buy{background: #9a9a9a;}
+
+
+/* .Trade ul li:nth-child(5).disabled{background: #FFB2BF;border: 1px solid #fff;} */
+#Specifications .SpecificationsBtn{background: #fff!important;position:fixed;bottom:0;left:0;right:0;}
+
+.center_text{margin: 0px auto;text-align: -webkit-center;font-size: 18px;margin-top: 1.5rem;margin-bottom: 1rem;}
+.SKUInfor{border-top:1px solid #eaeaea;}
+.price_span{color:#fd4374!important;}
+
+#skuinfo table tbody tr td:nth-child(1){width:17%!important;}
+#skuinfo table tbody tr td:nth-child(2){width:17%!important;}
+#skuinfo table tbody tr td:nth-child(3){width:17%!important;}
+#skuinfo table tbody tr td:nth-child(4){width:17%!important;}
+#skuinfo table tbody tr td:nth-child(5){width:32%!important;}
+
+.right_text{font-size: 18px;padding-right: 1.5rem;}
+button.close{-webkit-appearance: none;cursor: pointer;background: 0 0;border: 0;}
+.close{opacity: 1!important;font-weight:100!important;font-size: 18px!important;}
+.modal-title{text-align: -webkit-center;}
+.modal-header .close{margin-top:0px!important;}
+
+
+.btnGroup{width: 100%;position: fixed;bottom: 0;right: 0;left: 0;height: 60px;background-color: #fff;}
+.btnGroup ul{width:100%;height:60px;}
+.btnGroup ul li{float: left;width: 16%;}
+

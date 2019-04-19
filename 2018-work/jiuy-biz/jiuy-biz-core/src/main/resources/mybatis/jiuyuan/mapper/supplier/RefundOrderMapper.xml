@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jiuyuan.dao.mapper.supplier.RefundOrderMapper">
+   	<select id="getRefundReasonList" resultType="String">
+		<![CDATA[
+			SELECT
+			refund_reason
+			FROM store_refund_order 
+			GROUP BY refund_reason
+		]]>
+	</select>
+
+	<select id="selectMoney" resultType="com.jiuyuan.entity.newentity.YjjStoreBusinessAccountNew">
+			select
+			 id,
+			 count_money as countMoney,
+			 frozen_money as frozenMoney,
+			 use_money as useMoney,
+			 user_id as userId,
+			 del_status as delStatus,
+			 create_time as createTime,
+			 update_time as updateTime,
+			 status,
+			 wait_in_money as waitInMoney,
+			 real_use_money as realUseMoney,
+			 remainder_money as remainderMoney
+			from `yjj_storebusiness_account` where `user_id`=#{storeId} and `del_status`=0 and `status`=0
+	</select>
+
+    <select id="selectAccountLogByShopOrderNo"
+            resultType="com.jiuyuan.entity.newentity.YjjStoreBusinessAccountLogNew">
+		SELECT
+			id,
+			`type`,
+			in_out AS inOutType,
+			oper_money AS operMoney
+		FROM
+			yjj_storebusiness_account_log
+		WHERE
+			`status` = 0
+		AND del_status = 0
+		AND about_order_no = #{orderNo}
+	</select>
+
+    <update id="updateMoney">
+			update `yjj_storebusiness_account` set `real_use_money`=#{waitMoney},`count_money`=#{totalMoney} where `user_id`=#{storeId}
+	</update>
+
+	<insert id="insertInto">
+			insert into `yjj_storebusiness_account_log` (`order_no`,`remarks`,`type`,`in_out`,`oper_money`,`user_id`,`remainder_money`,`about_order_no`) values (
+			#{yjjStoreBusinessAccountLog.orderNo},#{yjjStoreBusinessAccountLog.remarks},#{yjjStoreBusinessAccountLog.type},#{yjjStoreBusinessAccountLog.inOutType},
+			#{yjjStoreBusinessAccountLog.operMoney},#{yjjStoreBusinessAccountLog.userId},#{yjjStoreBusinessAccountLog.remainderMoney},#{yjjStoreBusinessAccountLog.aboutOrderNo}
+			)
+	</insert>
+
+	<update id="updateOrderStatus">
+            update `store_order` set `OrderStatus`=#{orderStatus}  where `OrderNo`=#{orderNo}
+    </update>
+
+	<update id="updateSaleCount" parameterType="map">
+		<![CDATA[
+			update yjj_Product
+			set SaleTotalCount = SaleTotalCount + #{by}
+			where Id = #{id} and SaleTotalCount + #{by} >= 0
+		]]>
+	</update>
+
+	<update id="updateOrderPayStatus" parameterType="map">
+		<![CDATA[
+			update store_Order
+			set OrderStatus = #{newStatus}, PaymentNo = #{paymentNo}, PaymentType = #{paymentType}, UpdateTime = #{time}, PayTime = #{time}
+			where OrderNo = #{orderNo} and OrderStatus = #{oldStatus}
+		]]>
+	</update>
+</mapper>

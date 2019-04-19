@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" > 
+<mapper namespace="com.e_commerce.miscroservice.order.mapper.ShopMemberOrderItemMapper">
+
+
+    <update id="updateById" parameterType="map">
+		UPDATE 	shop_member_order_item
+		<if test="updateTime != null">
+			SET update_time = #{updateTime}
+		</if>
+		WHERE id = #{id}
+
+	</update>
+
+
+    <select id="findBySql" resultType="com.e_commerce.miscroservice.order.entity.ShopMemberOrderItem">
+		SELECT id, live_product_id AS liveProductId, `name`, product_sku_id AS productSkuId, count
+		FROM shop_member_order_item
+		WHERE id = #{id}
+	</select>
+</mapper>

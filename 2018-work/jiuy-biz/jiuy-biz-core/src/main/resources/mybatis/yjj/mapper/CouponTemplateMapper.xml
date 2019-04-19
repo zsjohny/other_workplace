@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.yujj.dao.mapper.CouponTemplateMapper">
+	
+	<select id="search" resultType="CouponTemplate">
+		select * from yjj_CouponTemplate
+		where Status = 0 and Id = #{id}
+	</select>
+	
+	<update id="update">
+		update yjj_CouponTemplate
+		set PublishCount = PublishCount + #{count}
+		where Id = #{id}
+	</update>
+	
+	<update id="updateGrant">
+		update yjj_CouponTemplate
+		set GrantCount = GrantCount + #{count}
+		where Id = #{id}
+	</update>
+	
+	<select id="searchValidity" resultType="CouponTemplate">
+		select * from yjj_CouponTemplate
+		where Status = 0 and Id = #{id} 
+	</select>
+
+	<select id="searchMap" parameterType="map" resultType="CouponTemplate">
+		select * from yjj_CouponTemplate
+		where Id in 
+			<foreach collection="ids" item="id" open="(" separator="," close=")">
+				#{id}
+			</foreach> 
+	</select>
+
+	<update id="updateExchangeCount">
+		update yjj_CouponTemplate
+		set ExchangeCount = ExchangeCount + 1
+		where Id = #{id}
+	</update>
+
+</mapper>

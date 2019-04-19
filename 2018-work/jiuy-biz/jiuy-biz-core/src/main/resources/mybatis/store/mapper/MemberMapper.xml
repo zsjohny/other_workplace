@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.store.dao.mapper.MemberMapper">
+
+	<sql id="findMyInformationData">
+		m.id,
+		m.bind_weixin as bindWeixin,
+		m.user_nickname as userNickname,
+		m.user_icon as userIcon,
+		m.minicode_url as minicodeUrl,
+		m.sex
+	</sql>
+	<sql id="findMemberById">
+		m.id,
+		m.bind_weixin as bindWeixin,
+		m.user_nickname as userNickname
+	</sql>
+	<!-- ===========================参数信息分界线=============================== -->
+
+	<update id="increaseNotReadMessageCount" parameterType="map">
+		<![CDATA[
+			update shop_member
+			set not_read_message_count = not_read_message_count+1
+			where id = #{memberId}
+		]]>
+	</update>
+
+	<!--查询我的信息-->
+    <select id="findMyInformationById" resultType="com.store.entity.member.ShopMember">
+		select
+			<include refid="findMyInformationData"/>
+		from shop_member m
+		where m.id = #{memberId}
+	</select>
+	<!--查询会员信息-->
+	<select id="findMemberById" resultType="com.store.entity.member.ShopMember">
+		select
+		<include refid="findMemberById"/>
+		from shop_member m
+		where m.id = #{memberId}
+	</select>
+
+
+</mapper>

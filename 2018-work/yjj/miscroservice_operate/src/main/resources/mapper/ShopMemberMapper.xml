@@ -1,0 +1,484 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.e_commerce.miscroservice.operate.mapper.ShopMemberMapper">
+
+    <!--申请管理-->
+    <select id="auditManage" resultType="Map" >
+        SELECT
+            a.real_name AS realName,
+            a.wx_num AS wxNum,
+            a.phone AS phone,
+            a.id_card AS idCard,
+            a.id AS id,
+            a.user_id AS userId,
+            b.user_nickname AS nickName,
+            a.before_role AS beforeRole,
+            a.application_role AS applicationRole,
+            a.audit_explain AS auditExplain,
+            IFNULL(a.commit_time, 0) AS commitTime,
+            IFNULL(a.audit_time, 0) AS auditTime,
+            a.`status` AS `status`,
+            c.BusinessName AS storeName
+        FROM
+        shop_audit_management a
+        LEFT JOIN shop_member b ON b.id = a.user_id
+        LEFT JOIN	yjj_storebusiness c ON c.Id = b.store_id
+        <trim prefix="where" prefixOverrides="and|or">
+            1=1
+            <if test="auditManagementRequest.realName != null and auditManagementRequest.realName != ''">
+                and a.real_name LIKE CONCAT('%',#{auditManagementRequest.realName},'%')
+            </if>
+            <if test="auditManagementRequest.commitTimeStart != null and auditManagementRequest.commitTimeStart != ''">
+               and  <![CDATA[#{auditManagementRequest.commitTimeStart}<=a.commit_time]]>
+            </if>
+            <if test="auditManagementRequest.commitTimeEnd != null and auditManagementRequest.commitTimeEnd != ''">
+                and <![CDATA[#{auditManagementRequest.commitTimeEnd}>=a.commit_time]]>
+            </if>
+            <if test="auditManagementRequest.storeName != null and auditManagementRequest.storeName != ''">
+                and c.BusinessName  LIKE CONCAT('%',#{auditManagementRequest.storeName},'%')
+            </if>
+            <if test="auditManagementRequest.id != null and auditManagementRequest.id != ''">
+                and <![CDATA[#{auditManagementRequest.id}=a.id]]>
+            </if>
+            <if test="auditManagementRequest.status != null and auditManagementRequest.status != ''">
+                and <![CDATA[#{auditManagementRequest.status}=a.status]]>
+            </if>
+            <if test="auditManagementRequest.userId != null and auditManagementRequest.userId != ''">
+                and <![CDATA[#{auditManagementRequest.userId}=a.user_id]]>
+            </if>
+            <if test="auditManagementRequest.nickName != null and auditManagementRequest.nickName != ''">
+                and b.user_nickname LIKE CONCAT('%',#{auditManagementRequest.nickName},'%')
+            </if>
+            <if test="auditManagementRequest.auditTimeStart != null and auditManagementRequest.auditTimeStart != ''">
+                and <![CDATA[#{auditManagementRequest.auditTimeStart}<=a.audit_time]]>
+            </if>
+            <if test="auditManagementRequest.auditTimeEnd != null and auditManagementRequest.auditTimeEnd != ''">
+                and <![CDATA[#{auditManagementRequest.auditTimeEnd}>=a.audit_time]]>
+            </if>
+        </trim>
+        ORDER BY commit_time desc
+    </select>
+    <!--小程序用户管理-->
+    <select id="userInformationList"
+            resultType="com.e_commerce.miscroservice.commons.entity.distribution.UserInformationResponse">
+                SELECT
+                    b.user_nickname,
+                    c.BusinessName,
+                    a.*, d.grade AS higherRole,
+                    d.user_nickname AS higherNickName,
+                    d.id AS higherId,
+                    e.grade AS leaderRole,
+                    e.user_nickname AS leaderNickName,
+                    e.id AS leaderId
+                FROM
+                    shop_member b,
+                    yjj_storebusiness c,
+                    yjj_distribution_system a
+                LEFT JOIN (
+                    SELECT
+                    a.user_id,
+                    a.id,
+                    a.grade,
+                    b.user_nickname
+                    FROM
+                    yjj_distribution_system a,
+                    shop_member b
+                    WHERE
+                    a.user_id = b.id
+                ) d ON a.higher_up = d.user_id
+                LEFT JOIN (
+                    SELECT
+                    a.user_id,
+                    a.id,
+                    a.grade,
+                    b.user_nickname
+                    FROM
+                    yjj_distribution_system a,
+                    shop_member b
+                    WHERE
+                    a.user_id = b.id
+                ) e ON
+                IF (
+                    e.grade = 3,
+                    a.partner_id = e.user_id,
+                    a.distributor_id = e.user_id
+                )
+            <trim prefix="where" prefixOverrides="and|or">
+                b.store_id = c.Id
+                AND a.user_id = b.id
+                and d.user_id = a.user_id
+                <if test="obj.storeName != null and obj.storeName != ''">
+                    and <![CDATA[#{obj.storeName}=c.BusinessName]]>
+                </if>
+                <if test="obj.memberId != null and obj.memberId != ''">
+                    and <![CDATA[#{obj.memberId}=a.user_id]]>
+                </if>
+                <if test="obj.nickName != null and obj.nickName != ''">
+                    and <![CDATA[#{obj.nickName}=b.user_nickname]]>
+                </if>
+                <if test="obj.role != null and obj.role != ''">
+                    and  <![CDATA[#{obj.role}=a.grade]]>
+                </if>
+                <if test="obj.teamSizeMin != null and obj.teamSizeMin != ''">
+                    and <![CDATA[#{obj.teamSizeMin}<=a.team_user_count]]>
+                </if>
+                <if test="obj.teamSizeMax != null and obj.teamSizeMax != ''">
+                    and <![CDATA[#{obj.teamSizeMax}>=a.team_user_count]]>
+                </if>
+                <if test="obj.followerMin != null and obj.followerMin != ''">
+                    and <![CDATA[#{obj.followerMin}<=a.fans_user_count]]>
+                </if>
+                <if test="obj.followerMax != null and obj.followerMax != ''">
+                    and <![CDATA[#{obj.followerMax}>=a.fans_user_count]]>
+                </if>
+                <if test="obj.createTimeStart != null and obj.createTimeStart != ''">
+                    and <![CDATA[#{obj.createTimeStart}<=a.create_time]]>
+                </if>
+                <if test="obj.createTimeEnd != null and obj.createTimeEnd != ''">
+                    and <![CDATA[#{obj.createTimeEnd}>=a.create_time]]>
+                </if>
+
+                <if test="obj.higher != null and obj.higher != ''">
+                    and <![CDATA[#{obj.higher}=a.higher_up]]>
+                </if>
+                <if test="obj.leader != null and obj.leader != ''">
+                    and  if(a.grade=0,a.distributor_id =#{obj.leader},a.partner_id =#{obj.leader})
+                </if>
+
+                <if test="obj.countMoneyMin != null and obj.countMoneyMin != ''">
+                    and <![CDATA[obj.countMoneyMin<=d.all_cash]]>
+                </if>
+                <if test="obj.countMoneyMax != null and obj.countMoneyMax != ''">
+                    and <![CDATA[obj.countMoneyMax>=d.all_cash]]>
+                </if>
+            </trim>
+            ORDER BY create_time desc
+    </select>
+    <select id="findUserDstbDetail" resultType="com.e_commerce.miscroservice.operate.entity.response.UserDetailVo">
+        SELECT
+            b.user_nickname as nickName,
+            a.distributor_id as distributorId,
+            a.partner_id as partnerId,
+            c.BusinessName as storeName,
+            a.id,
+            a.grade,
+            a.user_id as userId
+--             , a.team_user_count as teamUserCount,
+--             a.fans_user_count as fansUserCount
+        FROM
+            yjj_distribution_system a,
+            shop_member b,
+            yjj_storebusiness c
+        WHERE
+            a.user_id = #{userId}
+        AND a.user_id = b.id
+        AND b.store_id = c.Id
+    </select>
+
+    <select id="findUserAndStoreById" resultType="java.util.Map">
+       SELECT
+            b.user_nickname as nickName,
+            c.BusinessName as storeName,
+            b.id as userId
+        FROM
+            shop_member b,
+            yjj_storebusiness c
+        WHERE
+        b.id = #{userId}
+        AND b.store_id = c.Id
+    </select>
+    <update id="updateAllSunDistributorOrPartner" parameterType="java.util.List">
+        update yjj_distribution_system set
+        <if test="gradeCondition==2">
+            distributor_id = #{userId}
+        </if>
+        <if test="gradeCondition==3">
+            partner_id = #{userId}
+        </if>
+        where user_id in
+        <foreach collection="sunList" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
+
+
+
+    <select id="listDstbTeam"
+            resultType="com.e_commerce.miscroservice.commons.entity.user.DstbUserVo"
+            parameterType="java.util.Map">
+
+        SELECT
+            temp.*,
+
+            superiorUser.user_nickname AS superiorUserName,
+            superiorDstb.grade AS superiorUserGrade
+
+        FROM (
+
+        SELECT
+        dstb.user_id AS userId,
+        dstb.grade AS grade,
+        member.user_nickname AS userName,
+
+        -- `所属上级id`
+        CASE
+        WHEN dstb.distributor_id > 0 THEN dstb.distributor_id
+        ELSE dstb.partner_id
+        END AS superiorUserId,
+
+        -- 累计现金收益
+        IFNULL(account.history_cash_earning,0) AS historyCashEarning,
+        -- 累计金币收益
+        IFNULL(account.history_gold_coin_earning,0) AS historyGoldCoinEarning,
+        member.create_time AS createTime
+        FROM
+        `yjj_distribution_system` dstb
+        JOIN shop_member member ON member.id = dstb.user_id
+        LEFT JOIN shop_member_account account ON account.user_id = dstb.user_id
+        WHERE
+          dstb.del_status = 0
+        -- 团队管理员id
+        AND
+        (dstb.distributor_id = #{userId} OR dstb.partner_id = #{userId})
+        -- 会员id
+        <if test="teamMemberId != null and teamMemberId >0">
+            AND dstb.user_id = #{teamMemberId}
+        </if>
+        -- 会员名称
+        <if test="memberName != null and memberName != ''">
+            AND member.user_nickname LIKE CONCAT('%',#{memberName},'%')
+        </if>
+        -- 会员角色 2
+        <if test="grade != null">
+            AND dstb.grade = #{grade}
+        </if>
+        -- 注册时间
+        <if test="registerTimeCeil != null and registerTimeCeil != ''">
+            AND member.create_time &lt; #{registerTimeCeil}
+        </if>
+        <if test="registerTimeFloor != null and registerTimeFloor != ''">
+            AND member.create_time &gt; #{registerTimeFloor}
+        </if>
+        -- 现金收益
+        <if test="historyCashEarningCeil != null">
+            AND account.history_cash_earning &lt; #{historyCashEarningCeil}
+        </if>
+        <if test="historyCashEarningFloor != null">
+            AND account.history_cash_earning &gt; #{historyCashEarningFloor}
+        </if>
+        -- 金币收益
+        <if test="historyGoldCoinEarningCeil != null">
+            AND account.history_gold_coin_earning &lt; #{historyGoldCoinEarningCeil}
+        </if>
+        <if test="historyGoldCoinEarningFloor != null">
+            AND account.history_gold_coin_earning &gt; #{historyGoldCoinEarningFloor}
+        </if>
+
+        ) AS temp
+        LEFT JOIN shop_member superiorUser ON superiorUser.id = temp.superiorUserId
+        LEFT JOIN yjj_distribution_system superiorDstb ON superiorDstb.user_id = superiorUser.id
+
+        WHERE 1=1
+        <if test="superiorUserId != null and superiorUserId > 0">
+            AND superiorUserId = #{superiorUserId}
+        </if>
+        <if test="superiorUserName != null and superiorUserName != ''">
+            AND superiorUser.user_nickname LIKE CONCAT('%',#{superiorUserName},'%')
+        </if>
+        <if test="superiorUserGrade != null ">
+            AND superiorDstb.grade = #{superiorUserGrade}
+        </if>
+
+        ORDER BY temp.historyCashEarning DESC
+
+    </select>
+
+
+
+    
+    <select id="listDstbFans"
+            resultType="com.e_commerce.miscroservice.commons.entity.user.DstbUserVo"
+            parameterType="java.util.Map">
+        SELECT
+        dstb.user_id AS userId,
+        member.user_nickname AS userName,
+        -- 粉丝类别 1级粉丝,2级粉丝(如果userId与上级推荐相等,就是1级粉丝,否则2级)
+        CASE
+        WHEN higher_up = #{userId} THEN
+        1
+        ELSE
+        2
+        END AS whichFans,
+        -- 累计现金收益
+        IFNULL(account.history_cash_earning,0) AS historyCashEarning,
+        -- 累计金币收益
+        IFNULL(account.history_gold_coin_earning,0) AS historyGoldCoinEarning,
+        member.create_time AS createTime
+        FROM
+        `yjj_distribution_system` dstb
+        JOIN shop_member member ON member.id = dstb.user_id
+        LEFT JOIN shop_member_account account ON account.user_id = dstb.user_id
+        WHERE
+        dstb.del_status = 0
+        <if test="fansType == 0">
+            -- 所有粉丝
+              AND ( dstb.top_up = #{topUserId} OR dstb.higher_up = #{higherUserId} )
+        </if>
+        <if test="fansType == 1">
+            -- 1级粉丝
+            AND dstb.higher_up = #{higherUserId}
+        </if>
+        <if test="fansType == 2">
+            -- 2级粉丝
+          AND dstb.top_up = #{topUserId}
+        </if>
+        <if test="teamMemberId != null and teamMemberId > 0">
+            AND dstb.user_id = #{teamMemberId}
+        </if>
+        <if test="memberName != null and memberName != ''">
+            AND member.user_nickname LIKE CONCAT('%', memberName, '%')
+        </if>
+        <if test="registerTimeCeil != null and registerTimeCeil != ''">
+        -- 注册时间
+            AND member.create_time &lt; #{registerTimeCeil}
+        </if>
+        <if test="registerTimeFloor != null and registerTimeFloor != ''">
+        -- 注册时间
+            AND member.create_time &gt; #{registerTimeFloor}
+        </if>
+        <if test="historyCashEarningCeil != null">
+        -- 现金收益
+            AND account.history_cash_earning &lt; #{historyCashEarningCeil}
+        </if>
+        <if test="historyCashEarningFloor != null">
+        -- 现金收益
+            AND account.history_cash_earning &gt; #{historyCashEarningFloor}
+        </if>
+        <if test="historyGoldCoinEarningCeil != null">
+        -- 金币收益
+            AND account.history_gold_coin_earning &lt; #{historyGoldCoinEarningCeil}
+        </if>
+        <if test="historyGoldCoinEarningFloor != null">
+        -- 金币收益
+            AND account.history_gold_coin_earning &gt; #{historyGoldCoinEarningFloor}
+        </if>
+
+        ORDER BY account.history_cash_earning DESC
+    </select>
+
+
+    <select id="listDstbUser"
+            resultType="com.e_commerce.miscroservice.commons.entity.user.DstbUserVo"
+            parameterType="java.util.Map">
+        SELECT
+        temp.*,
+        recommendUser.user_nickname AS recommendUserName,
+        recommendDstb.grade AS recommendUserGrade,
+        superiorUser.user_nickname AS superiorUserName,
+        recommendUser.bind_phone AS bindPhone,
+        superiorDstb.grade AS superiorUserGrade
+        FROM
+        (
+        SELECT
+        -- 会员ID
+        member.id AS userId,
+        member.sex AS userSex,
+        dstb.grade AS grade,
+        -- 会员昵称
+        member.user_nickname AS userName,
+        -- 所属商家
+        store.BusinessName AS storeBusinessName,
+        -- `推荐人id`
+        dstb.higher_up AS recommendUserId,
+        -- `所属上级id`
+        CASE
+          WHEN dstb.distributor_id > 0 THEN dstb.distributor_id
+          ELSE dstb.partner_id
+          END AS superiorUserId,
+        IFNULL(account.history_cash_earning,0) AS historyCashEarning,
+        IFNULL(account.history_gold_coin_earning,0) AS historyGoldCoinEarning,
+        member.create_time AS createTime
+        FROM
+        shop_member member
+        LEFT JOIN shop_member_account account ON member.id = account.user_id
+        JOIN yjj_storebusiness store ON store.Id = member.store_id
+        LEFT JOIN yjj_distribution_system dstb ON dstb.user_id = member.id
+        WHERE 1=1
+        <if test="storeBusinessName != null and storeBusinessName != ''">
+            -- 所属商家
+            AND store.BusinessName LIKE CONCAT('%',#{storeBusinessName},'%')
+        </if>
+        <if test="teamMemberId != null">
+            -- 会员id
+            AND member.id = #{teamMemberId}
+        </if>
+        <if test="memberName != null and memberName != ''">
+            -- 会员昵称
+            AND member.user_nickname LIKE CONCAT('%',#{memberName},'%')
+        </if>
+        <if test="grade != null">
+            -- 角色
+            AND dstb.grade = #{grade}
+        </if>
+        -- 注册时间
+        <if test="registerTimeCeil != null and registerTimeCeil !=''">
+            AND member.create_time &lt; #{registerTimeCeil}
+        </if>
+        <if test="registerTimeFloor != null and registerTimeFloor != ''">
+            AND member.create_time &gt; #{registerTimeFloor}
+        </if>
+        -- 现金收益
+        <if test="historyCashEarningCeil != null">
+            AND account.history_cash_earning &lt; #{historyCashEarningCeil}
+        </if>
+        <if test="historyCashEarningFloor != null">
+            AND account.history_cash_earning &gt; #{historyCashEarningFloor}
+        </if>
+        -- 金币收益
+        <if test="historyGoldCoinEarningCeil != null">
+            AND account.history_gold_coin_earning &lt; #{historyGoldCoinEarningCeil}
+        </if>
+        <if test="historyGoldCoinEarningFloor != null">
+            AND account.history_gold_coin_earning &gt; #{historyGoldCoinEarningFloor}
+        </if>
+        ) AS temp
+        LEFT JOIN shop_member recommendUser ON recommendUser.id = temp.recommendUserId
+        LEFT JOIN yjj_distribution_system recommendDstb ON recommendDstb.user_id = recommendUser.id
+        LEFT JOIN shop_member superiorUser ON superiorUser.id = temp.superiorUserId
+        LEFT JOIN yjj_distribution_system superiorDstb ON superiorDstb.user_id = superiorUser.id
+        WHERE 1=1
+
+        <if test="recommendUserId != null and recommendUserId > 0">
+            -- 推荐人id
+            AND recommendUserId = #{recommendUserId}
+        </if>
+        <if test="superiorUserId != null and superiorUserId > 0">
+            -- 商家id
+            AND superiorUserId = #{superiorUserId}
+        </if>
+        <if test="recommendUserName != null and recommendUserName != ''">
+            -- 推荐人昵称
+            AND recommendUser.user_nickname LIKE CONCAT('%',#{recommendUserName},'%')
+        </if>
+        <if test="superiorUserName != null and superiorUserName != ''">
+            -- 上级昵称
+            AND superiorUser.user_nickname LIKE CONCAT('%',#{superiorUserName},'%')
+        </if>
+        ORDER BY temp.createTime DESC
+    </select>
+    <select id="findMemberById" resultType="com.e_commerce.miscroservice.commons.entity.application.user.Member">
+        select * from yjj_member where id = #{memberId} and del_state = 0
+    </select>
+
+</mapper>
+
+
+
+
+
+
+
+
+
+
+

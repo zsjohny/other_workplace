@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jiuy.core.dao.impl.sql.FirstDiscountStatisticsDaoSqlImpl">
+
+	<select id="searchDayStatistics" parameterType="map" resultType="FirstDiscountStatisticsDayBean">
+		select sum(GoodsCount) as GoodsCount, sum(OrderCount) as OrderCount, sum(PayOrderCount) as PayOrderCount, 
+		sum(PayMoney) as PayMoney,sum(DiscountMoney) as DiscountMoney
+		from yjj_FirstDiscountStatisticsDayReport
+		<where>
+			<![CDATA[ 
+				CreateTime >= #{startTime} and CreateTime <= #{endTime}
+			]]>
+		</where> 
+	</select>
+	
+	<select id="searchTodayStatistics" parameterType="map" resultType="FirstDiscountStatisticsDayBean">
+		select sum(TotalBuyCount) as GoodsCount,count(1) as OrderCount,
+		(select count(1) from yjj_OrderNew where OrderNo in( select OrderNo from yjj_OrderDiscountLog where Type = 2 and  <![CDATA[ CreateTime >= #{startTime} AND CreateTime <= #{endTime}]]> ) and PayTime > 0) as PayOrderCount,
+		(select sum(TotalPay) from yjj_OrderNew where OrderNo in( select OrderNo from yjj_OrderDiscountLog where Type = 2 and  <![CDATA[ CreateTime >= #{startTime} AND CreateTime <= #{endTime}]]> ) and PayTime > 0) as PayMoney,
+		(select sum(Discount) from yjj_OrderDiscountLog where Type = 2 and  <![CDATA[ CreateTime >= #{startTime} AND CreateTime <= #{endTime}]]>) as DiscountMoney
+			from yjj_OrderNew where OrderNo in( select OrderNo from yjj_OrderDiscountLog where Type = 2 and  <![CDATA[ CreateTime >= #{startTime} AND CreateTime <= #{endTime}]]> ) 
+	</select>
+	
+	<select id="searchRecord" parameterType="map" resultType="OrderFirstDiscountLog">
+		select odt.OrderNo, o.TotalMoney, o.TotalPay, odt.Discount,o.UserId,o.CreateTime,from_unixtime(o.CreateTime/1000,"%Y-%m-%d %k:%i:%s")as CreateTimeStr,
+		(select YJJNumber from yjj_User where UserId = o.UserId) as YJJNumber
+ 		from ( SELECT * FROM yjj_OrderDiscountLog where Type = 2 ) as odt left join yjj_OrderNew as o on odt.OrderNo = o.OrderNo
+ 		<where>
+ 			<![CDATA[ o.CreateTime >= #{startTime} AND o.CreateTime <= #{endTime}]]>
+ 			
+ 			<if test="orderNo!=0">
+ 				AND o.OrderNo = #{orderNo}
+ 			</if>
+ 			<if test="userId!=0">
+ 				AND o.UserId = #{userId}
+ 			</if>
+ 			 <![CDATA[ AND o.TotalMoney >= #{minMoney} ]]>
+ 			<if test="maxMoney!=-1">
+ 				<![CDATA[ AND o.TotalMoney <= #{maxMoney}]]>
+ 			</if>
+ 		</where>
+ 		order by o.CreateTime desc
+ 		limit #{pageQuery.limit} offset #{pageQuery.offset}
+	</select>
+	
+	<select id="searchRecordCount" parameterType="map" resultType="int">
+		select count(1)
+ 		from ( SELECT * FROM yjj_OrderDiscountLog where Type = 2 ) as odt left join yjj_OrderNew as o on odt.OrderNo = o.OrderNo
+ 		<where>
+ 			<![CDATA[ o.CreateTime >= #{startTime} AND o.CreateTime <= #{endTime}]]>
+ 			
+ 			<if test="orderNo!=0">
+ 				AND o.OrderNo = #{orderNo}
+ 			</if>
+ 			<if test="userId!=0">
+ 				AND o.UserId = #{userId}
+ 			</if>
+ 			 <![CDATA[ AND o.TotalMoney >= #{minMoney} ]]>
+ 			<if test="maxMoney!=-1">
+ 				<![CDATA[ AND o.TotalMoney <= #{maxMoney}]]>
+ 			</if>
+ 		</where>
+	</select>
+
+</mapper>

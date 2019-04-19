@@ -1,0 +1,425 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" > 
+<mapper namespace="com.jiuy.rb.mapper.account.CoinsCashOutMapper"> 
+ 
+ 	<!-- 主要的返回映射-->
+	<resultMap id="BaseResultMap" type="com.jiuy.rb.model.account.CoinsCashOut"	>
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="member_id"  property="memberId"  jdbcType="BIGINT" />
+		<result column="coins_id"  property="coinsId"  jdbcType="BIGINT" />
+		<result column="cash_count"  property="cashCount"  jdbcType="BIGINT" />
+		<result column="cash_rmb"  property="cashRmb"  jdbcType="DECIMAL" />
+		<result column="create_time"  property="createTime"  jdbcType="TIMESTAMP" />
+		<result column="update_time"  property="updateTime"  jdbcType="TIMESTAMP" />
+		<result column="status"  property="status"  jdbcType="INTEGER" />
+		<result column="sync_time"  property="syncTime"  jdbcType="TIMESTAMP" />
+		<result column="sync_status"  property="syncStatus"  jdbcType="INTEGER" />
+		<result column="left_cash_out_rmb"  property="leftCashOutRmb"  jdbcType="DECIMAL" />
+		<result column="result"  property="result"  jdbcType="VARCHAR" />
+		<result column="coins_detail_id"  property="coinsDetailId"  jdbcType="BIGINT" />
+		<result column="wxa_no"  property="wxaNo"  jdbcType="VARCHAR" />
+		<result column="payment_no"  property="paymentNo"  jdbcType="VARCHAR" />
+	</resultMap>
+
+	<!-- 所有的列名-->
+	<sql id="Base_Column_List" >
+		id,member_id,coins_id,cash_count,cash_rmb,create_time,update_time,status,sync_time,
+		sync_status,left_cash_out_rmb,result,coins_detail_id,wxa_no,payment_no
+	</sql>
+
+	<!-- 精确更新的字段-->
+	<sql id="updateBase">
+		<if test="id  !=null">
+			id = #{id,jdbcType=BIGINT}, 
+		</if>
+		<if test="memberId  !=null">
+			member_id = #{memberId,jdbcType=BIGINT}, 
+		</if>
+		<if test="coinsId  !=null">
+			coins_id = #{coinsId,jdbcType=BIGINT}, 
+		</if>
+		<if test="cashCount  !=null">
+			cash_count = #{cashCount,jdbcType=BIGINT}, 
+		</if>
+		<if test="cashRmb  !=null">
+			cash_rmb = #{cashRmb,jdbcType=DECIMAL}, 
+		</if>
+		<if test="createTime  !=null">
+			create_time = #{createTime,jdbcType=TIMESTAMP}, 
+		</if>
+		<if test="updateTime  !=null">
+			update_time = #{updateTime,jdbcType=TIMESTAMP}, 
+		</if>
+		<if test="status  !=null">
+			status = #{status,jdbcType=INTEGER}, 
+		</if>
+		<if test="syncTime  !=null">
+			sync_time = #{syncTime,jdbcType=TIMESTAMP}, 
+		</if>
+		<if test="syncStatus  !=null">
+			sync_status = #{syncStatus,jdbcType=INTEGER}, 
+		</if>
+		<if test="leftCashOutRmb  !=null">
+			left_cash_out_rmb = #{leftCashOutRmb,jdbcType=DECIMAL}, 
+		</if>
+		<if test="result  !=null">
+			result = #{result,jdbcType=VARCHAR}, 
+		</if>
+		<if test="coinsDetailId  !=null">
+			coins_detail_id = #{coinsDetailId,jdbcType=BIGINT}, 
+		</if>
+		<if test="wxaNo  !=null">
+			wxa_no = #{wxaNo,jdbcType=VARCHAR}, 
+		</if>
+		<if test="paymentNo  !=null">
+			payment_no = #{paymentNo,jdbcType=VARCHAR} 
+		</if>
+	</sql>
+
+	<!-- 通过主键查找-->
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="Long" >
+		select 
+		<include refid="Base_Column_List" />
+		from yjj_coins_cash_out
+		where  id = #{id,jdbcType=BIGINT} 
+	</select>
+
+	<!-- 通过主键删除-->
+	<delete id="deleteByPrimaryKey" parameterType="Long" >
+		delete from yjj_coins_cash_out
+		where id = #{id,jdbcType=BIGINT} 
+	</delete>
+
+	<!-- 普通插入全字段插t入-->
+	<insert id="insert" parameterType="com.jiuy.rb.model.account.CoinsCashOut" >
+		insert into yjj_coins_cash_out
+		(
+			id,
+			member_id,
+			coins_id,
+			cash_count,
+			cash_rmb,
+			create_time,
+			update_time,
+			status,
+			sync_time,
+			sync_status,
+			left_cash_out_rmb,
+			result,
+			coins_detail_id,
+			wxa_no,
+			payment_no
+		)
+		values
+		(
+			#{id ,jdbcType=BIGINT},
+			#{memberId ,jdbcType=BIGINT},
+			#{coinsId ,jdbcType=BIGINT},
+			#{cashCount ,jdbcType=BIGINT},
+			#{cashRmb ,jdbcType=DECIMAL},
+			#{createTime ,jdbcType=TIMESTAMP},
+			#{updateTime ,jdbcType=TIMESTAMP},
+			#{status ,jdbcType=INTEGER},
+			#{syncTime ,jdbcType=TIMESTAMP},
+			#{syncStatus ,jdbcType=INTEGER},
+			#{leftCashOutRmb ,jdbcType=DECIMAL},
+			#{result ,jdbcType=VARCHAR},
+			#{coinsDetailId ,jdbcType=BIGINT},
+			#{wxaNo ,jdbcType=VARCHAR},
+			#{paymentNo ,jdbcType=VARCHAR}
+		)
+	</insert>
+
+	<!-- 批量插入，全部字段插入-->
+	<insert id="insertBach"   parameterType="List" >
+		insert into yjj_coins_cash_out
+		(
+			id,
+			member_id,
+			coins_id,
+			cash_count,
+			cash_rmb,
+			create_time,
+			update_time,
+			status,
+			sync_time,
+			sync_status,
+			left_cash_out_rmb,
+			result,
+			coins_detail_id,
+			wxa_no,
+			payment_no
+		)
+		values 
+		<foreach collection="list" item="item" separator=",">
+		(
+			#{item.id ,jdbcType=BIGINT},
+			#{item.memberId ,jdbcType=BIGINT},
+			#{item.coinsId ,jdbcType=BIGINT},
+			#{item.cashCount ,jdbcType=BIGINT},
+			#{item.cashRmb ,jdbcType=DECIMAL},
+			#{item.createTime ,jdbcType=TIMESTAMP},
+			#{item.updateTime ,jdbcType=TIMESTAMP},
+			#{item.status ,jdbcType=INTEGER},
+			#{item.syncTime ,jdbcType=TIMESTAMP},
+			#{item.syncStatus ,jdbcType=INTEGER},
+			#{item.leftCashOutRmb ,jdbcType=DECIMAL},
+			#{item.result ,jdbcType=VARCHAR},
+			#{item.coinsDetailId ,jdbcType=BIGINT},
+			#{item.wxaNo ,jdbcType=VARCHAR},
+			#{item.paymentNo ,jdbcType=VARCHAR}
+		)
+		</foreach>
+	</insert>
+
+	<!-- 精确插入，非null得字段才会插入-->
+	<insert id="insertSelective" parameterType="com.jiuy.rb.model.account.CoinsCashOut" useGeneratedKeys="true" keyProperty="id" >
+		insert into yjj_coins_cash_out
+		<trim prefix="(" suffix=")" suffixOverrides="," > 
+			<if test="id !=null">  
+				id,
+			</if>
+			<if test="memberId !=null">  
+				member_id,
+			</if>
+			<if test="coinsId !=null">  
+				coins_id,
+			</if>
+			<if test="cashCount !=null">  
+				cash_count,
+			</if>
+			<if test="cashRmb !=null">  
+				cash_rmb,
+			</if>
+			<if test="createTime !=null">  
+				create_time,
+			</if>
+			<if test="updateTime !=null">  
+				update_time,
+			</if>
+			<if test="status !=null">  
+				status,
+			</if>
+			<if test="syncTime !=null">  
+				sync_time,
+			</if>
+			<if test="syncStatus !=null">  
+				sync_status,
+			</if>
+			<if test="leftCashOutRmb !=null">  
+				left_cash_out_rmb,
+			</if>
+			<if test="result !=null">  
+				result,
+			</if>
+			<if test="coinsDetailId !=null">  
+				coins_detail_id,
+			</if>
+			<if test="wxaNo !=null">  
+				wxa_no,
+			</if>
+			<if test="paymentNo !=null">  
+				payment_no,
+			</if>
+		</trim>
+
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+			<if test="id  !=null">
+				#{id,jdbcType=BIGINT}, 
+			</if>
+			<if test="memberId  !=null">
+				#{memberId,jdbcType=BIGINT}, 
+			</if>
+			<if test="coinsId  !=null">
+				#{coinsId,jdbcType=BIGINT}, 
+			</if>
+			<if test="cashCount  !=null">
+				#{cashCount,jdbcType=BIGINT}, 
+			</if>
+			<if test="cashRmb  !=null">
+				#{cashRmb,jdbcType=DECIMAL}, 
+			</if>
+			<if test="createTime  !=null">
+				#{createTime,jdbcType=TIMESTAMP}, 
+			</if>
+			<if test="updateTime  !=null">
+				#{updateTime,jdbcType=TIMESTAMP}, 
+			</if>
+			<if test="status  !=null">
+				#{status,jdbcType=INTEGER}, 
+			</if>
+			<if test="syncTime  !=null">
+				#{syncTime,jdbcType=TIMESTAMP}, 
+			</if>
+			<if test="syncStatus  !=null">
+				#{syncStatus,jdbcType=INTEGER}, 
+			</if>
+			<if test="leftCashOutRmb  !=null">
+				#{leftCashOutRmb,jdbcType=DECIMAL}, 
+			</if>
+			<if test="result  !=null">
+				#{result,jdbcType=VARCHAR}, 
+			</if>
+			<if test="coinsDetailId  !=null">
+				#{coinsDetailId,jdbcType=BIGINT}, 
+			</if>
+			<if test="wxaNo  !=null">
+				#{wxaNo,jdbcType=VARCHAR}, 
+			</if>
+			<if test="paymentNo  !=null">
+				#{paymentNo,jdbcType=VARCHAR} 
+			</if>
+		</trim>
+	</insert> 
+
+	<!-- 精确更新-->
+	<update id="updateByPrimaryKeySelective" parameterType="com.jiuy.rb.model.account.CoinsCashOut" >
+		update yjj_coins_cash_out
+		<set>
+			<include refid="updateBase"/>
+		</set>
+		where id = #{id,jdbcType=BIGINT} 
+	</update> 
+
+	<!-- 全字段更新 需要注意-->
+	<update id="updateByPrimaryKey" parameterType="com.jiuy.rb.model.account.CoinsCashOut" >
+		update yjj_coins_cash_out
+		set 
+			id = #{id ,jdbcType=BIGINT},
+			member_id = #{memberId ,jdbcType=BIGINT},
+			coins_id = #{coinsId ,jdbcType=BIGINT},
+			cash_count = #{cashCount ,jdbcType=BIGINT},
+			cash_rmb = #{cashRmb ,jdbcType=DECIMAL},
+			create_time = #{createTime ,jdbcType=TIMESTAMP},
+			update_time = #{updateTime ,jdbcType=TIMESTAMP},
+			status = #{status ,jdbcType=INTEGER},
+			sync_time = #{syncTime ,jdbcType=TIMESTAMP},
+			sync_status = #{syncStatus ,jdbcType=INTEGER},
+			left_cash_out_rmb = #{leftCashOutRmb ,jdbcType=DECIMAL},
+			result = #{result ,jdbcType=VARCHAR},
+			coins_detail_id = #{coinsDetailId ,jdbcType=BIGINT},
+			wxa_no = #{wxaNo ,jdbcType=VARCHAR},
+			payment_no = #{paymentNo ,jdbcType=VARCHAR}
+		where id = #{id,jdbcType=BIGINT} 
+	</update> 
+
+	<!-- 所有的条件集合-->
+	<sql id="whereCase"  >
+		where  1=1 
+		<if test="id  !=null">
+			AND id = #{id,jdbcType=BIGINT} 
+		</if>
+		<if test="memberId  !=null">
+			AND member_id = #{memberId,jdbcType=BIGINT} 
+		</if>
+		<if test="coinsId  !=null">
+			AND coins_id = #{coinsId,jdbcType=BIGINT} 
+		</if>
+		<if test="cashCount  !=null">
+			AND cash_count = #{cashCount,jdbcType=BIGINT} 
+		</if>
+		<if test="cashRmb  !=null">
+			AND cash_rmb = #{cashRmb,jdbcType=DECIMAL} 
+		</if>
+		<if test="createTime  !=null">
+			AND create_time = #{createTime,jdbcType=TIMESTAMP} 
+		</if>
+		<if test="updateTime  !=null">
+			AND update_time = #{updateTime,jdbcType=TIMESTAMP} 
+		</if>
+		<if test="status  !=null">
+			AND status = #{status,jdbcType=INTEGER} 
+		</if>
+		<if test="syncTime  !=null">
+			AND sync_time = #{syncTime,jdbcType=TIMESTAMP} 
+		</if>
+		<if test="syncStatus  !=null">
+			AND sync_status = #{syncStatus,jdbcType=INTEGER} 
+		</if>
+		<if test="leftCashOutRmb  !=null">
+			AND left_cash_out_rmb = #{leftCashOutRmb,jdbcType=DECIMAL} 
+		</if>
+		<if test="result  !=null">
+			AND result = #{result,jdbcType=VARCHAR} 
+		</if>
+		<if test="coinsDetailId  !=null">
+			AND coins_detail_id = #{coinsDetailId,jdbcType=BIGINT} 
+		</if>
+		<if test="wxaNo  !=null">
+			AND wxa_no = #{wxaNo,jdbcType=VARCHAR} 
+		</if>
+		<if test="paymentNo  !=null">
+			AND payment_no = #{paymentNo,jdbcType=VARCHAR} 
+		</if>
+		<include refid="costomWhereCase"/>
+	</sql>
+
+	<!-- 查询一条，如果返回多条会报错-->
+	<select id="selectOne" parameterType="java.util.Map" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" /> 
+		FROM yjj_coins_cash_out 
+		<include refid="whereCase" /> 
+	</select>
+
+	<!-- 查询一个list-->
+	<select id="selectList" parameterType="java.util.Map" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" /> 
+		FROM yjj_coins_cash_out 
+		<include refid="whereCase" /> 
+	</select>
+
+	<!-- 查询一个list-->
+	<select id="selectCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+		SELECT
+		count(1) 
+		FROM yjj_coins_cash_out
+		<include refid="whereCase" /> 
+	</select>
+
+	<!--  @Costom -->
+	<!-- 从上一行注释以上为系统生成 从这一行往下为用户自定义 请将自定义的sql放在此行下面 -->
+	<sql id="costomWhereCase">
+	</sql>
+
+
+	<!--查询提现列表-->
+	<select id="selectCashOutList" parameterType="java.util.Map" resultType="com.jiuy.rb.model.account.CoinsCashOutQuery">
+		SELECT  cash.id as id ,
+				cash.member_id memberId,
+				cash.coins_id coinsId,
+				cash.cash_count cashCount,
+				cash.cash_rmb cashRmb,
+				cash.create_time createTime,
+				cash.update_time updateTime,
+				cash.status,
+				cash.sync_time syncTime,
+				cash.sync_status syncStatus,
+				cash.left_cash_out_rmb leftCashOutRmb,
+			    member.user_nickname as nickname
+		<if test="queryStore != null and queryStore == true">
+			,store.BusinessName storeName
+			, store.Id storeId
+		</if>
+		from yjj_coins_cash_out as cash
+		LEFT JOIN shop_member as member on member.id = cash.member_id
+		<if test="queryStore != null and queryStore == true">
+			LEFT JOIN yjj_storebusiness store ON store.Id = member.store_id
+		</if>
+		where 1 = 1
+			<if test="nickName !=null">
+				and member.user_nickname like concat('%',#{nickName},'%')
+			</if>
+			<if test="status  !=null">
+				AND cash.status = #{status}
+			</if>
+			<if test="beginTime  !=null">
+				AND cash.create_time &gt;= #{beginTime}
+			</if>
+			<if test="endTime  !=null">
+				AND cash.create_time &lt;= #{endTime}
+			</if>
+		order by  cash.create_time desc
+	</select>
+</mapper>

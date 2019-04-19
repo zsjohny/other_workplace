@@ -1,0 +1,48 @@
+/**颜值分明细 **/
+.coin-nav {
+  height: 100rpx;
+  line-height: 100rpx;
+  font-size: 32rpx;
+  text-align: center;
+  display: -webkit-box;
+  display: box;
+}
+.coin-nav .item{
+  width: 50%;
+  -webkit-box-flex: 1;
+  background: #f8f5f5;
+  color: #9a9a9a;
+}
+.coin-nav .ft-red{
+  background: #fff;
+}
+/*颜值分列表*/
+.income-box{
+  margin: 0 24rpx;
+  padding-bottom: 90rpx;
+}
+.coin-list .item{
+  border-bottom:2rpx solid #f4f4f4;
+  height: auto;
+  overflow: hidden;
+  padding: 24rpx 0;
+  font-size: 30rpx;
+}
+.coin-list .item .title{
+  height: 40rpx;
+  line-height: 40rpx;
+}
+.coin-list .item .title .name{
+  width: 530rpx;
+  height: 40rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.coin-list .item .detail{
+  padding-top: 10rpx;
+  font-size: 24rpx;
+}
+.coin-list .item .detail .time{
+  color: rgba(0, 0, 0, 0.4);
+}

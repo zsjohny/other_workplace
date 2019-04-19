@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.store.dao.mapper.OutStockCartMapper">
+
+	<select id="getByStoreId" resultType="OutStockCart">
+		select * from store_OutStockCart
+		where StoreId = #{storeId} and Status = 0
+	</select>
+	
+	<insert id="add">
+		insert store_OutStockCart(StoreId, ProductId, SkuId, Count, Status, CreateTime, UpdateTime, Cash)
+		values(#{storeId}, #{productId}, #{skuId}, #{count}, 0, #{currentTime}, #{currentTime}, #{cash})
+		on duplicate key 
+		update UpdateTime = #{currentTime}, Status = 0, Count = Count + values(Count)
+	</insert>
+	
+	<select id="getByStoreIdSkuId" resultType="OutStockCart">
+		select * from store_OutStockCart
+		where StoreId = #{storeId} and Status = 0 and SkuId = #{skuId}
+	</select>
+	
+	<select id="getByStoreIdSkuIdCash" resultType="OutStockCart">
+		select * from store_OutStockCart
+		where StoreId = #{storeId} and Status = 0 and SkuId = #{skuId} and Cash = #{cash}
+	</select>
+	
+	
+	<update id="delete">
+		update store_OutStockCart
+		set Status = -1, Count = 0, UpdateTime = unix_timestamp() * 1000
+		where Id = #{id}
+	</update>
+	
+	<update id="deleteBySKU">
+		update store_OutStockCart
+		set Status = -1, Count = 0, UpdateTime = unix_timestamp() * 1000
+		where StoreId = #{storeId} and skuId = #{skuId}
+	</update>
+	
+</mapper>

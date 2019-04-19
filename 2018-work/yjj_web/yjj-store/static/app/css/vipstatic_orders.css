@@ -1,0 +1,35 @@
+/*  made at 2016-12-02   */
+
+body{background-color: #eaeaea!important;}
+ul.ul_nav{width: 100%;height: 4rem;border-top: 1px solid #a6a6a6;padding: 10px;line-height: 40px;vertical-align: middle;}
+ul.ul_nav li{list-style: none;line-height:2rem;float: left;height: 2rem;width: 25%;text-align: -webkit-center;font-size: 1.4rem;}
+ul.ul_nav li.specia{border-left: 1px solid #a6a6a6;}
+ul.ul_nav li.active{color: #fd4374;}
+
+div.label_content{width: 95%;height: 8.6rem;background-color: #fff;margin: 0px auto;margin-top: 7.5rem;}
+.label_content .contents{width: 100%;height: 4.3rem;line-height: 4.3rem;}
+.label_content .contents .left{color:#333333;font-size:1.5rem;width: 50%;height: 4.3rem;line-height: 4.3rem;float: left; text-align: -webkit-left;margin-left: 1rem;}
+.label_content .contents .right{float: right;margin-right: 1rem;font-size: 1.2rem;color: #fd4374;}
+
+.content_detail{background-color: #fff;width: 95%;margin: 0px auto;margin-top: 1rem;height: 35rem;}
+.content_detail .addbtn{margin-left: 1rem;padding-top: 1rem;}
+.content_detail .addbtn button{border-radius:8px;border: 1px solid #999;width: 7.4rem;height: 3rem;background-color: #fff;font-size: 1.2rem;}
+.content_detail .addbtn button#addVip{margin-right: 1rem;}
+
+.listtable{background-color: #fff;width: 95%;margin: 0px auto;margin-top: 1rem;height: auto;}
+.listtable table thead th{text-align: center;}
+.listtable table tr td{text-align: center;}
+.table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th{height: 3.5rem;vertical-align: middle;padding: 6px!important;}
+.table-bordered>thead>tr>td, .table-bordered>thead>tr>th{border-bottom-width:1px!important;}
+
+.chart-container {height: 330px;}
+.chart-tooltip {position: absolute;display: none;padding: 5px;max-width: 200px;font-size: 12px;text-align: center;color: #fff;
+    background-color: #fff;border-radius: 4px;opacity: 0.8;
+}
+.bathroom-chart {width: 100%;height: 100%;}
+
+
+
+
+
+

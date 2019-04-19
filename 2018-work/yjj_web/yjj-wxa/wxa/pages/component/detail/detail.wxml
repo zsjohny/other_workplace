@@ -1,0 +1,315 @@
+<!--detail.wxml-->
+<view class="tab-box">
+    <!--简介-->
+    <view class="introduce-mod">
+      <view class='slide-box'>
+        <!-- 橱窗图大于1张时 -->
+        <block wx:if="{{ totalSummaryImages.length > 1 }}">
+          <swiper indicator-dots="true" indicator-color="#E8E8E8" indicator-active-color="#5A5A5A" autoplay="true" interval="3000" duration="300" circular="true" class='swiper-box'>
+              <!-- 有视频，第一张是视频截图可播放 -->
+              <swiper-item bindtap="showVideoFunc"  wx:if="{{videoDisplayUrl}}">
+                  <image class="slide-image img" mode="aspectFit" src="{{videoDisplayImage}}"></image>
+                  <view class='video-play'></view>
+              </swiper-item>
+              <!--橱窗图没有视频 -->
+              <block wx:for="{{summaryImages}}"  wx:key="item">
+                <swiper-item>
+                  <image class="slide-image img" mode="aspectFit" data-url="{{ item }}" bindtap='fullScreenView' src="{{ item }}"></image>
+                </swiper-item>
+              </block> 
+          </swiper>
+        </block>
+        <!-- 橱窗图只有1张时,不显示面板指示点-->
+        <block wx:else>
+          <swiper indicator-dots="false" indicator-color="rgba(0, 0, 0, 0)" indicator-active-color="rgba(0, 0, 0, 0)" autoplay="true" interval="3000" duration="300" circular="true" class='swiper-box'>
+              <block wx:for="{{summaryImages}}"  wx:key="item">
+                <swiper-item>
+                  <image class="slide-image img" mode="aspectFit" data-url="{{ item }}" bindtap='fullScreenView' src="{{ item }}"></image>
+                </swiper-item>
+              </block>
+          </swiper>
+        </block>
+        <!-- 视频弹窗播放模块 -->
+        <view class='slide-video-box' wx:if="{{slideShowVideo}}">
+          <view class='bg' bindtap="closeVideo">
+              <view class='quit-video'>退出视频</view>
+          </view>
+          <video class="slideVideo" id="slideVideo" src="{{videoDisplayUrl}}" objectFit="cover" direction="0" autoplay="true"  controls bindended="endPlay" bindfullscreenchange="quitControl">
+          </video>
+        </view>
+      </view>  
+      <!--slide-box end -->  
+      <!-- 团购秒杀模块 -->
+      <view class='activity-mod' wx:if="{{activityState == 2 || activityState == 1}}">
+        <view class='activity-info'>
+          <text wx:if='{{activityProductState == 2}}' class='activity-tips seckill-tips'></text>
+          <text wx:if='{{activityProductState == 1}}' class='activity-tips group-tips'></text>
+          <!-- 团购 -->
+          <block wx:if='{{activityState == 1 && activityProductState == 1}}'>
+              <text class='activity-text' wx:if="{{activityData.conditionType ==1}}">满{{activityData.userCount}}人下单 即享优惠价</text>
+              <text class='activity-text' wx:else>满{{activityData.meetProductCount}}件下单 即享优惠价</text>
+          </block>
+          <block wx:if='{{activityState == 2 && activityProductState == 1}}'>
+              <text class='activity-text' wx:if="{{activityData.conditionType ==1}}">还差{{activityData.differMemberCount}}人下单 即享优惠价</text>
+              <text class='activity-text' wx:else>还差{{activityData.differProductCount}}件下单 即享优惠价</text>
+          </block>
+          <!-- 秒杀 -->
+          <block wx:if='{{activityState == 1 && activityProductState == 2}}'>
+              <text class='activity-text'>限量促销仅供{{activityData.activityProductCount}}件</text>
+          </block>
+          <block wx:if='{{activityState == 2 && activityProductState == 2}}'>
+              <text class='activity-text'>限量促销还剩{{activityData.surplusProductCount}}件</text>
+          </block>
+        </view>
+        <view class='time-box' wx:if="{{activityProductState != 0}}">
+          <view class='activity-state'>
+              <!-- 团购 -->
+              <block wx:if='{{activityState == 1 && activityProductState == 1}}'>
+                  距活动开始仅剩
+              </block>
+              <block wx:if='{{activityState == 2 && activityProductState == 1}}'>
+                  距活动结束仅剩
+              </block>
+              <!-- 秒杀 -->
+              <block wx:if='{{activityState == 1 && activityProductState == 2}}'>
+                  距活动开始仅剩
+              </block>
+              <block wx:if='{{activityState == 2 && activityProductState == 2}}'>
+                  距活动结束仅剩
+              </block>
+          </view>
+          <!-- 倒计时 -->
+          <view class='down-time'>
+            <text class='hours'>{{activityHours}}</text>时
+            <text class='minute'>{{activityMinute}}</text>分
+            <text class='second'>{{activityseconds}}</text>秒
+          </view>
+        </view>
+      </view>
+      <!-- 商品信息模块 -->
+      <view class="info-box">
+        <view class="title"><view class="p-name">{{ dataDetail.product.name }}</view></view>
+        <view class='share-model' bindtap="showSharePopup">
+          <button class="icon"></button>
+          <view class='ft-text'>分享</view>
+        </view>
+        <!--价格模块-->
+        <view class='price-box'>
+          <view class='price-info'>
+            <!-- 未参与活动的价格 -->
+            <block wx:if="{{activityProductState == 0}}">
+              <view class="new-price" wx:if="{{dataDetail.product.price > 0}}">
+                ￥<text class='number'>{{ dataDetail.product.price }}</text>
+              </view>
+            </block>
+            <!-- 活动价 -->
+            <block wx:else>
+              <view class="new-price" wx:if="{{activityData.activityPrice > 0}}">
+                <text class="gray">优惠价</text>￥<text class='number'>{{ activityData.activityPrice }}</text>
+              </view>
+            </block>
+            <view class="stock-tag" wx:if="{{ dataDetail.product.isStock >0 }}">现货</view>
+          </view>
+          <!-- 活动时才显示原价模块 -->
+          <block wx:if="{{activityProductState != 0}}">
+            <view class='old-price' wx:if="{{dataDetail.product.price > 0}}">原价<text class='del'>¥{{ dataDetail.product.price }}</text></view>
+          </block>
+        </view>
+      </view>   
+      <view class="introduce-explain"> 
+        <view class='item'><text>七天退换货</text></view>
+        <view class='item'><text>按时发货</text></view>
+        <view class='item'><text>延误必赔</text></view>
+      </view> 
+    </view> 
+    <!--introduce-mod end-->
+    <!--详情-->
+    <view class="detail-mod">
+        <!-- 视频区域 -->
+        <view class="video-section" wx:if="{{videoUrl && isShowVideo }}">
+          <video id="product-video" src="{{videoUrl}}" controls bindended="endPlay" bindfullscreenchange="quitControl"></video>
+        </view>
+        <!-- 自定义描述区 -->
+        <view class="product-ownDetail">
+           <block wx:for="{{ shopOwnDetail }}" wx:key="image">
+              <view wx:if="{{item.type == 1}}">
+                <view class="text">{{item.content}}</view>
+              </view>
+              <view wx:if="{{item.type == 0}}">
+                <image class="img own-img" bindtap="fullScreenDetail" mode="widthFix" data-url="{{ item.content }}" src="{{ item.content }}?x-oss-process=image/auto-orient,1"></image>
+              </view>
+           </block>
+        </view>
+        <view class="product-size">
+           <view class="title" wx:if="{{ SizeTableImage.length > 0 }}">商品尺码</view>
+           <block wx:for="{{ SizeTableImage }}" wx:key="image">
+              <image class="img size-img" bindtap="fullScreenDetail" mode="widthFix" data-url="{{ item }}" src="{{ item }}"></image>
+           </block>
+        </view>
+        <view class="product-size">
+           <view class="title" wx:if="{{ DetailImages.length > 0 }}">商品展示</view>
+           <block wx:for="{{ DetailImages }}" wx:key="image">
+              <image class="img" bindtap="fullScreenDetail" mode="widthFix" data-url="{{ item }}" src="{{ item }}"></image>
+           </block>
+        </view>
+        <view class='product-code'>
+           <image class='img' bindtap="fullScreenDetail" mode="widthFix" data-url="{{ dataDetail.product.wxaqrcodeUrl }}" src='{{dataDetail.product.wxaqrcodeUrl}}'></image>
+        </view>
+        <view class='down-img-btn' bindtap="getDownShareImg">下载分享图到手机相册</view>
+    </view>
+    <!-- detail-mod end -->
+</view>
+<!--回到首页-->
+<view class='back-home' bindtap='backHomeFunc'></view>
+<!--回到顶部-->
+<view class="go-top go-top2" bindtap="goTop" wx:if="{{ goTopShowState }}"></view>
+<!--购物车悬浮图标-->
+<import src="../../template/shoppingCartIcon.wxml" />
+<template is="shoppingCartIcon" />
+<!--电话热线  -->
+<import src="../../template/phone.wxml" />
+<template is="phoneService" data="{{hotPhone}}" />
+<!--立即购买-->
+<block wx:if="{{bussinessType == 1}}">
+  <!--未参加活动-->
+  <block wx:if="{{activityProductState == 0}}">
+    <view class="com-buy-btn no-buy-btn" wx:if="{{dataDetail.product.soldOut == 2 }}">商品已下架</view>
+    <block wx:else>
+      <!-- 商品有零售价时，显示立即购买按钮 -->
+      <block wx:if="{{dataDetail.product.price > 0}}">
+        <view class='btn-box'>
+          <view class='btn-main switch-close-box'>
+            <view class="collect-box {{ collectState == 0 ? 'collect-active' : '' }}" data-state="{{ collectState }}" bindtap="collectFun">
+              <block wx:if="{{ collectState == 0 }}"><view class='icon'></view><text>已收藏</text></block>
+              <block wx:else><view class='icon'></view><text>收藏</text></block>
+            </view>
+            <block wx:if="{{dataDetail.isInventoryEnough == '1'}}">
+              <view class="buy-btn join-cart-btn" bindtap="showCartXbox" data-tryflag="2">加入购物车</view>
+              <view class="buy-btn buy-btn1" bindtap='gotoBuyBox' data-tryflag="0">立即购买</view>
+            </block> 
+            <block wx:else>
+              <view class="buy-btn join-cart-btn">暂无库存</view>
+            </block>
+          </view>
+        </view>
+      </block>  
+      <!-- 商品无零售价时，不显示立即购买按钮 3.7.7去掉-->
+    </block>  
+  </block>  
+  <!--活动团购\活动秒杀-->
+  <block wx:if="{{activityProductState == 1 || activityProductState == 2}}">
+    <view class="group-buy-box">
+      <view class="collect-box {{ collectState == 0 ? 'collect-active' : '' }}" data-state="{{ collectState }}" bindtap="collectFun">
+        <block wx:if="{{collectState == 0}}"><view class='icon'></view><text>已收藏</text></block>
+        <block wx:else><view class='icon'></view><text>收藏</text></block>
+      </view>
+      <view class="group-buy-btn" bindtap='gotoBuyBox' data-tryflag="0">马上抢</view>
+    </view>
+  </block>
+</block>
+<!--个人版预约3.7.7去掉-->
+<!-- 预约提交表单3.7.7去掉 -->
+<!--立即购买弹窗-->
+<view class="buy-xbox-wrap">
+    <view class="buy-xbox-bg  {{ buyBoxState ? 'show' : ''}}" bindtap='closeXbox'></view>
+    <view class="buy-xbox {{ buyBoxState ? 'xbox-animate' : ''}}">
+        <view class="close-buy-xbox" bindtap='closeXbox'></view>
+        <view class='buy-xbox-container'>
+          <view class="buy-des">
+            <image class="img" mode="aspectFit" src="{{dataDetail.product.summaryImages[0]}}"></image>
+            <view class="info">
+                <view class="title">{{ dataDetail.product.name }}</view>
+                <!-- 商品原价 -->
+                <block wx:if="{{activityProductState == 0}}">
+                    <view class='price' wx:if="{{dataDetail.product.price > 0}}"><text>￥</text>{{dataDetail.product.price}}</view>
+                </block>
+                <block wx:else>
+                  <view class='price' wx:if="{{activityData.activityPrice}}"><text>￥</text>{{ activityData.activityPrice }}</view>
+                </block>
+            </view>
+          </view>
+          <view class="ui-format" wx:if="{{ colorList.length > 0 }}">
+              <view class="format-title">颜色</view>
+              <view class="format-box" bindtap='chooseSku' data-click="1">
+                  <block wx:for="{{ colorList }}" wx:key="{{item.colorId}}">
+                    <!-- 有库存时 -->
+                    <view wx:if="{{item.isStock}}" class="item {{ (colorSkuIndex == item.colorId ) && item.selected ? 'cur' : '' }}" data-id="{{ item.colorId }}" data-name="{{ item.value }}">{{ item.value }}</view>
+                    <view wx:else class="item noStock">{{ item.value }}</view>
+                  </block>
+              </view>
+          </view>
+          <view class="ui-format" wx:if="{{ sizeList.length > 0 }}">
+              <view class="format-title">尺寸</view>
+              <view class="format-box" bindtap='chooseSku' data-click="2">
+                  <block wx:for="{{ sizeList }}" wx:key="{{item.sizeId}}">
+                    <view wx:if="{{item.isStock}}" class="item {{ (sizeSkuIndex == item.sizeId ) && item.selected ? 'cur' : '' }}" data-id="{{ item.sizeId }}" data-name="{{ item.value }}">{{ item.value }}</view>
+                    <view wx:else class="item noStock">{{ item.value }}</view>
+                  </block>
+              </view>
+          </view>
+          <view class="ui-format group-number">
+              <view class='format-title'>购买数量</view>
+              <view class="format-box">
+                  <view class="ac-item gray-btn" bindtap='reduceFun'>-</view>
+                  <view class="ac-item num-item">{{ buyNumber }}</view>
+                  <view wx:if="{{stockState}}" class="ac-item gray-btn">+</view>
+                  <view wx:else class="ac-item" bindtap='addFun'>+</view>
+              </view>
+          </view>
+        </view> <!-- buy-xbox-container end -->
+        <!--个人版预约试穿3.7.7去掉 -->
+        <block>
+          <!-- 当点击了预约试穿时3.7.7去掉 -->
+          <!-- 当点击了加入购物车时 -->
+          <block wx:if="{{tryFlag == 2}}">
+            <view class="ui-btn ui-buy-btn" bindtap='joinCartFunc'>确定</view>
+          </block>
+          <!-- 当点立即购买时 -->
+          <block wx:else>
+            <view class="ui-btn ui-buy-btn" bindtap='confirmOrder'>确定</view>
+          </block>
+        </block>
+    </view>    
+</view>
+<!--无分享功能时的分享提示-->
+<view class="share-prompt hide {{ shareState ? 'show' : '' }}" bindtap="closeShareFun">
+  <view class="share-box">
+      <view class="text">点击右上角按钮分享商品</view>
+      <image src="http://mini-img-main.oss-cn-hangzhou.aliyuncs.com/icon/share-prompt.png"></image>
+  </view>
+</view>
+<!--分享和下载图片弹窗-->
+<view class="share-popup">
+  <view class="bg {{ isShowSharePopup ? 'show' : ''}}" bindtap='hideSharePopup'></view>
+  <view class="contain {{ isShowSharePopup ? 'xbox-animate' : 'hide'}}">
+    <view class='box'>
+      <view class='item'>
+        <button class="icon icon1" wx:if="{{canIUse}}" open-type="share"></button>  
+        <button class="icon icon1" wx:else bindtap="shareFun"></button>
+        <view class='text'>分享到微信群或好友</view>
+      </view>
+      <view class='item' bindtap="getDownShareImg">
+        <view class='icon icon2'></view>
+        <view class='text'>分享到朋友圈</view>
+      </view>
+    </view>
+    <view class='close-btn' bindtap='hideSharePopup'>取消</view>
+  </view>
+</view>
+<!--下载图片设置权限提示框组件模块,详情页面无法使用，暂时找不到原因，先不用组件-->
+<!-- <view class='settingPopup-mod'>
+  <popup id='settingPopup' 
+      title='小程序图片保存失败，请设置权限'
+      bind:cancelEvent="hideSettingPopup">
+  </popup>
+</view> -->
+<view class="popup-wrapper" wx:if="{{isShowSettingPopup}}">
+  <view class='popup-bg' bindtap='hideSettingPopup'></view>
+  <view class="popup-main">
+    <view class="popup-title">小程序图片保存失败，请设置权限</view>
+    <view class='popup-operator'>
+      <view class='popup-close-btn' catchtap='hideSettingPopup'>取消</view>
+      <button class='popup-btn' open-type="openSetting" lang="zh_CN" bindopensetting="bindopensetting">去设置</button>
+    </view>
+  </view>
+</view>

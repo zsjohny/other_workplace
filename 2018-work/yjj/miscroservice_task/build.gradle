@@ -1,0 +1,18 @@
+apply plugin: 'java'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'application'
+repositories {
+    mavenCentral()
+}
+
+jar {
+    baseName "miscroservice_task"
+    mainClassName = 'com.e_commerce.miscroservice.TaskStartMain'
+}
+
+
+dependencies {
+    compile project(":miscroservice_commons")
+
+
+}

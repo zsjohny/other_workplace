@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.e_commerce.miscroservice.order.mapper.ProxyOrderMapper">
+
+    <select id="getCollectReward" resultType="java.math.BigDecimal">
+        SELECT IFNULL(SUM(rew.reward_money),0)
+        FROM
+	    `yjj_proxy_reward` rew
+        WHERE
+	    rew.user_id = #{userId}
+        <if test="isGrants !=null and isGrants.size()>0">
+            and rew.is_grant in
+            <foreach collection="isGrants" separator="," open="(" close=")" item="tempId">
+                #{tempId}
+            </foreach>
+        </if>
+    </select>
+
+    <select id="getTodayCollectReward" resultType="java.math.BigDecimal">
+        SELECT IFNULL(SUM(rew.reward_money),0)
+        FROM
+        `yjj_proxy_reward` rew
+        WHERE
+        rew.user_id = #{userId} and to_days(rew.create_time) = to_days(now())
+        <if test="isGrants !=null and isGrants.size()>0">
+            and rew.is_grant in
+            <foreach collection="isGrants" separator="," open="(" close=")" item="tempId">
+                #{tempId}
+            </foreach>
+        </if>
+    </select>
+
+    <select id="getRewardOrderList" resultType="com.e_commerce.miscroservice.commons.entity.application.proxy.ProxyReward">
+        SELECT * FROM `yjj_proxy_reward` rw
+        where rw.user_id=#{userId}
+        <if test="startTime != null">
+            and rw.create_time &gt;= #{startTime}
+        </if>
+        <if test="endTime != null">
+            and DATE_FORMAT(rw.create_time,'%Y-%m-%d') &lt;= #{endTime}
+        </if>
+        <if test="isGrants !=null and isGrants.size()>0">
+            and rw.is_grant in
+            <foreach collection="isGrants" separator="," open="(" close=")" item="tempId">
+                #{tempId}
+            </foreach>
+        </if>
+        ORDER BY rw.create_time desc
+    </select>
+
+<!--
+    &#45;&#45;         SELECT
+    &#45;&#45;           *
+    &#45;&#45;         FROM
+    &#45;&#45;          yjj_proxy_order ord
+    SELECT
+    ord.*, b.user_id AS rewardUserId, b.order_user_role AS orderRole ,c.`name` AS rewardUserName , d.wx_name AS orderUserName
+-->
+
+    <select id="getOrderList" parameterType="map" resultType="com.e_commerce.miscroservice.commons.entity.application.proxy.ProxyOrder">
+        SELECT
+        ord.*
+        FROM
+        yjj_proxy_order ord
+        LEFT JOIN yjj_proxy_reward b ON b.order_no  = ord.order_no
+        LEFT JOIN yjj_proxy_customer c ON c.user_id = b.user_id
+        LEFT JOIN yjj_public_account_user d ON ord.user_id = d.id
+        WHERE 1=1
+        <if test="selfName != null and selfName != ''">
+            AND  d.wx_name LIKE CONCAT('%',#{selfName},'%')
+        </if>
+        <if test="oneLevelName != null and oneLevelName != ''">
+            AND  c.`name` LIKE CONCAT('%',#{oneLevelName},'%')
+            AND b.order_user_role = 0
+        </if>
+        <if test="twoLevelName != null and twoLevelName != ''">
+            AND  c.`name` LIKE CONCAT('%',#{twoLevelName},'%')
+            AND b.order_user_role = 2
+        </if>
+
+        <if test="goodsName != null and goodsName != ''">
+            AND ord.goods_name LIKE CONCAT('%',#{goodsName},'%')
+        </if>
+        <if test="orderNo != null and orderNo != ''">
+            and ord.order_no = #{orderNo}
+        </if>
+        <if test="minMoney != null and minMoney != ''">
+            and ord.price &gt;= #{minMoney}
+        </if>
+        <if test="maxMoney != null and maxMoney != ''">
+            and #{maxMoney} >=ord.price
+        </if>
+        <if test="startTime != null and startTime != ''">
+            and ord.create_time &gt;= #{startTime}
+        </if>
+        <if test="endTime != null and endTime != ''">
+            and ord.create_time &lt;= #{endTime}
+        </if>
+        ORDER BY ord.create_time desc
+    </select>
+
+</mapper>
+
+
+
+
+
+
+
+
+
+
+

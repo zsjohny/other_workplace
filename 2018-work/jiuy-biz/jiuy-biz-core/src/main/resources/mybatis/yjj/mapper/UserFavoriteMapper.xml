@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yujj.dao.mapper.UserFavoriteMapper">
+    
+    <sql id="whereCondition">
+        <where>
+		    UserId=#{userId} and Status=0
+		    <if test="type!=null">
+		        and Type=#{type}
+		    </if>
+		</where>
+    </sql>
+	<insert id="addFavorite" useGeneratedKeys="true" keyProperty="id">
+		<![CDATA[
+			insert into yjj_UserFavorite
+			(UserId, RelatedId, Type, Status, CreateTime, UpdateTime)
+			values
+			(#{userId}, #{relatedId}, #{type}, 0, unix_timestamp()*1000, unix_timestamp()*1000)
+			on duplicate key
+			update Status = 0, UpdateTime = unix_timestamp()*1000
+		]]>
+	</insert>
+	
+	<insert id="addLike" useGeneratedKeys="true" keyProperty="id">
+		<![CDATA[
+			insert into yjj_UserLike
+			(UserId, RelatedId,  Status, CreateTime, UpdateTime)
+			values
+			(#{userId}, #{relatedId}, 0, #{createTime}, #{updateTime})
+			on duplicate key
+			update Status = 0, UpdateTime = #{updateTime}
+		]]>
+	</insert>
+	
+	<update id="deleteFavorite">
+	    <![CDATA[
+			update yjj_UserFavorite set Status=-1,UpdateTime=unix_timestamp()*1000 
+			where UserId=#{userId} and RelatedId=#{relatedId} and Type=#{type} and Status=0
+		]]>
+	</update>
+	
+	<select id="getFavorites" resultType="UserFavorite">
+	    <![CDATA[
+			select RelatedId,Type,UpdateTime,CreateTime from yjj_UserFavorite 
+		]]>
+		<include refid="whereCondition"/>
+		<![CDATA[
+           order by UpdateTime desc 
+           limit #{pageQuery.limit} offset #{pageQuery.offset}
+		]]>	
+	</select>
+	
+	<select id="getFavoritesCount" resultType="int">
+	    <![CDATA[
+			select count(*) from yjj_UserFavorite
+		]]>
+		<include refid="whereCondition"/>
+	</select>
+	
+	<select id="getFavorite" parameterType="map" resultType="UserFavorite">
+		 <![CDATA[
+		 	select * from yjj_UserFavorite
+		 	where UserId = #{userId} and RelatedId = #{relatedId} and Status = 0
+		 ]]>
+	</select>
+	
+	<select id="countById" resultType="map">
+		select RelatedId, count(1) as count
+		from yjj_UserFavorite
+		where Type = #{type} and RelatedId in 
+			<foreach collection="relatedIds" item="relatedId" open="(" separator="," close=")">
+				#{relatedId}
+			</foreach>
+	</select>
+	
+	<select id="getUserFavorite" resultType="UserFavorite">
+		select *
+		from yjj_UserFavorite
+		where Type = #{type} and RelatedId in 
+			<foreach collection="relatedIds" item="relatedId" open="(" separator="," close=")">
+				#{relatedId}
+			</foreach> and UserId = #{userId} and Status = 0
+	</select>
+	
+	<select id="getUserLikeMap" resultType="UserLike">
+		select * from yjj_UserLike
+		where RelatedId in 
+			<foreach collection="relatedIds" item="relatedId" open="(" separator="," close=")">
+				#{relatedId}
+			</foreach> and UserId = #{userId} and Status = 0
+	</select>
+	
+	<select id="getLikeCountById" resultType="map">
+		select RelatedId, count(1) as count
+		from yjj_UserLike 
+		where RelatedId in 
+			<foreach collection="relatedIds" item="relatedId" open="(" separator="," close=")">
+				#{relatedId} 
+			</foreach> and Status = 0
+		group by RelatedId 
+	</select>
+	
+</mapper>

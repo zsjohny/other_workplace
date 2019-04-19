@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.store.dao.mapper.StoreShareCommandRecordMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.jiuyuan.entity.newentity.StoreShareCommandRecord">
+		<id column="id" property="id" />
+		<result column="product_id" property="productId" />
+		<result column="share_time" property="shareTime" />
+		<result column="share_command_content" property="shareCommandContent" />
+		<result column="share_command" property="shareCommand" />
+		<result column="share_man" property="shareMan" />
+		<result column="share_deadline" property="shareDeadline" />
+		<result column="open_times" property="openTimes" />
+		<result column="parse_times" property="parseTimes"/>
+	</resultMap>
+
+</mapper>

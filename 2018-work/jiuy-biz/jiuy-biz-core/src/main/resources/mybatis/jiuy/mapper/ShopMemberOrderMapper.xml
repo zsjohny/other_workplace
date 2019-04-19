@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jiuy.core.dao.impl.sql.ShopMemberOrderDaoSqlImpl">
+	<!-- 获取下单时间小于23小时前的时间点的未付款订单 -->
+	<select id="getWaitPayTipOrderList" resultType="ShopMemberOrder">
+		<![CDATA[
+		SELECT 
+			id AS id, 
+			order_number AS orderNumber, 
+			store_id AS storeId, 
+			member_id AS memberId, 
+			total_express_and_money AS totalExpressAndMoney, 
+			total_money AS totalMoney, 
+			pay_money AS payMoney, 
+			sale_money AS saleMoney, 
+			express_money AS expressMoney, 
+			COUNT AS count, 
+			summary_images AS summaryImages, 
+			order_type AS orderType, 
+			order_status AS orderStatus, 
+			payment_no AS paymentNo, 
+			cancel_reason_type AS cancelReasonType, 
+			cancel_reason AS cancelReason, 
+			order_stop_time AS orderStopTime, 
+			pay_time AS payTime, 
+			take_delivery_time AS takeDeliveryTime, 
+			order_finish_time AS orderFinishTime, 
+			update_time AS updateTime, 
+			create_time AS createTime, 
+			user_nickname AS userNickname, 
+			coupon_id AS couponId, 
+			coupon_name AS couponName, 
+			coupon_limit_money AS couponLimitMoney, 
+			payment_type AS paymentType 
+		FROM shop_member_order 
+			WHERE order_status = 0 
+			and send_message = 0
+			and create_time < #{twentyThreeBefore}
+		]]>
+	</select>
+	
+	<!-- 获取下单时间超过24小时的未付款订单 -->
+	<select id="getUnPaidMemberOrderList" resultType="ShopMemberOrder">
+		<![CDATA[
+		SELECT 
+			id AS id, 
+			order_number AS orderNumber, 
+			store_id AS storeId, 
+			member_id AS memberId, 
+			total_express_and_money AS totalExpressAndMoney, 
+			total_money AS totalMoney, 
+			pay_money AS payMoney, 
+			sale_money AS saleMoney, 
+			express_money AS expressMoney, 
+			COUNT AS count, 
+			summary_images AS summaryImages, 
+			order_type AS orderType, 
+			order_status AS orderStatus, 
+			payment_no AS paymentNo, 
+			cancel_reason_type AS cancelReasonType, 
+			cancel_reason AS cancelReason, 
+			order_stop_time AS orderStopTime, 
+			pay_time AS payTime, 
+			take_delivery_time AS takeDeliveryTime, 
+			order_finish_time AS orderFinishTime, 
+			update_time AS updateTime, 
+			create_time AS createTime, 
+			user_nickname AS userNickname, 
+			coupon_id AS couponId, 
+			coupon_name AS couponName, 
+			coupon_limit_money AS couponLimitMoney, 
+			payment_type AS paymentType 
+		FROM shop_member_order WHERE 
+			order_status = 0 and 
+			create_time < #{outTime}
+		]]>
+	</select>
+	
+	<update id="storeOrderByOrderId" parameterType="map">
+		<![CDATA[
+			UPDATE shop_member_order SET 
+			order_status = 3,
+			cancel_reason_type=#{shopMemberOrder.cancelReasonType},
+			cancel_reason=#{shopMemberOrder.cancelReason},
+			order_stop_time=#{shopMemberOrder.orderStopTime},
+			update_time=#{shopMemberOrder.updateTime} 
+			WHERE id =#{shopMemberOrder.id}
+		]]>
+	</update>
+	
+	<update id="updateOrderSendMessage" parameterType="map">
+		<![CDATA[
+			UPDATE shop_member_order SET 
+			send_message = 1
+			WHERE id =#{orderId}
+		]]>
+	</update>
+	
+	<update id="updateShopMemberCouponStatus" parameterType="map">
+		<![CDATA[
+			UPDATE shop_member_coupon 
+			SET
+			admin_id = #{shopMemberCoupon.adminId} , 
+			check_time = #{shopMemberCoupon.checkTime} , 
+			check_money = #{shopMemberCoupon.checkMoney} , 
+			STATUS = #{shopMemberCoupon.status} , 
+			update_time = #{shopMemberCoupon.updateTime}
+			WHERE id = #{shopMemberCoupon.id}
+		]]>
+	</update>
+</mapper>

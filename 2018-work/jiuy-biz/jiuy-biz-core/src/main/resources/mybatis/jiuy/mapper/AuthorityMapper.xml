@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jiuy.core.dao.mapper.AuthorityDaoSqlImpl">
+	
+	<select id="search" resultType="Authority">
+		select * from yjj_Authority
+		<where>
+			Status = 0 
+			<if test="ids != null">
+				and Id in 
+				<foreach collection="ids" item="id" open="(" separator="," close=")">
+					#{id}
+				</foreach>
+			</if>
+			<if test="parentId != null">
+				and ParentId = #{parentId}
+			</if>
+			<if test="url != null">
+				and Url = #{url}
+			</if>
+			<if test="moduleName != null">
+				and ModuleName like concat("%", #{moduleName}, "%")
+			</if>
+		</where>
+		<if test="pageQuery != null">
+			limit #{pageQuery.limit} offset #{pageQuery.offset}
+		</if>
+		<if test="limit != null">
+			limit #{limit}
+		</if>
+	</select>
+	
+	<select id="searchVO" resultType="AuthorityVO">
+		select a.*, b.ModuleName as parentModuleName from yjj_Authority as a left join yjj_Authority as b 
+		on a.ParentId = b.Id
+		<where>
+			a.Status = 0 
+			<if test="ids != null">
+				and a.Id in 
+				<foreach collection="ids" item="id" open="(" separator="," close=")">
+					#{id}
+				</foreach>
+			</if>
+			<if test="parentId != null">
+				and a.ParentId = #{parentId}
+			</if>
+			<if test="url != null">
+				and a.Url = #{url}
+			</if>
+			<if test="moduleName != null">
+				and a.ModuleName like concat("%", #{moduleName}, "%") or b.ModuleName like concat("%", #{moduleName}, "%")
+			</if>
+		</where>
+		order by a.Weight desc
+		<if test="pageQuery != null">
+			limit #{pageQuery.limit} offset #{pageQuery.offset}
+		</if>
+		<if test="limit != null">
+			limit #{limit}
+		</if>
+	</select>
+	
+	<select id="searchCount" resultType="int">
+		select count(*) from yjj_Authority
+		<where>
+			Status = 0 
+			<if test="parentId != null">
+				and ParentId = #{parentId}
+			</if>
+			<if test="moduleName != null">
+				and ModuleName like concat("%", #{moduleName}, "%")
+			</if>
+		</where>
+	</select>
+	
+	<update id="update">
+		update yjj_Authority
+		<set>
+			<if test="status != null">
+				Status = -1,
+			</if>
+			<if test="moduleName != null">
+				ModuleName = #{moduleName},
+			</if>
+			<if test="parentId != null">
+				ParentId = #{parentId},
+			</if>
+			<if test="url != null">
+				Url = #{url},
+			</if>
+			<if test="menuName != null">
+				MenuName = #{menuName},
+			</if>
+			<if test="description != null">
+				Description = #{description},
+			</if>
+			<if test="weight != null">
+				Weight = #{weight},
+			</if>
+		</set>
+		<where>
+			and Id = #{id}
+		</where>
+	</update>
+	
+	<insert id="add">
+		insert yjj_Authority(ModuleName, ParentId, Url, CreateTime, UpdateTime, MenuName, Description, Weight)
+		values(#{moduleName}, #{parentId}, #{url}, #{createTime}, #{updateTime}, #{menuName}, #{description}, #{weight})
+	</insert>
+	
+	<select id="getByParentId" resultType="Authority">
+		select * from yjj_Authority
+		where ParentId = #{parentId}
+	</select>
+
+	<select id="getByParentIdRoleId" resultType="Authority">
+		select * from yjj_Authority
+		where ParentId = #{parentId} and Id in (select AuthorityId from yjj_RoleAuthority where RoleId = #{roleId} and Status = 0) and Status = 0
+		order by Weight desc
+	</select>
+	
+	<select id="containsUrl" resultType="Authority">
+		select * from yjj_Authority
+		where #{url} like concat("%", Url, "%")
+		limit 1
+	</select>
+
+</mapper>

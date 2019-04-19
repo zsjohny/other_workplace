@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jiuyuan.dao.mapper.supplier.BrandNewMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.jiuyuan.entity.newentity.BrandNew">
+		<id column="Id" property="Id" />
+		<result column="BrandId" property="BrandId" />
+		<result column="BrandName" property="BrandName" />
+		<result column="Logo" property="Logo" />
+		<result column="Status" property="Status" />
+		<result column="CreateTime" property="CreateTime" />
+		<result column="UpdateTime" property="UpdateTime" />
+		<result column="CnName" property="CnName" />
+		<result column="Description" property="Description" />
+		<result column="Weight" property="Weight" />
+		<result column="BrandIdentity" property="BrandIdentity" />
+		<result column="IsDiscount" property="IsDiscount" />
+		<result column="ExceedMoney" property="ExceedMoney" />
+		<result column="MinusMoney" property="MinusMoney" />
+		<result column="cloth_number_prefix" property="clothNumberPrefix" />
+		<result column="brand_type" property="brandType"/>
+		<result column="brand_promotion_img" property="brandPromotionImg"/>
+	</resultMap>
+
+
+	<select id="selectBrandList" parameterType="map" resultType="com.jiuyuan.entity.BrandVO">
+		select * from yjj_Brand b
+		where Status = 0
+
+		<if test="searchBrand != null">
+			and BrandName like CONCAT('%',#{searchBrand},'%')
+		</if>
+		<if test="type == 0">
+			order by (select IFNULL(sum(BuyCount),0) from yjj_OrderItem where BrandId = b.brandId and orderNo in (select orderNo from yjj_OrderNew where OrderStatus in (10,50,70))) DESC,Weight desc
+		</if>
+		<if test="type == 1">
+			order by weight desc
+		</if>
+		<if test="type == 2">
+			order by weight desc
+		</if>
+		<if test="type == 3">
+			order by (select IFNULL(max(createTime),0) from yjj_OrderItem where BrandId = b.brandId and UserId  = #{userId} ) DESC,Weight desc
+		</if>
+	</select>
+</mapper>

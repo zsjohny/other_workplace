@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<title>商品详情</title>
+	<meta name="description" content="商品详情">
+	<meta name="keywords" content="商品详情">	
+    <link rel="stylesheet" type="text/css" href="css/shareDetail.css">
+</head>
+<body>
+  <div id="container">
+        <!--  图片滑动 -->
+         <div class="slide-box">
+            <div id="slider" class="swipe-index">
+                 <div class="swipe-wrap"></div>
+            </div> 
+            <div class="ui-triggers">
+                  <span id="now-triggers"></span>/<span id="total"></span>
+            </div>     
+        </div>
+        <!--  商品标题 -->
+        <div class="detail-info">
+            <div class="detail-title"></div>
+            <div class="product-id">款号: <span id="clothesNumber-id"></span></div>
+        </div>
+        <div class="detail-brand" style="display:none">
+            <img id="brand-logo" src="">
+            <p class="brand-name"></p>
+        </div>
+        <!--  商品展示-->
+        <div class="detail-des"></div>
+	</div>  
+  <!-- 头部图片-->
+  <script type="text/html" id="detailHead-mod">
+      {{each detailImageArray as value}}
+           <div><img src="{{value}}" /></div>
+      {{/each}}
+  </script>
+  <!-- 商品详情 -->
+  <script type="text/html" id="detailImg-mod">
+      <div class="title">商品展示</div>
+      {{each summaryImageArray as value}}
+          <img src="{{value}}">
+      {{/each}}
+  </script>
+  <script src="js/jquery-2.2.3.min.js"></script>
+  <script src="js/template.js"></script>
+  <script src="js/swiper.js"></script>
+  <script type="text/javascript">
+      //获取url上的参数
+	  function getParams(name) {
+	      var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
+	      var r = window.location.search.substr(1).match(reg);
+	      if (r != null) {
+	          return decodeURIComponent(r[2]);
+	      }
+	      return null;
+	  }
+	  //初始化预览的商品详情
+	  $(function() {
+	  	//初始化滑动
+	  	function slideFun(){
+	  		var total = $(".swipe-wrap").find("div").length;
+	  		$(".ui-triggers").show();
+	  		$("#total").html(total);  
+	  		$("#now-triggers").html(1);
+	  	 	var slider = Swipe(document.getElementById('slider'), {
+	  	 		startSlide: 0,  //起始图片切换的索引位置
+	  	 		auto: 3000, //设置自动切换时间，单位毫秒 ,0为不自动播放
+	  	 		continuous: true,  //无限循环的图片切换效果
+	  	 		disableScroll: true,  //阻止由于触摸而滚动屏幕
+	  	 		stopPropagation: false,  //停止滑动事件
+	  	 		callback:function(index) {  //回调函数，切换时触发
+	  	            //  $(".slide-triggers li").eq(index).addClass("current").siblings().removeClass("current");
+	  		        $("#now-triggers").html(index+1);   
+	  	        },  
+	  	 		transitionEnd: function(index, element) {}  //回调函数，切换结束调用该函数。
+	  	 	});
+	  	}
+	     var productId = getParams("productId");
+	     function initData(){
+	  		 $.ajax({
+	  		       url: '/mobile/product/new/'+productId+'.json',
+	  		       type: 'GET',
+	  		       dataType: 'json',
+	  		       cache: false,
+	  		       success: function(response) {
+	  		           //console.log(response.data);
+	  		           var data = response.data;
+	  		           if(response.successful){
+	  		        	   //滑动
+	  		        	   var HeadHtml = template('detailHead-mod', data.product);
+	  		        	   $(".swipe-wrap").html(HeadHtml);
+	  		        	   slideFun();
+	  		        	   //标题
+	  		        	   $(".detail-title").html(data.product.name);
+	  		        	   $("#clothesNumber-id").html(data.product.clothesNumber);
+	  		        	   //品牌
+	  		        	   if(data.brand.brandName && data.brand.logo){
+	  		        		   $(".detail-brand").show();
+		  		        	   console.log(data.brand.logo);
+		  		        	   $("#brand-logo").attr("src",data.brand.logo);
+		  		        	   $(".brand-name").html(data.brand.brandName);
+	  		        	   }
+	  		        	   //详情
+	  		        	   var detailHtml = template('detailImg-mod', data.product);
+	  		        	   $(".detail-des").html(detailHtml);
+	  		           }
+	  		       },
+	  		       error: function(msg) {
+	  		           console.log("error" + msg);
+	  		       }
+	          });
+	     }
+	     initData()
+	  });
+
+  </script>
+</body>
+</html>

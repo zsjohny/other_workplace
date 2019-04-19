@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yujj.dao.mapper.StoreCouponMapper">
+    
+	<insert id="batchAddByCoupons">
+		insert into store_Coupon(CouponTemplateId, TemplateName, Type, Money, RangeType, RangeContent, ValidityStartTime, ValidityEndTime, IsLimit,
+			Coexist, StoreId, BusinessNumber, PushStatus, PublishAdminId, GrantAdminId, CreateTime, UpdateTime, GetWay, LimitMoney)
+		values
+		<foreach collection="coupons" item="coupon" open="(" separator="),(" close=")">
+			#{coupon.couponTemplateId}, #{coupon.templateName}, #{coupon.type}, #{coupon.money}, #{coupon.rangeType}, #{coupon.rangeContent}, #{coupon.validityStartTime}, #{coupon.validityEndTime}, #{coupon.isLimit},
+		 	#{coupon.coexist}, #{coupon.storeId}, #{coupon.businessNumber}, #{coupon.pushStatus}, #{coupon.publishAdminId}, #{coupon.grantAdminId}, #{coupon.createTime}, #{coupon.updateTime}, #{coupon.getWay}, #{coupon.limitMoney}
+		</foreach>
+	</insert>
+
+</mapper>

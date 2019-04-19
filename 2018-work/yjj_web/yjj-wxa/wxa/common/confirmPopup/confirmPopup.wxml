@@ -1,0 +1,22 @@
+<!--确定框-->
+<view class='popup-wrapper' hidden='{{!isShow}}'>
+  <view class='popup-bg' bindtap='_cancelEvent'></view>
+  <view class="popup-main">
+    <view class='popup-head'>
+      <block wx:if="{{iconClassName}}"><view class='icon {{iconClassName}}'></view></block>
+      <block wx:else><view class='icon'></view></block>
+      <view class='popup-content'>
+        <view class='title'><slot name='title'></slot></view>
+        <view class='content'><slot name='content'></slot></view>
+      </view>
+    </view>
+    <view class='popup-operator'>
+      <view class='btn popup-btn' catchtap='_confirmEvent'>
+          {{ confirmText }}
+      </view>
+      <view class='btn popup-close-btn' catchtap='_cancelEvent'>
+          {{ cancelText }}
+      </view>
+    </view>
+  </view>
+</view>

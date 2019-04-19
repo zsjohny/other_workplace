@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<title>邀请会员</title>
+	<style>
+	   *{
+	       padding:0; 
+	       margin:0;
+	       font-family:"Microsoft Yahei","Heiti SC","Helvetica Neue","Tahoma",Arial,sans-serif;
+           color: #3e3e3e;
+	    }
+	    body{
+	       max-width:750px;
+	       margin:0 auto;
+	   }
+	   .store-info{
+	   	   width:76%; 
+	   	   margin:80px auto;
+	   	   font-size:16px;
+	   }
+	   .store-info .title{
+	      font-size:20px;
+	   }
+	   .store-info .address{
+	      font-size:16px;
+	      margin-top:10px;
+	   }
+	   .store-info .address span{
+	      margin-right:8px;
+	   }
+	   .store-info .code-img{
+	       width:100%;
+	       margin-top:15px;
+	       display:block;
+	   }
+	   .store-info p{
+	       text-align:center;
+	       padding-top:15px;
+	   }
+	</style>
+</head>
+<body>
+	<div id="store-info" class="store-info">
+	</div>
+</body>
+<script src="js/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="js/template.js"></script>
+<script id="temp-model" type="text/html">
+     {{if data !=""}}
+     <div class="title">{{businessName}}</div> 
+	 <div class="address">
+	 	<span>{{province}}</span><span>{{city}}</span>
+	 </div>   
+	 <img class="code-img" src="{{qrcodeUrl}}">
+	 <p>{{text}}</p>
+    {{/if}}
+</script>
+<script>
+	//获取url参数
+	function getUrlParam(name, url) {
+	    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+	    var r = url;    
+	    if (url == undefined) {
+	        r = window.location.search.substr(1);  
+	    } else {
+	        r = url.split("?")[1];
+	    }
+	    r = r.match(reg);//匹配目标参数
+	    if (r != null) return decodeURI(r[2]); return null; //返回参数值
+	}
+	var store_id = getUrlParam("storeId");
+	function loadAction() {	
+		var param = "";	
+		if (store_id) {
+			param = "?storeId="+store_id;
+		    $.ajax({
+			    url: "/mobile/user/getsharedinfo.json"+param,
+			    contentType: "application/json",
+			    type: 'GET',
+			    cache : false,
+			    success: function(res) {
+			    	 //console.log(res);
+			    	 if(res.successful){
+			    		 var data = res.data;
+			    		 //console.log(data);
+			      		 var modelData = template('temp-model', data);
+			             document.getElementById('store-info').innerHTML = modelData ; 
+			    	 }
+			    },error: function(errorThrown) {
+			        alert(errorThrown);
+			    }
+			});
+		}	
+	}
+	$(function(){
+		loadAction()
+	})
+</script>
+</html>

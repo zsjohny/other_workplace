@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yujj.dao.mapper.ProductSKUMapper">
+	<select id="getProductSKUsOfProduct" resultType="ProductSKU">
+		<![CDATA[
+			select case a.isRemainCountLock when 1 then (case  when (a.remainCountStartTime<unix_timestamp()*1000 and a.remainCountEndTime>unix_timestamp()*1000) then  a.remainCount-a.RemainCountLock  else a.remainCount end) else a.RemainCount end as RemainCount,
+ 			a.* from yjj_ProductSKU a
+			where a.ProductId = #{productId} and a.Status >= 0 and a.SaleStartTime < unix_timestamp()*1000 and (a.SaleEndTime = 0 or a.SaleEndTime > unix_timestamp()*1000)
+		]]>
+	</select>
+	
+	<select id="getAllStatusOfProductSKUs" resultType="ProductSKU">
+		<![CDATA[
+			select case a.isRemainCountLock when 1 then (case  when (a.remainCountStartTime<unix_timestamp()*1000 and a.remainCountEndTime>unix_timestamp()*1000) then  a.remainCount-a.RemainCountLock  else a.remainCount end) else a.RemainCount end as RemainCount,
+ 			a.* from yjj_ProductSKU a
+			where a.ProductId = #{productId} and a.Status >= -1 
+		]]>
+	</select>
+
+	<select id="getProductSKU" resultType="ProductSKU">
+		<![CDATA[
+			select * from yjj_ProductSKU
+			where Id = #{id}
+		]]>
+	</select>
+
+	<select id="getProductSKUs" resultType="ProductSKU">
+		<![CDATA[
+			select * from yjj_ProductSKU
+			where Id in
+		]]>
+		<foreach collection="ids" item="id" open="(" separator="," close=")">
+			<![CDATA[
+				#{id}
+			]]>
+		</foreach>
+	</select>
+	
+	<update id="updateRemainCount" parameterType="map">
+		<![CDATA[
+			update yjj_ProductSKU
+			set RemainCount = RemainCount + #{by}
+			where Id = #{id} and RemainCount + #{by} >= 0
+		]]>
+	</update>
+	
+	<select id="getProductSKUsPropVO" resultType="ProductSKUsPropVO">
+		<![CDATA[
+			select ProductId, group_concat(PropertyIds Separator ' ') as PropertyIds from yjj_ProductSKU where status > -1 group by ProductId
+		]]>
+	</select>	
+		
+	<update id="updateRemainCountSecond" parameterType="map">
+		<![CDATA[
+			update yjj_ProductSKU
+			set RemainCount2 = RemainCount2 + #{by}
+			where Id = #{id} and RemainCount2 + #{by} >= 0
+		]]>
+	</update>
+	
+	<select id="getByProductIdPropertyIds" resultType="ProductSKU">
+		select * from yjj_ProductSKU 
+		where PropertyIds = #{propertyIds} and ProductId = #{productId} and <![CDATA[ Status > -3]]>
+		limit 1
+	</select>
+	
+</mapper>

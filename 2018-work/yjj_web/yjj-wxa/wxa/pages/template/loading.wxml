@@ -1,0 +1,11 @@
+<!--底部上拉加载更多loading模板-->
+<template name="loading">
+  <view class="more-load2">
+	<!--底部加载loadding-->
+	<view wx:if="{{ hasMore }}" class="go-loading more-loading">
+	  <view class="loading-mod"></view>
+	  <text class="tx">{{loadingText}}</text>
+	</view>
+	<view wx:if="{{ moreOver }}" class="tips2"><text>{{overText}}</text></view>
+  </view>
+</template>  

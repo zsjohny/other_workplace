@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="LOPostageMapper">
+    	
+    <select id="srchLogistics" parameterType="map" resultType="LOLPostageVO">
+	    SELECT 
+		    a.*, b.provinceName, b.cityName
+		FROM
+		    (SELECT 
+		        *
+		    FROM
+		        yjj_LOPostage 
+		    WHERE
+		        DeliveryLocation = #{deliveryLocation} AND status = 0) AS a
+		        LEFT JOIN
+		    yjj_LOLocation b ON a.DistributionLocation = b.Id
+    </select>
+    
+    <update id="savePostage" parameterType="map">
+    	update 
+    		yjj_LOPostage
+    	set 
+    		Postage = #{postage}
+    	where
+    		Id = #{id}
+    </update>
+
+</mapper>

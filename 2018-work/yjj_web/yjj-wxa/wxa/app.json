@@ -1,0 +1,97 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/footprint/footprint",
+    "pages/product/product",
+    "pages/shoppingCart/shoppingCart",
+    "pages/want/want",
+    "pages/component/secondBuyActivity/secondBuyActivity",
+    "pages/component/teamBuyActivity/teamBuyActivity",
+    "pages/component/articleDetail/articleDetail",
+    "pages/component/tagProduct/tagProduct",
+    "pages/component/searchList/searchList",
+    "pages/component/detail/detail",
+    "pages/component/confirmOrder/confirmOrder",
+    "pages/component/chooseCoupon/chooseCoupon",
+    "pages/component/newAddress/newAddress",
+    "pages/component/editAddress/editAddress",
+    "pages/component/goodsWay/goodsWay",
+    "pages/component/useredit/useredit",
+    "pages/component/editname/editname",
+    "pages/component/storeInfo/storeInfo",
+    "pages/component/couponProduct/couponProduct",
+    "pages/component/couponCenter/couponCenter",
+    "pages/component/myCoupon/myCoupon",
+    "pages/component/myOrder/myOrder",
+    "pages/component/express/express",
+    "pages/component/orderDetail/orderDetail",
+    "pages/component/shareRule/shareRule",
+    "pages/component/settlementRule/settlementRule",
+    "pages/component/myCoinDetail/myCoinDetail",
+    "pages/component/myShare/myShare",
+    "pages/component/myCoin/myCoin",
+    "pages/component/myTeamBuy/myTeamBuy",
+    "pages/component/withdrawRule/withdrawRule",
+    "pages/component/withdrawCash/withdrawCash",
+    "pages/component/withdrawSuccess/withdrawSuccess",
+    "pages/component/distributorAgreement/distributorAgreement",
+    "pages/component/partnerAgreement/partnerAgreement",
+    "pages/component/applyRights/applyRights",
+    "pages/component/legalRight/legalRight",
+    "pages/component/accountAmount/accountAmount",
+    "pages/component/accountCoin/accountCoin",
+    "pages/component/incomeDetail/incomeDetail",
+    "pages/component/myFans/myFans",
+    "pages/component/withdrawBonus/withdrawBonus",
+    "pages/component/withdrawBonusSuccess/withdrawBonusSuccess",
+    "pages/component/sign/sign",
+    "pages/component/teamOrderList/teamOrderList",
+    "pages/component/teamOrderDetail/teamOrderDetail",
+    "pages/component/teamOrderSearch/teamOrderSearch",
+	  "pages/component/refundApply/refundApply",
+    "pages/component/refundDetail/refundDetail",
+    "pages/component/refundList/refundList",
+    "pages/component/refundProgress/refundProgress",
+    "pages/component/refundOrder/refundOrder",
+    "pages/component/helperCenter/helperCenter",
+    "pages/component/helperDetail/helperDetail",
+    "pages/my/my"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "门店首页",
+    "navigationBarTextStyle": "black"
+  },
+  "tabBar": {
+    "color": "#828282",
+    "selectedColor": "#ff2272",
+    "borderStyle": "black",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "iconPath": "images/icon/home.png",
+        "selectedIconPath": "images/icon/home-active.png",
+        "text": "首页"
+      },
+      {
+        "pagePath": "pages/product/product",
+        "iconPath": "images/icon/product.png",
+        "selectedIconPath": "images/icon/product-active.png",
+        "text": "商城"
+      },
+      {
+        "pagePath": "pages/shoppingCart/shoppingCart",
+        "iconPath": "images/icon/cart.png",
+        "selectedIconPath": "images/icon/cart-active.png",
+        "text": "购物车"
+      },
+      {
+        "pagePath": "pages/my/my",
+        "iconPath": "images/icon/my.png",
+        "selectedIconPath": "images/icon/my-active.png",
+        "text": "我的"
+      }
+    ]
+  }
+}

@@ -1,0 +1,13 @@
+
+<view class="article-detail">
+  <view class='title'>{{articleTitle}}</view>
+  <view class='content-box'>
+    <block wx:for="{{articleContent}}" wx:key="{{item}}">
+      <block wx:if="{{item.type == 1}}" >{{item.content}}</block>
+      <!-- <block wx:if="{{item.type == 2}}" >
+        <navigator class="link" url="{{item.url}}">{{item.content}}</navigator>
+      </block> -->
+      <image wx:if="{{item.type == 0}}" class='img' mode='widthFix' src='{{item.content}}'></image>
+    </block>
+  </view>
+</view>

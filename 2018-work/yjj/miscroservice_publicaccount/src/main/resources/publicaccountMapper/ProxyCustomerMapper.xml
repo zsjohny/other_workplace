@@ -1,0 +1,403 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" > 
+<mapper namespace="com.e_commerce.miscroservice.publicaccount.mapper.ProxyCustomerMapper"> 
+	
+ 	<!-- 主要的返回映射-->
+	<resultMap id="BaseResultMap" type="com.e_commerce.miscroservice.commons.entity.application.proxy.ProxyCustomer"	>
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="id_card_no"  property="idCardNo"  jdbcType="VARCHAR" />
+		<result column="name"  property="name"  jdbcType="VARCHAR" />
+		<result column="phone"  property="phone"  jdbcType="VARCHAR" />
+		<result column="type"  property="type"  jdbcType="SMALLINT" />
+		<result column="user_id"  property="userId"  jdbcType="BIGINT" />
+		<result column="province"  property="province"  jdbcType="VARCHAR" />
+		<result column="city"  property="city"  jdbcType="VARCHAR" />
+		<result column="county"  property="county"  jdbcType="VARCHAR" />
+		<result column="proxy_qr_code"  property="proxyQrCode"  jdbcType="VARCHAR" />
+		<result column="customer_qr_code"  property="customerQrCode"  jdbcType="VARCHAR" />
+		<result column="address_detail"  property="addressDetail"  jdbcType="VARCHAR" />
+		<result column="del_status"  property="delStatus"  jdbcType="SMALLINT" />
+		<result column="create_time"  property="createTime"  jdbcType="TIMESTAMP" />
+	</resultMap>
+
+	<!-- 所有的列名-->
+	<sql id="Base_Column_List" >
+		id,id_card_no,name,phone,type,user_id,province,city,county,
+		proxy_qr_code,customer_qr_code,address_detail,del_status,create_time
+	</sql>
+
+
+	<!-- 精确更新的字段-->
+	<sql id="updateBase">
+		<if test="id  !=null">
+			id = #{id,jdbcType=BIGINT}, 
+		</if>
+		<if test="idCardNo  !=null">
+			id_card_no = #{idCardNo,jdbcType=VARCHAR}, 
+		</if>
+		<if test="name  !=null">
+			name = #{name,jdbcType=VARCHAR}, 
+		</if>
+		<if test="phone  !=null">
+			phone = #{phone,jdbcType=VARCHAR}, 
+		</if>
+		<if test="type  !=null">
+			type = #{type,jdbcType=SMALLINT}, 
+		</if>
+		<if test="userId  !=null">
+			user_id = #{userId,jdbcType=BIGINT}, 
+		</if>
+		<if test="province  !=null">
+			province = #{province,jdbcType=VARCHAR}, 
+		</if>
+		<if test="city  !=null">
+			city = #{city,jdbcType=VARCHAR}, 
+		</if>
+		<if test="county  !=null">
+			county = #{county,jdbcType=VARCHAR}, 
+		</if>
+		<if test="proxyQrCode  !=null">
+			proxy_qr_code = #{proxyQrCode,jdbcType=VARCHAR}, 
+		</if>
+		<if test="customerQrCode  !=null">
+			customer_qr_code = #{customerQrCode,jdbcType=VARCHAR}, 
+		</if>
+		<if test="addressDetail  !=null">
+			address_detail = #{addressDetail,jdbcType=VARCHAR}, 
+		</if>
+		<if test="delStatus  !=null">
+			del_status = #{delStatus,jdbcType=SMALLINT}, 
+		</if>
+		<if test="createTime  !=null">
+			create_time = #{createTime,jdbcType=TIMESTAMP} 
+		</if>
+	</sql>
+
+	<!-- 通过主键查找-->
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="Long" >
+		select 
+		<include refid="Base_Column_List" />
+		from yjj_proxy_customer
+		where  id = #{id,jdbcType=BIGINT} 
+	</select>
+
+	<!-- 通过主键删除-->
+	<delete id="deleteByPrimaryKey" parameterType="Long" >
+		delete from yjj_proxy_customer
+		where id = #{id,jdbcType=BIGINT} 
+	</delete>
+
+	<!-- 普通插入全字段插t入-->
+	<insert id="insert" parameterType="com.e_commerce.miscroservice.commons.entity.application.proxy.ProxyCustomer" >
+		insert into yjj_proxy_customer
+		(
+			id,
+			id_card_no,
+			name,
+			phone,
+			type,
+			user_id,
+			province,
+			city,
+			county,
+			proxy_qr_code,
+			customer_qr_code,
+			address_detail,
+			del_status,
+			create_time
+		)
+		values
+		(
+			#{id ,jdbcType=BIGINT},
+			#{idCardNo ,jdbcType=VARCHAR},
+			#{name ,jdbcType=VARCHAR},
+			#{phone ,jdbcType=VARCHAR},
+			#{type ,jdbcType=SMALLINT},
+			#{userId ,jdbcType=BIGINT},
+			#{province ,jdbcType=VARCHAR},
+			#{city ,jdbcType=VARCHAR},
+			#{county ,jdbcType=VARCHAR},
+			#{proxyQrCode ,jdbcType=VARCHAR},
+			#{customerQrCode ,jdbcType=VARCHAR},
+			#{addressDetail ,jdbcType=VARCHAR},
+			#{delStatus ,jdbcType=SMALLINT},
+			#{createTime ,jdbcType=TIMESTAMP}
+		)
+	</insert>
+
+	<!-- 批量插入，全部字段插入-->
+	<insert id="insertBach"   parameterType="List" >
+		insert into yjj_proxy_customer
+		(
+			id,
+			id_card_no,
+			name,
+			phone,
+			type,
+			user_id,
+			province,
+			city,
+			county,
+			proxy_qr_code,
+			customer_qr_code,
+			address_detail,
+			del_status,
+			create_time
+		)
+		values 
+		<foreach collection="list" item="item" separator=",">
+		(
+			#{item.id ,jdbcType=BIGINT},
+			#{item.idCardNo ,jdbcType=VARCHAR},
+			#{item.name ,jdbcType=VARCHAR},
+			#{item.phone ,jdbcType=VARCHAR},
+			#{item.type ,jdbcType=SMALLINT},
+			#{item.userId ,jdbcType=BIGINT},
+			#{item.province ,jdbcType=VARCHAR},
+			#{item.city ,jdbcType=VARCHAR},
+			#{item.county ,jdbcType=VARCHAR},
+			#{item.proxyQrCode ,jdbcType=VARCHAR},
+			#{item.customerQrCode ,jdbcType=VARCHAR},
+			#{item.addressDetail ,jdbcType=VARCHAR},
+			#{item.delStatus ,jdbcType=SMALLINT},
+			#{item.createTime ,jdbcType=TIMESTAMP}
+		)
+		</foreach>
+	</insert>
+
+	<!-- 精确插入，非null得字段才会插入-->
+	<insert id="insertSelective" parameterType="com.e_commerce.miscroservice.commons.entity.application.proxy.ProxyCustomer" useGeneratedKeys="true" keyProperty="id" >
+		insert into yjj_proxy_customer
+		<trim prefix="(" suffix=")" suffixOverrides="," > 
+			<if test="id !=null">  
+				id,
+			</if>
+			<if test="idCardNo !=null">  
+				id_card_no,
+			</if>
+			<if test="name !=null">  
+				name,
+			</if>
+			<if test="phone !=null">  
+				phone,
+			</if>
+			<if test="type !=null">  
+				type,
+			</if>
+			<if test="userId !=null">  
+				user_id,
+			</if>
+			<if test="province !=null">  
+				province,
+			</if>
+			<if test="city !=null">  
+				city,
+			</if>
+			<if test="county !=null">  
+				county,
+			</if>
+			<if test="proxyQrCode !=null">  
+				proxy_qr_code,
+			</if>
+			<if test="customerQrCode !=null">  
+				customer_qr_code,
+			</if>
+			<if test="addressDetail !=null">  
+				address_detail,
+			</if>
+			<if test="delStatus !=null">  
+				del_status,
+			</if>
+			<if test="createTime !=null">  
+				create_time,
+			</if>
+		</trim>
+
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+			<if test="id  !=null">
+				#{id,jdbcType=BIGINT}, 
+			</if>
+			<if test="idCardNo  !=null">
+				#{idCardNo,jdbcType=VARCHAR}, 
+			</if>
+			<if test="name  !=null">
+				#{name,jdbcType=VARCHAR}, 
+			</if>
+			<if test="phone  !=null">
+				#{phone,jdbcType=VARCHAR}, 
+			</if>
+			<if test="type  !=null">
+				#{type,jdbcType=SMALLINT}, 
+			</if>
+			<if test="userId  !=null">
+				#{userId,jdbcType=BIGINT}, 
+			</if>
+			<if test="province  !=null">
+				#{province,jdbcType=VARCHAR}, 
+			</if>
+			<if test="city  !=null">
+				#{city,jdbcType=VARCHAR}, 
+			</if>
+			<if test="county  !=null">
+				#{county,jdbcType=VARCHAR}, 
+			</if>
+			<if test="proxyQrCode  !=null">
+				#{proxyQrCode,jdbcType=VARCHAR}, 
+			</if>
+			<if test="customerQrCode  !=null">
+				#{customerQrCode,jdbcType=VARCHAR}, 
+			</if>
+			<if test="addressDetail  !=null">
+				#{addressDetail,jdbcType=VARCHAR}, 
+			</if>
+			<if test="delStatus  !=null">
+				#{delStatus,jdbcType=SMALLINT}, 
+			</if>
+			<if test="createTime  !=null">
+				#{createTime,jdbcType=TIMESTAMP} 
+			</if>
+		</trim>
+	</insert> 
+
+	<!-- 精确更新-->
+	<update id="updateByPrimaryKeySelective" parameterType="com.e_commerce.miscroservice.commons.entity.application.proxy.ProxyCustomer" >
+		update yjj_proxy_customer
+		<set>
+			<include refid="updateBase"/>
+		</set>
+		where id = #{id,jdbcType=BIGINT} 
+	</update> 
+
+	<!-- 全字段更新 需要注意-->
+	<update id="updateByPrimaryKey" parameterType="com.e_commerce.miscroservice.commons.entity.application.proxy.ProxyCustomer" >
+		update yjj_proxy_customer
+		set 
+			id = #{id ,jdbcType=BIGINT},
+			id_card_no = #{idCardNo ,jdbcType=VARCHAR},
+			name = #{name ,jdbcType=VARCHAR},
+			phone = #{phone ,jdbcType=VARCHAR},
+			type = #{type ,jdbcType=SMALLINT},
+			user_id = #{userId ,jdbcType=BIGINT},
+			province = #{province ,jdbcType=VARCHAR},
+			city = #{city ,jdbcType=VARCHAR},
+			county = #{county ,jdbcType=VARCHAR},
+			proxy_qr_code = #{proxyQrCode ,jdbcType=VARCHAR},
+			customer_qr_code = #{customerQrCode ,jdbcType=VARCHAR},
+			address_detail = #{addressDetail ,jdbcType=VARCHAR},
+			del_status = #{delStatus ,jdbcType=SMALLINT},
+			create_time = #{createTime ,jdbcType=TIMESTAMP}
+		where id = #{id,jdbcType=BIGINT} 
+	</update> 
+
+	<!-- 所有的条件集合-->
+	<sql id="whereCase"  >
+		where  1=1 
+		<if test="id  !=null">
+			AND id = #{id,jdbcType=BIGINT} 
+		</if>
+		<if test="idCardNo  !=null">
+			AND id_card_no = #{idCardNo,jdbcType=VARCHAR} 
+		</if>
+		<if test="name  !=null">
+			AND name = #{name,jdbcType=VARCHAR} 
+		</if>
+		<if test="phone  !=null">
+			AND phone = #{phone,jdbcType=VARCHAR} 
+		</if>
+		<if test="type  !=null">
+			AND type = #{type,jdbcType=SMALLINT} 
+		</if>
+		<if test="userId  !=null">
+			AND user_id = #{userId,jdbcType=BIGINT} 
+		</if>
+		<if test="province  !=null">
+			AND province = #{province,jdbcType=VARCHAR} 
+		</if>
+		<if test="city  !=null">
+			AND city = #{city,jdbcType=VARCHAR} 
+		</if>
+		<if test="county  !=null">
+			AND county = #{county,jdbcType=VARCHAR} 
+		</if>
+		<if test="proxyQrCode  !=null">
+			AND proxy_qr_code = #{proxyQrCode,jdbcType=VARCHAR} 
+		</if>
+		<if test="customerQrCode  !=null">
+			AND customer_qr_code = #{customerQrCode,jdbcType=VARCHAR} 
+		</if>
+		<if test="addressDetail  !=null">
+			AND address_detail = #{addressDetail,jdbcType=VARCHAR} 
+		</if>
+		<if test="delStatus  !=null">
+			AND del_status = #{delStatus,jdbcType=SMALLINT} 
+		</if>
+		<if test="createTime  !=null">
+			AND create_time = #{createTime,jdbcType=TIMESTAMP} 
+		</if>
+		<include refid="costomWhereCase"/>
+	</sql>
+
+	<!-- 查询一条，如果返回多条会报错-->
+	<select id="selectOne" parameterType="java.util.Map" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" /> 
+		FROM yjj_proxy_customer 
+		<include refid="whereCase" /> 
+	</select>
+
+	<!-- 查询一个list-->
+	<select id="selectList" parameterType="java.util.Map" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" /> 
+		FROM yjj_proxy_customer 
+		<include refid="whereCase" /> 
+	</select>
+
+	<!-- 查询一个list-->
+	<select id="selectCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+		SELECT
+		count(1) 
+		FROM yjj_proxy_customer
+		<include refid="whereCase" /> 
+	</select>
+
+	<!--  @Costom -->
+	<!-- 从上一行注释以上为系统生成 从这一行往下为用户自定义 请将自定义的sql放在此行下面 -->
+	<sql id="costomWhereCase">
+	</sql>
+
+	<select id="customerList" resultType="com.e_commerce.miscroservice.commons.entity.application.proxy.ProxyCustomerQuery" parameterType="map">
+		SELECT
+		*
+		FROM
+		yjj_proxy_customer cus
+		WHERE
+		1 = 1
+		<if test="type != null and type != ''">
+			AND cus.type = #{type}
+		</if>
+		<if test="name != null and name != ''">
+			AND cus.`name` LIKE CONCAT('%',#{name},'%')
+		</if>
+		<if test="phone != null and phone != ''">
+			AND cus.phone = #{phone}
+		</if>
+		<if test="province != null and province != ''">
+			AND cus.province = #{province}
+		</if>
+		<if test="city != null and city != ''">
+			AND cus.city = #{city}
+		</if>
+		<if test="county != null and county != ''">
+			AND cus.county = #{county}
+		</if>
+		<if test="startTime != null and startTime != ''">
+			AND cus.create_time &gt; #{startTime}
+		</if>
+		<if test="endTime != null and endTime != ''">
+			AND cus.create_time &lt; #{endTime}
+		</if>
+		ORDER BY create_time DESC
+	</select>
+
+</mapper>

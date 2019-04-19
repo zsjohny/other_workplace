@@ -1,0 +1,1071 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" > 
+<mapper namespace="com.e_commerce.miscroservice.order.mapper.ShopMemberOrderMapper">
+ 
+ 	<!-- 主要的返回映射-->
+	<resultMap id="BaseResultMap" type="com.e_commerce.miscroservice.commons.entity.application.order.ShopMemberOrder"	>
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="order_number"  property="orderNumber"  jdbcType="VARCHAR" />
+		<result column="store_id"  property="storeId"  jdbcType="BIGINT" />
+		<result column="member_id"  property="memberId"  jdbcType="BIGINT" />
+		<result column="team_id"  property="teamId"  jdbcType="BIGINT" />
+		<result column="second_id"  property="secondId"  jdbcType="BIGINT" />
+		<result column="total_express_and_money"  property="totalExpressAndMoney"  jdbcType="DECIMAL" />
+		<result column="total_money"  property="totalMoney"  jdbcType="DECIMAL" />
+		<result column="pay_money"  property="payMoney"  jdbcType="DECIMAL" />
+		<result column="sale_money"  property="saleMoney"  jdbcType="DECIMAL" />
+		<result column="express_money"  property="expressMoney"  jdbcType="DECIMAL" />
+		<result column="count"  property="count"  jdbcType="INTEGER" />
+		<result column="summary_images"  property="summaryImages"  jdbcType="VARCHAR" />
+		<result column="order_type"  property="orderType"  jdbcType="INTEGER" />
+		<result column="order_status"  property="orderStatus"  jdbcType="INTEGER" />
+		<result column="payment_no"  property="paymentNo"  jdbcType="VARCHAR" />
+		<result column="cancel_reason_type"  property="cancelReasonType"  jdbcType="INTEGER" />
+		<result column="cancel_reason"  property="cancelReason"  jdbcType="VARCHAR" />
+		<result column="order_stop_time"  property="orderStopTime"  jdbcType="BIGINT" />
+		<result column="pay_time"  property="payTime"  jdbcType="BIGINT" />
+		<result column="take_delivery_time"  property="takeDeliveryTime"  jdbcType="BIGINT" />
+		<result column="order_finish_time"  property="orderFinishTime"  jdbcType="BIGINT" />
+		<result column="update_time"  property="updateTime"  jdbcType="BIGINT" />
+		<result column="create_time"  property="createTime"  jdbcType="BIGINT" />
+		<result column="user_nickname"  property="userNickname"  jdbcType="VARCHAR" />
+		<result column="coupon_id"  property="couponId"  jdbcType="BIGINT" />
+		<result column="coupon_name"  property="couponName"  jdbcType="VARCHAR" />
+		<result column="coupon_limit_money"  property="couponLimitMoney"  jdbcType="DECIMAL" />
+		<result column="send_message"  property="sendMessage"  jdbcType="TINYINT" />
+		<result column="pay_form_id"  property="payFormId"  jdbcType="VARCHAR" />
+		<result column="payment_type"  property="paymentType"  jdbcType="TINYINT" />
+		<result column="expree_supplier_cnname"  property="expreeSupplierCnname"  jdbcType="VARCHAR" />
+		<result column="express_supplier"  property="expressSupplier"  jdbcType="VARCHAR" />
+		<result column="express_no"  property="expressNo"  jdbcType="VARCHAR" />
+		<result column="receiver_name"  property="receiverName"  jdbcType="VARCHAR" />
+		<result column="receiver_phone"  property="receiverPhone"  jdbcType="VARCHAR" />
+		<result column="receiver_address"  property="receiverAddress"  jdbcType="VARCHAR" />
+		<result column="delivery_time"  property="deliveryTime"  jdbcType="BIGINT" />
+		<result column="confirmSignedDate"  property="confirmSignedDate"  jdbcType="INTEGER" />
+		<result column="confirmSignedTime"  property="confirmSignedTime"  jdbcType="BIGINT" />
+		<result column="remark"  property="remark"  jdbcType="VARCHAR" />
+		<result column="express_info"  property="expressInfo"  jdbcType="VARCHAR" />
+		<result column="buy_way"  property="buyWay"  jdbcType="TINYINT" />
+		<result column="gold_coin"  property="goldCoin"  jdbcType="BIGINT" />
+	</resultMap>
+
+	<!-- 所有的列名-->
+	<sql id="Base_Column_List" >
+		id,order_number,store_id,member_id,team_id,second_id,total_express_and_money,total_money,pay_money,
+		sale_money,express_money,count,summary_images,order_type,order_status,payment_no,cancel_reason_type,
+		cancel_reason,order_stop_time,pay_time,take_delivery_time,order_finish_time,update_time,create_time,user_nickname,
+		coupon_id,coupon_name,coupon_limit_money,send_message,pay_form_id,payment_type,expree_supplier_cnname,express_supplier,
+		express_no,receiver_name,receiver_phone,receiver_address,delivery_time,confirmSignedDate,confirmSignedTime,remark,
+		express_info,buy_way,gold_coin
+	</sql>
+
+	<!-- 精确更新的字段-->
+	<sql id="updateBase">
+		<if test="id  !=null">
+			id = #{id,jdbcType=BIGINT}, 
+		</if>
+		<if test="orderNumber  !=null">
+			order_number = #{orderNumber,jdbcType=VARCHAR}, 
+		</if>
+		<if test="storeId  !=null">
+			store_id = #{storeId,jdbcType=BIGINT}, 
+		</if>
+		<if test="memberId  !=null">
+			member_id = #{memberId,jdbcType=BIGINT}, 
+		</if>
+		<if test="teamId  !=null">
+			team_id = #{teamId,jdbcType=BIGINT}, 
+		</if>
+		<if test="secondId  !=null">
+			second_id = #{secondId,jdbcType=BIGINT}, 
+		</if>
+		<if test="totalExpressAndMoney  !=null">
+			total_express_and_money = #{totalExpressAndMoney,jdbcType=DECIMAL}, 
+		</if>
+		<if test="totalMoney  !=null">
+			total_money = #{totalMoney,jdbcType=DECIMAL}, 
+		</if>
+		<if test="payMoney  !=null">
+			pay_money = #{payMoney,jdbcType=DECIMAL}, 
+		</if>
+		<if test="saleMoney  !=null">
+			sale_money = #{saleMoney,jdbcType=DECIMAL}, 
+		</if>
+		<if test="expressMoney  !=null">
+			express_money = #{expressMoney,jdbcType=DECIMAL}, 
+		</if>
+		<if test="count  !=null">
+			count = #{count,jdbcType=INTEGER}, 
+		</if>
+		<if test="summaryImages  !=null">
+			summary_images = #{summaryImages,jdbcType=VARCHAR}, 
+		</if>
+		<if test="orderType  !=null">
+			order_type = #{orderType,jdbcType=INTEGER}, 
+		</if>
+		<if test="orderStatus  !=null">
+			order_status = #{orderStatus,jdbcType=INTEGER}, 
+		</if>
+		<if test="paymentNo  !=null">
+			payment_no = #{paymentNo,jdbcType=VARCHAR}, 
+		</if>
+		<if test="cancelReasonType  !=null">
+			cancel_reason_type = #{cancelReasonType,jdbcType=INTEGER}, 
+		</if>
+		<if test="cancelReason  !=null">
+			cancel_reason = #{cancelReason,jdbcType=VARCHAR}, 
+		</if>
+		<if test="orderStopTime  !=null">
+			order_stop_time = #{orderStopTime,jdbcType=BIGINT}, 
+		</if>
+		<if test="payTime  !=null">
+			pay_time = #{payTime,jdbcType=BIGINT}, 
+		</if>
+		<if test="takeDeliveryTime  !=null">
+			take_delivery_time = #{takeDeliveryTime,jdbcType=BIGINT}, 
+		</if>
+		<if test="orderFinishTime  !=null">
+			order_finish_time = #{orderFinishTime,jdbcType=BIGINT}, 
+		</if>
+		<if test="updateTime  !=null">
+			update_time = #{updateTime,jdbcType=BIGINT}, 
+		</if>
+		<if test="createTime  !=null">
+			create_time = #{createTime,jdbcType=BIGINT}, 
+		</if>
+		<if test="userNickname  !=null">
+			user_nickname = #{userNickname,jdbcType=VARCHAR}, 
+		</if>
+		<if test="couponId  !=null">
+			coupon_id = #{couponId,jdbcType=BIGINT}, 
+		</if>
+		<if test="couponName  !=null">
+			coupon_name = #{couponName,jdbcType=VARCHAR}, 
+		</if>
+		<if test="couponLimitMoney  !=null">
+			coupon_limit_money = #{couponLimitMoney,jdbcType=DECIMAL}, 
+		</if>
+		<if test="sendMessage  !=null">
+			send_message = #{sendMessage,jdbcType=TINYINT}, 
+		</if>
+		<if test="payFormId  !=null">
+			pay_form_id = #{payFormId,jdbcType=VARCHAR}, 
+		</if>
+		<if test="paymentType  !=null">
+			payment_type = #{paymentType,jdbcType=TINYINT}, 
+		</if>
+		<if test="expreeSupplierCnname  !=null">
+			expree_supplier_cnname = #{expreeSupplierCnname,jdbcType=VARCHAR}, 
+		</if>
+		<if test="expressSupplier  !=null">
+			express_supplier = #{expressSupplier,jdbcType=VARCHAR}, 
+		</if>
+		<if test="expressNo  !=null">
+			express_no = #{expressNo,jdbcType=VARCHAR}, 
+		</if>
+		<if test="receiverName  !=null">
+			receiver_name = #{receiverName,jdbcType=VARCHAR}, 
+		</if>
+		<if test="receiverPhone  !=null">
+			receiver_phone = #{receiverPhone,jdbcType=VARCHAR}, 
+		</if>
+		<if test="receiverAddress  !=null">
+			receiver_address = #{receiverAddress,jdbcType=VARCHAR}, 
+		</if>
+		<if test="deliveryTime  !=null">
+			delivery_time = #{deliveryTime,jdbcType=BIGINT}, 
+		</if>
+		<if test="confirmSignedDate  !=null">
+			confirmSignedDate = #{confirmSignedDate,jdbcType=INTEGER}, 
+		</if>
+		<if test="confirmSignedTime  !=null">
+			confirmSignedTime = #{confirmSignedTime,jdbcType=BIGINT}, 
+		</if>
+		<if test="remark  !=null">
+			remark = #{remark,jdbcType=VARCHAR}, 
+		</if>
+		<if test="expressInfo  !=null">
+			express_info = #{expressInfo,jdbcType=VARCHAR}, 
+		</if>
+		<if test="buyWay  !=null">
+			buy_way = #{buyWay,jdbcType=TINYINT}, 
+		</if>
+		<if test="goldCoin  !=null">
+			gold_coin = #{goldCoin,jdbcType=BIGINT} 
+		</if>
+	</sql>
+
+	<!-- 通过主键查找-->
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="Long" >
+		select 
+		<include refid="Base_Column_List" />
+		from shop_member_order
+		where  id = #{id,jdbcType=BIGINT} 
+	</select>
+
+	<!-- 通过主键删除-->
+	<delete id="deleteByPrimaryKey" parameterType="Long" >
+		delete from shop_member_order
+		where id = #{id,jdbcType=BIGINT} 
+	</delete>
+
+	<!-- 普通插入全字段插t入-->
+	<insert id="insert" parameterType="com.e_commerce.miscroservice.commons.entity.application.order.ShopMemberOrder" >
+		insert into shop_member_order
+		(
+			id,
+			order_number,
+			store_id,
+			member_id,
+			team_id,
+			second_id,
+			total_express_and_money,
+			total_money,
+			pay_money,
+			sale_money,
+			express_money,
+			count,
+			summary_images,
+			order_type,
+			order_status,
+			payment_no,
+			cancel_reason_type,
+			cancel_reason,
+			order_stop_time,
+			pay_time,
+			take_delivery_time,
+			order_finish_time,
+			update_time,
+			create_time,
+			user_nickname,
+			coupon_id,
+			coupon_name,
+			coupon_limit_money,
+			send_message,
+			pay_form_id,
+			payment_type,
+			expree_supplier_cnname,
+			express_supplier,
+			express_no,
+			receiver_name,
+			receiver_phone,
+			receiver_address,
+			delivery_time,
+			confirmSignedDate,
+			confirmSignedTime,
+			remark,
+			express_info,
+			buy_way,
+			gold_coin
+		)
+		values
+		(
+			#{id ,jdbcType=BIGINT},
+			#{orderNumber ,jdbcType=VARCHAR},
+			#{storeId ,jdbcType=BIGINT},
+			#{memberId ,jdbcType=BIGINT},
+			#{teamId ,jdbcType=BIGINT},
+			#{secondId ,jdbcType=BIGINT},
+			#{totalExpressAndMoney ,jdbcType=DECIMAL},
+			#{totalMoney ,jdbcType=DECIMAL},
+			#{payMoney ,jdbcType=DECIMAL},
+			#{saleMoney ,jdbcType=DECIMAL},
+			#{expressMoney ,jdbcType=DECIMAL},
+			#{count ,jdbcType=INTEGER},
+			#{summaryImages ,jdbcType=VARCHAR},
+			#{orderType ,jdbcType=INTEGER},
+			#{orderStatus ,jdbcType=INTEGER},
+			#{paymentNo ,jdbcType=VARCHAR},
+			#{cancelReasonType ,jdbcType=INTEGER},
+			#{cancelReason ,jdbcType=VARCHAR},
+			#{orderStopTime ,jdbcType=BIGINT},
+			#{payTime ,jdbcType=BIGINT},
+			#{takeDeliveryTime ,jdbcType=BIGINT},
+			#{orderFinishTime ,jdbcType=BIGINT},
+			#{updateTime ,jdbcType=BIGINT},
+			#{createTime ,jdbcType=BIGINT},
+			#{userNickname ,jdbcType=VARCHAR},
+			#{couponId ,jdbcType=BIGINT},
+			#{couponName ,jdbcType=VARCHAR},
+			#{couponLimitMoney ,jdbcType=DECIMAL},
+			#{sendMessage ,jdbcType=TINYINT},
+			#{payFormId ,jdbcType=VARCHAR},
+			#{paymentType ,jdbcType=TINYINT},
+			#{expreeSupplierCnname ,jdbcType=VARCHAR},
+			#{expressSupplier ,jdbcType=VARCHAR},
+			#{expressNo ,jdbcType=VARCHAR},
+			#{receiverName ,jdbcType=VARCHAR},
+			#{receiverPhone ,jdbcType=VARCHAR},
+			#{receiverAddress ,jdbcType=VARCHAR},
+			#{deliveryTime ,jdbcType=BIGINT},
+			#{confirmSignedDate ,jdbcType=INTEGER},
+			#{confirmSignedTime ,jdbcType=BIGINT},
+			#{remark ,jdbcType=VARCHAR},
+			#{expressInfo ,jdbcType=VARCHAR},
+			#{buyWay ,jdbcType=TINYINT},
+			#{goldCoin ,jdbcType=BIGINT}
+		)
+	</insert>
+
+	<!-- 批量插入，全部字段插入-->
+	<insert id="insertBach"   parameterType="List" >
+		insert into shop_member_order
+		(
+			id,
+			order_number,
+			store_id,
+			member_id,
+			team_id,
+			second_id,
+			total_express_and_money,
+			total_money,
+			pay_money,
+			sale_money,
+			express_money,
+			count,
+			summary_images,
+			order_type,
+			order_status,
+			payment_no,
+			cancel_reason_type,
+			cancel_reason,
+			order_stop_time,
+			pay_time,
+			take_delivery_time,
+			order_finish_time,
+			update_time,
+			create_time,
+			user_nickname,
+			coupon_id,
+			coupon_name,
+			coupon_limit_money,
+			send_message,
+			pay_form_id,
+			payment_type,
+			expree_supplier_cnname,
+			express_supplier,
+			express_no,
+			receiver_name,
+			receiver_phone,
+			receiver_address,
+			delivery_time,
+			confirmSignedDate,
+			confirmSignedTime,
+			remark,
+			express_info,
+			buy_way,
+			gold_coin
+		)
+		values 
+		<foreach collection="list" item="item" separator=",">
+		(
+			#{item.id ,jdbcType=BIGINT},
+			#{item.orderNumber ,jdbcType=VARCHAR},
+			#{item.storeId ,jdbcType=BIGINT},
+			#{item.memberId ,jdbcType=BIGINT},
+			#{item.teamId ,jdbcType=BIGINT},
+			#{item.secondId ,jdbcType=BIGINT},
+			#{item.totalExpressAndMoney ,jdbcType=DECIMAL},
+			#{item.totalMoney ,jdbcType=DECIMAL},
+			#{item.payMoney ,jdbcType=DECIMAL},
+			#{item.saleMoney ,jdbcType=DECIMAL},
+			#{item.expressMoney ,jdbcType=DECIMAL},
+			#{item.count ,jdbcType=INTEGER},
+			#{item.summaryImages ,jdbcType=VARCHAR},
+			#{item.orderType ,jdbcType=INTEGER},
+			#{item.orderStatus ,jdbcType=INTEGER},
+			#{item.paymentNo ,jdbcType=VARCHAR},
+			#{item.cancelReasonType ,jdbcType=INTEGER},
+			#{item.cancelReason ,jdbcType=VARCHAR},
+			#{item.orderStopTime ,jdbcType=BIGINT},
+			#{item.payTime ,jdbcType=BIGINT},
+			#{item.takeDeliveryTime ,jdbcType=BIGINT},
+			#{item.orderFinishTime ,jdbcType=BIGINT},
+			#{item.updateTime ,jdbcType=BIGINT},
+			#{item.createTime ,jdbcType=BIGINT},
+			#{item.userNickname ,jdbcType=VARCHAR},
+			#{item.couponId ,jdbcType=BIGINT},
+			#{item.couponName ,jdbcType=VARCHAR},
+			#{item.couponLimitMoney ,jdbcType=DECIMAL},
+			#{item.sendMessage ,jdbcType=TINYINT},
+			#{item.payFormId ,jdbcType=VARCHAR},
+			#{item.paymentType ,jdbcType=TINYINT},
+			#{item.expreeSupplierCnname ,jdbcType=VARCHAR},
+			#{item.expressSupplier ,jdbcType=VARCHAR},
+			#{item.expressNo ,jdbcType=VARCHAR},
+			#{item.receiverName ,jdbcType=VARCHAR},
+			#{item.receiverPhone ,jdbcType=VARCHAR},
+			#{item.receiverAddress ,jdbcType=VARCHAR},
+			#{item.deliveryTime ,jdbcType=BIGINT},
+			#{item.confirmSignedDate ,jdbcType=INTEGER},
+			#{item.confirmSignedTime ,jdbcType=BIGINT},
+			#{item.remark ,jdbcType=VARCHAR},
+			#{item.expressInfo ,jdbcType=VARCHAR},
+			#{item.buyWay ,jdbcType=TINYINT},
+			#{item.goldCoin ,jdbcType=BIGINT}
+		)
+		</foreach>
+	</insert>
+
+	<!-- 精确插入，非null得字段才会插入-->
+	<insert id="insertSelective" parameterType="com.e_commerce.miscroservice.commons.entity.application.order.ShopMemberOrder" useGeneratedKeys="true" keyProperty="id" >
+		insert into shop_member_order
+		<trim prefix="(" suffix=")" suffixOverrides="," > 
+			<if test="id !=null">  
+				id,
+			</if>
+			<if test="orderNumber !=null">  
+				order_number,
+			</if>
+			<if test="storeId !=null">  
+				store_id,
+			</if>
+			<if test="memberId !=null">  
+				member_id,
+			</if>
+			<if test="teamId !=null">  
+				team_id,
+			</if>
+			<if test="secondId !=null">  
+				second_id,
+			</if>
+			<if test="totalExpressAndMoney !=null">  
+				total_express_and_money,
+			</if>
+			<if test="totalMoney !=null">  
+				total_money,
+			</if>
+			<if test="payMoney !=null">  
+				pay_money,
+			</if>
+			<if test="saleMoney !=null">  
+				sale_money,
+			</if>
+			<if test="expressMoney !=null">  
+				express_money,
+			</if>
+			<if test="count !=null">  
+				count,
+			</if>
+			<if test="summaryImages !=null">  
+				summary_images,
+			</if>
+			<if test="orderType !=null">  
+				order_type,
+			</if>
+			<if test="orderStatus !=null">  
+				order_status,
+			</if>
+			<if test="paymentNo !=null">  
+				payment_no,
+			</if>
+			<if test="cancelReasonType !=null">  
+				cancel_reason_type,
+			</if>
+			<if test="cancelReason !=null">  
+				cancel_reason,
+			</if>
+			<if test="orderStopTime !=null">  
+				order_stop_time,
+			</if>
+			<if test="payTime !=null">  
+				pay_time,
+			</if>
+			<if test="takeDeliveryTime !=null">  
+				take_delivery_time,
+			</if>
+			<if test="orderFinishTime !=null">  
+				order_finish_time,
+			</if>
+			<if test="updateTime !=null">  
+				update_time,
+			</if>
+			<if test="createTime !=null">  
+				create_time,
+			</if>
+			<if test="userNickname !=null">  
+				user_nickname,
+			</if>
+			<if test="couponId !=null">  
+				coupon_id,
+			</if>
+			<if test="couponName !=null">  
+				coupon_name,
+			</if>
+			<if test="couponLimitMoney !=null">  
+				coupon_limit_money,
+			</if>
+			<if test="sendMessage !=null">  
+				send_message,
+			</if>
+			<if test="payFormId !=null">  
+				pay_form_id,
+			</if>
+			<if test="paymentType !=null">  
+				payment_type,
+			</if>
+			<if test="expreeSupplierCnname !=null">  
+				expree_supplier_cnname,
+			</if>
+			<if test="expressSupplier !=null">  
+				express_supplier,
+			</if>
+			<if test="expressNo !=null">  
+				express_no,
+			</if>
+			<if test="receiverName !=null">  
+				receiver_name,
+			</if>
+			<if test="receiverPhone !=null">  
+				receiver_phone,
+			</if>
+			<if test="receiverAddress !=null">  
+				receiver_address,
+			</if>
+			<if test="deliveryTime !=null">  
+				delivery_time,
+			</if>
+			<if test="confirmSignedDate !=null">  
+				confirmSignedDate,
+			</if>
+			<if test="confirmSignedTime !=null">  
+				confirmSignedTime,
+			</if>
+			<if test="remark !=null">  
+				remark,
+			</if>
+			<if test="expressInfo !=null">  
+				express_info,
+			</if>
+			<if test="buyWay !=null">  
+				buy_way,
+			</if>
+			<if test="goldCoin !=null">  
+				gold_coin,
+			</if>
+		</trim>
+
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+			<if test="id  !=null">
+				#{id,jdbcType=BIGINT}, 
+			</if>
+			<if test="orderNumber  !=null">
+				#{orderNumber,jdbcType=VARCHAR}, 
+			</if>
+			<if test="storeId  !=null">
+				#{storeId,jdbcType=BIGINT}, 
+			</if>
+			<if test="memberId  !=null">
+				#{memberId,jdbcType=BIGINT}, 
+			</if>
+			<if test="teamId  !=null">
+				#{teamId,jdbcType=BIGINT}, 
+			</if>
+			<if test="secondId  !=null">
+				#{secondId,jdbcType=BIGINT}, 
+			</if>
+			<if test="totalExpressAndMoney  !=null">
+				#{totalExpressAndMoney,jdbcType=DECIMAL}, 
+			</if>
+			<if test="totalMoney  !=null">
+				#{totalMoney,jdbcType=DECIMAL}, 
+			</if>
+			<if test="payMoney  !=null">
+				#{payMoney,jdbcType=DECIMAL}, 
+			</if>
+			<if test="saleMoney  !=null">
+				#{saleMoney,jdbcType=DECIMAL}, 
+			</if>
+			<if test="expressMoney  !=null">
+				#{expressMoney,jdbcType=DECIMAL}, 
+			</if>
+			<if test="count  !=null">
+				#{count,jdbcType=INTEGER}, 
+			</if>
+			<if test="summaryImages  !=null">
+				#{summaryImages,jdbcType=VARCHAR}, 
+			</if>
+			<if test="orderType  !=null">
+				#{orderType,jdbcType=INTEGER}, 
+			</if>
+			<if test="orderStatus  !=null">
+				#{orderStatus,jdbcType=INTEGER}, 
+			</if>
+			<if test="paymentNo  !=null">
+				#{paymentNo,jdbcType=VARCHAR}, 
+			</if>
+			<if test="cancelReasonType  !=null">
+				#{cancelReasonType,jdbcType=INTEGER}, 
+			</if>
+			<if test="cancelReason  !=null">
+				#{cancelReason,jdbcType=VARCHAR}, 
+			</if>
+			<if test="orderStopTime  !=null">
+				#{orderStopTime,jdbcType=BIGINT}, 
+			</if>
+			<if test="payTime  !=null">
+				#{payTime,jdbcType=BIGINT}, 
+			</if>
+			<if test="takeDeliveryTime  !=null">
+				#{takeDeliveryTime,jdbcType=BIGINT}, 
+			</if>
+			<if test="orderFinishTime  !=null">
+				#{orderFinishTime,jdbcType=BIGINT}, 
+			</if>
+			<if test="updateTime  !=null">
+				#{updateTime,jdbcType=BIGINT}, 
+			</if>
+			<if test="createTime  !=null">
+				#{createTime,jdbcType=BIGINT}, 
+			</if>
+			<if test="userNickname  !=null">
+				#{userNickname,jdbcType=VARCHAR}, 
+			</if>
+			<if test="couponId  !=null">
+				#{couponId,jdbcType=BIGINT}, 
+			</if>
+			<if test="couponName  !=null">
+				#{couponName,jdbcType=VARCHAR}, 
+			</if>
+			<if test="couponLimitMoney  !=null">
+				#{couponLimitMoney,jdbcType=DECIMAL}, 
+			</if>
+			<if test="sendMessage  !=null">
+				#{sendMessage,jdbcType=TINYINT}, 
+			</if>
+			<if test="payFormId  !=null">
+				#{payFormId,jdbcType=VARCHAR}, 
+			</if>
+			<if test="paymentType  !=null">
+				#{paymentType,jdbcType=TINYINT}, 
+			</if>
+			<if test="expreeSupplierCnname  !=null">
+				#{expreeSupplierCnname,jdbcType=VARCHAR}, 
+			</if>
+			<if test="expressSupplier  !=null">
+				#{expressSupplier,jdbcType=VARCHAR}, 
+			</if>
+			<if test="expressNo  !=null">
+				#{expressNo,jdbcType=VARCHAR}, 
+			</if>
+			<if test="receiverName  !=null">
+				#{receiverName,jdbcType=VARCHAR}, 
+			</if>
+			<if test="receiverPhone  !=null">
+				#{receiverPhone,jdbcType=VARCHAR}, 
+			</if>
+			<if test="receiverAddress  !=null">
+				#{receiverAddress,jdbcType=VARCHAR}, 
+			</if>
+			<if test="deliveryTime  !=null">
+				#{deliveryTime,jdbcType=BIGINT}, 
+			</if>
+			<if test="confirmSignedDate  !=null">
+				#{confirmSignedDate,jdbcType=INTEGER}, 
+			</if>
+			<if test="confirmSignedTime  !=null">
+				#{confirmSignedTime,jdbcType=BIGINT}, 
+			</if>
+			<if test="remark  !=null">
+				#{remark,jdbcType=VARCHAR}, 
+			</if>
+			<if test="expressInfo  !=null">
+				#{expressInfo,jdbcType=VARCHAR}, 
+			</if>
+			<if test="buyWay  !=null">
+				#{buyWay,jdbcType=TINYINT}, 
+			</if>
+			<if test="goldCoin  !=null">
+				#{goldCoin,jdbcType=BIGINT} 
+			</if>
+		</trim>
+	</insert> 
+
+	<!-- 精确更新-->
+	<update id="updateByPrimaryKeySelective" parameterType="com.e_commerce.miscroservice.commons.entity.application.order.ShopMemberOrder" >
+		update shop_member_order
+		<set>
+			<include refid="updateBase"/>
+		</set>
+		where id = #{id,jdbcType=BIGINT} 
+	</update> 
+
+	<!-- 全字段更新 需要注意-->
+	<update id="updateByPrimaryKey" parameterType="com.e_commerce.miscroservice.commons.entity.application.order.ShopMemberOrder" >
+		update shop_member_order
+		set 
+			id = #{id ,jdbcType=BIGINT},
+			order_number = #{orderNumber ,jdbcType=VARCHAR},
+			store_id = #{storeId ,jdbcType=BIGINT},
+			member_id = #{memberId ,jdbcType=BIGINT},
+			team_id = #{teamId ,jdbcType=BIGINT},
+			second_id = #{secondId ,jdbcType=BIGINT},
+			total_express_and_money = #{totalExpressAndMoney ,jdbcType=DECIMAL},
+			total_money = #{totalMoney ,jdbcType=DECIMAL},
+			pay_money = #{payMoney ,jdbcType=DECIMAL},
+			sale_money = #{saleMoney ,jdbcType=DECIMAL},
+			express_money = #{expressMoney ,jdbcType=DECIMAL},
+			count = #{count ,jdbcType=INTEGER},
+			summary_images = #{summaryImages ,jdbcType=VARCHAR},
+			order_type = #{orderType ,jdbcType=INTEGER},
+			order_status = #{orderStatus ,jdbcType=INTEGER},
+			payment_no = #{paymentNo ,jdbcType=VARCHAR},
+			cancel_reason_type = #{cancelReasonType ,jdbcType=INTEGER},
+			cancel_reason = #{cancelReason ,jdbcType=VARCHAR},
+			order_stop_time = #{orderStopTime ,jdbcType=BIGINT},
+			pay_time = #{payTime ,jdbcType=BIGINT},
+			take_delivery_time = #{takeDeliveryTime ,jdbcType=BIGINT},
+			order_finish_time = #{orderFinishTime ,jdbcType=BIGINT},
+			update_time = #{updateTime ,jdbcType=BIGINT},
+			create_time = #{createTime ,jdbcType=BIGINT},
+			user_nickname = #{userNickname ,jdbcType=VARCHAR},
+			coupon_id = #{couponId ,jdbcType=BIGINT},
+			coupon_name = #{couponName ,jdbcType=VARCHAR},
+			coupon_limit_money = #{couponLimitMoney ,jdbcType=DECIMAL},
+			send_message = #{sendMessage ,jdbcType=TINYINT},
+			pay_form_id = #{payFormId ,jdbcType=VARCHAR},
+			payment_type = #{paymentType ,jdbcType=TINYINT},
+			expree_supplier_cnname = #{expreeSupplierCnname ,jdbcType=VARCHAR},
+			express_supplier = #{expressSupplier ,jdbcType=VARCHAR},
+			express_no = #{expressNo ,jdbcType=VARCHAR},
+			receiver_name = #{receiverName ,jdbcType=VARCHAR},
+			receiver_phone = #{receiverPhone ,jdbcType=VARCHAR},
+			receiver_address = #{receiverAddress ,jdbcType=VARCHAR},
+			delivery_time = #{deliveryTime ,jdbcType=BIGINT},
+			confirmSignedDate = #{confirmSignedDate ,jdbcType=INTEGER},
+			confirmSignedTime = #{confirmSignedTime ,jdbcType=BIGINT},
+			remark = #{remark ,jdbcType=VARCHAR},
+			express_info = #{expressInfo ,jdbcType=VARCHAR},
+			buy_way = #{buyWay ,jdbcType=TINYINT},
+			gold_coin = #{goldCoin ,jdbcType=BIGINT}
+		where id = #{id,jdbcType=BIGINT} 
+	</update> 
+
+	<!-- 所有的条件集合-->
+	<sql id="whereCase"  >
+		where  1=1 
+		<if test="id  !=null">
+			AND id = #{id,jdbcType=BIGINT} 
+		</if>
+		<if test="orderNumber  !=null">
+			AND order_number = #{orderNumber,jdbcType=VARCHAR} 
+		</if>
+		<if test="storeId  !=null">
+			AND store_id = #{storeId,jdbcType=BIGINT} 
+		</if>
+		<if test="memberId  !=null">
+			AND member_id = #{memberId,jdbcType=BIGINT} 
+		</if>
+		<if test="teamId  !=null">
+			AND team_id = #{teamId,jdbcType=BIGINT} 
+		</if>
+		<if test="secondId  !=null">
+			AND second_id = #{secondId,jdbcType=BIGINT} 
+		</if>
+		<if test="totalExpressAndMoney  !=null">
+			AND total_express_and_money = #{totalExpressAndMoney,jdbcType=DECIMAL} 
+		</if>
+		<if test="totalMoney  !=null">
+			AND total_money = #{totalMoney,jdbcType=DECIMAL} 
+		</if>
+		<if test="payMoney  !=null">
+			AND pay_money = #{payMoney,jdbcType=DECIMAL} 
+		</if>
+		<if test="saleMoney  !=null">
+			AND sale_money = #{saleMoney,jdbcType=DECIMAL} 
+		</if>
+		<if test="expressMoney  !=null">
+			AND express_money = #{expressMoney,jdbcType=DECIMAL} 
+		</if>
+		<if test="count  !=null">
+			AND count = #{count,jdbcType=INTEGER} 
+		</if>
+		<if test="summaryImages  !=null">
+			AND summary_images = #{summaryImages,jdbcType=VARCHAR} 
+		</if>
+		<if test="orderType  !=null">
+			AND order_type = #{orderType,jdbcType=INTEGER} 
+		</if>
+		<if test="orderStatus  !=null">
+			AND order_status = #{orderStatus,jdbcType=INTEGER} 
+		</if>
+		<if test="paymentNo  !=null">
+			AND payment_no = #{paymentNo,jdbcType=VARCHAR} 
+		</if>
+		<if test="cancelReasonType  !=null">
+			AND cancel_reason_type = #{cancelReasonType,jdbcType=INTEGER} 
+		</if>
+		<if test="cancelReason  !=null">
+			AND cancel_reason = #{cancelReason,jdbcType=VARCHAR} 
+		</if>
+		<if test="orderStopTime  !=null">
+			AND order_stop_time = #{orderStopTime,jdbcType=BIGINT} 
+		</if>
+		<if test="payTime  !=null">
+			AND pay_time = #{payTime,jdbcType=BIGINT} 
+		</if>
+		<if test="takeDeliveryTime  !=null">
+			AND take_delivery_time = #{takeDeliveryTime,jdbcType=BIGINT} 
+		</if>
+		<if test="orderFinishTime  !=null">
+			AND order_finish_time = #{orderFinishTime,jdbcType=BIGINT} 
+		</if>
+		<if test="updateTime  !=null">
+			AND update_time = #{updateTime,jdbcType=BIGINT} 
+		</if>
+		<if test="createTime  !=null">
+			AND create_time = #{createTime,jdbcType=BIGINT} 
+		</if>
+		<if test="userNickname  !=null">
+			AND user_nickname = #{userNickname,jdbcType=VARCHAR} 
+		</if>
+		<if test="couponId  !=null">
+			AND coupon_id = #{couponId,jdbcType=BIGINT} 
+		</if>
+		<if test="couponName  !=null">
+			AND coupon_name = #{couponName,jdbcType=VARCHAR} 
+		</if>
+		<if test="couponLimitMoney  !=null">
+			AND coupon_limit_money = #{couponLimitMoney,jdbcType=DECIMAL} 
+		</if>
+		<if test="sendMessage  !=null">
+			AND send_message = #{sendMessage,jdbcType=TINYINT} 
+		</if>
+		<if test="payFormId  !=null">
+			AND pay_form_id = #{payFormId,jdbcType=VARCHAR} 
+		</if>
+		<if test="paymentType  !=null">
+			AND payment_type = #{paymentType,jdbcType=TINYINT} 
+		</if>
+		<if test="expreeSupplierCnname  !=null">
+			AND expree_supplier_cnname = #{expreeSupplierCnname,jdbcType=VARCHAR} 
+		</if>
+		<if test="expressSupplier  !=null">
+			AND express_supplier = #{expressSupplier,jdbcType=VARCHAR} 
+		</if>
+		<if test="expressNo  !=null">
+			AND express_no = #{expressNo,jdbcType=VARCHAR} 
+		</if>
+		<if test="receiverName  !=null">
+			AND receiver_name = #{receiverName,jdbcType=VARCHAR} 
+		</if>
+		<if test="receiverPhone  !=null">
+			AND receiver_phone = #{receiverPhone,jdbcType=VARCHAR} 
+		</if>
+		<if test="receiverAddress  !=null">
+			AND receiver_address = #{receiverAddress,jdbcType=VARCHAR} 
+		</if>
+		<if test="deliveryTime  !=null">
+			AND delivery_time = #{deliveryTime,jdbcType=BIGINT} 
+		</if>
+		<if test="confirmSignedDate  !=null">
+			AND confirmSignedDate = #{confirmSignedDate,jdbcType=INTEGER} 
+		</if>
+		<if test="confirmSignedTime  !=null">
+			AND confirmSignedTime = #{confirmSignedTime,jdbcType=BIGINT} 
+		</if>
+		<if test="remark  !=null">
+			AND remark = #{remark,jdbcType=VARCHAR} 
+		</if>
+		<if test="expressInfo  !=null">
+			AND express_info = #{expressInfo,jdbcType=VARCHAR} 
+		</if>
+		<if test="buyWay  !=null">
+			AND buy_way = #{buyWay,jdbcType=TINYINT} 
+		</if>
+		<if test="goldCoin  !=null">
+			AND gold_coin = #{goldCoin,jdbcType=BIGINT} 
+		</if>
+		<include refid="costomWhereCase"/>
+	</sql>
+
+	<!-- 查询一条，如果返回多条会报错-->
+	<select id="selectOne" parameterType="java.util.Map" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" /> 
+		FROM shop_member_order 
+		<include refid="whereCase" /> 
+	</select>
+
+	<!-- 查询一个list-->
+	<select id="selectList" parameterType="java.util.Map" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" /> 
+		FROM shop_member_order 
+		<include refid="whereCase" /> 
+	</select>
+
+	<!-- 查询一个list-->
+	<select id="selectCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+		SELECT
+		count(1) 
+		FROM shop_member_order
+		<include refid="whereCase" /> 
+	</select>
+
+	<!--  @Costom -->
+	<!-- 从上一行注释以上为系统生成 从这一行往下为用户自定义 请将自定义的sql放在此行下面 -->
+	<sql id="costomWhereCase">
+	</sql>
+<!--当月 粉丝 团队 自购总金额-->
+	<select id="storeTheMoneyTotalMoney" resultType="java.lang.Double">
+
+		SELECT
+ 			case when SUM(c.pay_money) is null then 0.00 else SUM(c.pay_money) end as countMoney
+		FROM
+			shop_member_order_dstb_record b,
+			shop_member_order c
+		WHERE
+		 c.order_status=4
+		and b.order_no=c.order_number
+ 		and DATE_FORMAT(FROM_UNIXTIME(c.order_finish_time/1000), '%Y%m') = DATE_FORMAT(CURDATE(), '%Y%m')
+		AND #{userId} IN (
+			b.self_commission_user_id,
+			b.higher_commission_user_id,
+			b.top_commission_user_id
+		)
+	</select>
+	<!--分销商当月总购金额-->
+	<select id="findCountMoneyShopMemberOrderByUser" resultType="java.lang.Double">
+		SELECT
+			case when SUM(c.pay_money) is null then 0.00 else SUM(c.pay_money) end as countMoney
+		FROM
+			shop_member a,
+			yjj_distribution_system b,
+			shop_member_order c,
+			shop_member_order_dstb_record d
+		WHERE
+			a.id = b.user_id
+			and c.order_number = d.order_no
+		and c.member_id=b.user_id
+		and c.order_status=4
+		and b.grade <![CDATA[<=]]> #{type}
+		and DATE_FORMAT(FROM_UNIXTIME(c.confirmSignedTime/1000), '%Y%m') = DATE_FORMAT(CURDATE(), '%Y%m')
+		AND #{userId} IN (
+			d.self_commission_user_id,
+			d.distributor
+		);
+	</select>
+<!--查找 订单列表-->
+	<select id="findOrderList" resultType="com.e_commerce.miscroservice.commons.entity.application.order.ShopMemberOrder">
+		select * from shop_member_order where member_id = #{userId} and order_status = 4
+	</select>
+	<!--查找团队订单列表-->
+    <select id="findTeamOrderList"
+            resultType="com.e_commerce.miscroservice.commons.entity.application.order.TeamOrder">
+		SELECT
+		a.*,
+		SUM(d.oper_cash) AS totalCash,
+		SUM(d.oper_gold_coin) AS totalGoldCoin,
+		(
+		CASE
+		WHEN c.order_money IS NULL THEN
+		0.00
+		ELSE
+		c.order_money
+		END
+		) AS orderMoney
+		FROM
+		shop_member_order a,
+		yjj_distribution_system b,
+		shop_member_order_dstb_record c,
+		shop_member_account_cash_out_in d
+		WHERE
+		c.order_no = a.order_number
+		and
+		d.order_no=a.order_number
+		and
+		b.user_id = a.member_id
+		and #{userId} = d.user_id
+		and #{userId} in (c.distributor,c.partner,c.self_commission_user_id,c.higher_commission_user_id,c.top_commission_user_id)
+		AND a.order_status IN (1, 4, 5, 6)
+		<if test="orderNo!=null and orderNo!=''">
+				and a.order_number like  CONCAT('%',#{orderNo},'%')
+			</if>
+		GROUP BY a.create_time desc
+	</select>
+	<!--根据订单号查询订单 以及SKU-->
+	<select id="findTeamOrder" resultType="com.e_commerce.miscroservice.commons.entity.order.OrderAccountDetailsResponse">
+
+		SELECT
+			DISTINCT a.*
+		FROM
+			shop_member_order a,
+			shop_member_order_item b
+		WHERE
+			a.order_number = b.order_number
+		and
+			a.order_number = #{orderNo}
+	</select>
+	<!--今日团队订单新增-->
+	<select id="findTodayTeamOrderSize" resultType="java.lang.Integer">
+		SELECT
+			case when COUNT(c.id) is null then 0 else COUNT(c.id) end
+		FROM
+			shop_member_order a,
+			yjj_distribution_system b,
+			shop_member_order_dstb_record c
+		WHERE
+		c.order_no = a.order_number
+		and
+		 b.user_id = a.member_id
+		and  #{userId} in (c.distributor,c.partner,c.self_commission_user_id,c.higher_commission_user_id,c.top_commission_user_id)
+		AND a.order_status IN (1, 4, 5, 6)
+		and
+		curdate() = DATE_FORMAT(FROM_UNIXTIME(a.pay_time/1000),'%Y-%m-%d')
+	</select>
+	<!--根据订单号查询订单-->
+	<select id="findOrderByOrderNo"
+			resultType="com.e_commerce.miscroservice.commons.entity.application.order.ShopMemberOrder">
+		select *,store_id storeId from shop_member_order where order_number = #{orderNo}
+	</select>
+	<!--总团队订单数量-->
+	<select id="findCountOrderSize" resultType="java.lang.Integer">
+		SELECT
+			case when COUNT(c.id) is null then 0 else COUNT(c.id) end
+		FROM
+			shop_member_order a,
+			yjj_distribution_system b,
+			shop_member_order_dstb_record c
+		WHERE
+		c.order_no = a.order_number
+		and
+		 b.user_id = a.member_id
+		and  #{userId} in (c.distributor,c.partner,c.self_commission_user_id,c.higher_commission_user_id,c.top_commission_user_id)
+		AND a.order_status IN (1, 4, 5, 6);
+	</select>
+	<!--团队订单金额-->
+	<select id="findCountTeamMoneyAndCoin" resultType="com.e_commerce.miscroservice.commons.entity.order.CountTeamOrderMoneyCoinVo">
+
+		SELECT
+			sum(d.oper_cash) as money,sum(d.oper_gold_coin) as coin
+				FROM
+					shop_member_order a,
+					yjj_distribution_system b,
+					shop_member_order_dstb_record c,
+		shop_member_account_cash_out_in d
+				WHERE
+				c.order_no = a.order_number
+				and
+			d.order_no=a.order_number
+		and
+				 b.user_id = a.member_id
+				 and #{userId} = d.user_id
+				and  #{userId}  in (c.distributor,c.partner,c.self_commission_user_id,c.higher_commission_user_id,c.top_commission_user_id)
+				AND a.order_status IN (1, 4, 5, 6)
+
+	</select>
+	<select id="findTeamOrderItemSku"
+			resultType="com.e_commerce.miscroservice.commons.entity.order.OrderItemSkuVo">
+		SELECT
+			b.count,b.summary_images as img,b.name,b.color,b.size,b.price
+		FROM
+			shop_member_order a,
+			shop_member_order_item b
+		WHERE
+			a.order_number = b.order_number
+		and
+			a.order_number = #{orderNo}
+	</select>
+</mapper>

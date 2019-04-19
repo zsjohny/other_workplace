@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yujj.dao.mapper.UserBankCardSignMapper">
+	<select id="getUserBankCardSign" resultType="UserBankCardSign">
+		<![CDATA[
+			select * from yjj_UserBankCardSign
+			where UserId = #{userId}
+		]]>
+	</select>
+	<select id="getSignCount" resultType="int">
+		<![CDATA[
+			select count(1) from yjj_UserBankCardSign
+			where UserId = #{userId}
+		]]>
+	</select>
+	<select id="getUnSignCount" resultType="int">
+		<![CDATA[
+			select count(1) from yjj_UserBankCardSign
+			where UserId = #{userId} and IsSigned =0
+		]]>
+	</select>
+	
+	<insert id="addUserBankCardSign" useGeneratedKeys="true" keyProperty="id">
+		<![CDATA[
+			insert into yjj_UserBankCardSign
+			(UserId, CreateTime, UpdateTime, PNo, Seq, Mobile, RskLvl )
+			values
+			(#{userId}, #{createTime}, #{updateTime},#{pno},#{seq},#{mobile},#{rskLvl})
+		]]>
+	</insert>
+
+	
+	<update id="updateUserBankCardSign" parameterType="map">
+		<![CDATA[
+			update yjj_UserBankCardSign
+			set IsSigned=#{isSigned}, UpdateTime = #{time}
+			where UserId = #{userId} 
+		]]>
+	</update>
+	
+	<insert id="addBankCardPayDiscount" useGeneratedKeys="true" keyProperty="id">
+		<![CDATA[
+			insert into yjj_UserBankCardPayDiscount
+			(UserId, OrderNo, PaymentNo, DiscountFlag, PayAmt, DiscountAmt, CreateTime)
+			values
+			(#{userId}, #{orderNo}, #{paymentNo}, #{discountFlag}, #{payAmt}, #{discountAmt}, #{createTime})
+		]]>
+	</insert>
+	
+	<select id="getBankCardPayDiscountList" resultType="BankCardPayDiscount">
+		<![CDATA[
+			select * from yjj_UserBankCardPayDiscount
+			where UserId = #{userId}
+		]]>
+	</select>
+	
+	<select id="getBankCardPayDiscountByOrderNo" resultType="BankCardPayDiscount">
+		<![CDATA[
+			select * from yjj_UserBankCardPayDiscount
+			where UserId = #{userId} and OrderNo = #{orderNo}
+		]]>
+	</select>
+</mapper>

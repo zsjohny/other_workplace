@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jiuy.core.dao.impl.sql.PartnerInnerCatDaoSqlImpl">
+	
+	<select id="searchVirtualCat" parameterType="long" resultType="int">
+		select 
+			count(*)
+		from 
+			yjj_PartnerInnerCat
+		where 
+			Type = 1 AND Status = 0 AND PartnerId = #{id}
+	</select>
+	
+	<insert id="addVirtualCat" parameterType="long">
+		insert into 
+			yjj_PartnerInnerCat(Name, PartnerId, Type)
+		values
+			("当季新品", #{id}, 1),("人气单品", #{id}, 1)
+	</insert>
+	
+	<select id="search" parameterType="map" resultType="PartnerInnerCat">
+		select 
+			*
+		from 
+			yjj_PartnerInnerCat
+		where 
+			PartnerId = #{partnerId} AND Name like CONCAT("%", #{name}, "%") and Status = 0
+	</select>
+	
+	<select id="searchCount" parameterType="map" resultType="int">
+		select 
+			count(*)
+		from 
+			yjj_PartnerInnerCat
+		where 
+			PartnerId = #{partnerId} AND Name like CONCAT("%", #{name}, "%") and Status = 0
+	</select>
+	
+	<insert id="addInnerCat" parameterType="PartnerInnerCat">
+		insert into 
+			yjj_PartnerInnerCat(Name, Description, Weight, ParentId)
+		values
+			(#{name}, #{description}, #{weight}, #{partnerId})
+	</insert>
+	
+	<update id="updateInnerCat" parameterType="PartnerInnerCat">
+		update
+			yjj_PartnerInnerCat
+		set
+			Name = #{name}, Description = #{description}, Weight = #{weight}
+		where 
+			ParentId = #{parentId}
+	</update>
+	
+	<update id="removeInnerCat" parameterType="long">
+		update
+			yjj_PartnerInnerCat
+		set
+			Status = -1
+		where 
+			Id = #{id}
+	</update>
+</mapper>

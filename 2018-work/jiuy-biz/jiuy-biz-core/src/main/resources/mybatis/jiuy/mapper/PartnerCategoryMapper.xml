@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="PartnerCategory">
+
+	<sql id="listPartnerCategory">
+		<foreach collection="collection" item="item" open="(" close=")"
+			separator=",">
+			#{item.partnerId},#{item.categoryId},unix_timestamp()*1000,unix_timestamp()*1000
+		</foreach>
+	</sql>
+
+	<sql id="list">
+		<foreach collection="list" item="item" open="(" close=")"
+			separator=",">
+			#{item}
+		</foreach>
+	</sql>
+	<sql id="wildBrand">
+		<if test="name!=null">
+			where name like '%'||#{name}||'%'
+		</if>
+	</sql>
+	<insert id="insertPartnerCategory" useGeneratedKeys="true" keyProperty="id">
+		insert into
+		yjj_PartnerCategory(PartnerId,CategoryId,UpdateTime,CreateTime)
+		values
+		<include refid="listPartnerCategory" />
+		on duplicate key update UpdateTime=unix_timestamp()*1000
+	</insert>
+
+	<update id="deletePartnerCategory">
+		update yjj_PartnerCategory set
+		status=-1,UpdateTime=unix_timestamp()*1000 where
+		<include refid="list" />
+	</update>
+
+	<select id="getPartnerCategoryListByCategoryId" resultType="PartnerCategory">
+	    <![CDATA[
+	    select id,PartnerId,CategoryId,UpdateTime,CreateTime
+	    from yjj_PartnerCategory 
+	    where CategoryId=#{categoryId} and status=0 order by UpdateTime desc
+	    ]]>
+	</select>
+
+	<select id="getCustomBrandCategory" resultType="PartnerCategory">
+	    <![CDATA[
+	    select id,PartnerId,CategoryId,UpdateTime,CreateTime
+	    from yjj_PartnerCategory 
+	    where CategoryId > 0 and status=0 order by UpdateTime desc
+	    ]]>
+	</select>
+
+	<select id="getAllBrandCategory" resultType="PartnerCategory">
+	    <![CDATA[
+	    select id,PartnerId,CategoryId,UpdateTime,CreateTime
+	    from yjj_PartnerCategory 
+	    where status=0 order by UpdateTime desc
+	    ]]>
+	</select>
+
+	<select id="getWildBrand" parameterType="map" resultType="Partner">
+		select 
+			* 
+		from 
+			yjj_Partner
+		where 
+			Name like CONCAT("%",#{name},"%")
+	</select>
+
+	<insert id="add" parameterType="PartnerVO">
+		insert into
+		yjj_PartnerCategory(PartnerId,CategoryId,UpdateTime,CreateTime)
+		values
+		(#{id}, #{categoryId}, #{createTime}, #{updateTime})
+	</insert>
+	
+	<update id="updateBrand" parameterType="PartnerVO">
+		update yjj_PartnerCategory set CategoryId = #{categoryId}
+		where PartnerId = #{id}
+	</update>
+	
+	<update id="deleteBrandPartner" parameterType="long">
+		update yjj_PartnerCategory set Status = -1
+		where PartnerId = #{partnerId}
+	</update>
+	
+	<select id="loadHomeClassifies" resultType="PartnerCategoryVO">
+		SELECT 
+		    b.Id, a.Id as CategoryId, c.Id as PartnerId, c.Name as PartnerName, a.CategoryName
+		FROM
+		    yjj_Category a,
+		    yjj_PartnerCategory b,
+		    yjj_Partner c
+		WHERE
+		    a.Id = b.CategoryId AND c.Id = b.PartnerId
+		Order by 
+			CategoryId
+	</select>
+	
+</mapper>

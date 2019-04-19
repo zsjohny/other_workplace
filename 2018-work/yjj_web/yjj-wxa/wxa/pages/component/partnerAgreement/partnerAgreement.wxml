@@ -1,0 +1,4 @@
+<!--合伙人协议-->
+<view class="share-box">
+  <web-view src="{{websiteUrl}}"></web-view>
+</view>

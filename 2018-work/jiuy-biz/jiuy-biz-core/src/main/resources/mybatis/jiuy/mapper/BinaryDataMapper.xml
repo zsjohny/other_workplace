@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jiuy.core.dao.mapper.BinaryDataDaoSqlImpl">
+
+	<insert id="add">
+		insert yjj_BinaryData(Content, Type, CreateTime, UpdateTime)
+		values(#{content}, #{type}, #{createTime}, #{updateTime})
+	</insert>
+	
+	<select id="getById" resultType="BinaryData">
+		select * from yjj_BinaryData
+		where Id = #{id}
+	</select>
+	
+	<select id="search" resultType="BinaryData">
+		select * from yjj_BinaryData
+		<where>
+			<if test="type != null">
+				type = #{type}
+			</if>
+		</where>
+		<if test="orderSql != null">
+			${orderSql}
+		</if>
+		<if test="limit != null">
+			limit #{limit}
+		</if>
+	</select>
+	
+</mapper>

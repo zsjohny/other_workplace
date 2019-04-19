@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.e_commerce.miscroservice.order.mapper.StoreOrderMapper">
+
+    <update id="updateTimeById" parameterType="map">
+        UPDATE store_order
+        SET UpdateTime = #{updateTime}
+        WHERE OrderNo = #{orderNo}
+    </update>
+
+
+    <select id="findByOrderNo" resultType="com.e_commerce.miscroservice.order.entity.StoreOrder">
+        SELECT
+        OrderNo AS orderNo,
+        StoreId AS storeId,
+        OrderType AS orderType,
+        OrderStatus AS orderStatus,
+        `Status` AS `status`,
+        `type` AS `type`,
+        shop_member_order_id AS shopMemberOrderId
+        FROM store_order
+        WHERE OrderNo = #{orderNo}
+    </select>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+

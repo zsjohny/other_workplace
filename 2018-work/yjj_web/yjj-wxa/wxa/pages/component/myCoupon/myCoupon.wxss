@@ -1,0 +1,226 @@
+@import '/pages/component/couponCenter/couponCenter.wxss';
+page{
+  background: #f4f4f4;
+}
+/*我的优惠券 */
+.mycoupon-nav{
+  width: 100%;
+  height: 90rpx;
+  line-height: 90rpx;
+  display: -webkit-flex;
+  display: flex;
+  text-align: center;
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 3000;
+  background: #fff;
+  box-sizing: border-box;
+  font-size: 28rpx;
+}
+.mycoupon-nav .item{
+  width: 33.33%;
+  position: relative;
+  color: #797979;
+}
+.mycoupon-nav .item text{
+  margin-left: 10rpx; 
+}
+.mycoupon-nav .active{
+  position: relative;
+  color: #ff2742;
+}
+.mycoupon-nav .active::after{
+  content: '';
+  position: absolute;
+  left:50%; 
+  bottom: 0;
+  height: 2rpx;
+  overflow: hidden;
+  width: 190rpx;
+  background:#ff2742;
+  margin-left: -95rpx; 
+}
+.mycoupon-nav .active text{
+  color: #fd4374;
+}
+/**优惠券列表**/
+.mycoupon-box{
+  height: auto;
+  overflow: hidden;
+  margin-top: 110rpx;
+  padding-bottom: 160rpx;
+}
+.coupon-list{
+  padding-bottom:0;
+}
+.coupon-list .item .state{
+  font-size: 24rpx;
+  color: #fd4374;
+  position: absolute;
+  right: 29rpx;
+  top: 20rpx;
+}
+/**可用商品箭头**/
+.product-btn-wrap{
+  width: 60rpx;
+  height: 60rpx;
+  position: absolute;
+  bottom: 100rpx;
+  right: 29rpx;
+}
+.coupon-list .item .product-btn{
+  width: 28rpx;
+  height: 27rpx;
+  background: url(https://mini-img-main.oss-cn-hangzhou.aliyuncs.com/icon/new/arrow01.png) no-repeat;
+  background-size: 28rpx 27rpx;
+  margin: 15px;
+}
+/**已过期的优惠券样式**/
+.coupon-State .item{
+  background: url(https://mini-img-main.oss-cn-hangzhou.aliyuncs.com/icon/new/coupon-bg03.png) no-repeat;
+  background-size: 704rpx 229rpx;
+}
+.coupon-State .item .icon{
+  width: 182rpx;
+  height: 183rpx;
+  background: url(https://mini-img-main.oss-cn-hangzhou.aliyuncs.com/icon/new/coupon-type1.png) no-repeat;
+  background-size: 182rpx 183rpx;
+  position: absolute;
+  top: 24rpx;
+  right: 24rpx;
+  z-index: 1000;
+}
+.coupon-State .item .name,
+.coupon-State .item .box,
+.coupon-State .item .state,
+.coupon-State .item .text-box,
+.coupon-State .item .time{
+  color: #bfbfbf;
+}
+/**无优惠券时**/
+.no-coupon{
+  height: auto;
+  top: 20%;
+  margin: 0 -200rpx;
+}
+.take-btn{
+  width: 194rpx;
+  height: 64rpx;
+  line-height: 64rpx;
+  border-radius: 10rpx;
+  font-size: 24rpx;
+  text-align: center;
+  color: #fff;
+  background: #fd4374;
+  box-shadow: -2rpx 0 4rpx #fce5ea,0 -2px 4rpx #fce5ea,4rpx 0 3rpx #fce5ea,0 4rpx 3rpx #fce5ea;
+  margin: 70rpx auto;
+}
+.take-btn::after{
+  border: none;
+}
+.more-load2{
+  padding: 30rpx 0;
+}
+/**查看核销优惠券**/
+.check-bg{
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 1000
+}
+.check-box{
+  width: 540rpx;
+  min-height: 690rpx;
+  background: #fff;
+  position: fixed;
+  left: 50%;
+  top: 200rpx;
+  margin-left: -270rpx;
+  z-index: 2000;
+  padding-bottom: 20rpx;
+}
+.close-btn{
+  width: 100%;
+  height: 82rpx;
+  line-height: 82rpx;
+  text-align: center;
+  font-size: 32rpx;
+  background: #fff;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  z-index: 2000
+}
+.check-box .title{ 
+  height: auto;
+  overflow: hidden;
+  padding: 40rpx 20rpx 0 30rpx;
+  display: -webkit-box;
+}
+.check-box .title .num{
+  color: #ff2742;
+  font-size: 34rpx;
+}
+.check-box .title .num text{
+  font-size: 60rpx;
+}
+.check-box .title .name{
+  height: auto;
+  overflow: hidden;
+  margin: 22rpx 0 0 20rpx;
+  -webkit-box-flex: 1;
+  font-size: 32rpx;
+}
+.code-box{
+  width: 400rpx;
+  height: 400rpx;
+  margin: 10rpx auto 0;
+}
+.code-box .img{
+  width: 400rpx;
+  height: 400rpx;
+  display: block;
+}
+.code-box .reflesh-box{
+  width: 400rpx;
+  height: 400rpx;
+  background: #d0d0d0;
+  display: -webkit-flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+}
+.code-box .reflesh-box .icon{
+  width: 62rpx;
+  height: 62rpx;
+  background: url(http://mini-img-main.oss-cn-hangzhou.aliyuncs.com/icon/reflesh-icon.png) no-repeat;
+  background-size: 62rpx;
+}
+.code-box .reflesh-box .text{
+  font-size: 26rpx;
+  padding-top: 18rpx;
+}
+.check-box .explain{
+  color: #797979;
+  margin-left: 70rpx;
+  padding-right: 20rpx;
+  line-height: 1.5;
+  margin-top: 20rpx;
+  font-size: 30rpx;
+}
+.check-box .explain .ct{
+  padding-top: 10rpx;
+}
+.check-box .prompt{
+  color: #ff2742;
+  height: auto;
+  overflow: hidden;
+  text-align: center;
+  padding: 20rpx 0;
+  line-height: 1.8
+}

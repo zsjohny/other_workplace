@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jiuyuan.dao.mapper.supplier.SupplierCustomerGroupMapper">
+
+	<insert id="insertAndGetId" useGeneratedKeys="true" keyProperty="id">
+		<![CDATA[
+			insert into supplier_customer_group
+			(supplier_id, group_name, default_group,create_time,update_time)
+			values
+			(#{supplierId}, #{groupName},#{defaultGroup}, #{createTime}, #{updateTime})
+		]]>
+	</insert>
+
+	<select id="getGroupList" resultType="map">
+		SELECT
+		count(*) AS count,
+		supplier_customer_group.id,
+		supplier_customer_group.group_name as groupName
+		FROM
+		supplier_customer_group
+		LEFT JOIN supplier_customer ON supplier_customer.group_id =supplier_customer_group.id
+		WHERE
+		supplier_customer_group.supplier_id = #{userId}
+		AND supplier_customer_group.`status` = 0
+		GROUP BY
+		supplier_customer_group.id
+		ORDER BY
+		count DESC,
+		supplier_customer_group.create_time ASC;
+
+	</select>
+	
+	<select id="getGroupListBySearchArgs" parameterType="com.baomidou.mybatisplus.plugins.Page" resultType="map">
+	SELECT
+  a.id,
+  a.supplier_id as supplierId,
+  a.group_name as groupName,
+  a.remark,
+  a.STATUS,
+  a.default_group as defaultGroup,
+  a.create_time as createTime,
+  a.update_time as updateTime
+FROM supplier_customer_group a
+  LEFT JOIN (SELECT
+               group_id,
+               COUNT(group_id)  AS COUNT
+             FROM supplier_customer
+             GROUP BY group_id) b
+    ON a.id = b.group_id 
+    <where>
+      a.STATUS = 0
+      AND a.supplier_id =#{supplierId}
+    <if test="groupName != null and groupName != ''">
+      AND a.group_name =#{groupName}
+    </if>
+    <if test="remark != null and remark != ''">
+      AND a.remark =#{remark}
+    </if>
+    </where>
+ORDER BY b.count DESC
+	</select>
+
+
+
+</mapper>

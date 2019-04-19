@@ -1,0 +1,386 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" > 
+<mapper namespace="com.jiuy.rb.mapper.user.SupplierCustomerRbMapper"> 
+ 
+ 	<!-- 主要的返回映射-->
+	<resultMap id="BaseResultMap" type="com.jiuy.rb.model.user.SupplierCustomerRb"	>
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="supplier_id"  property="supplierId"  jdbcType="BIGINT" />
+		<result column="store_id"  property="storeId"  jdbcType="BIGINT" />
+		<result column="businessName"  property="businessName"  jdbcType="VARCHAR" />
+		<result column="customer_name"  property="customerName"  jdbcType="VARCHAR" />
+		<result column="remark_name"  property="remarkName"  jdbcType="VARCHAR" />
+		<result column="phone_number"  property="phoneNumber"  jdbcType="VARCHAR" />
+		<result column="group_id"  property="groupId"  jdbcType="BIGINT" />
+		<result column="province"  property="province"  jdbcType="VARCHAR" />
+		<result column="city"  property="city"  jdbcType="VARCHAR" />
+		<result column="businessAddress"  property="businessAddress"  jdbcType="VARCHAR" />
+		<result column="customer_type"  property="customerType"  jdbcType="TINYINT" />
+		<result column="status"  property="status"  jdbcType="TINYINT" />
+		<result column="create_time"  property="createTime"  jdbcType="BIGINT" />
+		<result column="update_time"  property="updateTime"  jdbcType="BIGINT" />
+	</resultMap>
+
+	<!-- 所有的列名-->
+	<sql id="Base_Column_List" >
+		id,supplier_id,store_id,businessName,customer_name,remark_name,phone_number,group_id,province,
+		city,businessAddress,customer_type,status,create_time,update_time
+	</sql>
+
+	<!-- 精确更新的字段-->
+	<sql id="updateBase">
+		<if test="id  !=null">
+			id = #{id,jdbcType=BIGINT}, 
+		</if>
+		<if test="supplierId  !=null">
+			supplier_id = #{supplierId,jdbcType=BIGINT}, 
+		</if>
+		<if test="storeId  !=null">
+			store_id = #{storeId,jdbcType=BIGINT}, 
+		</if>
+		<if test="businessName  !=null">
+			businessName = #{businessName,jdbcType=VARCHAR}, 
+		</if>
+		<if test="customerName  !=null">
+			customer_name = #{customerName,jdbcType=VARCHAR}, 
+		</if>
+		<if test="remarkName  !=null">
+			remark_name = #{remarkName,jdbcType=VARCHAR}, 
+		</if>
+		<if test="phoneNumber  !=null">
+			phone_number = #{phoneNumber,jdbcType=VARCHAR}, 
+		</if>
+		<if test="groupId  !=null">
+			group_id = #{groupId,jdbcType=BIGINT}, 
+		</if>
+		<if test="province  !=null">
+			province = #{province,jdbcType=VARCHAR}, 
+		</if>
+		<if test="city  !=null">
+			city = #{city,jdbcType=VARCHAR}, 
+		</if>
+		<if test="businessAddress  !=null">
+			businessAddress = #{businessAddress,jdbcType=VARCHAR}, 
+		</if>
+		<if test="customerType  !=null">
+			customer_type = #{customerType,jdbcType=TINYINT}, 
+		</if>
+		<if test="status  !=null">
+			status = #{status,jdbcType=TINYINT}, 
+		</if>
+		<if test="createTime  !=null">
+			create_time = #{createTime,jdbcType=BIGINT}, 
+		</if>
+		<if test="updateTime  !=null">
+			update_time = #{updateTime,jdbcType=BIGINT} 
+		</if>
+	</sql>
+
+	<!-- 通过主键查找-->
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="Long" >
+		select 
+		<include refid="Base_Column_List" />
+		from supplier_customer
+		where  id = #{id,jdbcType=BIGINT} 
+	</select>
+
+	<!-- 通过主键删除-->
+	<delete id="deleteByPrimaryKey" parameterType="Long" >
+		delete from supplier_customer
+		where id = #{id,jdbcType=BIGINT} 
+	</delete>
+
+	<!-- 普通插入全字段插t入-->
+	<insert id="insert" parameterType="com.jiuy.rb.model.user.SupplierCustomerRb" >
+		insert into supplier_customer
+		(
+			id,
+			supplier_id,
+			store_id,
+			businessName,
+			customer_name,
+			remark_name,
+			phone_number,
+			group_id,
+			province,
+			city,
+			businessAddress,
+			customer_type,
+			status,
+			create_time,
+			update_time
+		)
+		values
+		(
+			#{id ,jdbcType=BIGINT},
+			#{supplierId ,jdbcType=BIGINT},
+			#{storeId ,jdbcType=BIGINT},
+			#{businessName ,jdbcType=VARCHAR},
+			#{customerName ,jdbcType=VARCHAR},
+			#{remarkName ,jdbcType=VARCHAR},
+			#{phoneNumber ,jdbcType=VARCHAR},
+			#{groupId ,jdbcType=BIGINT},
+			#{province ,jdbcType=VARCHAR},
+			#{city ,jdbcType=VARCHAR},
+			#{businessAddress ,jdbcType=VARCHAR},
+			#{customerType ,jdbcType=TINYINT},
+			#{status ,jdbcType=TINYINT},
+			#{createTime ,jdbcType=BIGINT},
+			#{updateTime ,jdbcType=BIGINT}
+		)
+	</insert>
+
+	<!-- 批量插入，全部字段插入-->
+	<insert id="insertBach"   parameterType="List" >
+		insert into supplier_customer
+		(
+			id,
+			supplier_id,
+			store_id,
+			businessName,
+			customer_name,
+			remark_name,
+			phone_number,
+			group_id,
+			province,
+			city,
+			businessAddress,
+			customer_type,
+			status,
+			create_time,
+			update_time
+		)
+		values 
+		<foreach collection="list" item="item" separator=",">
+		(
+			#{item.id ,jdbcType=BIGINT},
+			#{item.supplierId ,jdbcType=BIGINT},
+			#{item.storeId ,jdbcType=BIGINT},
+			#{item.businessName ,jdbcType=VARCHAR},
+			#{item.customerName ,jdbcType=VARCHAR},
+			#{item.remarkName ,jdbcType=VARCHAR},
+			#{item.phoneNumber ,jdbcType=VARCHAR},
+			#{item.groupId ,jdbcType=BIGINT},
+			#{item.province ,jdbcType=VARCHAR},
+			#{item.city ,jdbcType=VARCHAR},
+			#{item.businessAddress ,jdbcType=VARCHAR},
+			#{item.customerType ,jdbcType=TINYINT},
+			#{item.status ,jdbcType=TINYINT},
+			#{item.createTime ,jdbcType=BIGINT},
+			#{item.updateTime ,jdbcType=BIGINT}
+		)
+		</foreach>
+	</insert>
+
+	<!-- 精确插入，非null得字段才会插入-->
+	<insert id="insertSelective" parameterType="com.jiuy.rb.model.user.SupplierCustomerRb" useGeneratedKeys="true" keyProperty="id" >
+		insert into supplier_customer
+		<trim prefix="(" suffix=")" suffixOverrides="," > 
+			<if test="id !=null">  
+				id,
+			</if>
+			<if test="supplierId !=null">  
+				supplier_id,
+			</if>
+			<if test="storeId !=null">  
+				store_id,
+			</if>
+			<if test="businessName !=null">  
+				businessName,
+			</if>
+			<if test="customerName !=null">  
+				customer_name,
+			</if>
+			<if test="remarkName !=null">  
+				remark_name,
+			</if>
+			<if test="phoneNumber !=null">  
+				phone_number,
+			</if>
+			<if test="groupId !=null">  
+				group_id,
+			</if>
+			<if test="province !=null">  
+				province,
+			</if>
+			<if test="city !=null">  
+				city,
+			</if>
+			<if test="businessAddress !=null">  
+				businessAddress,
+			</if>
+			<if test="customerType !=null">  
+				customer_type,
+			</if>
+			<if test="status !=null">  
+				status,
+			</if>
+			<if test="createTime !=null">  
+				create_time,
+			</if>
+			<if test="updateTime !=null">  
+				update_time,
+			</if>
+		</trim>
+
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+			<if test="id  !=null">
+				#{id,jdbcType=BIGINT}, 
+			</if>
+			<if test="supplierId  !=null">
+				#{supplierId,jdbcType=BIGINT}, 
+			</if>
+			<if test="storeId  !=null">
+				#{storeId,jdbcType=BIGINT}, 
+			</if>
+			<if test="businessName  !=null">
+				#{businessName,jdbcType=VARCHAR}, 
+			</if>
+			<if test="customerName  !=null">
+				#{customerName,jdbcType=VARCHAR}, 
+			</if>
+			<if test="remarkName  !=null">
+				#{remarkName,jdbcType=VARCHAR}, 
+			</if>
+			<if test="phoneNumber  !=null">
+				#{phoneNumber,jdbcType=VARCHAR}, 
+			</if>
+			<if test="groupId  !=null">
+				#{groupId,jdbcType=BIGINT}, 
+			</if>
+			<if test="province  !=null">
+				#{province,jdbcType=VARCHAR}, 
+			</if>
+			<if test="city  !=null">
+				#{city,jdbcType=VARCHAR}, 
+			</if>
+			<if test="businessAddress  !=null">
+				#{businessAddress,jdbcType=VARCHAR}, 
+			</if>
+			<if test="customerType  !=null">
+				#{customerType,jdbcType=TINYINT}, 
+			</if>
+			<if test="status  !=null">
+				#{status,jdbcType=TINYINT}, 
+			</if>
+			<if test="createTime  !=null">
+				#{createTime,jdbcType=BIGINT}, 
+			</if>
+			<if test="updateTime  !=null">
+				#{updateTime,jdbcType=BIGINT} 
+			</if>
+		</trim>
+	</insert> 
+
+	<!-- 精确更新-->
+	<update id="updateByPrimaryKeySelective" parameterType="com.jiuy.rb.model.user.SupplierCustomerRb" >
+		update supplier_customer
+		<set>
+			<include refid="updateBase"/>
+		</set>
+		where id = #{id,jdbcType=BIGINT} 
+	</update> 
+
+	<!-- 全字段更新 需要注意-->
+	<update id="updateByPrimaryKey" parameterType="com.jiuy.rb.model.user.SupplierCustomerRb" >
+		update supplier_customer
+		set 
+			id = #{id ,jdbcType=BIGINT},
+			supplier_id = #{supplierId ,jdbcType=BIGINT},
+			store_id = #{storeId ,jdbcType=BIGINT},
+			businessName = #{businessName ,jdbcType=VARCHAR},
+			customer_name = #{customerName ,jdbcType=VARCHAR},
+			remark_name = #{remarkName ,jdbcType=VARCHAR},
+			phone_number = #{phoneNumber ,jdbcType=VARCHAR},
+			group_id = #{groupId ,jdbcType=BIGINT},
+			province = #{province ,jdbcType=VARCHAR},
+			city = #{city ,jdbcType=VARCHAR},
+			businessAddress = #{businessAddress ,jdbcType=VARCHAR},
+			customer_type = #{customerType ,jdbcType=TINYINT},
+			status = #{status ,jdbcType=TINYINT},
+			create_time = #{createTime ,jdbcType=BIGINT},
+			update_time = #{updateTime ,jdbcType=BIGINT}
+		where id = #{id,jdbcType=BIGINT} 
+	</update> 
+
+	<!-- 所有的条件集合-->
+	<sql id="whereCase"  >
+		where  1=1 
+		<if test="id  !=null">
+			AND id = #{id,jdbcType=BIGINT} 
+		</if>
+		<if test="supplierId  !=null">
+			AND supplier_id = #{supplierId,jdbcType=BIGINT} 
+		</if>
+		<if test="storeId  !=null">
+			AND store_id = #{storeId,jdbcType=BIGINT} 
+		</if>
+		<if test="businessName  !=null">
+			AND businessName = #{businessName,jdbcType=VARCHAR} 
+		</if>
+		<if test="customerName  !=null">
+			AND customer_name = #{customerName,jdbcType=VARCHAR} 
+		</if>
+		<if test="remarkName  !=null">
+			AND remark_name = #{remarkName,jdbcType=VARCHAR} 
+		</if>
+		<if test="phoneNumber  !=null">
+			AND phone_number = #{phoneNumber,jdbcType=VARCHAR} 
+		</if>
+		<if test="groupId  !=null">
+			AND group_id = #{groupId,jdbcType=BIGINT} 
+		</if>
+		<if test="province  !=null">
+			AND province = #{province,jdbcType=VARCHAR} 
+		</if>
+		<if test="city  !=null">
+			AND city = #{city,jdbcType=VARCHAR} 
+		</if>
+		<if test="businessAddress  !=null">
+			AND businessAddress = #{businessAddress,jdbcType=VARCHAR} 
+		</if>
+		<if test="customerType  !=null">
+			AND customer_type = #{customerType,jdbcType=TINYINT} 
+		</if>
+		<if test="status  !=null">
+			AND status = #{status,jdbcType=TINYINT} 
+		</if>
+		<if test="createTime  !=null">
+			AND create_time = #{createTime,jdbcType=BIGINT} 
+		</if>
+		<if test="updateTime  !=null">
+			AND update_time = #{updateTime,jdbcType=BIGINT} 
+		</if>
+		<include refid="costomWhereCase"/>
+	</sql>
+
+	<!-- 查询一条，如果返回多条会报错-->
+	<select id="selectOne" parameterType="java.util.Map" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" /> 
+		FROM supplier_customer 
+		<include refid="whereCase" /> 
+	</select>
+
+	<!-- 查询一个list-->
+	<select id="selectList" parameterType="java.util.Map" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" /> 
+		FROM supplier_customer 
+		<include refid="whereCase" /> 
+	</select>
+
+	<!-- 查询一个list-->
+	<select id="selectCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+		SELECT
+		count(1) 
+		FROM supplier_customer
+		<include refid="whereCase" /> 
+	</select>
+
+	<!--  @Costom -->
+	<!-- 从上一行注释以上为系统生成 从这一行往下为用户自定义 请将自定义的sql放在此行下面 -->
+	<sql id="costomWhereCase">
+	</sql>
+
+</mapper>

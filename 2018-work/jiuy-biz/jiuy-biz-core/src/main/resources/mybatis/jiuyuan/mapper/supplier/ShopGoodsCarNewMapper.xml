@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jiuyuan.dao.mapper.supplier.ShopGoodsCarNewMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.jiuyuan.entity.order.ShopGoodsCar">
+		<id column="id" property="id" />
+		<result column="product_sku_id" property="productSkuId" />
+		<result column="member_id" property="memberId" />
+		<result column="sku_number" property="skuNumber" />
+		<result column="create_time" property="createTime" />
+		<result column="car_suk_status" property="carSukStatus" />
+		<result column="last_update_time" property="lastUpdateTime" />
+	</resultMap>
+
+	<!-- 通用查询结果列 -->
+	<sql id="Base_Column_List">
+        id, product_sku_id AS productSkuId, member_id AS memberId, sku_number AS skuNumber, create_time AS createTime, car_suk_status AS carSukStatus, last_update_time AS lastUpdateTime
+    </sql>
+
+</mapper>

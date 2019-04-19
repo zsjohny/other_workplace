@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yujj.dao.mapper.LogMapper">
+	<insert id="addLogs" parameterType="map">
+		<![CDATA[
+			insert into yjj_Log
+			(LogId, UserId, Ip, Cid, Platform, Version, Net, SrcId, SrcLogId, SrcRelatedId,
+			 PageId, EnterTime, LoadFinishTime, ExitTime, Duration, CreateTime)
+			values
+		]]>
+		<foreach collection="logList" item="log" open="(" separator="),(" close=")">
+			<![CDATA[
+				#{log.logId}, #{log.userId}, #{log.ip}, #{log.cid}, #{log.platform}, #{log.version}, #{log.net}, #{log.srcId}, #{log.srcLogId}, #{log.srcRelatedId},
+				#{log.pageId}, #{log.enterTime}, #{log.loadFinishTime}, #{log.exitTime}, #{log.duration}, #{time}
+			]]>
+		</foreach>
+	</insert>
+		
+	<insert id="addRelatedOrderLogs" parameterType="map">
+		<![CDATA[
+			insert into yjj_RelatedOrderLog
+			( SrcPageId, SrcRelatedId,PageId, OrderNo, CreateTime)
+			values
+		]]>
+		<foreach collection="logList" item="log" open="(" separator="),(" close=")">
+			<![CDATA[
+				 #{log.srcPageId}, #{log.srcRelatedId},#{log.pageId}, #{log.orderNo}, #{time}
+			]]>
+		</foreach>
+	</insert>
+	
+	<insert id="addUserLog" parameterType="map" useGeneratedKeys="true" keyProperty="userLog.id">
+		insert into yjj_UserLog
+		(UserId, Cid, CreateTime, UpdateTime, Ip, Platform, Version, Net)
+		values
+		(#{userLog.userId}, #{userLog.cid}, #{userLog.createTime}, #{userLog.updateTime}, #{userLog.ip}, #{userLog.platform}, #{userLog.version}, #{userLog.net})
+		<![CDATA[
+		ON DUPLICATE KEY UPDATE UpdateTime=#{userLog.updateTime}
+		]]>
+	</insert>	
+	
+	<insert id="addUserStartLog" parameterType="map">
+		<![CDATA[
+			insert into yjj_UserStartLog
+			(UserId, Cid, CreateTime)
+			values
+			(#{userLog.userId}, #{userLog.cid}, #{userLog.createTime})
+		]]>
+	</insert>
+	
+	<select id="getProductLogs" resultType="Log" parameterType="map">
+		<![CDATA[
+			SELECT * FROM yjj_Log where SrcId =-5 and SrcRelatedId = #{productId}
+		]]>
+	</select>
+	
+	<select id="getAllProductLogs" resultType="Log" parameterType="map">
+		<![CDATA[
+			SELECT * FROM yjj_Log where SrcId =-5  and  SrcRelatedId > 0
+		]]>
+	</select>
+	
+	
+</mapper>

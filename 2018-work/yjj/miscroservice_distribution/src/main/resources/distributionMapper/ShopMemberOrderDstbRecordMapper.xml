@@ -1,0 +1,386 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" > 
+<mapper namespace="com.e_commerce.miscroservice.distribution.mapper.ShopMemberOrderDstbRecordMapper">
+ 
+ 	<!-- 主要的返回映射-->
+	<resultMap id="BaseResultMap" type="com.e_commerce.miscroservice.commons.entity.application.distributionSystem.ShopMemberOrderDstbRecord"	>
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="order_no"  property="orderNo"  jdbcType="VARCHAR" />
+		<result column="distributor"  property="distributor"  jdbcType="BIGINT" />
+		<result column="partner"  property="partner"  jdbcType="BIGINT" />
+		<result column="total_commission_cash"  property="totalCommissionCash"  jdbcType="DECIMAL" />
+		<result column="total_commission_gold_coin"  property="totalCommissionGoldCoin"  jdbcType="DECIMAL" />
+		<result column="total_manager_cash"  property="totalManagerCash"  jdbcType="DECIMAL" />
+		<result column="total_manager_gold_coin"  property="totalManagerGoldCoin"  jdbcType="DECIMAL" />
+		<result column="order_money"  property="orderMoney"  jdbcType="DECIMAL" />
+		<result column="exchange_rate"  property="exchangeRate"  jdbcType="DECIMAL" />
+		<result column="pay_time"  property="payTime"  jdbcType="BIGINT" />
+		<result column="order_success_time"  property="orderSuccessTime"  jdbcType="BIGINT" />
+		<result column="self_commission_user_id"  property="selfCommissionUserId"  jdbcType="BIGINT" />
+		<result column="higher_commission_user_id"  property="higherCommissionUserId"  jdbcType="BIGINT" />
+		<result column="top_commission_user_id"  property="topCommissionUserId"  jdbcType="BIGINT" />
+	</resultMap>
+
+	<!-- 所有的列名-->
+	<sql id="Base_Column_List" >
+		id,order_no,distributor,partner,total_commission_cash,total_commission_gold_coin,total_manager_cash,total_manager_gold_coin,order_money,
+		exchange_rate,pay_time,order_success_time
+	</sql>
+
+	<!-- 精确更新的字段-->
+	<sql id="updateBase">
+		<if test="id  !=null">
+			id = #{id,jdbcType=BIGINT}, 
+		</if>
+		<if test="orderNo  !=null">
+			order_no = #{orderNo,jdbcType=VARCHAR}, 
+		</if>
+		<if test="distributor  !=null">
+			distributor = #{distributor,jdbcType=BIGINT}, 
+		</if>
+		<if test="partner  !=null">
+			partner = #{partner,jdbcType=BIGINT}, 
+		</if>
+		<if test="totalCommissionCash  !=null">
+			total_commission_cash = #{totalCommissionCash,jdbcType=DECIMAL}, 
+		</if>
+		<if test="totalCommissionGoldCoin  !=null">
+			total_commission_gold_coin = #{totalCommissionGoldCoin,jdbcType=DECIMAL}, 
+		</if>
+		<if test="totalManagerCash  !=null">
+			total_manager_cash = #{totalManagerCash,jdbcType=DECIMAL}, 
+		</if>
+		<if test="totalManagerGoldCoin  !=null">
+			total_manager_gold_coin = #{totalManagerGoldCoin,jdbcType=DECIMAL}, 
+		</if>
+		<if test="orderMoney  !=null">
+			order_money = #{orderMoney,jdbcType=DECIMAL}, 
+		</if>
+		<if test="exchangeRate  !=null">
+			exchange_rate = #{exchangeRate,jdbcType=DECIMAL}, 
+		</if>
+		<if test="payTime  !=null">
+			pay_time = #{payTime,jdbcType=BIGINT}, 
+		</if>
+		<if test="orderSuccessTime  !=null">
+			order_success_time = #{orderSuccessTime,jdbcType=BIGINT}, 
+		</if>
+		<if test="selfCommissionUserId  !=null">
+			self_commission_user_id = #{selfCommissionUserId,jdbcType=BIGINT}, 
+		</if>
+		<if test="higherCommissionUserId  !=null">
+			higher_commission_user_id = #{higherCommissionUserId,jdbcType=BIGINT}, 
+		</if>
+		<if test="topCommissionUserId  !=null">
+			top_commission_user_id = #{topCommissionUserId,jdbcType=BIGINT} 
+		</if>
+	</sql>
+
+	<!-- 通过主键查找-->
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="Long" >
+		select 
+		<include refid="Base_Column_List" />
+		from shop_member_order_dstb_record
+		where  id = #{id,jdbcType=BIGINT} 
+	</select>
+
+	<!-- 通过主键删除-->
+	<delete id="deleteByPrimaryKey" parameterType="Long" >
+		delete from shop_member_order_dstb_record
+		where id = #{id,jdbcType=BIGINT} 
+	</delete>
+
+	<!-- 普通插入全字段插t入-->
+	<insert id="insert" parameterType="com.e_commerce.miscroservice.commons.entity.application.distributionSystem.ShopMemberOrderDstbRecord" >
+		insert into shop_member_order_dstb_record
+		(
+			id,
+			order_no,
+			distributor,
+			partner,
+			total_commission_cash,
+			total_commission_gold_coin,
+			total_manager_cash,
+			total_manager_gold_coin,
+			order_money,
+			exchange_rate,
+			pay_time,
+			order_success_time,
+			self_commission_user_id,
+			higher_commission_user_id,
+			top_commission_user_id
+		)
+		values
+		(
+			#{id ,jdbcType=BIGINT},
+			#{orderNo ,jdbcType=VARCHAR},
+			#{distributor ,jdbcType=BIGINT},
+			#{partner ,jdbcType=BIGINT},
+			#{totalCommissionCash ,jdbcType=DECIMAL},
+			#{totalCommissionGoldCoin ,jdbcType=DECIMAL},
+			#{totalManagerCash ,jdbcType=DECIMAL},
+			#{totalManagerGoldCoin ,jdbcType=DECIMAL},
+			#{orderMoney ,jdbcType=DECIMAL},
+			#{exchangeRate ,jdbcType=DECIMAL},
+			#{payTime ,jdbcType=BIGINT},
+			#{orderSuccessTime ,jdbcType=BIGINT},
+			#{selfCommissionUserId ,jdbcType=BIGINT},
+			#{higherCommissionUserId ,jdbcType=BIGINT},
+			#{topCommissionUserId ,jdbcType=BIGINT}
+		)
+	</insert>
+
+	<!-- 批量插入，全部字段插入-->
+	<insert id="insertBach"   parameterType="List" >
+		insert into shop_member_order_dstb_record
+		(
+			id,
+			order_no,
+			distributor,
+			partner,
+			total_commission_cash,
+			total_commission_gold_coin,
+			total_manager_cash,
+			total_manager_gold_coin,
+			order_money,
+			exchange_rate,
+			pay_time,
+			order_success_time,
+			self_commission_user_id,
+			higher_commission_user_id,
+			top_commission_user_id
+		)
+		values 
+		<foreach collection="list" item="item" separator=",">
+		(
+			#{item.id ,jdbcType=BIGINT},
+			#{item.orderNo ,jdbcType=VARCHAR},
+			#{item.distributor ,jdbcType=BIGINT},
+			#{item.partner ,jdbcType=BIGINT},
+			#{item.totalCommissionCash ,jdbcType=DECIMAL},
+			#{item.totalCommissionGoldCoin ,jdbcType=DECIMAL},
+			#{item.totalManagerCash ,jdbcType=DECIMAL},
+			#{item.totalManagerGoldCoin ,jdbcType=DECIMAL},
+			#{item.orderMoney ,jdbcType=DECIMAL},
+			#{item.exchangeRate ,jdbcType=DECIMAL},
+			#{item.payTime ,jdbcType=BIGINT},
+			#{item.orderSuccessTime ,jdbcType=BIGINT},
+			#{item.selfCommissionUserId ,jdbcType=BIGINT},
+			#{item.higherCommissionUserId ,jdbcType=BIGINT},
+			#{item.topCommissionUserId ,jdbcType=BIGINT}
+		)
+		</foreach>
+	</insert>
+
+	<!-- 精确插入，非null得字段才会插入-->
+	<insert id="insertSelective" parameterType="com.e_commerce.miscroservice.commons.entity.application.distributionSystem.ShopMemberOrderDstbRecord" useGeneratedKeys="true" keyProperty="id" >
+		insert into shop_member_order_dstb_record
+		<trim prefix="(" suffix=")" suffixOverrides="," > 
+			<if test="id !=null">  
+				id,
+			</if>
+			<if test="orderNo !=null">  
+				order_no,
+			</if>
+			<if test="distributor !=null">  
+				distributor,
+			</if>
+			<if test="partner !=null">  
+				partner,
+			</if>
+			<if test="totalCommissionCash !=null">  
+				total_commission_cash,
+			</if>
+			<if test="totalCommissionGoldCoin !=null">  
+				total_commission_gold_coin,
+			</if>
+			<if test="totalManagerCash !=null">  
+				total_manager_cash,
+			</if>
+			<if test="totalManagerGoldCoin !=null">  
+				total_manager_gold_coin,
+			</if>
+			<if test="orderMoney !=null">  
+				order_money,
+			</if>
+			<if test="exchangeRate !=null">  
+				exchange_rate,
+			</if>
+			<if test="payTime !=null">  
+				pay_time,
+			</if>
+			<if test="orderSuccessTime !=null">  
+				order_success_time,
+			</if>
+			<if test="selfCommissionUserId !=null">  
+				self_commission_user_id,
+			</if>
+			<if test="higherCommissionUserId !=null">  
+				higher_commission_user_id,
+			</if>
+			<if test="topCommissionUserId !=null">  
+				top_commission_user_id,
+			</if>
+		</trim>
+
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+			<if test="id  !=null">
+				#{id,jdbcType=BIGINT}, 
+			</if>
+			<if test="orderNo  !=null">
+				#{orderNo,jdbcType=VARCHAR}, 
+			</if>
+			<if test="distributor  !=null">
+				#{distributor,jdbcType=BIGINT}, 
+			</if>
+			<if test="partner  !=null">
+				#{partner,jdbcType=BIGINT}, 
+			</if>
+			<if test="totalCommissionCash  !=null">
+				#{totalCommissionCash,jdbcType=DECIMAL}, 
+			</if>
+			<if test="totalCommissionGoldCoin  !=null">
+				#{totalCommissionGoldCoin,jdbcType=DECIMAL}, 
+			</if>
+			<if test="totalManagerCash  !=null">
+				#{totalManagerCash,jdbcType=DECIMAL}, 
+			</if>
+			<if test="totalManagerGoldCoin  !=null">
+				#{totalManagerGoldCoin,jdbcType=DECIMAL}, 
+			</if>
+			<if test="orderMoney  !=null">
+				#{orderMoney,jdbcType=DECIMAL}, 
+			</if>
+			<if test="exchangeRate  !=null">
+				#{exchangeRate,jdbcType=DECIMAL}, 
+			</if>
+			<if test="payTime  !=null">
+				#{payTime,jdbcType=BIGINT}, 
+			</if>
+			<if test="orderSuccessTime  !=null">
+				#{orderSuccessTime,jdbcType=BIGINT}, 
+			</if>
+			<if test="selfCommissionUserId  !=null">
+				#{selfCommissionUserId,jdbcType=BIGINT}, 
+			</if>
+			<if test="higherCommissionUserId  !=null">
+				#{higherCommissionUserId,jdbcType=BIGINT}, 
+			</if>
+			<if test="topCommissionUserId  !=null">
+				#{topCommissionUserId,jdbcType=BIGINT} 
+			</if>
+		</trim>
+	</insert> 
+
+	<!-- 精确更新-->
+	<update id="updateByPrimaryKeySelective" parameterType="com.e_commerce.miscroservice.commons.entity.application.distributionSystem.ShopMemberOrderDstbRecord" >
+		update shop_member_order_dstb_record
+		<set>
+			<include refid="updateBase"/>
+		</set>
+		where id = #{id,jdbcType=BIGINT} 
+	</update> 
+
+	<!-- 全字段更新 需要注意-->
+	<update id="updateByPrimaryKey" parameterType="com.e_commerce.miscroservice.commons.entity.application.distributionSystem.ShopMemberOrderDstbRecord" >
+		update shop_member_order_dstb_record
+		set 
+			id = #{id ,jdbcType=BIGINT},
+			order_no = #{orderNo ,jdbcType=VARCHAR},
+			distributor = #{distributor ,jdbcType=BIGINT},
+			partner = #{partner ,jdbcType=BIGINT},
+			total_commission_cash = #{totalCommissionCash ,jdbcType=DECIMAL},
+			total_commission_gold_coin = #{totalCommissionGoldCoin ,jdbcType=DECIMAL},
+			total_manager_cash = #{totalManagerCash ,jdbcType=DECIMAL},
+			total_manager_gold_coin = #{totalManagerGoldCoin ,jdbcType=DECIMAL},
+			order_money = #{orderMoney ,jdbcType=DECIMAL},
+			exchange_rate = #{exchangeRate ,jdbcType=DECIMAL},
+			pay_time = #{payTime ,jdbcType=BIGINT},
+			order_success_time = #{orderSuccessTime ,jdbcType=BIGINT},
+			self_commission_user_id = #{selfCommissionUserId ,jdbcType=BIGINT},
+			higher_commission_user_id = #{higherCommissionUserId ,jdbcType=BIGINT},
+			top_commission_user_id = #{topCommissionUserId ,jdbcType=BIGINT}
+		where id = #{id,jdbcType=BIGINT} 
+	</update> 
+
+	<!-- 所有的条件集合-->
+	<sql id="whereCase"  >
+		where  1=1 
+		<if test="id  !=null">
+			AND id = #{id,jdbcType=BIGINT} 
+		</if>
+		<if test="orderNo  !=null">
+			AND order_no = #{orderNo,jdbcType=VARCHAR} 
+		</if>
+		<if test="distributor  !=null">
+			AND distributor = #{distributor,jdbcType=BIGINT} 
+		</if>
+		<if test="partner  !=null">
+			AND partner = #{partner,jdbcType=BIGINT} 
+		</if>
+		<if test="totalCommissionCash  !=null">
+			AND total_commission_cash = #{totalCommissionCash,jdbcType=DECIMAL} 
+		</if>
+		<if test="totalCommissionGoldCoin  !=null">
+			AND total_commission_gold_coin = #{totalCommissionGoldCoin,jdbcType=DECIMAL} 
+		</if>
+		<if test="totalManagerCash  !=null">
+			AND total_manager_cash = #{totalManagerCash,jdbcType=DECIMAL} 
+		</if>
+		<if test="totalManagerGoldCoin  !=null">
+			AND total_manager_gold_coin = #{totalManagerGoldCoin,jdbcType=DECIMAL} 
+		</if>
+		<if test="orderMoney  !=null">
+			AND order_money = #{orderMoney,jdbcType=DECIMAL} 
+		</if>
+		<if test="exchangeRate  !=null">
+			AND exchange_rate = #{exchangeRate,jdbcType=DECIMAL} 
+		</if>
+		<if test="payTime  !=null">
+			AND pay_time = #{payTime,jdbcType=BIGINT} 
+		</if>
+		<if test="orderSuccessTime  !=null">
+			AND order_success_time = #{orderSuccessTime,jdbcType=BIGINT} 
+		</if>
+		<if test="selfCommissionUserId  !=null">
+			AND self_commission_user_id = #{selfCommissionUserId,jdbcType=BIGINT} 
+		</if>
+		<if test="higherCommissionUserId  !=null">
+			AND higher_commission_user_id = #{higherCommissionUserId,jdbcType=BIGINT} 
+		</if>
+		<if test="topCommissionUserId  !=null">
+			AND top_commission_user_id = #{topCommissionUserId,jdbcType=BIGINT} 
+		</if>
+		<include refid="costomWhereCase"/>
+	</sql>
+
+	<!-- 查询一条，如果返回多条会报错-->
+	<select id="selectOne" parameterType="java.util.Map" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" /> 
+		FROM shop_member_order_dstb_record 
+		<include refid="whereCase" /> 
+	</select>
+
+	<!-- 查询一个list-->
+	<select id="selectList" parameterType="java.util.Map" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" /> 
+		FROM shop_member_order_dstb_record 
+		<include refid="whereCase" /> 
+	</select>
+
+	<!-- 查询一个list-->
+	<select id="selectCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+		SELECT
+		count(1) 
+		FROM shop_member_order_dstb_record
+		<include refid="whereCase" /> 
+	</select>
+
+	<!--  @Costom -->
+	<!-- 从上一行注释以上为系统生成 从这一行往下为用户自定义 请将自定义的sql放在此行下面 -->
+	<sql id="costomWhereCase">
+	</sql>
+
+</mapper>

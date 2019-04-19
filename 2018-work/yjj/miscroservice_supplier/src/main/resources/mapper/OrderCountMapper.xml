@@ -1,0 +1,562 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.e_commerce.miscroservice.supplier.mapper.OrderCountMapper">
+    <resultMap  type="com.e_commerce.miscroservice.commons.entity.application.order.StoreOrder" id="select">
+        <!--property指的是实体类里面的字段  column指的是数据库里面的字段-->
+        <id property="orderNo" column="OrderNo"/>
+        <result property="orderNoAttachmentStr" column="orderNo_attachment_str"/>
+        <result property="storeId" column="StoreId"/>
+        <result property="orderType" column="OrderType"/>
+        <result property="orderStatus" column="OrderStatus"/>
+        <result property="orderCloseType" column="order_close_type"/>
+        <result property="totalMoney" column="TotalMoney"/>
+        <result property="totalPay" column="TotalPay"/>
+        <result property="storeId" column="StoreId"/>
+        <result property="platformTotalPreferential" column="platform_total_preferential"/>
+        <result property="supplierTotalPreferential" column="supplier_total_preferential"/>
+        <result property="supplierPreferential" column="supplier_preferential"/>
+        <result property="supplierChangePrice" column="supplier_change_price"/>
+        <result property="originalPrice" column="original_price"/>
+        <result property="totalValidPay" column="total_valid_pay"/>
+        <result property="sendCoupon" column="send_coupon"/>
+        <result property="classify" column="classify"/>
+        <result property="totalExpressMoney" column="TotalExpressMoney"/>
+        <result property="expressInfo" column="ExpressInfo"/>
+        <result property="coinUsed" column="CoinUsed"/>
+        <result property="remark" column="Remark"/>
+        <result property="platform" column="Platform"/>
+        <result property="platformVersion" column="PlatformVersion"/>
+        <result property="ip" column="Ip"/>
+        <result property="paymentNo" column="PaymentNo"/>
+        <result property="paymentType" column="PaymentType"/>
+        <result property="parentId" column="ParentId"/>
+        <result property="mergedId" column="MergedId"/>
+        <result property="lOWarehouseId" column="LOWarehouseId"/>
+        <result property="status" column="Status"/>
+        <result property="createTime" column="CreateTime"/>
+        <result property="updateTime" column="UpdateTime"/>
+        <result property="totalMarketPrice" column="TotalMarketPrice"/>
+
+
+        <result property="cancelReason" column="CancelReason"/>
+        <result property="pushTime" column="PushTime"/>
+        <result property="expiredTime" column="ExpiredTime"/>
+        <result property="payTime" column="PayTime"/>
+        <result property="sendTime" column="SendTime"/>
+        <result property="commissionPercent" column="CommissionPercent"/>
+
+
+        <result property="totalBuyCount" column="TotalBuyCount"/>
+        <result property="supplierId" column="supplierId"/>
+        <result property="groundUserId" column="groundUserId"/>
+        <result property="confirmSignedDate" column="confirmSignedDate"/>
+        <result property="confirmSignedTime" column="confirmSignedTime"/>
+        <result property="refundUnderway" column="refund_underway"/>
+
+
+        <result property="autoTakeGeliveryPauseTimeLength" column="auto_take_delivery_pause_time_length"/>
+        <result property="refundStartTime" column="refund_start_time"/>
+        <result property="totalRefundCost" column="total_refund_cost"/>
+        <result property="expressName" column="express_name"/>
+        <result property="expressPhone" column="express_phone"/>
+        <result property="expressAddress" column="express_address"/>
+
+        <result property="orderSupplierRemark" column="order_supplier_remark"/>
+        <result property="orderCloseTime" column="order_close_time"/>
+        <result property="hangUp" column="hangUp"/>
+        <result property="lockingOrder" column="locking_order"/>
+        <result property="restrictionActivityProductId" column="restriction_activity_product_id"/>
+        <result property="expressAddress" column="express_address"/>
+    </resultMap>
+
+    <!--根据商家id查询总订单数-->
+    <select id="selectCount" parameterType="Long" resultType="Integer">
+      select count(1) from `store_order` where `supplierId`=#{supplierId} and `Status`=0 and `ParentId`>0
+    </select>
+
+    <!--根据商家id和日期时间查询今日订单数-->
+    <select id="todayCount" parameterType="com.e_commerce.miscroservice.commons.entity.application.order.TodayCount" resultType="Integer">
+        select count(1) from `store_order` where `supplierId`=#{supplierId} and `Status`=0 and `ParentId`>0 and `CreateTime`>=#{todayZeroTimeInMillis}
+    </select>
+
+    <!--根据商家id查询待处理的订单数-->
+    <select id="unDealWithCount" parameterType="Long" resultType="Integer" >
+        select count(1) from `store_order` where `supplierId`=#{supplierId} and `Status`=0 and `OrderStatus`=10 and `ParentId`>0
+    </select>
+
+    <!--根据商家id查询售后中的订单数-->
+    <select id="unDealRefundOrderCount" parameterType="Long"  resultType="Integer">
+        select count(1) from `store_order` where `supplierId`=#{supplierId} and `Status`=0 and `refund_underway`=1 and `ParentId`>0
+    </select>
+
+    <!--根据订单号查询商品的信息-->
+    <select id="selectInfo" parameterType="Long"  resultMap="select">
+        select * from `store_order` where `OrderNo`=#{OrderNo}
+    </select>
+
+    <!--根据y用户id查询商家号码-->
+    <select id="selectById" parameterType="Long" resultType="String">
+        select `PhoneNumber` from `yjj_StoreBusiness` where `Id`=#{Id}
+    </select>
+
+    <!--根据用户id查询商家店铺信息-->
+
+    <select id="selectBusinessNameById" parameterType="Long" resultType="String">
+        select `BusinessName` from `yjj_StoreBusiness` where `Id`=#{Id}
+    </select>
+
+    <!--根据phoneNumber,storeId,supplierId查询信息-->
+    <select id="getCustomerByStoreIdOrPhoneNumber" resultType="com.e_commerce.miscroservice.commons.entity.application.order.SupplierCustomer">
+        SELECT
+        id              AS id,
+        businessName,
+        customer_name   AS customerName,
+        supplier_id     AS supplierId,
+        store_id        AS storeId,
+        remark_name     AS remarkName,
+        phone_number    AS phoneNumber,
+        group_id        AS groupId,
+        province,
+        city,
+        businessAddress,
+        customer_type   AS customerType,
+        `status`,
+        create_time     AS createTime,
+        update_time     AS updateTime
+        FROM supplier_customer
+        WHERE
+        supplier_id = #{supplierId}
+        AND STATUS = 0
+        AND (store_id = #{storeId}
+        <if test="phoneNumber == ''">
+            OR phone_number = #{phoneNumber}
+        </if>
+        AND 1=1)
+    </select>
+
+    <!--查询是否有售后-->
+    <select id="getHaveRefund" parameterType="Long"  resultType="Integer">
+        select `OrderType`  from `store_order` where `OrderNo`=#{orderNo}
+    </select>
+
+
+    <!--根据订单编号查询物流信息-->
+    <select id="selectOne" parameterType="Long"  resultType="com.e_commerce.miscroservice.commons.entity.application.order.StoreExpressInfo">
+        select
+        Id  as id,
+        OrderNo as orderNo,
+        ExpressSupplier as expressSupplier,
+        ExpressOrderNo as expressOrderNo,
+        ExpressUpdateTime as expressUpdateTime,
+        CreateTime as createTime,
+        UpdateTime as updateTime,
+        Status as status,
+        ExpressInfo as expressInfo
+          from `store_ExpressInfo` where `OrderNo`=#{orderNo} and `Status`=0
+    </select>
+
+    <!--根据快递名称查询快递商家信息-->
+    <select id="selectList" parameterType="String"  resultType="com.e_commerce.miscroservice.commons.entity.application.order.ExpressSupplier">
+        select
+        Id as id,
+        CnName as cnName,
+        EngName as engName,
+        QueryLink as queryLink,
+        Status as status,
+        CreateTime as createTime,
+        UpdateTime as updateTime
+         from `yjj_ExpressSupplier` where `EngName`=#{EngName}
+    </select>
+
+    <!--根据订单编号查询商品详情信息-->
+
+    <select id="selectItemList" parameterType="Long"  resultType="com.e_commerce.miscroservice.commons.entity.application.order.StoreOrderItem">
+        select
+        Id as id,
+        orderNo as orderNo,
+        storeId as storeId,
+        productId as productId,
+        skuId as skuId,
+        totalMoney as totalMoney,
+        totalExpressMoney as totalExpressMoney,
+        money as money,
+        expressMoney as expressMoney,
+        totalUnavalCoinUsed as totalUnavalCoinUsed,
+        unavalCoinUsed as unavalCoinUsed,
+        buyCount as buyCount,
+        skuSnapshot as skuSnapshot,
+        status as status,
+        createTime as createTime,
+        updateTime as updateTime,
+        brandId as brandId,
+        lOWarehouseId as lOWarehouseId,
+        totalPay as totalPay,
+        totalMarketPrice as totalMarketPrice,
+        marketPrice as marketPrice,
+        totalAvailableCommission as totalAvailableCommission,
+        `position` as position,
+        supplierId as supplierId,
+        member_package_type as memberPackageType
+        from `store_orderitem` where `OrderNo`=#{orderNo} and `Status`=0
+    </select>
+
+
+    <!--from  `store_order` s,`store_orderitem` o  where s.`OrderNo`=o.`OrderNo` and o.`OrderNo`=#{orderNo} and s.`ParentId` &lt;=  s.`OrderNo`-->
+
+    <!--selectProdectById根据商品id查询商品信息-->
+    <select id="selectProdectById" parameterType="Long"  resultType="com.e_commerce.miscroservice.commons.entity.application.order.Product">
+        select
+        DetailImages as detailImages,
+        `Name` as name,
+        ClothesNumber as clothesNumber
+         from `yjj_product` where `Id`=#{id}
+    </select>
+
+
+    <!--获取邮递公司名称列表-->
+
+    <select id="getAllExpressCompanyNames" resultType="com.e_commerce.miscroservice.commons.entity.application.order.ExpressSupplier">
+        select
+        Id as id,
+        CnName as cnName,
+        EngName as engName,
+        QueryLink as queryLink,
+        Status as status,
+        CreateTime as createTime,
+        UpdateTime as updateTime
+        from `yjj_ExpressSupplier` where `Status`=0
+    </select>
+
+    <!--根据订单详情获取售后信息-->
+
+    <select id="getRefundItemList" parameterType="Long" resultType="com.e_commerce.miscroservice.commons.entity.application.order.RefundOrder">
+       select
+        Id as id,
+        refund_order_no as refundOrderNo,
+        order_no as orderNo,
+        store_phone as storePhone,
+        store_name as storeName,
+        store_id as storeId,
+        supplier_id as supplierId,
+        brand_id as brandId,
+        brand_name as brandName,
+        refund_type as refundType,
+        refund_status as refundStatus,
+        refund_cost as refundCost,
+        return_count as returnCount,
+        refund_reason_id as refundReasonId,
+        refund_reason as refundReason,
+        refund_remark as refundRemark,
+        refund_proof_images as refundProofImages,
+        customer_express_no as customerExpressNo,
+        customer_express_company as customerExpressCompany,
+        customer_express_company_name as customerExpressCompanyName,
+        refund_way as refundWay,
+        apply_time as applyTime,
+        customer_return_time as customerReturnTime,
+        confirm_time as confirmTime,
+        refund_time as refundTime,
+        store_allow_refund_time as storeAllowRefundTime,
+        store_refuse_refund_time as storeRefuseRefundTime,
+        store_agree_remark as storeAgreeRemark,
+        store_refuse_reason as storeRefuseReason,
+        platform_close_reason as platformCloseReason,
+        handling_suggestion as handlingSuggestion,
+        receiver as receiver,
+        supplier_receive_address as supplierReceiveAddress,
+        receiver_phone as receiverPhone,
+        platform_intervene_state as platformInterveneState,
+
+        platform_intervene_time as platformInterveneTime,
+        platform_intervene_close_time as platformInterveneCloseTime,
+        customer_cancel_time as customerCancelTime,
+        customer_overtime_time_no_delivery as customerOvertimeTimeNoDelivery,
+        express_info as expressInfo,
+        supplier_auto_take_delivery_pause_time as supplierAutoTakeDeliveryPauseTime,
+        supplier_auto_take_delivery_pause_time_length as supplierAutoTakeDeliveryPauseTimeLength
+
+
+        from `refund_order` where `order_no`=#{orderNo}
+    </select>
+
+    <!--根据订单号查询订单信息-->
+
+    <select id="selectByOrderNo" parameterType="Long"  resultMap="select">
+        select * from `store_order` where `OrderNo`=#{orderNo}
+    </select>
+
+
+
+    <!--根据订单号查询订单状态-->
+    <select id="selectOrderStatus" parameterType="Long" resultMap="select" >
+        select * from `store_order` where `OrderNo`=#{OrderNo} and `Status`=0 and `OrderStatus`=10
+    </select>
+
+    <!--根据订单号查询parentId-->
+    <select id="selectParentId" parameterType="Long"  resultMap="select" >
+        select * from `store_order` where `OrderNo`=#{orderNo} and `ParentId`=-1  and `Status`=0
+    </select>
+
+    <!--根据parentId查询订单信息-->
+    <select id="selectByParentID" parameterType="Long"  resultMap="select">
+         select * from `store_order` where `OrderNo`=#{OrderNo} and `Status`=0
+    </select>
+    <!--插入物流日志-->
+    <insert id="insert" parameterType="com.e_commerce.miscroservice.commons.entity.application.order.StoreExpressInfo">
+        insert into `store_ExpressInfo` values(#{id},#{orderNo},#{expressSupplier},#{expressOrderNo},#{expressUpdateTime},#{createTime},#{updateTime},#{status},#{expressInfo})
+    </insert>
+
+    <!--更新订单-->
+    <update id="updateById" parameterType="com.e_commerce.miscroservice.commons.entity.application.order.StoreOrder">
+        update  `store_order` set `OrderStatus`=#{orderStatus},`Remark`=#{remark},`UpdateTime`=#{updateTime},`SendTime`=#{sendTime} where `OrderNo`=#{orderNo}
+    </update>
+
+
+
+    <!--插入日志-->
+
+    <insert id="insertLog" parameterType="com.e_commerce.miscroservice.commons.entity.application.order.StoreOrderLog" >
+        insert into `store_OrderLog` values(#{id},#{storeId},#{orderNo},#{oldStatus},#{newStatus},#{createTime},#{updateTime})
+    </insert>
+
+
+    <!--根据skuid查询订单详情-->
+    <select id="selectBySkuId" resultType="com.e_commerce.miscroservice.commons.entity.application.order.StoreOrderItem">
+        select
+        Id as id,
+        orderNo as orderNo,
+        storeId as storeId,
+        productId as productId,
+        skuId as skuId,
+        totalMoney as totalMoney,
+        totalExpressMoney as totalExpressMoney,
+        money as money,
+        expressMoney as expressMoney,
+        totalUnavalCoinUsed as totalUnavalCoinUsed,
+        unavalCoinUsed as unavalCoinUsed,
+        buyCount as buyCount,
+        skuSnapshot as skuSnapshot,
+        status as status,
+        createTime as createTime,
+        updateTime as updateTime,
+        brandId as brandId,
+        lOWarehouseId as lOWarehouseId,
+        totalPay as totalPay,
+        totalMarketPrice as totalMarketPrice,
+        marketPrice as marketPrice,
+        totalAvailableCommission as totalAvailableCommission,
+        `position` as position,
+        supplierId as supplierId,
+        member_package_type as memberPackageType
+         from `store_OrderItem` where `SkuId`=#{skuId} and `OrderNo`=#{orderNo} and `Status`=0
+    </select>
+
+    <!--根据订单号和skuid更新商品-->
+    <update id="updateSotrePay" parameterType="com.e_commerce.miscroservice.commons.entity.application.order.StoreOrderItem">
+        update `store_orderitem` set `TotalMoney`=#{totalMoney},`BuyCount`=#{buyCount},`UpdateTime`=#{updateTime},`TotalPay`=#{totalPay} ,`TotalExpressMoney`=#{totalExpressMoney}  where `OrderNo`=#{orderNo} and  `SkuId`=#{skuId}
+    </update>
+
+
+    <!--更新订单-->
+    <update id="updateParentId" parameterType="com.e_commerce.miscroservice.commons.entity.application.order.StoreOrder">
+        update  `store_order` set `TotalPay`=#{totalPay},`original_price`=#{originalPrice},`OrderStatus`=#{orderStatus},`ParentId`=#{parentId},`TotalMoney`=#{totalMoney},`UpdateTime`=#{updateTime}, `TotalBuyCount`=#{totalBuyCount},`TotalExpressMoney`=#{totalExpressMoney}  where `OrderNo`=#{orderNo}
+    </update>
+
+    <!--更新订单-->
+    <update id="updateStore" parameterType="com.e_commerce.miscroservice.commons.entity.application.order.StoreOrder">
+        update  `store_order` set  `original_price`=#{originalPrice}  where  `OrderNo`=#{orderNo}
+    </update>
+
+
+    <!--更新母订单发货状态-->
+    <update id="updateParentIdStatus" parameterType="Long">
+        update  `store_order` set `OrderStatus`= 115  where `OrderNo`=#{parendId}
+    </update>
+
+    <!--更新母订单发货状态-->
+    <update id="updateStatus" parameterType="Long">
+        update  `store_order` set `OrderStatus`= 50  where `OrderNo`=#{parendId}
+    </update>
+
+
+    <!--根据订单查询售后订单-->
+    <select id="selectRefundOrder" parameterType="Long" resultType="com.e_commerce.miscroservice.commons.entity.application.order.RefundOrder">
+        select
+        id as id,
+        refund_order_no as refundOrderNo,
+        store_id as  storeId,
+        store_phone as storePhone,
+        store_name as storeName,
+        supplier_id as supplierId,
+        order_no as orderNo,
+        brand_id as brandId,
+        brand_name as brandName,
+        refund_type as refundType,
+        refund_status as refundStatus,
+        refund_cost as refundCost,
+        return_count as returnCount,
+        refund_reason_id as refundReasonId,
+        refund_reason as refundReason,
+        refund_remark as refundRemark,
+        refund_proof_images as refundProofImages,
+        refund_way as refundWay,
+        refund_time as refundTime,
+        apply_time as applyTime,
+        customer_return_time as customerReturnTime,
+        confirm_time as confirmTime,
+        platform_intervene_time as platformInterveneTime,
+        platform_intervene_close_time as platformInterveneCloseTime,
+        customer_express_no as customerExpressNo,
+        customer_express_company as customerExpressCompany,
+        store_allow_refund_time as  storeAllowRefundTime,
+        store_refuse_refund_time as storeRefuseRefundTime,
+        store_refuse_reason as storeRefuseReason,
+        handling_suggestion as handlingSuggestion,
+        store_agree_remark as storeAgreeRemark,
+        platform_close_reason as platformCloseReason,
+        platform_intervene_state as platformInterveneState,
+        receiver as receiver,
+        supplier_receive_address as supplierReceiveAddress,
+        receiver_phone as receiverPhone,
+        supplier_auto_take_delivery_pause_time as supplierAutoTakeDeliveryPauseTime,
+        supplier_auto_take_delivery_pause_time_length as supplierAutoTakeDeliveryPauseTimeLength,
+        customer_cancel_time as customerCancelTime,
+        customer_overtime_time_no_delivery as customerOvertimeTimeNoDelivery,
+        express_info as expressInfo,
+        customer_express_company_name as customerExpressCompanyName
+        from `store_refund_order` where `order_no`=#{orderNo}
+    </select>
+    <!--生成新的订单并返回订单号-->
+    <insert id="insertNewOrderNo" parameterType="com.e_commerce.miscroservice.commons.entity.application.order.StoreOrder">
+
+        <selectKey  keyProperty="orderNo" resultType="java.lang.Long" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+
+        insert into `store_order` values(
+        #{orderNo},
+        #{orderNoAttachmentStr},
+        #{storeId},
+        #{orderType},
+        #{orderStatus},
+        #{totalMoney},
+        #{totalPay},
+        #{platformTotalPreferential},
+        #{supplierTotalPreferential},
+        #{supplierPreferential},
+        #{supplierChangePrice},
+        #{originalPrice},
+        #{totalExpressMoney},
+        #{expressInfo},
+        #{coinUsed},
+        #{remark},
+        #{platform},
+        #{platformVersion},
+        #{ip},
+        #{paymentNo},
+        #{paymentType},
+        #{parentId},
+        #{mergedId},
+        #{lOWarehouseId},
+        #{status},
+        #{createTime},
+        #{updateTime},
+        #{totalMarketPrice},
+        #{cancelReason},
+        #{pushTime},
+        #{expiredTime},
+        #{payTime},
+        #{sendTime},
+        #{commission},
+        #{availableCommission},
+        #{commissionPercent},
+        #{brandOrder},
+        #{totalBuyCount},
+        #{hasWithdrawed},
+        #{supplierId},
+        #{groundUserId},
+        #{superIds},
+        #{confirmSignedDate},
+        #{confirmSignedTime},
+        #{orderCloseType},
+        #{totalRefundCost},
+        #{totalValidPay},
+        #{refundUnderway},
+        #{refundStartTime},
+        #{expressName},
+        #{expressPhone},
+        #{expressAddress},
+        #{autoTakeGeliveryPauseTimeLength},
+        #{orderSupplierRemark},
+        #{orderCloseTime},
+        #{hangUp},
+        #{lockingOrder},
+        #{restrictionActivityProductId},
+        #{classify},
+        #{sendCoupon}
+        )
+
+    </insert>
+
+
+    <!--根据订单号对商品详情表进行插入-->
+
+    <insert id="insertItem" parameterType="com.e_commerce.miscroservice.commons.entity.application.order.StoreOrderItem">
+        insert into `store_orderitem` values(
+        #{id},
+        #{orderNo},
+        #{storeId},
+        #{productId},
+        #{skuId},
+        #{totalMoney},
+        #{totalExpressMoney},
+        #{money},
+        #{expressMoney},
+        #{totalUnavalCoinUsed},
+        #{unavalCoinUsed},
+        #{buyCount},
+        #{skuSnapshot},
+        #{status},
+        #{createTime},
+        #{updateTime},
+        #{brandId},
+        #{lOWarehouseId},
+        #{totalPay},
+        #{totalMarketPrice},
+        #{marketPrice},
+        #{totalAvailableCommission},
+        #{position},
+        #{supplierId},
+        #{memberPackageType}
+        )
+    </insert>
+
+
+    <!--根据订单号和skuid更新商品-->
+    <update id="updateItem" parameterType="com.e_commerce.miscroservice.commons.entity.application.order.StoreOrderItem">
+        update `store_orderitem` set `OrderNo`=#{orderNo} where `Id`=#{id} and  `SkuId`=#{skuId}
+    </update>
+
+
+    <!--更新新生成的订单-->
+    <update id="updateTotalMoney" parameterType="com.e_commerce.miscroservice.commons.entity.application.order.StoreOrder">
+        update `store_order` set `TotalMoney`=#{totalMoney},`original_price`=#{originalPrice} ,`TotalPay`=#{totalPay} ,`TotalBuyCount`=#{totalBuyCount},`TotalExpressMoney`=#{totalExpressMoney}   where `OrderNo`=#{orderNo}
+    </update>
+
+
+    <update id="updateOrderNoAttachmentStr" parameterType="com.e_commerce.miscroservice.commons.entity.application.order.StoreOrder">
+        update `store_order` set `orderNo_attachment_str`=#{orderNoAttachmentStr} where `OrderNo`=#{orderNo}
+    </update>
+
+    <select id="selectByParentIdNew" resultType="Long">
+            select OrderNo from `store_order` where ParentId=#{orderNo}
+    </select>
+
+    <select id="selectRefundLog" resultType="com.e_commerce.miscroservice.supplier.entity.request.StoreRefundOrderActionLog">
+			select
+			`id`,
+			`refund_order_id` as refundOrderId,
+			`action_time` as actionTime,
+			`action_name` as actionName from `store_refund_order_action_log` where `refund_order_id`=#{orderNo}
+	</select>
+</mapper>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<config>
+	<!-- 工作空间 -->
+	<worksapce></worksapce>
+	<mappingFile>E:\project\generators\generator\src\mybatisganertor\aison\mapping.txt</mappingFile>
+	<!-- 注解的class完整类路径 -->
+	<Annotations>
+	    <baseMapperClass>com.jiuy.base.mapper.BaseMapper</baseMapperClass>
+	    <modelNameClass>com.jiuy.base.annotation.ModelName</modelNameClass>
+	    <fieldNameClass>com.jiuy.base.annotation.FieldName</fieldNameClass>
+	    <primaryKeyClass>com.jiuy.base.annotation.PrimaryKey</primaryKeyClass>
+	</Annotations>
+	<!-- 是否是严格模式  严格模式下如果注释不完整 则会生成失败-->
+	<strict>0</strict>
+	<author>aichengsong</author>
+	<dbconf>
+		<url>jdbc:mysql://rm-uf6w182s6385yl3phgo.mysql.rds.aliyuncs.com:3306/yjjlocal?useUnicode=true</url>
+		<userName>mysql</userName>
+		<pwd>daf24fzirewafarqgwba131</pwd>
+		<classDriver>com.mysql.jdbc.Driver</classDriver>
+	</dbconf>
+
+	<!--<dbconf>-->
+		<!--<url>jdbc:mysql://127.0.0.1:3306/asc?useUnicode=true</url>-->
+		<!--<userName>root</userName>-->
+		<!--<pwd>root</pwd>-->
+		<!--<classDriver>com.mysql.jdbc.Driver</classDriver>-->
+	<!--</dbconf>-->
+
+	<!--<dbconf>-->
+		<!--<url>jdbc:mysql://127.0.0.1:3306/yjjrebuild?useUnicode=true</url>-->
+		<!--<userName>root</userName>-->
+		<!--<pwd>root</pwd>-->
+		<!--<classDriver>com.mysql.jdbc.Driver</classDriver>-->
+	<!--</dbconf>-->
+
+	<mapper>
+		<!-- * 表示所有  -->
+		<table>store_coupontemplate</table>
+		<pojo>
+			<!-- 绝对路径 -->
+			<absolutePath>E:\jiuyuan\project\2018-jiuy\jiuy-product-service\src\main\java\</absolutePath>
+			<!-- 包名 -->
+			<package>com.jiuy.product.model</package>
+			<!-- 类名 -->
+			<name>StoreCouponTemplate</name>
+			<!-- 是否创建查询对象 -->
+			<createQuery>1</createQuery>
+		</pojo>
+		<mapperInterface>
+			<!-- 绝对路径 -->
+			<absolutePath>E:\jiuyuan\project\2018-jiuy\jiuy-product-service-impl\src\main\java\</absolutePath>
+			<!-- 包名 -->
+			<package>com.jiuy.product.mapper</package>
+		</mapperInterface>
+		<mapperXml>
+			<!-- 绝对路径 -->
+			<absolutePath>E:\jiuyuan\project\2018-jiuy\jiuy-product-service-impl\src\main\java\</absolutePath>
+			<!-- 包名 -->
+			<package>com.jiuy.product.xml</package>
+		</mapperXml>
+	</mapper>
+
+
+
+
+</config>

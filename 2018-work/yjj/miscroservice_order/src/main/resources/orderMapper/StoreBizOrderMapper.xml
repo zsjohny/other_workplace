@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.e_commerce.miscroservice.order.mapper.StoreBizOrderMapper">
+
+
+    <select id="findNoPayMemberOrder" resultType="com.e_commerce.miscroservice.order.entity.StoreBizOrder">
+        SELECT ord.* FROM `store_biz_order` ord
+        JOIN store_biz_order_member_detail memberOrd ON memberOrd.order_id = ord.id
+        WHERE ord.buyer_id = #{storeId}
+        AND ord.del_status = 0
+        AND ord.real_price = #{totalFee}
+        AND memberOrd.member_type = #{memberType}
+        AND memberOrd.canal = #{canal}
+        AND ord.type = 2
+        AND ord.create_time > #{lastTime}
+        AND ord.order_status = 1001
+        order by ord.id
+    </select>
+
+
+    <update id="chooseDefault">
+            update `shop_member_delivery_address` set `default_status`=1 where `id`=#{id} and `status`=1
+    </update>
+
+    <update id="updateAdress">
+            update `shop_member_delivery_address` set `default_status`=0 where `shop_member_id`=#{memberId}
+    </update>
+
+    <select id="selectBusiness" resultType="com.e_commerce.miscroservice.order.entity.StoreBusiness">
+            select
+            `BusinessName` as businessName,
+            `BusinessAddress` as businessAddress
+            from `yjj_storebusiness` where `Id`=#{storeId}
+    </select>
+
+    <select id="selectMemberAddress" resultType="com.e_commerce.miscroservice.order.entity.ShopMemberDeliveryAddress">
+            select
+            id,
+            linkman_name as linkmanName,
+            phone_number as phoneNumber,
+            address,
+            default_status as defaultStatus,
+            location
+            from `shop_member_delivery_address` where shop_member_id=#{memberId} and status=1
+    </select>
+
+    <select id="selectAddressById" resultType="com.e_commerce.miscroservice.order.entity.ShopMemberDeliveryAddress">
+            select
+            `id`,
+            `shop_member_id` as shopMemberId,
+            `store_id` as storeId,
+            `linkman_name` as linkmanName,
+            `phone_number` as phoneNumber,
+            `location`,
+            `address`,
+            `status`,
+            `last_used_time` as lastUsedTime,
+            `create_time` as createTime ,
+            `update_time` as updateTime,
+            `default_status` as defaultStatus
+            from `shop_member_delivery_address` where `id`=#{id} and `shop_member_id`=#{memberId}
+    </select>
+
+    <select id="selectAddressId" resultType="Long">
+            select id from `shop_member_delivery_address` where `create_time`=#{time} and `shop_member_id`=#{memberId}
+    </select>
+
+    <select id="selectCount" resultType="Long">
+            SELECT * FROM shop_member_delivery_address ORDER BY `id` DESC LIMIT 1
+    </select>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+

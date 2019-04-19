@@ -4,7 +4,82 @@ memcached:
 	docker run -dit --name memcache -p 11211:11211 memcached
 
 nginx: 
-    docker run -dit -v /opt/nginx:/etc/nginx/conf.d -v /home/fpt:/home/fpt -v /home/download:/home/download  -v /home/kyt:/home/kyt -v /opt/cert:/opt/cert  -p 80:80 -p 443:443 --name nginx nginx
+   docker run -dit -v /opt/nginx:/etc/nginx/conf.d  -v /opt/cert:/opt/cert  -p 80:80 -p 443:443 --name nginx nginx
+
+  nginx.conf
+
+          server 
+              {
+
+              listen       80;
+              server_name  online.yujiejie.com;
+                  
+               
+              location /crm
+                {
+                  index index.html;
+                  root /home/fpt/;
+                }
+                
+
+              location /4336847291.txt 
+                {
+                   default_type    text/plain;
+                   return 200 "0c4e10e8bc0053c3e4d25a8121dd92ae";
+                }  
+
+              #临时新老系统兼容方案 
+              location /
+                {
+              
+                proxy_pass http://online.yujiejie.com:8081/jwxapi/;  
+                proxy_redirect   off;
+                proxy_set_header  Host $host;
+                proxy_set_header  X-real-ip $remote_addr;
+                proxy_set_header  X-Forwarded-For $proxy_add_x_forwarded_for;
+                }
+                
+              
+
+               
+                  
+              }
+             
+
+             
+             
+             
+             
+             
+          server 
+
+             {
+              
+              listen       443 ssl;  
+              server_name  online.yujiejie.com; 
+              ssl_certificate      /opt/cert/full_chain.pem;
+              ssl_certificate_key  /opt/cert/private.key;  
+
+              location ~* \.(html|js|css|css?.*|png|jpg)$ 
+                  {
+                   root /home/fpt;    
+                  }   
+             
+
+              location / 
+                {  
+                  proxy_pass http://online.yujiejie.com:8081;  
+                  proxy_redirect   off;
+                  proxy_set_header  Host $host;
+                  proxy_set_header  X-real-ip $remote_addr;
+                  proxy_set_header  X-Forwarded-For $proxy_add_x_forwarded_for;
+                }  
+
+            }  
+               
+            
+
+   
 jira: 
 	docker run -dit --name jira -p 9000:8080  cptactionhank/atlassian-jira
 
@@ -72,9 +147,34 @@ es:
 logstash:
   docker pull  logstash
    #里面包括了 logstash.conf 和mysql.jar
-  docker run -dit --name logstash  -v /opt/logstash/pipeline/:/usr/share/logstash/pipeline/ logstash -f /usr/share/logstash/pipeline/logstash.conf
-  
-  
+  docker run -dit --name logstash  -v /home/yxs/:/home/yxs/ -v /opt/logstash/pipeline/:/usr/share/logstash/pipeline/ logstash -f /usr/share/logstash/pipeline/logstash.conf
+  另外的只是输出:
+       logstash.conf
+               input {
+                tcp {
+                host => "0.0.0.0"
+                port => 9111
+                mode => "server"
+                tags => ["tags"]
+                codec => json_lines
+                }
+            }
+            output {
+                stdout { codec => rubydebug }
+                #输出到一个文件中
+                file {
+                   path => "/home/yxs/log"
+                   codec => line 
+                }
+            }
+
+      docker pull  logstash
+       #里面包括了 logstash.conf 和mysql.jar
+      docker run -dit --name logstash  -p 9111:9111 -v /home/yxs/:/home/yxs/  -v /opt/logstash/pipeline/:/usr/share/logstash/pipeline/ logstash:6.5.4 -f /usr/share/logstash/pipeline/logstash.conf
+      docker exec -it logstash /bin/bash
+      echo >~/config/logstash.yml
+      ctrl +p q
+      docker restart logstash
 java:
 	java -Dlog.path=/opt/log -jar miscroservice_supplier-1.1.1.jar  --server.context-path=/test
  

@@ -1,0 +1,10 @@
+stages:
+   - build
+
+job:
+  stage: build
+  only:
+   - master  
+  script:
+    - sh /opt/auto_developer_application.sh
+  

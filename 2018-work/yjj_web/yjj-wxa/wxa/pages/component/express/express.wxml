@@ -1,0 +1,24 @@
+
+<view class='product-info' bindtap='backOrderDetail'>
+  <image class='img' src='{{orderData.image}}'></image>
+  <view clsss="info">
+    <view class='item order-state'>订单状态：卖家已发货</view>
+    <view class='item order-state'>承运来源：{{expressData.commpany}}</view>
+    <view class='item order-state'>运单号码：{{expressData.orderNo}}</view>
+    <view class='item order-state'>商品件数：{{orderData.count}}</view>
+    <view class='arrow'></view>
+  </view>
+</view>
+<view class='express-list'>
+  <view class='item'>
+    <view class='title title1'>处理时间：</view>
+    <view class='time time1'>处理状态：</view>
+  </view>
+  <block wx:for="{{expressData.list}}" wx:key="item">
+    <view class='item'>
+        <view class='title'>{{item.date}}</view>
+        <view class='time'>{{item.context}}</view>
+    </view>
+  </block>
+</view>
+

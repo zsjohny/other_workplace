@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.store.dao.mapper.ShopTagNavigationMapper">
+	<!-- 
+	<select id="selectTagNavigationMap" resultType="map">
+		SELECT
+		COUNT(shop_tag_product.shop_product_id) AS productCount,
+		shop_tag_navigation.id,
+		shop_tag_navigation.tag_id AS tagId,
+		shop_tag_navigation.navigation_name AS navigationName,
+		shop_tag_navigation.navigation_image AS navigationImage
+		FROM
+		shop_tag_navigation 
+		left join
+		shop_tag_product
+		on
+		shop_tag_product.tag_id = shop_tag_navigation.tag_id
+		AND shop_tag_navigation.store_id = #{storeId}
+		GROUP BY
+		shop_tag_navigation.id
+		ORDER BY
+		shop_tag_navigation.weight
+	</select> -->
+
+
+    <select id="findShopNavigationListById" resultType="com.jiuyuan.entity.newentity.ShopTagNavigation">
+        select
+          id,tag_id tagId,navigation_name navigationName,navigation_image navigationImage
+        from shop_tag_navigation
+        where store_id = #{storeId} and status=0 order by weight asc
+    </select>
+</mapper>

@@ -1,0 +1,67 @@
+
+<view class="container body-contain">
+  <view class='search-box'>
+    <input type="text" bindinput="searchSeekInput" placeholder="请在这里搜索你要找的问题" class='search-input {{inputShow == true ? "search-focusInput" : ""}}' value="{{keyword}}" bindblur="searchBlur" bindfocus='searchFocus' bindconfirm="searchFunc" maxlength='20' />
+    <!-- <view class='clear-btnT'>
+      <view class='clear-btn' bindtap='clearKeyword' wx:if="{{clearShow}}"></view>
+    </view> -->
+    <view class='cancel-btn' bindtap='cancel' wx:if="{{inputShow}}">取消</view>
+    <!--<view class='cancel-btn' bindtap='searchAll' wx:else>搜索</view>-->
+  </view>
+  <view class="content" wx:if="{{!inputShow}}">
+    <view class="scroll-main">
+      <view class='hotQuestion'>
+        <view class='title'><view class='line'></view>热门问题</view>
+        <view class='questionWrap' wx:for='{{hotQuestions}}' wx:key='item.id' data-select='{{item.id}}' bindtap='goDetail'>
+          <text>{{item.question}}</text>
+          <text class="img"></text>
+        </view>
+      </view>
+    </view>
+    <view class='scroll-main'>
+      <view class='questionType'>
+        <view class='title'><view class='line'></view>问题分类</view>
+        <scroll-view scroll-x='true' class="scroll" scroll-left="{{scrollLeft}}" bindtouchstart="touchstart" bindtouchend="touchend">
+          <view class="order-tab">
+            <block wx:for="{{typeList}}" wx:key="{{item.id}}">
+              <view class="item {{ tabState == (index+1) ? 'active' : '' }}" bindtap="tabFun" data-index='{{index}}' data-tab="{{item.id}}">{{item.typeValue}}</view>
+            </block>
+          </view>
+        </scroll-view>
+      </view>
+      <block wx:if="{{typeQuestions.length > 0}}">
+        <view class='questionTypeWrap' wx:for='{{typeQuestions}}' wx:key='item.id' data-select='{{item.id}}' bindtap='goDetail'>
+          <text>{{item.question}}</text>
+          <text class="img"></text>
+        </view>
+      </block>
+      <view  wx:if="{{typeQuestions.length == 0}}" class='no-question'>
+        <text>暂无相关问题</text>
+      </view>
+    </view>
+  </view>
+  <view wx:if="{{inputShow}}" class='search'>
+    <view class='searchWrap' wx:if="{{!getSearchData}}">
+        <view class='search-late'>
+          <text>历史搜索</text>
+          <image bindtap='clearSearchList' class='img' src='https://yjj-img-main.oss-cn-hangzhou.aliyuncs.com/qa/icon-delete.png'></image>
+        </view>
+        <view class='search-new'>
+          <block wx:for="{{ keywordList }}" wx:for-index="index" wx:for-item="item" wx:key="" class=''>
+            <view bindtap='keywordBtn' data-id='{{item.index}}' class='keywordItem' data-value='{{item}}'>{{item}}</view>
+          </block>
+        </view>
+    </view>
+    <view wx:if='{{getSearchData}}' class='search-new'>
+      <block wx:for="{{ searchList }}" wx:for-index="index" wx:for-item="item" wx:key="" class=''>
+            <view bindtap='goDetail' data-id='{{item.id}}' class='keywordItem' data-value='{{item}}' data-select='{{item.id}}' bindtap='goDetail'>{{item.question}}</view>
+      </block>
+    </view>
+  </view>
+  <view class="more-load2">
+    <view wx:if="{{ loadingMore }}" class="go-loading more-loading">
+      <view class="loading-mod"></view>
+      <text class="tx">正在载入中…</text> 
+    </view>
+  </view>
+</view>

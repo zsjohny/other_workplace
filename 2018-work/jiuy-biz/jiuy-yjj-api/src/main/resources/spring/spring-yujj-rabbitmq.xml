@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:int="http://www.springframework.org/schema/integration"
+	xmlns:int-amqp="http://www.springframework.org/schema/integration/amqp"
+	xmlns:rabbit="http://www.springframework.org/schema/rabbit"
+	xmlns:int-stream="http://www.springframework.org/schema/integration/stream"
+	xsi:schemaLocation="http://www.springframework.org/schema/integration/amqp http://www.springframework.org/schema/integration/amqp/spring-integration-amqp.xsd
+		http://www.springframework.org/schema/rabbit http://www.springframework.org/schema/rabbit/spring-rabbit-1.5.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	<bean id="amqpTemplate" class="org.springframework.amqp.core.AmqpTemplate"></bean>
+	<rabbit:connection-factory id="connectionFactory" host="${rabbitmq.virtualhost}" username="${rabbitmq.user}" password="${rabbitmq.password}" port="${rabbitmq.port}" />
+	<rabbit:template id="amqpTemplate" connection-factory="connectionFactory"
+    exchange="${rabbitmq.exchange}" routing-key="com.yujj"/>
+	 
+	<rabbit:admin connection-factory="connectionFactory" />
+
+	<rabbit:queue name="${rabbitmq.queue}" />
+	<!-- 路由设置 将队列绑定，属于topic类型 -->
+	<rabbit:topic-exchange name="${rabbitmq.exchange}">
+    	<rabbit:bindings>
+        	<rabbit:binding queue="${rabbitmq.queue}" pattern="com.yujj" />
+    	</rabbit:bindings>
+	</rabbit:topic-exchange>
+	<!-- 监听类设置 -->
+
+	<rabbit:listener-container connection-factory="connectionFactory">
+    	<rabbit:listener ref="executor" method="execute" queue-names="${rabbitmq.queue}" />
+	</rabbit:listener-container>
+	<bean id="executor" class="com.yujj.util.asyn.AsynchronizationExecutor" />
+</beans>

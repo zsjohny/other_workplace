@@ -1,0 +1,36 @@
+<!--退款售后列表-->
+<view class='body-contain'>
+  <view class='refund-list'>
+    <block wx:if="{{ listData.length > 0 }}">
+      <view class='item' wx:for="{{ listData }}" wx:key="{{item}}">
+        <view class='product-item'>
+          <image class="img" mode='aspectFit' src="{{ item.photo }}"></image>
+          <view class='info'>
+            <view class='name'>{{item.name}}</view>
+            <view class='sku'>
+              <view class='type type1' wx:if="{{ item.color }}">颜色：<text class="color-red">{{item.color}}</text></view>
+              <view class='type' wx:if="{{ item.size }}">尺寸：<text class="color-red">{{item.size}}</text></view>
+              <view class='type type3'>数量：<text class="ft-red">{{item.count}}</text></view>
+            </view>
+          </view>
+        </view><!-- product-item end-->
+        <view class='operator-box'>
+          <view class='com-min-btn btn' bindtap='applyFunc' data-skuid='{{item.skuId}}' wx:if="{{item.refundStatus == 4}}">申请售后</view>
+        </view>
+      </view><!-- item end-->
+    </block>
+    <!-- 无数据时 -->
+    <view wx:else class='no-record-box'>
+      <view class='icon'></view>
+      <view class='text'>这里还是空空哒~</view>
+    </view>
+  </view>
+  <!--上拉加载更多、底部加载loadding-->
+  <view class="more-load2">
+    <view wx:if="{{ hasMore }}" class="go-loading more-loading">
+      <view class="loading-mod"></view>
+      <text class="tx">正在载入中…</text> 
+    </view>
+    <view wx:if="{{ moreOver }}" class="tips2"><text>T^T 我是有底线的</text></view>
+  </view>
+</view>

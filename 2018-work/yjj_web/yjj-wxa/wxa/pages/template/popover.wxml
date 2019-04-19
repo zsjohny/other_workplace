@@ -1,0 +1,27 @@
+<!--文字提示说明通用弹窗 -->
+<template name="popoverXbox">
+  <view class='popover-xbox' wx:if="{{isShow}}">
+    <view class='bg' catchtap='{{cancelEvent}}'></view>
+    <view class='box'>
+      <view class='box-main'>
+        <view class="icon"></view>
+        <view class="close-icon" catchtap='{{cancelEvent}}'></view>
+        <view class="content">
+          <view class='dt'>{{title}}</view>
+          <block wx:for="{{content}}" wx:key="{{item}}">
+            <view class='dd'>{{item}}</view>
+          </block>
+        </view>
+        <!-- 两个按钮 -->
+        <view class='btn-box' wx:if="{{ btnType == '1' }}">
+          <view class='cancel-btn' catchtap='{{cancelEvent}}'>{{cancelBtnText}}</view>
+          <view class='comfirm-btn' catchtap='{{confirmEvent}}'>{{confirmBtnText}}</view>
+        </view>
+        <!-- 一个按钮 -->
+        <view class='btn-box' wx:if="{{ btnType == '2' }}">
+          <view class='comfirm-btn' catchtap='{{cancelEvent}}'>{{oneBtnText}}</view>
+        </view>
+      </view>
+    </view>
+  </view>
+</template>  

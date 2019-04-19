@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.e_commerce.miscroservice.product.mapper.ShopGoodsCarMapper">
+
+
+    <select id="shopGoodsCarList" parameterType="Map" resultType="Map">
+
+        select
+        BusinessName,
+        CompanyName,
+        sku.id AS skuId,
+        store.id AS storeId,
+        car.sku_number,
+        car.id AS carId,
+        car.car_suk_status,
+        car.live_product_id AS liveProductId,
+        sku.`Name`,
+        sku.Weight,
+        sku.ClothesNumber,
+        sku.colorName,
+        sku.sizeName,
+        product. NAME productName,
+        IFNULL(product.SummaryImages, '[]') AS summaryImages,
+        IFNULL(product.DetailImages, '[]') AS mainImg,
+        product.brandName,
+        product.brandLogo,
+        shopProduct.sold_out,
+        shopProduct.id AS productId,
+        car.selected selected,
+        shopProduct.price shopPrice
+        FROM
+        shop_goods_car AS car
+        LEFT JOIN yjj_ProductSKU AS sku ON sku.id = car.product_sku_id
+        LEFT JOIN yjj_StoreBusiness AS store ON store.id = car.store_id
+        LEFT JOIN yjj_Product AS product ON product.id = car.product_id
+        LEFT JOIN shop_product AS shopProduct ON shopProduct.id = car.shop_product_id
+        WHERE
+        shopProduct.own in (0,2) and car.member_id = #{memberId}
+        and car.car_suk_status in
+        <foreach collection="statusList" item="status" separator="," open="(" close=")">
+            #{status}
+        </foreach>
+        UNION
+        SELECT
+        BusinessName,
+        CompanyName,
+        car.product_sku_id AS skuId,
+        store.id AS storeId,
+        car.sku_number,
+        car.live_product_id AS liveProductId,
+        car.id AS carId,
+        car.car_suk_status,
+        shopProduct.`name` as `Name`,
+        sku.Weight,
+        sku.ClothesNumber,
+        sku.colorName,
+        sku.sizeName,
+        shopProduct.`name` as  productName,
+        IFNULL(shopProduct.summary_images, '[]') as SummaryImages,
+        IFNULL(shopProduct.summary_images, '[]') as mainImg,
+        '' as brandName,
+        '' as brandLogo,
+        shopProduct.sold_out,
+        shopProduct.id AS productId,
+        car.selected selected,
+        shopProduct.price shopPrice
+        FROM
+        shop_goods_car AS car
+        LEFT JOIN yjj_ProductSKU AS sku ON sku.id = car.product_sku_id
+        LEFT JOIN yjj_StoreBusiness AS store ON store.id = car.store_id
+        LEFT JOIN shop_product AS shopProduct ON shopProduct.id = car.shop_product_id
+        WHERE
+        shopProduct.own in (1) and car.member_id = #{memberId}
+        and car.car_suk_status in
+        <foreach collection="statusList" item="status" separator="," open="(" close=")">
+            #{status}
+        </foreach>
+    </select>
+
+
+
+</mapper>

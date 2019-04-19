@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jiuy.core.dao.mapper.BrandOrderLogDaoSqlImpl">
+	
+	<insert id="add" useGeneratedKeys="true" keyProperty="orderNo" parameterType="BrandOrderLog">
+		insert brand_OrderLog(BrandBusinessId, OrderNo, OldStatus, NewStatus, CreateTime, UpdateTime)
+		values(#{brandBusinessId}, #{orderNo}, #{oldStatus}, #{newStatus}, #{createTime}, #{updateTime})
+	</insert>
+	
+</mapper>

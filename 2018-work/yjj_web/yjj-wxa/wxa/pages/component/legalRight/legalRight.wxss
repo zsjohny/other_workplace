@@ -1,0 +1,123 @@
+/*权益 */
+page{
+  background: #f6f6f6;
+  font-size: 28rpx;
+}
+.title-margin{
+  margin-top: 30rpx;
+}
+.rights-box .rights-title{
+  height: 86rpx;
+  line-height: 86rpx;
+  margin-left: 24rpx;
+}
+.rights-box .rights-title text{
+  color: #fd4374;
+}
+.ui-box{
+  width: 702rpx;
+  height: auto;
+  overflow: hidden;
+  background: #fff;
+  padding: 0 24rpx 24rpx;
+  margin: 0 auto;
+  box-sizing: border-box;
+  border-radius: 8rpx;
+}
+.ui-box .title{
+  line-height: 86rpx;
+  position: relative;
+  padding-left: 30rpx;
+}
+.ui-box .title::after{
+  content: '';
+  width: 10rpx;
+  height: 38rpx;
+  position: absolute;
+  left: 0;
+  top: 24rpx;
+  background: #fd4374;
+  border-radius: 8rpx;
+}
+.ui-box .title .icon{
+  background:url(http://mini-img-main.oss-cn-hangzhou.aliyuncs.com/icon/new/question-icon.png);
+  background-size: 44rpx;
+  width: 44rpx;
+  height:44rpx;
+  position: absolute;
+  right: 0;
+  top: 14rpx; 
+}
+.module .progress{
+  width: 654rpx;
+  height: 46rpx;
+  border-radius: 23rpx;
+  background: #f4f4f4;
+  margin: 26rpx auto 40rpx;
+  position: relative;
+  font-size: 24rpx;
+  line-height: 46rpx;
+}
+.module .progress .current{
+  width:120rpx; 
+  height: 46rpx;
+  position: absolute;
+  left: 0;
+  top: 0;
+  background: #fd4374;
+  color: #fff;
+  border-radius: 23rpx;
+  text-align: center
+}
+.module .progress .surplus{
+  color: #6b6b6b;
+  position: absolute;
+  text-align: center;
+}
+.module .complete{
+  background: #fd4374;
+  color: #fff;
+}
+.module .complete .state{
+  position: relative;
+  text-align: center;
+}
+.module .complete .state::after{
+  content: '';
+  position: absolute;
+  left:246rpx;
+  top: 2rpx;
+  width: 44rpx;
+  height: 44rpx;
+  background: url(http://mini-img-main.oss-cn-hangzhou.aliyuncs.com/icon/new/right-icon.png);
+  background-size: 44rpx;
+}
+.apply-btn{
+  width: 613rpx;
+  height: 80rpx;
+  line-height: 80rpx;
+  border-radius: 40rpx;
+  background: rgba(253, 67, 116, 0.1);
+  margin: 50rpx auto 0;
+  color: #fd4374;
+  text-align: center;
+}
+.apply-btn1{
+  border: 2rpx solid #fd4374;
+  background: #fd4374;
+  color: #fff;
+  box-shadow: 0 4rpx 3rpx 3rpx #feccd9;
+}
+.dl{
+  color: #848484;
+  font-size: 24rpx;
+}
+.dl .dt{
+  padding-bottom: 10rpx;
+}
+.dl .dd{
+  padding-bottom: 30rpx;
+}
+.box-padding{
+  padding-bottom: 60rpx;
+}

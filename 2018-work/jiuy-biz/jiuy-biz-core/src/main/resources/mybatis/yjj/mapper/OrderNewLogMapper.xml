@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yujj.dao.mapper.OrderNewLogMapper">
+	
+	<insert id="addOrderLog">
+		<![CDATA[
+			insert into yjj_OrderNewLog
+			(UserId, OrderNo, OldStatus, NewStatus, CreateTime, UpdateTime)
+			values
+			(#{userId}, #{orderNo}, #{oldStatus}, #{newStatus}, #{createTime}, #{updateTime})
+		]]>
+	</insert>
+	<select id="selectOrderLogByOrderNoAndStatus" resultType="OrderNewLog">
+		<![CDATA[
+			select * from yjj_OrderNewLog
+			where OrderNo = #{orderNo} and NewStatus = #{orderStatus} limit 1
+		]]>
+	</select>
+</mapper>

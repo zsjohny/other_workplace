@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jiuy.core.dao.impl.sql.StoreAuditMapper">
+
+	<select id="selectAuditList" parameterType="map" resultType="StoreAudit">
+		SELECT * FROM jiuy_store_audit a 
+		LEFT JOIN yjj_StoreBusiness b 
+		ON a.StoreId=b.Id 
+		where a.status=#{status} AND b.status=0
+		ORDER BY a.UpdateTime DESC 
+		<if test="pageQuery!=null">
+			limit #{pageQuery.limit} offset #{pageQuery.offset}
+		</if>
+	</select>
+	
+	<update id="updateAuditStatus" parameterType="map">
+		UPDATE jiuy_store_audit 
+		SET
+		STATUS = #{status}, 
+		<if test="status==0">
+			CreateTime=#{updateTime}, 
+		</if>
+		<if test="status==1">
+			AuditPerson = #{auditPerson},
+			AuditTime = #{auditTime},
+			AuditId = #{auditId}, 
+		</if>
+		UpdateTime = #{updateTime},
+		refuseReason = #{refuseReason} 
+		WHERE
+		Id = #{id}
+	</update>
+	
+	<select id="selectAuditCount" parameterType="map" resultType="int">
+		SELECT count(1)
+		FROM yjj_StoreBusiness a
+		LEFT JOIN jiuy_store_audit b 
+		ON a.id=b.StoreId
+		<where>
+			 b.Status=#{status} AND a.status=0 
+			<if test="vip!=-1">
+				AND a.vip=#{vip} 
+			</if>
+			<if test="registTimeStart!=-1">
+				AND a.CreateTime>=#{registTimeStart} 
+			</if>
+			<if test="registTimeEnd!=0">
+				<![CDATA[
+					AND a.CreateTime<=#{registTimeEnd} 
+				]]>
+			</if>
+			<if test="phoneNumber!=''">
+				AND a.PhoneNumber LIKE CONCAT("%", #{phoneNumber}, "%") 
+			</if>
+			<if test="userName!=''">
+			 	AND a.LegalPerson LIKE CONCAT("%", #{userName}, "%") 
+			</if>
+			<if test="storeBusinessId!=0">
+				AND a.Id=#{storeBusinessId} 
+			</if>
+			<!-- if test="storeType!=0">
+				AND a.storeType=#{storeType} 
+			</if -->
+			<if test="storeBusinessName!=''">
+			 	AND a.BusinessName LIKE CONCAT("%", #{storeBusinessName}, "%") 
+			</if>
+			<if test="referenceNumber!=''">
+			 	AND a.OrganizationNo LIKE CONCAT("%", #{referenceNumber}, "%") 
+			</if>
+			<if test="storeBusinessAddress!=''">
+				AND (a.Province LIKE CONCAT("%", #{storeBusinessAddress}, "%") 
+				or a.City LIKE CONCAT("%", #{storeBusinessAddress}, "%") 
+				or a.County LIKE CONCAT("%", #{storeBusinessAddress}, "%") 
+				or a.BusinessAddress LIKE CONCAT("%", #{storeBusinessAddress}, "%"))
+			</if>
+			<if test='keyWord!=""'>
+				AND  (a.PhoneNumber LIKE CONCAT("%", #{keyWord}, "%") 
+			 	OR a.BusinessName LIKE CONCAT("%", #{keyWord}, "%") 
+			 	OR a.LegalPerson LIKE CONCAT("%", #{keyWord}, "%") 
+			 	OR a.Province LIKE CONCAT("%", #{keyWord}, "%") 
+			 	OR a.City LIKE CONCAT("%", #{keyWord}, "%") 
+			 	OR a.County LIKE CONCAT("%", #{keyWord}, "%") 
+			 	OR a.BusinessAddress LIKE CONCAT("%", #{keyWord}, "%") 
+			 	OR a.BindWeixinName LIKE CONCAT("%", #{keyWord}, "%") 
+			 	OR a.IdCardNumber LIKE CONCAT("%", #{keyWord}, "%")) 
+			</if>
+		</where>
+	</select>
+	
+	<select id="selectAuditById" parameterType="map" resultType="StoreAudit">
+		SELECT * FROM jiuy_store_audit 
+		WHERE id=#{id}
+	</select>
+	<select id="selectAuditByStoreId" parameterType="map" resultType="StoreAudit">
+		SELECT * FROM jiuy_store_audit 
+		WHERE StoreId=#{storeId} AND STATUS=#{status} 
+		order by updateTime DESC
+	</select>
+</mapper>

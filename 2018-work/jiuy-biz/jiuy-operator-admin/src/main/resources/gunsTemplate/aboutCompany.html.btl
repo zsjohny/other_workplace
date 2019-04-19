@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="robots" content="noindex,nofollow,noarchive ">
+    <meta charset="UTF-8" >
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta http-equiv="cache-control" content="no-cache">
+    <!--页面关键字-->
+    <meta name="keywords" content="${page.operatorSeo.keywords}"/>
+    <!--页面描述-->
+    <meta name="description" content="${page.operatorSeo.descriptor}"/>
+    <title>
+    <%
+    if(page.operatorSeo.title == null && page.page.operatorSeo.title == ''){
+    %>
+         俞姐姐门店宝
+    <%
+    } else{
+    %>
+    ${page.operatorSeo.title}
+    <%
+    }
+    %>
+    -关于公司
+    </title>
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/swiper.min.css">
+    <link rel="stylesheet" href="css/common.css?v1.1">
+    <link rel="stylesheet" href="css/aboutCompany.css">
+</head>
+<body>
+<div class="header-container">
+   <div class="head-nav"></div>
+</div>
+<section class="section">
+    <div class="section-bg">
+        <div class="container section-bg-title">
+            <div class="section-bg-title-border">
+                <span class="section-bg-title-one">首页</span> <i> > </i> <span class="colorPink">关于公司</span>
+            </div>
+
+        </div>
+    </div>
+    <div class="container section-border">
+        <div class=" center section-company ">
+            <h2 class="section-company-title"><img src="img/company.png" alt=""></h2>
+            <div class="section-company-content">
+                <div class="section-company-content-tt">
+                    <h2 class="section-company-content-tt-h2 colorPink">中国服装行业S2B互联网模式</h2>
+                    <article class="section-company-content-tt-art">
+                       杭州玖远网络科技有限公司旗下产品俞姐姐门店宝，成立于2015年4月，在“服装+电商”行业中，践行S2B模式(Supplier/Service to business)， 将服务(服装采购批发+智能门店服务)与受众(女装实体门店)精准匹配锁定， 使服装门店提升综合竞争力。
+                    </article>
+                    <article class="section-company-content-tt-art">
+                        初创时引入天使投资，估值3300万元；经过一年市场业务拓展和项目价值提升，于2016年4月估值破亿元。自16年10月起，启动实体零售店合作推广计划，开始全面布局“俞姐姐新零售”服装行业版图。在2017年2月，公司加入“智能门店”产品服务链，项目价值急剧提升。
+                    </article>
+                    <article class="section-company-content-tt-art">
+                        自此，公司助力线下服装实体门店转型升级，取得良好的市场效果。同时，公司致力成为全国的服装实体门店服务商，及服装垂直领域S2B模式的行业标杆。
+                    </article>
+                </div>
+            </div>
+            <div class="section-company-contentbg">
+
+            </div>
+        </div>
+        <div class=" center section-honor ">
+            <h2 class="section-honor-title"><img src="img/gethonor.png" alt=""></h2>
+            <div class="section-honor-content">
+                <dl class="section-honor-content-dl">
+                    <dd class="section-honor-content-dd">
+                        <div>
+                            <img src="img/78.png" alt="">
+                        </div>
+                        <div class="section-honor-content-div">
+                            浙商创新女杰百强企业
+
+                        </div>
+                    </dd>
+                    <dd class="section-honor-content-dd">
+                        <div>
+                            <img src="img/79.png" alt="">
+                        </div>
+                        <div class="section-honor-content-div">
+                            浙江十大创新女杰企业
+                        </div>
+                    </dd>
+                </dl>
+                <dl class="section-honor-content-dl">
+                    <dd class="section-honor-content-dd">
+                        <div>
+                            <img src="img/80.png" alt="">
+                        </div>
+                        <div class="section-honor-content-div">
+                            浙江省区域经济合作企业发展促进会理事单位
+                        </div>
+                    </dd>
+                    <dd class="section-honor-content-dd">
+                        <div>
+                            <img src="img/81.png" alt="">
+                        </div>
+                        <div class="section-honor-content-div">
+                            2017年雏鹰计划企业
+
+                        </div>
+                    </dd>
+                </dl>
+                
+            </div>
+        </div>
+        <div class=" center section-initiate ">
+            <h2 class="section-initiate-title"><img src="img/initiate.png" alt=""></h2>
+            <div class="section-initiate-content">
+                <div class="section-initiate-content-bg">
+
+                </div>
+                <div class="section-initiate-content-intro">
+                        <h2 class="section-initiate-content-introh2">俞艺禾-CEO</h2>
+                        <p class="section-initiate-content-introimg"><img src="img/97.png" alt=""></p>
+                        <p class="section-initiate-content-introp">曾创立杰茜服饰／极宠等品牌，并带领电商团队创立森霸天猫旗舰店。</p>
+                        <p class="section-initiate-content-introp">曾获得“浙江省创新女杰十强”等荣誉。</p>
+                </div>
+            </div>
+        </div>
+        <div class=" center section-culture ">
+            <h2 class="section-culture-title"><img src="img/firmCulture.png" alt=""></h2>
+            <div class="section-culture-content">
+                <h2 class="section-culture-content-title colorPink">管理理念</h2>
+                <p class="section-culture-content-content">
+                    构建员工职业发展体系，专业领域／时尚导向等专业方向培训，使员工劳有所获，与公司同步成长。
+                </p>
+                <p class="section-culture-content-content">
+                    丰富员工工作精神体系，从工作环境／激励制度／信任尊重等多方面为员工创造最适合的发展环境，获得成就感和满足感的双重享受。
+                </p>
+                <div class="section-culture-content-bg">
+
+                </div>
+                <dl class="section-culture-content-footer">
+                    <dd class="section-culture-content-footerdd">
+                        <img src="img/61.png" alt="">
+                    </dd>
+                    <dd class="section-culture-content-footerdd">
+                        <div class="section-culture-content-footerdiv">
+                            <h2 class="section-culture-content-footerh2 colorPink">公司价值观</h2>
+                            <p class="section-culture-content-footerp">客户第一／时尚活力／诚信正直／合作共赢</p>
+                        </div>
+
+                        <div class="section-culture-content-footerdiv">
+                            <img src="img/60.png" alt="">
+                        </div>
+                    </dd>
+                </dl>
+            </div>
+        </div>
+        <div class=" center section-talents ">
+            <h2 class="section-talents-title colorPink">人才计划 </h2>
+            <h3 class="section-talents-titletr">吸引适合的人才，培养、激励并留住人才，储备和发展人才</h3>
+            <div>
+                <dl class="section-talents-contentdl">
+                    <dd class="section-talents-contentdd">
+                        <dl class="section-talents-contentdlone">
+                            <dt>完善的人才挑选及储备机制</dt>
+                            <dd>● 按需引进</dd>
+                            <dd>● 适才适用</dd>
+                            <dd>● 人才测评</dd>
+                            <dd>● 人才盘点提升</dd>
+                            <dd>● 储备人才的联络沟通</dd>
+                        </dl>
+                        <dl class="section-talents-contentdltwo">
+                            <dt>赋能的培养体系</dt>
+                            <dd>● 入职培训指导</dd>
+                            <dd>● 本岗学习提升</dd>
+                            <dd>● 跨岗知识的学习</dd>
+                            <dd>● 委外培训机会</dd>
+                        </dl>
+                        <dl class="section-talents-contentdlthree">
+                            <dt>激励性的人才管理机制</dt>
+                            <dd>● 客观的衡量工具</dd>
+                            <dd>● 科学的管理流程</dd>
+                            <dd>● 自上而下的监督机制</dd>
+                            <dd>● 公平的绩效评估</dd>
+
+                        </dl>
+                    </dd>
+                    <dd class="section-talents-contentdd">
+                        <img src="img/91.png" alt="">
+                    </dd>
+                    <dd class="section-talents-contentdd">
+                        <dl class="section-talents-contentdlfour">
+                            <dt>透明的晋升机制</dt>
+                            <dd>● 明确的晋升标准</dd>
+                            <dd>● 公开的晋升流程</dd>
+                            <dd>● 完善的晋升制度</dd>
+                        </dl>
+                        <dl class="section-talents-contentdlfive">
+                            <dt>用心的留人机制</dt>
+                            <dd>●留人要留心</dd>
+                            <dd>●以“利”留人</dd>
+                            <dd>●以“事”留人</dd>
+                        </dl>
+                    </dd>
+                </dl>
+            </div>
+            <div>
+                <dl class="section-talents-footerdl">
+                    <dd class="section-talents-footerdd">
+                        <img src="img/86.png" alt="">
+                    </dd>
+                    <dd class="section-talents-footerdd">
+                        <div class="section-talents-footerddone"><img src="img/87.png" alt=""></div>
+                        <div><img src="img/88.png" alt=""></div>
+                    </dd>
+                    <dd class="section-talents-footerdd">
+                        <div class="section-talents-footerddone"><img src="img/89.png" alt=""></div>
+                        <div><img src="img/90.png" alt=""></div>
+                    </dd>
+                </dl>
+            </div>
+
+        </div>
+    </div>
+
+</section>
+ <footer class="footer" id="footer-box"></footer>
+<script type="text/javascript" src="js/jquery-2.1.1.js"></script>
+<!--<script type="text/javascript" src="js/swiper.min.js"></script>-->
+<script src="https://qiyukf.com/script/ca7401ee061a67fdcd669ac85f2fa84d.js"></script>
+<script src="js/adaptation.js"></script>
+<script src="js/common.js"></script>
+</body>
+</html>

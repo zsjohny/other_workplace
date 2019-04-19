@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="ProductV1">
+    <resultMap type="ProductV1" id="productMap">
+        <id property="id" column="id"/>
+    </resultMap>
+
+    <insert id="add" useGeneratedKeys="true" keyProperty="id" parameterType="ProductV1">
+        INSERT INTO
+        Tb_Product(
+        SaleState, SaleStartTime, SaleEndTime, SaleCurrencyType, SaleTotalCount, SaleMonthlyMaxCount, Title,
+        Classification, Description, Price, DetailImages, LocationProvince, LocationCity, LocationArea,ExpressFree, ExpressDetails,
+        Specifications,Style,Element,Brand,Material,AttributeComment,NewModelID,MarketPrice
+        )VALUES(
+        #{saleState}, #{saleStartTime}, #{saleEndTime}, #{saleCurrencyType}, #{saleTotalCount}, #{saleMonthlyMaxCount}, #{title},
+        #{classification}, #{description}, #{price}, #{detailImages}, #{locationProvince}, #{locationCity},#{locationArea}, #{expressFree}, #{expressDetails},
+        #{specifications},#{style},#{element},#{brand},#{material},#{attributeComment},#{newModelID},#{marketPrice}
+        )
+        <selectKey keyProperty="id" resultType="long">
+            SELECT
+            LAST_INSERT_ID() AS VALUE
+        </selectKey>
+    </insert>
+
+    <select id="getById" parameterType="Long" resultMap="productMap">
+		SELECT
+		*
+		FROM
+		Tb_Product
+		WHERE
+		id = #{id}
+	</select>
+
+    <select id="listByIds" parameterType="list" resultMap="productMap">
+        SELECT
+        *
+        FROM
+        Tb_Product
+        WHERE
+        id IN
+        <foreach collection="array" index="index" item="id" open="("
+                 separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+
+    <delete id="deleteByIds" parameterType="list">
+        DELETE FROM
+        Tb_Product
+        WHERE
+        id IN
+        <foreach collection="array" index="index" item="id" open="("
+                 separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="loadAll" resultMap="productMap">
+		SELECT
+		*
+		FROM
+		Tb_Product
+	</select>
+	
+	<update id="update" keyProperty="id"  parameterType="ProductV1">
+        update 
+        Tb_Product set
+        SaleState = #{saleState}, SaleStartTime = #{saleStartTime}, SaleEndTime =  #{saleEndTime}, SaleCurrencyType = #{saleCurrencyType}, SaleTotalCount = #{saleTotalCount}, SaleMonthlyMaxCount = #{saleMonthlyMaxCount}, Title = #{title},
+        Classification = #{classification}, Description =  #{description}, Price = #{price}, DetailImages = #{detailImages}, LocationProvince = #{locationProvince}, LocationCity= #{locationCity}, LocationArea = #{locationArea},ExpressFree = #{expressFree}, ExpressDetails = #{expressDetails},
+        Specifications = #{specifications}, Favorite = #{favorite}, Style = #{style}, Brand = #{brand}, SerialNum = #{serialNum}, Season = #{season}, Element = #{element}, Material=#{material}
+        <where>
+        	id = #{id}
+        </where>
+    </update>
+    
+    <select id="loadList" parameterType="java.util.Map"
+		resultMap="productMap">
+		select * from Tb_Product  
+		<where>
+			<if test="classification != null">
+				classification = ${classification}
+			</if>
+		</where>
+		limit ${startPage} ,${pageSize}
+	</select>
+</mapper>

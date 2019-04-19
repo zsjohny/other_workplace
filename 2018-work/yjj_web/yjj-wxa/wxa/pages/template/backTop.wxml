@@ -1,0 +1,5 @@
+<!-- 返回顶部 -->
+<template name="backTop">
+    <view class="go-top go-top2" bindtap="goTop" wx:if="{{ goTopShowState }}"></view>
+</template>
+

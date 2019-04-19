@@ -1,0 +1,45 @@
+<!--我的邀请-->
+<view class='body-contain'>
+  <view class="mycoin-head myshare-head">
+    <view class='coin-number'>{{shareUserTotal}}</view>
+    <view class='coin-money'>
+        用户点击分享后，他将成为你的粉丝好友！他每次买商品收入将进入你的颜值分中。
+    </view>
+  </view>
+  <view class='myshare-list'>
+    <view class='table-head'>
+      <view class='table-th1'>用户昵称</view>
+      <view class='table-th2'>用户来源</view>
+      <view class='table-th3'>邀请时间</view>
+    </view>
+    <view wx:if="{{shareData.length > 0}}">
+      <block wx:if="{{shareData.length > 0}}" wx:for="{{shareData}}" wx:key="{{item.id}}">
+        <view class='table-tr'>
+          <view class='nickname'>
+            <block wx:if="{{item.wxNickname == '游客' }}">
+              {{item.wxNickname}}{{item.targetUser}}
+            </block>
+            <block wx:else>
+              {{item.wxNickname}}
+            </block>
+          </view>
+          <view class='user-source'>{{item.shareTypeName}}</view>
+          <view class='share-time'>{{item.createTimeReadable}}</view>
+        </view>
+      </block>  
+    </view>
+    <!-- 无数据时 -->
+    <view wx:else class='no-record-box'>
+      <view class='icon'></view>
+      <view class='text'>可能太久远，多分享就会有了</view>
+    </view>
+  </view>
+  <!--上拉加载更多、底部加载loadding-->
+  <view class="more-load2">
+    <view wx:if="{{ hasMore }}" class="go-loading more-loading">
+      <view class="loading-mod"></view>
+      <text class="tx">正在载入中…</text> 
+    </view>
+    <view wx:if="{{ moreOver }}" class="tips2"><text>没多久，你就触达了底线</text></view>
+  </view>
+</view>  

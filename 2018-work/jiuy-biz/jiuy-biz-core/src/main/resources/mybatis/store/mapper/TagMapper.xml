@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.store.dao.mapper.TagMapper">
+	<select id="getTagListByIds" parameterType="collection" resultType="Tag">
+		<![CDATA[
+			select * from yjj_Tag
+			where id in
+		]]>
+		<foreach collection="ids" item="id" open="(" separator="," close=")">
+			<![CDATA[
+				#{id}
+			]]>
+		</foreach>
+		<![CDATA[
+		or GroupId in 
+		]]>
+		<foreach collection="ids" item="id" open="(" separator="," close=")">
+			<![CDATA[
+				#{id}
+			]]>
+		</foreach>
+	</select>
+	
+	<select id="getTopTagList" resultType="Tag">
+		<![CDATA[
+			SELECT * FROM yjj_Tag 
+			WHERE STATUS=0 AND topTime>0 ORDER BY Priority DESC
+		]]>
+	</select>
+	
+	<select id="getTagsByPriority" resultType="map">
+	   <![CDATA[
+			SELECT id as tagId,name as tagName,priority as tagPriority FROM yjj_Tag 
+			WHERE STATUS=0 AND topTime>0 ORDER BY Priority DESC
+			LIMIT 0,#{tagNums}
+		]]>
+	</select>
+</mapper>

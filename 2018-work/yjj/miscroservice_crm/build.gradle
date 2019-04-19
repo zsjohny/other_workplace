@@ -1,0 +1,24 @@
+apply plugin: 'java'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'application'
+repositories {
+    mavenCentral()
+}
+
+jar {
+    baseName "miscroservice_crm"
+    mainClassName = 'com.e_commerce.miscroservice.CrmStartMain'
+}
+
+
+dependencies {
+    compile 'org.apache.poi:poi:3.17'
+    compile 'org.apache.poi:poi-ooxml:3.17'
+    compile 'org.apache.poi:poi-ooxml-schemas:3.17'
+    compile 'com.github.pagehelper:pagehelper-spring-boot-starter:1.2.5'
+    compile 'tk.mybatis:mapper-spring-boot-starter:2.0.2'
+    compile "org.apache.shiro:shiro-spring:1.3.2"
+    compile 'com.github.jsqlparser:jsqlparser:1.2'
+    compile project(":miscroservice_commons")
+
+}

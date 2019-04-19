@@ -1,0 +1,2 @@
+insert into yjj.Tb_Dictionary (groupid,dictid,dictname,status,groupname) values ('EXPRESS','SHUNFENG','顺丰快递','1','快递');
+insert into yjj.Tb_Dictionary (groupid,dictid,dictname,status,groupname) values ('EXPRESS','YUANTONG','圆通快递','1','快递');

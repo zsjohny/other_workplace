@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jiuy.core.dao.impl.sql.HomeFloorDaoSqlImpl">
+	
+	<sql id="listFloor">
+		(#{homeTemplateId}, #{description}, #{weight}, #{name}, #{nextShowName}, #{nextHasSpacing}, #{createTime}, #{updateTime}, #{homeTemplateId}, #{activityPlaceId})
+	</sql>
+	
+	<select id="search" parameterType="map" resultType="HomeFloorVO">
+		select a.*, b.Name as homeTemplateName, b.ImgUrl
+		from yjj_HomeFloor a left join yjj_HomeTemplate b on a.NextHomeTemplateId = b.Id
+		<where>
+			a.ActivityPlaceId = #{activityPlaceId} and a.name like concat("%", #{name} ,"%") and a.Status = 0
+			and (b.Name is null or b.Name not in
+				<foreach collection="templateNames" item="templateName" open="(" separator="," close=")">
+					#{templateName}
+				</foreach>)
+			<if test="sequence == 0">
+				order by Weight desc
+			</if>
+			<if test="sequence == 1">
+				order by Weight asc
+			</if>
+		</where>
+		LIMIT #{query.limit} OFFSET #{query.offset}
+	</select>
+
+	<select id="searchCount" parameterType="map" resultType="int">
+		select count(*)
+		from yjj_HomeFloor a left join yjj_HomeTemplate b on a.NextHomeTemplateId = b.Id
+			and (b.Name is null or b.Name not in
+				<foreach collection="templateNames" item="templateName" open="(" separator="," close=")">
+					#{templateName}
+				</foreach>)
+		where a.ActivityPlaceId = #{activityPlaceId} and a.name like concat("%", #{name} ,"%") and a.Status = 0
+	</select>	
+	
+	<insert id="addHomeFloor" useGeneratedKeys="true" keyProperty="id" parameterType="HomeFloor">
+		insert yjj_HomeFloor(HomeTemplateId, Description, Weight, Name, NextShowName, NextHasSpacing, CreateTime, UpdateTime, NextHomeTemplateId, ActivityPlaceId)
+		values <include refid="listFloor"></include>
+	</insert>
+	
+	<update id="removeHomeFloor" parameterType="map">
+		update yjj_HomeFloor
+		set Status = -1, Type = 0
+		where Id = #{id}
+	</update>
+	
+	<update id="updateHomeFloor" parameterType="HomeFloor">
+		update yjj_HomeFloor
+		set Description = #{description}, Weight = #{weight}, Name = #{name}, NextShowName = #{nextShowName}, NextHasSpacing = #{nextHasSpacing}
+		where Id = #{id}
+	</update>
+	
+	<select id="searchById" parameterType="map" resultType="HomeFloorVO">
+		select a.*, b.Name AS homeTemplateName
+		from yjj_HomeFloor a join yjj_HomeTemplate b on a.NextHomeTemplateId = b.Id
+		where a.Id = #{id}
+	</select>
+	
+	<update id="updateHomeTemplateId" parameterType="map">
+		update yjj_HomeFloor
+		set NextHomeTemplateId = #{nextHomeTemplateId}
+		where Id = #{id}
+	</update>
+	
+	<update id="publishHomeFloor">
+		update yjj_HomeFloor
+		set Type = 1, HomeTemplateId = NextHomeTemplateId, ShowName = NextShowName, HasSpacing = NextHasSpacing
+		where 
+			<![CDATA[
+			Status = 0 and NextHomeTemplateId <> 0 and ActivityPlaceId = #{activityPlaceId}
+			]]>
+	</update>
+	
+	<select id="preview" resultType="map">
+		select b.content, b.name 
+		from yjj_HomeFloor as a left join yjj_HomeTemplate as b 
+			on a.NextHomeTemplateId = b.Id 
+		where a.ActivityPlaceId = #{activityPlaceId} and a.Status = 0 
+	</select>
+	
+	<select id="search18" resultType="HomeFloorVO">
+		select a.*, b.Name as homeTemplateName, b.ImgUrl
+		from yjj_HomeFloor a left join yjj_HomeTemplate b on a.NextHomeTemplateId = b.Id
+			and (b.Name is not null and b.Name not in
+				<foreach collection="templateNames" item="templateName" open="(" separator="," close=")">
+					#{templateName}
+				</foreach>)
+		<where>
+			a.Status = 0
+			<if test="relatedId != null">
+				and a.RelatedId = #{relatedId}
+			</if>
+			<if test="type != null">
+				and a.Type = #{type}
+			</if>
+			<if test="name != null">
+				and a.name like concat("%", #{name} ,"%") 
+			</if>
+			<if test="id != null">
+				and a.Id = #{id}
+			</if>			
+		</where>
+		<if test="sequence != null">
+			<if test="sequence == 0">
+				order by Weight desc
+			</if>
+			<if test="sequence == 1">
+				order by Weight asc
+			</if>
+		</if>
+		<if test="pageQuery != null">
+			limit #{pageQuery.limit} offset #{pageQuery.offset}
+		</if>
+	</select>
+	
+	<select id="searchCount18" resultType="int">
+		select count(1)
+		from yjj_HomeFloor a left join yjj_HomeTemplate b on a.NextHomeTemplateId = b.Id
+			and (b.Name is not null and b.Name not in
+				<foreach collection="templateNames" item="templateName" open="(" separator="," close=")">
+					#{templateName}
+				</foreach>)
+		<where>
+			a.RelatedId = #{relatedId} and a.Type = #{type} and a.Status = 0
+			<if test="name != null">
+				and a.name like concat("%", #{name} ,"%") 
+			</if>
+		</where>
+	</select>	
+	
+	<insert id="add">
+		insert yjj_HomeFloor(HomeTemplateId, Description, Weight, Name, NextHomeTemplateId, 
+		NextShowName, NextHasSpacing, CreateTime, UpdateTime, Type, RelatedId) 
+		values(#{homeTemplateId}, #{description}, #{weight}, #{name}, #{nextHomeTemplateId}, 
+		#{nextShowName}, #{nextHasSpacing}, #{createTime}, #{updateTime}, #{type}, #{relatedId})
+	</insert>
+	
+	<update id="update">
+		update yjj_HomeFloor
+		<set>
+			<if test="homeFloor != null">
+				 Name = #{homeFloor.name}, Description = #{homeFloor.description}, Weight = #{homeFloor.weight}, 
+				 NextShowName = #{homeFloor.nextShowName}, NextHasSpacing = #{homeFloor.nextHasSpacing}, 
+				 <if test="homeFloor.isShow != null">
+					 IsShow = #{homeFloor.isShow},
+				 </if>
+			</if>
+			<if test="status != null">
+				Status = #{status},
+			</if>
+			UpdateTime = #{updateTime}
+		</set>
+		<where>
+			<if test="homeFloor != null">
+				Id = #{homeFloor.id}
+			</if>
+			<if test="id != null">
+				Id = #{id}
+			</if>
+		</where>
+	</update>
+	
+	<update id="publish">
+		update yjj_HomeFloor
+		set PublishStatus = 1, HomeTemplateId = NextHomeTemplateId, ShowName = NextShowName, HasSpacing = NextHasSpacing, UpdateTime = #{updateTime}
+		where <![CDATA[
+			Status = 0 and NextHomeTemplateId <> 0 and type = #{type} and RelatedId = #{relatedId}
+			]]>
+	</update>
+	
+	<select id="preview18" resultType="map">
+		select b.content, b.name 
+		from yjj_HomeFloor as a left join yjj_HomeTemplate as b 
+			on a.NextHomeTemplateId = b.Id 
+		where a.type = #{type} and a.RelatedId = #{relatedId} and a.Status = 0 
+	</select>
+	
+</mapper>

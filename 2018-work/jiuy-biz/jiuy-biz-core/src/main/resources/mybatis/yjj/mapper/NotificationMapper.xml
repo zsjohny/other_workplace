@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yujj.dao.mapper.NotificationMapper">
+
+
+<select id="getNoReadCountByType" resultType="int">
+		<![CDATA[
+		SELECT count(c.Id) FROM (
+		select a.*, b.PageView as UserPageView from yjj_Notification a right join 
+			(select * from yjj_UserNotification where UserId=#{userId}) b on a.Id=b.NotificationId
+			where Status = 0 and PushStatus = 1 and (b.PageView is null or b.PageView = 0) 
+			and PushTime > #{registerTime} and Type = #{type}
+		 ) as c
+		]]>
+	</select>
+
+	<select id="getNoReadCount" resultType="int">
+		<![CDATA[
+		SELECT count(c.Id) FROM (
+		select a.*, b.PageView as UserPageView from yjj_Notification a right join 
+			(select * from yjj_UserNotification where UserId=#{userId}) b on a.Id=b.NotificationId
+			where Status = 0 and PushStatus = 1 and (b.PageView is null or b.PageView = 0) and PushTime > #{registerTime}
+		 ) as c
+		]]>
+	</select>
+	
+	
+	<select id="getAllListExclude910" resultType="Notification">
+		<![CDATA[ 		
+			select a.*,(select PageView from yjj_UserNotification where NotificationId= a.Id limit 1  ) UserPageView from yjj_Notification a  where  Status = 0 and PushStatus = 1  and PushTime > #{registerTime} and (Type not in (9,10,11) or a.id in (select NotificationId from yjj_UserNotification where UserId=#{userId}))
+			order by PushTime desc
+		]]>
+    </select>
+    
+	<select id="getListExclude910" resultType="Notification">
+		<![CDATA[ 		
+			select a.*,(select PageView from yjj_UserNotification where NotificationId= a.Id limit 1  ) UserPageView from yjj_Notification a  where  Status = 0 and PushStatus = 1  and PushTime > #{registerTime} and (Type not in (9,10,11) )
+			order by PushTime desc
+			limit #{pageQuery.limit} offset #{pageQuery.offset}
+		]]>
+    </select>
+    
+	<select id="getCountExclude910" resultType="int">
+		<![CDATA[
+		SELECT count(c.Id) FROM (
+		select a.*,(select PageView from yjj_UserNotification where NotificationId= a.Id limit 1  ) UserPageView from yjj_Notification a  where  Status = 0 and PushStatus = 1  and PushTime > #{registerTime} and (Type not in (9,10,11))
+			
+		 ) as c
+		]]>
+	</select>
+	
+	<select id="getAllListByType" resultType="Notification">
+		<![CDATA[ 		
+			select a.*, b.PageView as UserPageView from yjj_Notification a right join 
+			(select * from yjj_UserNotification where UserId=#{userId}) b on a.Id=b.NotificationId
+			where Status = 0 and PushStatus = 1 and Type = #{type} and PushTime > #{registerTime}
+			order by PushTime desc
+		]]>
+    </select>
+	<select id="getListByType" resultType="Notification">
+		<![CDATA[ 		
+			select a.*, b.PageView as UserPageView from yjj_Notification a right join 
+			(select * from yjj_UserNotification where UserId=#{userId}) b on a.Id=b.NotificationId
+			where Status = 0 and PushStatus = 1 and Type = #{type}  and PushTime > #{registerTime}
+			order by PushTime desc
+			limit #{pageQuery.limit} offset #{pageQuery.offset}
+		]]>
+    </select>
+	<select id="getCountByType" resultType="int">
+		<![CDATA[
+		SELECT count(c.Id) FROM (
+		select a.*, b.PageView as UserPageView from yjj_Notification a right join 
+			(select * from yjj_UserNotification where UserId=#{userId}) b on a.Id=b.NotificationId
+			where Status = 0 and PushStatus = 1 and Type = #{type}  and PushTime > #{registerTime}
+		 ) as c
+		]]>
+	</select>
+	
+	
+	<insert id="addUserNotification" parameterType="map">
+		<![CDATA[ INSERT INTO yjj_UserNotification (UserId,NotificationId,PageView, CreateTime, UpdateTime) 
+			VALUES
+		]]>
+		
+		<foreach collection="userNotifications" item="userNotification" open="(" separator="),(" close=")">
+			<![CDATA[
+				#{userNotification.userId}, #{userNotification.notificationId}, 1, #{userNotification.createTime}, #{userNotification.updateTime}			
+			]]>
+		</foreach>
+
+		<![CDATA[
+			ON DUPLICATE KEY UPDATE PageView=PageView+1, UpdateTime=UNIX_TIMESTAMP(now())*1000;
+		]]>
+	</insert>
+	<update id="updateNotificationPageView" parameterType="map">
+		<![CDATA[
+			update yjj_Notification
+			set PageView = PageView + 1
+			where Id in
+		]]>
+		<foreach collection="ids" item="id" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</update>
+</mapper>

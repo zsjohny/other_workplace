@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yujj.dao.mapper.ServiceTicketMapper">
+	<insert id="insertServiceTicket"  useGeneratedKeys="true" keyProperty="id">
+		<![CDATA[
+			insert into yjj_ServiceTicket
+			(OrderNo, OrderItemId, UserId, SkuNo, YJJNumber, Type, Status, ApplyTime, ApplyReceiveStatus, ApplyReturnCount, ApplyReturnMoney, ApplyReturnJiuCoin,  ApplyReturnReason, ApplyReturnMemo, ApplyImageUrl, 
+			ExamineTime, ExamineMemo,  ProcessTime, ProcessResult, ProcessMoney, ProcessReturnJiuCoin, ProcessReturnMemo, UserRealName, UserTelephone)
+			values
+			(#{orderNo},  #{orderItemId}, #{userId}, #{skuNo}, #{yjjNumber}, #{type}, #{status}, #{applyTime}, #{applyReceiveStatus}, #{applyReturnCount}, #{applyReturnMoney}, #{applyReturnJiuCoin}, #{applyReturnReason}, 
+			#{applyReturnMemo}, #{applyImageUrl}, #{examineTime}, #{examineMemo}, #{processTime}, #{processResult}, #{processMoney}, #{processReturnJiuCoin}, #{processReturnMemo}, #{userRealName}, #{userTelephone})
+		]]>
+	</insert>
+	
+
+	
+	<select id="getServiceTicketById" resultType="ServiceTicket">
+		<![CDATA[
+			select * from yjj_ServiceTicket
+			where UserId = #{userId}   and id =#{id}
+		]]>
+	</select>
+
+	
+	<select id="getServiceTicketByOrderNo" resultType="ServiceTicket">
+		<![CDATA[
+			select * from yjj_ServiceTicket
+			where UserId = #{userId}   and ProcessOrderNo =#{orderNo}
+		]]>
+	</select>
+	
+	<select id="getFinanceTicketById" resultType="FinanceTicket">
+		<![CDATA[
+			select * from yjj_FinanceTicket
+			where serviceId = #{serviceId}
+		]]>
+	</select>
+	
+	<select id="getUserServiceTicketList" resultType="ServiceTicket">
+		<![CDATA[
+			select * from yjj_ServiceTicket
+			where UserId = #{userId} 
+			]]>
+		<if test="orderSearchNo != null">
+			<![CDATA[
+				and LPAD(OrderNo, 9, 0) like '%${orderSearchNo}%'
+			]]>
+		</if>
+		<![CDATA[
+			  order by ApplyTime desc
+			limit #{pageQuery.limit} offset #{pageQuery.offset}
+		]]>
+	</select>
+	
+	<select id="countUserServiceTicketList" resultType="int">
+		<![CDATA[
+			select count(1) from yjj_ServiceTicket
+			where UserId = #{userId} ]]>
+		<if test="orderSearchNo != null">
+			<![CDATA[
+				and LPAD(OrderNo, 9, 0) like  '%${orderSearchNo}%'
+			]]>
+		</if>
+	</select>
+	
+	<select id="getItemAfterSaleValidCount" resultType="int">
+		<![CDATA[
+			select IFNULL(sum(ApplyReturnCount),0) from yjj_ServiceTicket
+			where UserId = #{userId} and OrderItemId = #{itemId} and Status != 1 and OrderNo= #{orderNo}
+			
+		]]>
+	</select>
+	
+	<update id="updateServiceTicketById" parameterType="map">
+		<![CDATA[
+			update yjj_ServiceTicket
+			set status = #{serviceTicket.status}	
+			where UserId = #{userId} and id =#{serviceTicket.id}
+		]]>
+	</update>
+	
+	<update id="updateServiceBuyerExpress" parameterType="map">
+		<![CDATA[
+			update yjj_ServiceTicket
+			set BuyerExpressCom = #{buyerExpressCom}, BuyerExpressNo = #{buyerExpressNo},  Status = #{newStatus} , BuyerTime = #{sysTime}	, BuyerMemo = #{memo}
+			where  id =#{serviceId} and Status = #{oldStatus}
+		]]>
+	</update>
+	
+	<update id="updateServiceExchangeSuccess" parameterType="map">
+		<![CDATA[
+			update yjj_ServiceTicket
+			set  Status = #{newStatus} , ExchangeReceivedTime = #{sysTime}	
+			where  id =#{id} and Status = #{oldStatus} and UserId = #{userId}
+		]]>
+	</update>
+	
+	<update id="updateServiceOrderPaid" parameterType="map">
+		<![CDATA[
+			update yjj_ServiceTicket
+			set   Status = #{newStatus}	,BuyerPayTime= #{sysTime}
+			where  ProcessOrderNo =#{processOrderNo} and Status = #{oldStatus}
+		]]>
+	</update>
+	
+</mapper>

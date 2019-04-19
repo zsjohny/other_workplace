@@ -1,0 +1,24 @@
+
+<!--轮播图片模块-->
+<template name="smartPicture">
+  <view class='swiper-wrap' wx:if="{{ storeDisplayImages.length > 0 }}">
+    <block wx:if="{{ storeDisplayImages.length > 1 }}">
+      <swiper class="slide-box" indicator-dots="true" indicator-color="#E8E8E8" indicator-active-color="#5A5A5A" autoplay="true" interval="5000" duration="300" circular="true">
+        <block wx:for="{{storeDisplayImages}}" wx:key="item">
+          <swiper-item>
+            <image class="slide-image img"  mode="aspectFill" src="{{item}}"></image>
+          </swiper-item>
+        </block>
+      </swiper>
+    </block>
+    <block wx:if="{{ storeDisplayImages.length == 1 }}">
+        <swiper class="slide-box" indicator-dots="false" indicator-color="rgba(0, 0, 0, 0)" indicator-active-color="rgba(0, 0, 0, 0)" autoplay="true" interval="5000" duration="300" circular="true">
+        <block wx:for="{{storeDisplayImages}}" wx:key="item">
+          <swiper-item>
+            <image class="slide-image img"  mode="aspectFill" src="{{item}}"></image>
+          </swiper-item>
+        </block>
+      </swiper>
+    </block>
+  </view>
+</template>

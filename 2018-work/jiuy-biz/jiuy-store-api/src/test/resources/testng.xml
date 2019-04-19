@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<!-- about 'preserve-order': By default, TestNG will run your tests in the order they are found in the XML file.  -->
+<!-- about 'allow-return-values': By default, methods annotated with @Test that happen to return a value will be ignored. -->
+<!-- about 'group-by-instances': The graph may contain cycles if this parameter is set to true.  -->
+<suite name="Suite" parallel="methods" preserve-order="false" allow-return-values="true" group-by-instances="false">
+	<parameter name="company" value="netease" />
+	<parameter name="since" value="1997" />
+	<test name="Test">
+		<groups>
+			<run>
+				<exclude name="broken" />
+			</run>
+		</groups>
+		<packages>
+			<package name="com.yujj.web.controller" />
+		</packages>
+		<classes>
+		</classes>
+	</test>
+</suite>

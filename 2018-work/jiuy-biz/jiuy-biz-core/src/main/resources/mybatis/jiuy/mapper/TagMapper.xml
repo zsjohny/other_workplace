@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jiuy.core.dao.impl.sql.TagDaoSqlImpl">
+    
+	<update id="addCount">
+		update yjj_Tag
+		set Count = Count + 1, UpdateTime = #{updateTime}
+		where GroupId = #{groupId}
+	</update>
+	
+	<insert id="add" useGeneratedKeys="true" keyProperty="id">
+		insert yjj_Tag(Name, Priority, GroupId, Description, Count, CreateTime, UpdateTime)
+		values(#{name}, #{priority}, #{groupId}, #{description}, #{count}, #{createTime}, #{updateTime})
+	</insert>
+
+	<select id="searchCount" resultType="int">
+		select count(1) from yjj_Tag
+		<where>
+			<if test="status != null">
+				and Status = #{status}
+			</if>
+			<if test="name != null">
+				and Name like concat("%", #{name}, "%")
+			</if>
+			<if test="countMin != null">
+				and <![CDATA[Count >= #{countMin}]]>
+			</if>
+			<if test="countMax != null">
+				and <![CDATA[Count <= #{countMax}]]>
+			</if>
+			<if test="groupId != null and groupId != 0">
+				and GroupId = #{groupId}
+			</if>
+			<if test="groupIds != null">
+				and GroupId in 
+				<foreach collection="groupIds" item="item" open="(" separator="," close=")">
+					#{item}
+				</foreach>
+			</if>
+			<if test="isTop > 0">
+				and topTime > 0 
+			</if>
+			<if test="productCountMin != null or productCountMax != null">
+				<if test="isGroup == 0">
+				and Id in 
+					(select b.Id 
+					from (select TagId, count(*) as ProductCount 
+						from yjj_ProductTag
+						where Status = 0 
+						group by TagId having 
+						<![CDATA[ProductCount > #{productCountMin}]]>
+						<if test="productCountMax != null">
+							<![CDATA[and ProductCount < #{productCountMax}]]>
+						</if>
+						) as a left join yjj_Tag as b
+					on a.TagId = b.Id)
+				</if>
+				<if test="isGroup == 1">
+				and Id in 
+					(select b.GroupId 
+					from (select TagId, count(*) as ProductCount 
+						from yjj_ProductTag
+						where Status = 0 
+						group by TagId having 
+						<![CDATA[ProductCount > #{productCountMin}]]>
+						<if test="productCountMax != null">
+							<![CDATA[and ProductCount < #{productCountMax}]]>
+						</if>
+						) as a left join yjj_Tag as b
+					on a.TagId = b.Id)
+				</if>
+			</if>
+		</where>
+	</select>
+	
+	<select id="search" resultType="Tag">
+		select * from yjj_Tag
+		<where>
+			<if test="status != null">
+				and Status = #{status}
+			</if>
+			<if test="name != null">
+				and Name like concat("%", #{name}, "%")
+			</if>
+			<if test="countMin != null">
+				and <![CDATA[Count >= #{countMin}]]>
+			</if>
+			<if test="countMax != null">
+				and <![CDATA[Count <= #{countMax}]]>
+			</if>
+			<if test="groupId != null and groupId != 0">
+				and GroupId = #{groupId}
+			</if>
+			<if test="isTop == 1">
+				and topTime >0
+			</if>
+			<if test="groupIds != null">
+				and GroupId in 
+				<foreach collection="groupIds" item="item" open="(" separator="," close=")">
+					#{item}
+				</foreach>
+			</if>
+			<if test="productCountMin != null or productCountMax != null">
+				<if test="isGroup == 0">
+				and Id in 
+					(select b.Id 
+					from (select TagId, count(*) as ProductCount 
+						from yjj_ProductTag
+						where Status = 0 
+						group by TagId having 
+						<![CDATA[ProductCount > #{productCountMin}]]>
+						<if test="productCountMax != null">
+							<![CDATA[and ProductCount < #{productCountMax}]]>
+						</if>
+						) as a left join yjj_Tag as b
+					on a.TagId = b.Id)
+				</if>
+				<if test="isGroup == 1">
+				and Id in 
+					(select b.GroupId 
+					from (select TagId, count(*) as ProductCount 
+						from yjj_ProductTag
+						where Status = 0 
+						group by TagId having 
+						<![CDATA[ProductCount > #{productCountMin}]]>
+						<if test="productCountMax != null">
+							<![CDATA[and ProductCount < #{productCountMax}]]>
+						</if>
+						) as a left join yjj_Tag as b
+					on a.TagId = b.Id)
+				</if>
+			</if>
+			<if test="ids != null">
+				and Id in
+				<foreach collection="ids" item="id" open="(" separator="," close=")">
+					#{id}
+				</foreach>
+			</if>
+ 		</where>
+ 		order by id desc
+		<if test="pageQuery != null">
+			limit #{pageQuery.limit} offset #{pageQuery.offset}
+		</if>
+	</select>
+
+	<update id="update">
+		update yjj_Tag
+		<set>
+			<if test="name != null">
+				Name = #{name},
+			</if>
+			<if test="priority != null">
+				Priority = #{priority},
+			</if> 
+			<if test="groupId != null">
+				GroupId = #{groupId},
+			</if>
+			<if test="description != null">
+				Description = #{description},
+			</if>
+			<if test="status != null">
+				Status = #{status},
+			</if>
+		</set>
+		<where>
+			Id = #{id}
+		</where>
+	</update>
+	
+	<select id="searchWithChild" resultType="Tag">
+		select * from yjj_Tag 
+		where Status = 0 and GroupId = -1 
+			and Id in (select distinct(GroupId) from yjj_Tag where Status = 0)
+	</select>
+	
+	<update id="updTagTop">
+		update yjj_Tag
+		set topTime = #{isTop},updateTime = #{updateTime} 
+		where id = #{tagId}
+	</update>
+</mapper>

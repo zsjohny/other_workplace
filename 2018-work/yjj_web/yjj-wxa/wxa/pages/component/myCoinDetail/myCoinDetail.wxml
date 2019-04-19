@@ -1,0 +1,55 @@
+<!--颜值分明细-->
+<view class="mycoin-head">
+  <view class='coin-number'>{{aliveCoins}}</view>
+  <view class='coin-money'>
+      已收入：<text class='count'>{{allInCoins}}</text>
+      <text class='pay-count'>已支出：<text class='count'>{{allOutCoins}}</text></text>
+  </view>
+  <view class='share-rule' bindtap='gotoSettlementRule'>结算规则</view>
+</view>
+<!--导航-->
+<view class="coin-nav">
+  <view class="item {{ incomeTabState ? 'ft-red' : '' }}" bindtap="tabFun" data-tab="income">颜值分收入</view>
+  <view class="item {{ payTabState ? 'ft-red' : '' }}" bindtap="tabFun" data-tab="pay">颜值分支出</view>
+</view>
+<view class="coin-box">
+  <!-- 颜值分列表 -->
+  <view class="income-box">
+    <view class="coin-list">
+      <view wx:if="{{coinData.length > 0}}">
+        <block wx:for="{{coinData}}" wx:key="{{item.id}}">
+          <view class="item">
+            <view class='title'>
+              <view class='name float-l'>{{item.detail}}</view>
+              <view class='number float-r'>
+                <block wx:if="{{item.inOut ==1}}">
+                    <text wx:if="{{item.status ==2}}">-{{item.count}}</text>
+                    <text wx:else>+{{item.count}}</text>
+                </block>
+                <block wx:else>-{{item.count}}</block>
+              </view>
+            </view>
+            <view class='detail'>
+              <view class='time float-l'>{{item.createTimeStr}}</view>
+              <view class='state float-r ft-red'>{{item.statusName}}</view>
+            </view>
+          </view>
+        </block>
+      </view>  
+      <!-- 无数据时 -->
+      <view wx:else class='no-record-box'>
+        <view class='icon'></view>
+        <view class='text'>可能太久远，多分享就会有了</view>
+      </view>
+    </view>  
+
+    <!--上拉加载更多、底部加载loadding-->
+    <view class="more-load2">
+      <view wx:if="{{ hasMore }}" class="go-loading more-loading">
+        <view class="loading-mod"></view>
+        <text class="tx">正在载入中…</text> 
+      </view>
+      <view wx:if="{{ moreOver }}" class="tips2"><text>没多久，你就触达了底线</text></view>
+    </view>
+  </view>
+</view><!-- coin-box end -->

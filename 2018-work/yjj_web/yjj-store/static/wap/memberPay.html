@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>支付订单</title>
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <script src="js/adaptation.js"></script>
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/common.css">
+</head>
+<body>
+<!-- 订单支付模块-->
+<div class="order-mod">
+    <div class="order-box">
+        <div class="order-head">订单编号：<span id="order-number"></span></div>
+        <div class="box js-box1" style="display: none;">
+            <img class="vip-img" src="images/vip7-img-1.png" alt="新零售智能门店超值套餐">
+            <div class="info">
+                <p class="title">新零售智能门店超值套餐</p>
+                <p class="price"><i>¥</i><span>9800元/</span>年</p>
+            </div>
+        </div>
+        <div class="box js-box2" style="display: none;">
+            <img class="vip-img" src="images/vip8-img-1.png" alt="新零售智能门店至尊套餐">
+            <div class="info">
+                <p class="title">新零售智能门店至尊套餐</p>
+                <p class="price"><i>¥</i><span>19800元/</span>年</p>
+            </div>
+        </div>
+        <div class="box js-box3" style="display: none;">
+            <img class="vip-img" src="images/vip5-img-1.png" alt="极致爆款会员套餐-体验版">
+            <div class="info">
+                <p class="title">极致爆款会员套餐-体验版</p>
+                <p class="price"><i>¥</i><span>198元/</span>月</p>
+            </div>
+        </div>
+        <div class="box js-box4" style="display: none;">
+            <img class="vip-img" src="images/vip6-img-1.png" alt="极致爆款会员套餐">
+            <div class="info">
+                <p class="title">极致爆款会员套餐</p>
+                <p class="price"><i>¥</i><span>980元/</span>年</p>
+            </div>
+        </div>
+        <div class="vip-time">
+            <span class="l">有效期限</span>
+            <span class="r">1年</span>
+        </div>
+    </div>
+    <div class="pay-mode">
+        <dl>
+            <dt class="total-sum"></dt>
+            <dd class="js-pay" data-pay="wxpay">
+                <span class="icon wxpay">微信支付</span>
+                <span class="choose"></span>
+            </dd>
+            <dd class="js-pay active" data-pay="alipay">
+                <span class="icon alipay">支付宝支付</span>
+                <span class="choose"></span>
+            </dd>
+        </dl>
+    </div>
+    <div class="pay-btn">立即购买</div>
+</div>
+<!-- 提示弹窗 -->
+<div class="ui-popup popup-wrap" style="display: none;">
+    <div class="bg close-popup"></div>
+    <div class="box">
+        <div class="title">无法再次购买，如有疑问请咨询客服</div>
+        <div class="btn detail-btn">知道了</div>
+    </div>
+</div>
+<script type="text/javascript" src="js/jquery.min-3.3.0.js"></script>
+<script type="text/javascript" src="js/common.js?v20181124"></script>
+<script type="text/javascript">
+	/**
+	 * 获取token和userId
+	 */
+	var userObj = {};
+	function getToken(token, userId) {
+		userObj = {
+			"token":token,
+			"uid":userId
+		}
+		//alert(token,userId);
+	}
+    //获取url的参数
+    var packageType = getUrlParam("packageType"),
+        orderNo = getUrlParam("orderNo");
+    $("#order-number").html(orderNo);
+    $(".box").hide();
+    //初始化页面数据
+    if(packageType == 7){
+        $(".total-sum").html("合计付款：<span>9800</span>元");
+        $(".js-box1").show();
+    }else if(packageType == 8){
+        $(".total-sum").html("合计付款：<span>19800</span>元");
+        $(".js-box2").show();
+    }else if(packageType == 5){
+        $(".total-sum").html("合计付款：<span>198</span>元");
+        $(".vip-time .r").html("1个月");
+        $(".js-box3").show();
+    }
+    else if(packageType == 6){
+        $(".total-sum").html("合计付款：<span>980</span>元");
+        $(".js-box4").show();
+    }
+
+    //当用户付款失败的函数
+    function payFail() {
+        var systemFlag = systemType();
+        if(systemFlag == "Android"){
+            member.payFailFunc();
+        }
+        popupPrompt("付款未成功，请再次尝试付款","好的");
+    }
+
+    //当用户的小程序服务未到期时的函数
+    function undueMember(callback) {
+        $.ajax({
+            url: apiUrl + "/shop/shopOrderCreate/weiChatApp/couldPay/auth.json" ,
+			headers:userObj,
+            type: 'POST',
+            success: function (response) {
+                console.log(response);
+                var data = response;
+                if(data.successful){
+                    var isCanOrder = data.data;
+                    //未到期时，提示
+                    if(!isCanOrder){
+                        $(".popup-wrap").show();
+                    }else{
+                        //可以购买
+                        callback()
+                    }
+                }else{
+                    popupPrompt(data.error,"知道了");
+                }
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                popupPrompt("网络不佳，请重试","知道了");
+            }
+        });
+    }
+
+    //跳转商品详情
+    function gotoProductDetail(){
+        var systemFlag = systemType();
+        if(systemFlag == "Android"){
+            member.productDetail();
+        }
+    }
+    $(".detail-btn").on("click",function () {
+        gotoProductDetail()
+    })
+
+    //关闭弹窗
+    $(".close-popup").on("click",function () {
+        $(".popup-wrap").hide();
+    })
+
+    //支付方式选择
+    var payType = "alipay";
+    $(".js-pay").on("click",function(){
+        payType = $(this).attr("data-pay");
+        $(this).addClass("active").siblings("dd").removeClass("active")
+    })
+
+    //立即购买函数
+    function payFunc(packageType,orderNo,payType){
+        var systemFlag = systemType();
+        if(systemFlag == "Android"){
+            member.paymentFunc(packageType,orderNo,payType);
+        }
+    }
+    //支付
+    $(".pay-btn").on("click",function(){
+        //console.log(packageType,orderNo,payType);
+        undueMember(function () {
+            payFunc(packageType,orderNo,payType);
+        })
+    })
+
+</script>
+</body>
+</html>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yujj.dao.mapper.UserSharedClickMapper">
+	<insert id="addUserSharedClickRecord" useGeneratedKeys="true" keyProperty="id">
+		<![CDATA[
+			INSERT INTO yjj_UserSharedClickRecord 
+	(SharedId,SharedUserId,UserId,TYPE,RelatedId,JiuCoin,STATUS,CreateTime)
+	VALUES
+	(#{sharedId},#{sharedUserId},#{userId},#{type},#{relatedId},#{jiuCoin},#{status},#{createTime});
+		]]>
+	</insert>
+	
+	<select id="getUserSharedClickRecordList" resultType="UserSharedClickRecord">
+		<![CDATA[
+			select * from yjj_UserSharedClickRecord 
+			where userId=#{userId}
+		]]>
+	</select>
+	
+	<select id="getJiuCoinCount" resultType="int">
+		<![CDATA[
+			SELECT 	COUNT(*)
+			FROM yjj_UserSharedClickRecord 
+			where SharedUserId=#{sharedUserId} and CreateTime>#{time} and Type=#{type}
+		]]>
+	</select>
+	
+	<select id="getUserSharedClickRecordListBeforeTime" resultType="UserSharedClickRecord">
+		<![CDATA[
+			select * from yjj_UserSharedClickRecord 
+			where SharedUserId=#{sharedUserId} and CreateTime>#{time} and Type=#{type}
+		]]>
+	</select>
+	
+	<select id="getUserSharedClickRecordListBySharedId" resultType="UserSharedClickRecord">
+		<![CDATA[
+			select * from yjj_UserSharedClickRecord 
+			where SharedId=#{sharedId}
+		]]>
+	</select>
+</mapper>

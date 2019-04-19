@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jiuy.core.dao.impl.sql.JiuCoinDeductDaoSqlImpl">
+	
+	<select id="sumDayStatistics" parameterType="map" resultType="JiuCoinDeductStatisticsDayBean">
+		SELECT sum(OrderCount) as OrderCount,sum(OrderMoney) as OrderMoney, sum(PayOrderCount) as PayOrderCount, sum(PayOrderMoney) as PayOrderMoney, sum(DeductMoney) as DeductMoney, sum(DeductCoinNum) as DeductCoinNum 
+		FROM yjj_JiuCoinDeductDayReport
+		<where>
+			<![CDATA[ 
+				CreateTime >= #{startTime} and CreateTime <= #{endTime}
+			]]>
+		</where>
+	</select>
+	
+	<select id="sumTimeStatistics" parameterType="map" resultType="JiuCoinDeductStatisticsDayBean">
+		select count(distinct o.OrderNo) as OrderCount, sum(TotalMoney + TotalExpressMoney) as OrderMoney,sum(TotalPay) as PayOrderMoney,
+		(select sum(DeductCoinNum) from yjj_OrderItem where <![CDATA[ CreateTime >= #{startTime} and CreateTime <= #{endTime}]]> and DeductCoinNum > 0 ) as DeductCoinNum,
+		(select sum(DeductCoinNum) from yjj_OrderItem where <![CDATA[ CreateTime >= #{startTime} and CreateTime <= #{endTime}]]> and DeductCoinNum > 0 ) * 0.1 as DeductMoney,
+		(select count(distinct OrderNo) from yjj_OrderNew where <![CDATA[ CreateTime >= #{startTime} and CreateTime <= #{endTime}]]> and OrderStatus in(10,50,70) and (ParentId =-1 or ParentId = OrderNo)) as PayOrderCount
+		from yjj_OrderNew o where <![CDATA[ CreateTime >= #{startTime} and CreateTime <= #{endTime}]]> and OrderNo in ( select OrderNo from yjj_OrderItem where DeductCoinNum > 0) and (ParentId =-1 or ParentId = OrderNo);
+	</select>
+	
+</mapper>

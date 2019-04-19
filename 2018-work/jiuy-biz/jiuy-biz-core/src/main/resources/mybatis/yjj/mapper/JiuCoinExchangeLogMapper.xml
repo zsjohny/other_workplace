@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yujj.dao.mapper.JiuCoinExchangeLogMapper">
+
+	<insert id="batchAdd">
+		insert yjj_JiuCoinExchangeLog(UserId, Type, RelatedId, Count, JiuCoin, Content, CreateTime)
+		values
+		<foreach collection="jiuCoinExchangeLogs" item="jiuCoinExchangeLog" open="(" separator="),(" close=")">
+			#{jiuCoinExchangeLog.userId}, #{jiuCoinExchangeLog.type}, #{jiuCoinExchangeLog.relatedId}, #{jiuCoinExchangeLog.count}, 
+			#{jiuCoinExchangeLog.jiuCoin}, #{jiuCoinExchangeLog.content}, #{jiuCoinExchangeLog.createTime} 
+		</foreach>
+	</insert>
+	
+	<insert id="add">
+		insert yjj_JiuCoinExchangeLog(UserId, Type, RelatedId, Count, JiuCoin, Content, CreateTime)
+		values (#{userId}, #{type}, #{relatedId}, #{count}, #{jiuCoin}, #{content}, #{createTime}) 
+	</insert>
+	
+	<select id="search" resultType="JiuCoinExchangeLog">
+		select * from yjj_JiuCoinExchangeLog
+		<where>
+			UserId = #{userId}
+			<if test="type == 1">
+				and Type = #{type}
+			</if>
+			<if test="type == 2">
+				and Type = #{type}
+			</if>
+		</where>
+		limit #{pageQuery.limit} offset #{pageQuery.offset} 
+	</select>
+	
+	<select id="searchCount" resultType="int">
+		select count(1) from yjj_JiuCoinExchangeLog
+		<where>
+			UserId = #{userId}
+			<if test="type == 1">
+				and Type = #{type}
+			</if>
+			<if test="type == 2">
+				and Type = #{type}
+			</if>
+		</where>
+	</select>
+	
+	<select id="getCount" resultType="Integer">
+		select ifnull(sum(Count),0) from yjj_JiuCoinExchangeLog
+		<where>
+			<if test="userId != null">
+				and userId = #{userId}
+			</if>
+			<if test="type != null">
+				and type = #{type}
+			</if>
+			<if test="relatedId != null">
+				and RelatedId = #{relatedId}
+			</if>
+			<if test="startTime != null">
+				<![CDATA[ and CreateTime >= #{startTime} ]]>
+			</if>
+			<if test="endTime != null">
+				<![CDATA[ and CreateTime <= #{endTime} ]]>
+			</if>
+		</where>
+	</select>
+	
+</mapper>

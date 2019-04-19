@@ -1,0 +1,31 @@
+
+/**规则说明**/
+.rule-box{
+	margin: 0.2rem 0.24rem;
+	background: #fff;
+	height: auto;
+	overflow: hidden;
+	padding-bottom: 0.5rem;
+}
+.rule-item{
+	height: auto;
+	overflow: hidden;
+	margin-bottom: 0.32rem;
+}
+.rule-item dt{
+	color: #333;
+	font-size: 0.3rem;
+	padding-bottom: 0.14rem;
+}
+.rule-item dd{
+	color: #333;
+	font-size: 0.24rem;
+	color: #999;
+	line-height: 1.4;
+}
+.rule-item dd ul{
+	padding: 0.16rem 0;
+}
+.rule-item dd ul li{
+	line-height: 1.4;
+}

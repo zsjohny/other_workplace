@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jiuy.core.dao.impl.sql.StoreOrderItemDaoSqlImpl">
+
+	<select id="orderItemsOfIds" parameterType="map" resultType="StoreOrderItem">
+		select * from store_OrderItem
+		where Id in 
+		<foreach collection="Ids" item="id" open="(" separator="," close=")">
+			#{id}
+		</foreach> and Status = 0
+	</select>
+	
+	<select id="buyCountMapOfOrderNo" parameterType="map" resultType="map">
+		select sum(BuyCount) as TotalBuyCount, OrderNo
+		from store_OrderItem
+		where OrderNo in 
+		<foreach collection="orderNos" item="orderNo" open="(" separator="," close=")">
+			#{orderNo}
+		</foreach>
+		group by OrderNo
+	</select>
+	
+	<select id="srchSelfParamsOfOrderNos" parameterType="map" resultType="map">
+		select c.DetailImages, b.SkuNo, c.ClothesNumber, a.SkuSnapshot, a.TotalMoney, a.BuyCount, a.TotalPay, 
+			a.OrderNo, b.ProductId, b.Name as ProductName, d.BrandName, a.UnavalCoinUsed
+		from (select * from store_OrderItem 
+			where OrderNo in
+			<foreach collection="orderNos" item="orderNo" open="(" separator="," close=")">
+				#{orderNo}
+			</foreach> ) as a left join yjj_ProductSKU as b on a.SkuId = b.Id
+			left join yjj_Product as c on b.ProductId = c.Id left join yjj_Brand as d on d.BrandId = c.BrandId
+	</select>
+	
+	<select id="getBuyCountOfOrderStatus" parameterType="map" resultType="int">
+		select sum(BuyCount) from store_OrderItem
+		where StoreId = #{storeId} and OrderNo in ( select OrderNo from store_Order where OrderStatus in 
+			<foreach collection="groupOrderStatus" item="orderStatus" open="(" separator="," close=")">
+				#{orderStatus}
+			</foreach> and StoreId = #{storeId})
+	</select>
+	
+	<select id="orderItemsOfOrderNos" parameterType="map" resultType="StoreOrderItem">
+		select * from store_OrderItem
+		where OrderNo in 
+		<foreach collection="orderNos" item="orderNo" open="(" separator="," close=")">
+			#{orderNo}
+		</foreach> and Status = 0 and BuyCount > 0
+		order by OrderNo asc
+	</select>
+	
+	<select id="getByOrderNo" resultType="StoreOrderItem">
+		select * from store_OrderItem
+		where OrderNo = #{orderNo}
+	</select>
+	
+	<select id="getProductCountMap" resultType="map">
+		select OrderNo, sum(BuyCount) from store_OrderItem
+		where OrderNo in 
+			<foreach collection="orderNos" item="orderNo" open="(" separator="," close=")">
+				#{orderNo}
+			</foreach>
+		group by OrderNo
+	</select>
+	
+	<select id="orderItemsOfProductIds" resultType="StoreOrderItem">
+		select * from store_OrderItem
+		where ProductId in <foreach collection="productIds" item="productId" open="(" separator="," close=")">
+			#{productId}
+		</foreach>
+		order by CreateTime desc
+	</select>
+	
+	<select id="getOrderItemsBySkuIds" resultType="StoreOrderItem">
+		select * from store_OrderItem
+		where SkuId in <foreach collection="skuIds" item="skuId" open="(" separator="," close=")">
+			#{skuId}
+		</foreach>
+	</select>
+	
+	<select id="orderItemsOfSkuIds" parameterType="map" resultType="StoreOrderItem">
+		select * from store_OrderItem
+		where SkuId in 
+		<foreach collection="skuIds" item="skuId" open="(" separator="," close=")">
+			#{skuId}
+		</foreach> 
+		<if test = "orderNos != null">
+			and OrderNo not in 
+				<foreach collection="orderNos" item="orderNo" open="(" separator="," close=")">
+					#{orderNo}
+				</foreach> 
+		</if>
+	</select>
+
+</mapper>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yujj.dao.mapper.ExpressInfoMapper">
+	<select id="getExpressInfoMap" parameterType="map" resultType="ExpressInfo">
+		<![CDATA[
+			select * from yjj_ExpressInfo
+			where OrderItemGroupId in
+		]]>
+		<foreach collection="orderItemGroupIds" item="orderItemGroupId" open="(" separator="," close=")">
+			<![CDATA[
+				#{orderItemGroupId}
+			]]>
+		</foreach>
+	</select>
+	
+	<select id="getUserExpressInfo" parameterType="map" resultType="ExpressInfo">
+		<![CDATA[
+			select * from yjj_ExpressInfo
+			where OrderItemGroupId = #{orderItemGroupId} and UserId = #{userId}
+		]]>
+	</select>
+	
+	<select id="getUserExpressInfoByOrderNo" parameterType="map" resultType="ExpressInfo">
+		<![CDATA[
+			select * from yjj_ExpressInfo
+			where OrderNo = #{orderNo} and UserId = #{userId}
+		]]>
+	</select>
+</mapper>

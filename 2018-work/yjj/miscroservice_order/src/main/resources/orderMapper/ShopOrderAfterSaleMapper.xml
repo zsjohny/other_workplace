@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.e_commerce.miscroservice.order.mapper.ShopOrderAfterSaleMapper">
+
+    <select id="listByShopMemberOrderNo"
+            resultType="com.e_commerce.miscroservice.order.entity.ShopOrderAfterSale">
+          SELECT `id`,
+          `after_sale_id` AS afterSaleId,
+          `phone`,
+          `order_id` AS orderId ,
+          `apply_time` AS applyTime ,
+          `operate_time` AS operateTime ,
+          `type`,
+          `status`,
+          `apply_back_money` AS applyBackMoney ,
+          `back_money` AS backMoney ,
+          `sku_id` AS skuId ,
+          `store_id` AS storeId ,
+          `member_id` AS memberId ,
+          `refund_count` AS refundCount
+        FROM shop_order_after_sale
+        WHERE order_id = #{orderId}
+        AND del_status = 0
+    </select>
+</mapper>

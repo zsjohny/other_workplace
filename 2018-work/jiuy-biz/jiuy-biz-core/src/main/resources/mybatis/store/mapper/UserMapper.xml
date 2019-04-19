@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yujj.dao.mapper.UserMapper">
+
+	<select id="getStoreBusinessByStoreId" resultType="StoreBusiness">
+		<![CDATA[
+			select * from yjj_StoreBusiness
+			where Id = #{storeId} 
+		]]>
+	</select>
+
+	<select id="getStoreBusiness4Login" resultType="StoreBusiness">
+		<![CDATA[
+			select * from yjj_StoreBusiness
+			where UserName = #{userName} 
+		]]>
+	</select>
+	
+	<select id="getStoreBusinessByPhone" resultType="StoreBusiness">
+		<![CDATA[
+			select * from yjj_StoreBusiness
+			where UserName = #{phone}  or PhoneNumber = #{phone} limit 1
+		]]>
+	</select>
+
+	
+	<update id="resetUserPassword" parameterType="map">
+		<![CDATA[
+			update yjj_StoreBusiness
+			set UserPassword = #{password}, UpdateTime = unix_timestamp()*1000
+			where userName = #{userName}
+		]]>
+	</update>	
+	
+	<update id="updateUserCid" parameterType="map">
+		<![CDATA[
+			update yjj_StoreBusiness
+			set UserCID = #{userCid}, UpdateTime = unix_timestamp()*1000
+			where Id = #{id}
+		]]>
+	</update>
+	
+	<update id="updateUserProtocolTime" parameterType="map">
+		<![CDATA[
+			update yjj_StoreBusiness
+			set protocolTime = #{time}, UpdateTime = unix_timestamp()*1000
+			where Id = #{id}
+		]]>
+	</update>
+	
+
+</mapper>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jiuyuan.dao.mapper.supplier.ProxyProductMapper">
+
+	
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.jiuyuan.entity.newentity.ProxyProduct">
+		<id column="id" property="id" />
+		<result column="name" property="name" />
+		<result column="price" property="price" />
+		<result column="total_count" property="totalCount" />
+		<result column="single_use_limit_day" property="singleUseLimitDay" />
+		<result column="renew_protect_day" property="renewProtectDay" />
+		<result column="note" property="note" />
+		<result column="create_time" property="createTime" />
+	</resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, name, price, total_count AS totalCount, single_use_limit_day AS singleUseLimitDay, renew_protect_day AS renewProtectDay, note, create_time AS createTime
+    </sql>
+
+</mapper>

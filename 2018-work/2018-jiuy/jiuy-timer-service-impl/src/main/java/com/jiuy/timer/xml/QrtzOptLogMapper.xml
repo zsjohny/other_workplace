@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" > 
+<mapper namespace="com.jiuy.mapper.QrtzOptLogMapper">
+ 
+ 	<!-- 主要的返回映射-->
+	<resultMap id="BaseResultMap" type="com.jiuy.timer.model.QrtzOptLog"	>
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="job_name"  property="jobName"  jdbcType="VARCHAR" />
+		<result column="job_group"  property="jobGroup"  jdbcType="VARCHAR" />
+		<result column="job_comment"  property="jobComment"  jdbcType="VARCHAR" />
+		<result column="opt_type"  property="optType"  jdbcType="INTEGER" />
+		<result column="opt_time_start"  property="optTimeStart"  jdbcType="TIMESTAMP" />
+		<result column="opt_time_end"  property="optTimeEnd"  jdbcType="TIMESTAMP" />
+		<result column="result"  property="result"  jdbcType="VARCHAR" />
+		<result column="status"  property="status"  jdbcType="INTEGER" />
+		<result column="feedback_url"  property="feedbackUrl"  jdbcType="VARCHAR" />
+		<result column="feedback_param"  property="feedbackParam"  jdbcType="VARCHAR" />
+		<result column="job_snapshot"  property="jobSnapshot"  jdbcType="VARCHAR" />
+	</resultMap>
+
+	<!-- 所有的列名-->
+	<sql id="Base_Column_List" >
+		id,job_name,job_group,job_comment,opt_type,opt_time_start,opt_time_end,result,status,
+		feedback_url,feedback_param,job_snapshot
+	</sql>
+
+	<!-- 精确更新的字段-->
+	<sql id="updateBase">
+		<if test="id  !=null">
+			id = #{id,jdbcType=BIGINT}, 
+		</if>
+		<if test="jobName  !=null">
+			job_name = #{jobName,jdbcType=VARCHAR}, 
+		</if>
+		<if test="jobGroup  !=null">
+			job_group = #{jobGroup,jdbcType=VARCHAR}, 
+		</if>
+		<if test="jobComment  !=null">
+			job_comment = #{jobComment,jdbcType=VARCHAR}, 
+		</if>
+		<if test="optType  !=null">
+			opt_type = #{optType,jdbcType=INTEGER}, 
+		</if>
+		<if test="optTimeStart  !=null">
+			opt_time_start = #{optTimeStart,jdbcType=TIMESTAMP}, 
+		</if>
+		<if test="optTimeEnd  !=null">
+			opt_time_end = #{optTimeEnd,jdbcType=TIMESTAMP}, 
+		</if>
+		<if test="result  !=null">
+			result = #{result,jdbcType=VARCHAR}, 
+		</if>
+		<if test="status  !=null">
+			status = #{status,jdbcType=INTEGER}, 
+		</if>
+		<if test="feedbackUrl  !=null">
+			feedback_url = #{feedbackUrl,jdbcType=VARCHAR}, 
+		</if>
+		<if test="feedbackParam  !=null">
+			feedback_param = #{feedbackParam,jdbcType=VARCHAR}, 
+		</if>
+		<if test="jobSnapshot  !=null">
+			job_snapshot = #{jobSnapshot,jdbcType=VARCHAR} 
+		</if>
+	</sql>
+
+	<!-- 通过主键查找-->
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="Long" >
+		select 
+		<include refid="Base_Column_List" />
+		from qrtz_opt_log
+		where  id = #{id,jdbcType=BIGINT} 
+	</select>
+
+	<!-- 通过主键删除-->
+	<delete id="deleteByPrimaryKey" parameterType="Long" >
+		delete from qrtz_opt_log
+		where id = #{id,jdbcType=BIGINT} 
+	</delete>
+
+	<!-- 普通插入全字段插入-->
+	<insert id="insert" parameterType="com.jiuy.timer.model.QrtzOptLog" >
+		insert into qrtz_opt_log
+		(
+			id,
+			job_name,
+			job_group,
+			job_comment,
+			opt_type,
+			opt_time_start,
+			opt_time_end,
+			result,
+			status,
+			feedback_url,
+			feedback_param,
+			job_snapshot,
+		)
+		values
+		(
+			#{id ,jdbcType=BIGINT},
+			#{jobName ,jdbcType=VARCHAR},
+			#{jobGroup ,jdbcType=VARCHAR},
+			#{jobComment ,jdbcType=VARCHAR},
+			#{optType ,jdbcType=INTEGER},
+			#{optTimeStart ,jdbcType=TIMESTAMP},
+			#{optTimeEnd ,jdbcType=TIMESTAMP},
+			#{result ,jdbcType=VARCHAR},
+			#{status ,jdbcType=INTEGER},
+			#{feedbackUrl ,jdbcType=VARCHAR},
+			#{feedbackParam ,jdbcType=VARCHAR},
+			#{jobSnapshot ,jdbcType=VARCHAR}
+		)
+	</insert>
+
+	<!-- 批量插入，全部字段插入-->
+	<insert id="insertBach"   parameterType="List" >
+		insert into qrtz_opt_log
+		(
+			id,
+			job_name,
+			job_group,
+			job_comment,
+			opt_type,
+			opt_time_start,
+			opt_time_end,
+			result,
+			status,
+			feedback_url,
+			feedback_param,
+			job_snapshot,
+		)
+		values 
+		<foreach collection="list" item="item" separator=",">
+		(
+			#{item.id ,jdbcType=BIGINT},
+			#{item.jobName ,jdbcType=VARCHAR},
+			#{item.jobGroup ,jdbcType=VARCHAR},
+			#{item.jobComment ,jdbcType=VARCHAR},
+			#{item.optType ,jdbcType=INTEGER},
+			#{item.optTimeStart ,jdbcType=TIMESTAMP},
+			#{item.optTimeEnd ,jdbcType=TIMESTAMP},
+			#{item.result ,jdbcType=VARCHAR},
+			#{item.status ,jdbcType=INTEGER},
+			#{item.feedbackUrl ,jdbcType=VARCHAR},
+			#{item.feedbackParam ,jdbcType=VARCHAR},
+			#{item.jobSnapshot ,jdbcType=VARCHAR}
+		)
+		</foreach>
+	</insert>
+
+	<!-- 精确插入，非null得字段才会插入-->
+	<insert id="insertSelective" parameterType="com.jiuy.timer.model.QrtzOptLog" useGeneratedKeys="true" keyProperty="id" >
+		insert into qrtz_opt_log
+		<trim prefix="(" suffix=")" suffixOverrides="," > 
+			<if test="id !=null">  
+				id,
+			</if>
+			<if test="jobName !=null">  
+				job_name,
+			</if>
+			<if test="jobGroup !=null">  
+				job_group,
+			</if>
+			<if test="jobComment !=null">  
+				job_comment,
+			</if>
+			<if test="optType !=null">  
+				opt_type,
+			</if>
+			<if test="optTimeStart !=null">  
+				opt_time_start,
+			</if>
+			<if test="optTimeEnd !=null">  
+				opt_time_end,
+			</if>
+			<if test="result !=null">  
+				result,
+			</if>
+			<if test="status !=null">  
+				status,
+			</if>
+			<if test="feedbackUrl !=null">  
+				feedback_url,
+			</if>
+			<if test="feedbackParam !=null">  
+				feedback_param,
+			</if>
+			<if test="jobSnapshot !=null">  
+				job_snapshot,
+			</if>
+		</trim>
+
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+			<if test="id  !=null">
+				#{id,jdbcType=BIGINT}, 
+			</if>
+			<if test="jobName  !=null">
+				#{jobName,jdbcType=VARCHAR}, 
+			</if>
+			<if test="jobGroup  !=null">
+				#{jobGroup,jdbcType=VARCHAR}, 
+			</if>
+			<if test="jobComment  !=null">
+				#{jobComment,jdbcType=VARCHAR}, 
+			</if>
+			<if test="optType  !=null">
+				#{optType,jdbcType=INTEGER}, 
+			</if>
+			<if test="optTimeStart  !=null">
+				#{optTimeStart,jdbcType=TIMESTAMP}, 
+			</if>
+			<if test="optTimeEnd  !=null">
+				#{optTimeEnd,jdbcType=TIMESTAMP}, 
+			</if>
+			<if test="result  !=null">
+				#{result,jdbcType=VARCHAR}, 
+			</if>
+			<if test="status  !=null">
+				#{status,jdbcType=INTEGER}, 
+			</if>
+			<if test="feedbackUrl  !=null">
+				#{feedbackUrl,jdbcType=VARCHAR}, 
+			</if>
+			<if test="feedbackParam  !=null">
+				#{feedbackParam,jdbcType=VARCHAR}, 
+			</if>
+			<if test="jobSnapshot  !=null">
+				#{jobSnapshot,jdbcType=VARCHAR} 
+			</if>
+		</trim>
+	</insert> 
+
+	<!-- 精确更新-->
+	<update id="updateByPrimaryKeySelective" parameterType="com.jiuy.timer.model.QrtzOptLog" >
+		update qrtz_opt_log
+		<set>
+			<include refid="updateBase"/>
+		</set>
+		where id = #{id,jdbcType=BIGINT} 
+	</update> 
+
+	<!-- 全字段更新 需要注意-->
+	<update id="updateByPrimaryKey" parameterType="com.jiuy.timer.model.QrtzOptLog" >
+		update qrtz_opt_log
+		set 
+			id = #{id ,jdbcType=BIGINT},
+			job_name = #{jobName ,jdbcType=VARCHAR},
+			job_group = #{jobGroup ,jdbcType=VARCHAR},
+			job_comment = #{jobComment ,jdbcType=VARCHAR},
+			opt_type = #{optType ,jdbcType=INTEGER},
+			opt_time_start = #{optTimeStart ,jdbcType=TIMESTAMP},
+			opt_time_end = #{optTimeEnd ,jdbcType=TIMESTAMP},
+			result = #{result ,jdbcType=VARCHAR},
+			status = #{status ,jdbcType=INTEGER},
+			feedback_url = #{feedbackUrl ,jdbcType=VARCHAR},
+			feedback_param = #{feedbackParam ,jdbcType=VARCHAR},
+			job_snapshot = #{jobSnapshot ,jdbcType=VARCHAR}
+		where id = #{id,jdbcType=BIGINT} 
+	</update> 
+
+	<!-- 所有的条件集合-->
+	<sql id="whereCase"  >
+		where  1=1 
+		<if test="id  !=null">
+			AND id = #{id,jdbcType=BIGINT} 
+		</if>
+		<if test="jobName  !=null">
+			AND job_name = #{jobName,jdbcType=VARCHAR} 
+		</if>
+		<if test="jobGroup  !=null">
+			AND job_group = #{jobGroup,jdbcType=VARCHAR} 
+		</if>
+		<if test="jobComment  !=null">
+			AND job_comment = #{jobComment,jdbcType=VARCHAR} 
+		</if>
+		<if test="optType  !=null">
+			AND opt_type = #{optType,jdbcType=INTEGER} 
+		</if>
+		<if test="optTimeStart  !=null">
+			AND opt_time_start = #{optTimeStart,jdbcType=TIMESTAMP} 
+		</if>
+		<if test="optTimeEnd  !=null">
+			AND opt_time_end = #{optTimeEnd,jdbcType=TIMESTAMP} 
+		</if>
+		<if test="result  !=null">
+			AND result = #{result,jdbcType=VARCHAR} 
+		</if>
+		<if test="status  !=null">
+			AND status = #{status,jdbcType=INTEGER} 
+		</if>
+		<if test="feedbackUrl  !=null">
+			AND feedback_url = #{feedbackUrl,jdbcType=VARCHAR} 
+		</if>
+		<if test="feedbackParam  !=null">
+			AND feedback_param = #{feedbackParam,jdbcType=VARCHAR} 
+		</if>
+		<if test="jobSnapshot  !=null">
+			AND job_snapshot = #{jobSnapshot,jdbcType=VARCHAR} 
+		</if>
+		<include refid="costomWhereCase"/>
+	</sql>
+
+	<!-- 查询一条，如果返回多条会报错-->
+	<select id="selectOne" parameterType="java.util.Map" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" /> 
+		FROM qrtz_opt_log 
+		<include refid="whereCase" /> 
+	</select>
+
+	<!-- 查询一个list-->
+	<select id="selectList" parameterType="java.util.Map" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" /> 
+		FROM qrtz_opt_log 
+		<include refid="whereCase" /> 
+	</select>
+
+	<!--  @Costom -->
+	<!-- 从上一行注释以上为系统生成 从这一行往下为用户自定义 请将自定义的sql放在此行下面 -->
+	<sql id="costomWhereCase">
+	</sql>
+
+</mapper>

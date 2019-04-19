@@ -1,0 +1,79 @@
+@import '/style/common.wxss';
+/**退款/售后列表 **/
+page{
+  background: #f4f4f4
+}
+.body-contain{
+  padding-bottom: 120rpx;
+}
+.refund-list{
+  padding: 24rpx 0 14rpx;
+}
+.refund-list .item{
+  height: auto;
+  overflow: hidden;
+  color: #6c6c6c;
+  font-size: 28rpx;
+  margin-bottom: 20rpx;
+  padding: 24rpx 24rpx 0;
+  background: #fff;
+}
+.refund-list .item .title{
+  background: #f8f8f8;
+  font-size: 26rpx;
+  height: 70rpx;
+  line-height: 70rpx;
+  color: #959595;
+  padding: 0 24rpx;
+  display: -webkit-flex;
+  justify-content: space-between;
+}
+.refund-list .item .product-item{
+  border: 2rpx solid #ecebeb;
+  box-sizing: border-box;
+}
+.refund-list .detail{
+  line-height: 56rpx;
+  color: #9a9a9a;
+  font-size: 26rpx;
+  display: -webkit-flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.refund-list .detail .type-name{
+  position: relative;
+  padding-left: 54rpx;
+}
+.refund-list .detail .type-name::after{
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 5rpx;
+  width: 45rpx;
+  height: 45rpx;
+  background: url(https://yjj-img-main.oss-cn-hangzhou.aliyuncs.com/icon/new/rmb-icon1.png);
+  background-size: 45rpx;
+}
+.refund-list .detail .refund-cost{
+  color: #333
+}
+.operator-box{
+  display: -webkit-flex;
+  height: 124rpx;
+  justify-content: flex-end;
+  background: #fff;
+  align-items: center;
+  margin-right: 24rpx;
+}
+.operator-box .btn-item{
+  margin-left: 30rpx;
+}
+.operator-box .delete-btn{
+  width: 108rpx;
+}
+.no-refund-record .icon{
+  width: 307rpx;
+  height: 307rpx;
+  background: url(https://yjj-img-main.oss-cn-hangzhou.aliyuncs.com/icon/new/no-refund.png);
+  background-size: 307rpx;
+}

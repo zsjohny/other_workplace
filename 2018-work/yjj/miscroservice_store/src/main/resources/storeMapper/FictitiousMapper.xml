@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.e_commerce.miscroservice.store.mapper.FictitiousMapper">
+
+
+
+	<select id="selectMoney" resultType="com.e_commerce.miscroservice.commons.entity.application.user.YjjStoreBusinessAccount">
+			select
+			 id,
+			 count_money as countMoney,
+			 frozen_money as frozenMoney,
+			 use_money as useMoney,
+			 user_id as userId,
+			 del_status as delStatus,
+			 create_time as createTime,
+			 update_time as updateTime,
+			 status,
+			 wait_in_money as waitInMoney,
+			 real_use_money as realUseMoney,
+			 remainder_money as remainderMoney
+			 from `yjj_storebusiness_account` where `user_id`=#{storeId} and `del_status`=0 and `status`=0
+	</select>
+
+	<select id="selectOrderByOrderNo" resultType="com.e_commerce.miscroservice.store.entity.vo.StoreOrderNew">
+			select * from `store_order` where `OrderNo` =#{orderNo}
+	</select>
+
+	<select id="selectOrderByParentId" resultType="com.e_commerce.miscroservice.store.entity.vo.StoreOrderNew">
+			  select * from `store_order` where `ParentId` =#{orderNo}
+	</select>
+	<update id="updateyjjStoreBusinessAccount">
+			update  `yjj_storebusiness_account`  set `real_use_money`=#{money},`count_money`=#{totalMoney} where `user_id` =#{storeId}
+	</update>
+
+	<update id="updateOrder">
+			update `store_order` set `OrderStatus`=#{storeOrderNew.orderStatus},`PaymentType` =#{storeOrderNew.paymentType},`PayTime`=#{storeOrderNew.payTime} where `OrderNo`=#{storeOrderNew.orderNo} and `Status`=0
+	</update>
+
+	<select id="selectName" resultType="String">
+			select `BusinessName` as businessName from `yjj_storebusiness`where `Id` =#{storeId}
+	</select>
+
+	<select id="selectTypeBystoreId" resultType="Integer">
+			select wxa_business_type as wxaBusinessType from `yjj_storebusiness` where `id`=#{storeId}
+	</select>
+
+	<select id="selectOrderItem" resultType="com.e_commerce.miscroservice.commons.entity.application.order.StoreOrderItem">
+			select
+			SkuId as skuId,
+			BuyCount as buyCount
+			from `store_orderitem` where `OrderNo`=#{orderNo} and `StoreId`=#{storeId} and `Status`=0
+	</select>
+	<select id="selectMemberOrder" resultType="com.e_commerce.miscroservice.store.entity.vo.ShopMemberOrder">
+			select
+			order_number as orderNumber,
+			`count` from `shop_member_order` where `order_status` in(1,5)
+	</select>
+
+	<select id="selectMemberOrderItem" resultType="com.e_commerce.miscroservice.store.entity.vo.ShopMemberOrderItem">
+			select
+			`product_sku_id` as productSkuId,
+			count as `count` from `shop_member_order_item`  where `order_number`=#{orderNumber} and `product_sku_id`=#{skuId}
+	</select>
+</mapper>

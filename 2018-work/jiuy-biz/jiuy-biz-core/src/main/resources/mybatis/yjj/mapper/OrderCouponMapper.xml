@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.yujj.dao.mapper.OrderCouponMapper">
+	
+	<select id="getCouponById" resultType="Coupon">
+		<![CDATA[
+			select * from yjj_Coupon
+			where Id = #{id} and Status = 0 and (UserId = #{userId} or type = 1)
+		]]>
+	</select>
+	
+	<select id="getCouponByIdArr" resultType="Coupon">
+		<![CDATA[
+			select * from yjj_Coupon
+			where Id in (${ids}) and Status = 0 and (UserId = #{userId} or type = 1)
+		]]>
+	</select>
+	
+	<select id="getCouponByIds" resultType="Coupon">
+		<![CDATA[
+			select * from yjj_Coupon
+			where  Status = 0  and Id in
+		]]>
+		<foreach collection="ids" item="id" open="(" separator="," close=")">
+			<![CDATA[
+				#{id}
+			]]>
+		</foreach>
+		
+	</select>
+	
+	<sql id="couponStatusSql">
+	 	
+			<if test="status != null">
+				
+				<if test="status == 0">
+				<![CDATA[
+			and ValidityStartTime < unix_timestamp() * 1000	and  ValidityEndTime > unix_timestamp() * 1000	and	( (Status = #{status} and Type = 0 and UserId = #{userId}  ) or ((select  count(1) from yjj_CouponUseLog where userId = #{userId} and CouponId = a.id and status = 0 ) - (select  count(1) from yjj_CouponUseLog where userId = #{userId} and CouponId = a.id and status = 1 ) = 0 and Type = 1 and CreateTime > (SELECT CreateTime FROM yjj_User where UserId = #{userId}) ) )
+				]]>
+				</if>
+				
+				<if test="status == 1">
+				<![CDATA[
+					and ( ((Status = #{status} or ValidityStartTime > unix_timestamp() * 1000	or  ValidityEndTime < unix_timestamp() * 1000)  and Type = 0 and UserId = #{userId}  ) or (((select  count(1) from yjj_CouponUseLog where userId = #{userId} and CouponId= a.id and status = 0 ) - (select  count(1) from yjj_CouponUseLog where userId = #{userId} and CouponId = a.id and status = 1 ) > 0 or ValidityStartTime > unix_timestamp() * 1000	or  ValidityEndTime < unix_timestamp() * 1000 )  and Type = 1 and CreateTime > (SELECT CreateTime FROM yjj_User where UserId = #{userId}) ) )
+				]]>
+				</if>
+				
+			</if>
+		
+	</sql>
+	
+	<select id="getUserCouponCount" parameterType="map" resultType="int">
+		<![CDATA[
+			select count(*) from yjj_Coupon a
+			where type is not null 
+		]]>	
+			<include refid="couponStatusSql"/>
+	</select>
+	
+	
+	<select id="getUserCouponCountHistory" parameterType="map" resultType="int">
+		<![CDATA[
+			select count(*) from yjj_Coupon a
+			where (UserId = #{userId} 
+				and ( Status = 1 or Status = -1 ) and Type = 0) or (Type = 1 and ( Status = 1 or Status = -1 ))
+		]]>
+	</select>
+	
+	<select id="getUserCouponCountByCode" parameterType="map" resultType="int">
+		<![CDATA[
+			select count(1) from yjj_Coupon
+			where  Status = 0 and UserId is null and YJJNumber is null and Code = #{exchangeCode}
+		]]>
+	</select>
+	
+	<select id="getUserCoupons" parameterType="map" resultType="Coupon">
+		<![CDATA[
+			select * from yjj_Coupon a
+			where type is not null 
+		]]>	
+			<include refid="couponStatusSql"/>
+		<![CDATA[
+			order by CreateTime desc
+			limit #{pageQuery.limit} offset #{pageQuery.offset}
+		]]>
+	</select>
+	
+	<select id="getUserCouponsHistory" parameterType="map" resultType="Coupon">
+		<![CDATA[
+			select * from yjj_Coupon
+			where (UserId = #{userId} 
+				and ( Status = 1 or Status = -1 ) and Type = 0) or (Type = 1 and ( Status = 1 or Status = -1 ))
+			order by CreateTime desc
+			limit #{pageQuery.limit} offset #{pageQuery.offset}
+		]]>
+	</select>
+	
+	<select id="getUserCouponListByOrderNo" parameterType="map" resultType="Coupon">
+		<![CDATA[
+			select * from yjj_Coupon
+			where OrderNo = #{orderNo} 
+			and  Status = 1 
+			order by CreateTime desc
+		
+		]]>
+	</select>
+	
+	<select id="getUserOrderCoupon" parameterType="map" resultType="Coupon">
+		<![CDATA[
+			select * from yjj_Coupon a
+			where type is not null 
+		]]>	
+			<include refid="couponStatusSql"/>
+		<![CDATA[
+			order by CreateTime desc
+		]]>
+	</select>
+	
+	<update id="updateCouponUsed" parameterType="map">
+		<![CDATA[
+			update yjj_Coupon
+			set Status = #{newStatus},  UpdateTime = #{time}, OrderNo = #{orderNo}
+			where Id in 
+			]]>
+			<foreach collection="idArr" item="id" open="(" separator="," close=")">
+				#{id}
+			</foreach>
+			<![CDATA[
+			 and Status = #{oldStatus} and Type = 0
+		]]>
+	</update>
+	
+	<update id="updateCouponUnuse" parameterType="map">
+		<![CDATA[
+			update yjj_Coupon
+			set Status = #{newStatus},  UpdateTime = #{time} , OrderNo = 0
+			where  Status = #{oldStatus} and OrderNo = #{orderNo} and Type = 0
+		]]>
+	</update>
+	
+	<update id="userExchangeCouponByCode" parameterType="map">
+		<![CDATA[
+			update yjj_Coupon
+			set UserId = #{userId}, YJJNumber = #{yjjNumber}, UpdateTime = #{time}
+			where Code = #{exchangeCode} and Status = 0 
+		]]>
+	</update>
+	
+	<select id="searchAvailableCoupons" resultType="Coupon">
+		select * from yjj_Coupon
+		where <![CDATA[Status >= 0 ]]> and CouponTemplateId = #{templateId} and YJJNumber is null and UserId is null
+			and <![CDATA[#{validityTime} >= ValidityStartTime and (#{validityTime} <= ValidityEndTime or ValidityEndTime = 0)]]> 
+		limit #{limitCount}
+	</select>
+	
+	<select id="search" resultType="Coupon">
+		select * from yjj_Coupon
+		where <![CDATA[Status >= 0 ]]> and UserId = #{userId} and GetWay = #{getWay}
+		limit #{pageQuery.limit} offset #{pageQuery.offset}
+	</select>
+	
+	<select id="searchCount" resultType="int">
+		select count(1) from yjj_Coupon
+		where <![CDATA[Status >= 0 ]]> and UserId = #{userId} and GetWay = #{getWay}
+	</select>
+
+	<update id="batchUpdate">
+		update yjj_Coupon
+		${sql}
+	</update>
+
+	<insert id="batchAdd">
+		insert yjj_Coupon(CouponTemplateId, TemplateName, Type, Money, RangeType, RangeContent, ValidityStartTime, ValidityEndTime, IsLimit,
+			Coexist, UserId, YJJNumber, PushStatus, PublishAdminId, GrantAdminId, CreateTime, UpdateTime, GetWay, LimitMoney)
+		values
+		<foreach collection="coupons" item="coupon" open="(" separator="),(" close=")">
+			#{coupon.couponTemplateId}, #{coupon.templateName}, #{coupon.type}, #{coupon.money}, #{coupon.rangeType}, #{coupon.rangeContent}, #{coupon.validityStartTime}, #{coupon.validityEndTime}, #{coupon.isLimit},
+		 	#{coupon.coexist}, #{coupon.userId}, #{coupon.yJJNumber}, #{coupon.pushStatus}, #{coupon.publishAdminId}, #{coupon.grantAdminId}, #{coupon.createTime}, #{coupon.updateTime}, #{coupon.getWay}, #{coupon.limitMoney}
+		</foreach>
+	</insert>
+	
+	<update id="batchUpdateGrant">
+		update yjj_Coupon
+			set GrantAdminId = #{adminId}, PushStatus = #{pushStatus}, UpdateTime = #{time}, UserId = #{userId}, YJJNumber = #{yjjNumber}, GetWay = #{getWay}
+		where Id in
+			<foreach collection="ids" item="id" open="(" separator="," close=")">
+				#{id}
+			</foreach>
+	</update>
+
+</mapper>

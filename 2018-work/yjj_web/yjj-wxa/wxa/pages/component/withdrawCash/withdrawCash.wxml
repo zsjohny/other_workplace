@@ -1,0 +1,18 @@
+<view class="withdraw-box">
+  <view class='withdraw-info'>
+    <view class='number'>您有可提现颜值分：{{aliveCoins}}</view>
+    <view class='explain'>还有{{waitInCoins}}未入账</view>
+  </view>
+  <view class='withdraw-form'>
+    <view class='withdraw-item'>
+      <input class="input-item" type='number' placeholder='请输入需要提现的颜值分' placeholder-class='placeholder-font' maxlength='11' bindinput="bindKeyInput"></input>
+      <text class='money' wx:if="{{showMoneyState}}">等于{{equivalentMoney}}元</text>
+    </view>
+    <view class='ft-red withdraw-error' wx:if="{{withdrawError}}">提现颜值分数量不足{{minCashOutCoins}}</view>
+  </view>
+  <view class='withdraw-limit'>
+    <view class='limit'>本月剩余可提现额度：{{leftCashOut}}元</view>
+    <view class='record' bindtap='gotoWithdrawRule'>提现规则</view>
+  </view>
+  <view class='withdraw-btn' bindtap='confirmWithdrawFunc'>确认提现</view>
+</view>

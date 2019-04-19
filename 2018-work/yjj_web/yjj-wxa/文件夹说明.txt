@@ -1,0 +1,17 @@
+   
+  
+  1、CDN-image 存放小程序使用过的图片（目录一一对应），方便开发时使用。
+
+ 
+     图片路径如下:
+
+            http://mini-img-main.oss-cn-hangzhou.aliyuncs.com/icon/3.7.7/..
+
+            http://mini-img-main.oss-cn-hangzhou.aliyuncs.com/icon/new/..
+
+
+  2、wxa  小程序代码目录
+
+
+
+  3、 h5   小程序内嵌套的h5页面

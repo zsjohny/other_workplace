@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jiuyuan.dao.mapper.common.DataDictionaryMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.jiuyuan.entity.common.DataDictionary">
+		<id column="id" property="id" />
+		<result column="code" property="code" />
+		<result column="group_code" property="groupCode" />
+		<result column="val" property="val" />
+		<result column="name" property="name" />
+		<result column="comment" property="comment" />
+		<result column="status" property="status" />
+		<result column="create_user_id" property="createUserId" />
+		<result column="create_user_name" property="createUserName" />
+		<result column="create_time" property="createTime" />
+		<result column="last_user_id" property="lastUserId" />
+		<result column="last_user_name" property="lastUserName" />
+		<result column="last_update_time" property="lastUpdateTime" />
+		<result column="parent_id" property="parentId" />
+	</resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, code, group_code AS groupCode, val, name, comment, status, create_user_id AS createUserId, create_user_name AS createUserName, create_time AS createTime, last_user_id AS lastUserId, last_user_name AS lastUserName, last_update_time AS lastUpdateTime, parent_id AS parentId
+    </sql>
+
+</mapper>

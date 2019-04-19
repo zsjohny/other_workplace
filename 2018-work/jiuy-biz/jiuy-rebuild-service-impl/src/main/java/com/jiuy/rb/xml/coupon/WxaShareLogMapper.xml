@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" > 
+<mapper namespace="com.jiuy.rb.mapper.coupon.WxaShareLogMapper"> 
+ 
+ 	<!-- 主要的返回映射-->
+	<resultMap id="BaseResultMap" type="com.jiuy.rb.model.coupon.WxaShareLog"	>
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="member_id"  property="memberId"  jdbcType="BIGINT" />
+		<result column="target_id"  property="targetId"  jdbcType="BIGINT" />
+		<result column="share_type"  property="shareType"  jdbcType="INTEGER" />
+		<result column="description"  property="description"  jdbcType="VARCHAR" />
+		<result column="create_time"  property="createTime"  jdbcType="TIMESTAMP" />
+	</resultMap>
+
+	<!-- 所有的列名-->
+	<sql id="Base_Column_List" >
+		id,member_id,target_id,share_type,description,create_time
+	</sql>
+
+	<!-- 精确更新的字段-->
+	<sql id="updateBase">
+		<if test="id  !=null">
+			id = #{id,jdbcType=BIGINT}, 
+		</if>
+		<if test="memberId  !=null">
+			member_id = #{memberId,jdbcType=BIGINT}, 
+		</if>
+		<if test="targetId  !=null">
+			target_id = #{targetId,jdbcType=BIGINT}, 
+		</if>
+		<if test="shareType  !=null">
+			share_type = #{shareType,jdbcType=INTEGER}, 
+		</if>
+		<if test="description  !=null">
+			description = #{description,jdbcType=VARCHAR}, 
+		</if>
+		<if test="createTime  !=null">
+			create_time = #{createTime,jdbcType=TIMESTAMP} 
+		</if>
+	</sql>
+
+	<!-- 通过主键查找-->
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="Long" >
+		select 
+		<include refid="Base_Column_List" />
+		from yjj_wxa_share_log
+		where  id = #{id,jdbcType=BIGINT} 
+	</select>
+
+	<!-- 通过主键删除-->
+	<delete id="deleteByPrimaryKey" parameterType="Long" >
+		delete from yjj_wxa_share_log
+		where id = #{id,jdbcType=BIGINT} 
+	</delete>
+
+	<!-- 普通插入全字段插t入-->
+	<insert id="insert" parameterType="com.jiuy.rb.model.coupon.WxaShareLog" >
+		insert into yjj_wxa_share_log
+		(
+			id,
+			member_id,
+			target_id,
+			share_type,
+			description,
+			create_time
+		)
+		values
+		(
+			#{id ,jdbcType=BIGINT},
+			#{memberId ,jdbcType=BIGINT},
+			#{targetId ,jdbcType=BIGINT},
+			#{shareType ,jdbcType=INTEGER},
+			#{description ,jdbcType=VARCHAR},
+			#{createTime ,jdbcType=TIMESTAMP}
+		)
+	</insert>
+
+	<!-- 批量插入，全部字段插入-->
+	<insert id="insertBach"   parameterType="List" >
+		insert into yjj_wxa_share_log
+		(
+			id,
+			member_id,
+			target_id,
+			share_type,
+			description,
+			create_time
+		)
+		values 
+		<foreach collection="list" item="item" separator=",">
+		(
+			#{item.id ,jdbcType=BIGINT},
+			#{item.memberId ,jdbcType=BIGINT},
+			#{item.targetId ,jdbcType=BIGINT},
+			#{item.shareType ,jdbcType=INTEGER},
+			#{item.description ,jdbcType=VARCHAR},
+			#{item.createTime ,jdbcType=TIMESTAMP}
+		)
+		</foreach>
+	</insert>
+
+	<!-- 精确插入，非null得字段才会插入-->
+	<insert id="insertSelective" parameterType="com.jiuy.rb.model.coupon.WxaShareLog" useGeneratedKeys="true" keyProperty="id" >
+		insert into yjj_wxa_share_log
+		<trim prefix="(" suffix=")" suffixOverrides="," > 
+			<if test="id !=null">  
+				id,
+			</if>
+			<if test="memberId !=null">  
+				member_id,
+			</if>
+			<if test="targetId !=null">  
+				target_id,
+			</if>
+			<if test="shareType !=null">  
+				share_type,
+			</if>
+			<if test="description !=null">  
+				description,
+			</if>
+			<if test="createTime !=null">  
+				create_time,
+			</if>
+		</trim>
+
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+			<if test="id  !=null">
+				#{id,jdbcType=BIGINT}, 
+			</if>
+			<if test="memberId  !=null">
+				#{memberId,jdbcType=BIGINT}, 
+			</if>
+			<if test="targetId  !=null">
+				#{targetId,jdbcType=BIGINT}, 
+			</if>
+			<if test="shareType  !=null">
+				#{shareType,jdbcType=INTEGER}, 
+			</if>
+			<if test="description  !=null">
+				#{description,jdbcType=VARCHAR}, 
+			</if>
+			<if test="createTime  !=null">
+				#{createTime,jdbcType=TIMESTAMP} 
+			</if>
+		</trim>
+	</insert> 
+
+	<!-- 精确更新-->
+	<update id="updateByPrimaryKeySelective" parameterType="com.jiuy.rb.model.coupon.WxaShareLog" >
+		update yjj_wxa_share_log
+		<set>
+			<include refid="updateBase"/>
+		</set>
+		where id = #{id,jdbcType=BIGINT} 
+	</update> 
+
+	<!-- 全字段更新 需要注意-->
+	<update id="updateByPrimaryKey" parameterType="com.jiuy.rb.model.coupon.WxaShareLog" >
+		update yjj_wxa_share_log
+		set 
+			id = #{id ,jdbcType=BIGINT},
+			member_id = #{memberId ,jdbcType=BIGINT},
+			target_id = #{targetId ,jdbcType=BIGINT},
+			share_type = #{shareType ,jdbcType=INTEGER},
+			description = #{description ,jdbcType=VARCHAR},
+			create_time = #{createTime ,jdbcType=TIMESTAMP}
+		where id = #{id,jdbcType=BIGINT} 
+	</update> 
+
+	<!-- 所有的条件集合-->
+	<sql id="whereCase"  >
+		where  1=1 
+		<if test="id  !=null">
+			AND id = #{id,jdbcType=BIGINT} 
+		</if>
+		<if test="memberId  !=null">
+			AND member_id = #{memberId,jdbcType=BIGINT} 
+		</if>
+		<if test="targetId  !=null">
+			AND target_id = #{targetId,jdbcType=BIGINT} 
+		</if>
+		<if test="shareType  !=null">
+			AND share_type = #{shareType,jdbcType=INTEGER} 
+		</if>
+		<if test="description  !=null">
+			AND description = #{description,jdbcType=VARCHAR} 
+		</if>
+		<if test="createTime  !=null">
+			AND create_time = #{createTime,jdbcType=TIMESTAMP} 
+		</if>
+		<include refid="costomWhereCase"/>
+	</sql>
+
+	<!-- 查询一条，如果返回多条会报错-->
+	<select id="selectOne" parameterType="java.util.Map" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" /> 
+		FROM yjj_wxa_share_log 
+		<include refid="whereCase" /> 
+	</select>
+
+	<!-- 查询一个list-->
+	<select id="selectList" parameterType="java.util.Map" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" /> 
+		FROM yjj_wxa_share_log 
+		<include refid="whereCase" /> 
+	</select>
+
+	<!-- 查询一个list-->
+	<select id="selectCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+		SELECT
+		count(1) 
+		FROM yjj_wxa_share_log
+		<include refid="whereCase" /> 
+	</select>
+
+	<!--  @Costom -->
+	<!-- 从上一行注释以上为系统生成 从这一行往下为用户自定义 请将自定义的sql放在此行下面 -->
+	<sql id="costomWhereCase">
+		<if test="today !=null" >
+			and create_time &gt;= #{today}
+		</if>
+	</sql>
+
+</mapper>

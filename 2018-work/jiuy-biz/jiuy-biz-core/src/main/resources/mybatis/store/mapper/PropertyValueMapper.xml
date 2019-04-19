@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.store.dao.mapper.PropertyValueMapper">
+	<select id="getPropertyValues" parameterType="collection" resultType="ProductPropValue">
+		<![CDATA[
+			select * from yjj_PropertyValue
+			where Id in
+		]]>
+		<foreach collection="ids" item="id" open="(" separator="," close=")">
+			<![CDATA[
+				#{id}
+			]]>
+		</foreach>
+		<![CDATA[
+			 order by OrderIndex
+		]]>
+	</select>
+	<select id="getPropertyValuesByNameIds" parameterType="collection" resultType="ProductPropValue">
+		<![CDATA[
+			select * from yjj_PropertyValue
+			where Status =0 and PropertyNameId in
+		]]>
+		<foreach collection="ids" item="id" open="(" separator="," close=")">
+			<![CDATA[
+				#{id}
+			]]>
+		</foreach>
+		<![CDATA[
+			 order by OrderIndex
+		]]>
+	</select>
+	
+	<select id="getValues" resultType="ProductPropValue">
+		<![CDATA[
+			select Id, PropertyValue from yjj_PropertyValue 
+			 order by OrderIndex
+		]]>
+	</select>	
+	
+	<select id="getPropertyValueById" resultType="String">
+		select PropertyValue from yjj_PropertyValue
+		where Id = #{id}
+	</select>
+	
+</mapper>

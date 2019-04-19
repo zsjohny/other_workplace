@@ -1,0 +1,343 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.store.dao.mapper.StoreOrderMapper">
+
+	<select id="getUserOrderCountForFirstDiscount" parameterType="map" resultType="int">
+		<![CDATA[
+			select count(*) FROM store_Order where StoreId = #{userId}  and OrderStatus != 90 and OrderStatus != 100
+		]]>
+	</select>
+	
+	<insert id="insertOrder" useGeneratedKeys="true" keyProperty="orderNo">
+		<![CDATA[
+			insert into store_Order
+			( StoreId, OrderType, OrderStatus, TotalMoney, TotalPay, TotalMarketPrice, TotalExpressMoney, ExpressInfo, CoinUsed,   Remark, Status, CreateTime, UpdateTime, Platform, PlatformVersion, ip, ExpiredTime, Commission, ParentId, LOWarehouseId, TotalBuyCount, hasWithdrawed,supplierId)
+			values
+			(#{storeId}, #{orderType}, #{orderStatus}, #{totalMoney}, #{totalPay},#{totalMarketPrice}, #{totalExpressMoney}, #{expressInfo}, #{coinUsed},  #{remark}, #{status}, #{createTime}, #{updateTime}, #{platform}, #{platformVersion}, #{ip}, #{expiredTime}, #{commission}, #{parentId}, #{lOWarehouseId}, #{totalBuyCount}, #{hasWithdrawed},#{supplierId})
+		]]>
+	</insert>
+	
+	<select id="getUserOrderByNoOnly" parameterType="map" resultType="ShopStoreOrder">
+		<![CDATA[
+			select *,orderNo_attachment_str AS orderNoAttachmentStr from store_Order 
+			where OrderNo = #{orderNo} and Status = 0 
+		]]>
+	</select>
+	
+	<select id="getByOrderNo" resultType="ShopStoreOrder">
+		select * from store_Order
+		where OrderNo = #{orderNo} and Status = 0 
+	</select>
+	
+	<update id="updateOrderParentId" parameterType="map">
+		<![CDATA[
+			update store_Order
+			set ParentId = #{parentId}, LOWarehouseId = #{lOWarehouseId}, UpdateTime = #{time}
+			where OrderNo = #{orderNo} 
+		]]>
+	</update>
+	
+	<select id="getUserOrderByNo" parameterType="map" resultType="ShopStoreOrder">
+		<![CDATA[
+			select * from store_Order
+			where OrderNo = #{orderNo} and Status = 0 
+		]]>
+		<!-- if test="storeId > 0">
+			and StoreId = #{storeId} 
+		</if -->
+	</select>
+	
+	<update id="updateOrderPayStatus" parameterType="map">
+		<![CDATA[
+			update store_Order 
+			set OrderStatus = #{newStatus}, PaymentNo = #{paymentNo}, PaymentType = #{paymentType}, UpdateTime = #{time}, PayTime = #{time}
+			where OrderNo = #{orderNo} and OrderStatus = #{oldStatus}
+		]]>
+	</update>
+	<update id="updateOrderPayStatusByParentOrderNo" parameterType="map">
+		<![CDATA[
+			update store_Order 
+			set OrderStatus = #{newStatus}, PaymentNo = #{paymentNo}, PaymentType = #{paymentType}, UpdateTime = #{time}, PayTime = #{time}
+			where ParentId = #{parentOrderNo} and OrderStatus = #{oldStatus}
+		]]>
+	</update>
+	
+	<update id="updateOrderCommission" parameterType="map">
+		<![CDATA[
+			update store_Order
+			set AvailableCommission = #{order.availableCommission}, CommissionPercent = #{order.commissionPercent}, UpdateTime = #{time}
+			where OrderNo = #{order.orderNo} and StoreId= #{order.storeId}
+		]]>
+	</update>
+	
+	<select id="getUserOrderCount" parameterType="map" resultType="int">
+		<![CDATA[
+			select count(*) from store_Order 
+			where StoreId = #{userId} and Status = 0 and ( ParentId <= 0 or ParentId = orderNo ) and MergedId != -1 and orderType = 0
+		]]>
+		<if test="orderStatus != 5">
+			<![CDATA[
+				and OrderStatus = #{orderStatus} 
+			]]>
+		</if>
+	</select>
+	
+	<select id="getSupplierOrderCount" parameterType="map" resultType="int">
+		<![CDATA[
+			select count(*) from store_Order 
+			where supplierId = #{supplierId} AND Status = 0 and ParentId > 0 and MergedId != -1 and orderType = 0
+		]]>
+		<if test="orderStatus != 5">
+			<choose>
+				<when test="orderStatus == 60">
+					and (OrderStatus = 50 or OrderStatus = 60 or OrderStatus = 70) 
+				</when>
+				<when test="orderStatus == 80">
+					and (OrderStatus = 80 or OrderStatus = 90 or OrderStatus = 100)
+				</when>
+				<otherwise>
+					and OrderStatus = #{orderStatus}
+				</otherwise>
+			</choose>
+		</if>
+	</select>
+	
+	<select id="getUserOrders" parameterType="map" resultType="ShopStoreOrder">
+		<![CDATA[
+			select * from store_Order
+			where StoreId = #{storeId} and Status = 0 and ( ParentId <= 0 or ParentId = orderNo ) and MergedId != -1 and orderType = 0
+		]]>
+		<if test="orderStatus != 5">
+			<![CDATA[
+				and OrderStatus = #{orderStatus} 
+			]]>
+		</if>
+		<![CDATA[
+			order by CreateTime desc
+			limit #{pageQuery.limit} offset #{pageQuery.offset}
+		]]>
+	</select>
+	
+	<select id="getSupplierOrdersNew" parameterType="map" resultType="ShopStoreOrder">
+		<![CDATA[
+			select * from store_Order
+			where supplierId = #{supplierId} and Status = 0 and ParentId > 0 and MergedId != -1 and orderType = 0
+		]]>
+		<if test="orderStatus != 5">
+			<choose>
+				<when test="orderStatus == 50">
+					and (OrderStatus = 50 or OrderStatus = 60 or OrderStatus = 70) 
+				</when>
+				<when test="orderStatus == 80">
+					and (OrderStatus = 80 or OrderStatus = 90 or OrderStatus = 100)
+				</when>
+				<otherwise>
+					and OrderStatus = #{orderStatus}
+				</otherwise>
+			</choose>
+		</if>
+		<![CDATA[
+			order by OrderNo desc
+			limit #{pageQuery.limit} offset #{pageQuery.offset}
+		]]>
+	</select>
+	
+	<select id="getChildOrderList" parameterType="map" resultType="ShopStoreOrder">
+		<![CDATA[
+			select * from store_Order
+			where StoreId = #{storeId} and Status = 0 and ParentId > 0  and orderType = 0
+			and ParentId != OrderNo and ParentId in 
+			]]>
+		<foreach collection="orderNOs" item="orderNO" open="(" separator="," close=")">
+			<![CDATA[
+				#{orderNO}
+			]]>
+		</foreach>
+	</select>
+	
+	<select id="getUserOrderCountWithoutParent" parameterType="map" resultType="int">
+		<![CDATA[
+			select count(*) from store_Order 
+			where StoreId = #{userId} and Status = 0 and  ParentId >= 0  and MergedId != -1 and orderType = 0
+		]]>
+		<if test="orderStatus != 5">
+			<![CDATA[
+				and OrderStatus = #{orderStatus} 
+			]]>
+		</if>
+		and classify = 1
+	</select>
+	
+	<select id="getSupplierOrderCountWithoutParent" parameterType="map" resultType="int">
+		<![CDATA[
+			select count(*) from store_Order 
+			where supplierId = #{supplierId} and Status = 0 and  ParentId > 0  and MergedId != -1 and orderType = 0
+		]]>
+		<if test="orderStatus != 5">
+			<choose>
+				<when test="orderStatus == 60">
+					and (OrderStatus = 50 or OrderStatus = 60 or OrderStatus = 70) 
+				</when>
+				<when test="orderStatus == 80">
+					and (OrderStatus = 80 or OrderStatus = 90 or OrderStatus = 100)
+				</when>
+				<otherwise>
+					and OrderStatus = #{orderStatus}
+				</otherwise>
+			</choose>
+		</if>
+	</select>
+	
+	<select id="getUserOrdersWithoutParent" parameterType="map" resultType="ShopStoreOrder">
+		<![CDATA[
+			select * from store_Order
+			where StoreId = #{storeId} and Status = 0 and  ParentId >= 0  and MergedId != -1  and orderType = 0
+		]]>
+		<if test="orderStatus != 5">
+			<![CDATA[
+				and OrderStatus = #{orderStatus} 
+			]]>
+		</if>
+		<![CDATA[
+			and classify = 1
+			order by CreateTime desc
+			limit #{pageQuery.limit} offset #{pageQuery.offset}
+		]]>
+	</select>
+	
+	<select id="getSupplierOrdersNewWithoutParent" parameterType="map" resultType="ShopStoreOrder">
+		<![CDATA[
+			select * from store_Order
+			where supplierId = #{supplierId} and Status = 0 and  ParentId > 0  and MergedId != -1  and orderType = 0
+		]]>
+		<if test="orderStatus != 5">
+			<choose>
+				<when test="orderStatus == 60">
+					and (OrderStatus = 50 or OrderStatus = 60 or OrderStatus = 70) 
+				</when>
+				<when test="orderStatus == 80">
+					and (OrderStatus = 80 or OrderStatus = 90 or OrderStatus = 100)
+				</when>
+				<otherwise>
+					and OrderStatus = #{orderStatus}
+				</otherwise>
+			</choose>
+		</if>
+		<![CDATA[
+			order by orderNo desc
+			limit #{pageQuery.limit} offset #{pageQuery.offset}
+		]]>
+	</select>
+	
+	<update id="updateOrderStatus" parameterType="map">
+		<![CDATA[
+			update store_Order
+			set OrderStatus = #{newStatus}, UpdateTime = #{time}, confirmSignedDate=#{today}, confirmSignedTime=#{time}
+			where OrderNo = #{orderNo} and OrderStatus = #{oldStatus}
+		]]>
+	</update>
+	
+	<update id="cancelOrder" parameterType="map">
+		<![CDATA[
+			update store_Order
+			set Status = -1, UpdateTime = #{time}, CancelReason = #{cancelReason}, OrderStatus = 100
+			where OrderNo = #{id} and Status = 0  and orderType = 0
+		]]>
+	</update>
+	
+	<select id="getAllOrderAccumulatedSum" parameterType="map" resultType="Double">
+		<![CDATA[
+			SELECT SUM(TotalPay) FROM 
+			store_Order WHERE storeId=#{storeId} AND parentId>0 AND OrderStatus IN (60,70)
+		]]>
+	</select>
+	
+	<select id="getAllOrderTotalRefundCostSum" parameterType="map" resultType="Double">
+		<![CDATA[
+			SELECT SUM(total_refund_cost) FROM 
+			store_Order WHERE storeId=#{storeId} AND parentId>0 AND OrderStatus IN (60,70)
+		]]>
+	</select>
+	
+	<select id="getStoreOrderByParentId" parameterType="map" resultType="ShopStoreOrder">
+		<![CDATA[
+			select * from store_Order 
+			where ParentId = #{parentId} and Status = 0 
+		]]>
+	</select>
+
+
+
+	<select id="countByKeyword" parameterType="map" resultType="int">
+		<![CDATA[
+		SELECT COUNT(1)
+		FROM (
+		 SELECT o.OrderNo FROM
+			store_Order o
+			LEFT JOIN store_OrderItem i ON i.OrderNo = o.OrderNo
+			JOIN yjj_Brand b ON i.BrandId = b.BrandId
+			JOIN yjj_Product p ON i.ProductId = p.Id
+			WHERE
+			  i.`Status` = 0
+			AND o.MergedId != -1
+		 	AND o.ParentId >= 0
+		]]>
+		<if test="userId != null">
+			AND i.StoreId = #{userId}
+		</if>
+		<if test=" keyword != null and keyword != '' ">
+			<![CDATA[
+			AND (
+				b.BrandName LIKE concat ("%", #{keyword}, "%")
+				OR p.`Name` LIKE concat ("%", #{keyword}, "%")
+				OR o.express_name LIKE concat ("%", #{keyword}, "%")
+				OR i.OrderNo = #{keyword}
+				OR o.express_phone = #{keyword}
+			)
+		]]>
+		</if>
+		GROUP BY (o.OrderNo)
+		) AS a
+
+	</select>
+
+
+
+	<select id="findByKeyword" parameterType="map" resultType="ShopStoreOrder">
+		<![CDATA[
+			SELECT o.* FROM
+			store_Order o
+			LEFT JOIN store_OrderItem i ON i.OrderNo = o.OrderNo
+			JOIN yjj_Brand b ON i.BrandId = b.BrandId
+			JOIN yjj_Product p ON i.ProductId = p.Id
+			WHERE
+			  i.`Status` = 0
+			AND o.MergedId != -1
+		 	AND o.ParentId >= 0
+		 	AND o.classify = 1
+		]]>
+		<if test="userId != null">
+			AND i.StoreId = #{userId}
+		</if>
+		<if test=" keyword != null and keyword != '' ">
+			<![CDATA[
+			AND (
+				b.BrandName LIKE concat ("%", #{keyword}, "%")
+				OR p.`Name` LIKE concat ("%", #{keyword}, "%")
+				OR o.express_name LIKE concat ("%", #{keyword}, "%")
+				OR i.OrderNo = #{keyword}
+				OR o.express_phone = #{keyword}
+			)
+		]]>
+		</if>
+		<![CDATA[
+			GROUP BY (o.OrderNo)
+			order by CreateTime desc
+			limit #{pageQuery.limit} offset #{pageQuery.offset}
+		]]>
+	</select>
+
+
+
+</mapper>

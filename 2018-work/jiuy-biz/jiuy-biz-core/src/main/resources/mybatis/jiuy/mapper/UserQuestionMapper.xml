@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jiuy.core.dao.impl.sql.UserQuestionDaoSqlImpl">
+
+	<select id="search" parameterType="map" resultType="UserQuestion">
+		SELECT *
+		FROM yjj_UserQuestion
+		<where>
+			<if test="content!=null">
+			AND Content like CONCAT ('%',#{content},'%')
+			</if>
+			
+			<if test="yJJNumber!=-1">
+			AND YJJNumber = #{yJJNumber}
+			</if>
+			
+			<if test="startTime != -1">
+			<![CDATA[
+			AND CreateTime >= #{startTime}
+			]]>
+			</if>
+			
+			<if test="endTime != -1">
+			<![CDATA[
+			AND CreateTime <= #{endTime}
+			]]>
+			</if>
+			
+		</where>
+		
+		limit #{pageQuery.limit} offset #{pageQuery.offset}
+		
+	</select>
+	
+	<select id="searchCount" parameterType="map" resultType="int">
+		SELECT COUNT(*)
+		FROM yjj_UserQuestion
+		<where>
+			<if test="content!=null">
+			AND Content like CONCAT ('%',#{content},'%')
+			</if>
+			
+			<if test="yJJNumber!=-1">
+			AND YJJNumber = #{yJJNumber}
+			</if>
+			
+			<if test="startTime != -1">
+			<![CDATA[
+			AND CreateTime >= #{startTime}
+			]]>
+			</if>
+			
+			<if test="endTime != -1">
+			<![CDATA[
+			AND CreateTime <= #{endTime}
+			]]>
+			</if>
+			
+		</where>
+	</select>
+
+</mapper>

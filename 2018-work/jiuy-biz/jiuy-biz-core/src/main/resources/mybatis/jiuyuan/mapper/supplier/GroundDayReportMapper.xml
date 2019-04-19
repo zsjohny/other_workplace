@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jiuyuan.dao.mapper.supplier.GroundDayReportMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.jiuyuan.entity.newentity.ground.GroundDayReport">
+		<id column="Id" property="Id" />
+		<result column="super_ids" property="superIds" />
+		<result column="ground_user_id" property="groundUserId" />
+		<result column="first_stage_individual_client_count" property="firstStageIndividualClientCount" />
+		<result column="second_stage_individual_client_count" property="secondStageIndividualClientCount" />
+		<result column="third_stage_individual_client_count" property="thirdStageIndividualClientCount" />
+		<result column="other_stage_individual_client_count" property="otherStageIndividualClientCount" />
+		<result column="first_stage_team_client_count" property="firstStageTeamClientCount" />
+		<result column="second_stage_team_client_count" property="secondStageTeamClientCount" />
+		<result column="third_stage_team_client_count" property="thirdStageTeamClientCount" />
+		<result column="other_stage_team_client_count" property="otherStageTeamClientCount" />
+		<result column="individual_client_count" property="individualClientCount" />
+		<result column="team_client_count" property="teamClientCount" />
+		<result column="active_individual_client_count" property="activeIndividualClientCount" />
+		<result column="active_team_client_count" property="activeTeamClientCount" />
+		<result column="trade_individual_client_count" property="tradeIndividualClientCount" />
+		<result column="trade_team_client_count" property="tradeTeamClientCount" />
+		<result column="individual_income" property="individualIncome" />
+		<result column="team_income" property="teamIncome" />
+		<result column="individual_total_sale_amount" property="individualTotalSaleAmount" />
+		<result column="team_total_sale_amount" property="teamTotalSaleAmount" />
+		<result column="report_date" property="reportDate" />
+		<result column="create_time" property="createTime" />
+		<result column="update_time" property="updateTime" />
+	</resultMap>
+	
+	<insert id="insertStageIndividualClientChange" >
+        INSERT INTO ground_day_report
+	    (super_ids, ground_user_id, 
+	    <if test="stageType == 1">
+	    first_stage_individual_client_count
+	    </if>
+	    <if test="stageType == 2">
+	    second_stage_individual_client_count
+	    </if>
+	    <if test="stageType == 3">
+	    third_stage_individual_client_count
+	    </if>
+	    <if test="stageType == 4">
+	    other_stage_individual_client_count
+	    </if>
+	    , report_date, create_time, update_time)
+	    VALUES
+	    <foreach collection="stageIndividualClientChange" item="item" separator=",">
+	    (#{item.supperIds}, #{item.groundUserId}, #{item.total}, #{date}, UNIX_TIMESTAMP()*1000, now())
+	    </foreach>
+	    ON DUPLICATE KEY UPDATE
+	    <if test="stageType == 1">
+	    first_stage_individual_client_count = VALUES(first_stage_individual_client_count)
+	    </if>
+	    <if test="stageType == 2">
+	    second_stage_individual_client_count = VALUES(second_stage_individual_client_count)
+	    </if>
+	    <if test="stageType == 3">
+	    third_stage_individual_client_count = VALUES(third_stage_individual_client_count)
+	    </if>
+	    <if test="stageType == 4">
+	    other_stage_individual_client_count = VALUES(other_stage_individual_client_count)
+	    </if>
+	    ,update_time = now()
+
+	</insert>
+	
+	<insert id="insertStageTeamClientChange">
+	    INSERT INTO ground_day_report
+	    (super_ids, ground_user_id, 
+	    <if test="stageType == 1">
+	    first_stage_team_client_count
+	    </if>
+	    <if test="stageType == 2">
+	    second_stage_team_client_count
+	    </if>
+	    <if test="stageType == 3">
+	    third_stage_team_client_count
+	    </if>
+	    <if test="stageType == 4">
+	    other_stage_team_client_count
+	    </if>
+	    , report_date, create_time, update_time)
+	    VALUES
+	    <foreach collection="stageTeamClientChange" item="item" separator=",">
+	    (#{item.supperIds}, #{item.groundUserId}, #{item.total}, #{date}, UNIX_TIMESTAMP()*1000, now())
+	    </foreach>
+	    ON DUPLICATE KEY UPDATE
+	    <if test="stageType == 1">
+	    first_stage_team_client_count = VALUES(first_stage_team_client_count)
+	    </if>
+	    <if test="stageType == 2">
+	    second_stage_team_client_count = VALUES(second_stage_team_client_count)
+	    </if>
+	    <if test="stageType == 3">
+	    third_stage_team_client_count = VALUES(third_stage_team_client_count)
+	    </if>
+	    <if test="stageType == 4">
+	    other_stage_team_client_count = VALUES(other_stage_team_client_count)
+	    </if>
+	    ,update_time = now()
+	    
+	
+	
+	</insert>
+	
+	<select id="getGroundUserMonthCost" resultType="com.jiuyuan.entity.GroundUserMonthCost">
+		<![CDATA[ 
+		SELECT
+		gdr.ground_user_id as groundUserId,
+		SUM(gdr.day_total_cost) as costCount
+		FROM
+		ground_user gu,
+		ground_day_report gdr
+		WHERE
+		gu.id = gdr.ground_user_id
+		AND gu.user_type IN (1, 2, 3)
+		AND gdr.report_date >= #{date1}
+		AND gdr.report_date <= #{date2} GROUP BY
+		gdr.ground_user_id
+	]]>
+	</select>
+	
+	<select id="getMyBonusList" resultType="map">
+		<![CDATA[ 
+		
+	]]>
+	</select>
+	
+	
+	<select id="selectPageList" parameterType="com.baomidou.mybatisplus.plugins.Page" resultType="map">
+		SELECT
+		gdr.ground_user_id as groundUserId,
+		gu.NAME as name,
+		gu.phone as phone,
+		gu.user_type as grandRole,
+		gu.pphone as pPhone,
+		gu.pname as pName,
+		gu.province as province,
+		gu.city as city,
+		gu.district as district,
+		
+		concat_ws("",province,city , district) as address,
+		
+		sum(gdr.individual_client_count) as individualClientCount,
+		
+		sum(gdr.individual_client_count + gdr.team_client_count) as customerRegisterCount,
+		
+		sum(gdr.active_individual_client_count + gdr.active_team_client_count) as customerActiveCount,
+		
+		sum(gdr.active_individual_client_count) as individualActiveClientCount,
+		
+		sum(gdr.individual_total_sale_amount) as individualTotalSaleAmount,
+		
+		sum(gdr.day_oneself_cost) as individualIncome,
+		
+		sum(gdr.team_client_count) as teamClientCount,
+		
+		sum(gdr.active_team_client_count) as teamActiveClientCount, 
+		
+		sum(gdr.team_total_sale_amount) as teamTotalSaleAmount,
+		
+		sum(gdr.day_team_cost) as teamIncome,
+		
+		sum(gdr.day_total_cost) as totalIncome
+		FROM
+		ground_day_report gdr,
+		ground_user gu
+		<where> 
+			gdr.ground_user_id = gu.id 
+			<if test="groundUserId != 0">
+				and gdr.ground_user_id =#{groundUserId} 
+			</if>
+			<if test="name != ''">
+				and gu.name like concat ("%", #{name}, "%")
+			</if>
+			<if test="phone != ''">
+				and gu.phone like concat ("%", #{phone}, "%")
+			</if>
+			<if test="grandRoleType != 0">
+				and gu.user_type =#{grandRoleType} 
+			</if>
+			<if test="province != ''">
+				and gu.province =#{province}  
+			</if>
+			<if test="city != ''">
+				and gu.city =#{city} 
+			</if>
+			<if test="district != ''">
+				and gu.district =#{district} 
+			</if>
+			<if test="pPhone != ''"> 
+				and gu.pphone like concat ("%", #{pPhone}, "%") 
+			</if>
+		 	<if test="statisticsTimeStart != 0">
+		 	<![CDATA[
+				and gdr.report_date >=#{statisticsTimeStart} 
+				]]>
+			</if>
+			<if test="statisticsTimeEnd != 0">
+			<![CDATA[
+				and gdr.report_date <=#{statisticsTimeEnd} 
+				]]>
+			</if>
+			<if test="individualTotalSaleAmountMin != 0"> 
+			<![CDATA[
+				and gdr.individual_total_sale_amount >= #{individualTotalSaleAmountMin}  
+				]]>
+			</if>
+			<if test="individualTotalSaleAmountMax != 0">
+			<![CDATA[ 
+				and gdr.individual_total_sale_amount <= #{individualTotalSaleAmountMax}  
+				]]>
+			</if>
+			<if test="customerRegisterCountMin != 0"> 
+			<![CDATA[
+				and gdr.individual_client_count + gdr.team_client_count >= #{customerRegisterCountMin}  
+				]]>
+			</if>
+			<if test="customerRegisterCountMax != 0"> 
+			<![CDATA[
+				and gdr.individual_client_count + gdr.team_client_count <= #{customerRegisterCountMax}  
+				]]>
+			</if>
+			<if test="customerActiveCountMin != 0"> 
+			<![CDATA[
+				and gdr.active_individual_client_count + gdr.active_team_client_count>= #{customerActiveCountMin}  
+				]]>
+			</if>
+			<if test="customerActiveCountMax != 0"> 
+				<![CDATA[
+				and  gdr.active_individual_client_count + gdr.active_team_client_count <= #{customerActiveCountMax}  
+				]]>
+			</if>
+			<if test="administratorId != 0"> 
+				<![CDATA[
+				and gu.super_ids like concat ("%", #{administratorId}, "%")
+				]]>
+			</if>
+		</where> 
+		GROUP BY
+		gdr.ground_user_id
+	</select>
+
+</mapper>

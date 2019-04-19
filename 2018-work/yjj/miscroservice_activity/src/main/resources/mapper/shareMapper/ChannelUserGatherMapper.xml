@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.e_commerce.miscroservice.activity.mapper.ChannelUserGatherMapper">
+
+
+  <update id="appendFansCount">
+      update yjj_channel_user_gather
+        set id = id
+      <if test="fansCount != null">
+        ,fans_count = fans_count + #{fansCount}
+      </if>
+      <if test="orderFansCount != null">
+        ,order_fans_count = order_fans_count + #{orderFansCount}
+      </if>
+      <if test="fansOrderCount != null">
+        ,fans_order_count = fans_order_count + #{fansOrderCount}
+      </if>
+      WHERE id = #{id}
+      <if test="fansCount != null">
+        AND fans_count + #{fansCount} &gt;= 0
+      </if>
+      <if test="orderFansCount != null">
+        AND order_fans_count + #{orderFansCount} &gt;= 0
+      </if>
+      <if test="fansOrderCount != null">
+        AND fans_order_count + #{fansOrderCount} &gt;= 0
+      </if>
+    </update>
+
+</mapper>
+
+
+
+
+
+
+
+
+
+
+

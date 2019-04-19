@@ -1,0 +1,192 @@
+<!--权益信息-->
+<view class="rights-box">
+  <view class='rights-title'>您当前属于：
+    <text wx:if="{{grade == 0}}">粉丝</text>
+    <text wx:if="{{grade == 1}}">店长</text>
+    <text wx:if="{{grade == 2}}">分销商</text>
+    <text wx:if="{{grade == 3}}">合伙人</text>
+  </view>
+  <view class='ui-box' wx:if="{{grade != 3}}">
+    <view class='title'>
+      <text>距</text>
+      <text wx:if="{{grade == 0}}">店长</text>
+      <text wx:if="{{grade == 1}}">分销商</text>
+      <text wx:if="{{grade == 2}}">合伙人</text>
+      <text>还差任务</text>
+      <view class='icon' bindtap='showRightsXbox'></view>
+    </view>  
+    <view class='module' wx:if="{{grade != 3}}">
+      <view class='text'>
+        <text wx:if="{{grade == 0}}">1.一级粉丝邀请{{condition.classA}}个</text>
+        <text wx:if="{{grade == 1}}">1.一级粉丝邀请{{condition.classA}}个</text>
+        <text wx:if="{{grade == 2}}">1.一级粉丝{{condition.distributor}}个成为分销商</text>
+      </view>
+      <view class='progress complete' wx:if="{{isTrue}}">
+        <view class='state'>已完成</view>
+      </view>
+      <view class='progress' wx:else>
+        <view class='current' style='width:{{followerWidth}}rpx' wx:if="{{haveFollower > 0}}">{{haveFollower}}个</view>
+        <view class='surplus' style='width:{{surplusFollowerWidth.width}}rpx;left:{{surplusFollowerWidth.left}}rpx' wx:if="{{surplusFollower > 0}}">{{surplusFollower}}个</view>
+      </view>
+    </view>
+    <!-- 粉丝的任务 -->
+    <view class='module' wx:if="{{grade == 0}}">
+      <view class='text'>2.本人购买{{condition.buyCount}}件商品</view>
+      <view class='progress complete' wx:if="{{isTrue}}">
+        <view class='state'>已完成</view>
+      </view>
+      <view class='progress' wx:else>
+        <view class='current' style='width:{{countWidth}}rpx' wx:if="{{haveBuyCount > 0}}">{{haveBuyCount}}件</view>
+        <view class='surplus' style='width:{{surplusCountWidth.width}}rpx;left:{{surplusCountWidth.left}}rpx' wx:if="{{surplusCount > 0}}">{{surplusCount}}件</view>
+      </view>
+    </view>
+    <!-- 店长的任务和分销商的任务  -->
+    <view class='module' wx:if="{{grade == 1}}">
+      <view class='text'>2.一级粉丝+二级粉丝邀请{{condition.classAB}}个</view>
+      <view class='progress complete' wx:if="{{isTrue}}">
+        <view class='state'>已完成</view>
+      </view>
+      <view class='progress' wx:else>
+        <view class='current' style='width:{{inviterWidth}}rpx' wx:if="{{haveInviter > 0}}">{{haveInviter}}个</view>
+        <view class='surplus' style='width:{{surplusInviterWidth.width}}rpx;left:{{surplusInviterWidth.left}}rpx' wx:if="{{surplusInviter > 0}}">{{surplusInviter}}个</view>
+      </view>
+    </view>
+    <view class='module' wx:if="{{grade == 1 || grade == 2}}">
+      <view class='text' wx:if="{{grade == 1}}">3.自购+一级粉丝+二级粉丝当月消费{{condition.countMoney}}</view>
+      <view class='text' wx:if="{{grade == 2}}">2.团队当月销售额达到{{condition.countMoney}}</view>
+      <view class='progress complete' wx:if="{{isTrue}}">
+        <view class='state'>已完成</view>
+      </view>
+      <view class='progress' wx:else>
+        <view class='current' style='width:{{salesVolumeWidth}}rpx' wx:if="{{haveSalesVolume > 0}}">{{haveSalesVolume}}元</view>
+        <view class='surplus' style='width:{{surplusSalesVolumeWidth.width}}rpx;left:{{surplusSalesVolumeWidth.left}}rpx' wx:if="{{surplusSalesVolume > 0}}">{{surplusSalesVolume}}元</view>
+      </view>
+    </view>
+    <block wx:if="{{grade != 0}}">
+      <view class='apply-btn apply-btn1' bindtap='gotoApplyRightPage' wx:if="{{isTrue && status == -1}}">
+        <block wx:if="{{grade == 1}}">申请成为分销商</block>
+        <block wx:if="{{grade == 2}}">申请成为合伙人</block>
+      </view>
+      <view class='apply-btn' wx:else>
+        <block wx:if="{{grade == 1}}">
+          <text wx:if="{{status == 0}}">分销商正在审核中</text>
+          <text wx:if="{{status == 2}}" bindtap='showRefuseXbox'>分销商已拒绝</text>
+          <text wx:if="{{status == -1 || status == 1}}">申请成为分销商</text>
+        </block>
+        <block wx:if="{{grade == 2}}">
+          <text wx:if="{{status == 0}}">合伙人正在审核中</text>
+          <text wx:if="{{status == 2}}" bindtap='showRefuseXbox'>合伙人已拒绝</text>
+          <text wx:if="{{status == -1 || status == 1}}">申请成为合伙人</text>
+        </block>
+      </view>
+    </block>
+    <!-- 店长权益 -->
+    <view class='rights-explain' wx:if="{{grade == 1}}">
+      <view class='title title-margin'>店长权益</view>
+      <view class='dl'>
+        <view class='dt'>1.本人下单</view>
+        <view class='dd'>享受订单金额{{shopowner.selfCommissionEarningsRatio}}%佣金（佣金组成{{shopowner.commissionCurrencyRatio}}%金币+{{shopowner.commissionCashRatio}}%现金）</view>
+        <view class='dt'>2.一级粉丝下单</view>
+        <view class='dd'>享受订单金额{{shopowner.fans1CommissionEarningsRatio}}%佣金（佣金组成{{shopowner.commissionCurrencyRatio}}%金币+{{shopowner.commissionCashRatio}}%现金）</view>
+        <view class='dt'>3.二级粉丝下单</view>
+        <view class='dd'>享受订单金额{{shopowner.fans2CommissionEarningsRatio}}%佣金（佣金组成{{shopowner.commissionCurrencyRatio}}%金币+{{shopowner.commissionCashRatio}}%现金）</view>
+      </view>
+    </view>
+    <!-- rights-explain end -->
+    <!-- 分销商权益 -->
+    <view class='rights-explain' wx:if="{{grade == 2}}">
+      <view class='title title-margin'>分销商权益</view>
+      <view class='dl'>
+        <view class='dt'>1.本人下单</view>
+        <view class='dd'>享受订单金额{{distributor.selfCommissionEarningsRatio}}%佣金（佣金组成{{distributor.commissionCurrencyRatio}}%金币+{{distributor.commissionCashRatio}}%现金）</view>
+        <view class='dt'>2.一级粉丝下单</view>
+        <view class='dd'>享受订单金额{{distributor.fans1CommissionEarningsRatio}}%佣金（佣金组成{{distributor.commissionCurrencyRatio}}%金币+{{distributor.commissionCashRatio}}%现金）</view>
+        <view class='dt'>3.二级粉丝下单</view>
+        <view class='dd'>享受订单金额{{distributor.fans2CommissionEarningsRatio}}%佣金（佣金组成{{distributor.commissionCurrencyRatio}}%金币+{{distributor.commissionCashRatio}}%现金）</view>
+        <view class='dt'>4.团队管理奖</view>
+        <view class='dd'>享受团队佣金总和的{{distributor.managerEarningsRatio}}%为管理奖金</view>
+      </view>
+    </view>
+    <!-- rights-explain end -->
+    <!-- 粉丝权益 -->
+    <view class='rights-explain' wx:if="{{grade == 0}}">
+      <view class='title title-margin'>粉丝权益</view>
+      <view class='dl'>享受平台低价直供商品及优惠劵</view>
+    </view>
+    <!-- rights-explain end -->
+  </view>
+</view>
+<!-- 合伙人 -->
+<view class="rights-box" wx:if="{{grade == 3}}">
+  <view class='ui-box'>
+    <view class='rights-explain'>
+      <view class='title'>合伙人权益</view>
+      <view class='dl'>
+        <view class='dt'>1.本人下单</view>
+        <view class='dd'>享受订单金额{{partner.selfCommissionEarningsRatio}}%佣金（佣金组成{{partner.commissionCurrencyRatio}}%金币+{{partner.commissionCashRatio}}%现金）</view>
+        <view class='dt'>2.一级粉丝下单</view>
+        <view class='dd'>享受订单金额{{partner.fans1CommissionEarningsRatio}}%佣金（佣金组成{{partner.commissionCurrencyRatio}}%金币+{{partner.commissionCashRatio}}%现金）</view>
+        <view class='dt'>3.二级粉丝下单</view>
+        <view class='dd'>享受订单金额{{partner.fans2CommissionEarningsRatio}}%佣金（佣金组成{{partner.commissionCurrencyRatio}}%金币+{{partner.commissionCashRatio}}%现金）</view>
+        <view class='dt'>4.团队管理奖</view>
+        <view class='dd'>1）当团队有直接或间接分销商时，享受团队佣金总和的{{distributor.managerEarningsRatio}}%为管理奖金 </view>
+        <view class='dd'>2）当团队无直接或间接分销商时，享受团队佣金总和的{{distributor.managerEarningsRatio}}%+{{partner.managerEarningsRatio}}%为管理奖金  </view>
+      </view>
+    </view>
+    <!-- rights-explain end -->   
+  </view>  
+</view>
+<view class="rights-box box-padding">
+  <view class='rights-title'>更多角色权益</view>
+  <view class='ui-box'>
+    <view class='rights-explain' wx:if="{{grade != 0}}">
+      <view class='title'>粉丝</view>
+      <view class='dl'>享受平台低价直供商品及优惠劵</view>
+    </view>
+    <!-- rights-explain end -->  
+    <view class='rights-explain' wx:if="{{grade != 2}}">
+      <view class='title title-margin'>分销商权益</view>
+      <view class='dl'>
+        <view class='dt'>1.本人下单</view>
+        <view class='dd'>享受订单金额{{distributor.selfCommissionEarningsRatio}}%佣金（佣金组成{{distributor.commissionCurrencyRatio}}%金币+{{distributor.commissionCashRatio}}%现金）</view>
+        <view class='dt'>2.一级粉丝下单</view>
+        <view class='dd'>享受订单金额{{distributor.fans1CommissionEarningsRatio}}%佣金（佣金组成{{distributor.commissionCurrencyRatio}}%金币+{{distributor.commissionCashRatio}}%现金）</view>
+        <view class='dt'>3.二级粉丝下单</view>
+        <view class='dd'>享受订单金额{{distributor.fans2CommissionEarningsRatio}}%佣金（佣金组成{{distributor.commissionCurrencyRatio}}%金币+{{distributor.commissionCashRatio}}%现金）</view>
+        <view class='dt'>4.团队管理奖</view>
+        <view class='dd'>享受团队佣金总和的{{distributor.managerEarningsRatio}}%为管理奖金</view>
+      </view>
+    </view>
+    <!-- rights-explain end --> 
+    <view class='rights-explain' wx:if="{{grade != 1}}">
+      <view class='title'>店长权益</view>
+      <view class='dl'>
+     <view class='dt'>1.本人下单</view>
+        <view class='dd'>享受订单金额{{shopowner.selfCommissionEarningsRatio}}%佣金（佣金组成{{shopowner.commissionCurrencyRatio}}%金币+{{shopowner.commissionCashRatio}}%现金）</view>
+        <view class='dt'>2.一级粉丝下单</view>
+        <view class='dd'>享受订单金额{{shopowner.fans1CommissionEarningsRatio}}%佣金（佣金组成{{shopowner.commissionCurrencyRatio}}%金币+{{shopowner.commissionCashRatio}}%现金）</view>
+        <view class='dt'>3.二级粉丝下单</view>
+        <view class='dd'>享受订单金额{{shopowner.fans2CommissionEarningsRatio}}%佣金（佣金组成{{shopowner.commissionCurrencyRatio}}%金币+{{shopowner.commissionCashRatio}}%现金）</view>
+      </view>
+    </view>
+    <!-- rights-explain end -->  
+    <view class='rights-explain' wx:if="{{grade != 3}}">
+      <view class='title'>合伙人权益</view>
+      <view class='dl'>
+        <view class='dt'>1.本人下单</view>
+        <view class='dd'>享受订单金额{{partner.selfCommissionEarningsRatio}}%佣金（佣金组成{{partner.commissionCurrencyRatio}}%金币+{{partner.commissionCashRatio}}%现金）</view>
+        <view class='dt'>2.一级粉丝下单</view>
+        <view class='dd'>享受订单金额{{partner.fans1CommissionEarningsRatio}}%佣金（佣金组成{{partner.commissionCurrencyRatio}}%金币+{{partner.commissionCashRatio}}%现金）</view>
+        <view class='dt'>3.二级粉丝下单</view>
+        <view class='dd'>享受订单金额{{partner.fans2CommissionEarningsRatio}}%佣金（佣金组成{{partner.commissionCurrencyRatio}}%金币+{{partner.commissionCashRatio}}%现金）</view>
+        <view class='dt'>4.团队管理奖</view>
+        <view class='dd'>1）当团队有直接或间接分销商时，享受团队佣金总和的{{distributor.managerEarningsRatio}}%为管理奖金 </view>
+        <view class='dd'>2）当团队无直接或间接分销商时，享受团队佣金总和的{{distributor.managerEarningsRatio}}%+{{partner.managerEarningsRatio}}%为管理奖金  </view>
+      </view>
+    </view> 
+    <!-- rights-explain end --> 
+  </view>  
+</view>
+<!-- 权益角色说明弹窗 --> 
+<import src="../../template/popover.wxml" />
+<template is="popoverXbox" data="{{...popoverData}}"/>

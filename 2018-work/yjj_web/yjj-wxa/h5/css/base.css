@@ -1,0 +1,85 @@
+/* reset */
+body,div,ul,li,h1,h2,h3,h4,h5,h6,p,dl,dt,dd,form,input,a,span,b,i,em,del{
+  padding:0; 
+  margin:0;
+  -webkit-box-sizing:border-box;
+  box-sizing:border-box;
+}
+input{outline:none;}
+ul li{list-style:none;}
+img{border:none;}
+h1,h2,h3,h4,h5,h6{ font-weight:100;}
+i,em{font-style:normal}
+body{
+	-webkit-tap-highlight-color:rgba(0,0,0,0);
+	color: #3E3E3E;
+	max-width: 7.5rem;
+	margin: 0 auto;
+}
+.gray-bg{
+  background: fcf9f9;
+}
+body,
+input,
+textarea,
+button,
+select {
+    font-size: 14px;
+    font-family: 'Helvetica Neue', Helvetica, 'Hiragino Sans GB', 'Microsoft YaHei', Arial, sans-serif;
+}
+button,input{
+	-webkit-appearance:none;
+	border:none;
+	background:none;
+}
+input::-webkit-input-placeholder{ 
+    color: #CBCBCB; 
+}
+a,
+a:link,
+a:active,
+a:visited {
+    text-decoration: none;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    outline: none;
+}
+.hide,.show,.zoomIn{
+	-webkit-transition:all 0.5s ease-in 0.01s;
+	-moz-transition:all 0.5s ease-in 0.01s;
+	transition:all 0.5s ease-in 0.01s;
+}
+.show{
+  display: block;
+}
+.hide{
+	display: none;
+}
+/*动画*/
+@-webkit-keyframes zoomIn {
+  from {
+    opacity: 0;
+    -webkit-transform: scale3d(.3, .3, .3);
+    transform: scale3d(.3, .3, .3);
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+@keyframes zoomIn {
+  from {
+    opacity: 0;
+    -webkit-transform: scale3d(.3, .3, .3);
+    transform: scale3d(.3, .3, .3);
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+.zoomIn {
+  -webkit-animation-name: zoomIn;
+  animation-name: zoomIn;
+  animation-duration:300ms;
+  opacity: 1;
+}

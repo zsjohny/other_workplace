@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.e_commerce.miscroservice.order.mapper.WXOrderMapper">
+
+
+
+
+	<!--查询订单-->
+	<select id="selectOrder" parameterType="Long" resultType="com.e_commerce.miscroservice.order.entity.ShopMemberOrder">
+		select
+			id,
+			order_number as orderNumber,
+			store_id as storeId,
+			member_id as memberId,
+			team_id as teamId,
+			second_id as secondId,
+			total_express_and_money as totalExpressAndMoney,
+			total_money as  totalMoney,
+			pay_money as payMoney,
+			sale_money as saleMoney,
+			express_money as express_money,
+			`count` as count,
+			summary_images as summaryImages,
+			order_type as orderType,
+			order_status as orderStatus,
+			payment_no as paymentNo,
+			cancel_reason_type as cancelReasonType,
+			cancel_reason as cancelReason,
+			order_stop_time as orderStopTime,
+			pay_time as payTime,
+			take_delivery_time as takeDeliveryTime,
+			order_finish_time as orderFinishTime,
+			update_time as updateTime,
+			create_time as createTime,
+			user_nickname as userNickname,
+			coupon_id as couponId,
+			coupon_name as couponName,
+			coupon_limit_money as couponLimitMoney,
+			send_message as sendMessage,
+			pay_form_id as payFormId,
+			payment_type as paymentType,
+			expree_supplier_cnname as expreeSupplierCnname,
+			express_supplier as expressSupplier,
+			express_no as expressNo,
+			receiver_name as receiverName,
+			receiver_phone as receiverPhone,
+			receiver_address as receiverAddress,
+			delivery_time as deliveryTime,
+			confirmSignedDate as confirmSignedDate,
+			confirmSignedTime as confirmSignedTime,
+			remark as remark,
+			express_info as expressInfo,
+			buy_way as buyWay,
+			gold_coin as goldCoin
+		from `shop_member_order` where `id`=#{orderId}
+	</select>
+
+	<select id="selectActive" parameterType="Long" resultType="com.e_commerce.miscroservice.order.entity.SecondBuyActivity">
+			select
+			store_id as storeId,
+			shop_product_id as shopProductId,
+			clothes_number as clothesNumber,
+			activity_product_price as activityProductPrice,
+			activity_start_time as activityStartTime,
+			activity_end_time as activityEndTime,
+			activity_hand_end_time as activityHandEndTime,
+			activity_member_count as activityMemberCount,
+			del_state as delState
+			from `store_second_buy_activity` where `id`=#{secondId}
+	</select>
+
+	<select id="selectTeam" parameterType="Long" resultType="com.e_commerce.miscroservice.order.entity.TeamBuyActivity">
+			select
+			  id,
+			  activity_title as activityTitle,
+			  store_id as storeId,
+			  shop_product_id as shopProductId,
+			  shop_product_name as shopProductName,
+			  clothes_number as clothesNumber,
+			  shop_product_mainimg as shopProductMainimg,
+			  activity_product_price as activityProductPrice,
+			  activity_price as activityPrice,
+			  user_count as userCount,
+			  activity_product_count as activityProductCount,
+			  activity_start_time as activityStartTime,
+			  activity_end_time as activityEndTime,
+			  activity_hand_end_time as activityHandEndTime,
+			  activity_member_count as activityMemberCount,
+			  del_state as delState,
+			  create_time as createTime,
+			  update_time as updateTime,
+			  shop_product_showcase_imgs as shopProductShowcaseImgs,
+			  meet_product_count as meetProductCount,
+			  ordered_product_count as orderedProductCount,
+			  condition_type as conditionType
+			from `store_team_buy_activity` where `id`=#{teamId}
+	</select>
+
+	<select id="selectStoreWxaList" parameterType="String" resultType="com.e_commerce.miscroservice.order.entity.StoreWxa">
+
+			select
+			id ,
+			store_id as storeId,
+			app_id as appId,
+			nick_name as nickName,
+			head_img as headImg,
+			user_name as userName,
+			alias,
+			qrcode_url as qrcodeUrl,
+			principal_name as principalName,
+			signature,
+			idc,
+			refresh_token as refreshToken,
+			authorizer_info_json as authorizerInfoJson,
+			create_time as createTime,
+			mch_id as mchId,
+			pay_key as payKey,
+			industry,
+			main_business as maiBusiness,
+			business_type as businessType,
+			update_time as updateTime,
+			in_shop_store_id as inShopStoreId,
+			in_shop_open_id as inShopOpenId
+			from `jiuy_store_wxa` where `store_id`=#{storeId}
+	</select>
+	<select id="selectStoreWxaListNew" parameterType="String" resultType="com.e_commerce.miscroservice.order.entity.StoreWxa">
+
+			select
+			id ,
+			store_id as storeId,
+			app_id as appId,
+			nick_name as nickName,
+			head_img as headImg,
+			user_name as userName,
+			alias,
+			qrcode_url as qrcodeUrl,
+			principal_name as principalName,
+			signature,
+			idc,
+			refresh_token as refreshToken,
+			authorizer_info_json as authorizerInfoJson,
+			create_time as createTime,
+			mch_id as mchId,
+			pay_key as payKey,
+			industry,
+			main_business as maiBusiness,
+			business_type as businessType,
+			update_time as updateTime,
+			in_shop_store_id as inShopStoreId,
+			in_shop_open_id as inShopOpenId
+			from `jiuy_store_wxa` where `store_id`=#{storeId}
+	</select>
+
+	<update id="updateById">
+			update `shop_member_order` set `pay_form_id`=#{shopMemberOrder.payFormId} where `id`=#{shopMemberOrder.id}
+	</update>
+
+	<!--查询订单详情-->
+	<select id="selectByOrderNo" parameterType="Long" resultType="com.e_commerce.miscroservice.order.entity.ShopMemberOrderItem">
+			select*from `shop_member_order_item` where `order_id`=#{orderNo}
+	</select>
+
+	<!--查询会员信息-->
+	<select id="selectShopMember" parameterType="Long" resultType="com.e_commerce.miscroservice.order.entity.ShopMember">
+			select
+			bind_weixin as bindWeixin,
+			in_shop_member_id as inShopMemberId
+			from `shop_member` where  `id`=#{memberId}
+	</select>
+	<!--查询商家信息-->
+	<select id="selectStoreBusiness" parameterType="Long" resultType="com.e_commerce.miscroservice.order.entity.StoreBusiness">
+			select
+			Id as id ,
+			BusinessName as  businessName,
+			wxa_business_type as wxaBusinessType
+			from `yjj_storebusiness` where `id`=#{storeId}
+	</select>
+
+	<select id="selectOppenId" resultType="Long">
+			select `store_id` from `shop_member` where `bind_weixin`=#{bindWeixin} and `store_id` !=#{storeId}
+	</select>
+</mapper>

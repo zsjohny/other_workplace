@@ -1,0 +1,326 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" > 
+<mapper namespace="com.jiuy.rb.mapper.product.ShopGoodsCarRbMapper"> 
+ 
+ 	<!-- 主要的返回映射-->
+	<resultMap id="BaseResultMap" type="com.jiuy.rb.model.product.ShopGoodsCarRb"	>
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="product_sku_id"  property="productSkuId"  jdbcType="BIGINT" />
+		<result column="member_id"  property="memberId"  jdbcType="BIGINT" />
+		<result column="sku_number"  property="skuNumber"  jdbcType="BIGINT" />
+		<result column="create_time"  property="createTime"  jdbcType="BIGINT" />
+		<result column="car_suk_status"  property="carSukStatus"  jdbcType="INTEGER" />
+		<result column="store_id"  property="storeId"  jdbcType="BIGINT" />
+		<result column="product_id"  property="productId"  jdbcType="BIGINT" />
+		<result column="shop_product_id"  property="shopProductId"  jdbcType="BIGINT" />
+		<result column="last_update_time"  property="lastUpdateTime"  jdbcType="BIGINT" />
+		<result column="selected"  property="selected"  jdbcType="INTEGER" />
+	</resultMap>
+
+	<!-- 所有的列名-->
+	<sql id="Base_Column_List" >
+		id,product_sku_id,member_id,sku_number,create_time,car_suk_status,store_id,product_id,shop_product_id,
+		last_update_time,selected
+	</sql>
+
+	<!-- 精确更新的字段-->
+	<sql id="updateBase">
+		<if test="id  !=null">
+			id = #{id,jdbcType=BIGINT}, 
+		</if>
+		<if test="productSkuId  !=null">
+			product_sku_id = #{productSkuId,jdbcType=BIGINT}, 
+		</if>
+		<if test="memberId  !=null">
+			member_id = #{memberId,jdbcType=BIGINT}, 
+		</if>
+		<if test="skuNumber  !=null">
+			sku_number = #{skuNumber,jdbcType=BIGINT}, 
+		</if>
+		<if test="createTime  !=null">
+			create_time = #{createTime,jdbcType=BIGINT}, 
+		</if>
+		<if test="carSukStatus  !=null">
+			car_suk_status = #{carSukStatus,jdbcType=INTEGER}, 
+		</if>
+		<if test="storeId  !=null">
+			store_id = #{storeId,jdbcType=BIGINT}, 
+		</if>
+		<if test="productId  !=null">
+			product_id = #{productId,jdbcType=BIGINT}, 
+		</if>
+		<if test="shopProductId  !=null">
+			shop_product_id = #{shopProductId,jdbcType=BIGINT}, 
+		</if>
+		<if test="lastUpdateTime  !=null">
+			last_update_time = #{lastUpdateTime,jdbcType=BIGINT}, 
+		</if>
+		<if test="selected  !=null">
+			selected = #{selected,jdbcType=INTEGER} 
+		</if>
+	</sql>
+
+	<!-- 通过主键查找-->
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="Long" >
+		select 
+		<include refid="Base_Column_List" />
+		from shop_goods_car
+		where  id = #{id,jdbcType=BIGINT} 
+	</select>
+
+	<!-- 通过主键删除-->
+	<delete id="deleteByPrimaryKey" parameterType="Long" >
+		delete from shop_goods_car
+		where id = #{id,jdbcType=BIGINT} 
+	</delete>
+
+	<!-- 普通插入全字段插t入-->
+	<insert id="insert" parameterType="com.jiuy.rb.model.product.ShopGoodsCarRb" >
+		insert into shop_goods_car
+		(
+			id,
+			product_sku_id,
+			member_id,
+			sku_number,
+			create_time,
+			car_suk_status,
+			store_id,
+			product_id,
+			shop_product_id,
+			last_update_time,
+			selected
+		)
+		values
+		(
+			#{id ,jdbcType=BIGINT},
+			#{productSkuId ,jdbcType=BIGINT},
+			#{memberId ,jdbcType=BIGINT},
+			#{skuNumber ,jdbcType=BIGINT},
+			#{createTime ,jdbcType=BIGINT},
+			#{carSukStatus ,jdbcType=INTEGER},
+			#{storeId ,jdbcType=BIGINT},
+			#{productId ,jdbcType=BIGINT},
+			#{shopProductId ,jdbcType=BIGINT},
+			#{lastUpdateTime ,jdbcType=BIGINT},
+			#{selected ,jdbcType=INTEGER}
+		)
+	</insert>
+
+	<!-- 批量插入，全部字段插入-->
+	<insert id="insertBach"   parameterType="List" >
+		insert into shop_goods_car
+		(
+			id,
+			product_sku_id,
+			member_id,
+			sku_number,
+			create_time,
+			car_suk_status,
+			store_id,
+			product_id,
+			shop_product_id,
+			last_update_time,
+			selected
+		)
+		values 
+		<foreach collection="list" item="item" separator=",">
+		(
+			#{item.id ,jdbcType=BIGINT},
+			#{item.productSkuId ,jdbcType=BIGINT},
+			#{item.memberId ,jdbcType=BIGINT},
+			#{item.skuNumber ,jdbcType=BIGINT},
+			#{item.createTime ,jdbcType=BIGINT},
+			#{item.carSukStatus ,jdbcType=INTEGER},
+			#{item.storeId ,jdbcType=BIGINT},
+			#{item.productId ,jdbcType=BIGINT},
+			#{item.shopProductId ,jdbcType=BIGINT},
+			#{item.lastUpdateTime ,jdbcType=BIGINT},
+			#{item.selected ,jdbcType=INTEGER}
+		)
+		</foreach>
+	</insert>
+
+	<!-- 精确插入，非null得字段才会插入-->
+	<insert id="insertSelective" parameterType="com.jiuy.rb.model.product.ShopGoodsCarRb" useGeneratedKeys="true" keyProperty="id" >
+		insert into shop_goods_car
+		<trim prefix="(" suffix=")" suffixOverrides="," > 
+			<if test="id !=null">  
+				id,
+			</if>
+			<if test="productSkuId !=null">  
+				product_sku_id,
+			</if>
+			<if test="memberId !=null">  
+				member_id,
+			</if>
+			<if test="skuNumber !=null">  
+				sku_number,
+			</if>
+			<if test="createTime !=null">  
+				create_time,
+			</if>
+			<if test="carSukStatus !=null">  
+				car_suk_status,
+			</if>
+			<if test="storeId !=null">  
+				store_id,
+			</if>
+			<if test="productId !=null">  
+				product_id,
+			</if>
+			<if test="shopProductId !=null">  
+				shop_product_id,
+			</if>
+			<if test="lastUpdateTime !=null">  
+				last_update_time,
+			</if>
+			<if test="selected !=null">  
+				selected,
+			</if>
+		</trim>
+
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+			<if test="id  !=null">
+				#{id,jdbcType=BIGINT}, 
+			</if>
+			<if test="productSkuId  !=null">
+				#{productSkuId,jdbcType=BIGINT}, 
+			</if>
+			<if test="memberId  !=null">
+				#{memberId,jdbcType=BIGINT}, 
+			</if>
+			<if test="skuNumber  !=null">
+				#{skuNumber,jdbcType=BIGINT}, 
+			</if>
+			<if test="createTime  !=null">
+				#{createTime,jdbcType=BIGINT}, 
+			</if>
+			<if test="carSukStatus  !=null">
+				#{carSukStatus,jdbcType=INTEGER}, 
+			</if>
+			<if test="storeId  !=null">
+				#{storeId,jdbcType=BIGINT}, 
+			</if>
+			<if test="productId  !=null">
+				#{productId,jdbcType=BIGINT}, 
+			</if>
+			<if test="shopProductId  !=null">
+				#{shopProductId,jdbcType=BIGINT}, 
+			</if>
+			<if test="lastUpdateTime  !=null">
+				#{lastUpdateTime,jdbcType=BIGINT}, 
+			</if>
+			<if test="selected  !=null">
+				#{selected,jdbcType=INTEGER} 
+			</if>
+		</trim>
+	</insert> 
+
+	<!-- 精确更新-->
+	<update id="updateByPrimaryKeySelective" parameterType="com.jiuy.rb.model.product.ShopGoodsCarRb" >
+		update shop_goods_car
+		<set>
+			<include refid="updateBase"/>
+		</set>
+		where id = #{id,jdbcType=BIGINT} 
+	</update> 
+
+	<!-- 全字段更新 需要注意-->
+	<update id="updateByPrimaryKey" parameterType="com.jiuy.rb.model.product.ShopGoodsCarRb" >
+		update shop_goods_car
+		set 
+			id = #{id ,jdbcType=BIGINT},
+			product_sku_id = #{productSkuId ,jdbcType=BIGINT},
+			member_id = #{memberId ,jdbcType=BIGINT},
+			sku_number = #{skuNumber ,jdbcType=BIGINT},
+			create_time = #{createTime ,jdbcType=BIGINT},
+			car_suk_status = #{carSukStatus ,jdbcType=INTEGER},
+			store_id = #{storeId ,jdbcType=BIGINT},
+			product_id = #{productId ,jdbcType=BIGINT},
+			shop_product_id = #{shopProductId ,jdbcType=BIGINT},
+			last_update_time = #{lastUpdateTime ,jdbcType=BIGINT},
+			selected = #{selected ,jdbcType=INTEGER}
+		where id = #{id,jdbcType=BIGINT} 
+	</update> 
+
+	<!-- 所有的条件集合-->
+	<sql id="whereCase"  >
+		where  1=1 
+		<if test="id  !=null">
+			AND id = #{id,jdbcType=BIGINT} 
+		</if>
+		<if test="productSkuId  !=null">
+			AND product_sku_id = #{productSkuId,jdbcType=BIGINT} 
+		</if>
+		<if test="memberId  !=null">
+			AND member_id = #{memberId,jdbcType=BIGINT} 
+		</if>
+		<if test="skuNumber  !=null">
+			AND sku_number = #{skuNumber,jdbcType=BIGINT} 
+		</if>
+		<if test="createTime  !=null">
+			AND create_time = #{createTime,jdbcType=BIGINT} 
+		</if>
+		<if test="carSukStatus  !=null">
+			AND car_suk_status = #{carSukStatus,jdbcType=INTEGER} 
+		</if>
+		<if test="storeId  !=null">
+			AND store_id = #{storeId,jdbcType=BIGINT} 
+		</if>
+		<if test="productId  !=null">
+			AND product_id = #{productId,jdbcType=BIGINT} 
+		</if>
+		<if test="shopProductId  !=null">
+			AND shop_product_id = #{shopProductId,jdbcType=BIGINT} 
+		</if>
+		<if test="lastUpdateTime  !=null">
+			AND last_update_time = #{lastUpdateTime,jdbcType=BIGINT} 
+		</if>
+		<if test="selected  !=null">
+			AND selected = #{selected,jdbcType=INTEGER} 
+		</if>
+		<include refid="costomWhereCase"/>
+	</sql>
+
+	<!-- 查询一条，如果返回多条会报错-->
+	<select id="selectOne" parameterType="java.util.Map" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" /> 
+		FROM shop_goods_car 
+		<include refid="whereCase" /> 
+	</select>
+
+	<!-- 查询一个list-->
+	<select id="selectList" parameterType="java.util.Map" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" /> 
+		FROM shop_goods_car 
+		<include refid="whereCase" /> 
+	</select>
+
+	<!-- 查询一个list-->
+	<select id="selectCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+		SELECT
+		count(1) 
+		FROM shop_goods_car
+		<include refid="whereCase" /> 
+	</select>
+
+	<!--  @Costom -->
+	<!-- 从上一行注释以上为系统生成 从这一行往下为用户自定义 请将自定义的sql放在此行下面 -->
+	<sql id="costomWhereCase">
+	</sql>
+
+
+
+	<update id="updateGoodsCarDisabled">
+		UPDATE shop_goods_car
+		SET car_suk_status = 2
+		WHERE store_id = #{storeId}
+		AND car_suk_status = 1
+		AND product_sku_id IN
+		<foreach collection="skuIds" item="skuId" open="(" separator="," close=")">
+			#{skuId}
+		</foreach>
+	</update>
+</mapper>

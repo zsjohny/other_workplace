@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE urlrewrite
+    PUBLIC "-//tuckey.org//DTD UrlRewrite 4.0//EN"
+    "http://www.tuckey.org/res/dtds/urlrewrite4.0.dtd">
+
+<urlrewrite>
+	<rule>
+		<from>^(?:/index)?/?$</from>
+		<to>/index.html</to>
+	</rule>
+	
+	<rule>
+		<from>^/product/([^./]+)/?$</from>
+		<to>/product/$1.do</to>
+	</rule>
+
+	<rule>
+		<from>^/exchange/([^./]+)/?$</from>
+		<to>/exchange/$1.do</to>
+	</rule>
+	<rule>
+		<from>^/wap/([^./]+)/?$</from>
+		<to>/wap/$1.do</to>
+	</rule>
+	
+	<rule>
+		<from>^/shangyi/?$</from>
+		<to>/item.do?id=1</to>
+	</rule>
+	<rule>
+		<from>^/qunzhuang/?$</from>
+		<to>/item.do?id=2</to>
+	</rule>
+	<rule>
+		<from>^/xiazhuang/?$</from>
+		<to>/item.do?id=3</to>
+	</rule>
+	<rule>
+		<from>^/huangou/?$</from>
+		<to>/item.do?id=36</to>
+	</rule>
+	<rule>
+		<from>^/download/?$</from>
+		<to>/download.do</to>
+	</rule>
+	<rule>
+		<from>^/download/([^./]+)/?$</from>
+		<to>/download/$1.do</to>
+	</rule>
+	
+	<rule>
+		<from>^.*/\.git.*$</from>
+		<to>/static/page_not_found.html</to>
+	</rule>
+</urlrewrite>

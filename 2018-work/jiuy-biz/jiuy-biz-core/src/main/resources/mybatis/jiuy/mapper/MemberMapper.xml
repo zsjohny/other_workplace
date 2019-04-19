@@ -1,0 +1,387 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jiuy.core.dao.impl.sql.MemberDaoSqlImpl">
+	
+ 	 <!-- <select id="search" parameterType="map" resultType="MemberVO">
+		Select b.CreateTime,b.UserId, b.YJJNumber,b.Status ,b.UserType, b.UserRelatedName,b.BindPhone, 
+		a.DistributionPartners, a.ParentDistribution, a.DistributionStatus, a.BelongStoreName, a.BelongStoreId,
+		c.UnavalCoins as JiuCoinBalance , d.BusinessNumber as BusinessNumber
+		FROM yjj_User b left join yjj_UserMember a on a.UserId = b.UserId
+		left join yjj_StoreBusiness d on a.BelongStoreId = d.Id
+		left join yjj_UserCoin c on b.UserId = c.UserId
+		<where>
+	    
+	    	<if test="yjjNumber != -1">
+	    		AND b.YJJNumber = #{yjjNumber}
+	    	</if>
+	    	
+	    	<if test="phone != -1">
+	    		AND b.BindPhone = #{phone} or b.UserRelatedName = #{phone}
+	    	</if>
+	    
+	    	<if test="parentDistribution != -1">
+	    		AND a.ParentDistribution = #{parentDistribution}
+	    	</if>
+	    	
+	    	<if test="status != -2">
+	    		AND b.Status = #{status}
+	    	</if>
+	    	
+	    	<if test="distributionCountMin != 0">
+	    	<![CDATA[
+	    		AND a.DistributionPartners >= #{distributionCountMin}
+	    		]]>
+	    	</if>
+	    	
+	    	<if test="distributionCountMax != -1">
+	    		<![CDATA[
+	    		AND a.DistributionPartners <= #{distributionCountMax}
+	    		]]>
+	    	</if>
+	    	
+	    	<if test="distributionStatus != -2">
+	    		AND a.DistributionStatus = #{distributionStatus}
+	    	</if>
+	    	
+	    	<if test="createTimeMin != -1">
+	    		<![CDATA[
+	    		AND b.CreateTime >= #{createTimeMin}
+	    		]]>
+	    	</if>
+	    	
+	    	<if test="createTimeMax != -1">
+	    		<![CDATA[
+	    		AND b.CreateTime <= #{createTimeMax}
+	    		]]>
+	    	</if>
+	    	
+	    	<if test="jiuCoinMax == -1">
+	    	<![CDATA[
+	    		AND c.UnavalCoins >= #{jiuCoinMin}
+	    		]]>
+	    	</if>
+	    	
+	    	<if test="jiuCoinMax > 0">
+	    		<![CDATA[
+	    		AND c.UnavalCoins >= #{jiuCoinMin} AND c.UnavalCoins <= #{jiuCoinMax}
+	    		]]>
+	    	</if>
+	    	
+	    	<if test="storeId != -1">
+	    		AND a.BelongStoreID = #{storeId}
+	    	</if>
+	    	
+		</where>
+		
+		ORDER BY b.CreateTime DESC
+		
+		limit #{pageQuery.limit} offset #{pageQuery.offset}
+	</select> -->  
+	
+ 	<select id="search" parameterType="map" resultType="MemberVO">
+		Select b.CreateTime,b.UpdateTime,b.UserId, b.YJJNumber,b.Status ,b.UserType, b.UserRelatedName,b.BindPhone, 
+		a.DistributionPartners, a.ParentDistribution, a.DistributionStatus, a.BelongStoreName, a.BelongStoreId,
+		ifnull(c.UnavalCoins,0) as JiuCoinBalance  , d.BusinessNumber as BusinessNumber
+		FROM (
+			Select * from yjj_User 
+			<where>
+				<if test="yjjNumber != -1">
+	    			AND YJJNumber LIKE CONCAT ("%", #{yjjNumber}, "%")
+	    		</if>	    	
+	    		<if test="phone != -1">
+	    			AND UserRelatedName LIKE CONCAT ("%", #{phone},"%") or BindPhone LIKE CONCAT ("%", #{phone}, "%")
+	    		</if>
+	    		<if test="status != -2">
+	    			AND Status = #{status}
+	    		</if>
+	    		<if test="createTimeMin != -1">
+	    			<![CDATA[
+	    			AND CreateTime >= #{createTimeMin}
+	    			]]>
+	    		</if>
+	    	
+	    		<if test="createTimeMax != -1">
+	    			<![CDATA[
+	    			AND CreateTime <= #{createTimeMax}
+	    			]]>
+	   		 	</if>
+			</where>
+		
+		) as b left join yjj_UserMember a on a.UserId = b.UserId
+		left join yjj_StoreBusiness d on a.BelongStoreId = d.Id 
+		left join yjj_UserCoin c on b.UserId = c.UserId 
+		<where>
+	    	<if test="parentDistribution != -1">
+	    		AND a.ParentDistribution = #{parentDistribution}
+	    	</if>
+	    	
+	    	<if test="distributionCountMin != 0">
+	    	<![CDATA[
+	    		AND a.DistributionPartners >= #{distributionCountMin}
+	    		]]>
+	    	</if>
+	    	
+	    	<if test="distributionCountMax != -1">
+	    		<![CDATA[
+	    		AND a.DistributionPartners <= #{distributionCountMax}
+	    		]]>
+	    	</if>
+	    	
+	    	<if test="distributionStatus != -2">
+	    		AND a.DistributionStatus = #{distributionStatus}
+	    	</if>
+	    	
+	    	<if test="storeId != -1">
+	    		AND a.BelongStoreID = #{storeId}
+	    	</if>
+	
+			<if test="jiuCoinMin == 0">
+	    		<![CDATA[
+	    		AND ( c.UnavalCoins >= #{jiuCoinMin} or c.UnavalCoins is null )
+	    		]]>
+	    	</if>
+	    	
+	    	<if test="jiuCoinMin > 0">
+	    		<![CDATA[
+	    		AND c.UnavalCoins >= #{jiuCoinMin}
+	    		]]>
+	    	</if>
+	    	
+	    	<if test="jiuCoinMax > 0">
+	    		<![CDATA[
+	    		AND c.UnavalCoins <= #{jiuCoinMax}
+	    		]]>
+	    	</if>
+		</where>
+		
+		ORDER BY b.CreateTime DESC
+		limit #{pageQuery.limit} offset #{pageQuery.offset}
+	</select> 
+	
+	<select id="searchCount" parameterType="map" resultType="int">
+		SELECT count(*)
+		FROM (
+			Select * from yjj_User 
+			<where>
+				<if test="yjjNumber != -1">
+	    			AND YJJNumber LIKE CONCAT ("%", #{yjjNumber}, "%")
+	    		</if>	    	
+	    		<if test="phone != -1">
+	    			AND UserRelatedName LIKE CONCAT ("%", #{phone},"%") or BindPhone LIKE CONCAT ("%", #{phone}, "%")
+	    		</if>
+	    		<if test="status != -2">
+	    			AND Status = #{status}
+	    		</if>
+	    		<if test="createTimeMin != -1">
+	    			<![CDATA[
+	    			AND CreateTime >= #{createTimeMin}
+	    			]]>
+	    		</if>
+	    	
+	    		<if test="createTimeMax != -1">
+	    			<![CDATA[
+	    			AND CreateTime <= #{createTimeMax}
+	    			]]>
+	   		 	</if>
+			</where>
+		) as b left join yjj_UserMember a on a.UserId = b.UserId
+		left join yjj_StoreBusiness d on a.BelongStoreId = d.Id
+		left join yjj_UserCoin c on b.UserId = c.UserId 
+		<where>
+	    	<if test="parentDistribution != -1">
+	    		AND a.ParentDistribution = #{parentDistribution}
+	    	</if>
+	    	
+	    	<if test="distributionCountMin != 0">
+	    	<![CDATA[
+	    		AND a.DistributionPartners >= #{distributionCountMin}
+	    		]]>
+	    	</if>
+	    	
+	    	<if test="distributionCountMax != -1">
+	    		<![CDATA[
+	    		AND a.DistributionPartners <= #{distributionCountMax}
+	    		]]>
+	    	</if>
+	    	
+	    	<if test="distributionStatus != -2">
+	    		AND a.DistributionStatus = #{distributionStatus}
+	    	</if>
+	    	
+	    	<if test="storeId != -1">
+	    		AND a.BelongStoreID = #{storeId}
+	    	</if>
+	
+			<if test="jiuCoinMin == 0">
+	    		<![CDATA[
+	    		AND ( c.UnavalCoins >= #{jiuCoinMin} or c.UnavalCoins is null )
+	    		]]>
+	    	</if>
+	    	
+	    	<if test="jiuCoinMin > 0">
+	    		<![CDATA[
+	    		AND c.UnavalCoins >= #{jiuCoinMin}
+	    		]]>
+	    	</if>
+	    	
+	    	<if test="jiuCoinMax > 0">
+	    		<![CDATA[
+	    		AND c.UnavalCoins <= #{jiuCoinMax}
+	    		]]>
+	    	</if>
+		</where>
+	</select>
+	
+	<!-- <select id="searchCount" parameterType="map" resultType="int">
+		SELECT count(*)
+		FROM yjj_User b left join yjj_UserMember a on a.UserId = b.UserId
+		left join yjj_StoreBusiness d on a.BelongStoreId = d.Id
+		left join yjj_UserCoin c on b.UserId = c.UserId
+		<where>
+	    
+	    	<if test="yjjNumber != -1">
+	    		AND b.YJJNumber = #{yjjNumber}
+	    	</if>
+	    	
+	    	<if test="phone != -1">
+	    		AND b.BindPhone = #{phone} or b.UserRelatedName = #{phone}
+	    	</if>
+	    
+	    	<if test="parentDistribution != -1">
+	    		AND a.ParentDistribution = #{parentDistribution}
+	    	</if>
+	    	
+	    	<if test="status != -2">
+	    		AND b.Status = #{status}
+	    	</if>
+	    	
+	    	<if test="distributionCountMin != 0">
+	    	<![CDATA[
+	    		AND a.DistributionPartners >= #{distributionCountMin}
+	    		]]>
+	    	</if>
+	    	
+	    	<if test="distributionCountMax > 0">
+	    		<![CDATA[
+	    		AND a.DistributionPartners >= #{distributionCountMin} AND a.DistributionPartners <= #{distributionCountMax}
+	    		]]>
+	    	</if>
+	    	
+	    	<if test="distributionStatus != -2">
+	    		AND a.DistributionStatus = #{distributionStatus}
+	    	</if>
+	    	
+	    	<if test="createTimeMin != -1">
+	    		<![CDATA[
+	    		AND b.CreateTime >= #{createTimeMin}
+	    		]]>
+	    	</if>
+	    	
+	    	<if test="createTimeMax != -1">
+	    		<![CDATA[
+	    		AND b.CreateTime <= #{createTimeMax}
+	    		]]>
+	    	</if>
+	    	
+	    	<if test="jiuCoinMax == -1">
+	    	<![CDATA[
+	    		AND c.UnavalCoins >= #{jiuCoinMin}
+	    		]]>
+	    	</if>
+	    	
+	    	<if test="jiuCoinMax > 0">
+	    		<![CDATA[
+	    		AND c.UnavalCoins >= #{jiuCoinMin} AND c.UnavalCoins <= #{jiuCoinMax}
+	    		]]>
+	    	</if>
+	    	
+	    	<if test="storeId != -1">
+	    		AND a.BelongStoreID = #{storeId}
+	    	</if>
+	    	
+		</where>
+	</select> -->
+	
+	<update id="editStatus" parameterType="MemberVO">
+		update yjj_User
+		set Status = #{status}
+		where UserId = #{userId}
+	</update>
+	
+	<update id="editDistributionStatus" parameterType="map">
+		update yjj_UserMember
+		set DistributionStatus = #{status}
+		where Id = #{id}
+	</update>
+	
+	<update id="resetpwd" parameterType="map">
+		update yjj_User a, yjj_UserMember b
+		set a.UserPassword = #{password}
+		where a.UserId = b.UserId and b.YJJNumber = #{yjjNumber}
+	</update>
+	
+	<select id="userIdOfYjjNumber" parameterType="long" resultType="long">
+		SELECT UserId
+		FROM yjj_User
+		WHERE YJJNumber = #{yjjNumber}
+	</select>
+	
+	<select id="yjjNumberOfUserId" parameterType="long" resultType="long">
+		SELECT YJJNumber
+		FROM yjj_User
+		WHERE UserId = #{userId}
+	</select>
+	
+	<update id="unbundlingStore" parameterType="map">
+		update yjj_UserMember 
+		set BelongStoreID= 0,BelongStoreName = ""
+		where UserId = #{userId}
+	</update>
+	
+	<insert id="addMemberStoreRelation" useGeneratedKeys="true" keyProperty="id" parameterType="map">
+		insert into yjj_MemberStoreRelation(MemberUserId,BusinessId,CreateTime,Status,Type)
+		values (#{userId}, #{businessNumber}, #{createTime}, #{status}, #{type})
+	</insert>
+	
+	<delete id="deleteMemberStoreRelationByUserId" parameterType="map">
+		DELETE FROM yjj_MemberStoreRelation
+		where MemberUserId = #{userId}
+	</delete>
+	
+	<select id="getYJJNumberOfParentUserId" parameterType="map" resultType="map">
+		Select UserId,YJJNumber
+		From yjj_User
+		Where
+			UserId in
+			<foreach collection="ids" item="id" open="("
+			separator="," close=")">
+			<![CDATA[
+				#{id}
+			]]>
+		</foreach>
+	</select>
+
+	<select id="getDistributionStatusOfUserId" parameterType="long" resultType="int">
+		Select DistributionStatus 
+		FROM yjj_UserMember 
+		where UserId = #{userId}
+	</select>
+	
+	<select id="getStatusOfUserId" parameterType="long" resultType="int">
+		SELECT Status 
+		FROM yjj_User 
+		where UserId = #{userId}
+	</select>
+	
+	<insert id="addUserStatusLog" useGeneratedKeys="true" keyProperty="id" parameterType="map">
+		insert into yjj_UseStatusLog(RelatedId,Type,OldStatus,NewStatus,CreateTime)
+		values (#{relatedId},#{type},#{oldStatus},#{newStatus},#{createTime})
+	</insert>
+
+	<select id="idOfUserId" parameterType="long" resultType="long">
+		Select Id 
+		FROM yjj_UserMember 
+		where UserId = #{userId}
+	</select>
+
+</mapper>

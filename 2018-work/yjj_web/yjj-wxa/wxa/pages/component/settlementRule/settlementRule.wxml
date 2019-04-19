@@ -1,0 +1,4 @@
+<!--结算规则-->
+<view class="settlement-box">
+  <web-view src="{{websiteUrl}}"></web-view>
+</view>

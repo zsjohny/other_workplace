@@ -1,0 +1,1252 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jiuy.core.dao.impl.sql.MemberStatisticsDaoSqlImpl">
+	
+		<select id="searchProductSale" parameterType="map" resultType="map">
+			<if test="params.classify == ''">
+				select m.*,n.name from (
+			</if>
+			<if test="params.classify != ''">
+				select jp.* from (select m.*,n.name from(
+			</if>	
+		select ProductId,count(distinct(ParentId)) orderCount,count(distinct(userId)) userCount,sum(BuyCount) buyCount ,sum(TotalPay) as totalMoney
+		from yjj_OrderItem where OrderNo in 
+			(select OrderNo from yjj_OrderNew where ParentId in (select OrderNo
+					from yjj_OrderNew where OrderStatus in(10,50,70) and (ParentId =-1 or ParentId = OrderNo) 
+					<![CDATA[
+					and PayTime>= #{params.startTime} and PayTime <= #{params.endTime}
+					]]>
+					)) 
+                    and ParentId>0 and ProductId in(select ProductId from yjj_OrderItem as a left join yjj_Brand as yb on a.BrandId = yb.BrandId
+		<where> 
+			<if test="params.season != -1 or params.years != -1">
+				a.skuId in (SELECT ps.id as skuId FROM yjj_ProductSKU as ps 
+						left join yjj_Product as p on ps.ProductId = p.id where
+						<if test="params.season != -1">
+							p.id in(select ProductId from yjj_ProductProperty where  
+							PropertyNameId = 9 and PropertyValueId =#{params.season})
+						</if>
+						<if test="params.season != -1 and params.years != -1">
+							and
+						</if>
+						<if test="params.years != -1">
+							p.id in(select ProductId from yjj_ProductProperty where  
+							PropertyNameId = 10 and PropertyValueId =#{params.years})
+						</if>
+						)		
+			</if>
+			<if test="params.skuId != -1">
+				and a.skuId=#{params.skuId}
+			</if>
+			<if test="params.brandName != ''">
+				and yb.brandName like concat("%", #{params.brandName} ,"%")
+			</if>
+		</where>
+		) group by ProductId) as m left join yjj_Product as n on m.productId = n.id
+		<where>
+			<if test="params.productId != -1">
+				m.productId =#{params.productId}
+			</if>
+			<if test="params.name != ''">
+				and n.name like concat("%", #{params.name} ,"%")
+			</if>
+		</where>
+		<if test="params.classify != ''">
+			)as jp left join yjj_ProductCategory j on jp.productId = j.productid where j.categoryId in (SELECT id FROM yjj_Category where id = #{params.classify} or ParentId = #{params.classify})
+		</if>
+			<if test="sort == 1">
+				order by totalMoney desc
+			</if>
+			<if test="sort == 2">
+				order by totalMoney asc
+			</if>
+			<if test="sort == 3">
+				order by buyCount desc
+			</if>
+			<if test="sort == 4">
+				order by buyCount asc
+			</if>
+			<if test="sort == 5">
+				order by orderCount desc
+			</if>
+			<if test="sort == 6">
+				order by orderCount asc
+			</if>
+			<if test="sort == 7">
+				order by userCount desc
+			</if>
+			<if test="sort == 8">
+				order by userCount asc
+			</if>
+		limit #{pageQuery.limit} offset #{pageQuery.offset}
+	</select>
+	
+	<select id="searchProductSaleCount" parameterType="map" resultType="int">
+	<if test="params.classify == ''">
+				select count(1) from (
+			</if>
+			<if test="params.classify != ''">
+				select count(1) from (select m.*,n.name from(
+			</if>
+		select ProductId,count(distinct(ParentId)) orderCount,count(distinct(userId)) userCount,sum(BuyCount) buyCount ,sum(TotalPay) as totalMoney
+		from yjj_OrderItem where OrderNo in 
+			(select OrderNo from yjj_OrderNew where ParentId in (select OrderNo
+					from yjj_OrderNew where OrderStatus in(10,50,70) and (ParentId =-1 or ParentId = OrderNo) 
+					<![CDATA[
+					and PayTime>= #{params.startTime} and PayTime <= #{params.endTime}
+					]]>
+					)) 
+                    and ParentId>0 and ProductId in(select ProductId from yjj_OrderItem as a left join yjj_Brand as yb on a.BrandId = yb.BrandId
+		<where> 
+			<if test="params.season != -1 or params.years != -1">
+				a.skuId in (SELECT ps.id as skuId FROM yjj_ProductSKU as ps 
+						left join yjj_Product as p on ps.ProductId = p.id where
+						<if test="params.season != -1">
+							p.id in(select ProductId from yjj_ProductProperty where  
+							PropertyNameId = 9 and PropertyValueId =#{params.season})
+						</if>
+						<if test="params.season != -1 and params.years != -1">
+							and
+						</if>
+						<if test="params.years != -1">
+							p.id in(select ProductId from yjj_ProductProperty where  
+							PropertyNameId = 10 and PropertyValueId =#{params.years})
+						</if>
+						)		
+			</if>
+			<if test="params.skuId != -1">
+				and a.skuId=#{params.skuId}
+			</if>
+			<if test="params.brandName != ''">
+				and yb.brandName like concat("%", #{params.brandName} ,"%")
+			</if>
+		</where>
+		) group by ProductId) as m left join yjj_Product as n on m.productId = n.id
+		<where>
+			<if test="params.productId != -1">
+				m.productId =#{params.productId}
+			</if>
+			<if test="params.name != ''">
+				and n.name like concat("%", #{params.name} ,"%")
+			</if>
+		</where>
+		<if test="params.classify != ''">
+			) as jp left join yjj_ProductCategory j on jp.productId = j.productid where j.categoryId in (SELECT id FROM yjj_Category where id = #{params.classify} or ParentId = #{params.classify})
+		</if>
+	</select>
+	
+	<select id="getProductSaleTotalCount" parameterType="map" resultType="map">
+		select ifnull(sum(totalMoney),0) as totalMoney,ifnull(sum(buyCount),0) as totalBuyCount,ifnull(count(*),0) count from (
+			<if test="params.classify == ''">
+				select m.*,n.name from (
+			</if>
+			<if test="params.classify != ''">
+				select jp.* from (select m.*,n.name from(
+			</if>
+			select ProductId,count(distinct(ParentId)) orderCount,count(distinct(userId)) userCount,sum(BuyCount) buyCount ,sum(TotalPay) as totalMoney
+				from yjj_OrderItem where OrderNo in 
+			(select OrderNo from yjj_OrderNew where ParentId in (select OrderNo
+					from yjj_OrderNew where OrderStatus in(10,50,70) and (ParentId =-1 or ParentId = OrderNo) 
+					<![CDATA[
+					and PayTime>= #{params.startTime} and PayTime <= #{params.endTime}
+					]]>
+					)) 
+                    and ParentId>0 and ProductId in(select ProductId from yjj_OrderItem as a left join yjj_Brand as yb on a.BrandId = yb.BrandId
+		<where> 
+			<if test="params.season != -1 or params.years != -1">
+				a.skuId in (SELECT ps.id as skuId FROM yjj_ProductSKU as ps 
+						left join yjj_Product as p on ps.ProductId = p.id where
+						<if test="params.season != -1">
+							p.id in(select ProductId from yjj_ProductProperty where  
+							PropertyNameId = 9 and PropertyValueId =#{params.season})
+						</if>
+						<if test="params.season != -1 and params.years != -1">
+							and
+						</if>
+						<if test="params.years != -1">
+							p.id in(select ProductId from yjj_ProductProperty where  
+							PropertyNameId = 10 and PropertyValueId =#{params.years})
+						</if>
+						)		
+			</if>
+			<if test="params.skuId != -1">
+				and a.skuId=#{params.skuId}
+			</if>
+			<if test="params.brandName != ''">
+				and yb.brandName like concat("%", #{params.brandName} ,"%")
+			</if>
+		</where>
+		) group by ProductId) as m left join yjj_Product as n on m.productId = n.id
+		<where>
+			<if test="params.productId != -1">
+				m.productId =#{params.productId}
+			</if>
+			<if test="params.name != ''">
+				and n.name like concat("%", #{params.name} ,"%")
+			</if>
+		</where>
+		<if test="params.classify != ''">
+			)as jp left join yjj_ProductCategory j on jp.productId = j.productid where j.categoryId in (SELECT id FROM yjj_Category where id = #{params.classify} or ParentId = #{params.classify})
+		</if>
+		) as h
+	</select>
+	
+	<select id="searchChannelStatistics" parameterType="map" resultType="ChannelStatisticsBean">
+	select * from (
+		select u.UserId,u.Status as UserStatus,u.CreateTime as UserCreateTime,u.YJJNumber,ifnull(u.BelongStoreId,0) as StoreNumber,u.ParentDistribution as SuperiorYjjNumber,u.InvitedUserId,ifnull(mpr.PVCount,0) as PVCount,ifnull(u.OrderCount,0) as OrderCount,ifnull(u.TotalMoney,0) as TotalMoney
+		from
+			(select u1.*,um.BelongStoreId,um.ParentDistribution,uir.InvitedUserId, ifnull(o.OrderCount,0) as OrderCount,ifnull(o.TotalMoney,0) as TotalMoney from yjj_User u1 
+			left join yjj_UserMember um on u1.UserId = um.UserId left join yjj_UserInviteRecord uir on u1.UserId = uir.InvitedUserId 
+			left join (select UserId,count(*) as OrderCount,ifnull(sum(o.totalPay+o.TotalExpressMoney),0) as TotalMoney from yjj_OrderNew o where PayTime > 0 group by UserId) o on u1.UserId = o.UserId
+			<where>
+				<![CDATA[ u1.CreateTime >= #{searchBean.startCreateTime}]]>
+				<if test="searchBean.endCreateTime!=-1">
+					<![CDATA[ AND u1.CreateTime <= #{searchBean.endCreateTime}]]>
+				</if>
+				<if test="searchBean.orderCountMin != 0">
+					<![CDATA[ AND o.OrderCount >= #{searchBean.orderCountMin} ]]>
+				</if>
+				<if test="searchBean.orderCountMax != -1">
+					<![CDATA[ AND o.OrderCount <= #{searchBean.orderCountMax} ]]>
+				</if>
+			</where>
+			) u
+			left join 
+			(select UserId, ifnull(sum(PVCount),0) as PVCount
+		 		from yjj_MemberPVDayReport group by UserId) mpr on u.UserId = mpr.UserId
+			<where>
+				<if test="searchBean.yjjNumber != null">
+					AND YJJNumber LIKE CONCAT ("%", #{searchBean.yjjNumber}, "%")
+				</if>
+				<if test="searchBean.superiorYjjNumber != null">
+					AND ParentDistribution LIKE CONCAT ("%", #{searchBean.superiorYjjNumber}, "%")
+				</if>
+				<if test="searchBean.userStatus != -1">
+					AND Status = #{searchBean.userStatus}
+				</if>	
+			</where> ) r 
+			<where>
+				<if test="searchBean.userType == 0">
+					AND StoreNumber = 0
+				</if>
+				<if test="searchBean.userType == 1">
+					<![CDATA[ AND StoreNumber > 0 ]]>
+				</if>
+				
+				<if test="searchBean.pvCountMin != null">
+					<![CDATA[ AND PVCount >= #{searchBean.pvCountMin} ]]>
+				</if>
+				<if test="searchBean.pvCountMax != -1">
+					<![CDATA[ AND PVCount <= #{searchBean.pvCountMax} ]]>
+				</if>
+			</where>
+			order by UserCreateTime desc
+			limit #{pageQuery.limit} offset #{pageQuery.offset}
+	</select>
+	
+	<select id="getUserLastTimeVist" parameterType="map" resultType="long">
+		select max(CreateTime) from yjj_Log where UserId= #{userId}
+	</select>
+	
+	<select id="searchChannelStatisticsAllUser" parameterType="map" resultType="ChannelStatisticsBean">
+		select r.UserId from (
+		select u.UserId,u.Status as UserStatus,u.CreateTime as UserCreateTime,u.YJJNumber,ifnull(u.BelongStoreId,0) as StoreNumber,u.ParentDistribution as SuperiorYjjNumber,u.InvitedUserId,ifnull(mpr.PVCount,0) as PVCount,ifnull(mpr.OrderCount,0) as OrderCount,ifnull(mpr.TotalMoney,0) as TotalMoney
+		from
+			(select u1.*,um.BelongStoreId,um.ParentDistribution,uir.InvitedUserId from yjj_User u1 left join yjj_UserMember um on u1.UserId = um.UserId left join yjj_UserInviteRecord uir on u1.UserId = uir.InvitedUserId
+			<where>
+				<![CDATA[ u1.CreateTime >= #{searchBean.startCreateTime}]]>
+				<if test="searchBean.endCreateTime!=-1">
+					<![CDATA[ AND u1.CreateTime <= #{searchBean.endCreateTime}]]>
+				</if>
+			</where>
+			) u
+			left join 
+			(select UserId, ifnull(sum(PVCount),0) as PVCount, ifnull(sum(OrderCount),0) as OrderCount , ifnull(sum(TotalMoney),0) as TotalMoney
+		 		from yjj_MemberPVDayReport group by UserId) mpr on u.UserId = mpr.UserId
+			<where>
+				<if test="searchBean.yjjNumber != null">
+					AND YJJNumber LIKE CONCAT ("%", #{searchBean.yjjNumber}, "%")
+				</if>
+				<if test="searchBean.superiorYjjNumber != null">
+					AND ParentDistribution LIKE CONCAT ("%", #{searchBean.superiorYjjNumber}, "%")
+				</if>
+				<if test="searchBean.userStatus != -1">
+					AND Status = #{searchBean.userStatus}
+				</if>	
+			</where> ) r 
+			<where>
+				<if test="searchBean.userType == 0">
+					AND StoreNumber = 0
+				</if>
+				<if test="searchBean.userType == 1">
+					<![CDATA[ AND StoreNumber > 0 ]]>
+				</if>
+				<if test="searchBean.orderCountMin != null">
+					<![CDATA[ AND OrderCount >= #{searchBean.orderCountMin} ]]>
+				</if>
+				<if test="searchBean.orderCountMax != -1">
+					<![CDATA[ AND OrderCount <= #{searchBean.orderCountMax} ]]>
+				</if>
+				<if test="searchBean.pvCountMin != null">
+					<![CDATA[ AND PVCount >= #{searchBean.pvCountMin} ]]>
+				</if>
+				<if test="searchBean.pvCountMax != -1">
+					<![CDATA[ AND PVCount <= #{searchBean.pvCountMax} ]]>
+				</if>
+			</where>
+	</select>
+	
+	<select id="getChannelStatisticsCount" parameterType="map" resultType="int">
+		select count(1) from (
+		select u.UserId,u.Status as UserStatus,u.CreateTime as UserCreateTime,u.YJJNumber,ifnull(u.BelongStoreId,0) as StoreNumber,u.ParentDistribution as SuperiorYjjNumber,u.InvitedUserId,ifnull(mpr.PVCount,0) as PVCount,ifnull(u.OrderCount,0) as OrderCount,ifnull(u.TotalMoney,0) as TotalMoney
+		from
+			(select u1.*,um.BelongStoreId,um.ParentDistribution,uir.InvitedUserId, ifnull(o.OrderCount,0) as OrderCount,ifnull(o.TotalMoney,0) as TotalMoney from yjj_User u1 
+			left join yjj_UserMember um on u1.UserId = um.UserId left join yjj_UserInviteRecord uir on u1.UserId = uir.InvitedUserId 
+			left join (select UserId,count(*) as OrderCount,ifnull(sum(o.totalPay+o.TotalExpressMoney),0) as TotalMoney from yjj_OrderNew o where PayTime > 0 group by UserId) o on u1.UserId = o.UserId
+			<where>
+				<![CDATA[ u1.CreateTime >= #{searchBean.startCreateTime}]]>
+				<if test="searchBean.endCreateTime!=-1">
+					<![CDATA[ AND u1.CreateTime <= #{searchBean.endCreateTime}]]>
+				</if>
+				<if test="searchBean.orderCountMin != 0">
+					<![CDATA[ AND o.OrderCount >= #{searchBean.orderCountMin} ]]>
+				</if>
+				<if test="searchBean.orderCountMax != -1">
+					<![CDATA[ AND o.OrderCount <= #{searchBean.orderCountMax} ]]>
+				</if>
+			</where>
+			) u
+			left join 
+			(select UserId, ifnull(sum(PVCount),0) as PVCount
+		 		from yjj_MemberPVDayReport group by UserId) mpr on u.UserId = mpr.UserId
+			<where>
+				<if test="searchBean.yjjNumber != null">
+					AND YJJNumber LIKE CONCAT ("%", #{searchBean.yjjNumber}, "%")
+				</if>
+				<if test="searchBean.superiorYjjNumber != null">
+					AND ParentDistribution LIKE CONCAT ("%", #{searchBean.superiorYjjNumber}, "%")
+				</if>
+				<if test="searchBean.userStatus != -1">
+					AND Status = #{searchBean.userStatus}
+				</if>	
+			</where> ) r 
+			<where>
+				<if test="searchBean.userType == 0">
+					AND StoreNumber = 0
+				</if>
+				<if test="searchBean.userType == 1">
+					<![CDATA[ AND StoreNumber > 0 ]]>
+				</if>
+				<if test="searchBean.pvCountMin != null">
+					<![CDATA[ AND PVCount >= #{searchBean.pvCountMin} ]]>
+				</if>
+				<if test="searchBean.pvCountMax != -1">
+					<![CDATA[ AND PVCount <= #{searchBean.pvCountMax} ]]>
+				</if>
+			</where>
+	</select>
+	
+	<select id="sumCurrentChannelTotal" parameterType="map" resultType="map">
+		select count(1) as totalUserCount, ifnull(sum(PVCount),0) as totalPVCount, ifnull(sum(OrderCount),0) as totalOrderCount , ifnull(sum(TotalMoney),0) as totalMoney from (
+		select u.UserId,u.Status as UserStatus,u.CreateTime as UserCreateTime,u.YJJNumber,ifnull(u.BelongStoreId,0) as StoreNumber,u.ParentDistribution as SuperiorYjjNumber,u.InvitedUserId,ifnull(mpr.PVCount,0) as PVCount,ifnull(u.OrderCount,0) as OrderCount,ifnull(u.TotalMoney,0) as TotalMoney
+		from
+			(select u1.*,um.BelongStoreId,um.ParentDistribution,uir.InvitedUserId, ifnull(o.OrderCount,0) as OrderCount,ifnull(o.TotalMoney,0) as TotalMoney from yjj_User u1 
+			left join yjj_UserMember um on u1.UserId = um.UserId left join yjj_UserInviteRecord uir on u1.UserId = uir.InvitedUserId 
+			left join (select UserId,count(*) as OrderCount,ifnull(sum(o.totalPay+o.TotalExpressMoney),0) as TotalMoney from yjj_OrderNew o where PayTime > 0 group by UserId) o on u1.UserId = o.UserId
+			<where>
+				<![CDATA[ u1.CreateTime >= #{searchBean.startCreateTime}]]>
+				<if test="searchBean.endCreateTime!=-1">
+					<![CDATA[ AND u1.CreateTime <= #{searchBean.endCreateTime}]]>
+				</if>
+				<if test="searchBean.orderCountMin != 0">
+					<![CDATA[ AND o.OrderCount >= #{searchBean.orderCountMin} ]]>
+				</if>
+				<if test="searchBean.orderCountMax != -1">
+					<![CDATA[ AND o.OrderCount <= #{searchBean.orderCountMax} ]]>
+				</if>
+			</where>
+			) u
+			left join 
+			(select UserId, ifnull(sum(PVCount),0) as PVCount
+		 		from yjj_MemberPVDayReport group by UserId) mpr on u.UserId = mpr.UserId
+			<where>
+				<if test="searchBean.yjjNumber != null">
+					AND YJJNumber LIKE CONCAT ("%", #{searchBean.yjjNumber}, "%")
+				</if>
+				<if test="searchBean.superiorYjjNumber != null">
+					AND ParentDistribution LIKE CONCAT ("%", #{searchBean.superiorYjjNumber}, "%")
+				</if>
+				<if test="searchBean.userStatus != -1">
+					AND Status = #{searchBean.userStatus}
+				</if>	
+			</where> ) r 
+			<where>
+				<if test="searchBean.userType == 0">
+					AND StoreNumber = 0
+				</if>
+				<if test="searchBean.userType == 1">
+					<![CDATA[ AND StoreNumber > 0 ]]>
+				</if>
+				<if test="searchBean.pvCountMin != null">
+					<![CDATA[ AND PVCount >= #{searchBean.pvCountMin} ]]>
+				</if>
+				<if test="searchBean.pvCountMax != -1">
+					<![CDATA[ AND PVCount <= #{searchBean.pvCountMax} ]]>
+				</if>
+			</where>
+	</select>
+	
+	<select id="sumCurrentChannelTotalMoney" parameterType="map" resultType="map" >
+		select ifnull(sum(o.totalPay+o.TotalExpressMoney),0) as totalMoney from yjj_OrderNew o 
+		<if test = "userIds != null">
+    			where UserId in
+    			<foreach collection="userIds" item="userId" open="(" separator="," close=")">
+    				#{userId}
+    			</foreach>
+    	</if>
+	</select>
+		
+	<select id="searchProductDetailSaleCount" parameterType="map" resultType="int" >
+		select count(1) from (select skuId,skuSnapshot,sum(TotalPay) as totalMoney,sum(BuyCount) as buyCount from yjj_OrderItem where OrderNo in  
+			(select OrderNo from yjj_OrderNew where ParentId in (select OrderNo
+						from yjj_OrderNew where OrderStatus in(10,50,70) and (ParentId =-1 or ParentId = OrderNo)
+						<![CDATA[
+						and PayTime>= #{params.startTime} and PayTime <= #{params.endTime}
+						]]> 
+					)) 
+           	and ParentId>0
+			and ProductId =#{params.productId} 
+			group by skuId,SkuSnapshot)as a	
+	</select>
+	
+	<select id="searchProductDetailSale" parameterType="map" resultType="map" >
+		select skuId,skuSnapshot,sum(TotalPay) as totalMoney,sum(BuyCount) as buyCount from yjj_OrderItem where OrderNo in 
+			(select OrderNo from yjj_OrderNew where ParentId in (select OrderNo
+						from yjj_OrderNew where OrderStatus in(10,50,70) and (ParentId =-1 or ParentId = OrderNo)
+						<![CDATA[
+						and PayTime>= #{params.startTime} and PayTime <= #{params.endTime}
+						]]> 
+					)) 
+           	and ParentId>0
+			and ProductId =#{params.productId} 
+			group by skuId,SkuSnapshot	
+			limit #{pageQuery.limit} offset #{pageQuery.offset}
+	</select>
+	
+	<select id="getProvinceSaleCount" parameterType="map" resultType="int" >
+		  	select count(1) from (select count(1) as count, sum(a.totalPay) as sumMoney, count(distinct(a.UserId)) as userCount, provinceName,sum(a.TotalBuyCount) as totalBuyCount
+			from (select totalPay,userId,ExpressInfo,OrderNo,TotalBuyCount from yjj_OrderNew where OrderStatus in(10,50,70) and (ParentId =-1 or ParentId = OrderNo) 
+				<![CDATA[
+				and PayTime>= #{params.startTime} and PayTime <= #{params.endTime}
+				]]>
+			) as a left join (SELECT concat(CASE aa.provincename when '北京市' then '' when '天津市' then '' when '重庆市' then '' when '上海市' then '' else aa.provincename end, bb.cityname) as name, aa.provinceName, bb.cityName FROM yjj_Province aa left join yjj_City bb on aa.provincecode=bb.parentcode) as b 
+			 on a.ExpressInfo like concat("%",b.name,"%")
+			group by provinceName
+			order by count desc	) as d
+			<if test="params.provinceName != ''">
+			where provinceName like concat("%",#{params.provinceName} ,"%")
+			</if>
+	</select>
+	
+	<select id="searchProvinceSale" parameterType="map" resultType="map" >
+		  	select * from (select count(1) as count, sum(a.totalPay) as sumMoney, count(distinct(a.UserId)) as userCount, provinceName,sum(a.TotalBuyCount) as totalBuyCount
+			from (select totalPay,userId,ExpressInfo,OrderNo,TotalBuyCount from yjj_OrderNew where OrderStatus in(10,50,70) and (ParentId =-1 or ParentId = OrderNo) 
+				<![CDATA[
+				and PayTime>= #{params.startTime} and PayTime <= #{params.endTime}
+				]]>
+			) as a left join(SELECT concat(CASE aa.provincename when '北京市' then '' when '天津市' then '' when '重庆市' then '' when '上海市' then '' else aa.provincename end, bb.cityname) as name, aa.provinceName, bb.cityName FROM yjj_Province aa left join yjj_City bb on aa.provincecode=bb.parentcode) as b 
+			 on a.ExpressInfo like concat("%",b.name,"%")
+			group by provinceName
+			<if test="sort == 1">
+				order by sumMoney desc
+			</if>
+			<if test="sort == 2">
+				order by sumMoney asc
+			</if>
+			<if test="sort == 3">
+				order by totalBuyCount desc
+			</if>
+			<if test="sort == 4">
+				order by totalBuyCount asc
+			</if>
+			<if test="sort == 5">
+				order by count desc
+			</if>
+			<if test="sort == 6">
+				order by count asc
+			</if>
+			<if test="sort == 7">
+				order by userCount desc
+			</if>
+			<if test="sort == 8">
+				order by userCount asc
+			</if>
+			) as d
+			<if test="params.provinceName != ''">
+			where provinceName like concat("%",#{params.provinceName} ,"%")
+			</if>
+			limit #{pageQuery.limit} offset #{pageQuery.offset}
+	</select>
+	
+	<select id="getProvinceSaleTotal" parameterType="map" resultType="map" >
+			select ifnull(sum(sumMoney),0) as totalMoney,ifnull(sum(totalBuyCount),0) as totalBuyCount,ifnull(sum(count),0) as totalCount,ifnull(sum(userCount),0) as totalUserCount from (
+		  	select * from (select count(1) as count, sum(a.totalPay) as sumMoney, count(distinct(a.UserId)) as userCount, provinceName,sum(a.TotalBuyCount) as totalBuyCount
+			from (select totalPay,userId,ExpressInfo,OrderNo,TotalBuyCount from yjj_OrderNew where OrderStatus in(10,50,70) and (ParentId =-1 or ParentId = OrderNo) 
+				<![CDATA[
+				and PayTime>= #{params.startTime} and PayTime <= #{params.endTime}
+				]]>
+			) as a left join (SELECT concat(CASE aa.provincename when '北京市' then '' when '天津市' then '' when '重庆市' then '' when '上海市' then '' else aa.provincename end, bb.cityname) as name, aa.provinceName, bb.cityName FROM yjj_Province aa left join yjj_City bb on aa.provincecode=bb.parentcode) as b 
+			 on a.ExpressInfo like concat("%",b.name,"%")
+			group by provinceName
+			order by count desc	) as d
+			<if test="params.provinceName != ''">
+			where provinceName like concat("%",#{params.provinceName} ,"%")
+			</if>
+			) as m 
+	</select>
+	
+	<select id="getCitySaleCount" parameterType="map" resultType="int" >
+		    select count(1) from (select count(1) as count, sum(a.totalPay) as sumMoney, count(distinct(a.UserId)) as userCount, provinceName,cityName,sum(a.TotalBuyCount) as totalBuyCount
+			from (select totalPay,userId,ExpressInfo,OrderNo,TotalBuyCount from yjj_OrderNew where OrderStatus in(10,50,70) and (ParentId =-1 or ParentId = OrderNo) 
+				<![CDATA[
+				and PayTime>= #{params.startTime} and PayTime <= #{params.endTime}
+				]]>
+			) as a left join (SELECT concat(CASE aa.provincename when '北京市' then '' when '天津市' then '' when '重庆市' then '' when '上海市' then '' else aa.provincename end, bb.cityname) as name, aa.provinceName, bb.cityName FROM yjj_Province aa left join yjj_City bb on aa.provincecode=bb.parentcode) as b 
+			 on a.ExpressInfo like concat("%",b.name,"%") 
+			group by provinceName,cityName
+			order by count desc	) as d
+			<if test="params.cityName != ''">
+				where cityName like concat("%",#{params.cityName} ,"%")
+			</if>
+	</select>
+	
+	<select id="searchCitySale" parameterType="map" resultType="map" >
+		    select * from (select count(1) as count, sum(a.totalPay) as sumMoney, count(distinct(a.UserId)) as userCount, provinceName,cityName,sum(a.TotalBuyCount) as totalBuyCount
+			from (select totalPay,userId,ExpressInfo,OrderNo,TotalBuyCount from yjj_OrderNew where OrderStatus in(10,50,70) and (ParentId =-1 or ParentId = OrderNo) 
+				<![CDATA[
+				and PayTime>= #{params.startTime} and PayTime <= #{params.endTime}
+				]]>
+			) as a left join (SELECT concat(CASE aa.provincename when '北京市' then '' when '天津市' then '' when '重庆市' then '' when '上海市' then '' else aa.provincename end, bb.cityname) as name, aa.provinceName, bb.cityName FROM yjj_Province aa left join yjj_City bb on aa.provincecode=bb.parentcode) as b 
+			 on a.ExpressInfo like concat("%",b.name,"%") 
+			group by provinceName,cityName
+			<if test="sort == 1">
+				order by sumMoney desc
+			</if>
+			<if test="sort == 2">
+				order by sumMoney asc
+			</if>
+			<if test="sort == 3">
+				order by totalBuyCount desc
+			</if>
+			<if test="sort == 4">
+				order by totalBuyCount asc
+			</if>
+			<if test="sort == 5">
+				order by count desc
+			</if>
+			<if test="sort == 6">
+				order by count asc
+			</if>
+			<if test="sort == 7">
+				order by userCount desc
+			</if>
+			<if test="sort == 8">
+				order by userCount asc
+			</if>
+			) as d
+			<if test="params.cityName != ''">
+				where cityName like concat("%",#{params.cityName} ,"%")
+			</if>
+			limit #{pageQuery.limit} offset #{pageQuery.offset}
+	</select>
+	
+	<select id="getCitySaleTotal" parameterType="map" resultType="map" >
+		select  ifnull(sum(count),0) as totalCount, ifnull(sum(sumMoney),0) as totalMoney, ifnull(sum(userCount),0) as totalUserCount, ifnull(sum(totalBuyCount),0) as totalBuyCount from (
+		    select * from (select count(1) as count, sum(a.totalPay) as sumMoney, count(distinct(a.UserId)) as userCount, provinceName,cityName,sum(a.TotalBuyCount) as totalBuyCount
+				from (select totalPay,userId,ExpressInfo,OrderNo,TotalBuyCount from yjj_OrderNew where OrderStatus in(10,50,70) and (ParentId =-1 or ParentId = OrderNo) 
+					<![CDATA[
+					and PayTime>= #{params.startTime} and PayTime <= #{params.endTime}
+					]]>
+			) as a left join (SELECT concat(CASE aa.provincename when '北京市' then '' when '天津市' then '' when '重庆市' then '' when '上海市' then '' else aa.provincename end, bb.cityname) as name, aa.provinceName, bb.cityName FROM yjj_Province aa left join yjj_City bb on aa.provincecode=bb.parentcode) as b 
+			 on a.ExpressInfo like concat("%",b.name,"%") 
+			group by provinceName,cityName
+			order by count desc	) as d
+			<if test="params.cityName != ''">
+				where cityName like concat("%",#{params.cityName} ,"%")
+			</if>
+			) as m
+	</select>
+
+	<select id="searchCategoryStatistics" parameterType="map" resultType="map" >
+		select a.CategoryId,b.CategoryName,a.TotalPay,a.SaleCount,a.OrderCount,a.UserCount from
+		(SELECT CategoryId,sum(TotalPay) as TotalPay,sum(SaleCount) as SaleCount,sum(OrderCount) as OrderCount,sum(UserCount) as UserCount 
+		FROM (Select * from yjj_CategorySaleDayReport 
+		<where>
+			<if test="categoryName!=null">
+				CategoryName LIKE CONCAT ("%", #{categoryName}, "%")
+			</if>
+			<if test="startTime!=null">
+				<![CDATA[ AND CreateTime >=#{startTime} ]]>
+			</if>
+			<if test="endTime!=-1">
+				<![CDATA[ AND CreateTime <=#{endTime} ]]>
+			</if>
+		</where>) c group by CategoryId) a left join yjj_Category b on a.CategoryId = b.Id
+		<if test="sort == 1">
+				order by a.TotalPay desc
+			</if>
+			<if test="sort == 2">
+				order by a.TotalPay asc
+			</if>
+			<if test="sort == 3">
+				order by a.SaleCount desc
+			</if>
+			<if test="sort == 4">
+				order by a.SaleCount asc
+			</if>
+			<if test="sort == 5">
+				order by a.OrderCount desc
+			</if>
+			<if test="sort == 6">
+				order by a.OrderCount asc
+			</if>
+			<if test="sort == 7">
+				order by a.UserCount desc
+			</if>
+			<if test="sort == 8">
+				order by a.UserCount asc
+			</if>
+		limit #{pageQuery.limit} offset #{pageQuery.offset}
+	</select>
+	
+	<select id="getCategoryStatisticsCount" parameterType="map" resultType="int" >
+		select count(1) from
+		(SELECT CategoryId,sum(TotalPay) as TotalPay,sum(SaleCount) as SaleCount,sum(OrderCount) as OrderCount,sum(UserCount) as UserCount 
+		FROM (Select * from yjj_CategorySaleDayReport 
+		<where>
+			<if test="categoryName!=null">
+				CategoryName LIKE CONCAT ("%", #{categoryName}, "%")
+			</if>
+			<if test="startTime!=null">
+				<![CDATA[ AND CreateTime >=#{startTime} ]]>
+			</if>
+			<if test="endTime!=-1">
+				<![CDATA[ AND CreateTime <=#{endTime} ]]>
+			</if>
+		</where>) c group by CategoryId) a left join yjj_Category b on a.CategoryId = b.Id
+	</select>
+	
+	<select id="searchBrandStatistics" parameterType="map" resultType="map" >
+		select a.TotalSaleCount, a.TotalSaleMoney, b.BrandName,a.TotalUserCount,a.TotalOrderCount from (
+			select sum(BuyCount) as TotalSaleCount,sum(TotalPay) as TotalSaleMoney, BrandId  ,count(distinct(UserId)) as TotalUserCount ,count(distinct(OrderNo)) as TotalOrderCount 
+			from yjj_OrderItem
+			where OrderNo in
+				(select OrderNo from yjj_OrderNew where ParentId in (select OrderNo
+				from yjj_OrderNew  where OrderStatus in(10,50,70) and (ParentId =-1 or ParentId = OrderNo) 
+				
+					<if test="startTime!=null">
+						<![CDATA[
+	        		 		and CreateTime >= #{startTime}
+	        		 		]]>
+					</if>
+        		 	<if test="endTime!=-1">
+        		 		<![CDATA[
+        		 		and CreateTime <= #{endTime}
+        		 		]]>
+        		 	</if>
+        		 
+					))
+			group by BrandId) as a left join yjj_Brand as b on a.BrandId = b.BrandId 
+			<where>
+				<if test="brandName!=null">
+					b.BrandName LIKE CONCAT ("%", #{brandName}, "%")
+				</if>
+			</where>
+			<if test="sort == 1">
+				order by a.TotalSaleMoney desc
+			</if>
+			<if test="sort == 2">
+				order by a.TotalSaleMoney asc
+			</if>
+			<if test="sort == 3">
+				order by a.TotalSaleCount desc
+			</if>
+			<if test="sort == 4">
+				order by a.TotalSaleCount asc
+			</if>
+			<if test="sort == 5">
+				order by a.TotalOrderCount desc
+			</if>
+			<if test="sort == 6">
+				order by a.TotalOrderCount asc
+			</if>
+			<if test="sort == 7">
+				order by a.TotalUserCount desc
+			</if>
+			<if test="sort == 8">
+				order by a.TotalUserCount asc
+			</if>
+		limit #{pageQuery.limit} offset #{pageQuery.offset}
+	</select>
+	
+	<select id="getBrandStatisticsCount" parameterType="map" resultType="int" >
+		select count(1) from (
+			select sum(BuyCount) as TotalSaleCount,sum(TotalPay) as TotalSaleMoney, BrandId  ,count(distinct(UserId)) as TotalUserCount ,count(distinct(OrderNo)) as TotalOrderCount 
+			from yjj_OrderItem
+			where OrderNo in
+				(select OrderNo from yjj_OrderNew where ParentId in (select OrderNo
+				from yjj_OrderNew  where OrderStatus in(10,50,70) and (ParentId =-1 or ParentId = OrderNo) 
+				
+					<if test="startTime!=null">
+						<![CDATA[
+	        		 		and CreateTime >= #{startTime}
+	        		 		]]>
+					</if>
+        		 	<if test="endTime!=-1">
+        		 		<![CDATA[
+        		 		and CreateTime <= #{endTime}
+        		 		]]>
+        		 	</if>
+        		 
+					))
+			group by BrandId) as a left join yjj_Brand as b on a.BrandId = b.BrandId 
+			<where>
+				<if test="brandName!=null">
+					b.BrandName LIKE CONCAT ("%", #{brandName}, "%")
+				</if>
+			</where>
+	</select>
+	
+	<select id="getPageCategoryCount" parameterType="map" resultType="int" >
+	select count(1) from (
+		select count(*) as pv,(select ifnull(page_category_uvcount(c.Id,#{params.startTime},#{params.endTime}),0)) as uv,
+			(select ifnull(page_category_usercount(c.Id,#{params.startTime},#{params.endTime}),0)) as userCount,
+			(select ifnull(page_category_ipcount(c.Id,#{params.startTime},#{params.endTime}),0)) as ip,
+	   		 (select ifnull(page_category_lose(c.Id,#{params.startTime},#{params.endTime},2),0)) as lose,
+	   		 avg(Duration) as duration, c.Id,c.CategoryName
+				from(select * from yjj_Log where SrcId =-1  
+					<![CDATA[
+					and CreateTime>= #{params.startTime} and CreateTime <= #{params.endTime}
+					]]>
+				) as l left join yjj_Category as c on l.SrcRelatedId like concat(c.Id,',%')
+	   		<where>
+	   			<if test="params.categoryId != ''">
+	   				 c.Id=#{params.categoryId}
+	   			</if> 
+	   			<if test="params.categoryName != ''">
+	   				and c.CategoryName like concat ("%",#{params.categoryName},"%")
+	   			</if> 	
+	   		</where> 
+	   		group by c.Id order by pv desc
+   		) as a
+	</select>
+	
+	<select id="searchPageCategory" parameterType="map" resultType="map" >
+		select count(*) as pv,(select ifnull(page_category_uvcount(c.Id,#{params.startTime},#{params.endTime}),0)) as uv,
+			(select ifnull(page_category_usercount(c.Id,#{params.startTime},#{params.endTime}),0)) as userCount,
+			(select ifnull(page_category_ipcount(c.Id,#{params.startTime},#{params.endTime}),0)) as ip,
+	   		 (select ifnull(page_category_lose(c.Id,#{params.startTime},#{params.endTime},2),0)) as lose,
+	   		 avg(Duration) as duration, c.Id,c.CategoryName
+				from(select * from yjj_Log where SrcId =-1    
+				<![CDATA[
+				and CreateTime>= #{params.startTime} and CreateTime <= #{params.endTime}
+				]]>
+			) as l left join yjj_Category as c on l.SrcRelatedId like concat(c.Id,',%')
+   		<where>
+   			<if test="params.categoryId != ''">
+   				 c.Id=#{params.categoryId}
+   			</if> 
+   			<if test="params.categoryName != ''">
+   				and c.CategoryName like concat ("%",#{params.categoryName},"%")
+   			</if> 	
+   		</where> 
+   		group by c.Id order by pv desc
+	</select>
+	
+	<select id="getPageProductDetailCount" parameterType="map" resultType="int" >
+		select count(1) from (
+		select ifnull(sum(Pv),0)as pv,ifnull(sum(Uv),0) as uv,ifnull(sum(UserCount),0)as userCount,ifnull(sum(IpCount),0)as ip,
+			ifnull(sum(LoseCount),0)as lose,avg(Duration)as duration,ProductId,ProductName
+			from yjj_PageProductStatisticsDayReport  
+	   		<where>
+	   				<![CDATA[
+					 CreateTime>= #{params.startTime} and CreateTime <= #{params.endTime}
+					]]>
+	   			<if test="params.categoryId != ''">
+	   				and ProductId=#{params.categoryId}
+	   			</if> 
+	   			<if test="params.categoryName != ''">
+	   				and ProductName like concat ("%",#{params.categoryName},"%")
+	   			</if> 	
+	   		</where> 
+	   		group by ProductId,ProductName 
+   		) as a
+	</select>
+	
+	<select id="searchPageProductDetail" parameterType="map" resultType="map" >
+		select ifnull(sum(Pv),0)as pv,ifnull(sum(Uv),0) as uv,ifnull(sum(UserCount),0)as userCount,ifnull(sum(IpCount),0)as ip,
+			ifnull(sum(LoseCount),0)as lose,avg(Duration)as duration,ProductId as Id,ProductName as Name
+			from yjj_PageProductStatisticsDayReport  
+	   		<where>
+	   				<![CDATA[
+					 CreateTime>= #{params.startTime} and CreateTime <= #{params.endTime}
+					]]>
+	   			<if test="params.categoryId != ''">
+	   				and ProductId=#{params.categoryId}
+	   			</if> 
+	   			<if test="params.categoryName != ''">
+	   				and ProductName like concat ("%",#{params.categoryName},"%")
+	   			</if> 	
+	   		</where> 
+	   		group by ProductId,ProductName  order by pv desc
+	</select>
+	
+	<select id="getSummaryPageProductDetail" parameterType="map" resultType="map" >
+	select ifnull(sum(pv),0)as pvCount,ifnull(sum(uv),0)as uvCount,ifnull(sum(IpCount),0)as ipCount,ifnull(sum(userCount),0)as userCount,ifnull(sum(loseCount),0)as loseCount,ifnull(avg(Duration),0)as duration
+		 from yjj_PageProductStatisticsDayReport
+   			 <where>
+   			 	<![CDATA[
+					CreateTime>= #{params.startTime} and CreateTime <= #{params.endTime}
+					]]>
+   			 	<if test="params.categoryId != ''">
+	   				and ProductId=#{params.categoryId}
+	   			</if> 
+	   			
+	   			<if test="params.categoryName != ''">
+	   				and ProductName like concat ("%",#{params.categoryName},"%")
+	   			</if>
+   			 </where>
+	</select>	
+	
+	<select id="searchUserStatistics" parameterType="map" resultType="map" >
+		select ifnull(user_statistics_newUser(#{params.startTime},#{params.endTime}),0) as newUser,ifnull(user_statistics_atUser(#{params.startTime},#{params.endTime}),0) as atUser,
+		ifnull(user_statistics_callUser(#{params.startTime},#{params.endTime}),0) as callUser,ifnull(user_statistics_memberUser(#{params.startTime},#{params.endTime}),0) as memberUser,
+		ifnull(user_statistics_public(7,#{params.startTime},#{params.endTime}),0) as keepUser 
+	</select>
+	
+	<select id="sumCurrentBrandStatisticsTotal"  parameterType="map" resultType="map">
+		select sum(d.TotalSaleCount) as AllCount, sum(d.TotalSaleMoney) as AllPay, sum(d.TotalUserCount) as AllUserCount, 
+		sum(d.TotalOrderCount) as AllOrderCount from(
+		select a.TotalSaleCount, a.TotalSaleMoney, b.BrandName,a.TotalUserCount,a.TotalOrderCount from (
+			select sum(BuyCount) as TotalSaleCount,sum(TotalPay) as TotalSaleMoney, BrandId  ,count(distinct(UserId)) as TotalUserCount ,count(distinct(OrderNo)) as TotalOrderCount 
+			from yjj_OrderItem
+			where OrderNo in
+				(select OrderNo from yjj_OrderNew where ParentId in (select OrderNo
+				from yjj_OrderNew  where OrderStatus in(10,50,70) and (ParentId =-1 or ParentId = OrderNo) 
+					<if test="startTime!=null">
+						<![CDATA[
+	        		 		and CreateTime >= #{startTime}
+	        		 		]]>
+					</if>
+        		 	<if test="endTime!=-1">
+        		 		<![CDATA[
+        		 		and CreateTime <= #{endTime}
+        		 		]]>
+        		 	</if>
+					))
+			group by BrandId) as a left join yjj_Brand as b on a.BrandId = b.BrandId 
+			<where>
+				<if test="brandName!=null">
+					b.BrandName LIKE CONCAT ("%", #{brandName}, "%")
+				</if>
+			</where>
+			) as d
+		
+	</select>
+	
+	<select id="lookPvPerDay" parameterType="map" resultType="map" >
+		select ifnull(count(*),0) as count,from_unixtime(CreateTime/1000,"%Y-%m-%d") as day from yjj_Log where SrcId in (-4,-5) 
+			<![CDATA[
+				and CreateTime>= #{startTime} and CreateTime <= #{endTime}
+			]]>
+		group by day
+	</select>
+	
+	<select id="lookClickPerDay" parameterType="map" resultType="map" >
+		select ifnull(count(*),0)as count,from_unixtime(CreateTime/1000,"%Y-%m-%d") as day from yjj_Log where SrcId =-4
+			<![CDATA[
+				and CreateTime>= #{startTime} and CreateTime <= #{endTime}
+			]]>
+		group by day
+	</select>
+	
+	<select id="lookOrderPerDay" parameterType="map" resultType="map" >
+		select ifnull(count(*),0)as count,ifnull(sum(b.TotalMoney),0) as totalMoney,a.day from (select distinct(OrderNo),from_unixtime(CreateTime/1000,"%Y-%m-%d") as day from yjj_RelatedOrderLog where SrcPageId =-4
+			<![CDATA[
+				and CreateTime>= #{startTime} and CreateTime <= #{endTime}
+			]]>
+		)as a left join yjj_OrderNew as b on a.OrderNo=b.OrderNo
+			<![CDATA[
+				 where b.PayTime > 0 
+			 ]]>
+		 group by a.day
+	</select>
+	
+	<select id="getLookMoreCount" parameterType="map" resultType="int" >
+		select count(*) from (
+			select count(*) as count from (select * from yjj_Log where SrcId =-4   
+				<![CDATA[
+					and CreateTime>= #{params.startTime} and CreateTime <= #{params.endTime}
+				]]>
+			)as a left join yjj_Product as b on a.SrcRelatedId = b.Id  
+			<where>
+				<if test="params.productId != -1">
+					b.Id = #{params.productId}
+				</if>
+				<if test="params.productName != ''">
+					and b.Name = #{params.productName}
+				</if>
+			</where>
+		group by b.Id) as c
+	</select>	
+	
+	<select id="searchLookMore" parameterType="map" resultType="map" >
+		select count(*) as count,b.Id,b.Name from (select * from yjj_Log where SrcId =-4   
+			<![CDATA[
+				and CreateTime>= #{params.startTime} and CreateTime <= #{params.endTime}
+			]]>
+		)as a left join yjj_Product as b on a.SrcRelatedId = b.Id  
+		<where>
+			<if test="params.productId != -1">
+				b.Id = #{params.productId}
+			</if>
+			<if test="params.productName != ''">
+				and b.Name = #{params.productName}
+			</if>
+		</where>
+		group by b.Id order by count desc
+		limit #{pageQuery.limit} offset #{pageQuery.offset}
+	</select>
+	
+	<select id="getLookMorePv" parameterType="map" resultType="int" >
+		select count(*) as count from (select * from yjj_Log where SrcId =-4   
+			<![CDATA[
+				and CreateTime>= #{params.startTime} and CreateTime <= #{params.endTime}
+			]]>
+		)as a left join yjj_Product as b on a.SrcRelatedId = b.Id  
+		<where>
+			<if test="params.productId != -1">
+				b.Id = #{params.productId}
+			</if>
+			<if test="params.productName != ''">
+				and b.Name = #{params.productName}
+			</if>
+		</where>
+	</select>	
+	
+	<select id="searchTemplateStatistics"  parameterType="map" resultType="TemplateStatisticsBean">
+		select * from (
+			select l.*,p.Name from (select count(*) as pv,(select ifnull(page_special_uvcount(SrcId,#{startTime},#{endTime}),0)) as uv,
+		(select ifnull(page_special_usercount(SrcId,#{startTime},#{endTime}),0)) as userCount,
+		(select ifnull(page_special_ipcount(SrcId,#{startTime},#{endTime}),0)) as ip,
+		(select count(distinct(OrderNo)) as RelatedOrderCount from yjj_RelatedOrderLog where SrcPageId = SrcId <![CDATA[
+					and CreateTime>= #{startTime} and CreateTime <= #{endTime}
+				]]> ) as relatedOrderCount,
+			SrcId from yjj_Log where (SrcId in(-4,-2,-29,0) or SrcId > 0)
+				<![CDATA[
+					and CreateTime>= #{startTime} and CreateTime <= #{endTime}
+				]]>
+                group by SrcId) as l left join yjj_ActivityPlace as p on l.SrcId = p.Id
+		) as a
+		Order By pv desc
+		limit #{pageQuery.limit} offset #{pageQuery.offset}
+	</select>
+	
+	<select id="searchTemplateStatisticsCount"  parameterType="map" resultType="int">
+		select count(*) from (
+			select l.*,p.Name from (select count(*) as pv,(select ifnull(page_special_uvcount(SrcId,#{startTime},#{endTime}),0)) as uv,
+		(select ifnull(page_special_usercount(SrcId,#{startTime},#{endTime}),0)) as userCount,
+		(select ifnull(page_special_ipcount(SrcId,#{startTime},#{endTime}),0)) as ip,
+		(select count(distinct(OrderNo)) as RelatedOrderCount from yjj_RelatedOrderLog where SrcPageId = SrcId <![CDATA[
+					and CreateTime>= #{startTime} and CreateTime <= #{endTime}
+				]]>) as relatedOrderCount,
+			SrcId from yjj_Log where (SrcId in(-4,-2,-29,0) or SrcId > 0)
+				<![CDATA[
+					and CreateTime>= #{startTime} and CreateTime <= #{endTime}
+				]]>
+                group by SrcId) as l left join yjj_ActivityPlace as p on l.SrcId = p.Id
+		) as a
+	</select>
+	
+	<select id="searchTemplateStatisticsSenior" parameterType="map" resultType="TemplateStatisticsSeniorBean">
+		select s.*,s2.LifeStartTime,s2.LifeEndTime,h.Weight ,
+		(select group_concat(distinct(OrderNo)) from yjj_RelatedOrderLog where  SrcRelatedId=concat(s.StatisticsId,'') and  <![CDATA[ CreateTime>=#{clickStartTime} and CreateTime<= #{clickEndTime} ]]>) as relatedOrderNos
+		 from (select StatisticsId, sum(PV) as pv ,sum(UV) as uv,sum(IpCount) as ipCount,sum(UserCount) as userCount,sum(RelatedOrderCount) as relatedOrderCount,sum(RelatedTotalOrderMoney) as totalMoney,Code,FloorName,FloorId from yjj_TemplateSeniorDayReport 
+		<where>
+			Type = #{type}
+			and (<![CDATA[ (LifeStartTime>= #{promoteStartTime} and LifeStartTime <= #{promoteEndTime}) or ( LifeEndTime >= #{promoteStartTime} and LifeEndTime <= #{promoteEndTime} )]]>)
+			and <![CDATA[ CreateTime >= #{clickStartTime} ]]>
+			<if test="clickEndTime!=-1">
+				and <![CDATA[ CreateTime <= #{clickEndTime} ]]>
+			</if>
+ 			<if test="code != '' ">
+				AND Code like CONCAT('%',#{code},'%')
+			</if>
+			
+			<if test="templateId != ''">
+				<![CDATA[
+					and Code REGEXP CONCAT ('L.*M',#{templateId},'N.*ID.*')
+				]]>
+			</if>
+			
+			<if test="serialNumber != ''">
+				<![CDATA[
+					and Code REGEXP CONCAT ('L.*M.*','N',#{serialNumber},'ID.*')
+				]]>
+			</if>
+			<if test="floorName!=null">
+				and  replace(substring_index(Code,'M',1),'L','') in (SELECT id FROM yjj_HomeFloor where  name like concat ("%",#{floorName},"%"))
+			</if>
+		</where>
+			group by StatisticsId ,Code,FloorName,FloorId) 
+		    as s left join yjj_Statistics s2 on s.StatisticsId = s2.Id
+		    left join yjj_HomeFloor2 as h on s.FloorId = h.HomeTemplateId
+		<if test="sort==0">
+ 			Order By s.pv desc
+ 		</if>
+ 		<if test="sort==1">
+ 			Order By h.Weight desc
+ 		</if>
+ 		<if test="sort==2">
+ 			Order By h.Weight asc
+ 		</if>
+ 		<if test="sort==3">
+ 			Order By s2.LifeEndTime asc
+ 		</if>
+ 		<if test="sort==4">
+ 			Order By s2.LifeEndTime desc
+ 		</if>
+ 		
+ 		limit #{pageQuery.limit} offset #{pageQuery.offset}
+	</select>
+	
+	<select id="getTemplateStatisticsSeniorCount" parameterType="map" resultType="int">
+	select count(1)
+		 from (select StatisticsId, sum(PV) as pv ,sum(UV) as uv,sum(IpCount) as ipCount,sum(UserCount) as userCount,sum(RelatedOrderCount) as relatedOrderCount,sum(RelatedTotalOrderMoney) as totalMoney,Code,FloorName,FloorId from yjj_TemplateSeniorDayReport 
+		<where>
+			Type = #{type}
+			and (<![CDATA[ (LifeStartTime>= #{promoteStartTime} and LifeStartTime <= #{promoteEndTime}) or ( LifeEndTime >= #{promoteStartTime} and LifeEndTime <= #{promoteEndTime} )]]>)
+			and <![CDATA[ CreateTime >= #{clickStartTime} ]]>
+			<if test="clickEndTime!=-1">
+				and <![CDATA[ CreateTime <= #{clickEndTime} ]]>
+			</if>
+ 			<if test="code != '' ">
+				AND Code like CONCAT('%',#{code},'%')
+			</if>
+			
+			<if test="templateId != ''">
+				<![CDATA[
+					and Code REGEXP CONCAT ('L.*M',#{templateId},'N.*ID.*')
+				]]>
+			</if>
+			
+			<if test="serialNumber != ''">
+				<![CDATA[
+					and Code REGEXP CONCAT ('L.*M.*','N',#{serialNumber},'ID.*')
+				]]>
+			</if>
+			<if test="floorName!=null">
+				and  replace(substring_index(Code,'M',1),'L','') in (SELECT id FROM yjj_HomeFloor where  name like concat ("%",#{floorName},"%"))
+			</if>
+		</where>
+			group by StatisticsId ,Code,FloorName,FloorId) as s
+	</select>	
+	
+	<select id="sumTemplateStatisticsSenior" parameterType="map" resultType="map">
+	select sum(r.pv) as pv, sum(r.uv) as uv,sum(r.ipCount) as ip,sum(r.userCount) as userNum,sum(r.relatedOrderCount) as orderNum,sum(r.totalMoney) as totalMoney
+		from ( select s.*,s2.LifeStartTime,s2.LifeEndTime,h.Weight
+		 from (select StatisticsId, sum(PV) as pv ,sum(UV) as uv,sum(IpCount) as ipCount,sum(UserCount) as userCount,sum(RelatedOrderCount) as relatedOrderCount,sum(RelatedTotalOrderMoney) as totalMoney,Code,FloorName,FloorId from yjj_TemplateSeniorDayReport 
+		<where>
+			Type = #{type}
+			and (<![CDATA[ (LifeStartTime>= #{promoteStartTime} and LifeStartTime <= #{promoteEndTime}) or ( LifeEndTime >= #{promoteStartTime} and LifeEndTime <= #{promoteEndTime} )]]>)
+			and <![CDATA[ CreateTime >= #{clickStartTime} ]]>
+			<if test="clickEndTime!=-1">
+				and <![CDATA[ CreateTime <= #{clickEndTime} ]]>
+			</if>
+ 			<if test="code != '' ">
+				AND Code like CONCAT('%',#{code},'%')
+			</if>
+			
+			<if test="templateId != ''">
+				<![CDATA[
+					and Code REGEXP CONCAT ('L.*M',#{templateId},'N.*ID.*')
+				]]>
+			</if>
+			
+			<if test="serialNumber != ''">
+				<![CDATA[
+					and Code REGEXP CONCAT ('L.*M.*','N',#{serialNumber},'ID.*')
+				]]>
+			</if>
+			<if test="floorName!=null">
+				and  replace(substring_index(Code,'M',1),'L','') in (SELECT id FROM yjj_HomeFloor where  name like concat ("%",#{floorName},"%"))
+			</if>
+		</where>
+			group by StatisticsId ,Code,FloorName,FloorId) 
+		    as s left join yjj_Statistics s2 on s.StatisticsId = s2.Id
+		    left join yjj_HomeFloor2 as h on s.FloorId = h.HomeTemplateId) as r;
+	</select>
+	
+	<select id="sumTemplateStatisticsSeniorOrder" parameterType="map" resultType="map">
+		SELECT ifnull(sum(totalpay + TotalExpressMoney),0) totalMoney, count(1) orderNum FROM yjj_OrderNew where payTime >=0 and  OrderNo in (select distinct OrderNo from yjj_RelatedOrderLog where  <![CDATA[ CreateTime>=#{clickStartTime} and CreateTime<= #{clickEndTime} ]]> and SrcRelatedId in (
+		select Id from yjj_Statistics s WHERE (<![CDATA[ (s.LifeStartTime>= #{promoteStartTime} and s.LifeStartTime <= #{promoteEndTime}) or ( s.LifeEndTime >= #{promoteStartTime} and s.LifeEndTime <= #{promoteEndTime} )]]>) and  replace(substring_index(s.code,'M',1),'L','') in (SELECT id FROM yjj_HomeFloor where  name like concat ("%",#{floorName},"%"))
+		))
+	</select>
+	
+	<select id="searchChannelStatisticsNew" parameterType="map" resultType="ChannelStatisticsBean">
+		select u.UserId,ifnull(mpr.TotalPvCount,0) as PVCount, ifnull(mpr.TotalOrder,0) as OrderCount, ifnull(mpr.TotalMoney,0)as TotalMoney from 
+		(select * from yjj_User u ) u 
+		left join 
+		(SELECT UserId,ifnull(sum(OrderCount),0) as TotalOrder, ifnull(sum(PVCount),0) as TotalPvCount, ifnull(sum(TotalMoney),0) as TotalMoney FROM yjj_MemberPVDayReport group by UserId having TotalPvCount > 0) mpr
+ 		on u.UserId = mpr.UserId ;
+	</select>
+	
+	<select id="searchChannelStatisticsNewCount" parameterType="map" resultType="ChannelStatisticsBean">
+		select count(1) from 
+		(select * from yjj_User u ) u 
+		left join 
+		(SELECT UserId,ifnull(sum(OrderCount),0) as TotalOrder, ifnull(sum(PVCount),0) as TotalPvCount, ifnull(sum(TotalMoney),0) as TotalMoney FROM yjj_MemberPVDayReport group by UserId having TotalPvCount > 0) mpr
+ 		on u.UserId = mpr.UserId ;
+	</select>
+	
+	<select id="searchPageStatistics" parameterType="map" resultType="map" >
+		select ifnull(sum(PV),0)as pv,name,ifnull(sum(Uv),0)as uv,ifnull(sum(Ip),0)as ip,ifnull(sum(UserCount),0)as userCount,ifnull(sum(LoseCount),0)as lose,typeId,
+		(sum(TotalDuration)/sum(Count))as duration,sum(TotalDuration)as totalDuration,sum(Count)as count from yjj_PageStatisticsDayReport 
+   			 <where>
+   			 	<![CDATA[
+					CreateTime>= #{startTime} and CreateTime <= #{endTime}
+					]]>
+   			 	<if test="type ==1 ">
+				<![CDATA[
+					and TypeId <= 0
+				]]>
+				</if>
+				<if test="type ==2 ">
+				<![CDATA[
+					and TypeId > 0
+				]]>
+				</if>
+   			 </where>
+   			  group by TypeId,Name order by pv desc
+	</select>
+	
+	<select id="getTotayPageData" parameterType="map" resultType="map" >
+		select PageName as name,srcId,count(*)as pv,
+  			 count(distinct(Cid)) as uv,
+    		count(distinct(Ip))as ip,
+   			 count(distinct(UserId)) as userCount,
+    		0 as lose,
+    		avg(Duration/1000) as duration,
+			sum(Duration/1000)as totalDuration,count(*)as count
+			from yjj_Log as a left join (select Id,Name as PageName from yjj_ActivityPlace union select Id,Description as PageName from yjj_Page) as b
+   			 on a.SrcId = b.Id 
+   			 <where>
+   			 	<![CDATA[
+					a.CreateTime>= #{startTime} and a.CreateTime <= #{endTime}
+					]]>
+   			 	<if test="type ==1 ">
+				<![CDATA[
+					and a.SrcId <= 0
+				]]>
+				</if>
+				<if test="type ==2 ">
+				<![CDATA[
+					and a.SrcId > 0
+				]]>
+				</if>
+   			 </where>
+   			  group by a.SrcId,b.PageName order by pv desc
+	</select>
+
+<!-- 	<select id="getPageStatisticsCount" parameterType="map" resultType="int" >
+	  	select count(1) from ( 
+		select sum(PV)as pv,name,sum(Uv)as uv,sum(Ip)as ip,sum(UserCount)as userCount,sum(LoseCount)as lose,
+		avg(Duration)as duration from yjj_PageStatisticsDayReport 
+   			 <where>
+   			 	<![CDATA[
+					CreateTime>= #{startTime} and CreateTime <= #{endTime}
+					]]>
+   			 	<if test="type ==1 ">
+				<![CDATA[
+					and TypeId <= 0
+				]]>
+				</if>
+				<if test="type ==2 ">
+				<![CDATA[
+					and TypeId > 0
+				]]>
+				</if>
+   			 </where>
+   			  group by TypeId,Name) as c
+	</select>	 -->
+			
+	<select id="sumPageStatisticsTotal" parameterType="map" resultType="map" >
+	select ifnull(sum(pv),0)as pvCount,ifnull(sum(uv),0)as uvCount,ifnull(sum(ip),0)as ipCount,ifnull(sum(userCount),0)as userCount,ifnull(sum(loseCount),0)as loseCount,
+		ifnull((sum(TotalDuration)/sum(Count)),0)as duration,ifnull(sum(TotalDuration),0)as totalDuration,ifnull(sum(Count),0)as count from yjj_PageStatisticsDayReport
+   			 <where>
+   			 	<![CDATA[
+					CreateTime>= #{startTime} and CreateTime <= #{endTime}
+					]]>
+   			 	<if test="type ==1 ">
+				<![CDATA[
+					and TypeId <= 0
+				]]>
+				</if>
+				<if test="type ==2 ">
+				<![CDATA[
+					and TypeId > 0
+				]]>
+				</if>
+   			 </where>
+	</select>	
+	
+	<select id="sumDeepStatisticsTotal" parameterType="map" resultType="map" >
+		select ifnull(sum(pv),0)as deepPv,ifnull(sum(uv),0)as deepUv from yjj_PageStatisticsDayReport
+   			 <where>
+   			 	<![CDATA[
+					CreateTime>= #{startTime} and CreateTime <= #{endTime}
+					and (TypeId >= -1 or TypeId in(-5,-6,-29))
+					]]>
+   			 </where>
+	</select>	
+	
+	<select id="sumTotayPageData" parameterType="map" resultType="map" >
+	select sum(pv)as pvCount,sum(uv)as uvCount,sum(ip)as ipCount,sum(user)as userCount,sum(lose)as loseCount,sum(totalDuration)as totalDuration,sum(count)as count,sum(totalDuration)/sum(Count)as duration
+	 	from (select count(*)as pv,
+    	count(distinct(Cid)) as uv,
+    	count(distinct(Ip))as ip,
+    	count(distinct(UserId)) as user,
+   	 	0 as lose
+    	,sum(Duration/1000)as totalDuration,count(*)as count
+		from yjj_Log   
+   			 <where>
+   			 	<![CDATA[
+					CreateTime>= #{startTime} and CreateTime <= #{endTime}
+					]]>
+   			 	<if test="type ==1 ">
+				<![CDATA[
+					and SrcId <= 0
+				]]>
+				</if>
+				<if test="type ==2 ">
+				<![CDATA[
+					and SrcId > 0
+				]]>
+				</if>
+   			 </where>
+   			 group by SrcId)as a
+	</select>	
+	
+	<select id="sumDeepTotayPageData" parameterType="map" resultType="map" >
+		select ifnull(sum(pv),0)as deepPv,ifnull(sum(uv),0)as deepUv from (select count(*)as pv,
+    	count(distinct(Cid)) as uv
+		from yjj_Log 
+   			 <where>
+   			 	<![CDATA[
+					CreateTime>= #{startTime} and CreateTime <= #{endTime}
+					and (SrcId >= -1 or SrcId in(-5,-6,-29))
+					]]>
+   			 </where>
+   			 group by SrcId)as a
+	</select>	
+</mapper>

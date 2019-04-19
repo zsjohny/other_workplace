@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jiuy.core.dao.mapper.BrandOrderDaoImpl">
+	
+	<select id="search" resultType="BrandOrder">
+		select * from brand_Order
+		<where>
+			<if test="brandOrderSO.orderStatus != null">
+				and OrderStatus = #{brandOrderSO.orderStatus}
+			</if>
+			<if test="brandOrderSO.orderNo != null">
+				and OrderNo = #{brandOrderSO.orderNo}
+			</if>
+			<if test="brandOrderSO.mergedId != null">
+				and MergedId = #{brandOrderSO.mergedId}
+			</if>
+			<if test="brandOrderSO.relatedOrderType != null">
+				and RelatedOrderType = #{brandOrderSO.relatedOrderType}
+			</if>
+			<if test="brandOrderSO.brandBusinessId != null">
+				and BrandBusinessId = #{brandOrderSO.brandBusinessId}
+			</if>
+		</where>
+	</select>
+	
+	<insert id="add" useGeneratedKeys="true" keyProperty="orderNo" parameterType="BrandOrder">
+		insert brand_Order(BrandBusinessId, OrderType, OrderStatus, TotalMoney, TotalPay, TotalExpressMoney, ExpressInfo, CoinUsed, Platform, PlatformVersion,
+			Ip, PaymentNo, PaymentType, ParentId, MergedId, LOWarehouseId, Status, CreateTime, UpdateTime, TotalMarketPrice, ExpiredTime, 
+			RelatedOrderType, RelatedOrderNo)
+		values 
+			(#{brandBusinessId}, #{orderType}, #{orderStatus}, #{totalMoney}, #{totalPay}, #{totalExpressMoney}, #{expressInfo}, #{coinUsed}, #{platform}, #{platformVersion},
+		 	#{ip}, #{paymentNo}, #{paymentType}, #{parentId}, #{mergedId}, #{lOWarehouseId}, #{status}, #{createTime}, #{updateTime}, #{totalMarketPrice}, #{expiredTime},
+		 	#{relatedOrderType}, #{relatedOrderNo})
+	</insert>
+	
+	<update id="update">
+		update brand_Order
+		<set>
+			<if test="uo.updateTime != null">
+				UpdateTime = #{uo.updateTime},
+			</if>
+			<if test="uo.status != null">
+				Status = #{uo.status},
+			</if>
+			<if test="uo.orderStatus != null">
+				OrderStatus = #{uo.orderStatus},
+			</if>
+		</set>
+		where OrderNo in
+			<foreach collection="uo.orderNos" item="orderNo" open="(" separator="," close=")">
+				#{orderNo}
+			</foreach>
+	</update>
+	
+	<select id="getByOrderNo" resultType="BrandOrder">
+		select * from brand_Order
+		where OrderNo = #{orderNo}
+	</select>
+	
+</mapper>

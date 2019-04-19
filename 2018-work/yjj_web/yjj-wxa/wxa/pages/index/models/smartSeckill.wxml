@@ -1,0 +1,49 @@
+
+<!--秒杀模块-->
+<template name="smartSeckill">
+  <view class='activity-box' wx:if="{{activitySecondData.activityPrice}}">
+      <view class='activity-title seckill-title'>
+        <view class='title'>限时抢购</view>
+        <view class='time-box'>
+          <view class='down-time' wx:if="{{activitySecondTime.second >= 0}}">
+            <text class='hours'>{{activitySecondTime.hours}}</text>:
+            <text class='minute'>{{activitySecondTime.minute}}</text>:
+            <text class='second'>{{activitySecondTime.second}}</text> 
+          </view>
+        </view>
+        <view class='more-activity' bindtap='gotoSecondBuyActivity'>
+          <view class='text'>更多</view>
+          <view class='arrow'></view>
+        </view>
+      </view>
+      <view class="activity-list">
+      <view class='item'>
+        <navigator class='navigator' hover-class='navigator-click' url='/pages/component/detail/detail?productId={{activitySecondData.shopProductId}}&activityId={{activitySecondData.activityId}}&targetType=2'>
+          <block wx:if="{{activitySecondImgs.length == 1}}">
+            <image class='img bigImg' mode="aspectFit" src='{{activitySecondImgs[0]}}'></image>
+          </block>
+          <block wx:if="{{activitySecondImgs.length > 1}}">
+            <image class='img img1' mode="aspectFit" src='{{activitySecondImgs[0]}}'></image>
+            <image class='img img2' mode="aspectFit" src='{{activitySecondImgs[1]}}'></image>
+          </block>
+          <block wx:if="{{activitySecondData.activityStatus == 3}}">
+            <view class='over-bg'>已结束</view>
+          </block>
+        </navigator>
+        <view class='tit' wx:if="{{activitySecondData.activityTitle}}"><navigator hover-class='navigator-click' url="/pages/component/detail/detail?productId={{activitySecondData.shopProductId}}&activityId={{activitySecondData.activityId}}&targetType=2">{{activitySecondData.activityTitle}}</navigator>
+        </view>
+        <view class='activity-info'>
+          <view class='info1'>
+            <view class='new-price'>¥<text>{{activitySecondData.activityPrice}}</text></view>
+            <view class='old-price' wx:if="{{activitySecondData.activityProductPrice > 0}}"><text class="del">原价<text class="del-price">¥{{activitySecondData.activityProductPrice}}</text></text></view>
+          </view>
+          <view class='info2 seckill-info2'>
+            <view class='tips1'>还剩<text>{{activitySecondData.surplusProductCount}}</text>件</view>
+          </view> 
+          <view wx:if="{{activitySecondData.activityStatus == 3}}" class='info3 buy-btn'>售罄啦</view>
+          <view wx:else class='info3 buy-btn' bindtap='gotoBuy'>马上抢购</view>
+        </view><!-- activity-info end -->
+      </view>
+    </view><!-- activity-list end -->    
+  </view><!-- activity-box end -->
+</template>

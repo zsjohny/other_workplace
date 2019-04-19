@@ -1,0 +1,54 @@
+<!--退款/售后列表-->
+<view class='body-contain'>
+  <view class='refund-list'>
+    <block wx:if="{{ listData.length > 0 }}">
+      <view class='item' wx:for="{{ listData }}" wx:key="{{item}}">
+        <view class='title'>售后单编号：{{item.afterSaleId}} 
+          <text class='color-red' wx:if="{{item.status == 0 || item.status == 3}}">退款中</text>
+          <text class='color-red' wx:if="{{item.status == 2}}">退款失败</text>
+          <text class='color-red' wx:if="{{item.status == 1}}">退款成功</text>
+        </view>
+        <view class='product-item' data-saleid='{{item.afterSaleId}}' bindtap='gotoRefundDetil'>
+          <image class="img" mode='aspectFit' src="{{ item.refundSummaryImages }}"></image>
+          <view class='info'>
+            <view class='name'>{{item.refundName}}</view>
+            <view class='sku'>
+              <view class='type type1' wx:if="{{ item.refundColor }}">颜色：<text class="color-red">{{item.refundColor}}</text></view>
+              <view class='type' wx:if="{{ item.refundSize }}">尺寸：<text class="color-red">{{item.refundSize}}</text></view>
+              <view class='type type3'>数量：<text class="ft-red">{{item.refundCount}}</text></view>
+            </view>
+          </view>
+        </view><!-- product-item end-->
+        <view class='detail'>
+          <view class='type-name'>
+            <block wx:if="{{item.type == 0}}">退款</block>
+            <block wx:if="{{item.type == 1}}">退货退款</block>
+          </view>
+          <view class='refund-cost'>退款金额：¥{{item.applyBackMoney}} <text wx:if="{{item.status == 1}}">实退金额：¥{{item.backMoney}}</text></view>
+        </view>
+        <view class='operator-box'>
+          <view class='com-min-btn com-gray-btn2 btn-item delete-btn' wx:if="{{item.status == 1 || item.status == 2}}" data-saleid='{{item.afterSaleId}}' bindtap='showxbox' data-index="{{index}}">删除</view>
+          <view class='com-min-btn com-gray-btn1 btn-item' wx:if="{{item.status == 2 && item.isRefund == 0}}" data-skuid='{{item.skuId}}' data-orderid='{{item.orderId}}' bindtap='applyFunc'>再次申请</view>
+          <view class='com-min-btn btn-item' data-saleid='{{item.afterSaleId}}' bindtap='gotoRefundDetil'>查看详情</view>
+        </view>
+      </view><!-- item end-->
+    </block>
+    <!-- 无数据时 -->
+    <view wx:else class='no-record-box no-refund-record'>
+      <view class='icon'></view>
+      <view class='text'>这里还是空空哒~</view>
+    </view>
+  </view>
+  <!--上拉加载更多、底部加载loadding-->
+  <view class="more-load2">
+    <view wx:if="{{ hasMore }}" class="go-loading more-loading">
+      <view class="loading-mod"></view>
+      <text class="tx">正在载入中…</text> 
+    </view>
+    <view wx:if="{{ moreOver }}" class="tips2"><text>T^T 我是有底线的</text></view>
+  </view>
+</view>
+<!-- 删除订单 -->
+<confirmPopup id="deletePopup"  bind:cancelEvent="closexbox" bind:confirmEvent="confirmDeleteFunc">
+  <view slot="title">确定要删除售后单？</view>
+</confirmPopup>

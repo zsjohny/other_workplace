@@ -1,0 +1,995 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jiuyuan.dao.mapper.supplier.ProductNewMapper">
+
+    <select id="getProductNewListByTagId" parameterType="map" resultType="com.jiuyuan.entity.newentity.ProductNew">
+        <![CDATA[
+			SELECT a.*,a.vedio_main as vedioMain FROM yjj_Product a
+			WHERE  a.Status = 0 AND a.delState = 0 AND state = 6 
+		]]>
+        <if test="tagId > 0">
+            <![CDATA[
+				AND a.Id IN(SELECT ProductId FROM yjj_ProductTag WHERE TagId=#{tagId} AND STATUS=0)
+			]]>
+        </if>
+        <![CDATA[
+			order by a.upSoldTime Desc
+		]]>
+        <![CDATA[
+				limit #{limit} offset #{offset}
+		]]>
+
+    </select>
+    <select id="getProductNewListByTagIdCount" parameterType="map" resultType="int">
+
+        <![CDATA[
+			SELECT count(*) FROM yjj_Product a
+			WHERE  a.Status = 0 AND a.delState = 0 AND state = 6 
+		]]>
+        <if test="tagId > 0">
+            <![CDATA[
+				AND a.Id IN(SELECT ProductId FROM yjj_ProductTag WHERE TagId=#{tagId} AND STATUS=0)
+			]]>
+        </if>
+    </select>
+
+    <select id="getSkuCountByProductId" parameterType="map" resultType="int">
+		<![CDATA[
+
+
+                                    SELECT
+                                        count(yjj_ProductSKU.ProductId)
+                                    FROM
+                                        yjj_ProductSKU
+                                    WHERE
+                                        ProductId = #{productId}
+                                        AND STATUS >=- 1
+
+
+        ]]>
+	</select>
+
+    <cache size="1000" flushInterval="300000"/>
+    <select id="findById" resultType="com.jiuyuan.entity.newentity.ProductNew">
+		select Id, WholeSaleCash ,ClothesNumber,videoUrl,DetailImages,SizeTableImage,
+		SummaryImages,state from yjj_Product where  id =#{id}
+
+    </select>
+
+    <select id="getTotalSkuCountByProductId" parameterType="map" resultType="int">
+		<![CDATA[
+
+
+                                    SELECT
+                                        sum(yjj_ProductSKU.RemainCount)
+                                    FROM
+                                        yjj_ProductSKU
+                                    WHERE
+                                        ProductId = #{productId}
+                                        AND STATUS >=- 1
+
+
+        ]]>
+	</select>
+
+
+    <!-- 查询商品列表 -->
+    <select id="getSearchProductList" resultType="com.jiuyuan.entity.newentity.ProductNew"
+            parameterType="com.baomidou.mybatisplus.plugins.Page">
+        select * from yjj_Product where 1 = 1
+        <if test="keyword != null and keyword !=''">
+            and Name like CONCAT('%',#{keyword},'%')
+        </if>
+
+        <choose>
+            <when test="orderByField != null and orderByField !=''">
+                <choose>
+                    <when test="isAsc == true">
+                        order by ${orderByField} ASC
+                    </when>
+                    <otherwise>
+                        order by ${orderByField} DESC
+                    </otherwise>
+                </choose>
+            </when>
+            <otherwise>
+                order by Id DESC
+            </otherwise>
+        </choose>
+    </select>
+    <!-- <select id="getProductById" resultType="com.jiuyuan.entity.newentity.ProductNew">
+        select * from yjj_Product where Id = #{productId} </select> -->
+
+    <select id="getAllProducts" resultType="com.jiuyuan.entity.newentity.ProductNew">
+		select * from yjj_Product
+	</select>
+
+    <select id="getAllProductIds" resultType="map">
+		select Id as id from
+		yjj_Product where delState = 0
+	</select>
+
+    <select id="productOfIds" parameterType="java.util.Map"
+            resultType="com.jiuyuan.entity.newentity.ProductNew">
+        SELECT
+        *
+        FROM
+        yjj_Product
+        WHERE
+        Id IN
+        <foreach collection="ids" item="id" open="(" separator=","
+                 close=")">
+            <![CDATA[
+					#{id}
+				]]>
+        </foreach>
+    </select>
+
+    <select id="selectPageList" parameterType="com.baomidou.mybatisplus.plugins.Page"
+            resultType="map">
+        SELECT
+        yjj_Product.Id as productId,
+        yjj_Product.name,
+        yjj_Product.saleTotalCount as salesCount,
+        (
+        SELECT
+        sum(yjj_ProductSKU.RemainCount)
+        FROM
+        yjj_ProductSKU
+        WHERE
+        yjj_ProductSKU.ProductId = yjj_Product.Id
+        AND yjj_ProductSKU. STATUS >=
+        - 1
+        ) AS totalSkuCount,
+        yjj_Product.ladderPriceJson,
+        yjj_Product.`state`,
+        yjj_Product.clothesNumber,
+        yjj_Product.auditTime,
+        yjj_Product.upSoldTime,
+        yjj_Product.newTime,
+        yjj_Product.rank,
+        (
+        SELECT
+        count(yjj_ProductSKU.ProductId)
+        FROM
+        yjj_ProductSKU
+        WHERE
+        yjj_ProductSKU.ProductId = yjj_Product.Id
+        AND yjj_ProductSKU. STATUS >=
+        - 1
+        ) AS skuCount,
+        yjj_Product.mainImg
+        FROM
+        yjj_Product
+        <where>
+            yjj_Product.delState = 0
+            AND
+            yjj_Product.supplierId =#{supplierId}
+            <if test="productName != ''">
+                and yjj_Product.name like concat ("%", #{productName},
+                "%")
+            </if>
+            <if test="clothesNumber != ''">
+                and yjj_Product.clothesNumber like concat ("%",
+                #{clothesNumber},
+                "%")
+            </if>
+            <if test="state != -1">
+                and yjj_Product.state =#{state}
+            </if>
+            <if test="upSoldTimeBegin != 0">
+                <![CDATA[
+					and yjj_Product.upSoldTime >=#{upSoldTimeBegin}
+				]]>
+            </if>
+            <if test="upSoldTimeEnd != 0">
+                <![CDATA[
+				and yjj_Product.upSoldTime <= #{upSoldTimeEnd}
+				]]>
+            </if>
+            <if test="priceBegin != 0">
+                <![CDATA[
+				and yjj_Product.ladderPriceJson >= #{priceBegin}
+				]]>
+            </if>
+            <if test="priceEnd != 0">
+                <![CDATA[
+				and yjj_Product.ladderPriceJson <= #{priceEnd}
+				]]>
+            </if>
+            <if test="salesCountBegin != 0">
+                <![CDATA[
+				and yjj_Product.SaleTotalCount >= #{salesCountBegin}
+				]]>
+            </if>
+            <if test="salesCountEnd != 0">
+                <![CDATA[
+				and yjj_Product.SaleTotalCount <= #{salesCountEnd}
+				]]>
+            </if>
+            <if test="totalSkuCountBegin != 0">
+                <![CDATA[
+				and (
+		SELECT
+			sum(yjj_ProductSKU.RemainCount)
+		FROM
+			yjj_ProductSKU
+		WHERE
+			yjj_ProductSKU.ProductId = yjj_Product.Id
+		AND yjj_ProductSKU. STATUS >= - 1
+	) >= #{totalSkuCountBegin}
+				]]>
+            </if>
+            <if test="totalSkuCountEnd != 0">
+                <![CDATA[
+				and (
+		SELECT
+			sum(yjj_ProductSKU.RemainCount)
+		FROM
+			yjj_ProductSKU
+		WHERE
+			yjj_ProductSKU.ProductId = yjj_Product.Id
+		AND yjj_ProductSKU. STATUS >= - 1
+	) <= #{totalSkuCountEnd}
+				]]>
+            </if>
+        </where>
+        <if test="orderType == 0">
+            ORDER BY yjj_Product.UpdateTime DESC
+        </if>
+        <if test="orderType == 1">
+            ORDER BY yjj_Product.UpdateTime
+        </if>
+        <if test="orderType == 2">
+            ORDER BY yjj_Product.rank DESC
+        </if>
+        <if test="orderType == 3">
+            ORDER BY yjj_Product.rank
+        </if>
+    </select>
+
+    <!--
+        <select id="selectPageList21" parameterType="com.baomidou.mybatisplus.plugins.Page"
+            resultType="map">
+            SELECT
+            yjj_Product.Id as productId,
+            yjj_Product.name,
+            yjj_Product.saleTotalCount as salesCount,
+            yjj_Product.ladderPriceJson,
+            yjj_Product.`state`,
+            yjj_Product.clothesNumber,
+            yjj_Product.auditTime,
+            yjj_Product.upSoldTime,
+            yjj_Product.newTime,
+            yjj_Product.rank,
+            yjj_Product.mainImg
+            FROM
+            yjj_Product
+            <where>
+                yjj_Product.delState = 0
+                AND
+                yjj_Product.supplierId =#{supplierId}
+                <if test="productName != ''">
+                    and yjj_Product.name like concat ("%", #{productName},
+                    "%")
+                </if>
+                <if test="clothesNumber != ''">
+                    and yjj_Product.clothesNumber like concat ("%",
+                    #{clothesNumber},
+                    "%")
+                </if>
+                <if test="state != -1">
+                    and yjj_Product.state =#{state}
+                </if>
+                <if test="upSoldTimeBegin != 0">
+                <![CDATA[
+                        and yjj_Product.upSoldTime >=#{upSoldTimeBegin}
+                    ]]>
+                </if>
+                <if test="upSoldTimeEnd != 0">
+                    <![CDATA[
+                    and yjj_Product.upSoldTime <= #{upSoldTimeEnd}
+                    ]]>
+                </if>
+                <if test="priceBegin != 0">
+                    <![CDATA[
+                    and yjj_Product.ladderPriceJson >= #{priceBegin}
+                    ]]>
+                </if>
+                <if test="priceEnd != 0">
+                    <![CDATA[
+                    and yjj_Product.ladderPriceJson <= #{priceEnd}
+                    ]]>
+                </if>
+                <if test="salesCountBegin != 0">
+                    <![CDATA[
+                    and yjj_Product.SaleTotalCount >= #{salesCountBegin}
+                    ]]>
+                </if>
+                <if test="salesCountEnd != 0">
+                    <![CDATA[
+                    and yjj_Product.SaleTotalCount <= #{salesCountEnd}
+                    ]]>
+                </if>
+                <if test="totalSkuCountBegin != 0">
+                    <![CDATA[
+                        and (
+                            SELECT
+                                sum(yjj_ProductSKU.RemainCount)
+                            FROM
+                                yjj_ProductSKU
+                            WHERE
+                                yjj_ProductSKU.ProductId = yjj_Product.Id
+                            AND yjj_ProductSKU. STATUS >= - 1
+                        ) >= #{totalSkuCountBegin}
+                    ]]>
+                </if>
+                <if test="totalSkuCountEnd != 0">
+                    <![CDATA[
+                        and (
+                            SELECT
+                                sum(yjj_ProductSKU.RemainCount)
+                            FROM
+                                yjj_ProductSKU
+                            WHERE
+                                yjj_ProductSKU.ProductId = yjj_Product.Id
+                            AND yjj_ProductSKU. STATUS >= - 1
+                        ) <= #{totalSkuCountEnd}
+                    ]]>
+                </if>
+            </where>
+            <if test="orderType == 0">
+            ORDER BY yjj_Product.UpdateTime DESC
+            </if>
+            <if test="orderType == 1">
+            ORDER BY yjj_Product.UpdateTime
+            </if>
+            <if test="orderType == 2">
+            ORDER BY yjj_Product.rank DESC
+            </if>
+            <if test="orderType == 3">
+            ORDER BY yjj_Product.rank
+            </if>
+        </select>-->
+
+    <!-- 有历史被注释的文件, id="selectPageList21" 添加定时上架时间的过滤查询 -->
+    <select id="selectPageList2" parameterType="com.baomidou.mybatisplus.plugins.Page"
+            resultType="map">
+        SELECT
+        yjj_Product.Id as productId,
+        yjj_Product.name,
+        yjj_Product.saleTotalCount as salesCount,
+        yjj_Product.ladderPriceJson,
+        yjj_Product.`state`,
+        yjj_Product.clothesNumber,
+        yjj_Product.auditTime,
+        yjj_Product.upSoldTime,
+        yjj_Product.newTime,
+        yjj_Product.rank,
+        yjj_Product.mainImg,
+        yjj_productdetail.timingPutwayTime,
+        yjj_productdetail.putawayType
+        FROM
+        yjj_Product
+        LEFT JOIN yjj_productdetail ON yjj_product.Id = yjj_productdetail.productId
+        <where>
+            yjj_Product.delState = 0
+            AND
+            yjj_Product.supplierId =#{supplierId}
+            <if test="productName != ''">
+                and yjj_Product.name like concat ("%", #{productName},
+                "%")
+            </if>
+            <if test="clothesNumber != ''">
+                and yjj_Product.clothesNumber like concat ("%",
+                #{clothesNumber},
+                "%")
+            </if>
+            <if test="state != -1">
+                and yjj_Product.state =#{state}
+            </if>
+            <if test="upSoldTimeBegin != 0">
+                <![CDATA[
+					and yjj_Product.upSoldTime >=#{upSoldTimeBegin}
+				]]>
+            </if>
+            <if test="upSoldTimeEnd != 0">
+                <![CDATA[
+				and yjj_Product.upSoldTime <= #{upSoldTimeEnd}
+				]]>
+            </if>
+            <if test="timingPutawayTimeFloor != null and timingPutawayTimeFloor > 0">
+                <![CDATA[
+					and yjj_productdetail.timingPutwayTime >=#{timingPutawayTimeFloor}
+				]]>
+            </if>
+            <if test="timingPutawayTimeCeil != null and timingPutawayTimeCeil > 0">
+                <![CDATA[
+				and yjj_productdetail.timingPutwayTime <= #{timingPutawayTimeCeil}
+				]]>
+            </if>
+            <if test="priceBegin != 0">
+                <![CDATA[
+				and yjj_Product.ladderPriceJson >= #{priceBegin}
+				]]>
+            </if>
+            <if test="priceEnd != 0">
+                <![CDATA[
+				and yjj_Product.ladderPriceJson <= #{priceEnd}
+				]]>
+            </if>
+            <if test="salesCountBegin != 0">
+                <![CDATA[
+				and yjj_Product.SaleTotalCount >= #{salesCountBegin}
+				]]>
+            </if>
+            <if test="salesCountEnd != 0">
+                <![CDATA[
+				and yjj_Product.SaleTotalCount <= #{salesCountEnd}
+				]]>
+            </if>
+            <if test="totalSkuCountBegin != 0">
+                <![CDATA[
+					and (
+						SELECT
+							sum(yjj_ProductSKU.RemainCount)
+						FROM
+							yjj_ProductSKU
+						WHERE
+							yjj_ProductSKU.ProductId = yjj_Product.Id
+						AND yjj_ProductSKU. STATUS >= - 1
+					) >= #{totalSkuCountBegin}
+				]]>
+            </if>
+            <if test="totalSkuCountEnd != 0">
+                <![CDATA[
+					and (
+						SELECT
+							sum(yjj_ProductSKU.RemainCount)
+						FROM
+							yjj_ProductSKU
+						WHERE
+							yjj_ProductSKU.ProductId = yjj_Product.Id
+						AND yjj_ProductSKU. STATUS >= - 1
+					) <= #{totalSkuCountEnd}
+				]]>
+            </if>
+        </where>
+        <if test="orderType == 0">
+            ORDER BY yjj_Product.UpdateTime DESC
+        </if>
+        <if test="orderType == 1">
+            ORDER BY yjj_Product.UpdateTime
+        </if>
+        <if test="orderType == 2">
+            ORDER BY yjj_Product.rank DESC
+        </if>
+        <if test="orderType == 3">
+            ORDER BY yjj_Product.rank
+        </if>
+    </select>
+    <!-- 有历史被注释的文件, id="selectPageList21" 添加定时上架时间的过滤查询 -->
+    <select id="selectPageListSize" parameterType="com.baomidou.mybatisplus.plugins.Page"
+            resultType="int">
+        SELECT
+        count( yjj_Product.Id)
+
+        FROM
+        yjj_Product
+        LEFT JOIN yjj_productdetail ON yjj_product.Id = yjj_productdetail.productId
+        <where>
+            yjj_Product.delState = 0
+            AND
+            yjj_Product.supplierId =#{supplierId}
+            <if test="productName != ''">
+                and yjj_Product.name like concat ("%", #{productName},
+                "%")
+            </if>
+            <if test="clothesNumber != ''">
+                and yjj_Product.clothesNumber like concat ("%",
+                #{clothesNumber},
+                "%")
+            </if>
+            <if test="state != -1">
+                and yjj_Product.state =#{state}
+            </if>
+            <if test="upSoldTimeBegin != 0">
+                <![CDATA[
+					and yjj_Product.upSoldTime >=#{upSoldTimeBegin}
+				]]>
+            </if>
+            <if test="upSoldTimeEnd != 0">
+                <![CDATA[
+				and yjj_Product.upSoldTime <= #{upSoldTimeEnd}
+				]]>
+            </if>
+            <if test="timingPutawayTimeFloor != null and timingPutawayTimeFloor > 0">
+                <![CDATA[
+					and yjj_productdetail.timingPutwayTime >=#{timingPutawayTimeFloor}
+				]]>
+            </if>
+            <if test="timingPutawayTimeCeil != null and timingPutawayTimeCeil > 0">
+                <![CDATA[
+				and yjj_productdetail.timingPutwayTime <= #{timingPutawayTimeCeil}
+				]]>
+            </if>
+            <if test="priceBegin != 0">
+                <![CDATA[
+				and yjj_Product.ladderPriceJson >= #{priceBegin}
+				]]>
+            </if>
+            <if test="priceEnd != 0">
+                <![CDATA[
+				and yjj_Product.ladderPriceJson <= #{priceEnd}
+				]]>
+            </if>
+            <if test="salesCountBegin != 0">
+                <![CDATA[
+				and yjj_Product.SaleTotalCount >= #{salesCountBegin}
+				]]>
+            </if>
+            <if test="salesCountEnd != 0">
+                <![CDATA[
+				and yjj_Product.SaleTotalCount <= #{salesCountEnd}
+				]]>
+            </if>
+            <if test="totalSkuCountBegin != 0">
+                <![CDATA[
+					and (
+						SELECT
+							sum(yjj_ProductSKU.RemainCount)
+						FROM
+							yjj_ProductSKU
+						WHERE
+							yjj_ProductSKU.ProductId = yjj_Product.Id
+						AND yjj_ProductSKU. STATUS >= - 1
+					) >= #{totalSkuCountBegin}
+				]]>
+            </if>
+            <if test="totalSkuCountEnd != 0">
+                <![CDATA[
+					and (
+						SELECT
+							sum(yjj_ProductSKU.RemainCount)
+						FROM
+							yjj_ProductSKU
+						WHERE
+							yjj_ProductSKU.ProductId = yjj_Product.Id
+						AND yjj_ProductSKU. STATUS >= - 1
+					) <= #{totalSkuCountEnd}
+				]]>
+            </if>
+        </where>
+    </select>
+
+    <update id="bindBadgeProduct">
+        update yjj_Product
+        set badge_id = #{badgeId},badge_name = #{badgeName},badge_image =
+        #{badgeImage}
+        WHERE
+        delState = 0
+        and Id IN
+        <foreach collection="productIds" item="id" open="(" separator=","
+                 close=")">
+            <![CDATA[
+						#{id}
+					]]>
+        </foreach>
+    </update>
+
+
+    <update id="clearProductBadge">
+        update yjj_Product
+        set badge_id = 0,badge_name = null,badge_image = null
+        WHERE
+        delState = 0
+        and Id IN
+        <foreach collection="productIds" item="id" open="(" separator=","
+                 close=")">
+            <![CDATA[
+							#{id}
+						]]>
+        </foreach>
+    </update>
+
+
+    <update id="bindProductBadgeCondition">
+        update yjj_Product
+        set badge_id = #{badgeId},badge_name = #{badgeName},badge_image =
+        #{badgeImage}
+        <where>
+            yjj_Product.delState = 0
+            <if test="name != ''">
+                and yjj_Product.name like concat ("%", #{name},
+                "%")
+            </if>
+            <if test="brandName != ''">
+                and yjj_Product.brandName like concat ("%", #{brandName},
+                "%")
+            </if>
+            <if test="clothesNumber != ''">
+                and yjj_Product.clothesNumber like concat ("%",
+                #{clothesNumber},
+                "%")
+            </if>
+            <if test="state == -1">
+                and yjj_Product.state in (6,7)
+            </if>
+            <if test="state == 6">
+                and yjj_Product.state =#{state}
+            </if>
+            <if test="state == 7">
+                and yjj_Product.state =#{state}
+            </if>
+            <if test="minLadderPriceStart != 0">
+                <![CDATA[
+				and yjj_Product.minLadderPrice >= #{minLadderPriceStart}
+				]]>
+            </if>
+            <if test="minLadderPriceEnd != 0">
+                <![CDATA[
+				and yjj_Product.minLadderPrice <= #{minLadderPriceEnd}
+				]]>
+            </if>
+            <if test="categoryIds != null and categoryIds.length == 1 ">
+                and yjj_Product.oneCategoryId = #{categoryIds[0]}
+            </if>
+            <if test=" categoryIds != null and  categoryIds.length == 2 ">
+                and yjj_Product.twoCategoryId = #{categoryIds[1]}
+            </if>
+            <if test="categoryIds != null and  categoryIds.length == 3 ">
+                and yjj_Product.threeCategoryId = #{categoryIds[2]}
+            </if>
+            <if test="badgeStatus == 0"><!-- 未打标 -->
+                and yjj_Product.badge_id = 0
+            </if>
+            <if test="badgeStatus == -2"><!-- 已打标 -->
+                and yjj_Product.badge_id >= 1
+            </if>
+            <if test="badgeStatus >= 1"><!-- 指定角标 -->
+                and yjj_Product.badge_id =#{badgeStatus}
+            </if>
+            <if test="productIds != null and productIds.size()>0 "><!-- 指定商品id -->
+                and yjj_Product.id in
+                <foreach collection="productIds" item="id" open="("
+                         separator="," close=")">
+                    <![CDATA[
+							#{id}
+						]]>
+                </foreach>
+            </if>
+        </where>
+
+    </update>
+
+
+    <update id="clearProductBadgeCondition">
+        update yjj_Product
+        set badge_id = 0,badge_name = null,badge_image = null
+        <where>
+            yjj_Product.delState = 0
+            <if test="name != ''">
+                and yjj_Product.name like concat ("%", #{name},
+                "%")
+            </if>
+            <if test="brandName != ''">
+                and yjj_Product.brandName like concat ("%", #{brandName},
+                "%")
+            </if>
+            <if test="clothesNumber != ''">
+                and yjj_Product.clothesNumber like concat ("%",
+                #{clothesNumber},
+                "%")
+            </if>
+            <if test="state == -1">
+                and yjj_Product.state in (6,7)
+            </if>
+            <if test="state == 6">
+                and yjj_Product.state =#{state}
+            </if>
+            <if test="state == 7">
+                and yjj_Product.state =#{state}
+            </if>
+            <if test="minLadderPriceStart != 0">
+                <![CDATA[
+				and yjj_Product.minLadderPrice >= #{minLadderPriceStart}
+				]]>
+            </if>
+            <if test="minLadderPriceEnd != 0">
+                <![CDATA[
+				and yjj_Product.minLadderPrice <= #{minLadderPriceEnd}
+				]]>
+            </if>
+            <if test="categoryIds != null and  categoryIds.length == 1 ">
+                and yjj_Product.oneCategoryId = #{categoryIds[0]}
+            </if>
+            <if test="categoryIds != null and categoryIds.length == 2 ">
+                and yjj_Product.twoCategoryId = #{categoryIds[1]}
+            </if>
+            <if test="categoryIds != null and categoryIds.length == 3 ">
+                and yjj_Product.threeCategoryId = #{categoryIds[2]}
+            </if>
+            <if test="badgeStatus == -2"><!-- 已打标 -->
+                and yjj_Product.badge_id >= 1
+            </if>
+            <if test="badgeStatus == 0"><!-- 未打标 -->
+                and yjj_Product.badge_id = 0
+            </if>
+            <if test="badgeStatus >= 1"><!-- 指定角标 -->
+                and yjj_Product.badge_id =#{badgeStatus}
+            </if>
+            <if test="productIds != null and productIds.size()>0"><!-- 指定商品id -->
+                and yjj_Product.id in
+                <foreach collection="productIds" item="id" open="("
+                         separator="," close=")">
+                    <![CDATA[
+							#{id}
+						]]>
+                </foreach>
+            </if>
+        </where>
+
+    </update>
+
+    <update id="updateProductBrandInfo" parameterType="java.util.List">
+        <foreach collection="productIds" item="ids" open="" separator=";"
+                 close="">
+            update yjj_Product
+            set brandName =#{brandName},brandLogo = #{brandLogo}
+            WHERE
+            and BrandId = #{brandId}
+            and Id = #{ids.id}
+        </foreach>
+    </update>
+
+    <update id="batchUpdateBrandType" parameterType="java.util.List">
+        update yjj_Product set brand_type = #{brandType} , brandName = #{brandName} , brandLogo = #{brandLogo}
+        <where>
+            id in
+            <foreach close=")" collection="productIdList" item="id" open="(" separator=",">
+                #{id}
+            </foreach>
+
+        </where>
+    </update>
+
+    <update id="batchUpdateRelativeInfo" parameterType="java.util.List">
+            update yjj_Product set  brand_type = #{brandType} , brandName = #{brandName} , brandLogo = #{brandLogo}
+            where BrandId = #{brandId}
+    </update>
+
+    <update id="batchProductCategoryName">
+	UPDATE yjj_Product
+	SET oneCategoryName = CASE oneCategoryId
+	WHEN #{categoryId} THEN
+	#{categoryName} else oneCategoryName END,
+	twoCategoryName = CASE twoCategoryId
+	WHEN #{categoryId} THEN
+	#{categoryName} else twoCategoryName END,
+	threeCategoryName = CASE threeCategoryId
+	WHEN #{categoryId} THEN
+	#{categoryName} else threeCategoryName END
+	where delState = 0
+</update>
+
+    <update id="updateProductFirstCategoryInfo">
+            UPDATE yjj_Product 
+			SET 
+			oneCategoryId = #{firstCategoryId} , 
+			oneCategoryName = #{firstCategoryName} 
+			WHERE
+			twoCategoryId = #{categoryId}
+    </update>
+
+    <update id="updateProductSecondCategoryInfo">  
+            UPDATE yjj_Product 
+			SET 
+			twoCategoryId = #{secondCategoryId} , 
+			twoCategoryName = #{secondCategoryId} 
+			WHERE
+			threeCategoryId = #{categoryId}
+    </update>
+
+    <select id="productsOfCategory" resultType="Long">
+        SELECT Id FROM yjj_Product
+        WHERE oneCategoryId IN
+        <foreach collection="list" item="catId" open="(" separator="," close=")">
+            #{catId}
+        </foreach>
+        OR twoCategoryId IN
+        <foreach collection="list" item="catId" open="(" separator="," close=")">
+            #{catId}
+        </foreach>
+        OR threeCategoryId IN
+        <foreach collection="list" item="catId" open="(" separator="," close=")">
+            #{catId}
+        </foreach>
+    </select>
+
+
+    <select id="selectByDynamics" parameterType="list" resultType="com.jiuyuan.entity.newentity.ProductNew">
+
+        select * from (
+        <foreach collection="list" item="listItem" separator="UNION">
+            SELECT product.* from yjj_dynamic_property_product as dpp
+            LEFT JOIN yjj_Product as product on dpp.product_id = product.Id
+            where 1 = 1
+            <if test="listItem.oneCategoryId != null ">
+                and oneCategoryId = #{listItem.oneCategoryId}
+            </if>
+            <if test="listItem.twoCategoryId != null ">
+                and twoCategoryId = #{listItem.twoCategoryId}
+            </if>
+            <if test="listItem.threeCategoryId != null ">
+                and threeCategoryId = #{listItem.threeCategoryId}
+            </if>
+            <if test="listItem.state !=null">
+                and product.state = #{listItem.state}
+            </if>
+            <if test="listItem.dynPropId !=null">
+                and dpp.dyna_prop_id = #{listItem.dynPropId}
+            </if>
+            <if test="listItem.dynPropValId !=null">
+                and dpp.dyna_prop_value_id = #{listItem.dynPropValId}
+            </if>
+            <if test="listItem.brandIds !=null and listItem.brandIds.size()>0">
+                and product.BrandId in (
+                <foreach collection="listItem.brandIds" item="item" separator=",">
+                    #{item}
+                </foreach>
+                )
+            </if>
+        </foreach>
+        ) as t order by t.upSoldTime desc
+    </select>
+
+
+    <select id="countSkusRemain" parameterType="Long" resultType="int">
+		SELECT IFNULL(SUM(RemainCount), 0)
+		FROM yjj_ProductSKU
+		WHERE ProductId = #{productId}
+	</select>
+
+
+    <select id="selectProductWidthMonitor" resultType="com.jiuyuan.entity.newentity.ProductNew">
+        SELECT
+        pro.*,
+        pro.member_ladder_price_min as memberLadderPriceMin,
+        pro.member_ladder_price_max as memberLadderPriceMax,
+        pro.member_ladder_price_json as memberLadderPriceJson
+        FROM
+        yjj_product AS pro
+        LEFT JOIN yjj_sales_volume_product AS svp ON svp.product_id = pro.id AND svp.product_type = 1
+        where 1 =1
+        and pro.id in (
+        SELECT
+        sku.ProductId
+        FROM
+        yjj_ProductSKU sku
+        WHERE
+        sku.STATUS >= 0
+        AND sku.SaleStartTime &lt; UNIX_TIMESTAMP() * 1000
+        AND (
+        sku.SaleEndTime = 0
+        OR sku.SaleEndTime > UNIX_TIMESTAMP() * 1000
+        )
+        )
+        <if test="keyWord !=null and keyWord != ''">
+            and (pro.Name like concat('%',#{keyWord},'%') or pro.ClothesNumber like concat('%',#{keyWord},'%') )
+        </if>
+        <if test="Status !=null">
+            and pro.Status = #{Status}
+        </if>
+        <if test="state !=null">
+            and pro.state = #{state}
+        </if>
+        <if test="delState !=null">
+            and pro.delState = #{delState}
+        </if>
+        <if test="BrandId !=null">
+            and pro.BrandId = #{BrandId}
+        </if>
+        <if test="orderBy">
+            order by ${orderBy}
+        </if>
+    </select>
+
+
+    <select id="selectByBrandIds" parameterType="Map" resultType="com.jiuyuan.entity.newentity.ProductNew">
+
+        <foreach collection="brandIds" separator="UNION" item="brandId">
+            SELECT * from ( SELECT
+            bottomPrice,
+            marketPriceMax,
+            marketPrice,
+            supplierId,
+            promotionSaleCount,
+            badge_Image as badgeImage,
+            marketPriceMin,
+            jiuCoin,
+            DetailImages,
+            price,
+            ladderPriceJson,
+            id,
+            cash,
+            PromotionImage,
+            weight,
+            vedio_Main as vedioMain,
+            WholeSaleCash,
+            minLadderPrice,
+            SubscriptId,
+            name,
+            false onSaling,
+            loWarehouseId,
+            maxLadderPrice,
+            saleTotalCount,
+            BrandId
+            from yjj_product
+            where
+            BrandId = #{brandId}
+            AND STATUS = 0
+            and SaleStartTime &lt; unix_timestamp() * 1000
+            AND (
+            SaleEndTime = 0
+            OR SaleEndTime &gt; unix_timestamp() * 1000
+            )
+            AND ShowStatus = 0
+            AND minLadderPrice > 0
+            AND delState = 0
+            AND state = 6
+            ORDER BY rank ASC,upSoldTime DESC LIMIT 3 ) as t
+        </foreach>
+    </select>
+
+
+    <select id="selectProductCount" resultType="Map">
+        SELECT
+        count(1) as count,
+        BrandId brandId
+        FROM
+        yjj_product
+        WHERE
+        STATUS = 0
+        AND SaleStartTime &lt; unix_timestamp() * 1000
+        AND (
+        SaleEndTime = 0
+        OR SaleEndTime > unix_timestamp() * 1000
+        )
+        AND ShowStatus = 0
+        AND minLadderPrice > 0
+        AND delState = 0
+        AND state = 6
+        <if test="brandIds !=null and brandIds.size()>0">
+            AND BrandId in (
+            <foreach collection="brandIds" separator="," item="brandId">
+                #{brandId}
+            </foreach>
+            )
+        </if>
+        GROUP BY
+        BrandId
+    </select>
+
+    <select id="querySkuCountAndRemainCount" resultType="map">
+        SELECT
+        count(ProductId) AS skuCount,
+        IFNULL(sum(RemainCount),0) AS skuRemainCount,
+        ProductId AS productId
+        FROM
+        yjj_ProductSKU
+        WHERE
+        <foreach collection="productIds" item="id" open="ProductId IN (" close=")" separator=",">
+            #{id}
+        </foreach>
+        AND STATUS >=- 1
+        GROUP BY
+        ProductId
+    </select>
+    <update id="resetRank">
+		update
+		 	yjj_product
+		set
+			rank = '9999'
+			where rank != '9999'
+	</update>
+</mapper>

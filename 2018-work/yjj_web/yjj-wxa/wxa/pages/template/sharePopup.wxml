@@ -1,0 +1,19 @@
+<!--分享和下载图片弹窗-->
+<template name="sharePopup">
+  <view class="share-popup">
+    <view class="bg {{ isShowSharePopup ? 'show' : ''}}" bindtap='hideSharePopup'></view>
+    <view class="contain {{ isShowSharePopup ? 'xbox-animate' : 'hide'}}">
+      <view class='box'>
+        <view class='item'>
+          <button class="icon icon1" open-type="share" data-type='2'></button>  
+          <view class='text'>分享到微信群或好友</view>
+        </view>
+        <view class='item' bindtap="getDownShareImg">
+          <view class='icon icon2'></view>
+          <view class='text'>分享到朋友圈</view>
+        </view>
+      </view>
+      <view class='close-btn' bindtap='hideSharePopup'>取消</view>
+    </view>
+  </view>
+</template>  

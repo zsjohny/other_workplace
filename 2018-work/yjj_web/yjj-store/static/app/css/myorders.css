@@ -1,0 +1,66 @@
+.g_wrap{width: 100%;overflow-y: scroll;}
+.g_wrap .g_header{width: 100%;background-color: #fff;height: 4rem;border-top: 1px solid #eaeaea;}
+.g_header ul{width: 100%;height: 4rem;line-height: 4rem;}
+.g_header ul li{list-style: none;width: 25%;float: left;text-align: -webkit-center;font-size: 1.5rem;}
+.g_header ul li.active{color: #fd4374;}
+.g_header ul li.active a{border-bottom: 2px solid #fd4374;padding-bottom: 1rem;}
+
+.g_content{margin-top: 1rem;background-color: #fff;}
+.g_content .g_list{width: 100%;padding-top: 1rem;}
+.g_list .g_list_title{width: 100%;height: 3rem;padding-left: 2rem;}
+.g_list .orderno{width: 85%;float: left;text-align: -webkit-left;padding-left: 1rem;}
+.g_list .orderstatus{color:#fd4374;}
+
+.g_main{width: 100%;height: 10rem;background-color: #f5f5f5;padding-left: 2rem;padding-top: 0.5rem;margin-top: 1rem;}
+.g_main .g_img{width: 20%;height: 7rem;text-align: -webkit-center;float: left;margin-right: 1rem;}
+.g_main .g_img img{width:100%;}
+.g_main p.d_name{color: #333;font-size: 1.2rem;margin-bottom: 0.8rem;}
+.g_main p.d_common{font-style: normal;color: #a6a6a6;font-size: 1.1rem;}
+.g_main .d_price{font-size: 1.2rem;color: #fd4374;margin-bottom: 0.7rem;}
+.g_main .d_count{float: right;margin-right: 1.5rem;color: #a6a6a6;}
+.g_main .d_count i{font-style: normal;color: #a6a6a6;margin-left: 0.2rem;}
+
+.g_totalcount{width: 100%;height: 3rem;line-height: 3rem;border-bottom: 1px solid #eaeaea;padding-left: 2rem;}
+.g_totalcount .t_countL{float: left;width: 69%;}
+.t_countR span{color:#fd4374;}
+
+.g_btn{width: 100%;height: 4rem;line-height: 4rem;text-align: -webkit-right;}
+.g_btn a{margin-right: 1rem;border: 1px solid #666;color: #666;width: 20%;display: inline-block;padding: 0;height: 2.5rem;line-height: 2.5rem;text-align: center;border-radius: 6px;}
+.g_btn a.payBtn{border: 1px solid #fd4374;color: #fd4374;}
+.g_btn a.sureBtn{border: 1px solid #fd4374;color: #fd4374;}
+.g_btn a.surehaveBtn{border: 1px solid #fd4374;color: #fd4374;}
+.g_bg{width:100%;height:1rem;background-color:#eaeaea;}
+
+.cancleModal{top: auto!important;width: 100%!important;}
+.cancleModal .modal-dialog {position: relative;width: auto!important; margin: 0px!important; }
+
+/* #DetailsManage .MsgModal .modal-bottom{position: absolute;bottom: 0px; left: 0px; width: 100%;background: #fff;margin: 0;border-radius: 0px;} */
+/* #DetailsManage	.MsgModal .modal-bottom {position: absolute;width: 100%;min-height: 185px; margin-top: -75px; background: #fff; } */
+.cancleModal .modal-content .Toggle{text-align: center;padding:10px 4%;}
+.cancleModal .modal-content .modal-body p{text-align: center;height: 50px;line-height: 50px;}
+.cancleModal .modal{top:none!important}
+.cancleModal .sureBtn{float: right;color: #fd4374;font-size: 14px;line-height: 2rem}
+.cancleModal .close{float: left!important;font-size: 11px!important;color: #fd4374!important;opacity: 1!important;font-weight: 100!important;line-height: 2rem!important;}
+.cancleModal .modal-content{border:none!important}
+.curr{color:#fd4374;}
+
+#receive_success .success_logo{width: 28%;position: relative;margin-top: -4.5rem;margin-left: 34%;}
+#receive_success .modal-header .close{font-size:30px;}
+#receive_success .modal-title{text-align: -webkit-center;color: #333;font-size: 20px;font-weight: bold;padding-top: 1rem;}
+#receive_success .modal-body p{font-size: 17px;text-align: -webkit-center;color: #666;}
+#receive_success .modal-footer{border-top: 1px solid #eaeaea;width: 100%;text-align: -webkit-center;margin-top: 1rem;}
+#receive_success .successBtn{width: 90%;background-color: #fd4374;color: #fff;border-radius: 10px;height: 3.5rem;font-size: 20px;}
+#receive_success .thinking{color: #666;font-size: 16px;margin-top: 1.5rem;margin-bottom: 1rem;}
+
+.remaintimes{width: 100%;height: 3rem;line-height: 3rem;border-bottom: 1px solid #eaeaea;padding-left: 2rem;margin-top: 1rem;}
+.remaintimes .countdown{margin-left: 1rem;font-weight: bold;}
+
+#noneTable{width: 100%;text-align: -webkit-center;background-color: #eaeaea;margin-top: 50%;}
+#noneTable img{width: 25%;}
+#noneTable p{margin-top: 1rem;font-size: 15px;}
+
+
+
+
+
+

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yujj.dao.mapper.StoreNotificationMapper">
+	<select id="getNotificationList" resultType="StoreNotification">
+		<![CDATA[ 		
+			select a.*, b.PageView as UserPageView from store_Notification a left join 
+			(select * from store_UserNotification where UserId=#{userId}) b on a.Id=b.NotificationId
+			where Status = 0 and PushStatus = 1
+			order by PushTime desc
+			limit #{pageQuery.limit} offset #{pageQuery.offset}
+		]]>
+    </select>
+	<select id="getAllNotificationCount" resultType="int">
+		<![CDATA[
+		select count(*) from store_Notification a
+		where a.Status = 0 and a.PushStatus = 1
+		]]>
+	</select>
+	
+	<insert id="addNotification" useGeneratedKeys="true" keyProperty="id" parameterType="StoreNotification">
+		INSERT 
+			store_Notification(Type, Title, Abstracts, Image, LinkUrl, PushStatus, PushTime, CreateTime, UpdateTime)
+		VALUES
+			(#{type}, #{title}, #{abstracts}, #{image}, #{linkUrl}, #{pushStatus}, #{pushTime}, #{createTime}, #{updateTime})
+	</insert>
+
+	<insert id="addUserNotification" parameterType="map">
+		<![CDATA[ INSERT INTO store_UserNotification (UserId,NotificationId,PageView, CreateTime, UpdateTime) 
+			VALUES
+		]]>
+		
+		<foreach collection="userNotifications" item="userNotification" open="(" separator="),(" close=")">
+			<![CDATA[
+				#{userNotification.userId}, #{userNotification.notificationId}, 1, #{userNotification.createTime}, #{userNotification.updateTime}			
+			]]>
+		</foreach>
+
+		<![CDATA[
+			ON DUPLICATE KEY UPDATE PageView=PageView+1, UpdateTime=UNIX_TIMESTAMP(now())*1000;
+		]]>
+	</insert>	
+	<update id="updateNotificationPageView" parameterType="map">
+		<![CDATA[
+			update store_Notification
+			set PageView = PageView + 1
+			where Id in
+		]]>
+		<foreach collection="ids" item="id" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</update>
+</mapper>

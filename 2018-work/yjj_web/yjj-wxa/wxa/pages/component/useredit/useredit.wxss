@@ -1,0 +1,35 @@
+
+/* 编辑用户信息 */
+/**列表**/
+.user-edit-list .item{
+    display: block;
+    height: 125rpx;
+    position: relative;
+    margin: 0 30rpx;
+    border-top:2rpx solid #E1E1E1;
+    font-size: 34rpx;
+}
+.user-edit-list .item view{ float: left;}
+.user-edit-list .item .head{
+  width: 75rpx;
+  height: 75rpx;
+  margin-top: 25rpx;
+  border-radius: 50%;
+}
+.user-edit-list .item .nickname{
+  line-height: 125rpx;
+}
+.user-edit-list .item .name{
+  position: absolute;
+  right: 40rpx;
+  top: 42rpx;
+}
+.user-edit-list .item .arrow{
+  position: absolute;
+  right: 0;
+  top: 48rpx;
+  width: 18rpx;
+  height: 30rpx;
+  background: url(http://mini-img-main.oss-cn-hangzhou.aliyuncs.com/icon/arrow.png) no-repeat;
+  background-size: 18rpx;
+}

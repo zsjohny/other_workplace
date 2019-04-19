@@ -1,0 +1,93 @@
+<view class="container">
+  <view class='cart-list'>
+    <block wx:if="{{cartsData && cartsData.length > 0}}">
+      <view class='item' wx:for="{{cartsData}}" wx:key='{{item}}'>
+        <!-- 上架时可选中 -->
+        <view class="choose-box" bindtap='checkedFunc' data-index="{{index}}"  data-carid="{{item.carId}}" wx:if="{{item.sold_out == 1 && item.car_suk_status == 1}}">
+          <icon class='icon' wx:if="{{item.selected}}" type="success" color='#ff2742' size="20" />
+          <view wx:else class='icon icon1'></view>
+        </view>
+        <!-- 下架时和商品删除失效时不可选中 -->
+        <view class="choose-box" wx:else><view class='icon icon1'></view></view>
+        <!-- 商品删除失效时不可跳转 -->
+        <view class='img' wx:if="{{item.car_suk_status == 2}}">
+          <image src='{{item.mainImg}}' mode='aspectFit'></image>
+          <view class='soldOut-status'>
+           <view>该商品</view>
+           <view>已失效</view>
+          </view>
+        </view>
+        <view class='img' bindtap='gotoDetail' data-productid="{{item.productId}}" wx:else>
+          <image src='{{item.mainImg}}' mode='aspectFit'></image>
+          <view class='soldOut-status' wx:if="{{item.sold_out == 2}}">
+           <view>该商品</view>
+           <view>已下架</view>
+          </view>
+        </view>
+        <view class='info'>
+          <!-- 商品删除失效时不可跳转 -->
+          <view class='info-head' bindtap="{{ item.car_suk_status == 2 ? '' : 'gotoDetail' }}" data-productid="{{item.productId}}">
+            <view class='title'>{{item.productName}}</view>
+            <view class='format'>
+              <text class='color' wx:if="{{item.colorName}}">颜色：{{item.colorName}}</text>
+              <text class='size' wx:if="{{item.sizeName}}">尺码：{{item.sizeName}}</text>
+            </view>
+            <view class='format'>
+              <text class='cloth-number' wx:if="{{item.ClothesNumber}}">款号：{{item.ClothesNumber}}</text>
+            </view>
+          </view><!-- info-head end -->
+          <view class='price-box'>
+            <view class='price'>￥{{item.shopPrice}}</view>
+          </view>
+        </view> <!-- info end -->  
+        <view class="cart-number">
+          <view class='number-title'>数量：</view>
+          <view class="number-box">
+              <view wx:if="{{item.sold_out == 2}}" class="ac-item ac-item1" >-</view>
+              <view wx:else class="ac-item ac-item1" bindtap='reduceCount' data-index="{{index}}" data-carid="{{item.carId}}">-</view>
+              <view class="ac-item num-item">{{item.sku_number}}</view>
+              <view wx:if="{{item.sold_out == 2}}" class="ac-item ac-item3" >+</view>
+              <view wx:else class="ac-item ac-item3" bindtap='addCount' data-index="{{index}}" data-carid="{{item.carId}}">+</view>
+          </view>
+        </view><!-- cart-number end -->
+        <!-- 上架商品的删除按钮 -->
+        <view wx:if="{{item.sold_out == 1}}" class='delete-box' data-index="{{index}}" data-carid="{{item.carId}}" bindtap='confirmDelete'>
+          <view class='icon'></view>
+        </view>
+        <!-- 下架商品的删除按钮 -->
+        <view wx:else class='delete-box' data-index="{{index}}" data-carid="{{item.carId}}" bindtap='directDelete'>
+          <view class='icon'></view>
+        </view>
+        <view wx:if="{{item.isStock}}" class='noStock'>库存不足</view>
+      </view><!-- item end -->
+    </block>  
+    <!--购物车无商品时-->
+    <block wx:else>
+      <view class="no-product">
+        <view class="icon"></view>
+        <view class="text">
+          <view>购物车就像生活一样，爱生活</view>
+          <view>就不要空荡荡</view>
+        </view>
+      </view>
+    </block>
+  </view><!-- cart-list end -->
+  <!-- 总价浮条 -->
+  <view class='carts-bar' wx:if="{{cartsData && cartsData.length > 0}}">
+      <view class='select-all' bindtap='selectAll'>
+        <icon class='select-icon' wx:if="{{selectAllStatus}}" type="success" color='#ff2742' size="20"  data-index="{{index}}" />
+        <view wx:else class='select-icon select-icon1'></view> 
+        <view class='text'>全部</view>
+      </view>
+      <view class='total-price'>
+        <view class='price'>总计:￥<text class='com-red'>{{totalPrice}}</text></view>
+        <view class=''>不含运费</view>
+      </view>
+      <view class='balance-btn' bindtap='confirmOrder'>结算<text>({{selectedTotalCount}})</text></view>
+  </view>
+</view> <!--container end-->
+<!-- 删除商品 -->
+<confirmPopup id="deletePopup"  bind:cancelEvent="closexbox" bind:confirmEvent="confirmDeleteFunc">
+  <view slot="title">确定要删除商品</view>
+  <view slot="content">{{productName}}？</view>
+</confirmPopup>

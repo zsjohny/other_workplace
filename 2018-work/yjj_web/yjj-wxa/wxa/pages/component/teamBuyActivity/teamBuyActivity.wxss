@@ -1,0 +1,46 @@
+/**团购列表**/
+.activity-list .item .time-box{
+  position: absolute;
+  left: 0;
+  top:0;
+  z-index: 100;
+  background: rgba(0, 0, 0, 0.55);
+  min-width: 222rpx;
+  height: 130rpx;
+  color: #fff;
+  border-top-left-radius:6rpx;
+}
+.activity-list .item .time-box .activity-state{
+  font-size: 28rpx;
+  text-align: center;
+  margin-top: 16rpx;
+}
+.activity-list .item .time-box .down-time{
+  font-size: 24rpx;
+  margin: 16rpx 0 0 18rpx
+}
+.activity-list .item .time-box .down-time text{
+  width: 44rpx;
+  height: 44rpx;
+  background: #fd4374;
+  display: inline-block;
+  line-height: 44rpx;
+  text-align: center;
+  margin:0 8rpx 0 4rpx;
+}
+.activity-list .item .time-box .down-time .hours{
+  width:auto;
+  min-width: 32rpx;
+  padding: 0 6rpx;
+}
+.activity-list .item .time-box .down-time .second{
+  margin-right: 16rpx;
+}
+.activity-box .activity-list{
+  width: 702rpx;
+  margin: 0 auto;
+  border-radius: 6rpx;
+}
+.activity-list .item{
+  border-bottom: 20rpx solid #f4f4f4;
+}

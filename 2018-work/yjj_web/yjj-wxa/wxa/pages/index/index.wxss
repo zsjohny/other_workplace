@@ -1,0 +1,341 @@
+/**
+ *index.wxss
+ */
+.show{
+  display: block!important;
+}
+.hide{
+  display: none!important;
+}
+.scroll-main{
+  margin-top: 100rpx;
+}
+/**公告**/
+.shop-notice{
+  height: 86rpx;
+  border-bottom: 16rpx solid #f4f4f4;
+}
+.shop-notice .icon{
+  float:left;
+  width: 127rpx;
+  height: 25rpx;
+  background: url(http://mini-img-main.oss-cn-hangzhou.aliyuncs.com/icon/3.7.7/notice-icon.png) no-repeat;
+  background-size: 127rpx;
+  margin: 30rpx 20rpx 0 24rpx;
+  position: relative;
+}
+.shop-notice .icon::after{
+  content: '';
+  width: 2rpx;
+  height: 40rpx;
+  overflow: hidden;
+  background: #f4f4f4;
+  position: absolute;
+  right: -20rpx;
+  top: -6rpx;
+  z-index: 10;
+}
+.shop-notice .text{
+  width: 540rpx;
+  height: 86rpx;
+  overflow: hidden;
+  line-height: 86rpx;
+  float:left;
+  font-size: 22rpx;
+  color: #848484;
+  padding-left: 20rpx;
+}
+
+/**优惠券领取提醒**/
+.coupon-notice .bg{
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 20000;
+}
+.coupon-notice .box{
+  width: 560rpx;
+  height: 360rpx;
+  background: #fff;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  z-index: 30000;
+  margin: -180rpx -280rpx;
+  border-radius: 20rpx;
+  text-align: center;
+}
+.coupon-notice .box .box-main{
+  position: relative;
+}
+.coupon-notice .box .title{
+   font-size: 32rpx;
+   padding-top: 60rpx;
+}
+.coupon-notice .box text{
+   color: #ff2742
+}
+.coupon-notice .box .money{
+   font-size: 30rpx;
+   padding-top: 30rpx;
+}
+.coupon-notice .box .btn{
+  width: 300rpx;
+  height: 88rpx;
+  background: #ff2742;
+  line-height: 88rpx;
+  font-size: 30rpx;
+  color: #fff;
+  margin: 50rpx auto 0;
+  border-radius: 10rpx;
+}
+.coupon-notice .box .close-box{
+  width: 80rpx;
+  height: 80rpx;
+  position: absolute;
+  right: -40rpx;
+  top: -40rpx;
+  z-index: 1;
+}
+.coupon-notice .box .close-box .icon{
+  width: 50rpx;
+  height: 50rpx;
+  background: url(http://mini-img-main.oss-cn-hangzhou.aliyuncs.com/icon/close-icon1.png) no-repeat;
+  background-size: 50rpx;
+  margin: 15rpx;
+}
+/**轮播图2017-10-31**/
+.swiper-wrap{
+  position: relative;
+}
+.swiper-wrap,
+.slide-box{
+  width: 750rpx;
+  height: 300rpx;
+}
+.slide-box image{
+  width: 750rpx;
+  height: 300rpx;
+}
+.model-margintop{
+  margin-top: 100rpx;
+}
+/**文章**/
+.article-box{
+  border-bottom: 16rpx solid #f4f4f4;
+}
+.article-box .article-title{
+  height: 44rpx;
+  margin: 30rpx auto;
+  position: relative;
+}
+.article-box .article-title .text{
+  position: absolute;
+  left: 24rpx;
+  top: 0;
+  font-size: 34rpx;
+  color: #181818;
+}
+.article-list{
+  width: 726rpx;
+  height: 380rpx;
+  margin-left: 24rpx;
+}
+.article-list .article-scroll{
+  white-space: nowrap;
+  display: -webkit-flex;
+}
+.article-list .item{
+  width: 580rpx;
+  height: 380rpx;
+  padding-bottom: 20rpx;
+  margin-right: 24rpx;
+  display: inline-block;
+}
+.article-list .item .img{
+  width: 580rpx;
+  height: 290rpx;
+  border-radius: 6rpx;
+  display: block;
+  overflow: hidden
+}
+.article-list .item .article-info{
+  height: 40rpx;
+  font-size: 28rpx;
+  margin: 16rpx 0 0 10rpx;
+  position: relative;
+}
+.article-list .item .article-info .title{
+  width: 430rpx;
+  height: 40rpx;
+  line-height: 40rpx;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.article-list .item .more{
+  position: absolute;
+  right: 0;
+  color:#fd4374;
+  top: 2rpx;
+}
+
+
+/**商品tab**/
+.product-tab{
+  height: 90rpx;
+  display: -webkit-box;
+  display: box;
+  background: #fff;
+  text-align: center;
+  line-height: 90rpx;
+  font-size: 30rpx;
+}
+.product-tab .item{
+  -webkit-box-flex: 1;
+  color: #6b6b6b
+}
+.product-tab .active1,
+.product-tab .active2{
+  color: #ff2742;
+  position: relative;
+}
+.product-tab .active1::after,
+.product-tab .active2::after{
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: 10rpx;
+  width: 60rpx;
+  height: 4rpx;
+  overflow: hidden;
+  background: #ff2742;
+  margin-left: -30rpx;
+  border-radius: 2rpx;
+}
+.product-tab-fixed{
+  width: 100%;
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 9999;
+  margin-top: 0;
+}
+.product-box .item .share-icon{
+  position: absolute;
+  right: 0;
+  bottom: 24rpx;
+  z-index: 100;
+  width: 109rpx;
+  height: 44rpx;
+  background: url(http://mini-img-main.oss-cn-hangzhou.aliyuncs.com/icon/new/share-btn.png) no-repeat;
+  background-size: 109rpx;
+}
+/* 自定义标签导航  */
+.own-nav{
+  height: auto;
+  overflow: hidden;
+  margin: 0 auto;
+  padding: 28rpx 0 0;
+  border-bottom: 2rpx solid #f4f4f4;
+}
+.own-nav .item{
+  width: 25%;
+  height: 176rpx;
+  float: left;
+  text-align: center;
+}
+.own-nav .item .icon{
+  width: 100rpx;
+  height: 100rpx;
+  display: block;
+  border-radius: 50%;
+  margin: 0 auto;
+}
+.own-nav .item .text{
+  height: 36rpx;
+  line-height: 36rpx;
+  overflow: hidden;
+  margin-top: 14rpx;
+  font-size: 24rpx;
+  color: #1d3544
+}
+/**搜索输入框样式**/
+.search-box{
+  width: 100%;
+  height: 100rpx;
+  overflow: hidden;
+  background: #f4f4f4;
+  position: relative;
+  z-index: 1000;
+}
+.search-box .search-input{
+  border-radius: 6rpx;
+  background: #fff;
+  height: 60rpx;
+  margin: 18rpx 0 18rpx 24rpx;
+  width: 580rpx;
+  display: block;
+  font-size: 28rpx;
+  padding-left: 50rpx;
+  box-sizing: border-box;
+  position: relative;
+  line-height: 60rpx;
+  color:#848484;
+}
+.search-box .search-input::after{
+  width: 36rpx;
+  height: 36rpx;
+  content: '';
+  background: url(https://yjj-img-www.oss-cn-hangzhou.aliyuncs.com/15227384403371522738440337.png) no-repeat;
+  background-size: 36rpx;
+  position: absolute;
+  left: 6rpx;
+  top: 14rpx;
+}
+.search-box .cancel-btn{
+  border-radius: 6rpx;
+  height: 100rpx;
+  width: 110rpx;
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: 100;
+  font-size: 28rpx;
+  line-height: 100rpx;
+  text-align: center
+}
+/*搜索框浮动*/
+.search-wrap{
+  width: 100%;
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 1000;
+}
+.search-wrap .sign-entry{
+  width: 120rpx;
+  height: 60rpx;
+  line-height: 60rpx;
+  position: absolute;
+  right: 18rpx;
+  top: 18rpx;
+  z-index: 2000;
+  font-size: 24rpx;
+  color: #f65c1d;
+  padding-left: 68rpx;
+  box-sizing: border-box;
+}
+.search-wrap .sign-entry::after{
+  content: '';
+  width: 44rpx;
+  height: 49rpx;
+  position: absolute;
+  left: 10rpx;
+  top: 6rpx;
+  background: url(http://mini-img-main.oss-cn-hangzhou.aliyuncs.com/icon/new/sign-cion.png) no-repeat;
+  background-size: 44rpx 49rpx;
+}

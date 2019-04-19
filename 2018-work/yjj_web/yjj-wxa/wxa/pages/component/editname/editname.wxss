@@ -1,0 +1,43 @@
+/*编辑用户昵称 */
+.edit-nickname{
+  height: 120rpx;
+  position: relative;
+  margin: 0 30rpx;
+  font-size: 34rpx;
+  line-height: 120rpx;
+  display: -webkit-box;
+}
+.edit-nickname .nickname-input{
+  border: none;
+  background: #fff;
+  height: 120rpx;
+  font-size: 34rpx;
+  font-family:"Microsoft Yahei","Heiti SC","Helvetica Neue","Tahoma",Arial,sans-serif;
+  -webkit-box-flex: 1; 
+  text-align: right;
+}
+.prompt-box{
+  width:200rpx;
+  height: 65rpx;
+  background: #3e3e3e;
+  color: #fff;
+  text-align: center;
+  line-height: 65rpx;
+  border-radius: 30rpx;
+  position: absolute;
+  left: 50%;
+  top: 18%;
+  margin: 0 -100rpx;
+  font-size: 30rpx;
+}
+.submit-btn{
+  width: 690rpx;
+  height: 80rpx;
+  background: #ff2742;
+  color: #fff;
+  font-size: 30rpx;
+  line-height: 80rpx;
+  text-align: center;
+  margin:300rpx auto; 
+  border-radius: 8rpx;
+}

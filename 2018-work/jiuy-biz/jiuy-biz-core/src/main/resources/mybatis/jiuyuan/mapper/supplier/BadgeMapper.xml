@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jiuyuan.dao.mapper.operator.BadgeMapper">
+
+	<update id="updateProductBadge" parameterType="java.util.List">
+		<foreach collection="list" item="ids" open="" separator=";" close="">
+		update yjj_Product
+		<set>
+			<if test="badgeName != null">badge_name=#{badgeName},</if>
+			<if test="badgeImage != null">badge_image=#{badgeImage}</if>
+		</set>
+		WHERE
+		badge_id = #{badgeId}
+		and Id = #{ids.id}
+		</foreach>
+
+	</update>
+
+
+
+</mapper>

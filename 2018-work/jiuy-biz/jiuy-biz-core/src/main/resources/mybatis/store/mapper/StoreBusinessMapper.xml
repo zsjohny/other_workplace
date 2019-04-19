@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.store.dao.mapper.StoreBusinessMapper">
+	<select id="getById" resultType="StoreBusiness">
+		select * from yjj_StoreBusiness
+		where Id = #{id}
+	</select>
+
+	<select id="getByIdNew" resultType="com.jiuyuan.entity.newentity.StoreBusiness">
+		select
+		`Id` as Id,
+		`BusinessName` as BusinessName,
+		`BusinessAddress` as BusinessAddress
+		 from `yjj_storebusiness`
+		where `Id` = #{id}
+	</select>
+	<update id="updateStoreIncome">
+		update yjj_StoreBusiness
+		set CashIncome = CashIncome + #{commission}, AvailableBalance = AvailableBalance + #{commission}
+		where id = #{id}
+	</update>
+	
+	<select id="getAll" resultType="StoreBusiness">
+		select * from yjj_StoreBusiness
+		where Status = 0
+	</select>
+	<select id="getAllOpenWxaStoreList" resultType="StoreBusiness">
+		select *,s.is_open_wxa as isOpenWxa from yjj_StoreBusiness s
+		where s.Status = 0 and  s.is_open_wxa = 1
+	</select>
+	
+	<select id="getAllMap" parameterType="map" resultType="StoreBusiness">
+		select * from yjj_StoreBusiness
+		where Status = 0
+	</select>
+	
+	<update id="updMemberCouponTotal" parameterType="map" >
+		update yjj_StoreBusiness
+		set used_coupon_total_member_count = used_coupon_total_member_count + #{memberCount}, used_coupon_total_count = used_coupon_total_count + #{couponCount}
+		, used_coupon_total_money = used_coupon_total_money + #{money}
+		where id = #{storeId}
+	</update>
+	
+	<update id="updateRate" >
+		update yjj_StoreBusiness
+		set 
+		rate = #{rate}
+		where id = #{storeId}
+	</update>
+	
+	<update id="updateButtonStatus" >
+		update yjj_StoreBusiness
+		set 
+		synchronousButtonStatus = #{synchronousButtonStatus}
+		where id = #{storeId}
+	</update>
+	
+</mapper>

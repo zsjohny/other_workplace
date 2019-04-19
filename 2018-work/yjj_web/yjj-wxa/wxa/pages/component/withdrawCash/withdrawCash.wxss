@@ -1,0 +1,79 @@
+/* 立即提现 */
+.withdraw-box{
+  margin: 24rpx;
+}
+.withdraw-info{
+  width: 702rpx;
+  height: 36rpx;
+  line-height: 36rpx;
+}
+.withdraw-info .number{
+  font-size: 28rpx;
+  float: left;
+}
+.withdraw-info .explain{
+  font-size: 24rpx;
+  float: right;
+  position: relative;
+  color:#B3B3B3;
+}
+/* .withdraw-info .explain::after{
+  content: '';
+  width: 24rpx;
+  height: 24rpx;
+  background: url(http://mini-img-main.oss-cn-hangzhou.aliyuncs.com/icon/3.7.7/arrow-icon.png) no-repeat;
+  background-size: 24rpx;
+  position: absolute;
+  right: 0;
+  top: 6rpx;
+} */
+.withdraw-form{
+  height: auto;
+  overflow: hidden;
+  border-bottom:2rpx solid #f4f4f4;
+  padding: 40rpx 0 24rpx 0;
+}
+.withdraw-item{
+  height: 60rpx;
+  line-height: 60rpx;
+  display: -webkit-box;
+}
+.withdraw-item .input-item{
+  -webkit-box-flex: 1;
+  height: 60rpx;
+  font-size: 40rpx;
+}
+.withdraw-item .placeholder-font{
+  color: #999;
+}
+.withdraw-item .money{
+  text-align: right;
+  font-size: 24rpx;
+}
+.withdraw-error{
+  font-size: 24rpx;
+  padding-top: 8rpx;
+}
+.withdraw-limit{
+  padding-top: 20rpx;
+  font-size: 26rpx;
+  color: #666;
+  position: relative;
+}
+.withdraw-limit .record{
+  position: absolute;
+  right: 0rpx;
+  top: 20rpx;
+}
+.withdraw-btn{
+  width:702rpx;
+  height:100rpx;
+  border-radius:8rpx;
+  background:-webkit-linear-gradient(left, #fe3c56 30%, #f1437c);
+  background:linear-gradient(left, #fe3c56 30%, #f1437c);
+  font-size:30rpx;
+  text-align:center;
+  line-height:100rpx;
+  margin-top:40rpx;
+  color:#fff;
+}

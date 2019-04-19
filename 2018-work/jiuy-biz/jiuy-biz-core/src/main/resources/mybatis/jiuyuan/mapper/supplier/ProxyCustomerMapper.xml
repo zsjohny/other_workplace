@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jiuyuan.dao.mapper.supplier.ProxyCustomerMapper">
+
+
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.jiuyuan.entity.newentity.ProxyCustomer">
+		<id column="id" property="id" />
+		<result column="name" property="name" />
+		<result column="phone" property="phone" />
+		<result column="proxy_product_id" property="proxyProductId" />
+		<result column="proxy_product_name" property="proxyProductName" />
+		<result column="proxy_product_count" property="proxyProductCount" />
+		<result column="product_open_time" property="productOpenTime" />
+		<result column="product_close_time" property="productCloseTime" />
+		<result column="product_total_open_day" property="productTotalOpenDay" />
+		<result column="product_surplusl_open_day" property="productSurpluslOpenDay" />
+	</resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, name, phone, proxy_product_id AS proxyProductId, proxy_product_name AS proxyProductName, proxy_product_count AS proxyProductCount, product_open_time AS productOpenTime, product_close_time AS productCloseTime, product_total_open_day AS productTotalOpenDay, store_id AS storeId, product_renew_protect_close_time AS productRenewProtectCloseTime
+    </sql>
+    
+    <select id="list" parameterType="com.baomidou.mybatisplus.plugins.Page" resultType="com.jiuyuan.entity.newentity.ProxyCustomer">
+        SELECT <include refid="Base_Column_List"/> 
+        FROM wxaproxy_customer
+        <where>
+             proxy_user_id = #{proxyUserId}
+             AND product_renew_protect_close_time > UNIX_TIMESTAMP()*1000
+          <if test="customerName != ''">
+             AND name LIKE CONCAT('%',#{customerName},'%')
+          </if>
+          <if test="customerPhone != ''">
+             AND phone = #{customerPhone}
+          </if>
+          <if test="status != -1">
+             <if test="status == 0">
+             <![CDATA[
+             AND product_open_time <= UNIX_TIMESTAMP()*1000
+             AND product_close_time >= UNIX_TIMESTAMP()*1000
+             ]]>
+             </if>
+             <if test="status == 1">
+             <![CDATA[
+             AND product_close_time < UNIX_TIMESTAMP()*1000
+             AND product_renew_protect_close_time >= UNIX_TIMESTAMP()*1000
+             ]]>
+             </if>
+          </if>
+          <if test="maxSurplusDays != null">
+             <![CDATA[
+             AND product_close_time <= #{maxSurplusDays}+UNIX_TIMESTAMP()*1000
+             ]]>
+          </if>
+          <if test="minSurplusDays != null">
+             <![CDATA[
+             AND product_close_time >= #{minSurplusDays}+UNIX_TIMESTAMP()*1000
+             ]]>
+          </if>
+        </where>
+        ORDER BY product_renew_protect_close_time ASC, product_close_time ASC
+    </select>
+    
+    <select id="getTotalConsumeAmount" resultType="java.lang.Double">
+ <![CDATA[
+ SELECT
+IFNULL(SUM(TotalPay),0)  -IFNULL(SUM(total_refund_cost),0)
+FROM store_Order
+WHERE OrderStatus = 70
+    AND StoreId = #{storeId}
+    AND PayTime <= #{productCloseTime} 
+ ]]>   
+    </select>
+    
+    <select id="getProxyCustomerCount" resultType="java.lang.Integer">
+      SELECT COUNT(a.id) 
+      FROM wxaproxy_customer a JOIN wxaproxy_user b 
+      ON a.proxy_user_id = b.id
+      <where>
+         b.roleid >= 6
+         <if test="proxyUserNum != ''">
+            AND b.proxy_user_num LIKE CONCAT('%',#{proxyUserNum},'%') 
+         </if>
+         <if test="proxyUserName != ''">
+            AND b.proxy_user_name LIKE CONCAT('%',#{proxyUserName},'%')
+         </if>
+         <if test="proxyUserFullName != ''">
+            AND b.proxy_user_full_name LIKE CONCAT('%',#{proxyUserFullName},'%')
+         </if>
+         <if test="proxyUserPhone != ''">
+            AND b.proxy_user_phone LIKE CONCAT('%',#{proxyUserPhone},'%')
+         </if>
+         <if test="idCardNo != ''">
+            AND b.id_card_no LIKE CONCAT('%',#{idCardNo},'%')
+         </if>
+         <if test="proxyState != -1">
+            AND b.status = #{proxyState}
+         </if>
+      
+      </where>
+    </select>
+
+</mapper>

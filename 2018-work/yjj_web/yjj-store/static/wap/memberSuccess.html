@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>支付订单</title>
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <script src="js/adaptation.js"></script>
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/common.css">
+</head>
+<body>
+    <!-- 订单支付模块-->
+    <div class="success-mod">
+        <div class="title">
+            <span class="tit-txt"></span>
+        </div>
+        <div class="box">
+            <span>付款成功！</span>
+        </div>
+        <div class="des">恭喜！您已成为门店宝会员</div>
+        <div class="detail-btn">去会员特价区看看</div>
+    </div>
+    <script type="text/javascript" src="js/jquery.min-3.3.0.js"></script>
+    <script type="text/javascript" src="js/common.js?v20181122"></script>
+    <script type="text/javascript">
+
+        $(function(){
+            //获取url的参数
+            var packageType = getUrlParam("packageType");
+            if(packageType == 7){
+                $(".tit-txt").html("新零售智能门店超值套餐");
+            }else if (packageType == 8) {
+                $(".tit-txt").html("新零售智能门店至尊套餐");
+            }else if (packageType == 4) {
+                $(".tit-txt").html("极致爆款会员套餐-试用版");
+                $(".des").html("恭喜！您已成为门店宝试用会员");
+            }else if (packageType == 5) {
+                $(".tit-txt").html("极致爆款会员套餐-体验版");
+            }else if (packageType == 6) {
+                $(".tit-txt").html("极致爆款会员套餐");
+            }
+        })
+        //跳转至会员区函数
+        function gotoMermberProduct(){
+            var systemFlag = systemType();
+            if(systemFlag == "Android"){
+                member.mermberProduct();
+            }
+        }
+        $(".detail-btn").on("click",function(){
+            gotoMermberProduct()
+        })
+    </script>
+</body>
+</html>

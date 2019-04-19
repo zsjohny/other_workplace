@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jiuy.core.dao.mapper.DrawLotteryMapperSqlImpl">
+
+	<insert id="add" useGeneratedKeys="true" keyProperty="id">
+		insert yjj_DrawLottery(Name, RankName, Type, JiuCoin, Weight, RelatedId, Image, Count, AdjustStatus, AdjustType, 
+			AdjustTime, AdjustCount, Percent, LastAdjustTime, CreateTime, UpdateTime, ProductId)
+		values(#{name}, #{rankName}, #{type}, #{jiuCoin}, #{weight}, #{relatedId}, #{image}, #{count}, #{adjustStatus}, #{adjustType}, 
+			#{adjustTime}, #{adjustCount}, #{percent}, #{lastAdjustTime}, #{createTime}, #{updateTime}, #{productId})	
+	</insert>
+	
+	<update id="update">
+		update yjj_DrawLottery
+		<set>
+			<if test="count != null">
+				Count = #{count},
+			</if>
+			<if test="adjustStatus != null">
+				AdjustStatus = #{adjustStatus},
+			</if>
+			<if test="adjustType != null">
+				AdjustType = #{adjustType},
+			</if>
+			<if test="jiuCoin != null">
+				JiuCoin = #{jiuCoin},
+			</if>
+			<if test="adjustTime != null">
+				AdjustTime = #{adjustTime},
+			</if>
+			<if test="adjustCount != null">
+				AdjustCount = #{adjustCount},
+			</if>
+			<if test="percent != null">
+				Percent = #{percent},
+			</if>
+			<if test="updateTime != null">
+				UpdateTime = #{updateTime},
+			</if>
+			<if test="weight != null">
+				Weight = #{weight},
+			</if>
+			<if test="productId != null">
+				ProductId = #{productId},
+			</if>
+			<if test="lastAdjustTime != null">
+				LastAdjustTime = #{lastAdjustTime},
+			</if>
+		</set>
+		where Id = #{id}
+	</update>
+	
+	<update id="delete">
+		update yjj_DrawLottery
+		set Status = -1 
+		where Id = #{id}
+	</update>
+	
+	<select id="load" resultType="DrawLottery">
+		select * from yjj_DrawLottery
+		where Status = 0
+		order by Weight desc
+	</select>
+	
+	<insert id="batchAdd">
+		insert yjj_DrawLottery(Name, RankName, Type, JiuCoin, RelatedId, Image, Count, AdjustStatus, AdjustType, 
+			AdjustTime, AdjustCount, Percent, LastAdjustTime, CreateTime, UpdateTime, ProductId)
+		values
+		<foreach collection="drawLotterys" item="drawLottery" open="(" separator="),(" close=")">
+			#{drawLottery.name}, #{drawLottery.rankName}, #{drawLottery.type}, #{drawLottery.jiuCoin}, #{drawLottery.relatedId}, #{drawLottery.image}, #{drawLottery.count}, #{drawLottery.adjustStatus}, #{drawLottery.adjustType}, 
+			#{drawLottery.adjustTime}, #{drawLottery.adjustCount}, #{drawLottery.percent}, #{drawLottery.lastAdjustTime}, #{drawLottery.createTime}, #{drawLottery.updateTime}, #{drawLottery.productId}
+		</foreach>
+	</insert>
+
+	<update id="batchUpdate">
+		<foreach collection="drawLotteries" item="item">
+			update yjj_DrawLottery
+			set Count = #{item.count}, AdjustStatus = #{item.adjustStatus}, AdjustType = #{item.adjustType}, JiuCoin = #{item.jiuCoin}, AdjustTime = #{item.adjustTime},
+				AdjustCount = #{item.adjustCount}, Percent = #{item.percent}, Status = #{item.status}, Weight = #{item.weight}, ProductId = #{item.productId}
+			where Id = #{item.id};
+		</foreach>
+	</update>
+	
+	<update id="removeAll">
+		update yjj_DrawLottery
+		set Status = -1
+	</update>
+
+</mapper>

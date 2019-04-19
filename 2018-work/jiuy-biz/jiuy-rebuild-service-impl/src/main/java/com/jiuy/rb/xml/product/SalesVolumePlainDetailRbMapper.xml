@@ -1,0 +1,350 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" > 
+<mapper namespace="com.jiuy.rb.mapper.product.SalesVolumePlainDetailRbMapper"> 
+ 
+ 	<!-- 主要的返回映射-->
+	<resultMap id="BaseResultMap" type="com.jiuy.rb.model.product.SalesVolumePlainDetailRb"	>
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="plan_id"  property="planId"  jdbcType="BIGINT" />
+		<result column="product_id"  property="productId"  jdbcType="BIGINT" />
+		<result column="product_type"  property="productType"  jdbcType="INTEGER" />
+		<result column="except_count"  property="exceptCount"  jdbcType="BIGINT" />
+		<result column="average_count"  property="averageCount"  jdbcType="BIGINT" />
+		<result column="left_count"  property="leftCount"  jdbcType="BIGINT" />
+		<result column="last_count"  property="lastCount"  jdbcType="BIGINT" />
+		<result column="create_time"  property="createTime"  jdbcType="TIMESTAMP" />
+		<result column="update_time"  property="updateTime"  jdbcType="TIMESTAMP" />
+		<result column="added_count"  property="addedCount"  jdbcType="BIGINT" />
+	</resultMap>
+
+	<!-- 所有的列名-->
+	<sql id="Base_Column_List" >
+		id,plan_id,product_id,product_type,except_count,average_count,left_count,last_count,create_time,
+		update_time,added_count
+	</sql>
+
+	<!-- 精确更新的字段-->
+	<sql id="updateBase">
+		<if test="id  !=null">
+			id = #{id,jdbcType=BIGINT}, 
+		</if>
+		<if test="planId  !=null">
+			plan_id = #{planId,jdbcType=BIGINT}, 
+		</if>
+		<if test="productId  !=null">
+			product_id = #{productId,jdbcType=BIGINT}, 
+		</if>
+		<if test="productType  !=null">
+			product_type = #{productType,jdbcType=INTEGER}, 
+		</if>
+		<if test="exceptCount  !=null">
+			except_count = #{exceptCount,jdbcType=BIGINT}, 
+		</if>
+		<if test="averageCount  !=null">
+			average_count = #{averageCount,jdbcType=BIGINT}, 
+		</if>
+		<if test="leftCount  !=null">
+			left_count = #{leftCount,jdbcType=BIGINT}, 
+		</if>
+		<if test="lastCount  !=null">
+			last_count = #{lastCount,jdbcType=BIGINT}, 
+		</if>
+		<if test="createTime  !=null">
+			create_time = #{createTime,jdbcType=TIMESTAMP}, 
+		</if>
+		<if test="updateTime  !=null">
+			update_time = #{updateTime,jdbcType=TIMESTAMP}, 
+		</if>
+		<if test="addedCount  !=null">
+			added_count = #{addedCount,jdbcType=BIGINT} 
+		</if>
+	</sql>
+
+	<!-- 通过主键查找-->
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="Long" >
+		select 
+		<include refid="Base_Column_List" />
+		from yjj_sales_volume_plain_detail
+		where  id = #{id,jdbcType=BIGINT} 
+	</select>
+
+	<!-- 通过主键删除-->
+	<delete id="deleteByPrimaryKey" parameterType="Long" >
+		delete from yjj_sales_volume_plain_detail
+		where id = #{id,jdbcType=BIGINT} 
+	</delete>
+
+	<!-- 普通插入全字段插t入-->
+	<insert id="insert" parameterType="com.jiuy.rb.model.product.SalesVolumePlainDetailRb" >
+		insert into yjj_sales_volume_plain_detail
+		(
+			id,
+			plan_id,
+			product_id,
+			product_type,
+			except_count,
+			average_count,
+			left_count,
+			last_count,
+			create_time,
+			update_time,
+			added_count
+		)
+		values
+		(
+			#{id ,jdbcType=BIGINT},
+			#{planId ,jdbcType=BIGINT},
+			#{productId ,jdbcType=BIGINT},
+			#{productType ,jdbcType=INTEGER},
+			#{exceptCount ,jdbcType=BIGINT},
+			#{averageCount ,jdbcType=BIGINT},
+			#{leftCount ,jdbcType=BIGINT},
+			#{lastCount ,jdbcType=BIGINT},
+			#{createTime ,jdbcType=TIMESTAMP},
+			#{updateTime ,jdbcType=TIMESTAMP},
+			#{addedCount ,jdbcType=BIGINT}
+		)
+	</insert>
+
+	<!-- 批量插入，全部字段插入-->
+	<insert id="insertBach"   parameterType="List" >
+		insert into yjj_sales_volume_plain_detail
+		(
+			id,
+			plan_id,
+			product_id,
+			product_type,
+			except_count,
+			average_count,
+			left_count,
+			last_count,
+			create_time,
+			update_time,
+			added_count
+		)
+		values 
+		<foreach collection="list" item="item" separator=",">
+		(
+			#{item.id ,jdbcType=BIGINT},
+			#{item.planId ,jdbcType=BIGINT},
+			#{item.productId ,jdbcType=BIGINT},
+			#{item.productType ,jdbcType=INTEGER},
+			#{item.exceptCount ,jdbcType=BIGINT},
+			#{item.averageCount ,jdbcType=BIGINT},
+			#{item.leftCount ,jdbcType=BIGINT},
+			#{item.lastCount ,jdbcType=BIGINT},
+			#{item.createTime ,jdbcType=TIMESTAMP},
+			#{item.updateTime ,jdbcType=TIMESTAMP},
+			#{item.addedCount ,jdbcType=BIGINT}
+		)
+		</foreach>
+	</insert>
+
+	<!-- 精确插入，非null得字段才会插入-->
+	<insert id="insertSelective" parameterType="com.jiuy.rb.model.product.SalesVolumePlainDetailRb" useGeneratedKeys="true" keyProperty="id" >
+		insert into yjj_sales_volume_plain_detail
+		<trim prefix="(" suffix=")" suffixOverrides="," > 
+			<if test="id !=null">  
+				id,
+			</if>
+			<if test="planId !=null">  
+				plan_id,
+			</if>
+			<if test="productId !=null">  
+				product_id,
+			</if>
+			<if test="productType !=null">  
+				product_type,
+			</if>
+			<if test="exceptCount !=null">  
+				except_count,
+			</if>
+			<if test="averageCount !=null">  
+				average_count,
+			</if>
+			<if test="leftCount !=null">  
+				left_count,
+			</if>
+			<if test="lastCount !=null">  
+				last_count,
+			</if>
+			<if test="createTime !=null">  
+				create_time,
+			</if>
+			<if test="updateTime !=null">  
+				update_time,
+			</if>
+			<if test="addedCount !=null">  
+				added_count,
+			</if>
+		</trim>
+
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+			<if test="id  !=null">
+				#{id,jdbcType=BIGINT}, 
+			</if>
+			<if test="planId  !=null">
+				#{planId,jdbcType=BIGINT}, 
+			</if>
+			<if test="productId  !=null">
+				#{productId,jdbcType=BIGINT}, 
+			</if>
+			<if test="productType  !=null">
+				#{productType,jdbcType=INTEGER}, 
+			</if>
+			<if test="exceptCount  !=null">
+				#{exceptCount,jdbcType=BIGINT}, 
+			</if>
+			<if test="averageCount  !=null">
+				#{averageCount,jdbcType=BIGINT}, 
+			</if>
+			<if test="leftCount  !=null">
+				#{leftCount,jdbcType=BIGINT}, 
+			</if>
+			<if test="lastCount  !=null">
+				#{lastCount,jdbcType=BIGINT}, 
+			</if>
+			<if test="createTime  !=null">
+				#{createTime,jdbcType=TIMESTAMP}, 
+			</if>
+			<if test="updateTime  !=null">
+				#{updateTime,jdbcType=TIMESTAMP}, 
+			</if>
+			<if test="addedCount  !=null">
+				#{addedCount,jdbcType=BIGINT} 
+			</if>
+		</trim>
+	</insert> 
+
+	<!-- 精确更新-->
+	<update id="updateByPrimaryKeySelective" parameterType="com.jiuy.rb.model.product.SalesVolumePlainDetailRb" >
+		update yjj_sales_volume_plain_detail
+		<set>
+			<include refid="updateBase"/>
+		</set>
+		where id = #{id,jdbcType=BIGINT} 
+	</update> 
+
+	<!-- 全字段更新 需要注意-->
+	<update id="updateByPrimaryKey" parameterType="com.jiuy.rb.model.product.SalesVolumePlainDetailRb" >
+		update yjj_sales_volume_plain_detail
+		set 
+			id = #{id ,jdbcType=BIGINT},
+			plan_id = #{planId ,jdbcType=BIGINT},
+			product_id = #{productId ,jdbcType=BIGINT},
+			product_type = #{productType ,jdbcType=INTEGER},
+			except_count = #{exceptCount ,jdbcType=BIGINT},
+			average_count = #{averageCount ,jdbcType=BIGINT},
+			left_count = #{leftCount ,jdbcType=BIGINT},
+			last_count = #{lastCount ,jdbcType=BIGINT},
+			create_time = #{createTime ,jdbcType=TIMESTAMP},
+			update_time = #{updateTime ,jdbcType=TIMESTAMP},
+			added_count = #{addedCount ,jdbcType=BIGINT}
+		where id = #{id,jdbcType=BIGINT} 
+	</update> 
+
+	<!-- 所有的条件集合-->
+	<sql id="whereCase"  >
+		where  1=1 
+		<if test="id  !=null">
+			AND id = #{id,jdbcType=BIGINT} 
+		</if>
+		<if test="planId  !=null">
+			AND plan_id = #{planId,jdbcType=BIGINT} 
+		</if>
+		<if test="productId  !=null">
+			AND product_id = #{productId,jdbcType=BIGINT} 
+		</if>
+		<if test="productType  !=null">
+			AND product_type = #{productType,jdbcType=INTEGER} 
+		</if>
+		<if test="exceptCount  !=null">
+			AND except_count = #{exceptCount,jdbcType=BIGINT} 
+		</if>
+		<if test="averageCount  !=null">
+			AND average_count = #{averageCount,jdbcType=BIGINT} 
+		</if>
+		<if test="leftCount  !=null">
+			AND left_count = #{leftCount,jdbcType=BIGINT} 
+		</if>
+		<if test="lastCount  !=null">
+			AND last_count = #{lastCount,jdbcType=BIGINT} 
+		</if>
+		<if test="createTime  !=null">
+			AND create_time = #{createTime,jdbcType=TIMESTAMP} 
+		</if>
+		<if test="updateTime  !=null">
+			AND update_time = #{updateTime,jdbcType=TIMESTAMP} 
+		</if>
+		<if test="addedCount  !=null">
+			AND added_count = #{addedCount,jdbcType=BIGINT} 
+		</if>
+		<include refid="costomWhereCase"/>
+	</sql>
+
+	<!-- 查询一条，如果返回多条会报错-->
+	<select id="selectOne" parameterType="java.util.Map" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" /> 
+		FROM yjj_sales_volume_plain_detail 
+		<include refid="whereCase" /> 
+	</select>
+
+	<!-- 查询一个list-->
+	<select id="selectList" parameterType="java.util.Map" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" /> 
+		FROM yjj_sales_volume_plain_detail 
+		<include refid="whereCase" /> 
+	</select>
+
+	<!-- 查询一个list-->
+	<select id="selectCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+		SELECT
+		count(1) 
+		FROM yjj_sales_volume_plain_detail
+		<include refid="whereCase" /> 
+	</select>
+
+	<!--  @Costom -->
+	<!-- 从上一行注释以上为系统生成 从这一行往下为用户自定义 请将自定义的sql放在此行下面 -->
+	<sql id="costomWhereCase">
+	</sql>
+
+
+	<!--(left_count-#{count}) > 0 防止扣减出负数 -->
+	<update id="subLeftCount" >
+		update yjj_sales_volume_plain_detail set last_count = #{lastCount},update_time = now(),left_count = left_count - #{count} where id = #{id}
+		and (left_count-#{count}) >= 0;
+	</update>
+
+	<update id="reInitDetail">
+		update yjj_sales_volume_plain_detail set added_count=added_count+(except_count-left_count), last_count = 0,except_count=#{newExceptCount},left_count = except_count,update_time = NOW(),average_count = #{avgCount} where plan_id = #{plainId};
+	</update>
+
+
+	<update id="reInitDetailByDetailId">
+		update yjj_sales_volume_plain_detail set added_count=added_count+(except_count-left_count), last_count = 0,except_count=#{newExceptCount},left_count = except_count,update_time = NOW(),average_count = #{avgCount} where id = #{plainDetailId};
+	</update>
+
+	<!-- 某天的添加量 未初始化的时候 -->
+	<select id="selectPlainAddedCount" resultType="Long">
+		SELECT SUM(except_count-left_count) from yjj_sales_volume_plain_detail where plan_id = #{plainId} and update_time &gt;= DATE_FORMAT(CURDATE(),'%Y-%m-%d %H:%i:%s')
+	</select>
+
+
+	<select id="todayExpectCountAndDoneCount" resultType="map">
+		SELECT
+		IFNULL(SUM(except_count),0) AS expectCount,
+		IFNULL(SUM(except_count-left_count),0) AS doneCount
+		from yjj_sales_volume_plain_detail where plan_id = #{plainId} and update_time &gt;= DATE_FORMAT(CURDATE(),'%Y-%m-%d %H:%i:%s')
+	</select>
+
+
+
+	<!-- 总的添加量 -->
+	<select id="selectAllAddedCount" resultType="Long">
+		SELECT SUM(added_count+except_count-left_count) from yjj_sales_volume_plain_detail where plan_id = #{plainId};
+	</select>
+
+</mapper>

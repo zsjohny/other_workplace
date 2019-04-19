@@ -1,0 +1,586 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" > 
+<mapper namespace="com.jiuy.product.mapper.CouponTemplateNewMapper"> 
+ 
+ 	<!-- 主要的返回映射-->
+	<resultMap id="BaseResultMap" type="com.jiuy.product.model.CouponTemplateNew"	>
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="name"  property="name"  jdbcType="VARCHAR" />
+		<result column="get_rule"  property="getRule"  jdbcType="VARCHAR" />
+		<result column="send_type"  property="sendType"  jdbcType="INTEGER" />
+		<result column="price"  property="price"  jdbcType="DECIMAL" />
+		<result column="discount"  property="discount"  jdbcType="DECIMAL" />
+		<result column="deadline_type"  property="deadlineType"  jdbcType="INTEGER" />
+		<result column="deadline_end"  property="deadlineEnd"  jdbcType="TIMESTAMP" />
+		<result column="deadline_begin"  property="deadlineBegin"  jdbcType="TIMESTAMP" />
+		<result column="deadline_count"  property="deadlineCount"  jdbcType="INTEGER" />
+		<result column="sys_type"  property="sysType"  jdbcType="INTEGER" />
+		<result column="each_receive_count"  property="eachReceiveCount"  jdbcType="INTEGER" />
+		<result column="issue_count"  property="issueCount"  jdbcType="BIGINT" />
+		<result column="comment"  property="comment"  jdbcType="VARCHAR" />
+		<result column="receive_count"  property="receiveCount"  jdbcType="BIGINT" />
+		<result column="publish_user_id"  property="publishUserId"  jdbcType="BIGINT" />
+		<result column="publish_user"  property="publishUser"  jdbcType="VARCHAR" />
+		<result column="status"  property="status"  jdbcType="INTEGER" />
+		<result column="limit_money"  property="limitMoney"  jdbcType="DECIMAL" />
+		<result column="use_range"  property="useRange"  jdbcType="INTEGER" />
+		<result column="range_ids"  property="rangeIds"  jdbcType="VARCHAR" />
+		<result column="create_time"  property="createTime"  jdbcType="TIMESTAMP" />
+		<result column="update_time"  property="updateTime"  jdbcType="TIMESTAMP" />
+		<result column="draw_start_time"  property="drawStartTime"  jdbcType="TIMESTAMP" />
+		<result column="draw_end_time"  property="drawEndTime"  jdbcType="TIMESTAMP" />
+		<result column="old_id"  property="oldId"  jdbcType="BIGINT" />
+	</resultMap>
+
+	<!-- 所有的列名-->
+	<sql id="Base_Column_List" >
+		id,name,get_rule,send_type,price,discount,deadline_type,deadline_end,deadline_begin,
+		deadline_count,sys_type,each_receive_count,issue_count,comment,receive_count,publish_user_id,publish_user,
+		status,limit_money,use_range,range_ids,create_time,update_time,draw_start_time,draw_end_time,
+		old_id
+	</sql>
+
+	<!-- 精确更新的字段-->
+	<sql id="updateBase">
+		<if test="id  !=null">
+			id = #{id,jdbcType=BIGINT}, 
+		</if>
+		<if test="name  !=null">
+			name = #{name,jdbcType=VARCHAR}, 
+		</if>
+		<if test="getRule  !=null">
+			get_rule = #{getRule,jdbcType=VARCHAR}, 
+		</if>
+		<if test="sendType  !=null">
+			send_type = #{sendType,jdbcType=INTEGER}, 
+		</if>
+		<if test="price  !=null">
+			price = #{price,jdbcType=DECIMAL}, 
+		</if>
+		<if test="discount  !=null">
+			discount = #{discount,jdbcType=DECIMAL}, 
+		</if>
+		<if test="deadlineType  !=null">
+			deadline_type = #{deadlineType,jdbcType=INTEGER}, 
+		</if>
+		<if test="deadlineEnd  !=null">
+			deadline_end = #{deadlineEnd,jdbcType=TIMESTAMP}, 
+		</if>
+		<if test="deadlineBegin  !=null">
+			deadline_begin = #{deadlineBegin,jdbcType=TIMESTAMP}, 
+		</if>
+		<if test="deadlineCount  !=null">
+			deadline_count = #{deadlineCount,jdbcType=INTEGER}, 
+		</if>
+		<if test="sysType  !=null">
+			sys_type = #{sysType,jdbcType=INTEGER}, 
+		</if>
+		<if test="eachReceiveCount  !=null">
+			each_receive_count = #{eachReceiveCount,jdbcType=INTEGER}, 
+		</if>
+		<if test="issueCount  !=null">
+			issue_count = #{issueCount,jdbcType=BIGINT}, 
+		</if>
+		<if test="comment  !=null">
+			comment = #{comment,jdbcType=VARCHAR}, 
+		</if>
+		<if test="receiveCount  !=null">
+			receive_count = #{receiveCount,jdbcType=BIGINT}, 
+		</if>
+		<if test="publishUserId  !=null">
+			publish_user_id = #{publishUserId,jdbcType=BIGINT}, 
+		</if>
+		<if test="publishUser  !=null">
+			publish_user = #{publishUser,jdbcType=VARCHAR}, 
+		</if>
+		<if test="status  !=null">
+			status = #{status,jdbcType=INTEGER}, 
+		</if>
+		<if test="limitMoney  !=null">
+			limit_money = #{limitMoney,jdbcType=DECIMAL}, 
+		</if>
+		<if test="useRange  !=null">
+			use_range = #{useRange,jdbcType=INTEGER}, 
+		</if>
+		<if test="rangeIds  !=null">
+			range_ids = #{rangeIds,jdbcType=VARCHAR}, 
+		</if>
+		<if test="createTime  !=null">
+			create_time = #{createTime,jdbcType=TIMESTAMP}, 
+		</if>
+		<if test="updateTime  !=null">
+			update_time = #{updateTime,jdbcType=TIMESTAMP}, 
+		</if>
+		<if test="drawStartTime  !=null">
+			draw_start_time = #{drawStartTime,jdbcType=TIMESTAMP}, 
+		</if>
+		<if test="drawEndTime  !=null">
+			draw_end_time = #{drawEndTime,jdbcType=TIMESTAMP}, 
+		</if>
+		<if test="oldId  !=null">
+			old_id = #{oldId,jdbcType=BIGINT} 
+		</if>
+	</sql>
+
+	<!-- 通过主键查找-->
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="Long" >
+		select 
+		<include refid="Base_Column_List" />
+		from yjj_coupon_template_new
+		where  id = #{id,jdbcType=BIGINT} 
+	</select>
+
+	<!-- 通过主键删除-->
+	<delete id="deleteByPrimaryKey" parameterType="Long" >
+		delete from yjj_coupon_template_new
+		where id = #{id,jdbcType=BIGINT} 
+	</delete>
+
+	<!-- 普通插入全字段插t入-->
+	<insert id="insert" parameterType="com.jiuy.product.model.CouponTemplateNew" >
+		insert into yjj_coupon_template_new
+		(
+			id,
+			name,
+			get_rule,
+			send_type,
+			price,
+			discount,
+			deadline_type,
+			deadline_end,
+			deadline_begin,
+			deadline_count,
+			sys_type,
+			each_receive_count,
+			issue_count,
+			comment,
+			receive_count,
+			publish_user_id,
+			publish_user,
+			status,
+			limit_money,
+			use_range,
+			range_ids,
+			create_time,
+			update_time,
+			draw_start_time,
+			draw_end_time,
+			old_id
+		)
+		values
+		(
+			#{id ,jdbcType=BIGINT},
+			#{name ,jdbcType=VARCHAR},
+			#{getRule ,jdbcType=VARCHAR},
+			#{sendType ,jdbcType=INTEGER},
+			#{price ,jdbcType=DECIMAL},
+			#{discount ,jdbcType=DECIMAL},
+			#{deadlineType ,jdbcType=INTEGER},
+			#{deadlineEnd ,jdbcType=TIMESTAMP},
+			#{deadlineBegin ,jdbcType=TIMESTAMP},
+			#{deadlineCount ,jdbcType=INTEGER},
+			#{sysType ,jdbcType=INTEGER},
+			#{eachReceiveCount ,jdbcType=INTEGER},
+			#{issueCount ,jdbcType=BIGINT},
+			#{comment ,jdbcType=VARCHAR},
+			#{receiveCount ,jdbcType=BIGINT},
+			#{publishUserId ,jdbcType=BIGINT},
+			#{publishUser ,jdbcType=VARCHAR},
+			#{status ,jdbcType=INTEGER},
+			#{limitMoney ,jdbcType=DECIMAL},
+			#{useRange ,jdbcType=INTEGER},
+			#{rangeIds ,jdbcType=VARCHAR},
+			#{createTime ,jdbcType=TIMESTAMP},
+			#{updateTime ,jdbcType=TIMESTAMP},
+			#{drawStartTime ,jdbcType=TIMESTAMP},
+			#{drawEndTime ,jdbcType=TIMESTAMP},
+			#{oldId ,jdbcType=BIGINT}
+		)
+	</insert>
+
+	<!-- 批量插入，全部字段插入-->
+	<insert id="insertBach"   parameterType="List" >
+		insert into yjj_coupon_template_new
+		(
+			id,
+			name,
+			get_rule,
+			send_type,
+			price,
+			discount,
+			deadline_type,
+			deadline_end,
+			deadline_begin,
+			deadline_count,
+			sys_type,
+			each_receive_count,
+			issue_count,
+			comment,
+			receive_count,
+			publish_user_id,
+			publish_user,
+			status,
+			limit_money,
+			use_range,
+			range_ids,
+			create_time,
+			update_time,
+			draw_start_time,
+			draw_end_time,
+			old_id
+		)
+		values 
+		<foreach collection="list" item="item" separator=",">
+		(
+			#{item.id ,jdbcType=BIGINT},
+			#{item.name ,jdbcType=VARCHAR},
+			#{item.getRule ,jdbcType=VARCHAR},
+			#{item.sendType ,jdbcType=INTEGER},
+			#{item.price ,jdbcType=DECIMAL},
+			#{item.discount ,jdbcType=DECIMAL},
+			#{item.deadlineType ,jdbcType=INTEGER},
+			#{item.deadlineEnd ,jdbcType=TIMESTAMP},
+			#{item.deadlineBegin ,jdbcType=TIMESTAMP},
+			#{item.deadlineCount ,jdbcType=INTEGER},
+			#{item.sysType ,jdbcType=INTEGER},
+			#{item.eachReceiveCount ,jdbcType=INTEGER},
+			#{item.issueCount ,jdbcType=BIGINT},
+			#{item.comment ,jdbcType=VARCHAR},
+			#{item.receiveCount ,jdbcType=BIGINT},
+			#{item.publishUserId ,jdbcType=BIGINT},
+			#{item.publishUser ,jdbcType=VARCHAR},
+			#{item.status ,jdbcType=INTEGER},
+			#{item.limitMoney ,jdbcType=DECIMAL},
+			#{item.useRange ,jdbcType=INTEGER},
+			#{item.rangeIds ,jdbcType=VARCHAR},
+			#{item.createTime ,jdbcType=TIMESTAMP},
+			#{item.updateTime ,jdbcType=TIMESTAMP},
+			#{item.drawStartTime ,jdbcType=TIMESTAMP},
+			#{item.drawEndTime ,jdbcType=TIMESTAMP},
+			#{item.oldId ,jdbcType=BIGINT}
+		)
+		</foreach>
+	</insert>
+
+	<!-- 精确插入，非null得字段才会插入-->
+	<insert id="insertSelective" parameterType="com.jiuy.product.model.CouponTemplateNew" useGeneratedKeys="true" keyProperty="id" >
+		insert into yjj_coupon_template_new
+		<trim prefix="(" suffix=")" suffixOverrides="," > 
+			<if test="id !=null">  
+				id,
+			</if>
+			<if test="name !=null">  
+				name,
+			</if>
+			<if test="getRule !=null">  
+				get_rule,
+			</if>
+			<if test="sendType !=null">  
+				send_type,
+			</if>
+			<if test="price !=null">  
+				price,
+			</if>
+			<if test="discount !=null">  
+				discount,
+			</if>
+			<if test="deadlineType !=null">  
+				deadline_type,
+			</if>
+			<if test="deadlineEnd !=null">  
+				deadline_end,
+			</if>
+			<if test="deadlineBegin !=null">  
+				deadline_begin,
+			</if>
+			<if test="deadlineCount !=null">  
+				deadline_count,
+			</if>
+			<if test="sysType !=null">  
+				sys_type,
+			</if>
+			<if test="eachReceiveCount !=null">  
+				each_receive_count,
+			</if>
+			<if test="issueCount !=null">  
+				issue_count,
+			</if>
+			<if test="comment !=null">  
+				comment,
+			</if>
+			<if test="receiveCount !=null">  
+				receive_count,
+			</if>
+			<if test="publishUserId !=null">  
+				publish_user_id,
+			</if>
+			<if test="publishUser !=null">  
+				publish_user,
+			</if>
+			<if test="status !=null">  
+				status,
+			</if>
+			<if test="limitMoney !=null">  
+				limit_money,
+			</if>
+			<if test="useRange !=null">  
+				use_range,
+			</if>
+			<if test="rangeIds !=null">  
+				range_ids,
+			</if>
+			<if test="createTime !=null">  
+				create_time,
+			</if>
+			<if test="updateTime !=null">  
+				update_time,
+			</if>
+			<if test="drawStartTime !=null">  
+				draw_start_time,
+			</if>
+			<if test="drawEndTime !=null">  
+				draw_end_time,
+			</if>
+			<if test="oldId !=null">  
+				old_id,
+			</if>
+		</trim>
+
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+			<if test="id  !=null">
+				#{id,jdbcType=BIGINT}, 
+			</if>
+			<if test="name  !=null">
+				#{name,jdbcType=VARCHAR}, 
+			</if>
+			<if test="getRule  !=null">
+				#{getRule,jdbcType=VARCHAR}, 
+			</if>
+			<if test="sendType  !=null">
+				#{sendType,jdbcType=INTEGER}, 
+			</if>
+			<if test="price  !=null">
+				#{price,jdbcType=DECIMAL}, 
+			</if>
+			<if test="discount  !=null">
+				#{discount,jdbcType=DECIMAL}, 
+			</if>
+			<if test="deadlineType  !=null">
+				#{deadlineType,jdbcType=INTEGER}, 
+			</if>
+			<if test="deadlineEnd  !=null">
+				#{deadlineEnd,jdbcType=TIMESTAMP}, 
+			</if>
+			<if test="deadlineBegin  !=null">
+				#{deadlineBegin,jdbcType=TIMESTAMP}, 
+			</if>
+			<if test="deadlineCount  !=null">
+				#{deadlineCount,jdbcType=INTEGER}, 
+			</if>
+			<if test="sysType  !=null">
+				#{sysType,jdbcType=INTEGER}, 
+			</if>
+			<if test="eachReceiveCount  !=null">
+				#{eachReceiveCount,jdbcType=INTEGER}, 
+			</if>
+			<if test="issueCount  !=null">
+				#{issueCount,jdbcType=BIGINT}, 
+			</if>
+			<if test="comment  !=null">
+				#{comment,jdbcType=VARCHAR}, 
+			</if>
+			<if test="receiveCount  !=null">
+				#{receiveCount,jdbcType=BIGINT}, 
+			</if>
+			<if test="publishUserId  !=null">
+				#{publishUserId,jdbcType=BIGINT}, 
+			</if>
+			<if test="publishUser  !=null">
+				#{publishUser,jdbcType=VARCHAR}, 
+			</if>
+			<if test="status  !=null">
+				#{status,jdbcType=INTEGER}, 
+			</if>
+			<if test="limitMoney  !=null">
+				#{limitMoney,jdbcType=DECIMAL}, 
+			</if>
+			<if test="useRange  !=null">
+				#{useRange,jdbcType=INTEGER}, 
+			</if>
+			<if test="rangeIds  !=null">
+				#{rangeIds,jdbcType=VARCHAR}, 
+			</if>
+			<if test="createTime  !=null">
+				#{createTime,jdbcType=TIMESTAMP}, 
+			</if>
+			<if test="updateTime  !=null">
+				#{updateTime,jdbcType=TIMESTAMP}, 
+			</if>
+			<if test="drawStartTime  !=null">
+				#{drawStartTime,jdbcType=TIMESTAMP}, 
+			</if>
+			<if test="drawEndTime  !=null">
+				#{drawEndTime,jdbcType=TIMESTAMP}, 
+			</if>
+			<if test="oldId  !=null">
+				#{oldId,jdbcType=BIGINT} 
+			</if>
+		</trim>
+	</insert> 
+
+	<!-- 精确更新-->
+	<update id="updateByPrimaryKeySelective" parameterType="com.jiuy.product.model.CouponTemplateNew" >
+		update yjj_coupon_template_new
+		<set>
+			<include refid="updateBase"/>
+		</set>
+		where id = #{id,jdbcType=BIGINT} 
+	</update> 
+
+	<!-- 全字段更新 需要注意-->
+	<update id="updateByPrimaryKey" parameterType="com.jiuy.product.model.CouponTemplateNew" >
+		update yjj_coupon_template_new
+		set 
+			id = #{id ,jdbcType=BIGINT},
+			name = #{name ,jdbcType=VARCHAR},
+			get_rule = #{getRule ,jdbcType=VARCHAR},
+			send_type = #{sendType ,jdbcType=INTEGER},
+			price = #{price ,jdbcType=DECIMAL},
+			discount = #{discount ,jdbcType=DECIMAL},
+			deadline_type = #{deadlineType ,jdbcType=INTEGER},
+			deadline_end = #{deadlineEnd ,jdbcType=TIMESTAMP},
+			deadline_begin = #{deadlineBegin ,jdbcType=TIMESTAMP},
+			deadline_count = #{deadlineCount ,jdbcType=INTEGER},
+			sys_type = #{sysType ,jdbcType=INTEGER},
+			each_receive_count = #{eachReceiveCount ,jdbcType=INTEGER},
+			issue_count = #{issueCount ,jdbcType=BIGINT},
+			comment = #{comment ,jdbcType=VARCHAR},
+			receive_count = #{receiveCount ,jdbcType=BIGINT},
+			publish_user_id = #{publishUserId ,jdbcType=BIGINT},
+			publish_user = #{publishUser ,jdbcType=VARCHAR},
+			status = #{status ,jdbcType=INTEGER},
+			limit_money = #{limitMoney ,jdbcType=DECIMAL},
+			use_range = #{useRange ,jdbcType=INTEGER},
+			range_ids = #{rangeIds ,jdbcType=VARCHAR},
+			create_time = #{createTime ,jdbcType=TIMESTAMP},
+			update_time = #{updateTime ,jdbcType=TIMESTAMP},
+			draw_start_time = #{drawStartTime ,jdbcType=TIMESTAMP},
+			draw_end_time = #{drawEndTime ,jdbcType=TIMESTAMP},
+			old_id = #{oldId ,jdbcType=BIGINT}
+		where id = #{id,jdbcType=BIGINT} 
+	</update> 
+
+	<!-- 所有的条件集合-->
+	<sql id="whereCase"  >
+		where  1=1 
+		<if test="id  !=null">
+			AND id = #{id,jdbcType=BIGINT} 
+		</if>
+		<if test="name  !=null">
+			AND name = #{name,jdbcType=VARCHAR} 
+		</if>
+		<if test="getRule  !=null">
+			AND get_rule = #{getRule,jdbcType=VARCHAR} 
+		</if>
+		<if test="sendType  !=null">
+			AND send_type = #{sendType,jdbcType=INTEGER} 
+		</if>
+		<if test="price  !=null">
+			AND price = #{price,jdbcType=DECIMAL} 
+		</if>
+		<if test="discount  !=null">
+			AND discount = #{discount,jdbcType=DECIMAL} 
+		</if>
+		<if test="deadlineType  !=null">
+			AND deadline_type = #{deadlineType,jdbcType=INTEGER} 
+		</if>
+		<if test="deadlineEnd  !=null">
+			AND deadline_end = #{deadlineEnd,jdbcType=TIMESTAMP} 
+		</if>
+		<if test="deadlineBegin  !=null">
+			AND deadline_begin = #{deadlineBegin,jdbcType=TIMESTAMP} 
+		</if>
+		<if test="deadlineCount  !=null">
+			AND deadline_count = #{deadlineCount,jdbcType=INTEGER} 
+		</if>
+		<if test="sysType  !=null">
+			AND sys_type = #{sysType,jdbcType=INTEGER} 
+		</if>
+		<if test="eachReceiveCount  !=null">
+			AND each_receive_count = #{eachReceiveCount,jdbcType=INTEGER} 
+		</if>
+		<if test="issueCount  !=null">
+			AND issue_count = #{issueCount,jdbcType=BIGINT} 
+		</if>
+		<if test="comment  !=null">
+			AND comment = #{comment,jdbcType=VARCHAR} 
+		</if>
+		<if test="receiveCount  !=null">
+			AND receive_count = #{receiveCount,jdbcType=BIGINT} 
+		</if>
+		<if test="publishUserId  !=null">
+			AND publish_user_id = #{publishUserId,jdbcType=BIGINT} 
+		</if>
+		<if test="publishUser  !=null">
+			AND publish_user = #{publishUser,jdbcType=VARCHAR} 
+		</if>
+		<if test="status  !=null">
+			AND status = #{status,jdbcType=INTEGER} 
+		</if>
+		<if test="limitMoney  !=null">
+			AND limit_money = #{limitMoney,jdbcType=DECIMAL} 
+		</if>
+		<if test="useRange  !=null">
+			AND use_range = #{useRange,jdbcType=INTEGER} 
+		</if>
+		<if test="rangeIds  !=null">
+			AND range_ids = #{rangeIds,jdbcType=VARCHAR} 
+		</if>
+		<if test="createTime  !=null">
+			AND create_time = #{createTime,jdbcType=TIMESTAMP} 
+		</if>
+		<if test="updateTime  !=null">
+			AND update_time = #{updateTime,jdbcType=TIMESTAMP} 
+		</if>
+		<if test="drawStartTime  !=null">
+			AND draw_start_time = #{drawStartTime,jdbcType=TIMESTAMP} 
+		</if>
+		<if test="drawEndTime  !=null">
+			AND draw_end_time = #{drawEndTime,jdbcType=TIMESTAMP} 
+		</if>
+		<if test="oldId  !=null">
+			AND old_id = #{oldId,jdbcType=BIGINT} 
+		</if>
+		<include refid="costomWhereCase"/>
+	</sql>
+
+	<!-- 查询一条，如果返回多条会报错-->
+	<select id="selectOne" parameterType="java.util.Map" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" /> 
+		FROM yjj_coupon_template_new 
+		<include refid="whereCase" /> 
+	</select>
+
+	<!-- 查询一个list-->
+	<select id="selectList" parameterType="java.util.Map" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" /> 
+		FROM yjj_coupon_template_new 
+		<include refid="whereCase" /> 
+	</select>
+
+	<!-- 查询一个list-->
+	<select id="selectCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+		SELECT
+		count(1) 
+		FROM yjj_coupon_template_new
+		<include refid="whereCase" /> 
+	</select>
+
+	<!--  @Costom -->
+	<!-- 从上一行注释以上为系统生成 从这一行往下为用户自定义 请将自定义的sql放在此行下面 -->
+	<sql id="costomWhereCase">
+	</sql>
+
+</mapper>

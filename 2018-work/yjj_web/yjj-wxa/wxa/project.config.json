@@ -1,0 +1,81 @@
+{
+	"description": "项目配置文件。",
+	"setting": {
+		"urlCheck": false,
+		"es6": true,
+		"postcss": true,
+		"minified": true,
+		"newFeature": true,
+		"uglifyFileName": false
+	},
+	"compileType": "miniprogram",
+	"libVersion": "2.2.5",
+	"appid": "wx23d3c43d2f0428c1",
+	"projectname": "%E5%88%86%E9%94%80%E6%AD%A3%E5%BC%8F%E7%BA%BF",
+	"isGameTourist": false,
+	"condition": {
+		"search": {
+			"current": -1,
+			"list": []
+		},
+		"conversation": {
+			"current": -1,
+			"list": []
+		},
+		"plugin": {
+			"current": -1,
+			"list": []
+		},
+		"game": {
+			"currentL": -1,
+			"list": []
+		},
+		"miniprogram": {
+			"current": 1,
+			"list": [
+				{
+					"id": 2,
+					"name": "售后详情",
+					"pathName": "pages/component/refundDetail/refundDetail",
+					"query": ""
+				},
+				{
+					"id": 1,
+					"name": "售后列表",
+					"pathName": "pages/component/refundList/refundList",
+					"query": "orderId=244"
+				},
+				{
+					"id": 4,
+					"name": "退款进度",
+					"pathName": "pages/component/refundProgress/refundProgress",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "新的退款订单详情",
+					"pathName": "pages/component/refundOrderDetail/refundOrderDetail",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "新的订单详情",
+					"pathName": "pages/component/refundOrderDetail/refundOrderDetail",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "退款售后",
+					"pathName": "pages/component/refundOrder/refundOrder",
+					"query": ""
+				},
+				{
+					"id": 6,
+					"name": "售后申请",
+					"pathName": "pages/component/refundApply/refundApply",
+					"query": ""
+				}
+			]
+		}
+	}
+}

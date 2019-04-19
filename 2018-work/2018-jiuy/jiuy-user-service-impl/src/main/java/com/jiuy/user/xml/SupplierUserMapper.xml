@@ -1,0 +1,904 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" > 
+<mapper namespace="com.jiuy.user.mapper.SupplierUserMapper"> 
+ 
+ 	<!-- 主要的返回映射-->
+	<resultMap id="BaseResultMap" type="com.jiuy.user.model.SupplierUser"	>
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="user_id"  property="userId"  jdbcType="BIGINT" />
+		<result column="alipay_name"  property="alipayName"  jdbcType="VARCHAR" />
+		<result column="business_name"  property="businessName"  jdbcType="VARCHAR" />
+		<result column="company_name"  property="companyName"  jdbcType="VARCHAR" />
+		<result column="business_address"  property="businessAddress"  jdbcType="VARCHAR" />
+		<result column="license_number"  property="licenseNumber"  jdbcType="VARCHAR" />
+		<result column="taxid"  property="taxid"  jdbcType="VARCHAR" />
+		<result column="legal_person"  property="legalPerson"  jdbcType="VARCHAR" />
+		<result column="id_card_number"  property="idCardNumber"  jdbcType="VARCHAR" />
+		<result column="province"  property="province"  jdbcType="VARCHAR" />
+		<result column="city"  property="city"  jdbcType="VARCHAR" />
+		<result column="bank_card_flag"  property="bankCardFlag"  jdbcType="TINYINT" />
+		<result column="bank_account_name"  property="bankAccountName"  jdbcType="VARCHAR" />
+		<result column="bank_name"  property="bankName"  jdbcType="VARCHAR" />
+		<result column="bank_account_no"  property="bankAccountNo"  jdbcType="VARCHAR" />
+		<result column="alipay_flag"  property="alipayFlag"  jdbcType="TINYINT" />
+		<result column="alipay_account"  property="alipayAccount"  jdbcType="VARCHAR" />
+		<result column="lowarehouse_id"  property="lowarehouseId"  jdbcType="BIGINT" />
+		<result column="brand_id"  property="brandId"  jdbcType="BIGINT" />
+		<result column="store_number"  property="storeNumber"  jdbcType="INTEGER" />
+		<result column="cash_income"  property="cashIncome"  jdbcType="DECIMAL" />
+		<result column="available_balance"  property="availableBalance"  jdbcType="DECIMAL" />
+		<result column="brand_description"  property="brandDescription"  jdbcType="VARCHAR" />
+		<result column="brand_logo"  property="brandLogo"  jdbcType="VARCHAR" />
+		<result column="brand_show_imgs"  property="brandShowImgs"  jdbcType="VARCHAR" />
+		<result column="commission_percentage"  property="commissionPercentage"  jdbcType="DECIMAL" />
+		<result column="settlement_date"  property="settlementDate"  jdbcType="TINYINT" />
+		<result column="weixin_flag"  property="weixinFlag"  jdbcType="TINYINT" />
+		<result column="weixin_account"  property="weixinAccount"  jdbcType="VARCHAR" />
+		<result column="weixin_name"  property="weixinName"  jdbcType="VARCHAR" />
+		<result column="withdraw_setting"  property="withdrawSetting"  jdbcType="TINYINT" />
+		<result column="express_cash_income"  property="expressCashIncome"  jdbcType="DECIMAL" />
+		<result column="available_express_cash"  property="availableExpressCash"  jdbcType="DECIMAL" />
+		<result column="min_withdrawal"  property="minWithdrawal"  jdbcType="DECIMAL" />
+		<result column="bond"  property="bond"  jdbcType="DECIMAL" />
+		<result column="express_bank_account_name"  property="expressBankAccountName"  jdbcType="VARCHAR" />
+		<result column="express_bank_name"  property="expressBankName"  jdbcType="VARCHAR" />
+		<result column="express_bank_account_no"  property="expressBankAccountNo"  jdbcType="VARCHAR" />
+		<result column="receiver"  property="receiver"  jdbcType="VARCHAR" />
+		<result column="supplier_receive_address"  property="supplierReceiveAddress"  jdbcType="VARCHAR" />
+		<result column="receiver_phone"  property="receiverPhone"  jdbcType="VARCHAR" />
+		<result column="product_permission"  property="productPermission"  jdbcType="VARCHAR" />
+		<result column="campaign_image"  property="campaignImage"  jdbcType="VARCHAR" />
+	</resultMap>
+
+	<!-- 所有的列名-->
+	<sql id="Base_Column_List" >
+		id,user_id,alipay_name,business_name,company_name,business_address,license_number,taxid,legal_person,
+		id_card_number,province,city,bank_card_flag,bank_account_name,bank_name,bank_account_no,alipay_flag,
+		alipay_account,lowarehouse_id,brand_id,store_number,cash_income,available_balance,brand_description,brand_logo,
+		brand_show_imgs,commission_percentage,settlement_date,weixin_flag,weixin_account,weixin_name,withdraw_setting,express_cash_income,
+		available_express_cash,min_withdrawal,bond,express_bank_account_name,express_bank_name,express_bank_account_no,receiver,supplier_receive_address,
+		receiver_phone,product_permission,campaign_image
+	</sql>
+
+	<!-- 精确更新的字段-->
+	<sql id="updateBase">
+		<if test="id  !=null">
+			id = #{id,jdbcType=BIGINT}, 
+		</if>
+		<if test="userId  !=null">
+			user_id = #{userId,jdbcType=BIGINT}, 
+		</if>
+		<if test="alipayName  !=null">
+			alipay_name = #{alipayName,jdbcType=VARCHAR}, 
+		</if>
+		<if test="businessName  !=null">
+			business_name = #{businessName,jdbcType=VARCHAR}, 
+		</if>
+		<if test="companyName  !=null">
+			company_name = #{companyName,jdbcType=VARCHAR}, 
+		</if>
+		<if test="businessAddress  !=null">
+			business_address = #{businessAddress,jdbcType=VARCHAR}, 
+		</if>
+		<if test="licenseNumber  !=null">
+			license_number = #{licenseNumber,jdbcType=VARCHAR}, 
+		</if>
+		<if test="taxid  !=null">
+			taxid = #{taxid,jdbcType=VARCHAR}, 
+		</if>
+		<if test="legalPerson  !=null">
+			legal_person = #{legalPerson,jdbcType=VARCHAR}, 
+		</if>
+		<if test="idCardNumber  !=null">
+			id_card_number = #{idCardNumber,jdbcType=VARCHAR}, 
+		</if>
+		<if test="province  !=null">
+			province = #{province,jdbcType=VARCHAR}, 
+		</if>
+		<if test="city  !=null">
+			city = #{city,jdbcType=VARCHAR}, 
+		</if>
+		<if test="bankCardFlag  !=null">
+			bank_card_flag = #{bankCardFlag,jdbcType=TINYINT}, 
+		</if>
+		<if test="bankAccountName  !=null">
+			bank_account_name = #{bankAccountName,jdbcType=VARCHAR}, 
+		</if>
+		<if test="bankName  !=null">
+			bank_name = #{bankName,jdbcType=VARCHAR}, 
+		</if>
+		<if test="bankAccountNo  !=null">
+			bank_account_no = #{bankAccountNo,jdbcType=VARCHAR}, 
+		</if>
+		<if test="alipayFlag  !=null">
+			alipay_flag = #{alipayFlag,jdbcType=TINYINT}, 
+		</if>
+		<if test="alipayAccount  !=null">
+			alipay_account = #{alipayAccount,jdbcType=VARCHAR}, 
+		</if>
+		<if test="lowarehouseId  !=null">
+			lowarehouse_id = #{lowarehouseId,jdbcType=BIGINT}, 
+		</if>
+		<if test="brandId  !=null">
+			brand_id = #{brandId,jdbcType=BIGINT}, 
+		</if>
+		<if test="storeNumber  !=null">
+			store_number = #{storeNumber,jdbcType=INTEGER}, 
+		</if>
+		<if test="cashIncome  !=null">
+			cash_income = #{cashIncome,jdbcType=DECIMAL}, 
+		</if>
+		<if test="availableBalance  !=null">
+			available_balance = #{availableBalance,jdbcType=DECIMAL}, 
+		</if>
+		<if test="brandDescription  !=null">
+			brand_description = #{brandDescription,jdbcType=VARCHAR}, 
+		</if>
+		<if test="brandLogo  !=null">
+			brand_logo = #{brandLogo,jdbcType=VARCHAR}, 
+		</if>
+		<if test="brandShowImgs  !=null">
+			brand_show_imgs = #{brandShowImgs,jdbcType=VARCHAR}, 
+		</if>
+		<if test="commissionPercentage  !=null">
+			commission_percentage = #{commissionPercentage,jdbcType=DECIMAL}, 
+		</if>
+		<if test="settlementDate  !=null">
+			settlement_date = #{settlementDate,jdbcType=TINYINT}, 
+		</if>
+		<if test="weixinFlag  !=null">
+			weixin_flag = #{weixinFlag,jdbcType=TINYINT}, 
+		</if>
+		<if test="weixinAccount  !=null">
+			weixin_account = #{weixinAccount,jdbcType=VARCHAR}, 
+		</if>
+		<if test="weixinName  !=null">
+			weixin_name = #{weixinName,jdbcType=VARCHAR}, 
+		</if>
+		<if test="withdrawSetting  !=null">
+			withdraw_setting = #{withdrawSetting,jdbcType=TINYINT}, 
+		</if>
+		<if test="expressCashIncome  !=null">
+			express_cash_income = #{expressCashIncome,jdbcType=DECIMAL}, 
+		</if>
+		<if test="availableExpressCash  !=null">
+			available_express_cash = #{availableExpressCash,jdbcType=DECIMAL}, 
+		</if>
+		<if test="minWithdrawal  !=null">
+			min_withdrawal = #{minWithdrawal,jdbcType=DECIMAL}, 
+		</if>
+		<if test="bond  !=null">
+			bond = #{bond,jdbcType=DECIMAL}, 
+		</if>
+		<if test="expressBankAccountName  !=null">
+			express_bank_account_name = #{expressBankAccountName,jdbcType=VARCHAR}, 
+		</if>
+		<if test="expressBankName  !=null">
+			express_bank_name = #{expressBankName,jdbcType=VARCHAR}, 
+		</if>
+		<if test="expressBankAccountNo  !=null">
+			express_bank_account_no = #{expressBankAccountNo,jdbcType=VARCHAR}, 
+		</if>
+		<if test="receiver  !=null">
+			receiver = #{receiver,jdbcType=VARCHAR}, 
+		</if>
+		<if test="supplierReceiveAddress  !=null">
+			supplier_receive_address = #{supplierReceiveAddress,jdbcType=VARCHAR}, 
+		</if>
+		<if test="receiverPhone  !=null">
+			receiver_phone = #{receiverPhone,jdbcType=VARCHAR}, 
+		</if>
+		<if test="productPermission  !=null">
+			product_permission = #{productPermission,jdbcType=VARCHAR}, 
+		</if>
+		<if test="campaignImage  !=null">
+			campaign_image = #{campaignImage,jdbcType=VARCHAR} 
+		</if>
+	</sql>
+
+	<!-- 通过主键查找-->
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="Long" >
+		select 
+		<include refid="Base_Column_List" />
+		from yjj_rb_supplier_user
+		where  id = #{id,jdbcType=BIGINT} 
+	</select>
+
+	<!-- 通过主键删除-->
+	<delete id="deleteByPrimaryKey" parameterType="Long" >
+		delete from yjj_rb_supplier_user
+		where id = #{id,jdbcType=BIGINT} 
+	</delete>
+
+	<!-- 普通插入全字段插入-->
+	<insert id="insert" parameterType="com.jiuy.user.model.SupplierUser" >
+		insert into yjj_rb_supplier_user
+		(
+			id,
+			user_id,
+			alipay_name,
+			business_name,
+			company_name,
+			business_address,
+			license_number,
+			taxid,
+			legal_person,
+			id_card_number,
+			province,
+			city,
+			bank_card_flag,
+			bank_account_name,
+			bank_name,
+			bank_account_no,
+			alipay_flag,
+			alipay_account,
+			lowarehouse_id,
+			brand_id,
+			store_number,
+			cash_income,
+			available_balance,
+			brand_description,
+			brand_logo,
+			brand_show_imgs,
+			commission_percentage,
+			settlement_date,
+			weixin_flag,
+			weixin_account,
+			weixin_name,
+			withdraw_setting,
+			express_cash_income,
+			available_express_cash,
+			min_withdrawal,
+			bond,
+			express_bank_account_name,
+			express_bank_name,
+			express_bank_account_no,
+			receiver,
+			supplier_receive_address,
+			receiver_phone,
+			product_permission,
+			campaign_image,
+		)
+		values
+		(
+			#{id ,jdbcType=BIGINT},
+			#{userId ,jdbcType=BIGINT},
+			#{alipayName ,jdbcType=VARCHAR},
+			#{businessName ,jdbcType=VARCHAR},
+			#{companyName ,jdbcType=VARCHAR},
+			#{businessAddress ,jdbcType=VARCHAR},
+			#{licenseNumber ,jdbcType=VARCHAR},
+			#{taxid ,jdbcType=VARCHAR},
+			#{legalPerson ,jdbcType=VARCHAR},
+			#{idCardNumber ,jdbcType=VARCHAR},
+			#{province ,jdbcType=VARCHAR},
+			#{city ,jdbcType=VARCHAR},
+			#{bankCardFlag ,jdbcType=TINYINT},
+			#{bankAccountName ,jdbcType=VARCHAR},
+			#{bankName ,jdbcType=VARCHAR},
+			#{bankAccountNo ,jdbcType=VARCHAR},
+			#{alipayFlag ,jdbcType=TINYINT},
+			#{alipayAccount ,jdbcType=VARCHAR},
+			#{lowarehouseId ,jdbcType=BIGINT},
+			#{brandId ,jdbcType=BIGINT},
+			#{storeNumber ,jdbcType=INTEGER},
+			#{cashIncome ,jdbcType=DECIMAL},
+			#{availableBalance ,jdbcType=DECIMAL},
+			#{brandDescription ,jdbcType=VARCHAR},
+			#{brandLogo ,jdbcType=VARCHAR},
+			#{brandShowImgs ,jdbcType=VARCHAR},
+			#{commissionPercentage ,jdbcType=DECIMAL},
+			#{settlementDate ,jdbcType=TINYINT},
+			#{weixinFlag ,jdbcType=TINYINT},
+			#{weixinAccount ,jdbcType=VARCHAR},
+			#{weixinName ,jdbcType=VARCHAR},
+			#{withdrawSetting ,jdbcType=TINYINT},
+			#{expressCashIncome ,jdbcType=DECIMAL},
+			#{availableExpressCash ,jdbcType=DECIMAL},
+			#{minWithdrawal ,jdbcType=DECIMAL},
+			#{bond ,jdbcType=DECIMAL},
+			#{expressBankAccountName ,jdbcType=VARCHAR},
+			#{expressBankName ,jdbcType=VARCHAR},
+			#{expressBankAccountNo ,jdbcType=VARCHAR},
+			#{receiver ,jdbcType=VARCHAR},
+			#{supplierReceiveAddress ,jdbcType=VARCHAR},
+			#{receiverPhone ,jdbcType=VARCHAR},
+			#{productPermission ,jdbcType=VARCHAR},
+			#{campaignImage ,jdbcType=VARCHAR}
+		)
+	</insert>
+
+	<!-- 批量插入，全部字段插入-->
+	<insert id="insertBach"   parameterType="List" >
+		insert into yjj_rb_supplier_user
+		(
+			id,
+			user_id,
+			alipay_name,
+			business_name,
+			company_name,
+			business_address,
+			license_number,
+			taxid,
+			legal_person,
+			id_card_number,
+			province,
+			city,
+			bank_card_flag,
+			bank_account_name,
+			bank_name,
+			bank_account_no,
+			alipay_flag,
+			alipay_account,
+			lowarehouse_id,
+			brand_id,
+			store_number,
+			cash_income,
+			available_balance,
+			brand_description,
+			brand_logo,
+			brand_show_imgs,
+			commission_percentage,
+			settlement_date,
+			weixin_flag,
+			weixin_account,
+			weixin_name,
+			withdraw_setting,
+			express_cash_income,
+			available_express_cash,
+			min_withdrawal,
+			bond,
+			express_bank_account_name,
+			express_bank_name,
+			express_bank_account_no,
+			receiver,
+			supplier_receive_address,
+			receiver_phone,
+			product_permission,
+			campaign_image,
+		)
+		values 
+		<foreach collection="list" item="item" separator=",">
+		(
+			#{item.id ,jdbcType=BIGINT},
+			#{item.userId ,jdbcType=BIGINT},
+			#{item.alipayName ,jdbcType=VARCHAR},
+			#{item.businessName ,jdbcType=VARCHAR},
+			#{item.companyName ,jdbcType=VARCHAR},
+			#{item.businessAddress ,jdbcType=VARCHAR},
+			#{item.licenseNumber ,jdbcType=VARCHAR},
+			#{item.taxid ,jdbcType=VARCHAR},
+			#{item.legalPerson ,jdbcType=VARCHAR},
+			#{item.idCardNumber ,jdbcType=VARCHAR},
+			#{item.province ,jdbcType=VARCHAR},
+			#{item.city ,jdbcType=VARCHAR},
+			#{item.bankCardFlag ,jdbcType=TINYINT},
+			#{item.bankAccountName ,jdbcType=VARCHAR},
+			#{item.bankName ,jdbcType=VARCHAR},
+			#{item.bankAccountNo ,jdbcType=VARCHAR},
+			#{item.alipayFlag ,jdbcType=TINYINT},
+			#{item.alipayAccount ,jdbcType=VARCHAR},
+			#{item.lowarehouseId ,jdbcType=BIGINT},
+			#{item.brandId ,jdbcType=BIGINT},
+			#{item.storeNumber ,jdbcType=INTEGER},
+			#{item.cashIncome ,jdbcType=DECIMAL},
+			#{item.availableBalance ,jdbcType=DECIMAL},
+			#{item.brandDescription ,jdbcType=VARCHAR},
+			#{item.brandLogo ,jdbcType=VARCHAR},
+			#{item.brandShowImgs ,jdbcType=VARCHAR},
+			#{item.commissionPercentage ,jdbcType=DECIMAL},
+			#{item.settlementDate ,jdbcType=TINYINT},
+			#{item.weixinFlag ,jdbcType=TINYINT},
+			#{item.weixinAccount ,jdbcType=VARCHAR},
+			#{item.weixinName ,jdbcType=VARCHAR},
+			#{item.withdrawSetting ,jdbcType=TINYINT},
+			#{item.expressCashIncome ,jdbcType=DECIMAL},
+			#{item.availableExpressCash ,jdbcType=DECIMAL},
+			#{item.minWithdrawal ,jdbcType=DECIMAL},
+			#{item.bond ,jdbcType=DECIMAL},
+			#{item.expressBankAccountName ,jdbcType=VARCHAR},
+			#{item.expressBankName ,jdbcType=VARCHAR},
+			#{item.expressBankAccountNo ,jdbcType=VARCHAR},
+			#{item.receiver ,jdbcType=VARCHAR},
+			#{item.supplierReceiveAddress ,jdbcType=VARCHAR},
+			#{item.receiverPhone ,jdbcType=VARCHAR},
+			#{item.productPermission ,jdbcType=VARCHAR},
+			#{item.campaignImage ,jdbcType=VARCHAR}
+		)
+		</foreach>
+	</insert>
+
+	<!-- 精确插入，非null得字段才会插入-->
+	<insert id="insertSelective" parameterType="com.jiuy.user.model.SupplierUser" useGeneratedKeys="true" keyProperty="id" >
+		insert into yjj_rb_supplier_user
+		<trim prefix="(" suffix=")" suffixOverrides="," > 
+			<if test="id !=null">  
+				id,
+			</if>
+			<if test="userId !=null">  
+				user_id,
+			</if>
+			<if test="alipayName !=null">  
+				alipay_name,
+			</if>
+			<if test="businessName !=null">  
+				business_name,
+			</if>
+			<if test="companyName !=null">  
+				company_name,
+			</if>
+			<if test="businessAddress !=null">  
+				business_address,
+			</if>
+			<if test="licenseNumber !=null">  
+				license_number,
+			</if>
+			<if test="taxid !=null">  
+				taxid,
+			</if>
+			<if test="legalPerson !=null">  
+				legal_person,
+			</if>
+			<if test="idCardNumber !=null">  
+				id_card_number,
+			</if>
+			<if test="province !=null">  
+				province,
+			</if>
+			<if test="city !=null">  
+				city,
+			</if>
+			<if test="bankCardFlag !=null">  
+				bank_card_flag,
+			</if>
+			<if test="bankAccountName !=null">  
+				bank_account_name,
+			</if>
+			<if test="bankName !=null">  
+				bank_name,
+			</if>
+			<if test="bankAccountNo !=null">  
+				bank_account_no,
+			</if>
+			<if test="alipayFlag !=null">  
+				alipay_flag,
+			</if>
+			<if test="alipayAccount !=null">  
+				alipay_account,
+			</if>
+			<if test="lowarehouseId !=null">  
+				lowarehouse_id,
+			</if>
+			<if test="brandId !=null">  
+				brand_id,
+			</if>
+			<if test="storeNumber !=null">  
+				store_number,
+			</if>
+			<if test="cashIncome !=null">  
+				cash_income,
+			</if>
+			<if test="availableBalance !=null">  
+				available_balance,
+			</if>
+			<if test="brandDescription !=null">  
+				brand_description,
+			</if>
+			<if test="brandLogo !=null">  
+				brand_logo,
+			</if>
+			<if test="brandShowImgs !=null">  
+				brand_show_imgs,
+			</if>
+			<if test="commissionPercentage !=null">  
+				commission_percentage,
+			</if>
+			<if test="settlementDate !=null">  
+				settlement_date,
+			</if>
+			<if test="weixinFlag !=null">  
+				weixin_flag,
+			</if>
+			<if test="weixinAccount !=null">  
+				weixin_account,
+			</if>
+			<if test="weixinName !=null">  
+				weixin_name,
+			</if>
+			<if test="withdrawSetting !=null">  
+				withdraw_setting,
+			</if>
+			<if test="expressCashIncome !=null">  
+				express_cash_income,
+			</if>
+			<if test="availableExpressCash !=null">  
+				available_express_cash,
+			</if>
+			<if test="minWithdrawal !=null">  
+				min_withdrawal,
+			</if>
+			<if test="bond !=null">  
+				bond,
+			</if>
+			<if test="expressBankAccountName !=null">  
+				express_bank_account_name,
+			</if>
+			<if test="expressBankName !=null">  
+				express_bank_name,
+			</if>
+			<if test="expressBankAccountNo !=null">  
+				express_bank_account_no,
+			</if>
+			<if test="receiver !=null">  
+				receiver,
+			</if>
+			<if test="supplierReceiveAddress !=null">  
+				supplier_receive_address,
+			</if>
+			<if test="receiverPhone !=null">  
+				receiver_phone,
+			</if>
+			<if test="productPermission !=null">  
+				product_permission,
+			</if>
+			<if test="campaignImage !=null">  
+				campaign_image,
+			</if>
+		</trim>
+
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+			<if test="id  !=null">
+				#{id,jdbcType=BIGINT}, 
+			</if>
+			<if test="userId  !=null">
+				#{userId,jdbcType=BIGINT}, 
+			</if>
+			<if test="alipayName  !=null">
+				#{alipayName,jdbcType=VARCHAR}, 
+			</if>
+			<if test="businessName  !=null">
+				#{businessName,jdbcType=VARCHAR}, 
+			</if>
+			<if test="companyName  !=null">
+				#{companyName,jdbcType=VARCHAR}, 
+			</if>
+			<if test="businessAddress  !=null">
+				#{businessAddress,jdbcType=VARCHAR}, 
+			</if>
+			<if test="licenseNumber  !=null">
+				#{licenseNumber,jdbcType=VARCHAR}, 
+			</if>
+			<if test="taxid  !=null">
+				#{taxid,jdbcType=VARCHAR}, 
+			</if>
+			<if test="legalPerson  !=null">
+				#{legalPerson,jdbcType=VARCHAR}, 
+			</if>
+			<if test="idCardNumber  !=null">
+				#{idCardNumber,jdbcType=VARCHAR}, 
+			</if>
+			<if test="province  !=null">
+				#{province,jdbcType=VARCHAR}, 
+			</if>
+			<if test="city  !=null">
+				#{city,jdbcType=VARCHAR}, 
+			</if>
+			<if test="bankCardFlag  !=null">
+				#{bankCardFlag,jdbcType=TINYINT}, 
+			</if>
+			<if test="bankAccountName  !=null">
+				#{bankAccountName,jdbcType=VARCHAR}, 
+			</if>
+			<if test="bankName  !=null">
+				#{bankName,jdbcType=VARCHAR}, 
+			</if>
+			<if test="bankAccountNo  !=null">
+				#{bankAccountNo,jdbcType=VARCHAR}, 
+			</if>
+			<if test="alipayFlag  !=null">
+				#{alipayFlag,jdbcType=TINYINT}, 
+			</if>
+			<if test="alipayAccount  !=null">
+				#{alipayAccount,jdbcType=VARCHAR}, 
+			</if>
+			<if test="lowarehouseId  !=null">
+				#{lowarehouseId,jdbcType=BIGINT}, 
+			</if>
+			<if test="brandId  !=null">
+				#{brandId,jdbcType=BIGINT}, 
+			</if>
+			<if test="storeNumber  !=null">
+				#{storeNumber,jdbcType=INTEGER}, 
+			</if>
+			<if test="cashIncome  !=null">
+				#{cashIncome,jdbcType=DECIMAL}, 
+			</if>
+			<if test="availableBalance  !=null">
+				#{availableBalance,jdbcType=DECIMAL}, 
+			</if>
+			<if test="brandDescription  !=null">
+				#{brandDescription,jdbcType=VARCHAR}, 
+			</if>
+			<if test="brandLogo  !=null">
+				#{brandLogo,jdbcType=VARCHAR}, 
+			</if>
+			<if test="brandShowImgs  !=null">
+				#{brandShowImgs,jdbcType=VARCHAR}, 
+			</if>
+			<if test="commissionPercentage  !=null">
+				#{commissionPercentage,jdbcType=DECIMAL}, 
+			</if>
+			<if test="settlementDate  !=null">
+				#{settlementDate,jdbcType=TINYINT}, 
+			</if>
+			<if test="weixinFlag  !=null">
+				#{weixinFlag,jdbcType=TINYINT}, 
+			</if>
+			<if test="weixinAccount  !=null">
+				#{weixinAccount,jdbcType=VARCHAR}, 
+			</if>
+			<if test="weixinName  !=null">
+				#{weixinName,jdbcType=VARCHAR}, 
+			</if>
+			<if test="withdrawSetting  !=null">
+				#{withdrawSetting,jdbcType=TINYINT}, 
+			</if>
+			<if test="expressCashIncome  !=null">
+				#{expressCashIncome,jdbcType=DECIMAL}, 
+			</if>
+			<if test="availableExpressCash  !=null">
+				#{availableExpressCash,jdbcType=DECIMAL}, 
+			</if>
+			<if test="minWithdrawal  !=null">
+				#{minWithdrawal,jdbcType=DECIMAL}, 
+			</if>
+			<if test="bond  !=null">
+				#{bond,jdbcType=DECIMAL}, 
+			</if>
+			<if test="expressBankAccountName  !=null">
+				#{expressBankAccountName,jdbcType=VARCHAR}, 
+			</if>
+			<if test="expressBankName  !=null">
+				#{expressBankName,jdbcType=VARCHAR}, 
+			</if>
+			<if test="expressBankAccountNo  !=null">
+				#{expressBankAccountNo,jdbcType=VARCHAR}, 
+			</if>
+			<if test="receiver  !=null">
+				#{receiver,jdbcType=VARCHAR}, 
+			</if>
+			<if test="supplierReceiveAddress  !=null">
+				#{supplierReceiveAddress,jdbcType=VARCHAR}, 
+			</if>
+			<if test="receiverPhone  !=null">
+				#{receiverPhone,jdbcType=VARCHAR}, 
+			</if>
+			<if test="productPermission  !=null">
+				#{productPermission,jdbcType=VARCHAR}, 
+			</if>
+			<if test="campaignImage  !=null">
+				#{campaignImage,jdbcType=VARCHAR} 
+			</if>
+		</trim>
+	</insert> 
+
+	<!-- 精确更新-->
+	<update id="updateByPrimaryKeySelective" parameterType="com.jiuy.user.model.SupplierUser" >
+		update yjj_rb_supplier_user
+		<set>
+			<include refid="updateBase"/>
+		</set>
+		where id = #{id,jdbcType=BIGINT} 
+	</update> 
+
+	<!-- 全字段更新 需要注意-->
+	<update id="updateByPrimaryKey" parameterType="com.jiuy.user.model.SupplierUser" >
+		update yjj_rb_supplier_user
+		set 
+			id = #{id ,jdbcType=BIGINT},
+			user_id = #{userId ,jdbcType=BIGINT},
+			alipay_name = #{alipayName ,jdbcType=VARCHAR},
+			business_name = #{businessName ,jdbcType=VARCHAR},
+			company_name = #{companyName ,jdbcType=VARCHAR},
+			business_address = #{businessAddress ,jdbcType=VARCHAR},
+			license_number = #{licenseNumber ,jdbcType=VARCHAR},
+			taxid = #{taxid ,jdbcType=VARCHAR},
+			legal_person = #{legalPerson ,jdbcType=VARCHAR},
+			id_card_number = #{idCardNumber ,jdbcType=VARCHAR},
+			province = #{province ,jdbcType=VARCHAR},
+			city = #{city ,jdbcType=VARCHAR},
+			bank_card_flag = #{bankCardFlag ,jdbcType=TINYINT},
+			bank_account_name = #{bankAccountName ,jdbcType=VARCHAR},
+			bank_name = #{bankName ,jdbcType=VARCHAR},
+			bank_account_no = #{bankAccountNo ,jdbcType=VARCHAR},
+			alipay_flag = #{alipayFlag ,jdbcType=TINYINT},
+			alipay_account = #{alipayAccount ,jdbcType=VARCHAR},
+			lowarehouse_id = #{lowarehouseId ,jdbcType=BIGINT},
+			brand_id = #{brandId ,jdbcType=BIGINT},
+			store_number = #{storeNumber ,jdbcType=INTEGER},
+			cash_income = #{cashIncome ,jdbcType=DECIMAL},
+			available_balance = #{availableBalance ,jdbcType=DECIMAL},
+			brand_description = #{brandDescription ,jdbcType=VARCHAR},
+			brand_logo = #{brandLogo ,jdbcType=VARCHAR},
+			brand_show_imgs = #{brandShowImgs ,jdbcType=VARCHAR},
+			commission_percentage = #{commissionPercentage ,jdbcType=DECIMAL},
+			settlement_date = #{settlementDate ,jdbcType=TINYINT},
+			weixin_flag = #{weixinFlag ,jdbcType=TINYINT},
+			weixin_account = #{weixinAccount ,jdbcType=VARCHAR},
+			weixin_name = #{weixinName ,jdbcType=VARCHAR},
+			withdraw_setting = #{withdrawSetting ,jdbcType=TINYINT},
+			express_cash_income = #{expressCashIncome ,jdbcType=DECIMAL},
+			available_express_cash = #{availableExpressCash ,jdbcType=DECIMAL},
+			min_withdrawal = #{minWithdrawal ,jdbcType=DECIMAL},
+			bond = #{bond ,jdbcType=DECIMAL},
+			express_bank_account_name = #{expressBankAccountName ,jdbcType=VARCHAR},
+			express_bank_name = #{expressBankName ,jdbcType=VARCHAR},
+			express_bank_account_no = #{expressBankAccountNo ,jdbcType=VARCHAR},
+			receiver = #{receiver ,jdbcType=VARCHAR},
+			supplier_receive_address = #{supplierReceiveAddress ,jdbcType=VARCHAR},
+			receiver_phone = #{receiverPhone ,jdbcType=VARCHAR},
+			product_permission = #{productPermission ,jdbcType=VARCHAR},
+			campaign_image = #{campaignImage ,jdbcType=VARCHAR}
+		where id = #{id,jdbcType=BIGINT} 
+	</update> 
+
+	<!-- 所有的条件集合-->
+	<sql id="whereCase"  >
+		where  1=1 
+		<if test="id  !=null">
+			AND id = #{id,jdbcType=BIGINT} 
+		</if>
+		<if test="userId  !=null">
+			AND user_id = #{userId,jdbcType=BIGINT} 
+		</if>
+		<if test="alipayName  !=null">
+			AND alipay_name = #{alipayName,jdbcType=VARCHAR} 
+		</if>
+		<if test="businessName  !=null">
+			AND business_name = #{businessName,jdbcType=VARCHAR} 
+		</if>
+		<if test="companyName  !=null">
+			AND company_name = #{companyName,jdbcType=VARCHAR} 
+		</if>
+		<if test="businessAddress  !=null">
+			AND business_address = #{businessAddress,jdbcType=VARCHAR} 
+		</if>
+		<if test="licenseNumber  !=null">
+			AND license_number = #{licenseNumber,jdbcType=VARCHAR} 
+		</if>
+		<if test="taxid  !=null">
+			AND taxid = #{taxid,jdbcType=VARCHAR} 
+		</if>
+		<if test="legalPerson  !=null">
+			AND legal_person = #{legalPerson,jdbcType=VARCHAR} 
+		</if>
+		<if test="idCardNumber  !=null">
+			AND id_card_number = #{idCardNumber,jdbcType=VARCHAR} 
+		</if>
+		<if test="province  !=null">
+			AND province = #{province,jdbcType=VARCHAR} 
+		</if>
+		<if test="city  !=null">
+			AND city = #{city,jdbcType=VARCHAR} 
+		</if>
+		<if test="bankCardFlag  !=null">
+			AND bank_card_flag = #{bankCardFlag,jdbcType=TINYINT} 
+		</if>
+		<if test="bankAccountName  !=null">
+			AND bank_account_name = #{bankAccountName,jdbcType=VARCHAR} 
+		</if>
+		<if test="bankName  !=null">
+			AND bank_name = #{bankName,jdbcType=VARCHAR} 
+		</if>
+		<if test="bankAccountNo  !=null">
+			AND bank_account_no = #{bankAccountNo,jdbcType=VARCHAR} 
+		</if>
+		<if test="alipayFlag  !=null">
+			AND alipay_flag = #{alipayFlag,jdbcType=TINYINT} 
+		</if>
+		<if test="alipayAccount  !=null">
+			AND alipay_account = #{alipayAccount,jdbcType=VARCHAR} 
+		</if>
+		<if test="lowarehouseId  !=null">
+			AND lowarehouse_id = #{lowarehouseId,jdbcType=BIGINT} 
+		</if>
+		<if test="brandId  !=null">
+			AND brand_id = #{brandId,jdbcType=BIGINT} 
+		</if>
+		<if test="storeNumber  !=null">
+			AND store_number = #{storeNumber,jdbcType=INTEGER} 
+		</if>
+		<if test="cashIncome  !=null">
+			AND cash_income = #{cashIncome,jdbcType=DECIMAL} 
+		</if>
+		<if test="availableBalance  !=null">
+			AND available_balance = #{availableBalance,jdbcType=DECIMAL} 
+		</if>
+		<if test="brandDescription  !=null">
+			AND brand_description = #{brandDescription,jdbcType=VARCHAR} 
+		</if>
+		<if test="brandLogo  !=null">
+			AND brand_logo = #{brandLogo,jdbcType=VARCHAR} 
+		</if>
+		<if test="brandShowImgs  !=null">
+			AND brand_show_imgs = #{brandShowImgs,jdbcType=VARCHAR} 
+		</if>
+		<if test="commissionPercentage  !=null">
+			AND commission_percentage = #{commissionPercentage,jdbcType=DECIMAL} 
+		</if>
+		<if test="settlementDate  !=null">
+			AND settlement_date = #{settlementDate,jdbcType=TINYINT} 
+		</if>
+		<if test="weixinFlag  !=null">
+			AND weixin_flag = #{weixinFlag,jdbcType=TINYINT} 
+		</if>
+		<if test="weixinAccount  !=null">
+			AND weixin_account = #{weixinAccount,jdbcType=VARCHAR} 
+		</if>
+		<if test="weixinName  !=null">
+			AND weixin_name = #{weixinName,jdbcType=VARCHAR} 
+		</if>
+		<if test="withdrawSetting  !=null">
+			AND withdraw_setting = #{withdrawSetting,jdbcType=TINYINT} 
+		</if>
+		<if test="expressCashIncome  !=null">
+			AND express_cash_income = #{expressCashIncome,jdbcType=DECIMAL} 
+		</if>
+		<if test="availableExpressCash  !=null">
+			AND available_express_cash = #{availableExpressCash,jdbcType=DECIMAL} 
+		</if>
+		<if test="minWithdrawal  !=null">
+			AND min_withdrawal = #{minWithdrawal,jdbcType=DECIMAL} 
+		</if>
+		<if test="bond  !=null">
+			AND bond = #{bond,jdbcType=DECIMAL} 
+		</if>
+		<if test="expressBankAccountName  !=null">
+			AND express_bank_account_name = #{expressBankAccountName,jdbcType=VARCHAR} 
+		</if>
+		<if test="expressBankName  !=null">
+			AND express_bank_name = #{expressBankName,jdbcType=VARCHAR} 
+		</if>
+		<if test="expressBankAccountNo  !=null">
+			AND express_bank_account_no = #{expressBankAccountNo,jdbcType=VARCHAR} 
+		</if>
+		<if test="receiver  !=null">
+			AND receiver = #{receiver,jdbcType=VARCHAR} 
+		</if>
+		<if test="supplierReceiveAddress  !=null">
+			AND supplier_receive_address = #{supplierReceiveAddress,jdbcType=VARCHAR} 
+		</if>
+		<if test="receiverPhone  !=null">
+			AND receiver_phone = #{receiverPhone,jdbcType=VARCHAR} 
+		</if>
+		<if test="productPermission  !=null">
+			AND product_permission = #{productPermission,jdbcType=VARCHAR} 
+		</if>
+		<if test="campaignImage  !=null">
+			AND campaign_image = #{campaignImage,jdbcType=VARCHAR} 
+		</if>
+		<include refid="costomWhereCase"/>
+	</sql>
+
+	<!-- 查询一条，如果返回多条会报错-->
+	<select id="selectOne" parameterType="java.util.Map" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" /> 
+		FROM yjj_rb_supplier_user 
+		<include refid="whereCase" /> 
+	</select>
+
+	<!-- 查询一个list-->
+	<select id="selectList" parameterType="java.util.Map" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" /> 
+		FROM yjj_rb_supplier_user 
+		<include refid="whereCase" /> 
+	</select>
+
+	<!--  @Costom -->
+	<!-- 从上一行注释以上为系统生成 从这一行往下为用户自定义 请将自定义的sql放在此行下面 -->
+	<sql id="costomWhereCase">
+	</sql>
+
+</mapper>

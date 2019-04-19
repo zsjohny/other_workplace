@@ -1,0 +1,213 @@
+package com.jiuy.core.dao.support.util;
+
+import com.jiuy.core.exception.ServerUnknownException;
+import com.jiuy.core.util.AnnotationPropertyConfigurer;
+import com.jiuy.core.util.CommonConstant.Encoding;
+import com.jiuy.core.util.TimeConstant.Miliseconds;
+import com.jiuy.core.util.TimeConstant.Seconds;
+import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
+
+import javax.annotation.PostConstruct;
+import java.io.Serializable;
+import java.util.*;
+
+/*************
+ * tair缓存使用的DAO
+ * <property key="tairTimeOutMiliSeconds">5000</property>
+ * <property key="tairNameSpace">100</property>
+ * <property key="tairGroupName">lvguanjia</property>
+ * @author zhuliming
+ */
+public class DAOCacheManagerTairImpl implements DAOCacheManager{
+
+	protected static final Logger logger = Logger.getLogger(DAOCacheManagerTairImpl.class);
+
+	private volatile int totalGetCount = 0;	
+	private volatile int totalHitCount = 0;
+	
+	private int timeOutMiliSeconds = 5000;
+	@AnnotationPropertyConfigurer.AnnotationProperty("tair.namespace")
+	private int namespace = 0;	
+	@AnnotationPropertyConfigurer.AnnotationProperty("tair.groupname")
+	private String groupName = null;	
+	@AnnotationPropertyConfigurer.AnnotationProperty("tair.servers")
+	private String tairConfigServers; //用逗号分隔的tair服务器列表: ie: 127.0.0.1:3199,127.0.0.1:4088
+	
+	private DefaultTairManager tairManager;	
+			
+	//定时器输出信息
+	private Timer infoOutputTimer;
+	
+	@PostConstruct
+	public void init(){
+		if(StringUtils.isBlank(this.groupName) || this.namespace < 0){
+			logger.fatal("Fail to init DAOCacheManagerTairImpl, groupName=" + groupName + ",namespace="+ namespace
+					+ ", tairConfigServers=" + tairConfigServers);
+			throw new ServerUnknownException("Fail to init DAOCacheManagerTairImpl, groupName=" + groupName + ",namespace="+ namespace
+					+ ", tairConfigServers=" + tairConfigServers);
+		}
+		if(timeOutMiliSeconds < 1){
+			timeOutMiliSeconds = 2000;
+		}
+		//解析tair服务器列表		
+		final List<String> tairConfigServerList = new LinkedList<String>();
+		final String[] serverAddresses = (tairConfigServers == null) ? new String[0] : tairConfigServers.split(",");
+		for(final String address: serverAddresses){
+			if(StringUtils.isNotBlank(address)){
+				tairConfigServerList.add(address.trim());
+			}
+		}
+		if(tairConfigServerList.size() < 1){
+			logger.fatal("Fail to init DAOCacheManagerTairImpl, groupName=" + groupName + ",namespace="+ namespace
+					+ ", tairConfigServers=" + tairConfigServers);
+			throw new ServerUnknownException("Fail to init DAOCacheManagerTairImpl, groupName=" + groupName + ",namespace="+ namespace
+					+ ", tairConfigServers=" + tairConfigServers);
+		}
+		//启动服务
+		tairManager = new DefaultTairManager();
+		tairManager.setConfigServerList(tairConfigServerList);
+		
+		tairManager.setGroupName(groupName);
+		tairManager.setTimeout(timeOutMiliSeconds);
+		tairManager.setCompressionThreshold(1100000);
+		tairManager.setCharset(Encoding.UTF8.type);
+		tairManager.init();
+		
+		//启动定时器输出命中信息
+		infoOutputTimer = new Timer();
+		infoOutputTimer.schedule(new TimerTask(){
+			public void run(){
+				logger.error(DAOCacheManagerTairImpl.this.getCacheHitsInformation());
+			}
+		}, Miliseconds.HalfAnHour.miliseconds, Miliseconds.HalfAnHour.miliseconds);
+		logger.error("Success to init tair server @time=" + (new Date()));
+	}
+	
+	/****************
+	 * 将一串key转换成key的列表
+	 * @param keys
+	 * @return
+	 */
+	private List<Object> convert2List(final String... keys){
+		final List<Object> allKeys = new ArrayList<Object>(keys.length);
+		for(String key: keys){
+			allKeys.add(key);
+		}
+		return allKeys;
+	}
+	
+	/***************
+	 * 获取列表
+	 */
+	@SuppressWarnings("unchecked")
+	public <T> List<T> getObjectsFromCache(final String[] keys){
+		if(keys == null || keys.length < 1){
+			return new ArrayList<T>(0);
+		}
+		totalGetCount += 1;		
+		final Result<List<DataEntry>> results = tairManager.mget(namespace, this.convert2List(keys));
+		if(results != null){
+			final List<DataEntry> list = results.getValue();
+			if(list != null){
+				List<T> result = new ArrayList<T>(list.size());
+				for(DataEntry entry: list){
+					if(entry.getValue() != null){
+						result.add((T)entry.getValue());
+					}
+				}
+				if(result.size() == keys.length){
+					totalHitCount += 1;
+				}
+				return result;
+			}
+		}
+		return new ArrayList<T>(0);
+	}
+	
+	/***********
+	 * 获取一个对象
+	 */
+	@SuppressWarnings("unchecked")
+	public <T> T getObjectFromCache(final String key){
+		totalGetCount ++;
+		Result<DataEntry> result = tairManager.get(namespace, key);
+		if(!result.isSuccess() || result.getRc() == ResultCode.DATANOTEXSITS){
+			return null;
+		}		
+	    DataEntry entry = result.getValue();
+		if(entry != null) {
+			totalHitCount ++;
+		    return (T)entry.getValue();
+		}		
+		return null;
+	}
+
+	/***********
+	 * 保存对象
+	 */
+	public void saveObjectIntoCache(final String key, final Serializable obj, final int expireTimeSeconds){
+		if(StringUtils.isBlank(key) || obj == null){
+			return;
+		}
+		ResultCode resultCode = tairManager.put(namespace, key, obj, 0, expireTimeSeconds);
+	    if(!resultCode.isSuccess()){
+	     logger.error("Fail to save memcache object, why? key=" + key 
+	    		 	+ ",code" + resultCode.getCode() 
+	    		 	+", message:"+ resultCode.getMessage());
+	    }
+	}
+
+	/***********
+	 * 将对象保存到缓存中
+	 * @param key
+	 * @param obj
+	 * @param expireTimeSeconds
+	 */
+	public void saveObjectIntoCache(final String key, final Serializable obj){
+		this.saveObjectIntoCache(key, obj, Seconds.OneWeek.seconds);
+	}
+	
+	/*********
+	 * 删除对象
+	 */
+	public void deleteObjectsFromCache(final String[] keys){
+		if(keys != null && keys.length > 0){
+			if(keys.length > 1){
+				tairManager.mdelete(namespace, this.convert2List(keys));
+			}else{
+				this.deleteObjectFromCache(keys[0]);
+			}
+		}
+	}
+	
+	/************
+	 * 删除对象
+	 */
+	public void deleteObjectFromCache(final String key){
+		if(StringUtils.isNotBlank(key)){
+			tairManager.delete(namespace, key);
+		}
+	}
+	
+	/*************
+	 * 增加计数
+	 */
+	public void incrementObjectCount(final String key, int increment, int defaultValue)
+	{
+		Result<Integer> resultCode = tairManager.incr(increment, key, increment, defaultValue, 0);
+		if(!resultCode.isSuccess()){
+		     logger.error("Fail to incrementObjectCount, why? key=" + key 
+		    		 	+ ",code" + resultCode.getRc().getCode() 
+		    		 	+", message:"+ resultCode.getRc().getMessage());
+		}
+	}
+	
+	@Override
+	public String getCacheHitsInformation() {
+		return "DAOCacheManagerTairImpl: total-access=" + this.totalGetCount + ", total-hits=" + this.totalHitCount
+				+ ", ratio=" + (this.totalGetCount>0 ? (int)(this.totalHitCount*100/this.totalGetCount) : 0)
+				+ "%";
+	}
+
+}

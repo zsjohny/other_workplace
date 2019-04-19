@@ -1,0 +1,23 @@
+<!--文字提示框组件-->
+<template name="promptXbox">
+  <view class="com-prompt-wrapper" wx:if="{{isShow}}">
+    <view class='com-prompt-bg' catchtap='{{cancelEvent}}'></view>
+    <view class="com-prompt-main">
+      <view class="com-prompt-box">
+        <view class="com-prompt-head">
+          <view class="icon {{ iconType ? 'success-icon' : 'fail-icon'}}"></view>
+        </view>
+        <view class="com-prompt-title">{{title}}</view>
+        <view class='com-prompt-content'>{{content}}</view>
+        <!-- 立即付款 -->
+        <view wx:if="{{ btnType == '1' }}" class='com-prompt-btn com-prompt-pay-btn' catchtap='{{confirmEvent}}'></view>
+        <!-- 马上去邀请 -->
+        <button wx:if="{{ btnType == '2' }}" class='com-prompt-btn com-prompt-share-btn' open-type="share"></button>
+        <!-- 知道了 -->
+        <view wx:if="{{ btnType == '0' }}" class='com-prompt-btn com-prompt-know-btn' catchtap='{{cancelEvent}}'></view>
+        <!-- 关闭 -->
+        <view class='com-prompt-close-btn' catchtap='{{cancelEvent}}'></view>
+      </view>
+    </view>
+  </view>
+</template>  

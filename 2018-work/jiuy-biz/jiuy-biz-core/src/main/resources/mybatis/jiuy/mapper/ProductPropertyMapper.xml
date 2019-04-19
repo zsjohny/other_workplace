@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jiuy.core.dao.impl.sql.ProductPropertyMapperSqlImpl">
+	<select id="getOrderedProductProperties" parameterType="map" resultType="ProductProp">
+		<![CDATA[
+			select * from yjj_ProductProperty
+			where ProductId = #{ProductId} and IsSKU = #{IsSKU}
+			order by OrderIndex
+		]]>
+	</select>
+	
+	<select id="getProductProperties" parameterType="map" resultType="ProductProp">
+		<![CDATA[
+			select * from yjj_ProductProperty
+			where ProductId = #{productId} and Id in
+		]]>
+		<foreach collection="propertyIds" item="propertyId" open="(" separator="," close=")">
+			<![CDATA[
+				#{propertyId}
+			]]>
+		</foreach>
+	</select>
+
+	<insert id ="insertBatch" parameterType="List" > 
+		<![CDATA[
+    		insert into yjj_ProductProperty( ProductId,PropertyNameId,PropertyValueId, IsSKU, OrderIndex,CreateTime, UpdateTime ) values ]]>
+		<foreach collection ="list" item ="item" index ="index" separator=",">
+			( #{item.productId},#{item.propertyNameId},#{item.propertyValueId},
+			#{item.isSKU},#{item.orderIndex},#{item.createTime},#{item.updateTime})
+		</foreach >
+	</insert >
+	
+	<delete id="deleteByProductIds">
+	<![CDATA[
+			delete from yjj_ProductCategory
+			where ProductId in
+		]]>
+		<foreach collection="ids" item="id" open="(" separator="," close=")">
+			<![CDATA[
+				#{id}
+			]]>
+		</foreach>
+	</delete>
+	
+	<select id="getPropertyByIds" parameterType="map" resultType="int">
+		SELECT Id
+		FROM yjj_ProductProperty
+		WHERE ProductId = #{productId} AND PropertyNameId = #{propertyNameId}
+		limit 1
+	</select>
+	
+	<update id="updateProductProperty" parameterType="map" >
+		UPDATE yjj_ProductProperty
+		SET PropertyValueId = #{propertyValueId}
+		WHERE Id = #{id}
+	</update>
+	
+	<insert id="addProductProperty" parameterType="map">
+		INSERT INTO yjj_ProductProperty(ProductId, PropertyNameId, PropertyValueId)
+		VALUES(#{productId}, #{propertyNameId}, #{propertyValueId})
+	</insert>
+	
+	<update id="updateProductBrand" parameterType="map">
+		UPDATE yjj_ProductProperty
+		SET PropertyValueId = #{brandId}
+		WHERE Id = #{id}
+	</update>
+	
+	<insert id="addProductBrand" parameterType="map">
+		INSERT INTO yjj_ProductProperty(ProductId, PropertyNameId, PropertyValueId, CreateTime, UpdateTime)
+		VALUES(#{productId}, #{propertyNameId}, #{brandId}, #{createTime}, #{updateTime})
+	</insert>
+	
+	<select id="propertiesOfProductIds" resultType="ProductProp">
+		select * from yjj_ProductProperty
+		where ProductId in
+			<foreach collection="productIds" item="productId" open="(" separator="," close=")">
+			#{productId}
+			</foreach>
+	</select>
+	
+	<select id="valueOfNameIdMap" resultType="ProductProp">
+		select * from yjj_ProductProperty
+		where ProductId = #{productId}
+	</select>
+	
+</mapper>

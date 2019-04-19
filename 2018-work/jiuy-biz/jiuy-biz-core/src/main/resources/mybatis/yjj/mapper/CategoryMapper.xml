@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yujj.dao.mapper.CategoryMapper">
+	<select id="getCategories" resultType="Category">
+		<![CDATA[
+			select * from yjj_Category
+			where Status >= 0
+			order by Weight desc
+		]]>
+	</select>
+	<select id="getCategoriesByIdsArr" resultType="Category">
+		<![CDATA[
+			select * from yjj_Category
+			where Status >= 0 and Id in (
+			 ]]>
+			 <foreach collection="arr"    item="vl" separator=","  >
+                <![CDATA[
+			 #{vl}
+			]]>
+            </foreach>
+             <![CDATA[
+			)
+		]]>
+	</select>
+
+	<select id="getParentCategories" resultType="Category">
+		<![CDATA[
+			select * from yjj_Category
+			where Status >= 0 and ParentId = 0 and CategoryType = 0 and CategoryName in (select name from yjj_CategorySetting
+		where Status = 0 and DisplayStatus = 0) order by weight 
+			
+		]]>
+	</select>
+</mapper>

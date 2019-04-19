@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jiuyuan.dao.mapper.MainVedioMapper">
+
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.store.entity.vedio.MainVedio">
+		<id column="id" property="id" />
+		<result column="vedio_url" property="vedioUrl" />
+		<result column="create_time" property="createTime" />
+		<result column="create_user_id" property="createUserId" />
+		<result column="status" property="status" />
+		<result column="last_update_time" property="lastUpdateTime" />
+		<result column="comment" property="comment" />
+	</resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, vedio_url AS vedioUrl, create_time AS createTime, create_user_id AS createUserId, status, last_update_time AS lastUpdateTime, comment
+    </sql>
+
+</mapper>

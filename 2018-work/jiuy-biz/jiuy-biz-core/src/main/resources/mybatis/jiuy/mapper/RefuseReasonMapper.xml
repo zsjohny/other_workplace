@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jiuy.core.dao.impl.sql.RefuseReasonMapper">
+	
+	<insert id="insertRefuseReason" parameterType="map">
+	 <![CDATA[
+	   insert into jiuy_store_audit_refuse
+	   (refuseReason)
+	   values
+	   (#{refuseReason})
+     ]]>
+	</insert>
+	
+	<select id="getList" parameterType="map">
+	  <![CDATA[
+	   select * from jiuy_store_audit_refuse
+      ]]>
+	</select>
+	
+	<delete id="deleteById" parameterType="map">
+	  <![CDATA[
+	   delete from jiuy_store_audit_refuse 
+	   where id = #{id}
+      ]]>
+	</delete>
+</mapper>

@@ -1,0 +1,422 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" > 
+<mapper namespace="com.jiuy.rb.mapper.order.ShopMemberOrderItemRbMapper"> 
+ 
+ 	<!-- 主要的返回映射-->
+	<resultMap id="BaseResultMap" type="com.jiuy.rb.model.order.ShopMemberOrderItemRb"	>
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="order_id"  property="orderId"  jdbcType="BIGINT" />
+		<result column="order_number"  property="orderNumber"  jdbcType="VARCHAR" />
+		<result column="shop_product_id"  property="shopProductId"  jdbcType="BIGINT" />
+		<result column="own"  property="own"  jdbcType="TINYINT" />
+		<result column="product_id"  property="productId"  jdbcType="BIGINT" />
+		<result column="product_sku_id"  property="productSkuId"  jdbcType="BIGINT" />
+		<result column="count"  property="count"  jdbcType="INTEGER" />
+		<result column="summary_images"  property="summaryImages"  jdbcType="VARCHAR" />
+		<result column="name"  property="name"  jdbcType="VARCHAR" />
+		<result column="color"  property="color"  jdbcType="VARCHAR" />
+		<result column="size"  property="size"  jdbcType="VARCHAR" />
+		<result column="price"  property="price"  jdbcType="DECIMAL" />
+		<result column="update_time"  property="updateTime"  jdbcType="BIGINT" />
+		<result column="create_time"  property="createTime"  jdbcType="BIGINT" />
+		<result column="self_count"  property="selfCount"  jdbcType="INTEGER" />
+		<result column="supplier_count"  property="supplierCount"  jdbcType="INTEGER" />
+	</resultMap>
+
+	<!-- 所有的列名-->
+	<sql id="Base_Column_List" >
+		id,order_id,order_number,shop_product_id,own,product_id,product_sku_id,count,summary_images,
+		name,color,size,price,update_time,create_time,self_count,supplier_count
+	</sql>
+
+	<!-- 精确更新的字段-->
+	<sql id="updateBase">
+		<if test="id  !=null">
+			id = #{id,jdbcType=BIGINT},
+		</if>
+		<if test="orderId  !=null">
+			order_id = #{orderId,jdbcType=BIGINT}, 
+		</if>
+		<if test="orderNumber  !=null">
+			order_number = #{orderNumber,jdbcType=VARCHAR}, 
+		</if>
+		<if test="shopProductId  !=null">
+			shop_product_id = #{shopProductId,jdbcType=BIGINT}, 
+		</if>
+		<if test="own  !=null">
+			own = #{own,jdbcType=TINYINT}, 
+		</if>
+		<if test="productId  !=null">
+			product_id = #{productId,jdbcType=BIGINT}, 
+		</if>
+		<if test="productSkuId  !=null">
+			product_sku_id = #{productSkuId,jdbcType=BIGINT}, 
+		</if>
+		<if test="count  !=null">
+			count = #{count,jdbcType=INTEGER}, 
+		</if>
+		<if test="summaryImages  !=null">
+			summary_images = #{summaryImages,jdbcType=VARCHAR}, 
+		</if>
+		<if test="name  !=null">
+			name = #{name,jdbcType=VARCHAR}, 
+		</if>
+		<if test="color  !=null">
+			color = #{color,jdbcType=VARCHAR}, 
+		</if>
+		<if test="size  !=null">
+			size = #{size,jdbcType=VARCHAR}, 
+		</if>
+		<if test="price  !=null">
+			price = #{price,jdbcType=DECIMAL}, 
+		</if>
+		<if test="updateTime  !=null">
+			update_time = #{updateTime,jdbcType=BIGINT}, 
+		</if>
+		<if test="createTime  !=null">
+			create_time = #{createTime,jdbcType=BIGINT},
+		</if>
+		<if test="selfCount  !=null">
+			self_count = #{selfCount,jdbcType=INTEGER},
+		</if>
+		<if test="supplierCount  !=null">
+			supplier_count = #{supplierCount,jdbcType=INTEGER}
+		</if>
+	</sql>
+
+	<!-- 通过主键查找-->
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="Long" >
+		select 
+		<include refid="Base_Column_List" />
+		from shop_member_order_item
+		where  id = #{id,jdbcType=BIGINT} 
+	</select>
+
+	<!-- 通过主键删除-->
+	<delete id="deleteByPrimaryKey" parameterType="Long" >
+		delete from shop_member_order_item
+		where id = #{id,jdbcType=BIGINT} 
+	</delete>
+
+	<!-- 普通插入全字段插t入-->
+	<insert id="insert" parameterType="com.jiuy.rb.model.order.ShopMemberOrderItemRb" >
+		insert into shop_member_order_item
+		(
+			id,
+			order_id,
+			order_number,
+			shop_product_id,
+			own,
+			product_id,
+			product_sku_id,
+			count,
+			summary_images,
+			name,
+			color,
+			size,
+			price,
+			update_time,
+			create_time,
+			self_count,
+			supplier_count
+		)
+		values
+		(
+			#{id ,jdbcType=BIGINT},
+			#{orderId ,jdbcType=BIGINT},
+			#{orderNumber ,jdbcType=VARCHAR},
+			#{shopProductId ,jdbcType=BIGINT},
+			#{own ,jdbcType=TINYINT},
+			#{productId ,jdbcType=BIGINT},
+			#{productSkuId ,jdbcType=BIGINT},
+			#{count ,jdbcType=INTEGER},
+			#{summaryImages ,jdbcType=VARCHAR},
+			#{name ,jdbcType=VARCHAR},
+			#{color ,jdbcType=VARCHAR},
+			#{size ,jdbcType=VARCHAR},
+			#{price ,jdbcType=DECIMAL},
+			#{updateTime ,jdbcType=BIGINT},
+			#{createTime ,jdbcType=BIGINT},
+			#{selfCount ,jdbcType=INTEGER},
+			#{supplierCount ,jdbcType=INTEGER}
+		)
+	</insert>
+
+	<!-- 批量插入，全部字段插入-->
+	<insert id="insertBach"   parameterType="List" >
+		insert into shop_member_order_item
+		(
+		id,
+		order_id,
+		order_number,
+		shop_product_id,
+		own,
+		product_id,
+		product_sku_id,
+		count,
+		summary_images,
+		name,
+		color,
+		size,
+		price,
+		update_time,
+		create_time,
+		self_count,
+		supplier_count
+		)
+		values 
+		<foreach collection="list" item="item" separator=",">
+		(
+			#{item.id ,jdbcType=BIGINT},
+			#{item.orderId ,jdbcType=BIGINT},
+			#{item.orderNumber ,jdbcType=VARCHAR},
+			#{item.shopProductId ,jdbcType=BIGINT},
+			#{item.own ,jdbcType=TINYINT},
+			#{item.productId ,jdbcType=BIGINT},
+			#{item.productSkuId ,jdbcType=BIGINT},
+			#{item.count ,jdbcType=INTEGER},
+			#{item.summaryImages ,jdbcType=VARCHAR},
+			#{item.name ,jdbcType=VARCHAR},
+			#{item.color ,jdbcType=VARCHAR},
+			#{item.size ,jdbcType=VARCHAR},
+			#{item.price ,jdbcType=DECIMAL},
+			#{item.updateTime ,jdbcType=BIGINT},
+			#{item.createTime ,jdbcType=BIGINT},
+			#{item.selfCount ,jdbcType=INTEGER},
+			#{item.supplierCount ,jdbcType=INTEGER}
+			)
+		</foreach>
+	</insert>
+
+	<!-- 精确插入，非null得字段才会插入-->
+	<insert id="insertSelective" parameterType="com.jiuy.rb.model.order.ShopMemberOrderItemRb" useGeneratedKeys="true" keyProperty="id" >
+		insert into shop_member_order_item
+		<trim prefix="(" suffix=")" suffixOverrides="," > 
+			<if test="id !=null">  
+				id,
+			</if>
+			<if test="orderId !=null">  
+				order_id,
+			</if>
+			<if test="orderNumber !=null">  
+				order_number,
+			</if>
+			<if test="shopProductId !=null">  
+				shop_product_id,
+			</if>
+			<if test="own !=null">  
+				own,
+			</if>
+			<if test="productId !=null">  
+				product_id,
+			</if>
+			<if test="productSkuId !=null">  
+				product_sku_id,
+			</if>
+			<if test="count !=null">  
+				count,
+			</if>
+			<if test="summaryImages !=null">  
+				summary_images,
+			</if>
+			<if test="name !=null">  
+				name,
+			</if>
+			<if test="color !=null">  
+				color,
+			</if>
+			<if test="size !=null">  
+				size,
+			</if>
+			<if test="price !=null">  
+				price,
+			</if>
+			<if test="updateTime !=null">  
+				update_time,
+			</if>
+			<if test="createTime !=null">  
+				create_time,
+			</if>
+			<if test="selfCount !=null">
+				self_count,
+			</if>
+			<if test="supplierCount !=null">
+				supplier_count,
+			</if>
+		</trim>
+
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+			<if test="id  !=null">
+				#{id,jdbcType=BIGINT}, 
+			</if>
+			<if test="orderId  !=null">
+				#{orderId,jdbcType=BIGINT}, 
+			</if>
+			<if test="orderNumber  !=null">
+				#{orderNumber,jdbcType=VARCHAR}, 
+			</if>
+			<if test="shopProductId  !=null">
+				#{shopProductId,jdbcType=BIGINT}, 
+			</if>
+			<if test="own  !=null">
+				#{own,jdbcType=TINYINT}, 
+			</if>
+			<if test="productId  !=null">
+				#{productId,jdbcType=BIGINT}, 
+			</if>
+			<if test="productSkuId  !=null">
+				#{productSkuId,jdbcType=BIGINT}, 
+			</if>
+			<if test="count  !=null">
+				#{count,jdbcType=INTEGER}, 
+			</if>
+			<if test="summaryImages  !=null">
+				#{summaryImages,jdbcType=VARCHAR}, 
+			</if>
+			<if test="name  !=null">
+				#{name,jdbcType=VARCHAR}, 
+			</if>
+			<if test="color  !=null">
+				#{color,jdbcType=VARCHAR}, 
+			</if>
+			<if test="size  !=null">
+				#{size,jdbcType=VARCHAR}, 
+			</if>
+			<if test="price  !=null">
+				#{price,jdbcType=DECIMAL}, 
+			</if>
+			<if test="updateTime  !=null">
+				#{updateTime,jdbcType=BIGINT}, 
+			</if>
+			<if test="createTime  !=null">
+				#{createTime,jdbcType=BIGINT},
+			</if>
+			<if test="selfCount  !=null">
+				#{selfCount,jdbcType=INTEGER},
+			</if>
+			<if test="supplierCount  !=null">
+				#{supplierCount,jdbcType=INTEGER}
+			</if>
+		</trim>
+	</insert> 
+
+	<!-- 精确更新-->
+	<update id="updateByPrimaryKeySelective" parameterType="com.jiuy.rb.model.order.ShopMemberOrderItemRb" >
+		update shop_member_order_item
+		<set>
+			<include refid="updateBase"/>
+		</set>
+		where id = #{id,jdbcType=BIGINT} 
+	</update> 
+
+	<!-- 全字段更新 需要注意-->
+	<update id="updateByPrimaryKey" parameterType="com.jiuy.rb.model.order.ShopMemberOrderItemRb" >
+		update shop_member_order_item
+		set 
+			id = #{id ,jdbcType=BIGINT},
+			order_id = #{orderId ,jdbcType=BIGINT},
+			order_number = #{orderNumber ,jdbcType=VARCHAR},
+			shop_product_id = #{shopProductId ,jdbcType=BIGINT},
+			own = #{own ,jdbcType=TINYINT},
+			product_id = #{productId ,jdbcType=BIGINT},
+			product_sku_id = #{productSkuId ,jdbcType=BIGINT},
+			count = #{count ,jdbcType=INTEGER},
+			summary_images = #{summaryImages ,jdbcType=VARCHAR},
+			name = #{name ,jdbcType=VARCHAR},
+			color = #{color ,jdbcType=VARCHAR},
+			size = #{size ,jdbcType=VARCHAR},
+			price = #{price ,jdbcType=DECIMAL},
+			update_time = #{updateTime ,jdbcType=BIGINT},
+			create_time = #{createTime ,jdbcType=BIGINT},
+			self_count = #{selfCount ,jdbcType=INTEGER},
+			supplier_count = #{supplierCount ,jdbcType=INTEGER}
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+
+	<!-- 所有的条件集合-->
+	<sql id="whereCase"  >
+		where  1=1 
+		<if test="id  !=null">
+			AND id = #{id,jdbcType=BIGINT} 
+		</if>
+		<if test="orderId  !=null">
+			AND order_id = #{orderId,jdbcType=BIGINT} 
+		</if>
+		<if test="orderNumber  !=null">
+			AND order_number = #{orderNumber,jdbcType=VARCHAR} 
+		</if>
+		<if test="shopProductId  !=null">
+			AND shop_product_id = #{shopProductId,jdbcType=BIGINT} 
+		</if>
+		<if test="own  !=null">
+			AND own = #{own,jdbcType=TINYINT} 
+		</if>
+		<if test="productId  !=null">
+			AND product_id = #{productId,jdbcType=BIGINT} 
+		</if>
+		<if test="productSkuId  !=null">
+			AND product_sku_id = #{productSkuId,jdbcType=BIGINT} 
+		</if>
+		<if test="count  !=null">
+			AND count = #{count,jdbcType=INTEGER} 
+		</if>
+		<if test="summaryImages  !=null">
+			AND summary_images = #{summaryImages,jdbcType=VARCHAR} 
+		</if>
+		<if test="name  !=null">
+			AND name = #{name,jdbcType=VARCHAR} 
+		</if>
+		<if test="color  !=null">
+			AND color = #{color,jdbcType=VARCHAR} 
+		</if>
+		<if test="size  !=null">
+			AND size = #{size,jdbcType=VARCHAR} 
+		</if>
+		<if test="price  !=null">
+			AND price = #{price,jdbcType=DECIMAL} 
+		</if>
+		<if test="updateTime  !=null">
+			AND update_time = #{updateTime,jdbcType=BIGINT} 
+		</if>
+		<if test="createTime  !=null">
+			AND create_time = #{createTime,jdbcType=BIGINT} 
+		</if>
+		<if test="selfCount  !=null">
+			AND self_count = #{selfCount,jdbcType=INTEGER}
+		</if>
+		<if test="supplierCount  !=null">
+			AND supplier_count = #{supplierCount,jdbcType=INTEGER}
+		</if>
+		<include refid="costomWhereCase"/>
+	</sql>
+
+	<!-- 查询一条，如果返回多条会报错-->
+	<select id="selectOne" parameterType="java.util.Map" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" /> 
+		FROM shop_member_order_item 
+		<include refid="whereCase" /> 
+	</select>
+
+	<!-- 查询一个list-->
+	<select id="selectList" parameterType="java.util.Map" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" /> 
+		FROM shop_member_order_item 
+		<include refid="whereCase" /> 
+	</select>
+
+	<!-- 查询一个list-->
+	<select id="selectCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+		SELECT
+		count(1) 
+		FROM shop_member_order_item
+		<include refid="whereCase" /> 
+	</select>
+
+	<!--  @Costom -->
+	<!-- 从上一行注释以上为系统生成 从这一行往下为用户自定义 请将自定义的sql放在此行下面 -->
+	<sql id="costomWhereCase">
+	</sql>
+
+</mapper>

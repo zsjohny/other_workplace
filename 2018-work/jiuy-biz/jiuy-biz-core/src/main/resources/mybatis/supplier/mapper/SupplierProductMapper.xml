@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.store.dao.mapper.supplier.SupplierProductMapper">
+
+	<!-- 开启二级缓存 -->
+	<cache type="org.mybatis.caches.ehcache.LoggingEhcache"/>
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.jiuy.store.mobile.entity.Product">
+		<id column="Id" property="Id" />
+		<result column="Name" property="Name" />
+		<result column="CategoryId" property="CategoryId" />
+		<result column="DetailImages" property="DetailImages" />
+		<result column="SummaryImages" property="SummaryImages" />
+		<result column="Status" property="Status" />
+		<result column="SaleStartTime" property="SaleStartTime" />
+		<result column="SaleEndTime" property="SaleEndTime" />
+		<result column="SaleCurrencyType" property="SaleCurrencyType" />
+		<result column="SaleTotalCount" property="SaleTotalCount" />
+		<result column="SaleMonthlyMaxCount" property="SaleMonthlyMaxCount" />
+		<result column="Price" property="Price" />
+		<result column="Favorite" property="Favorite" />
+		<result column="AssessmentCount" property="AssessmentCount" />
+		<result column="ExpressFree" property="ExpressFree" />
+		<result column="ExpressDetails" property="ExpressDetails" />
+		<result column="CreateTime" property="CreateTime" />
+		<result column="UpdateTime" property="UpdateTime" />
+		<result column="vip" property="vip" />
+		<result column="ProductSeq" property="ProductSeq" />
+		<result column="remark" property="remark" />
+		<result column="MarketPrice" property="MarketPrice" />
+		<result column="SizeTableImage" property="SizeTableImage" />
+		<result column="ClothesNumber" property="ClothesNumber" />
+		<result column="PromotionImage" property="PromotionImage" />
+		<result column="Weight" property="Weight" />
+		<result column="BrandId" property="BrandId" />
+		<result column="ShowStatus" property="ShowStatus" />
+		<result column="BottomPrice" property="BottomPrice" />
+		<result column="MarketPriceMin" property="MarketPriceMin" />
+		<result column="MarketPriceMax" property="MarketPriceMax" />
+		<result column="Type" property="Type" />
+		<result column="WholeSaleCash" property="WholeSaleCash" />
+		<result column="Cash" property="Cash" />
+		<result column="JiuCoin" property="JiuCoin" />
+		<result column="RestrictHistoryBuy" property="RestrictHistoryBuy" />
+		<result column="RestrictDayBuy" property="RestrictDayBuy" />
+		<result column="PromotionSetting" property="PromotionSetting" />
+		<result column="PromotionCash" property="PromotionCash" />
+		<result column="PromotionJiuCoin" property="PromotionJiuCoin" />
+		<result column="PromotionStartTime" property="PromotionStartTime" />
+		<result column="PromotionEndTime" property="PromotionEndTime" />
+		<result column="RestrictCycle" property="RestrictCycle" />
+		<result column="RestrictHistoryBuyTime" property="RestrictHistoryBuyTime" />
+		<result column="RestrictDayBuyTime" property="RestrictDayBuyTime" />
+		<result column="LOWarehouseId" property="LOWarehouseId" />
+		<result column="Description" property="Description" />
+		<result column="RestrictId" property="RestrictId" />
+		<result column="VCategoryId" property="VCategoryId" />
+		<result column="Together" property="Together" />
+		<result column="CartSttstcs" property="CartSttstcs" />
+		<result column="HotSttstcs" property="HotSttstcs" />
+		<result column="SubscriptId" property="SubscriptId" />
+		<result column="BuyType" property="BuyType" />
+		<result column="DisplayType" property="DisplayType" />
+		<result column="PromotionBuyType" property="PromotionBuyType" />
+		<result column="PromotionDisplayType" property="PromotionDisplayType" />
+		<result column="PromotionSaleCount" property="PromotionSaleCount" />
+		<result column="PromotionVisitCount" property="PromotionVisitCount" />
+		<result column="LOWarehouseId2" property="LOWarehouseId2" />
+		<result column="SetLOWarehouseId2" property="SetLOWarehouseId2" />
+		<result column="DeductPercent" property="DeductPercent" />
+		<result column="videoUrl" property="videoUrl" />
+		<result column="videoName" property="videoName" />
+		<result column="videoFileId" property="videoFileId" />
+		<result column="ladderPriceJson" property="ladderPriceJson" />
+		<result column="maxLadderPrice" property="maxLadderPrice" />
+		<result column="supplierId" property="supplierId" />
+		<result column="minLadderPrice" property="minLadderPrice" />
+	</resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        Id, Name, CategoryId, DetailImages, SummaryImages, Status, SaleStartTime, SaleEndTime, SaleCurrencyType, SaleTotalCount, SaleMonthlyMaxCount, Price, Favorite, AssessmentCount, ExpressFree, ExpressDetails, CreateTime, UpdateTime, vip, ProductSeq, remark, MarketPrice, SizeTableImage, ClothesNumber, PromotionImage, Weight, BrandId, ShowStatus, BottomPrice, MarketPriceMin, MarketPriceMax, Type, WholeSaleCash, Cash, JiuCoin, RestrictHistoryBuy, RestrictDayBuy, PromotionSetting, PromotionCash, PromotionJiuCoin, PromotionStartTime, PromotionEndTime, RestrictCycle, RestrictHistoryBuyTime, RestrictDayBuyTime, LOWarehouseId, Description, RestrictId, VCategoryId, Together, CartSttstcs, HotSttstcs, SubscriptId, BuyType, DisplayType, PromotionBuyType, PromotionDisplayType, PromotionSaleCount, PromotionVisitCount, LOWarehouseId2, SetLOWarehouseId2, DeductPercent, videoUrl, videoName, videoFileId, ladderPriceJson, maxLadderPrice, supplierId, minLadderPrice
+    </sql>
+    
+    
+    
+
+</mapper>

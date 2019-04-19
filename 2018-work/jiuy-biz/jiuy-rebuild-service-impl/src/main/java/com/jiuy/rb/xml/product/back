@@ -1,0 +1,62 @@
+	<![CDATA[
+		SELECT
+			id AS id,
+			store_id AS storeId,
+			activity_title AS activityTitle,
+			shop_product_id AS shopProductId,
+			clothes_number AS clothesNumber,
+			shop_product_name AS shopProductName,
+			shop_product_mainimg AS shopProductMainimg,
+			shop_product_showcase_imgs AS shopProductShowcaseImgs,
+			activity_product_price AS activityProductPrice,
+			activity_price AS activityPrice,
+			activity_product_count AS activityProductCount,
+			activity_start_time AS activityStartTime,
+			activity_end_time AS activityEndTime,
+			activity_hand_end_time AS activityHandEndTime,
+			activity_member_count AS activityMemberCount,
+			ordered_product_count AS orderedProductCount,
+			del_state AS delState,
+			create_time AS createTime,
+			update_time AS updateTime,
+
+			-- 进行中活动按结束时间升序
+			CASE
+				WHEN activity_hand_end_time = 0 AND activity_end_time > #{gtActivityEndTime}
+					THEN CASE
+								-- 进行中
+								WHEN activity_start_time < #{gtActivityEndTime} THEN activity_end_time
+								-- 待开始
+								ELSE 8888888888888
+							 END
+					ELSE  8888888888888
+			END AS doingAct,
+			-- 未开始活动按开始时间升序
+						CASE
+				WHEN activity_hand_end_time = 0 AND activity_end_time > #{gtActivityEndTime}
+					THEN CASE
+								WHEN activity_start_time >= #{gtActivityEndTime} THEN activity_start_time
+								ELSE 8888888888888
+							 END
+				-- 活动已结束
+					ELSE 8888888888888
+			END AS unstartAct,
+			-- 已结束的按结束时间降序
+			CASE
+				WHEN activity_hand_end_time>0 THEN activity_hand_end_time
+				WHEN activity_end_time <= #{gtActivityEndTime} THEN activity_end_time
+				ELSE 0
+			END AS overAct
+		FROM
+			store_second_buy_activity
+		WHERE
+			1=1
+		 ]]>
+		<if test="storeId != null">
+			AND store_id = #{storeId}
+		</if>
+		AND del_state = 0
+		ORDER BY
+		doingAct ASC,
+		unstartAct ASC,
+		overAct DESC

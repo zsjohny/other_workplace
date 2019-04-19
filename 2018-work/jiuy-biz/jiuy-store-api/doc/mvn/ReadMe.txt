@@ -1,0 +1,1 @@
+1、覆盖settings.xml到MVN_HOME/，即可使用nexus搭建的私有仓库。

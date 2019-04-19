@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jiuyuan.dao.mapper.supplier.StoreCouponNewMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.jiuyuan.entity.newentity.StoreCouponNew">
+        <id column="Id" property="Id"/>
+        <result column="OrderNo" property="OrderNo"/>
+        <result column="Code" property="Code"/>
+        <result column="CouponTemplateId" property="CouponTemplateId"/>
+        <result column="TemplateName" property="TemplateName"/>
+        <result column="Type" property="Type"/>
+        <result column="Money" property="Money"/>
+        <result column="RangeType" property="RangeType"/>
+        <result column="RangeContent" property="RangeContent"/>
+        <result column="ValidityStartTime" property="ValidityStartTime"/>
+        <result column="ValidityEndTime" property="ValidityEndTime"/>
+        <result column="IsLimit" property="IsLimit"/>
+        <result column="Coexist" property="Coexist"/>
+        <result column="StoreId" property="StoreId"/>
+        <result column="BusinessNumber" property="BusinessNumber"/>
+        <result column="Status" property="Status"/>
+        <result column="CreateTime" property="CreateTime"/>
+        <result column="UpdateTime" property="UpdateTime"/>
+        <result column="PushStatus" property="PushStatus"/>
+        <result column="PushTitle" property="PushTitle"/>
+        <result column="PushDescription" property="PushDescription"/>
+        <result column="PushUrl" property="PushUrl"/>
+        <result column="PushImage" property="PushImage"/>
+        <result column="PublishAdminId" property="PublishAdminId"/>
+        <result column="GrantAdminId" property="GrantAdminId"/>
+        <result column="GetWay" property="GetWay"/>
+        <result column="LimitMoney" property="LimitMoney"/>
+        <result column="RangeTypeIds" property="RangeTypeIds"/>
+        <result column="RangeTypeNames" property="RangeTypeNames"/>
+    </resultMap>
+
+    <select id="availableCoupon" resultType="com.jiuyuan.entity.newentity.StoreCouponNew">
+	    <![CDATA[
+        SELECT *
+        FROM store_Coupon
+        WHERE Status != -1
+              AND LimitMoney <= #{amount}
+              AND ValidityStartTime <= UNIX_TIMESTAMP() * 1000
+              AND (ValidityEndTime = 0
+                   OR ValidityEndTime > UNIX_TIMESTAMP() * 1000)
+              AND (RangeType = 2
+                   OR RangeType = 5
+                      AND RangeTypeIds LIKE CONCAT('%', #{brandId}, '%')
+                   OR RangeType = 0
+                      AND RangeTypeIds LIKE CONCAT('%', #{brandId}, '%'))
+              AND (id NOT IN (SELECT CouponId
+                              FROM store_CouponUseLog
+                              WHERE STATUS = 0
+                                    AND userId = #{storeId})
+                   AND storeId IS NULL
+                   AND TYPE = 1
+                   AND CreateTime > (
+            SELECT a.CreateTime
+            FROM yjj_StoreBusiness a
+            WHERE id = #{storeId}
+        )
+                   OR StoreId = #{storeId}
+                      AND STATUS = 0)
+        ORDER BY money DESC
+        ]]>
+	</select>
+
+
+</mapper>

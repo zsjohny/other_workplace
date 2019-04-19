@@ -1,0 +1,11 @@
+<!--保存相册授权提示框-->
+<view class="popup-wrapper" hidden="{{!isShow}}">
+  <view class='popup-bg' bindtap='_cancelEvent'></view>
+  <view class="popup-main">
+    <view class="popup-title">小程序图片保存失败，请设置权限</view>
+    <view class='popup-operator'>
+      <view class='popup-close-btn' catchtap='_cancelEvent'>取消</view>
+      <button class='popup-btn' open-type="openSetting" lang="zh_CN" bindopensetting="_settingCallback">去设置</button>
+    </view>
+  </view>
+</view>

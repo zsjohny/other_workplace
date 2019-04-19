@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jiuy.core.dao.impl.sql.GlobalSettingSqlImpl">
+
+	<update id="deleteSetting" parameterType="String">
+		update
+		yjj_GlobalSetting
+		set Status = -1
+		where PropertyName = #{propertyName}
+		and Status = 0
+	</update>
+
+	<select id="getSettingByPropertyName" resultType="GlobalSetting">
+		SELECT * FROM
+		yjj_GlobalSetting
+		where PropertyName = #{propertyName} and Status = 0
+	</select>
+	
+	<insert id="add">
+		insert yjj_GlobalSetting(PropertyName, PropertyValue, CreateTime, UpdateTime, GroupId, GroupName)
+		values (#{propertyName}, #{propertyValue}, #{createTime}, #{updateTime}, #{groupId}, #{groupName})
+		on duplicate key update PropertyValue = VALUES(PropertyValue), UpdateTime = #{updateTime}
+	</insert>
+	
+	<update id="update">
+		update yjj_GlobalSetting
+		<set>
+			<if test="propertyValue != null">
+				PropertyValue = #{propertyValue},
+			</if>
+			<if test="groupId != null">
+				GroupId = #{groupId},
+			</if>
+			<if test="groupName != null">
+				GroupName = #{groupName},
+			</if>
+			<if test="updateTime != null">
+				UpdateTime = #{updateTime}
+			</if>
+		</set>
+		where PropertyName = #{propertyName}
+	</update>
+	
+	<select id="settingsOfName" resultType="GlobalSetting">
+		select * from yjj_GlobalSetting
+		<where>
+			<if test="propertyNames != null">
+				PropertyName in 
+				<foreach collection="propertyNames" item="propertyName" open="(" separator="," close=")">
+					#{propertyName}	
+				</foreach>
+			</if>
+		</where>
+	</select>
+	
+	<select id="search" resultType="String">
+		select PropertyValue from yjj_GlobalSetting
+		where PropertyName = #{propertyName}
+	</select>
+	
+	<update id="resetProductSeasonWeight">
+		Update yjj_ProductSeasonWeight
+		Set Weight = 1
+	</update>
+	
+	<insert id="addProductSeasonWeight" parameterType="map">
+		INSERT INTO yjj_ProductSeasonWeight (SeasonName,SeasonValue,Weight,CreateTime,UpdateTime,Status)
+		VALUES
+			<foreach collection="productSeasonWeights" item="productSeasonWeight" index="index"
+			separator=",">
+			( #{productSeasonWeight.name},#{productSeasonWeight.property_value_id},#{productSeasonWeight.weight},#{productSeasonWeight.createTime},
+			#{productSeasonWeight.updateTime},#{productSeasonWeight.status})
+		</foreach>
+		<![CDATA[ ON DUPLICATE KEY UPDATE
+				Weight = VALUES(Weight), UpdateTime = VALUES(UpdateTime)
+			]]>
+	</insert>
+	
+</mapper>

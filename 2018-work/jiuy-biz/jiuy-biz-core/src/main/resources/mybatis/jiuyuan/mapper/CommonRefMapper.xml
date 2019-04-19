@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.jiuyuan.dao.mapper.CommonRefMapper">
+
+
+    <!--查询优惠券-->
+    <select id="selectCoupon" resultType="com.jiuyuan.common.CouponRbRef">
+        SELECT
+            cn.id,
+            cn.price,
+            cn.discount,
+            template_id AS templateId,
+            template_name AS templateName,
+            ctn.publish_user_id as publishUserId,
+            ctn.publish_user as publishUser,
+            cn.status,
+            cn.limit_money as limitMoney
+        FROM
+            yjj_coupon_new as cn
+            LEFT JOIN yjj_coupon_template_new as ctn on ctn.id = cn.template_id
+        where cn.id = #{id}  and sys_type = #{sysType} and cn.`status` = 0 and NOW() &lt;= cn.use_end_time
+    </select>
+
+    <!--修改优惠券状态 标记为已使用 -->
+    <update id="updateCouponStatus">
+        update yjj_coupon_new  set status = #{targetStatus},update_time = NOW(),order_no = #{orderNo} where id = #{id} and status = #{sourceStatus}
+    </update>
+
+    <!--修改优惠券状态 标记为已使用 -->
+    <update id="updateCouponStatusMoney">
+        update yjj_coupon_new  set status = #{targetStatus},update_time = NOW(),order_no = #{orderNo},order_favorable_mone=#{discountMoney},order_money=#{orderMoney} where id = #{id} and status = #{sourceStatus}
+    </update>
+
+
+    <!--通过参数查询-->
+    <select id="selectCouponByParam" resultType="com.jiuyuan.common.CouponRbRef" parameterType="Map">
+        SELECT
+            cn.id,
+            cn.price,
+            cn.discount,
+            template_id AS templateId,
+            template_name AS templateName,
+            ctn.publish_user_id as publishUserId,
+            ctn.publish_user as publishUser,
+            cn.status
+        FROM
+            yjj_coupon_new as cn
+            LEFT JOIN yjj_coupon_template_new as ctn on ctn.id = cn.template_id
+         where 1 = 1
+           <if test="id!=null">
+             and cn.id = #{id}
+           </if>
+          <if test="orderNo">
+            and cn.order_no = #{orderNo}
+          </if>
+    </select>
+</mapper>

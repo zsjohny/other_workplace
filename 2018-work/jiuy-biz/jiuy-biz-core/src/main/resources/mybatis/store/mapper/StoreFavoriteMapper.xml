@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.store.dao.mapper.StoreFavoriteMapper">
+	
+	<insert id="add" useGeneratedKeys="true" keyProperty="id">
+		<![CDATA[
+			insert into store_Favorite
+			(StoreId, RelatedId, Type, Status, CreateTime, UpdateTime)
+			values
+			(#{storeId}, #{relatedId}, #{type}, #{status}, #{createTime}, #{updateTime})
+			on duplicate key
+			update Status = 0, UpdateTime = values(UpdateTime)
+		]]>
+	</insert>
+	
+	<select id="getFavorite" resultType="StoreFavorite">
+		select * from store_Favorite
+		<where>
+			Status = 0 
+			<if test="storeId != null">
+				and StoreId = #{storeId}
+			</if>
+			<if test="relatedId != null">
+				and RelatedId = #{relatedId}
+			</if>
+			<if test="type != null">
+				and Type = #{type}
+			</if>
+		</where>
+	</select>
+	
+	<update id="cancel">
+		update store_Favorite
+		set Status = -1, UpdateTime = #{updateTime}
+		where Type = #{type} and RelatedId = #{relatedId} and StoreId = #{storeId}
+	</update>
+	
+	<select id="searchCountByType" resultType="int">
+		select count(1) from store_Favorite
+		where Type = #{type} and StoreId = #{storeId}
+	</select>
+	
+	<select id="searchByType" resultType="StoreFavorite">
+		select * from store_Favorite
+		where Type = #{type} and StoreId = #{storeId}
+		limit #{pageQuery.limit} offset #{pageQuery.offset}
+	</select>
+	
+</mapper>

@@ -1,0 +1,4 @@
+<!--提现规则-->
+<view class="share-box">
+  <web-view src="{{websiteUrl}}"></web-view>
+</view>

@@ -1,0 +1,857 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" > 
+<mapper namespace="com.jiuy.product.mapper.StoreCouponTemplateMapper"> 
+ 
+ 	<!-- 主要的返回映射-->
+	<resultMap id="BaseResultMap" type="com.jiuy.product.model.StoreCouponTemplate"	>
+		<id column="Id" property="id" jdbcType="BIGINT" />
+		<result column="Name"  property="name"  jdbcType="VARCHAR" />
+		<result column="Type"  property="type"  jdbcType="TINYINT" />
+		<result column="Money"  property="money"  jdbcType="DECIMAL" />
+		<result column="RangeType"  property="rangeType"  jdbcType="TINYINT" />
+		<result column="RangeContent"  property="rangeContent"  jdbcType="VARCHAR" />
+		<result column="ValidityStartTime"  property="validityStartTime"  jdbcType="BIGINT" />
+		<result column="ValidityEndTime"  property="validityEndTime"  jdbcType="BIGINT" />
+		<result column="IsLimit"  property="isLimit"  jdbcType="INTEGER" />
+		<result column="PublishCount"  property="publishCount"  jdbcType="INTEGER" />
+		<result column="GrantCount"  property="grantCount"  jdbcType="INTEGER" />
+		<result column="AvailableCount"  property="availableCount"  jdbcType="INTEGER" />
+		<result column="Coexist"  property="coexist"  jdbcType="TINYINT" />
+		<result column="Status"  property="status"  jdbcType="TINYINT" />
+		<result column="CreateTime"  property="createTime"  jdbcType="BIGINT" />
+		<result column="UpdateTime"  property="updateTime"  jdbcType="BIGINT" />
+		<result column="LimitMoney"  property="limitMoney"  jdbcType="DECIMAL" />
+		<result column="ExchangeJiuCoinSetting"  property="exchangeJiuCoinSetting"  jdbcType="TINYINT" />
+		<result column="ExchangeJiuCoinCost"  property="exchangeJiuCoinCost"  jdbcType="INTEGER" />
+		<result column="ExchangeLimitTotalCount"  property="exchangeLimitTotalCount"  jdbcType="INTEGER" />
+		<result column="ExchangeLimitSingleCount"  property="exchangeLimitSingleCount"  jdbcType="INTEGER" />
+		<result column="ExchangeCount"  property="exchangeCount"  jdbcType="INTEGER" />
+		<result column="ExchangeStartTime"  property="exchangeStartTime"  jdbcType="BIGINT" />
+		<result column="ExchangeEndTime"  property="exchangeEndTime"  jdbcType="BIGINT" />
+		<result column="PromotionJiuCoinSetting"  property="promotionJiuCoinSetting"  jdbcType="TINYINT" />
+		<result column="PromotionJiuCoin"  property="promotionJiuCoin"  jdbcType="INTEGER" />
+		<result column="PromotionStartTime"  property="promotionStartTime"  jdbcType="BIGINT" />
+		<result column="PromotionEndTime"  property="promotionEndTime"  jdbcType="BIGINT" />
+		<result column="RangeTypeIds"  property="rangeTypeIds"  jdbcType="VARCHAR" />
+		<result column="RangeTypeNames"  property="rangeTypeNames"  jdbcType="VARCHAR" />
+		<result column="supplier_id"  property="supplierId"  jdbcType="BIGINT" />
+		<result column="limit_draw"  property="limitDraw"  jdbcType="INTEGER" />
+		<result column="draw_start_time"  property="drawStartTime"  jdbcType="BIGINT" />
+		<result column="draw_end_time"  property="drawEndTime"  jdbcType="BIGINT" />
+		<result column="publisher"  property="publisher"  jdbcType="VARCHAR" />
+		<result column="publish_status"  property="publishStatus"  jdbcType="TINYINT" />
+		<result column="valid_total_count"  property="validTotalCount"  jdbcType="INTEGER" />
+		<result column="valid_total_amount"  property="validTotalAmount"  jdbcType="DECIMAL" />
+		<result column="used_count"  property="usedCount"  jdbcType="INTEGER" />
+		<result column="cancel_count"  property="cancelCount"  jdbcType="INTEGER" />
+		<result column="draw_status"  property="drawStatus"  jdbcType="TINYINT" />
+	</resultMap>
+
+	<!-- 所有的列名-->
+	<sql id="Base_Column_List" >
+		Id,Name,Type,Money,RangeType,RangeContent,ValidityStartTime,ValidityEndTime,IsLimit,
+		PublishCount,GrantCount,AvailableCount,Coexist,Status,CreateTime,UpdateTime,LimitMoney,
+		ExchangeJiuCoinSetting,ExchangeJiuCoinCost,ExchangeLimitTotalCount,ExchangeLimitSingleCount,ExchangeCount,ExchangeStartTime,ExchangeEndTime,PromotionJiuCoinSetting,
+		PromotionJiuCoin,PromotionStartTime,PromotionEndTime,RangeTypeIds,RangeTypeNames,supplier_id,limit_draw,draw_start_time,
+		draw_end_time,publisher,publish_status,valid_total_count,valid_total_amount,used_count,cancel_count,draw_status
+	</sql>
+
+	<!-- 精确更新的字段-->
+	<sql id="updateBase">
+		<if test="id  !=null">
+			Id = #{id,jdbcType=BIGINT}, 
+		</if>
+		<if test="name  !=null">
+			Name = #{name,jdbcType=VARCHAR}, 
+		</if>
+		<if test="type  !=null">
+			Type = #{type,jdbcType=TINYINT}, 
+		</if>
+		<if test="money  !=null">
+			Money = #{money,jdbcType=DECIMAL}, 
+		</if>
+		<if test="rangeType  !=null">
+			RangeType = #{rangeType,jdbcType=TINYINT}, 
+		</if>
+		<if test="rangeContent  !=null">
+			RangeContent = #{rangeContent,jdbcType=VARCHAR}, 
+		</if>
+		<if test="validityStartTime  !=null">
+			ValidityStartTime = #{validityStartTime,jdbcType=BIGINT}, 
+		</if>
+		<if test="validityEndTime  !=null">
+			ValidityEndTime = #{validityEndTime,jdbcType=BIGINT}, 
+		</if>
+		<if test="isLimit  !=null">
+			IsLimit = #{isLimit,jdbcType=INTEGER}, 
+		</if>
+		<if test="publishCount  !=null">
+			PublishCount = #{publishCount,jdbcType=INTEGER}, 
+		</if>
+		<if test="grantCount  !=null">
+			GrantCount = #{grantCount,jdbcType=INTEGER}, 
+		</if>
+		<if test="availableCount  !=null">
+			AvailableCount = #{availableCount,jdbcType=INTEGER}, 
+		</if>
+		<if test="coexist  !=null">
+			Coexist = #{coexist,jdbcType=TINYINT}, 
+		</if>
+		<if test="status  !=null">
+			Status = #{status,jdbcType=TINYINT}, 
+		</if>
+		<if test="createTime  !=null">
+			CreateTime = #{createTime,jdbcType=BIGINT}, 
+		</if>
+		<if test="updateTime  !=null">
+			UpdateTime = #{updateTime,jdbcType=BIGINT}, 
+		</if>
+		<if test="limitMoney  !=null">
+			LimitMoney = #{limitMoney,jdbcType=DECIMAL}, 
+		</if>
+		<if test="exchangeJiuCoinSetting  !=null">
+			ExchangeJiuCoinSetting = #{exchangeJiuCoinSetting,jdbcType=TINYINT}, 
+		</if>
+		<if test="exchangeJiuCoinCost  !=null">
+			ExchangeJiuCoinCost = #{exchangeJiuCoinCost,jdbcType=INTEGER}, 
+		</if>
+		<if test="exchangeLimitTotalCount  !=null">
+			ExchangeLimitTotalCount = #{exchangeLimitTotalCount,jdbcType=INTEGER}, 
+		</if>
+		<if test="exchangeLimitSingleCount  !=null">
+			ExchangeLimitSingleCount = #{exchangeLimitSingleCount,jdbcType=INTEGER}, 
+		</if>
+		<if test="exchangeCount  !=null">
+			ExchangeCount = #{exchangeCount,jdbcType=INTEGER}, 
+		</if>
+		<if test="exchangeStartTime  !=null">
+			ExchangeStartTime = #{exchangeStartTime,jdbcType=BIGINT}, 
+		</if>
+		<if test="exchangeEndTime  !=null">
+			ExchangeEndTime = #{exchangeEndTime,jdbcType=BIGINT}, 
+		</if>
+		<if test="promotionJiuCoinSetting  !=null">
+			PromotionJiuCoinSetting = #{promotionJiuCoinSetting,jdbcType=TINYINT}, 
+		</if>
+		<if test="promotionJiuCoin  !=null">
+			PromotionJiuCoin = #{promotionJiuCoin,jdbcType=INTEGER}, 
+		</if>
+		<if test="promotionStartTime  !=null">
+			PromotionStartTime = #{promotionStartTime,jdbcType=BIGINT}, 
+		</if>
+		<if test="promotionEndTime  !=null">
+			PromotionEndTime = #{promotionEndTime,jdbcType=BIGINT}, 
+		</if>
+		<if test="rangeTypeIds  !=null">
+			RangeTypeIds = #{rangeTypeIds,jdbcType=VARCHAR}, 
+		</if>
+		<if test="rangeTypeNames  !=null">
+			RangeTypeNames = #{rangeTypeNames,jdbcType=VARCHAR}, 
+		</if>
+		<if test="supplierId  !=null">
+			supplier_id = #{supplierId,jdbcType=BIGINT}, 
+		</if>
+		<if test="limitDraw  !=null">
+			limit_draw = #{limitDraw,jdbcType=INTEGER}, 
+		</if>
+		<if test="drawStartTime  !=null">
+			draw_start_time = #{drawStartTime,jdbcType=BIGINT}, 
+		</if>
+		<if test="drawEndTime  !=null">
+			draw_end_time = #{drawEndTime,jdbcType=BIGINT}, 
+		</if>
+		<if test="publisher  !=null">
+			publisher = #{publisher,jdbcType=VARCHAR}, 
+		</if>
+		<if test="publishStatus  !=null">
+			publish_status = #{publishStatus,jdbcType=TINYINT}, 
+		</if>
+		<if test="validTotalCount  !=null">
+			valid_total_count = #{validTotalCount,jdbcType=INTEGER}, 
+		</if>
+		<if test="validTotalAmount  !=null">
+			valid_total_amount = #{validTotalAmount,jdbcType=DECIMAL}, 
+		</if>
+		<if test="usedCount  !=null">
+			used_count = #{usedCount,jdbcType=INTEGER}, 
+		</if>
+		<if test="cancelCount  !=null">
+			cancel_count = #{cancelCount,jdbcType=INTEGER}, 
+		</if>
+		<if test="drawStatus  !=null">
+			draw_status = #{drawStatus,jdbcType=TINYINT} 
+		</if>
+	</sql>
+
+	<!-- 通过主键查找-->
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="Long" >
+		select 
+		<include refid="Base_Column_List" />
+		from store_coupontemplate
+		where  Id = #{id,jdbcType=BIGINT} 
+	</select>
+
+	<!-- 通过主键删除-->
+	<delete id="deleteByPrimaryKey" parameterType="Long" >
+		delete from store_coupontemplate
+		where Id = #{id,jdbcType=BIGINT} 
+	</delete>
+
+	<!-- 普通插入全字段插t入-->
+	<insert id="insert" parameterType="com.jiuy.product.model.StoreCouponTemplate" >
+		insert into store_coupontemplate
+		(
+			Id,
+			Name,
+			Type,
+			Money,
+			RangeType,
+			RangeContent,
+			ValidityStartTime,
+			ValidityEndTime,
+			IsLimit,
+			PublishCount,
+			GrantCount,
+			AvailableCount,
+			Coexist,
+			Status,
+			CreateTime,
+			UpdateTime,
+			LimitMoney,
+			ExchangeJiuCoinSetting,
+			ExchangeJiuCoinCost,
+			ExchangeLimitTotalCount,
+			ExchangeLimitSingleCount,
+			ExchangeCount,
+			ExchangeStartTime,
+			ExchangeEndTime,
+			PromotionJiuCoinSetting,
+			PromotionJiuCoin,
+			PromotionStartTime,
+			PromotionEndTime,
+			RangeTypeIds,
+			RangeTypeNames,
+			supplier_id,
+			limit_draw,
+			draw_start_time,
+			draw_end_time,
+			publisher,
+			publish_status,
+			valid_total_count,
+			valid_total_amount,
+			used_count,
+			cancel_count,
+			draw_status
+		)
+		values
+		(
+			#{id ,jdbcType=BIGINT},
+			#{name ,jdbcType=VARCHAR},
+			#{type ,jdbcType=TINYINT},
+			#{money ,jdbcType=DECIMAL},
+			#{rangeType ,jdbcType=TINYINT},
+			#{rangeContent ,jdbcType=VARCHAR},
+			#{validityStartTime ,jdbcType=BIGINT},
+			#{validityEndTime ,jdbcType=BIGINT},
+			#{isLimit ,jdbcType=INTEGER},
+			#{publishCount ,jdbcType=INTEGER},
+			#{grantCount ,jdbcType=INTEGER},
+			#{availableCount ,jdbcType=INTEGER},
+			#{coexist ,jdbcType=TINYINT},
+			#{status ,jdbcType=TINYINT},
+			#{createTime ,jdbcType=BIGINT},
+			#{updateTime ,jdbcType=BIGINT},
+			#{limitMoney ,jdbcType=DECIMAL},
+			#{exchangeJiuCoinSetting ,jdbcType=TINYINT},
+			#{exchangeJiuCoinCost ,jdbcType=INTEGER},
+			#{exchangeLimitTotalCount ,jdbcType=INTEGER},
+			#{exchangeLimitSingleCount ,jdbcType=INTEGER},
+			#{exchangeCount ,jdbcType=INTEGER},
+			#{exchangeStartTime ,jdbcType=BIGINT},
+			#{exchangeEndTime ,jdbcType=BIGINT},
+			#{promotionJiuCoinSetting ,jdbcType=TINYINT},
+			#{promotionJiuCoin ,jdbcType=INTEGER},
+			#{promotionStartTime ,jdbcType=BIGINT},
+			#{promotionEndTime ,jdbcType=BIGINT},
+			#{rangeTypeIds ,jdbcType=VARCHAR},
+			#{rangeTypeNames ,jdbcType=VARCHAR},
+			#{supplierId ,jdbcType=BIGINT},
+			#{limitDraw ,jdbcType=INTEGER},
+			#{drawStartTime ,jdbcType=BIGINT},
+			#{drawEndTime ,jdbcType=BIGINT},
+			#{publisher ,jdbcType=VARCHAR},
+			#{publishStatus ,jdbcType=TINYINT},
+			#{validTotalCount ,jdbcType=INTEGER},
+			#{validTotalAmount ,jdbcType=DECIMAL},
+			#{usedCount ,jdbcType=INTEGER},
+			#{cancelCount ,jdbcType=INTEGER},
+			#{drawStatus ,jdbcType=TINYINT}
+		)
+	</insert>
+
+	<!-- 批量插入，全部字段插入-->
+	<insert id="insertBach"   parameterType="List" >
+		insert into store_coupontemplate
+		(
+			Id,
+			Name,
+			Type,
+			Money,
+			RangeType,
+			RangeContent,
+			ValidityStartTime,
+			ValidityEndTime,
+			IsLimit,
+			PublishCount,
+			GrantCount,
+			AvailableCount,
+			Coexist,
+			Status,
+			CreateTime,
+			UpdateTime,
+			LimitMoney,
+			ExchangeJiuCoinSetting,
+			ExchangeJiuCoinCost,
+			ExchangeLimitTotalCount,
+			ExchangeLimitSingleCount,
+			ExchangeCount,
+			ExchangeStartTime,
+			ExchangeEndTime,
+			PromotionJiuCoinSetting,
+			PromotionJiuCoin,
+			PromotionStartTime,
+			PromotionEndTime,
+			RangeTypeIds,
+			RangeTypeNames,
+			supplier_id,
+			limit_draw,
+			draw_start_time,
+			draw_end_time,
+			publisher,
+			publish_status,
+			valid_total_count,
+			valid_total_amount,
+			used_count,
+			cancel_count,
+			draw_status
+		)
+		values 
+		<foreach collection="list" item="item" separator=",">
+		(
+			#{item.id ,jdbcType=BIGINT},
+			#{item.name ,jdbcType=VARCHAR},
+			#{item.type ,jdbcType=TINYINT},
+			#{item.money ,jdbcType=DECIMAL},
+			#{item.rangeType ,jdbcType=TINYINT},
+			#{item.rangeContent ,jdbcType=VARCHAR},
+			#{item.validityStartTime ,jdbcType=BIGINT},
+			#{item.validityEndTime ,jdbcType=BIGINT},
+			#{item.isLimit ,jdbcType=INTEGER},
+			#{item.publishCount ,jdbcType=INTEGER},
+			#{item.grantCount ,jdbcType=INTEGER},
+			#{item.availableCount ,jdbcType=INTEGER},
+			#{item.coexist ,jdbcType=TINYINT},
+			#{item.status ,jdbcType=TINYINT},
+			#{item.createTime ,jdbcType=BIGINT},
+			#{item.updateTime ,jdbcType=BIGINT},
+			#{item.limitMoney ,jdbcType=DECIMAL},
+			#{item.exchangeJiuCoinSetting ,jdbcType=TINYINT},
+			#{item.exchangeJiuCoinCost ,jdbcType=INTEGER},
+			#{item.exchangeLimitTotalCount ,jdbcType=INTEGER},
+			#{item.exchangeLimitSingleCount ,jdbcType=INTEGER},
+			#{item.exchangeCount ,jdbcType=INTEGER},
+			#{item.exchangeStartTime ,jdbcType=BIGINT},
+			#{item.exchangeEndTime ,jdbcType=BIGINT},
+			#{item.promotionJiuCoinSetting ,jdbcType=TINYINT},
+			#{item.promotionJiuCoin ,jdbcType=INTEGER},
+			#{item.promotionStartTime ,jdbcType=BIGINT},
+			#{item.promotionEndTime ,jdbcType=BIGINT},
+			#{item.rangeTypeIds ,jdbcType=VARCHAR},
+			#{item.rangeTypeNames ,jdbcType=VARCHAR},
+			#{item.supplierId ,jdbcType=BIGINT},
+			#{item.limitDraw ,jdbcType=INTEGER},
+			#{item.drawStartTime ,jdbcType=BIGINT},
+			#{item.drawEndTime ,jdbcType=BIGINT},
+			#{item.publisher ,jdbcType=VARCHAR},
+			#{item.publishStatus ,jdbcType=TINYINT},
+			#{item.validTotalCount ,jdbcType=INTEGER},
+			#{item.validTotalAmount ,jdbcType=DECIMAL},
+			#{item.usedCount ,jdbcType=INTEGER},
+			#{item.cancelCount ,jdbcType=INTEGER},
+			#{item.drawStatus ,jdbcType=TINYINT}
+		)
+		</foreach>
+	</insert>
+
+	<!-- 精确插入，非null得字段才会插入-->
+	<insert id="insertSelective" parameterType="com.jiuy.product.model.StoreCouponTemplate" useGeneratedKeys="true" keyProperty="id" >
+		insert into store_coupontemplate
+		<trim prefix="(" suffix=")" suffixOverrides="," > 
+			<if test="id !=null">  
+				Id,
+			</if>
+			<if test="name !=null">  
+				Name,
+			</if>
+			<if test="type !=null">  
+				Type,
+			</if>
+			<if test="money !=null">  
+				Money,
+			</if>
+			<if test="rangeType !=null">  
+				RangeType,
+			</if>
+			<if test="rangeContent !=null">  
+				RangeContent,
+			</if>
+			<if test="validityStartTime !=null">  
+				ValidityStartTime,
+			</if>
+			<if test="validityEndTime !=null">  
+				ValidityEndTime,
+			</if>
+			<if test="isLimit !=null">  
+				IsLimit,
+			</if>
+			<if test="publishCount !=null">  
+				PublishCount,
+			</if>
+			<if test="grantCount !=null">  
+				GrantCount,
+			</if>
+			<if test="availableCount !=null">  
+				AvailableCount,
+			</if>
+			<if test="coexist !=null">  
+				Coexist,
+			</if>
+			<if test="status !=null">  
+				Status,
+			</if>
+			<if test="createTime !=null">  
+				CreateTime,
+			</if>
+			<if test="updateTime !=null">  
+				UpdateTime,
+			</if>
+			<if test="limitMoney !=null">  
+				LimitMoney,
+			</if>
+			<if test="exchangeJiuCoinSetting !=null">  
+				ExchangeJiuCoinSetting,
+			</if>
+			<if test="exchangeJiuCoinCost !=null">  
+				ExchangeJiuCoinCost,
+			</if>
+			<if test="exchangeLimitTotalCount !=null">  
+				ExchangeLimitTotalCount,
+			</if>
+			<if test="exchangeLimitSingleCount !=null">  
+				ExchangeLimitSingleCount,
+			</if>
+			<if test="exchangeCount !=null">  
+				ExchangeCount,
+			</if>
+			<if test="exchangeStartTime !=null">  
+				ExchangeStartTime,
+			</if>
+			<if test="exchangeEndTime !=null">  
+				ExchangeEndTime,
+			</if>
+			<if test="promotionJiuCoinSetting !=null">  
+				PromotionJiuCoinSetting,
+			</if>
+			<if test="promotionJiuCoin !=null">  
+				PromotionJiuCoin,
+			</if>
+			<if test="promotionStartTime !=null">  
+				PromotionStartTime,
+			</if>
+			<if test="promotionEndTime !=null">  
+				PromotionEndTime,
+			</if>
+			<if test="rangeTypeIds !=null">  
+				RangeTypeIds,
+			</if>
+			<if test="rangeTypeNames !=null">  
+				RangeTypeNames,
+			</if>
+			<if test="supplierId !=null">  
+				supplier_id,
+			</if>
+			<if test="limitDraw !=null">  
+				limit_draw,
+			</if>
+			<if test="drawStartTime !=null">  
+				draw_start_time,
+			</if>
+			<if test="drawEndTime !=null">  
+				draw_end_time,
+			</if>
+			<if test="publisher !=null">  
+				publisher,
+			</if>
+			<if test="publishStatus !=null">  
+				publish_status,
+			</if>
+			<if test="validTotalCount !=null">  
+				valid_total_count,
+			</if>
+			<if test="validTotalAmount !=null">  
+				valid_total_amount,
+			</if>
+			<if test="usedCount !=null">  
+				used_count,
+			</if>
+			<if test="cancelCount !=null">  
+				cancel_count,
+			</if>
+			<if test="drawStatus !=null">  
+				draw_status,
+			</if>
+		</trim>
+
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+			<if test="id  !=null">
+				#{id,jdbcType=BIGINT}, 
+			</if>
+			<if test="name  !=null">
+				#{name,jdbcType=VARCHAR}, 
+			</if>
+			<if test="type  !=null">
+				#{type,jdbcType=TINYINT}, 
+			</if>
+			<if test="money  !=null">
+				#{money,jdbcType=DECIMAL}, 
+			</if>
+			<if test="rangeType  !=null">
+				#{rangeType,jdbcType=TINYINT}, 
+			</if>
+			<if test="rangeContent  !=null">
+				#{rangeContent,jdbcType=VARCHAR}, 
+			</if>
+			<if test="validityStartTime  !=null">
+				#{validityStartTime,jdbcType=BIGINT}, 
+			</if>
+			<if test="validityEndTime  !=null">
+				#{validityEndTime,jdbcType=BIGINT}, 
+			</if>
+			<if test="isLimit  !=null">
+				#{isLimit,jdbcType=INTEGER}, 
+			</if>
+			<if test="publishCount  !=null">
+				#{publishCount,jdbcType=INTEGER}, 
+			</if>
+			<if test="grantCount  !=null">
+				#{grantCount,jdbcType=INTEGER}, 
+			</if>
+			<if test="availableCount  !=null">
+				#{availableCount,jdbcType=INTEGER}, 
+			</if>
+			<if test="coexist  !=null">
+				#{coexist,jdbcType=TINYINT}, 
+			</if>
+			<if test="status  !=null">
+				#{status,jdbcType=TINYINT}, 
+			</if>
+			<if test="createTime  !=null">
+				#{createTime,jdbcType=BIGINT}, 
+			</if>
+			<if test="updateTime  !=null">
+				#{updateTime,jdbcType=BIGINT}, 
+			</if>
+			<if test="limitMoney  !=null">
+				#{limitMoney,jdbcType=DECIMAL}, 
+			</if>
+			<if test="exchangeJiuCoinSetting  !=null">
+				#{exchangeJiuCoinSetting,jdbcType=TINYINT}, 
+			</if>
+			<if test="exchangeJiuCoinCost  !=null">
+				#{exchangeJiuCoinCost,jdbcType=INTEGER}, 
+			</if>
+			<if test="exchangeLimitTotalCount  !=null">
+				#{exchangeLimitTotalCount,jdbcType=INTEGER}, 
+			</if>
+			<if test="exchangeLimitSingleCount  !=null">
+				#{exchangeLimitSingleCount,jdbcType=INTEGER}, 
+			</if>
+			<if test="exchangeCount  !=null">
+				#{exchangeCount,jdbcType=INTEGER}, 
+			</if>
+			<if test="exchangeStartTime  !=null">
+				#{exchangeStartTime,jdbcType=BIGINT}, 
+			</if>
+			<if test="exchangeEndTime  !=null">
+				#{exchangeEndTime,jdbcType=BIGINT}, 
+			</if>
+			<if test="promotionJiuCoinSetting  !=null">
+				#{promotionJiuCoinSetting,jdbcType=TINYINT}, 
+			</if>
+			<if test="promotionJiuCoin  !=null">
+				#{promotionJiuCoin,jdbcType=INTEGER}, 
+			</if>
+			<if test="promotionStartTime  !=null">
+				#{promotionStartTime,jdbcType=BIGINT}, 
+			</if>
+			<if test="promotionEndTime  !=null">
+				#{promotionEndTime,jdbcType=BIGINT}, 
+			</if>
+			<if test="rangeTypeIds  !=null">
+				#{rangeTypeIds,jdbcType=VARCHAR}, 
+			</if>
+			<if test="rangeTypeNames  !=null">
+				#{rangeTypeNames,jdbcType=VARCHAR}, 
+			</if>
+			<if test="supplierId  !=null">
+				#{supplierId,jdbcType=BIGINT}, 
+			</if>
+			<if test="limitDraw  !=null">
+				#{limitDraw,jdbcType=INTEGER}, 
+			</if>
+			<if test="drawStartTime  !=null">
+				#{drawStartTime,jdbcType=BIGINT}, 
+			</if>
+			<if test="drawEndTime  !=null">
+				#{drawEndTime,jdbcType=BIGINT}, 
+			</if>
+			<if test="publisher  !=null">
+				#{publisher,jdbcType=VARCHAR}, 
+			</if>
+			<if test="publishStatus  !=null">
+				#{publishStatus,jdbcType=TINYINT}, 
+			</if>
+			<if test="validTotalCount  !=null">
+				#{validTotalCount,jdbcType=INTEGER}, 
+			</if>
+			<if test="validTotalAmount  !=null">
+				#{validTotalAmount,jdbcType=DECIMAL}, 
+			</if>
+			<if test="usedCount  !=null">
+				#{usedCount,jdbcType=INTEGER}, 
+			</if>
+			<if test="cancelCount  !=null">
+				#{cancelCount,jdbcType=INTEGER}, 
+			</if>
+			<if test="drawStatus  !=null">
+				#{drawStatus,jdbcType=TINYINT} 
+			</if>
+		</trim>
+	</insert> 
+
+	<!-- 精确更新-->
+	<update id="updateByPrimaryKeySelective" parameterType="com.jiuy.product.model.StoreCouponTemplate" >
+		update store_coupontemplate
+		<set>
+			<include refid="updateBase"/>
+		</set>
+		where Id = #{id,jdbcType=BIGINT} 
+	</update> 
+
+	<!-- 全字段更新 需要注意-->
+	<update id="updateByPrimaryKey" parameterType="com.jiuy.product.model.StoreCouponTemplate" >
+		update store_coupontemplate
+		set 
+			Id = #{id ,jdbcType=BIGINT},
+			Name = #{name ,jdbcType=VARCHAR},
+			Type = #{type ,jdbcType=TINYINT},
+			Money = #{money ,jdbcType=DECIMAL},
+			RangeType = #{rangeType ,jdbcType=TINYINT},
+			RangeContent = #{rangeContent ,jdbcType=VARCHAR},
+			ValidityStartTime = #{validityStartTime ,jdbcType=BIGINT},
+			ValidityEndTime = #{validityEndTime ,jdbcType=BIGINT},
+			IsLimit = #{isLimit ,jdbcType=INTEGER},
+			PublishCount = #{publishCount ,jdbcType=INTEGER},
+			GrantCount = #{grantCount ,jdbcType=INTEGER},
+			AvailableCount = #{availableCount ,jdbcType=INTEGER},
+			Coexist = #{coexist ,jdbcType=TINYINT},
+			Status = #{status ,jdbcType=TINYINT},
+			CreateTime = #{createTime ,jdbcType=BIGINT},
+			UpdateTime = #{updateTime ,jdbcType=BIGINT},
+			LimitMoney = #{limitMoney ,jdbcType=DECIMAL},
+			ExchangeJiuCoinSetting = #{exchangeJiuCoinSetting ,jdbcType=TINYINT},
+			ExchangeJiuCoinCost = #{exchangeJiuCoinCost ,jdbcType=INTEGER},
+			ExchangeLimitTotalCount = #{exchangeLimitTotalCount ,jdbcType=INTEGER},
+			ExchangeLimitSingleCount = #{exchangeLimitSingleCount ,jdbcType=INTEGER},
+			ExchangeCount = #{exchangeCount ,jdbcType=INTEGER},
+			ExchangeStartTime = #{exchangeStartTime ,jdbcType=BIGINT},
+			ExchangeEndTime = #{exchangeEndTime ,jdbcType=BIGINT},
+			PromotionJiuCoinSetting = #{promotionJiuCoinSetting ,jdbcType=TINYINT},
+			PromotionJiuCoin = #{promotionJiuCoin ,jdbcType=INTEGER},
+			PromotionStartTime = #{promotionStartTime ,jdbcType=BIGINT},
+			PromotionEndTime = #{promotionEndTime ,jdbcType=BIGINT},
+			RangeTypeIds = #{rangeTypeIds ,jdbcType=VARCHAR},
+			RangeTypeNames = #{rangeTypeNames ,jdbcType=VARCHAR},
+			supplier_id = #{supplierId ,jdbcType=BIGINT},
+			limit_draw = #{limitDraw ,jdbcType=INTEGER},
+			draw_start_time = #{drawStartTime ,jdbcType=BIGINT},
+			draw_end_time = #{drawEndTime ,jdbcType=BIGINT},
+			publisher = #{publisher ,jdbcType=VARCHAR},
+			publish_status = #{publishStatus ,jdbcType=TINYINT},
+			valid_total_count = #{validTotalCount ,jdbcType=INTEGER},
+			valid_total_amount = #{validTotalAmount ,jdbcType=DECIMAL},
+			used_count = #{usedCount ,jdbcType=INTEGER},
+			cancel_count = #{cancelCount ,jdbcType=INTEGER},
+			draw_status = #{drawStatus ,jdbcType=TINYINT}
+		where Id = #{id,jdbcType=BIGINT} 
+	</update> 
+
+	<!-- 所有的条件集合-->
+	<sql id="whereCase"  >
+		where  1=1 
+		<if test="id  !=null">
+			AND Id = #{id,jdbcType=BIGINT} 
+		</if>
+		<if test="name  !=null">
+			AND Name = #{name,jdbcType=VARCHAR} 
+		</if>
+		<if test="type  !=null">
+			AND Type = #{type,jdbcType=TINYINT} 
+		</if>
+		<if test="money  !=null">
+			AND Money = #{money,jdbcType=DECIMAL} 
+		</if>
+		<if test="rangeType  !=null">
+			AND RangeType = #{rangeType,jdbcType=TINYINT} 
+		</if>
+		<if test="rangeContent  !=null">
+			AND RangeContent = #{rangeContent,jdbcType=VARCHAR} 
+		</if>
+		<if test="validityStartTime  !=null">
+			AND ValidityStartTime = #{validityStartTime,jdbcType=BIGINT} 
+		</if>
+		<if test="validityEndTime  !=null">
+			AND ValidityEndTime = #{validityEndTime,jdbcType=BIGINT} 
+		</if>
+		<if test="isLimit  !=null">
+			AND IsLimit = #{isLimit,jdbcType=INTEGER} 
+		</if>
+		<if test="publishCount  !=null">
+			AND PublishCount = #{publishCount,jdbcType=INTEGER} 
+		</if>
+		<if test="grantCount  !=null">
+			AND GrantCount = #{grantCount,jdbcType=INTEGER} 
+		</if>
+		<if test="availableCount  !=null">
+			AND AvailableCount = #{availableCount,jdbcType=INTEGER} 
+		</if>
+		<if test="coexist  !=null">
+			AND Coexist = #{coexist,jdbcType=TINYINT} 
+		</if>
+		<if test="status  !=null">
+			AND Status = #{status,jdbcType=TINYINT} 
+		</if>
+		<if test="createTime  !=null">
+			AND CreateTime = #{createTime,jdbcType=BIGINT} 
+		</if>
+		<if test="updateTime  !=null">
+			AND UpdateTime = #{updateTime,jdbcType=BIGINT} 
+		</if>
+		<if test="limitMoney  !=null">
+			AND LimitMoney = #{limitMoney,jdbcType=DECIMAL} 
+		</if>
+		<if test="exchangeJiuCoinSetting  !=null">
+			AND ExchangeJiuCoinSetting = #{exchangeJiuCoinSetting,jdbcType=TINYINT} 
+		</if>
+		<if test="exchangeJiuCoinCost  !=null">
+			AND ExchangeJiuCoinCost = #{exchangeJiuCoinCost,jdbcType=INTEGER} 
+		</if>
+		<if test="exchangeLimitTotalCount  !=null">
+			AND ExchangeLimitTotalCount = #{exchangeLimitTotalCount,jdbcType=INTEGER} 
+		</if>
+		<if test="exchangeLimitSingleCount  !=null">
+			AND ExchangeLimitSingleCount = #{exchangeLimitSingleCount,jdbcType=INTEGER} 
+		</if>
+		<if test="exchangeCount  !=null">
+			AND ExchangeCount = #{exchangeCount,jdbcType=INTEGER} 
+		</if>
+		<if test="exchangeStartTime  !=null">
+			AND ExchangeStartTime = #{exchangeStartTime,jdbcType=BIGINT} 
+		</if>
+		<if test="exchangeEndTime  !=null">
+			AND ExchangeEndTime = #{exchangeEndTime,jdbcType=BIGINT} 
+		</if>
+		<if test="promotionJiuCoinSetting  !=null">
+			AND PromotionJiuCoinSetting = #{promotionJiuCoinSetting,jdbcType=TINYINT} 
+		</if>
+		<if test="promotionJiuCoin  !=null">
+			AND PromotionJiuCoin = #{promotionJiuCoin,jdbcType=INTEGER} 
+		</if>
+		<if test="promotionStartTime  !=null">
+			AND PromotionStartTime = #{promotionStartTime,jdbcType=BIGINT} 
+		</if>
+		<if test="promotionEndTime  !=null">
+			AND PromotionEndTime = #{promotionEndTime,jdbcType=BIGINT} 
+		</if>
+		<if test="rangeTypeIds  !=null">
+			AND RangeTypeIds = #{rangeTypeIds,jdbcType=VARCHAR} 
+		</if>
+		<if test="rangeTypeNames  !=null">
+			AND RangeTypeNames = #{rangeTypeNames,jdbcType=VARCHAR} 
+		</if>
+		<if test="supplierId  !=null">
+			AND supplier_id = #{supplierId,jdbcType=BIGINT} 
+		</if>
+		<if test="limitDraw  !=null">
+			AND limit_draw = #{limitDraw,jdbcType=INTEGER} 
+		</if>
+		<if test="drawStartTime  !=null">
+			AND draw_start_time = #{drawStartTime,jdbcType=BIGINT} 
+		</if>
+		<if test="drawEndTime  !=null">
+			AND draw_end_time = #{drawEndTime,jdbcType=BIGINT} 
+		</if>
+		<if test="publisher  !=null">
+			AND publisher = #{publisher,jdbcType=VARCHAR} 
+		</if>
+		<if test="publishStatus  !=null">
+			AND publish_status = #{publishStatus,jdbcType=TINYINT} 
+		</if>
+		<if test="validTotalCount  !=null">
+			AND valid_total_count = #{validTotalCount,jdbcType=INTEGER} 
+		</if>
+		<if test="validTotalAmount  !=null">
+			AND valid_total_amount = #{validTotalAmount,jdbcType=DECIMAL} 
+		</if>
+		<if test="usedCount  !=null">
+			AND used_count = #{usedCount,jdbcType=INTEGER} 
+		</if>
+		<if test="cancelCount  !=null">
+			AND cancel_count = #{cancelCount,jdbcType=INTEGER} 
+		</if>
+		<if test="drawStatus  !=null">
+			AND draw_status = #{drawStatus,jdbcType=TINYINT} 
+		</if>
+		<include refid="costomWhereCase"/>
+	</sql>
+
+	<!-- 查询一条，如果返回多条会报错-->
+	<select id="selectOne" parameterType="java.util.Map" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" /> 
+		FROM store_coupontemplate 
+		<include refid="whereCase" /> 
+	</select>
+
+	<!-- 查询一个list-->
+	<select id="selectList" parameterType="java.util.Map" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" /> 
+		FROM store_coupontemplate 
+		<include refid="whereCase" /> 
+	</select>
+
+	<!-- 查询一个list-->
+	<select id="selectCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+		SELECT
+		count(1) 
+		FROM store_coupontemplate
+		<include refid="whereCase" /> 
+	</select>
+
+	<!--  @Costom -->
+	<!-- 从上一行注释以上为系统生成 从这一行往下为用户自定义 请将自定义的sql放在此行下面 -->
+	<sql id="costomWhereCase">
+	</sql>
+
+</mapper>

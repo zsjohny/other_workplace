@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jiuyuan.dao.mapper.supplier.GlobalSettingNewMapper">
+	<select id="getSetting" parameterType="map" resultType="String">
+		<![CDATA[
+			select PropertyValue from yjj_GlobalSetting
+			where PropertyName = #{name.stringValue} and Status = 0
+			limit 1
+		]]>
+	</select>
+
+	<select id="getSettingByPropertyName" resultType="com.jiuyuan.entity.GlobalSetting">
+		SELECT * FROM
+		yjj_GlobalSetting
+		where PropertyName = #{propertyName} and Status = 0
+	</select>
+
+
+	<update id="updateBySetting">
+		update yjj_GlobalSetting
+		<set>
+			<if test="globalSetting.propertyValue != null">
+				PropertyValue = #{globalSetting.propertyValue},
+			</if>
+			<if test="globalSetting.groupId != null">
+				GroupId = #{globalSetting.groupId},
+			</if>
+			<if test="globalSetting.groupName != null">
+				GroupName = #{globalSetting.groupName},
+			</if>
+			<if test="globalSetting.updateTime != null">
+				UpdateTime = #{globalSetting.updateTime}
+			</if>
+		</set>
+		where PropertyName = #{globalSetting.propertyName}
+	</update>
+
+</mapper>

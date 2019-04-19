@@ -1,0 +1,8 @@
+<!-- 电话咨询 -->
+<template name="phoneService">
+    <view  wx:if="{{hotPhone.hasHotonline==1}}">
+      <view class="go-phone"  bindtap="makePhone" data-phone="{{hotPhone.hotOnline}}"></view>
+    </view>
+    <view wx:else></view>
+</template>
+

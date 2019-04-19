@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jiuy.core.dao.actionlog.ProductActionLogMapper">
+
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="productActionLogResultMap" type="com.jiuyuan.entity.store.ProductActionLog">
+		<id column="id" property="id" />
+		<result column="action_user_id" property="actionUserId" />
+		<result column="action_user_name" property="actionUserName" />
+		<result column="action_user_account" property="actionUserAccount" />
+		<result column="product_id" property="productId" />
+		<result column="action_type" property="actionType" />
+		<result column="action_content" property="actionContent" />
+		<result column="create_time" property="createTime" />
+	</resultMap>
+
+    <!-- 通用查询结果列
+    <sql id="Base_Column_List">
+        id, action_user_id AS actionUserId, action_user_name AS actionUserName, product_id AS productId, action_type AS actionType, action_content AS actionContent, create_time AS createTime
+    </sql>--> 
+		
+		
+		
+		
+		
+	<insert id="setProdoctAction" keyColumn="id" useGeneratedKeys="true" keyProperty="id" parameterType="ProductActionLog" >
+		INSERT INTO shop_product_action_log
+		(action_user_id,action_user_name,action_user_account,product_id,action_type,action_content,create_time)
+		VALUES
+		(#{actionUserId},#{actionUserName},#{actionUserAccount},#{productId},#{actionType},#{actionContent},#{createTime})		
+	</insert>
+	
+	<select id="getProductActionLogList" parameterType="map" resultMap="productActionLogResultMap">
+		SELECT * FROM shop_product_action_log where 1=1
+		<if test="actionUserAccount!=''">
+			and action_user_account like concat("%", #{actionUserAccount}, "%")
+		</if>
+		<if test="actionUserName!=''">
+			and action_user_name like concat("%", #{actionUserName}, "%")
+		</if>
+		<if test="actionType!=''">
+			and action_type = #{actionType}
+		</if>
+		<if test="actionContent!=''">
+			and action_content like concat("%", #{actionContent}, "%")
+		</if>
+		 
+		<if test="startTime != 0"> 
+			<![CDATA[
+		    and create_time >= #{startTime}
+		    ]]>
+		</if>
+		<if test="endTime != 0"> 
+			<![CDATA[
+		    and create_time < #{endTime}
+		    ]]>
+		</if>
+			
+		ORDER BY create_time DESC 
+		<if test="pageQuery!=null">
+			limit #{pageQuery.limit} offset #{pageQuery.offset}
+		</if>
+	</select>
+	
+	<select id="getProductActionLogListCount" parameterType="map" resultType="int">
+		SELECT count(1) FROM shop_product_action_log where 1=1
+		<if test="actionUserAccount!=''">
+			and action_user_account like concat("%", #{actionUserAccount}, "%")
+		</if>
+		<if test="actionUserName!=''">
+			and action_user_name like concat("%", #{actionUserName}, "%")
+		</if>
+		<if test="actionType!=''">
+			and action_type = #{actionType}
+		</if>
+		<if test="actionContent!=''">
+			and action_content like concat("%", #{actionContent}, "%")
+		</if>
+		 
+		<if test="startTime != 0"> 
+			<![CDATA[
+		    and create_time >= #{startTime}
+		    ]]>
+		</if>
+		<if test="endTime != 0"> 
+			<![CDATA[
+		    and create_time < #{endTime}
+		    ]]>
+		</if>
+	</select>
+</mapper>

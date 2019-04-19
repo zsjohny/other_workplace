@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jiuyuan.dao.mapper.store.YjjMemberMapper">
+
+    <resultMap id="BaseResultMap" type="com.yujj.entity.product.YjjMember">
+        <result column="id" property="id" jdbcType="BIGINT"/>
+        <result column="platform_type" property="platformType" jdbcType="TINYINT"/>
+        <result column="user_id" property="userId" jdbcType="TINYINT"/>
+        <result column="member_level" property="memberLevel" jdbcType="TINYINT"/>
+        <result column="end_time" property="endTime" jdbcType="VARCHAR"/>
+        <result column="money_total" property="moneyTotal" jdbcType="DECIMAL"/>
+        <result column="del_state" property="delState" jdbcType="TINYINT"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="type" property="type" jdbcType="TINYINT"/>
+    </resultMap>
+    <sql id="BaseList">
+    d.id,
+    d.platform_type,
+    d.user_id,
+    d.member_level,
+    d.end_time,
+    d.money_total,
+    d.del_state,
+    d.create_time,
+    d.update_time,
+    d.type
+  </sql>
+
+
+    <update id="updateEndTime">
+		UPDATE `yjj_member`
+		SET
+		money_total = money_total + #{totalMoney}
+		, end_time = #{endTime}
+		, `type` = #{memberPackageType}
+		, valid_time_queue = #{validTimeQueue}
+		WHERE
+		id = #{id}
+		AND (money_total + #{totalMoney} >= 0 OR money_total IS NULL)
+	</update>
+
+
+
+</mapper>

@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<title>账户信息</title>
+	<meta name="description" content="">
+	<meta name="keywords" content="">
+	<script src="js/adaptation.js"></script>
+	<link type="text/css" rel="stylesheet" href="css/base.css">
+	<link type="text/css" rel="stylesheet" href="css/common.css">
+</head>
+<body>
+    <div class="personal-list">
+    	<ul id="personal-box"></ul>
+    </div>
+    <script type="text/html" id="template-mod">
+        	<li class="item">
+				<span class="left-item">姓名</span>
+				<span class="right-item">{{name}}</span>
+    		</li>
+    	    <li class="item">
+				<span class="left-item">级别</span>
+				<span class="right-item">
+                    {{if userType == 1}}
+                         大区总监
+					{{else if userType == 2}}
+						省区经理
+                    {{else if userType == 3}}
+                         区域主管
+                    {{else}}
+                         城市经理
+                    {{/if}}
+				</span>
+    		</li>
+    		<li class="item">
+				<span class="left-item">手机号码</span>
+				<span class="right-item" id="account-phone"><a href="tel:{{phone}}">{{phone}}</a></span>
+    		</li>
+    		<li class="item bottom-line">
+				<span class="left-item">所在地区</span>
+				<span class="right-item address-item">
+					{{province}}{{city}}{{district}}
+				</span>
+    		</li>
+    		<li class="item link">
+    		    <a class="link-box" href="personalDetail.html">
+					<span class="left-item">个人客户数</span>
+					<span class="right-item">
+						{{if individualClientCount}}
+							{{individualClientCount}}
+						{{else}}
+						     0
+					    {{/if}}
+					个<i class="iconfont icon-dayu"></i></span>
+				</a>
+    		</li>
+    		<li class="item">
+				<span class="left-item">个人收入</span>
+				<span class="right-item">
+				    {{if oneself_cost}}
+						{{oneself_cost}}
+					{{else}}
+					     0
+				    {{/if}}
+				元</span>
+    		</li>
+    		<li class="item bottom-line">
+				<span class="left-item">个人客户激活率</span>
+				<span class="right-item">
+					{{if individualClientActiveRate}}
+						{{individualClientActiveRate}}
+					{{else}}
+					     0
+				    {{/if}}
+				%</span>
+    		</li>
+    		<li class="item link">
+	    		<a class="link-box" href="teamDetail.html">
+					<span class="left-item">团队客户数</span>
+					<span class="right-item">
+					{{if teamClientCount}}
+						{{teamClientCount}}
+					{{else}}
+					     0
+				    {{/if}}
+					个<i class="iconfont icon-dayu"></i></span>
+				</a>	
+    		</li>
+    		<li class="item">
+				<span class="left-item">团队收入</span>
+				<span class="right-item">
+					{{if team_cost}}
+						{{team_cost}}
+					{{else}}
+					     0
+				    {{/if}}
+				元</span>
+    		</li>
+    		<li class="item bottom-line">
+				<span class="left-item">团队客户激活率</span>
+				<span class="right-item">
+					{{if teamClientActiveRate}}
+						{{teamClientActiveRate}}
+					{{else}}
+					     0
+				    {{/if}}
+				%</span>
+    		</li>
+    		{{if pid}}
+	    		<li class="item">
+					<span class="left-item">上级姓名</span>
+					<span class="right-item">{{pname}}</span>
+	    		</li>
+	    		<li class="item">
+					<span class="left-item">上级手机号码</span>
+					<span class="right-item"><a href="tel:{{pphone}}">{{pphone}}</a></span>
+	    		</li>
+    		{{/if}}
+    		<li class="item link">
+	    		<a class="link-box" href="modifyPassword.html?origin=accountInfo.html&phone={{phone}}">
+					<span class="left-item">修改登录密码</span>
+					<span class="right-item"><i class="iconfont icon-dayu"></i></span>
+				</a>	
+    		</li>
+    		<li class="item link loginout-btn">
+				<span class="left-item">退出登录</span>
+				<span class="right-item"><i class="iconfont icon-dayu"></i></span>
+    		</li>
+    </script>
+    <script type="text/javascript" src="js/jquery-3.0.0.min.js"></script>
+    <script type="text/javascript" src="js/template.js"></script>
+    <script type="text/javascript" src="js/common.js"></script>
+    <script type="text/javascript">
+        var loginUrl = "login.html?origin=accountInfo.html";
+    	function initData(){
+    		$.ajax({
+                url : "/myAccount/info.json",
+                type : "GET",
+                dataType : "json",
+                async:false,
+                success : function(res){
+                    if (res.successful) {
+                        var modHtml = template("template-mod",res.data);
+                        $("#personal-box").html(modHtml);
+                        $(".loginout-btn").on("click",function(){
+				    		loginoutFunc()
+				    	})
+                    }else{
+                    	 //未登录时，跳转至登录页面
+	                    if(res.code =="-999"){
+	                    	window.location.href = loginUrl;
+	                    }else{
+	                    	//没修改初始密码时,跳转至修改密码页面
+                            if(res.code =="-809"){
+                                var btnHTML = "<a class='true' href='/static/modifyPassword.html?origin=accountInfo.html'>确定</a>";
+                                var closeUrl = "modifyPassword.html?origin=accountInfo.html";
+                                comfirmBoxLink("show",res.error,btnHTML,closeUrl);
+                            }else{
+                                comfirmBox("show",res.error,1);
+                            }
+	                    }
+                    }
+                }
+            });
+    	}
+    	$(function(){
+    		initData();
+    	})
+    	//退出登录函数
+    	function loginoutFunc(){
+    		$.ajax({
+                url : "/logout.json",
+                type : "GET",
+                dataType : "json",
+                async:false,
+                success : function(res){
+                    if (res.successful) {
+                       window.location.href = loginUrl;
+                    }else{
+                    	comfirmBox("show",res.error,1);
+                    }
+                }
+            });
+    	}
+    </script>
+</body>
+</html>

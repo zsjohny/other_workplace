@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jiuy.core.dao.impl.sql.AddressDaoSqlImpl">
+	
+	<select id="srchAddress" parameterType="map" resultType="Address">
+	    <![CDATA[
+	    select * from yjj_Address 
+	    where UserId = #{userId} and #{expressInfo} like concat("%", AddrDetail, "%")
+	    ]]>
+	</select>    
+	
+	<select id="AddressOfUserIds" parameterType="map" resultType="Address">
+		select * from yjj_Address
+		where UserId in 
+		<foreach collection="userIds" item="userId" open="(" separator="," close=")">
+			#{userId}
+		</foreach> 
+	</select>
+	
+	<select id="AddressOfUserIdsStore" parameterType="map" resultType="Address">
+		select * from store_Address
+		where StoreId  in 
+		<foreach collection="userIds" item="userId" open="(" separator="," close=")">
+			#{userId}
+		</foreach> 
+	</select>
+	
+	<select id="searchByUserId" parameterType="map" resultType="Address">
+	    <![CDATA[
+	    select * from yjj_Address 
+	    where UserId = #{userId}
+	    ]]>
+	</select>  
+	
+</mapper>

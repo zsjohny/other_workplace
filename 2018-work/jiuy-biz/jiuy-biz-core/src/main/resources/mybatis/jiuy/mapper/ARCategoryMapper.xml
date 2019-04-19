@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jiuy.core.dao.impl.sql.ARCategoryDaoSqlImpl">
+
+	<insert id="addcat" useGeneratedKeys="true" keyProperty="id" parameterType="ARCategory">
+		INSERT
+			yjj_ARCategory(Name, ParentId, Weight, Description, CreateTime, UpdateTime)
+		VALUES 
+			(#{name}, #{parentId}, #{weight}, #{description}, #{createTime}, #{updateTime})
+	</insert>
+	
+	<update id="rmCategory" parameterType="map">
+		UPDATE 
+			yjj_ARCategory
+		SET
+			Status = -1
+		WHERE 
+			Id = #{id}
+	</update>
+	
+	<update id="updateCategory" parameterType="ARCategory">
+		UPDATE 
+			yjj_ARCategory
+		SET
+			Name = #{name}, ParentId = #{parentId}, Weight = #{weight}, Description = #{description}, UpdateTime = #{updateTime}
+		WHERE 
+			Id = #{id}
+	</update>
+	
+	<select id="searchCat" parameterType="map" resultType="ARCategoryVO">
+		SELECT 
+		    b.*, a.Name AS parentName
+		FROM
+		    yjj_ARCategory a
+		        RIGHT JOIN
+		    yjj_ARCategory b ON a.Id = b.ParentId
+		WHERE
+		    b.Status = 0
+		    	AND b.Status = 0 
+		    	AND b.Name LIKE CONCAT("%", #{name}, "%")
+		<if test="query != null">
+		limit #{query.limit} offset #{query.offset}
+		</if>
+	</select>
+	
+	<select id="searchCatCount" parameterType="map" resultType="int">
+		SELECT 
+		    COUNT(*)
+		FROM
+		    yjj_ARCategory a
+		        RIGHT JOIN
+		    yjj_ARCategory b ON a.Id = b.ParentId
+		WHERE
+		    b.Status = 0
+		    	AND b.Status = 0 
+		    	AND b.Name LIKE CONCAT("%", #{name}, "%")
+	</select>
+	
+	<select id="loadParentCat" resultType="ARCategory">
+		SELECT 
+		    *
+		FROM
+		    yjj_ARCategory
+		WHERE
+		    Status = 0 AND ParentId = 0
+	</select>
+	
+	<select id="getSubCats" parameterType="map" resultType="Long">
+		SELECT 
+		    Id
+		FROM
+		    yjj_ARCategory
+		WHERE
+		    Status = 0 AND ParentId = #{parentId}
+	</select>
+	
+</mapper>

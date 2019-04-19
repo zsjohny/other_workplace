@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yujj.dao.mapper.UserMapper">
+	<select id="getUser" resultType="User">
+		<![CDATA[
+			select * from yjj_User
+			where UserId = #{userId}
+		]]>
+	</select>
+<!-- 
+	<select id="getUser4Login" resultType="User">
+		<![CDATA[
+			select * from yjj_User
+			where ( UserName = #{userName} or UserRelatedName = #{userName} ) and Status = 0
+		]]>
+	</select>-->
+	<!-- 
+	<select id="getUserByPhone" resultType="User">
+		<![CDATA[
+			select * from yjj_User
+			where  BindPhone = #{userName} or UserName = #{userName} or UserRelatedName = #{userName} limit 1
+		]]>
+	</select> -->
+
+
+<!-- 
+	<select id="getUserListByPhone" resultType="User">
+		<![CDATA[
+			select * from yjj_User
+			where  BindPhone = #{userName} or UserName = #{userName} or UserRelatedName = #{userName} 
+		]]>
+	</select>-->
+
+<!-- 
+	<select id="getUserByBindPhoneOnly" resultType="User">
+		<![CDATA[
+			select * from yjj_User
+			where  BindPhone = #{userName} 
+		]]>
+	</select>
+ -->
+ <!-- 
+	<select id="getUserByBindPhone" resultType="User">
+		<![CDATA[
+			select * from yjj_User
+			where UserName = #{userName} or UserRelatedName = #{userName} or BindPhone = #{userName} limit 1
+		]]>
+	</select>
+ -->
+<!-- 
+	<select id="getUserByUserNameOnly" resultType="User">
+		<![CDATA[
+			select * from yjj_User
+			where UserName = #{userName}
+		]]>
+	</select> -->
+
+	
+	
+	<select id="getYJJNumberList" resultType="YJJNumber">
+		<![CDATA[
+			select * from yjj_Number
+			where Status = #{status} and id >= #{startNum} and id < #{endNum} limit #{limit}
+		]]>
+	</select>
+	
+	<!-- 
+	<select id="getUserByRelatedName" parameterType="map" resultType="User">
+		<![CDATA[
+			select * from yjj_User
+			where UserRelatedName = #{relatedName} and UserType = #{userType}
+		]]>
+	</select> -->
+	
+	<!-- 
+	<select id="getUserByWeixinId" parameterType="map" resultType="User">
+		<![CDATA[
+			select * from yjj_User
+			where  UserRelatedName = #{relatedName} or BindWeixin = #{relatedName}  limit 1
+		]]>
+	</select>
+	 -->
+	 <!-- 
+	<select id="getUserByBindWeixinOnly" parameterType="map" resultType="User">
+		<![CDATA[
+			select * from yjj_User
+			where  BindWeixin = #{relatedName}  limit 1
+		]]>
+	</select> -->
+	
+	<select id="getUserByAllWay" parameterType="map" resultType="User">
+		<![CDATA[
+			select * from yjj_User
+			where Status > -1 and (YJJNumber = #{userName} or UserName = #{userName} or UserRelatedName = #{userName} or BindWeixin = #{userName} or BindPhone = #{userName}) limit 1
+		]]>
+	</select>
+	
+	<select id="getBindUserRelationByOpenId" resultType="BindUserRelation">
+		<![CDATA[
+			select * from yjj_BindUserRelation
+			where  OpenId = #{openId} and Type = #{type} limit 1
+		]]>
+	</select>
+	
+	<select id="getBindUserRelationByUid" resultType="BindUserRelation">
+		<![CDATA[
+			select * from yjj_BindUserRelation
+			where UId = #{weixinId} and Type = #{type} limit 1
+		]]>
+	</select>
+	
+	<insert id="addBindUserRelation" useGeneratedKeys="true" keyProperty="id">
+		<![CDATA[
+			insert into yjj_BindUserRelation
+			(UserId, OpenId, UId, Type)
+			values
+			(#{userId}, #{openId}, #{uId}, #{type})
+		]]>
+	</insert>
+
+	<insert id="addUser" useGeneratedKeys="true" keyProperty="userId">
+		<![CDATA[
+			insert into yjj_User_test
+			(UserName, UserRelatedName, UserType, UserNickname, UserIcon, UserPassword, UserRole, UserPoints, Status, CreateTime, UpdateTime, YJJNumber, BindPhone, RegistrationSource)
+			values
+			(#{userName}, #{userRelatedName}, #{userType}, #{userNickname}, #{userIcon}, #{userPassword}, #{userRole}, #{userPoints}, #{status}, #{createTime}, #{updateTime}, #{yJJNumber}, #{bindPhone}, #{registrationSource})
+		]]>
+	</insert>
+	
+	<insert id="addUserNumberIncrease" useGeneratedKeys="true" keyProperty="userId">
+		<![CDATA[
+			insert into yjj_User
+			(UserName, UserRelatedName, UserType, UserNickname, UserIcon, UserPassword, UserRole, UserPoints, Status, CreateTime, UpdateTime, YJJNumber, BindPhone,BindWeixin, RegistrationSource)
+			select 
+			#{userName}, #{userRelatedName}, #{userType}, #{userNickname}, #{userIcon}, #{userPassword}, #{userRole}, #{userPoints}, #{status}, #{createTime}, #{updateTime}, max(YJJNumber)+1, #{bindPhone},#{bindWeixin}, #{registrationSource} from yjj_User
+		]]>
+	</insert>
+	
+	<insert id="addUserBindLog" useGeneratedKeys="true" keyProperty="id">
+		<![CDATA[
+			insert into yjj_UserBindLog ( Type, UserId, OldPhone, NewPhone, WeixinId, CreateTime)
+			values
+			(#{type}, #{userId}, #{oldPhone}, #{newPhone}, #{weixinId}, #{createTime})
+		]]>
+	</insert>
+
+	<update id="updateUserPassword" parameterType="map">
+		<![CDATA[
+			update yjj_User
+			set UserPassword = #{password}, UpdateTime = unix_timestamp()*1000
+			where UserId = #{userId}
+		]]>
+	</update>
+	
+	<update id="updateUserCid" parameterType="map">
+		<![CDATA[
+			update yjj_User
+			set UserCID = #{userCid}, UpdateTime = unix_timestamp()*1000
+			where UserId = #{userId}
+		]]>
+	</update>
+	
+	<update id="userPhoneBind" parameterType="map">
+		<![CDATA[
+			update yjj_User
+			set BindPhone = #{phone}, UpdateTime = unix_timestamp()*1000
+			where UserId = #{userId} 
+		]]>
+	</update>
+	
+	<update id="userWeixinBind" parameterType="map">
+		<![CDATA[
+			update yjj_User
+			set BindWeixin = #{weiXin}, UserNickname = #{nickName}, UserIcon = #{userIconUrl}, UpdateTime = unix_timestamp()*1000
+			where UserId = #{userId} and (BindWeixin is null or BindWeixin = '')
+		]]>
+	</update>
+	
+	<update id="delWeixinUserByUserId" parameterType="map">
+		<![CDATA[
+ 			UPDATE   yjj_User c     
+ 			SET c.Status = '-1',  c.UserName = CONCAT('del_',c.UserName),c.BindWeixin = CONCAT('del_',c.BindWeixin),c.BindPhone = CONCAT('del_',c.BindPhone),c.UserRelatedName = CONCAT('del_',c.UserRelatedName)
+ 			WHERE c.UserId =  #{userId} and c.Status = '0';
+		]]>
+	</update>
+	
+	<update id="userWeixinUnbind" parameterType="map">
+		<![CDATA[
+			update yjj_User
+			set BindWeixin = null, UpdateTime = unix_timestamp()*1000
+			where UserId = #{userId} and (BindWeixin is not null or BindWeixin != '')
+		]]>
+	</update>
+
+	<update id="updateUserInfo" parameterType="map">
+		<![CDATA[
+			update yjj_User
+			set UserNickname = #{userNickName}, UserIcon = #{userIcon}, UpdateTime = unix_timestamp()*1000
+			where UserId = #{userId}
+		]]>
+	</update>
+
+	<update id="updateUserNickName" parameterType="map">
+		<![CDATA[
+			update yjj_User
+			set UserNickname = #{userNickName}, UpdateTime = unix_timestamp()*1000
+			where UserId = #{userId}
+		]]>
+	</update>
+	
+	
+	<update id="updateUserIcon" parameterType="map">
+		<![CDATA[
+			update yjj_User
+			set UserIcon = #{userIcon}, UpdateTime = unix_timestamp()*1000
+			where UserId = #{userId}
+		]]>
+	</update>
+	
+	<update id="updateYjjNumberUsed" parameterType="map">
+		<![CDATA[
+			update yjj_Number
+			set Status = -2, UpdateTime = unix_timestamp()*1000
+			where Number = #{numUsed} and Status = 0
+		]]>
+	</update>
+	
+	<update id="updateUserYjjNumber" parameterType="map">
+		<![CDATA[
+			update yjj_User
+			set YJJNumber = #{num}, UpdateTime = unix_timestamp()*1000
+			where UserId = #{userId}
+		]]>
+	</update>
+	
+	<select id="getUserByYJJNumber" resultType="User">
+		select * from yjj_User
+		where YJJNumber = #{yJJNumber}
+	</select>
+	
+	<update id="updateUserInvite" parameterType="map">
+		update yjj_User
+		set LastInviteTime = #{time}, InviteCount = InviteCount +1, WeekInviteCount = #{weekInviteCount}
+		where UserId = #{userId}
+	</update>
+	
+	<update id="update">
+		update yjj_User
+		<set>
+			<if test="weekInviteOrderCount != null">
+				WeekInviteOrderCount = #{weekInviteOrderCount},
+			</if>
+			<if test="lastInviteOrderTime != null">
+				LastInviteOrderTime = #{lastInviteOrderTime},
+			</if>
+		</set>
+		where UserId = #{id}
+	</update>
+	
+	<update id="updBindUserRelationUserId">
+		update yjj_BindUserRelation
+		set UserId = #{userId}
+		where Id = #{bindUserRelationId}
+	</update>
+	
+	<select id="getStoreBusiness4Login" resultType="StoreBusiness">
+		<![CDATA[
+			select * from yjj_StoreBusiness
+			where UserName = #{userName} 
+		]]>
+	</select>
+	
+	<select id="getStoreBusinessByPhone" resultType="StoreBusiness">
+		<![CDATA[
+			select * from yjj_StoreBusiness
+			where UserName = #{phone}  or PhoneNumber = #{phone} limit 1
+		]]>
+	</select>
+	
+	
+</mapper>

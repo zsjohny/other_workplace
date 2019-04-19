@@ -1,0 +1,344 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jiuy.core.dao.impl.sql.StoreCouponDaoSqlImpl">
+    
+    <insert id="batchAdd">
+    	insert into store_Coupon(CouponTemplateId, TemplateName, Type, Money, RangeType, RangeContent, ValidityStartTime, ValidityEndTime,
+    		IsLimit, Coexist, CreateTime, UpdateTime, PublishAdminId, GrantAdminId, LimitMoney, RangeTypeIds, RangeTypeNames)
+    	values
+   		<foreach collection="collection" item="item" open="(" separator="),(" close=")">
+   			#{item.id}, #{item.name}, #{item.type}, #{item.money}, #{item.rangeType}, #{item.rangeContent}, #{item.validityStartTime}, #{item.validityEndTime}, 
+   			#{item.isLimit}, #{item.coexist}, unix_timestamp()*1000, unix_timestamp()*1000,#{adminId}, #{grantAdminId}, #{item.limitMoney}, #{item.rangeTypeIds}, #{item.rangeTypeNames}
+   		</foreach>
+    </insert>
+    
+    <!-- insert id="batchAdd">
+    	insert into store_Coupon(CouponTemplateId, TemplateName, Type, Money, RangeType, RangeContent, ValidityStartTime, ValidityEndTime,
+    		IsLimit, Coexist, CreateTime, UpdateTime, PushTitle, PushDescription, PushUrl, PublishAdminId, GrantAdminId, LimitMoney)
+    	values
+   		<foreach collection="collection" item="item" open="(" separator="),(" close=")">
+   			#{item.id}, #{item.name}, #{item.type}, #{item.money}, #{item.rangeType}, #{item.rangeContent}, #{item.validityStartTime}, #{item.validityEndTime}, 
+   			#{item.isLimit}, #{item.coexist}, unix_timestamp()*1000, unix_timestamp()*1000, #{item.pushTitle}, #{item.pushDescription}, #{item.pushUrl},
+   			#{publishAdminId}, #{grantAdminId}, #{item.limitMoney}
+   		</foreach>
+    </insert -->
+
+    <select id="getNullCode" resultType="StoreCoupon">
+
+    	select * from store_Coupon
+    	where Code is null 
+    	AND CouponTemplateId in 
+    	<foreach open="(" close=")" collection="storeCouponTemplates" item="template" separator=",">
+    	  #{template.id}
+    	</foreach>
+    </select>
+    
+    <update id="batchUpdate">
+    	<foreach collection="collection" item="item">
+    	update store_Coupon
+    	<set>
+			<if test="item.code != null">
+				Code = #{item.code},
+			</if>
+			<if test="item.businessNumber != null">
+				BusinessNumber = #{item.businessNumber},
+			</if>
+			<if test="item.storeId != null">
+				StoreId = #{item.storeId},
+			</if>
+			<if test="item.grantAdminId != null">
+				grantAdminId = #{item.grantAdminId},
+			</if>
+			<if test="item.pushStatus != null">
+				pushStatus = #{item.pushStatus},
+			</if>
+			<if test="item.pushImage != null">
+				PushImage = #{item.pushImage},
+			</if>
+			<if test="item.pushTitle != null">
+				pushTitle = #{item.pushTitle},
+			</if>
+			<if test="item.pushDescription != null">
+				pushDescription = #{item.pushDescription},
+			</if>
+			<if test="item.pushUrl != null">
+				pushUrl = #{item.pushUrl},
+			</if>
+			<if test="item.status != null">
+				Status = #{item.status},
+			</if>
+			UpdateTime = #{updateTime}
+    	</set>
+		where Id = #{item.id};	    	
+    	</foreach>
+    </update>
+    
+
+    <select id="search" resultType="StoreCoupon">
+
+    	select * from store_Coupon
+    	<where>
+    	    supplier_id = 0
+	    	<if test="storeCoupon != null">
+	    		<if test="storeCoupon.id != null">
+	    			and Id = #{storeCoupon.id}
+	    		</if>
+	    		<if test="storeCoupon.code != null">
+	    			and Code like concat ("%", #{storeCoupon.code}, "%")
+	    		</if>
+	    		<if test="storeCoupon.templateName != null">
+	    			and TemplateName like concat ("%", #{storeCoupon.templateName}, "%")
+	    		</if>
+	    		<if test="storeCoupon.type != null">
+	    			and Type = #{storeCoupon.type}
+	    		</if>
+	    		
+	    		<if test="storeCoupon.rangeType != null">
+	    			and RangeType = #{storeCoupon.rangeType}
+	    		</if>
+	    		<if test="storeCoupon.validityStartTime != null">
+	    			<![CDATA[and ValidityStartTime >= #{storeCoupon.validityStartTime}]]>
+	    		</if>
+	    		<if test="storeCoupon.validityEndTime != null">
+	    			<![CDATA[and ValidityEndTime <= #{storeCoupon.validityEndTime}]]>
+	    		</if>
+	    		<if test="storeCoupon.isLimit != null">
+	    			and IsLimit = #{storeCoupon.isLimit}
+	    		</if>
+	    		<if test="storeCoupon.businessNumber != null">
+	    			and BusinessNumber like concat ("%", #{storeCoupon.businessNumber}, "%")
+	    		</if>
+	    		<if test="storeCoupon.status != null">
+	    			<if test="storeCoupon.status != -2 and storeCoupon.status != 0 and storeCoupon.status != 2 and storeCoupon.status != 3">
+		    			and Status = #{storeCoupon.status}
+	    			</if>
+					<if test="storeCoupon.status == -2">
+						and Status = 0 and <![CDATA[ValidityEndTime < unix_timestamp()*1000 and ValidityEndTime <> 0]]>
+					</if>
+					<if test="storeCoupon.status == 0">
+						and Status = 0 and <![CDATA[(ValidityEndTime >= unix_timestamp()*1000 or ValidityEndTime = 0)]]>
+					</if>
+					<if test="storeCoupon.status == 2">
+						and Status = 0 and BusinessNumber is not null
+					</if>
+					<if test="storeCoupon.status == 3">
+						and Status = 0 and BusinessNumber is null
+					</if>
+					
+	    		</if>
+	    	</if>
+	    	<if test="id != null">
+	    		and Id = #{id}
+	    	</if>
+    		<if test="moneyMin != null">
+    			<![CDATA[and Money >= #{moneyMin}]]>
+    		</if>
+    		<if test="moneyMax != null">
+    			<![CDATA[and Money <= #{moneyMax}]]>
+    		</if>
+    		<if test="limitMoneyMin != null">
+    			<![CDATA[and LimitMoney >= #{limitMoneyMin}]]>
+    		</if>
+    		<if test="limitMoneyMax != null">
+    			<![CDATA[and LimitMoney <= #{limitMoneyMax}]]>
+    		</if>
+	    	<if test="pushStatus != null">
+	    		and pushStatus = #{pushStatus}
+	    	</if>
+	    	<if test="status != null">
+	    		and Status = #{status}
+	    	</if>
+	    	<if test="collectionStatus != null">
+	    		and Status in 
+	    		<foreach collection="collectionStatus" item="item" open="(" separator="," close=")">
+	    			#{item}
+	    		</foreach>
+	    	</if>
+    		<if test="availableTime != null">
+    			<![CDATA[and (ValidityEndTime > #{availableTime} or ValidityEndTime = 0)]]>
+    		</if>
+    		<if test="couponTemplateId != null">
+    			and CouponTemplateId = #{couponTemplateId}
+    		</if>
+    		<if test="type != null">
+	    			and Type = #{type}
+	    		</if>
+    		<if test="noOwner != null">
+    			and BusinessNumber is null
+    		</if>
+    		<if test="orderNos != null">
+    			and OrderNo in
+    			<foreach collection="orderNos" item="orderNo" open="(" separator="," close=")">
+	    			#{"orderNo"}
+	    		</foreach>
+    		</if>
+    	</where>
+    	order by id desc
+    	<if test="pageQuery != null">
+    		limit #{pageQuery.limit} offset #{pageQuery.offset}
+    	</if>
+    	<if test="sortSql != null">
+    		${sortSql}
+    	</if>
+    </select>
+
+	 <select id="searchCount" resultType="int">
+    	select count(1) from store_Coupon
+    	<where>
+    	supplier_id = 0
+	    	<if test="storeCoupon != null">
+	    		<if test="storeCoupon.id != null">
+	    			and Id = #{storeCoupon.id}
+	    		</if>
+	    		<if test="storeCoupon.code != null">
+	    			and Code like concat ("%", #{storeCoupon.code}, "%")
+	    		</if>
+	    		<if test="storeCoupon.templateName != null">
+	    			and TemplateName like concat ("%", #{storeCoupon.templateName}, "%")
+	    		</if>
+	    		<if test="storeCoupon.type != null">
+	    			and Type = #{storeCoupon.type}
+	    		</if>
+	    		<if test="storeCoupon.rangeType != null">
+	    			and RangeType = #{storeCoupon.rangeType}
+	    		</if>
+	    		<if test="storeCoupon.validityStartTime != null">
+	    			<![CDATA[and ValidityStartTime >= #{storeCoupon.validityStartTime}]]>
+	    		</if>
+	    		<if test="storeCoupon.validityEndTime != null">
+	    			<![CDATA[and ValidityEndTime <= #{storeCoupon.validityEndTime}]]>
+	    		</if>
+	    		<if test="storeCoupon.isLimit != null">
+	    			and IsLimit = #{storeCoupon.isLimit}
+	    		</if>
+	    		<if test="storeCoupon.businessNumber != null">
+	    			and BusinessNumber like concat ("%", #{storeCoupon.businessNumber}, "%")
+	    		</if>
+	    		<if test="storeCoupon.status != null">
+	    			<if test="storeCoupon.status != -2 and storeCoupon.status != 0">
+		    			and Status = #{storeCoupon.status}
+	    			</if>
+					<if test="storeCoupon.status == -2">
+						and Status = 0 and <![CDATA[ValidityEndTime < unix_timestamp()*1000 and ValidityEndTime <> 0]]>
+					</if>
+					<if test="storeCoupon.status == 0">
+						and Status = 0 and <![CDATA[(ValidityEndTime >= unix_timestamp()*1000 or ValidityEndTime = 0)]]>
+					</if>
+	    		</if>
+	    	</if>
+    		<if test="moneyMin != null">
+    			<![CDATA[and Money >= #{moneyMin}]]>
+    		</if>
+    		<if test="moneyMax != null">
+    			<![CDATA[and Money <= #{moneyMax}]]>
+    		</if>
+    		<if test="limitMoneyMin != null">
+    			<![CDATA[and LimitMoney >= #{limitMoneyMin}]]>
+    		</if>
+    		<if test="limitMoneyMax != null">
+    			<![CDATA[and LimitMoney <= #{limitMoneyMax}]]>
+    		</if>
+    		<if test="status != null">
+    			and Status = #{status}
+    		</if>
+    		<if test="expiredTime != null">
+    			<![CDATA[and ValidityEndTime < #{expiredTime} and ValidityEndTime <> 0]]>
+    		</if>
+    		<if test="availableTime != null">
+    			<![CDATA[and ValidityStartTime < #{availableTime} and (ValidityEndTime > #{availableTime} or ValidityEndTime = 0)]]>
+    		</if>
+    		<if test="couponTemplateId != null">
+    			and CouponTemplateId = #{couponTemplateId}
+    		</if>
+    	</where>
+    </select>
+    
+    <update id="update">
+    	update store_Coupon 
+    	<set>
+    		<if test="status != null">
+    			Status = #{status},
+    		</if>
+    		<if test="storeId != null">
+    			StoreId = #{storeId},
+    		</if>
+    		<if test="businessNumber != null">
+    			BusinessNumber = #{businessNumber},
+    		</if>
+    		<if test="pushStatus != null">
+    			PushStatus = #{pushStatus},
+    		</if>
+    		<if test="pushTitle != null">
+    			PushTitle = #{pushTitle},
+    		</if>
+    		<if test="pushDescription != null">
+    			PushDescription = #{pushDescription},
+    		</if>
+    		<if test="pushUrl != null">
+    			PushUrl = #{pushUrl},
+    		</if>
+    		<if test="pushImage != null">
+    			PushImage = #{pushImage},
+    		</if>
+    		<if test="adminId != null">
+    			GrantAdminId = #{adminId},
+    		</if>
+    		<if test="orderNo != null">
+    			OrderNo = #{orderNo},
+    		</if>
+    		UpdateTime = #{updateTime}
+    	</set>
+    	<where>
+    		<if test="id != null">
+    			and Id = #{id}
+    		</if>
+    		<if test="ids != null">
+    			and Id in 
+    			<foreach collection="ids" item="id" open="(" separator="," close=")">
+    				#{id}
+    			</foreach>
+    		</if>
+    	</where>
+    </update>
+    
+    <select id="availableOfTemplateId" resultType="map">
+    	select couponTemplateId, count(*) as count
+    	from store_Coupon
+    	<where>
+    		<if test="status != null">
+    			and Status = #{status}
+    		</if>
+    		<if test="availableTime != null">
+    			<![CDATA[and ValidityStartTime < #{availableTime} and (ValidityEndTime > #{availableTime} or ValidityEndTime = 0)]]>
+    		</if>
+    		<if test="couponTemplateIds != null">
+    			and CouponTemplateId in
+    			<foreach collection="couponTemplateIds" item="couponTemplateId" open="(" separator="," close=")">
+    				#{couponTemplateId}
+    			</foreach> 
+    		</if>
+    	</where>
+    	group by CouponTemplateId
+    </select>
+    
+    <insert id="add" useGeneratedKeys="true" keyProperty="id">
+    	insert into store_Coupon(CouponTemplateId, TemplateName, Type, Money, RangeType, RangeContent, ValidityStartTime, ValidityEndTime,
+    		IsLimit, Coexist, CreateTime, UpdateTime, PushTitle, PushDescription, PushUrl, PushImage, PushStatus, PublishAdminId, GrantAdminId,LimitMoney,RangeTypeIds,RangeTypeNames)
+    	values(#{couponTemplateId}, #{templateName}, #{type}, #{money}, #{rangeType}, #{rangeContent}, #{validityStartTime}, #{validityEndTime}, 
+   			#{isLimit}, #{coexist}, unix_timestamp()*1000, unix_timestamp()*1000, #{pushTitle}, #{pushDescription}, #{pushUrl}, #{pushImage}, #{pushStatus},
+   			#{publishAdminId}, #{grantAdminId},#{limitMoney},#{RangeTypeIds},#{RangeTypeNames})
+    </insert>
+    
+    
+	<insert id="batchAddByCoupons">
+		insert into store_Coupon(CouponTemplateId, TemplateName, Type, Money, RangeType, RangeTypeIds, RangeTypeNames, RangeContent, ValidityStartTime, ValidityEndTime, IsLimit,
+			Coexist, StoreId, BusinessNumber, PushStatus, PublishAdminId, GrantAdminId, CreateTime, UpdateTime, GetWay, LimitMoney)
+		values
+		<foreach collection="coupons" item="coupon" open="(" separator="),(" close=")">
+			#{coupon.couponTemplateId}, #{coupon.templateName}, #{coupon.type}, #{coupon.money}, #{coupon.rangeType},#{coupon.rangeTypeIds},#{coupon.rangeTypeNames}, #{coupon.rangeContent}, #{coupon.validityStartTime}, #{coupon.validityEndTime}, #{coupon.isLimit},
+		 	#{coupon.coexist}, #{coupon.storeId}, #{coupon.businessNumber}, #{coupon.pushStatus}, #{coupon.publishAdminId}, #{coupon.grantAdminId}, #{coupon.createTime}, #{coupon.updateTime}, #{coupon.getWay}, #{coupon.limitMoney}
+		</foreach>
+	</insert>
+
+</mapper>

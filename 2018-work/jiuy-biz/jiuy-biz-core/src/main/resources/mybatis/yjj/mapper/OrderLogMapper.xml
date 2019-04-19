@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- yjj_OrderLog 表20170427已经删除，该文件暂时保留，后期可删除 -->
+<mapper namespace="com.yujj.dao.mapper.OrderLogMapper">
+
+<!-- 
+	<insert id="addOrderLog">
+		<![CDATA[
+			insert into yjj_OrderLog
+			(UserId, OrderId, OldStatus, NewStatus, CreateTime)
+			values
+			(#{userId}, #{orderId}, #{oldStatus}, #{newStatus}, #{createTime})
+		]]>
+	</insert>
+	
+	<select id="getOrderCount" resultType="int">
+		select count(1) from yjj_OrderLog 
+		<where>
+			OldStatus = 0 and NewStatus = 10 
+			<if test="startTime != null">
+				<![CDATA[and CreateTime >= #{startTime}]]>
+			</if>
+			<if test="endTime != null">
+				<![CDATA[and CreateTime < #{endTime}]]>
+			</if>
+			<if test="userId != null">
+				and UserId = #{userId}
+			</if>
+			and OrderId not in 		
+					(select OrderId from yjj_OrderLog
+			        		where NewStatus = 90
+			        <if test="startTime != null">
+			        	and CreateTime >= #{startTime}
+			        </if>)
+		</where>
+	</select>
+	
+	<select id="getNewInvitedOrderCount" resultType="int">
+		select count(1)
+		from (select * from yjj_OrderLog
+		    where OldStatus = 0 and NewStatus = 10
+		            and userId in <foreach collection="userIds" item="userId" open="(" separator="," close=")">
+		            	#{userId}
+		            </foreach>) as a
+		left join yjj_User as b 
+		on a.UserId = b.UserId
+		where <![CDATA[a.CreateTime - b.CreateTime > #{expiredTime}]]>
+	</select>
+	 -->
+</mapper>

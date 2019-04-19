@@ -1,0 +1,728 @@
+/**商品详情**/
+.tab-box{
+  height: auto;
+  overflow: hidden;
+}
+.tab-box .img{
+  display: block;
+}
+.introduce-mod swiper{
+  height: 750rpx;
+}
+.introduce-mod .img{
+  width: 750rpx;
+  height: 750rpx;
+  margin: 0 auto;
+}
+.swiper-box swiper-item{
+  position: relative;
+}
+.swiper-box swiper-item .video-play{
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 1000;
+  margin: -38rpx -73rpx;
+  width: 146rpx;
+  height: 76rpx;
+  background: url(http://mini-img-main.oss-cn-hangzhou.aliyuncs.com/icon/play-btn.png) no-repeat;
+  background-size: 146rpx 76rpx;
+}
+/**橱窗视频**/
+.slide-video-box {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 10000;
+}
+.slide-video-box .bg{
+  width: 100%;
+  height: 100%;
+  background: #000;
+}
+.slide-video-box video{
+  width: 100%;
+  height: 900rpx;
+  position: absolute;
+  left: 0;
+  top: 50%;
+  margin: -450rpx 0;
+}
+.slide-video-box .quit-video{
+  color: #fff;
+  text-align: center;
+  width: 100%;
+  position: absolute;
+  left: 0;
+  bottom: 50rpx;
+  z-index: 1111;
+  font-size: 24rpx;
+}
+/**活动模块**/
+.activity-mod{
+  background: -webkit-linear-gradient(left, #fe3c56 55%, #f1437c);
+  background: linear-gradient(left, #fe3c56 55%, #f1437c); 
+  width: 100%;
+  height: 82rpx;
+  color: #fff;
+  font-size: 20rpx;
+}
+.activity-mod .activity-info{
+  float: left;
+  margin-left: 24rpx;
+  display: -webkit-flex;
+  display: flex;
+}
+.activity-mod .activity-info .activity-tips{
+  display: inline-block;
+}
+.activity-mod .activity-info .seckill-tips{
+  width: 60rpx;
+  height: 66rpx;
+  background: url(http://mini-img-main.oss-cn-hangzhou.aliyuncs.com/icon/3.7.7/seckell-name.png) no-repeat;
+  background-size: 60rpx;
+  margin-top: 10rpx;
+}
+.activity-mod .activity-info .group-tips{
+  width: 85rpx;
+  height: 41rpx;
+  background: url(http://mini-img-main.oss-cn-hangzhou.aliyuncs.com/icon/3.7.7/group-name.png) no-repeat;
+  background-size: 85rpx;
+  margin-top: 22rpx;
+}
+.activity-mod .activity-text{
+  display: inline-block;
+  font-size: 26rpx;
+  margin-left: 26rpx;
+  padding-top: 26rpx;
+}
+.activity-mod .time-box{
+  width: 260rpx;
+  float: right;
+}
+.activity-mod .time-box .activity-state{
+  font-size: 20rpx;
+  height: 40rpx;
+  line-height: 40rpx;
+  padding-left:30rpx; 
+}
+.activity-mod .time-box .down-time{
+  font-size: 20rpx;
+  height: 44rpx;
+  line-height: 40rpx;
+  color: #333;
+}
+.activity-mod .time-box .down-time text{
+  height: 32rpx;
+  background: #333;
+  display: inline-block;
+  line-height: 32rpx;
+  text-align: center;
+  padding: 0 4rpx;
+  border-radius: 6rpx;
+  color: #fff;
+  margin-right: 10rpx;
+  min-width: 38rpx;
+}
+/**商品标题信息模块**/
+.introduce-mod .info-box{
+   font-size: 32rpx;
+   height: auto;
+   overflow: hidden;
+   margin: 24rpx 24rpx 0;
+   position: relative;
+   border-bottom: 2rpx solid #f4f4f4;
+   padding-bottom: 24rpx;
+}
+.introduce-mod .title{
+  height: auto;
+  overflow: hidden;
+}
+.introduce-mod .title .p-name{
+  display: inline-block;
+  max-width:600rpx;
+  max-height: 84rpx;
+  line-height: 44rpx;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+/*分享按钮模块*/
+.share-model{
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding-left: 30rpx;
+  height: 60rpx;
+  text-align: center;
+}
+.share-model::before{
+  width: 2rpx;
+  height: 54rpx;
+  position: absolute;
+  top: 4rpx;
+  left: 0;
+  content: '';
+  background: #f4f4f4;
+}
+.share-model .icon{
+  width: 30rpx;
+  height: 30rpx;
+  background: url(https://yjj-img-www.oss-cn-hangzhou.aliyuncs.com/15308685400251530868540025.png);
+  background-size: 30rpx 30rpx;
+  padding: 0;
+  margin: 0;
+  border: none
+}
+.share-model .icon::after{
+  border: none;
+  content:" ";
+  width:0%;
+  height:0%;
+  position:inherit;
+  -webkit-transform:scale(0.5);
+  transform:scale(0.5);
+  border-radius:0;
+}
+.share-model .ft-text{
+  color: #9a9a9a;
+  font-size: 20rpx;
+  padding-top: 10rpx;
+  margin-left: -6rpx;
+}
+/*无分享功能时提示*/
+.share-prompt{
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 99999;
+  background: rgba(0, 0, 0, 0.55);
+}
+.share-prompt .share-box{
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+.share-prompt image{
+  width: 108rpx;
+  height: 70rpx;
+  position: absolute;
+  top: 35rpx;
+  right: 60rpx;
+  z-index: 100000
+}
+.share-prompt .text{
+  text-align: center;
+  font-size: 34rpx;
+  padding-top: 115rpx;
+  color: #fff;
+}
+
+/*商品价格模块*/
+.stock-tag{
+  float: left;
+  width: 56rpx;
+  height: 30rpx;
+  background: #fcefee;
+  color: #fd4374;
+  font-size: 20rpx;
+  font-style: normal;
+  line-height: 30rpx;
+  text-align: center;
+  border-radius: 8rpx;
+  margin: 15rpx 0 0 10rpx;
+}
+.introduce-mod .price-box{
+  margin: 20rpx 24rpx 0 0;
+  height: auto;
+  overflow: hidden;
+}
+.introduce-mod .price-info{
+  float: left;
+}
+.introduce-mod .new-price{
+  color: #ff2742;
+  font-size: 24rpx;
+  float: left;
+}
+.introduce-mod .new-price .gray{
+  font-size: 24rpx;
+  color: #9a9a9a;
+  margin-right: 10rpx;
+}
+.introduce-mod .new-price .number{
+  font-size: 44rpx;
+}
+.introduce-mod .old-price{
+  font-size: 24rpx;
+  margin-left: 30rpx;
+  float: left;
+  color: #bfbfbf;
+  padding-top: 20rpx;
+}
+.introduce-mod .old-price .del{
+  position: relative;
+  margin-left: 10rpx
+}
+.introduce-mod .old-price .del::after{
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 100%;
+  height: 2rpx;
+  overflow: hidden;
+  background: #bfbfbf;
+}
+/*退发货说明*/
+.introduce-explain{
+  height: 88rpx;
+  line-height: 88rpx;
+  display: -webkit-flex;
+  display: flex;
+  text-align: center;
+  font-size: 24rpx;
+}
+.introduce-explain .item{
+  width: 33.333%;
+}
+.introduce-explain .item text{
+  position: relative;
+  padding-left: 40rpx;
+  color: #6b6b6b;
+}
+.introduce-explain .item text::before{
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 4rpx;
+  width: 24rpx;
+  height: 24rpx;
+  background: url(http://mini-img-main.oss-cn-hangzhou.aliyuncs.com/icon/3.7.7/detail-icon01.png) no-repeat;
+  background-size: 24rpx;
+}
+/**商品详细展示模块**/
+.detail-mod{
+  height: auto;
+  overflow: hidden;
+  margin-top: 20rpx;
+  padding-bottom: 100rpx;
+}
+.detail-mod .img{
+  width: 100%;
+  height: auto;
+  margin: 0 auto;
+}
+.detail-mod .text{
+  font-size: 30rpx;
+  line-height: 1.5;
+  margin: 0 20rpx 26rpx;
+}
+.detail-mod .title{
+  height: 40rpx;
+  font-size: 30rpx;
+  text-align: center;
+  margin: 30rpx auto 20rpx;
+}
+.product-ownDetail{
+  height: auto;
+  overflow: hidden;
+  margin-top: 0rpx;
+}
+.product-spec .spec-list{
+  display: -webkit-box;
+  font-size: 28rpx;
+}
+.product-spec .spec-list .item{
+  width: 200rpx;
+  -webkit-box-flex: 1;
+}
+/**
+ * 立即购买按钮模块
+ */
+/*抢购、秒杀活动马上抢按钮*/
+.com-buy-btn{
+  width: 100%;
+  height: 90rpx;
+  text-align: center;
+  color: #fff;
+  background: #ff2742;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  z-index: 1000;
+  font-size: 32rpx;
+  line-height: 90rpx;
+}
+.btn-box{
+  width: 100%;
+  height: 90rpx;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  z-index: 1100;
+}
+.btn-box .btn-main{
+  display: -webkit-box;
+}
+.btn-box .btn-main .buy-btn{
+  height: 100rpx;
+  text-align: center;
+  color: #fff;
+  font-size: 30rpx;
+  line-height: 100rpx;
+  -webkit-box-flex: 1;
+}
+/*收藏按钮*/
+.collect-box{
+  width: 24%;
+  height: 100rpx;
+  background: #fff;
+  text-align: center;
+  font-size: 24rpx;
+  box-shadow: -3rpx 0 3rpx 3rpx #F9F9F9
+}
+.collect-box .icon{
+  width: 44rpx;
+  height: 44rpx;
+  background: url(http://mini-img-main.oss-cn-hangzhou.aliyuncs.com/icon/3.7.7/heart.png) no-repeat;
+  background-size: 44rpx 44rpx;
+  margin: 6rpx auto 0;
+}
+.collect-active .icon{
+  width: 48rpx;
+  height: 42rpx;
+  background: url(http://mini-img-main.oss-cn-hangzhou.aliyuncs.com/icon/3.7.7/heart-active.png) no-repeat;
+  background-size: 48rpx 42rpx;
+  margin: 12rpx auto 0;
+}
+
+/*加入购物车和立即购买按钮*/
+.btn-box .btn-main .join-cart-btn{
+  background: #feb4c7;
+}
+.btn-box .btn-main .buy-btn1{
+  background: #fd4374;
+}
+.btn-box .no-price-box .try-on-btn{
+  width: 100%;
+}
+.btn-box .switch-open-box .buy-btn{
+  width: 38%; 
+}
+.btn-box .switch-close-box .buy-btn{
+  width: 50%;
+}
+.no-buy-btn{
+  background: rgba(198,198,198,0.9);
+  color: #666;
+}
+/**下载二维码**/
+.down-img-btn{
+  width: 364rpx;
+  height: 60rpx;
+  line-height: 60rpx;
+  position: relative;
+  border:4rpx solid #ff2742;
+  color: #ff2742;
+  border-radius: 38rpx;
+  font-size: 28rpx;
+  padding-left: 45rpx;
+  margin: 40rpx auto
+}
+.down-img-btn::before{
+  content: '';
+  position: absolute;
+  right: 30rpx;
+  top: 15rpx;
+  width: 40rpx;
+  height: 30rpx;
+  z-index: 10;
+  background: url(http://mini-img-main.oss-cn-hangzhou.aliyuncs.com/icon/down-icon2.png);
+  background-size: 40rpx;
+}
+/**秒杀团购按钮**/
+.group-buy-box{
+  width: 100%;
+  height: 100rpx;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  z-index: 1100;
+}
+.no-stock-btn,
+.group-buy-box .group-buy-btn{
+  width: 76%;
+  height: 100rpx;
+  float: left;
+  color: #fff;
+  line-height: 100rpx;
+  font-size: 30rpx;
+  text-align: center;
+  border-radius: 0;
+  background:#fd4374;
+}
+.group-buy-box .collect-box{
+  float: left;
+}
+.no-stock-btn{
+  background:#feb4c7;
+}
+/**详情视频区域**/
+.video-section{
+  width: 750rpx;
+  height: 450rpx;
+  margin: 10rpx auto 0;
+  position: relative;
+}
+#product-video{
+  width: 750rpx;
+  height: 450rpx;
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 1;
+}
+/**立即购买**/
+.go-buy-btn{
+  z-index: 10000
+}
+.buy-xbox-bg,
+.buy-xbox{
+  width:100%; 
+  position:fixed; 
+  left:0; 
+}
+.buy-xbox-bg{
+  height:100%; 
+  top:0; 
+  z-index:10000; 
+  background:#000; 
+  opacity:0.7;
+  display: none;
+}
+.buy-xbox-container{
+  margin-bottom: 120rpx;
+}
+.buy-xbox{
+  height:auto; 
+  background:#fff; 
+  bottom:-3000rpx; 
+  z-index:10010; 
+}
+.close-buy-xbox{ 
+  position:absolute; 
+  top:-20rpx; 
+  right:10rpx; 
+  z-index:20000; 
+  width: 50rpx;
+  height: 50rpx;
+  background: url(http://mini-img-main.oss-cn-hangzhou.aliyuncs.com/icon/close-icon1.png) no-repeat;
+  background-size: 50rpx;
+}
+.buy-des{
+  display:-webkit-box;
+  margin: 24rpx;
+  padding-bottom: 20rpx;
+}
+.buy-des .img{
+  width: 180rpx;
+  height: 180rpx;
+  margin-right: 24rpx;
+  display: block;
+}
+.buy-des .info{
+  -webkit-box-flex: 1;
+}
+.buy-des .info .title{
+  font-size: 28rpx;
+  height: 80rpx;
+  overflow: hidden;
+  line-height: 40rpx;
+  padding-top: 16rpx
+}
+.buy-des .info .price{
+  font-size: 32rpx;
+  padding-top: 30rpx;
+  color: #FF2742;
+}
+.buy-des .info .price text{
+  font-size: 24rpx;
+}
+.ui-format{
+  height: auto;
+  overflow: hidden;
+  margin: 20rpx 24rpx 5rpx;
+  font-size: 24rpx;
+}
+.ui-format .format-title{
+  color: #9a9a9a;
+}
+.format-box{
+  height: auto;
+  overflow: hidden;
+  margin-top: 16rpx;
+}
+.format-box .item{
+  float: left;
+  height: 56rpx;
+  padding: 0 30rpx;
+  text-align: center;
+  line-height: 56rpx;
+  margin: 0 30rpx 20rpx 0;
+  background: #fff;
+  border-radius: 6rpx;
+  border: 2rpx solid #bfbfbf;
+  color: #6b6b6b;
+}
+.format-box .cur{
+  border: 2rpx solid #fd4374;
+  color: #fd4374;
+}
+.format-box .noStock{
+  border: 2rpx solid #dad8db;
+  color: #dad8db;
+  background: #f4f4f4;
+}
+.group-number{
+  border-bottom: none
+}
+.group-number .ac-item{
+  float: left;
+  height: 52rpx;
+  line-height: 52rpx;
+  text-align: center;
+  width: 60rpx;
+  border: 2rpx solid #bfbfbf;
+}
+.group-number .ac-item:nth-child(1){
+  border-top-left-radius: 6rpx;
+  border-bottom-left-radius: 6rpx;
+}
+.group-number .ac-item:nth-child(3){
+  border-top-right-radius: 6rpx;
+  border-bottom-right-radius: 6rpx;
+  color: #fd4374;
+}
+.group-number .gray-btn{
+  background: #f4f4f4;
+  color: #bfbfbf!important;
+}
+.group-number .num-item{
+  width: 120rpx;
+  border-left: none;
+  border-right: none;
+}
+.ui-buy-btn{
+  width: 100%;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 96rpx;
+  line-height: 96rpx;
+  background: #fd4374;
+}
+.show{
+  display: block!important;
+}
+.hide{
+  display: none!important;
+}
+/**回到顶部**/
+.go-top2{
+  bottom: 300rpx;
+  right: 24rpx;
+}
+/**电话咨询**/
+.go-phone{
+  right:18rpx;
+  bottom: 180rpx;
+}
+/**回到首页**/
+.back-home{
+  width: 80rpx;
+  height: 80rpx;
+  position: fixed;
+  top:30rpx;
+  right: 24rpx;
+  z-index: 10000;
+  background: url(http://mini-img-main.oss-cn-hangzhou.aliyuncs.com/icon/3.7.7/back-home-icon.png) no-repeat;
+  background-size:80rpx; 
+}
+
+/**自定义弹窗组件样式**/
+.popup-bg{
+  width: 100%;
+  height: 100%;
+  z-index: 999999;
+  position: fixed;
+  left: 0;
+  top: 0;
+  background: rgba(0, 0, 0, 0.50);
+}
+.popup-main{
+  width: 620rpx;
+  height: auto;
+  overflow: hidden;
+  background: #fff;
+  border-radius: 8rpx;
+  z-index: 1000000;
+  position: fixed;
+  left: 50%;
+  top: 30%;
+  margin: 0 -310rpx;
+}
+.popup-head{
+  height: 100rpx;
+  line-height: 100rpx;
+  text-align: center;
+  font-size: 32rpx;
+  border-bottom: 2rpx solid #dad8db
+}
+.popup-title{
+  width: 500rpx;
+  height: auto;
+  overflow: hidden;
+  margin: 0 auto;
+  text-align: center;
+  font-size: 28rpx;
+  padding: 40rpx 0 30rpx;
+}
+.popup-content{
+  font-size: 28rpx;
+  padding: 20px 0;
+  color: #999;
+  text-align: center;
+}
+.popup-operator{
+  display: -webkit-box;
+  height: 90rpx;
+  line-height: 90rpx;
+  text-align: center;
+  font-size: 28rpx;
+  border-top: 2rpx solid #dad8db
+}
+.popup-operator .popup-close-btn{
+  width: 50%;
+  box-sizing: border-box;
+  border-right: 2rpx solid #dad8db
+}
+.popup-operator .popup-btn{
+  width: 50%;
+  display: block;
+  box-sizing: border-box;
+  color: #3d9b3d;
+  margin: 0;
+  background: #fff;
+  padding: 0;
+  font-size: 28rpx;
+  line-height: 90rpx;
+}
+.popup-operator .popup-btn::after{
+  border:none;
+}

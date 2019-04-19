@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.store.dao.mapper.UserVisitMapper">
+
+
+ 	<insert id="addVisitHistory" parameterType="map">
+		<![CDATA[
+			insert ignore into store_UserVisitHistory
+			(UserId, GuideFlag, RelatedId, CreateTime, UpdateTime, Type)
+			values
+		]]>
+		<foreach collection="ids" item="id" open="(" close=")" separator="), (">
+			<![CDATA[
+				#{userId}, #{guideFlag}, #{id}, #{time}, #{time}, #{type}
+			]]>
+		</foreach>
+		<![CDATA[
+            ON DUPLICATE KEY UPDATE Count = Count + 1, Status = 0, UpdateTime=UNIX_TIMESTAMP(now())*1000;
+        ]]>
+	</insert>
+	
+	<insert id="addUserNotification" parameterType="map">
+        <![CDATA[ INSERT INTO yjj_UserNotification (UserId,NotificationId,PageView, CreateTime, UpdateTime) 
+            VALUES
+        ]]>
+        
+        <foreach collection="userNotifications" item="userNotification" open="(" separator="),(" close=")">
+            <![CDATA[
+                #{userNotification.userId}, #{userNotification.notificationId}, 1, #{userNotification.createTime}, #{userNotification.updateTime}            
+            ]]>
+        </foreach>
+        <![CDATA[
+            ON DUPLICATE KEY UPDATE PageView=PageView+1, UpdateTime=UNIX_TIMESTAMP(now())*1000;
+        ]]>
+    </insert>
+	
+	<select id="getUserVisitList" resultType="UserVisitHistory">
+	    <![CDATA[
+			select 
+				*
+			from 
+				store_UserVisitHistory 
+			where 
+				userId=#{userId} and Status = 0 and guideFlag = #{guideFlag}
+			order by CreateTime desc
+			limit #{pageQuery.limit} offset #{pageQuery.offset}
+		]]>
+	</select>
+	
+	<select id="getVisits" resultType="UserVisitHistory">
+	    <![CDATA[
+			select 
+				RelatedId, sum(Count) as Count
+			from 
+				store_UserVisitHistory 
+			where 
+				Status = 0 group by RelatedId
+		]]>
+	</select>
+	
+	<!--<select id="getUserVisitListCount" resultType="int">-->
+	    <!--<![CDATA[-->
+			<!--SELECT -->
+			    <!--COUNT(*)-->
+			<!--FROM-->
+			    <!--store_UserVisitHistory-->
+			<!--WHERE-->
+			    <!--userId = #{userId} AND Status = 0 and guideFlag = #{guideFlag}-->
+		<!--]]>-->
+	<!--</select>-->
+	
+<!-- 	<delete id="deleteAll">
+	    delete from store_UserVisitHistory where UserId=#{userId}
+	</delete>
+-->
+	
+	<delete id="deleteAll">
+	    UPDATE store_UserVisitHistory 
+		SET 
+		    Status = -1
+		WHERE
+		    UserId = #{userId}
+	</delete>
+	
+	<select id="getBuyGuessProduct" resultType="Product">
+	    select a.* from (select relatedId 
+	    			from store_UserVisitHistory 
+	    			where userId = #{userId}
+					order by count desc limit #{count}) as b left join yjj_Product as a on a.Id = b.RelatedId		        
+		 where 
+		 <![CDATA[
+		 	a.Id in (select productId from yjj_ProductSKU 
+		 			where name <> "补差价" and status > -1 and remainCount > 0 
+		 				and saleStartTime < #{currentTime} and (saleEndTime = 0 or saleEndTime > #{currentTime}))
+		 	]]>
+	 	 limit #{pageQuery.limit}
+	</select>
+	
+	<select id="getSeeAgainProduct" resultType="Product">
+	<![CDATA[
+	SELECT 
+	    j.*
+	FROM
+	    (SELECT 
+	        COUNT(*), g.ProductId
+	    FROM
+	        (SELECT DISTINCT
+	        (ProductId)
+	    FROM
+	        (SELECT 
+	        c.Id
+	    FROM
+	        (SELECT 
+	        RelatedId AS ProductId
+	    FROM
+	        store_UserVisitHistory
+	    WHERE
+	        userId = #{userId}
+	    ORDER BY Count DESC
+	    LIMIT 20) AS a
+	    LEFT JOIN yjj_ProductCategory b ON a.ProductId = b.ProductId
+	    LEFT JOIN yjj_Category c ON c.Id = b.CategoryId
+	    WHERE
+	        c.ParentId <> 0) AS d
+	    JOIN yjj_ProductCategory e ON d.Id = e.CategoryId
+	    WHERE
+	        e.Status = 0) AS f
+	    JOIN yjj_OrderItem g ON g.ProductId = f.ProductId
+	    JOIN (SELECT 
+	        Id, OrderStatus
+	    FROM
+	        yjj_Order
+	    WHERE
+	        OrderStatus IN (10 , 50, 60, 70)) AS h ON g.orderId = h.Id
+	    GROUP BY (g.ProductId)
+	    ORDER BY COUNT(*) DESC
+	    LIMIT #{count}) AS i
+	        JOIN
+	    yjj_Product j ON j.Id = i.ProductId
+	WHERE
+    	j.Id in (select productId from yjj_ProductSKU 
+		 			where name <> "补差价" and status > -1 and remainCount > 0 
+		 				and saleStartTime < #{currentTime} and (saleEndTime = 0 or saleEndTime > #{currentTime}))
+    LIMIT #{pageQuery.limit}
+	    ]]>
+	</select>
+</mapper>

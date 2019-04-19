@@ -1,0 +1,244 @@
+/**订单、售后等相关详情页面商品信息的共用样式**/
+.product-item{
+  height: auto;
+  overflow: hidden;
+  padding: 20rpx 24rpx;
+  display: -webkit-box;
+  color: #6c6c6c;
+  font-size: 28rpx;
+  margin-bottom: 10rpx;
+}
+.product-item image{
+  width: 180rpx;
+  height: 180rpx;
+  margin-right: 24rpx;
+  display: block;
+}
+.product-item .info{
+  -webkit-box-flex: 1;
+  position: relative;
+}
+.product-item .name{
+  font-size: 28rpx;
+  height: 70rpx;
+  line-height: 35rpx;
+  overflow : hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  color: #333;
+}
+.product-item .sku{
+  margin-top: 24rpx;
+  font-size: 20rpx;
+  display: -webkit-flex;
+  display: flex;
+  color: #cacaca
+}
+.product-item .sku .type{
+  width: 30%;
+}
+.product-item .sku .type1{
+  width:40%;
+}
+.product-item .sku .type3{
+  text-align: right
+}
+.product-item .sku .type .color-red,
+.product-item .sku .type text{
+  font-size: 24rpx;
+}
+/**页面常用操作小按钮的通用样式**/
+.com-min-btn{
+  line-height: 64rpx;
+  text-align: center;
+  border-radius: 8rpx;
+  font-size: 26rpx;
+  border: 2rpx solid #fd4374;
+  color: #fd4374;
+  background: #fff; 
+  padding: 0 24rpx; 
+}
+.com-gray-btn1{
+  border: 2rpx solid #bfbfbf;
+  color: #848484;
+}
+.com-gray-btn2{
+  border: 2rpx solid #cacaca;
+  color: #cacaca;
+}
+/**页面固定在底部的大按钮通用样式**/
+.com-fixed-btn{
+  width: 100%;
+  height: 100rpx;
+  line-height: 100rpx;
+  text-align: center;
+  color: #fff;
+  font-size: 30rpx;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  display: -webkit-box;
+  z-index: 9999;
+}
+.com-fixed-btn .btn-item{
+  -webkit-box-flex: 1
+}
+.com-fixed-btn .wd33{
+  width: 33.33%;
+}
+.com-fixed-btn .wd50{
+  width: 50%;
+}
+.com-fixed-btn .btn-item{
+  -webkit-box-flex: 1
+}
+.com-red-bg{
+  background: #fd4374!important;
+}
+.com-red-bg1{
+  background: #feb4c7!important
+}
+.com-gray-bg{
+  background: #cacaca!important
+}
+/**订单详情和订单列表提货二维码弹窗通用样式**/
+
+/**查看提货二维码**/
+.check-bg{
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 100000
+}
+.check-box{
+  width: 562rpx;
+  min-height: 700rpx;
+  background: #fff;
+  position: fixed;
+  left: 50%;
+  top:50%;
+  margin: -375rpx -281rpx;
+  z-index: 200000;
+  padding-bottom: 20rpx;
+  text-align: center;
+}
+.close-btn{
+  width: 100%;
+  height: 82rpx;
+  line-height: 82rpx;
+  text-align: center;
+  font-size: 32rpx;
+  background: #fff;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  z-index: 500000
+}
+.check-box .title{ 
+  height: auto;
+  overflow: hidden;
+  padding: 38rpx 0;
+  font-size: 32rpx;
+}
+.code-box{
+  width: 400rpx;
+  height: 400rpx;
+  margin: 0 auto;
+}
+.code-box .img{
+  width: 400rpx;
+  height: 400rpx;
+  display: block;
+}
+.code-box .reflesh-box{
+  width: 400rpx;
+  height: 400rpx;
+  background: #d0d0d0;
+  display: -webkit-flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+}
+.code-box .reflesh-box .icon{
+  width: 62rpx;
+  height: 62rpx;
+  background: url(http://mini-img-main.oss-cn-hangzhou.aliyuncs.com/icon/reflesh-icon.png) no-repeat;
+  background-size: 62rpx;
+}
+.code-box .reflesh-box .text{
+  font-size: 26rpx;
+  padding-top: 18rpx;
+}
+.check-box .code-explain{
+  font-size: 30rpx;
+  padding: 25rpx 0;
+}
+.check-box .explain{
+  width: 380rpx;
+  line-height: 1.5;
+  color: #ff2742;
+  font-size: 28rpx;
+  margin: 0 auto;
+}
+.check-box .explain .ct{
+  padding-top: 0;
+}
+.check-box .prompt{
+  color: #ff2742;
+  height: auto;
+  overflow: hidden;
+  text-align: center;
+  padding: 20rpx 0;
+  line-height: 1.8;
+  font-size: 28rpx;
+}
+/*提货状态  */
+.pickStatus .model-l{
+  width: 538rpx;
+  height: 410rpx;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  z-index: 2000;
+  background: #fff;
+  /* border-radius: 20rpx; */
+  margin:   -205rpx -269rpx ;
+  font-family: PingFangSC-Regular;
+  font-size: 30rpx;
+  text-align: center;
+}
+.pickStatus .model-l .icon{
+   width: 75rpx;
+  height: 75rpx;
+  background: url(http://mini-img-main.oss-cn-hangzhou.aliyuncs.com/icon/order-success-icon.png) no-repeat;
+  background-size: 75rpx;
+  margin: 0 auto;
+}
+.pickStatus .model-l  .success{
+  font-family: PingFangSC-Regular;
+  font-size: 32rpx;
+  color: #3E3E3E;
+  margin-top: 71rpx;
+  margin-bottom: 56rpx;
+}
+.pickStatus .model-l .sure{
+  font-family: PingFangSC-Regular;
+  font-size: 32rpx;
+  color: #3E3E3E;
+  margin-top: 56rpx;
+  margin-bottom: 65rpx;
+}
+.pickStatus .pick-bg{
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index:100001;
+  background: rgba(0, 0, 0, 0.65);
+}

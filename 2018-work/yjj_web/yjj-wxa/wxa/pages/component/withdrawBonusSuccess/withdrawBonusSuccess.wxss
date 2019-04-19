@@ -1,0 +1,78 @@
+/* 提现成功 */
+page{
+  background: #f4f4f4;
+}
+.withdraw-success{
+  background: #fff;
+  padding: 40rpx 24rpx;
+  display: -webkit-flex;
+}
+.withdraw-success .progress{
+  width: 48rpx;
+  height: 332rpx;
+  position: relative;
+}
+.withdraw-success .progress .icon1{
+  width: 48rpx;
+  height: 48rpx;
+  background: url(http://mini-img-main.oss-cn-hangzhou.aliyuncs.com/icon/new/success-red-icon.png) no-repeat;
+  background-size: 48rpx;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+.withdraw-success .progress .icon2{
+  width: 44rpx;
+  height: 44rpx;
+  background: url(http://mini-img-main.oss-cn-hangzhou.aliyuncs.com/icon/new/rmb-icon.png) no-repeat;
+  background-size: 44rpx;
+  position: absolute;
+  left: 2rpx;
+  bottom: 0;
+}
+.withdraw-success .progress .line{
+  width: 5rpx;
+  height: 120rpx;
+  background: #bfbfbf;
+  position: absolute;
+  left: 22rpx;
+}
+.withdraw-success .progress .line1{
+  top: 48rpx;
+  background: #fd4374;
+}
+.withdraw-success .progress .line2{
+  bottom: 44rpx;
+}
+.withdraw-success .box{
+  height: 330rpx;
+  margin-left: 30rpx;
+  position: relative;
+  font-size: 28rpx;
+}
+.withdraw-success .box .text1{
+  padding-bottom: 8rpx;
+}
+.withdraw-success .box .text2{
+  color: #9a9a9a;
+  font-size: 26rpx;
+  padding-top: 14rpx;
+}
+.withdraw-success .box .text3{
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+.back-btn{
+  width:702rpx;
+  height:84rpx;
+  border-radius:8rpx;
+  font-size:30rpx;
+  text-align:center;
+  line-height:86rpx;
+  color:#fd4374;
+  border:2rpx solid #fd4374;
+  position: fixed;
+  left: 24rpx;
+  bottom: 66rpx;
+}

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jiuy.core.dao.impl.sql.DbDaoSqlImpl">
+	<select id="getUserInfo" parameterType="map" resultType="map">
+		SELECT 	a.UserId as phoneUserId ,b.UserId as weixinUserId FROM yjj_User a, yjj_User b  
+		where a.username=b.bindphone ORDER BY a.UserId
+	</select>
+	
+	
+	
+	
+	<select id="getHistoryList" parameterType="map" resultType="map">
+		 SELECT  Id,RelatedId  FROM yjj_UserVisitHistory  WHERE UserId = #{userId};
+	</select>
+	<update id="updHistoryUserId"  parameterType="map">
+		UPDATE  yjj_UserVisitHistory SET UserId = #{userId} WHERE Id = #{historyId};
+	</update>
+	
+	
+	
+	<select id="getSignList" parameterType="map" resultType="map">
+		 SELECT  Id,DayTime  FROM yjj_UserSign  WHERE UserId = #{userId};
+	</select>
+	<update id="updSignUserId"  parameterType="map">
+		UPDATE  yjj_UserSign SET UserId = #{userId} WHERE Id = #{signId};
+	</update>
+	
+	<select id="getShoppingCartList" parameterType="map" resultType="map">
+		 SELECT  Id,SkuId  FROM yjj_ShoppingCart  WHERE UserId = #{userId};
+	</select>
+	<update id="updShoppingCartId"  parameterType="map">
+		UPDATE  yjj_ShoppingCart SET UserId = #{userId} WHERE Id = #{shoppingCartId};
+	</update>
+	
+	<select id="getUserLikeList" parameterType="map" resultType="map">
+		 SELECT  Id,RelatedId  FROM yjj_UserLike  WHERE UserId = #{userId};
+	</select>
+	<update id="updUserLikeId"  parameterType="map">
+		UPDATE  yjj_UserLike SET UserId = #{userId} WHERE Id = #{userLikeId};
+	</update>
+	
+	<select id="getLogList" parameterType="map" resultType="map">
+		 SELECT  Id,Type,Count  FROM yjj_InviteGiftShareLog  WHERE UserId = #{userId};
+	</select>
+	<update id="updLogId"  parameterType="map">
+		UPDATE  yjj_InviteGiftShareLog SET Count = #{count} WHERE Id = #{logId};
+	</update>
+	
+</mapper>

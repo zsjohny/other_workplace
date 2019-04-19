@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--<mapper namespace="com.jiuy.core.dao.impl.sql.YjjMemberDeprecatedDaoSqlImpl">-->
+<mapper namespace="com.jiuy.core.dao.impl.sql.MemberLogDeprecateDaoSqlImp">
+
+	<!-- 主要的返回映射-->
+	<resultMap id="BaseResultMap" type="com.yujj.entity.product.MemberLog"	>
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="member_id"  property="memberId"  jdbcType="BIGINT" />
+		<result column="source"  property="source"  jdbcType="VARCHAR" />
+		<result column="order_no"  property="orderNo"  jdbcType="CHAR" />
+		<result column="before_del_state"  property="beforeDelState"  jdbcType="TINYINT" />
+		<result column="after_del_state"  property="afterDelState"  jdbcType="TINYINT" />
+		<result column="before_total_money"  property="beforeTotalMoney"  jdbcType="DECIMAL" />
+		<result column="after_total_money"  property="afterTotalMoney"  jdbcType="DECIMAL" />
+		<result column="before_end_time"  property="beforeEndTime"  jdbcType="BIGINT" />
+		<result column="after_end_time"  property="afterEndTime"  jdbcType="BIGINT" />
+		<result column="before_time_queue"  property="beforeTimeQueue"  jdbcType="VARCHAR" />
+		<result column="after_time_queue"  property="afterTimeQueue"  jdbcType="VARCHAR" />
+		<result column="create_time"  property="createTime"  jdbcType="TIMESTAMP" />
+		<result column="create_user_id"  property="createUserId"  jdbcType="BIGINT" />
+	</resultMap>
+
+	<!-- 所有的列名-->
+	<sql id="Base_Column_List" >
+		id,member_id,source,order_no,before_del_state,after_del_state,before_total_money,after_total_money,before_end_time,
+		after_end_time,before_time_queue,after_time_queue,create_time,create_user_id
+	</sql>
+
+
+	<!-- 精确插入，非null得字段才会插入-->
+	<insert id="insertSelective" parameterType="com.yujj.entity.product.MemberLog" useGeneratedKeys="true" keyProperty="id" >
+		insert into yjj_member_log
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="id !=null">
+				id,
+			</if>
+			<if test="memberId !=null">
+				member_id,
+			</if>
+			<if test="source !=null">
+				source,
+			</if>
+			<if test="orderNo !=null">
+				order_no,
+			</if>
+			<if test="beforeDelState !=null">
+				before_del_state,
+			</if>
+			<if test="afterDelState !=null">
+				after_del_state,
+			</if>
+			<if test="beforeTotalMoney !=null">
+				before_total_money,
+			</if>
+			<if test="afterTotalMoney !=null">
+				after_total_money,
+			</if>
+			<if test="beforeEndTime !=null">
+				before_end_time,
+			</if>
+			<if test="afterEndTime !=null">
+				after_end_time,
+			</if>
+			<if test="beforeTimeQueue !=null">
+				before_time_queue,
+			</if>
+			<if test="afterTimeQueue !=null">
+				after_time_queue,
+			</if>
+			<if test="createTime !=null">
+				create_time,
+			</if>
+			<if test="createUserId !=null">
+				create_user_id,
+			</if>
+		</trim>
+
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+			<if test="id  !=null">
+				#{id,jdbcType=BIGINT},
+			</if>
+			<if test="memberId  !=null">
+				#{memberId,jdbcType=BIGINT},
+			</if>
+			<if test="source  !=null">
+				#{source,jdbcType=VARCHAR},
+			</if>
+			<if test="orderNo  !=null">
+				#{orderNo,jdbcType=CHAR},
+			</if>
+			<if test="beforeDelState  !=null">
+				#{beforeDelState,jdbcType=TINYINT},
+			</if>
+			<if test="afterDelState  !=null">
+				#{afterDelState,jdbcType=TINYINT},
+			</if>
+			<if test="beforeTotalMoney  !=null">
+				#{beforeTotalMoney,jdbcType=DECIMAL},
+			</if>
+			<if test="afterTotalMoney  !=null">
+				#{afterTotalMoney,jdbcType=DECIMAL},
+			</if>
+			<if test="beforeEndTime  !=null">
+				#{beforeEndTime,jdbcType=BIGINT},
+			</if>
+			<if test="afterEndTime  !=null">
+				#{afterEndTime,jdbcType=BIGINT},
+			</if>
+			<if test="beforeTimeQueue  !=null">
+				#{beforeTimeQueue,jdbcType=VARCHAR},
+			</if>
+			<if test="afterTimeQueue  !=null">
+				#{afterTimeQueue,jdbcType=VARCHAR},
+			</if>
+			<if test="createTime  !=null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="createUserId  !=null">
+				#{createUserId,jdbcType=BIGINT}
+			</if>
+		</trim>
+	</insert>
+
+
+</mapper>

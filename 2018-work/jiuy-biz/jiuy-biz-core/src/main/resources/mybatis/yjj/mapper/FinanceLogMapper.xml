@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yujj.dao.mapper.FinanceLogMapper">
+	
+	<select id="search" resultType="FinanceLog">
+		select * from store_FinanceLog
+		where StoreId = #{storeId} and Type in 
+				<foreach collection="types" item="type" open="(" separator="," close=")">
+						#{type}
+				</foreach>
+		limit #{pageQuery.limit} offset #{pageQuery.offset}
+	</select>
+	
+	<select id="searchCount" resultType="int">
+		select count(*) from store_FinanceLog
+		where StoreId = #{storeId} and Type in 
+				<foreach collection="types" item="type" open="(" separator="," close=")">
+					#{type}
+				</foreach>
+	</select>
+	
+	<insert id="addFinanceLog" parameterType="map">
+		<![CDATA[
+			INSERT INTO store_FinanceLog
+			(StoreId,
+			UserId,
+			Type,
+			RelatedId,
+			Cash,
+			CreateTime) VALUES
+			(#{financeLog.storeId}, #{financeLog.userId}, #{financeLog.type}, #{financeLog.relatedId}, #{financeLog.cash}, #{financeLog.createTime})
+		]]>
+    </insert>
+	
+</mapper>

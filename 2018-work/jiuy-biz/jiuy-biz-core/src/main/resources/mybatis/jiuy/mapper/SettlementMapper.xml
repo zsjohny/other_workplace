@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jiuy.core.dao.impl.sql.SettlementDaoSqlImpl">
+	
+
+	<select id="search" parameterType="map" resultType="OrderNew">
+		select * from(select o.OrderNo,o.OrderType,y.YJJNumber,o.PayTime,o.TotalMoney,o.TotalPay, 
+			o.Commission,o.AfterSellNum,o.ReturnMoney,o.AvailableCommission,o.BelongBusinessId
+			from yjj_OrderNew o  left join yjj_User y on  y.UserId = o.UserId    
+			where o.DistributionStatus = 0 and o.OrderStatus in (10,50,70) union
+			SELECT OrderNo, 3 as orderType ,null as YjjNumber,CreateTime as PayTime,TotalMoney,TotalPay,Commission,null as AfterSellNum, null as ReturnMoney,AvailableCommission, StoreId as BelongBusinessId
+			FROM store_Order where OrderStatus in(10,50,70)) as settlementOrder 
+		<if test="params != null">
+			<where>
+		   <if test="params.belongBusinessId != -1 ">
+				BelongBusinessId = #{params.belongBusinessId} 
+			</if>
+			<if test="params.orderType != -1 ">
+				and orderType = #{params.orderType}
+			</if>
+			<if test="params.yjjNumber != 0 ">
+				and  userId in  (select userId from yjj_User where YJJNumber = #{params.yjjNumber}) 
+			</if>
+			<if test="params.orderNo != 0 ">
+				and OrderNo = #{params.orderNo}
+			</if>
+			<if test="params.startTime != 0">
+				<![CDATA[
+				and PayTime >= #{params.startTime}
+				]]>
+			</if>
+			<if test="params.endTime != 0">
+				<![CDATA[
+				and PayTime <= #{params.endTime}
+				]]>
+			</if>
+			<if test="params.startTotalPay != 0">
+				<![CDATA[
+				and TotalMoney >= #{params.startTotalPay}
+				]]>
+			</if>
+			<if test="params.endTotalPay != 0">
+				<![CDATA[
+				and TotalMoney <= #{params.endTotalPay}
+				]]>
+			</if>
+			<if test="params.startCommission != 0">
+				<![CDATA[
+				and Commission >= #{params.startCommission}
+				]]>
+			</if>
+			<if test="params.endCommission != 0">
+				<![CDATA[
+				and Commission <= #{params.endCommission}
+				]]>
+			</if>
+			<if test="params.startAvailableCommission != 0">
+				<![CDATA[
+				and AvailableCommission >= #{params.startAvailableCommission}
+				]]>
+			</if>
+			<if test="params.endAvailableCommission != 0">
+				<![CDATA[
+				and AvailableCommission <= #{params.endAvailableCommission}
+				]]>
+			</if>
+			 </where>
+		</if>
+		limit #{pageQuery.limit} offset #{pageQuery.offset}
+	</select>
+	
+	<select id="searchCount" parameterType="map" resultType="int">
+		select count(1) from(select o.OrderNo,o.OrderType,y.YJJNumber,o.PayTime,o.TotalMoney,o.TotalPay, 
+			o.Commission,o.AfterSellNum,o.ReturnMoney,o.AvailableCommission,o.BelongBusinessId
+			from yjj_OrderNew o  left join yjj_User y on  y.UserId = o.UserId    
+			where o.DistributionStatus = 0 and o.OrderStatus in (10,50,70) union
+			SELECT OrderNo, 3 as orderType ,null as YjjNumber,CreateTime as PayTime,TotalMoney,TotalPay,Commission,null as AfterSellNum, null as ReturnMoney,AvailableCommission, StoreId as BelongBusinessId
+			FROM store_Order where OrderStatus in(10,50,70)) as settlementOrder 
+		<if test="params != null">
+			<where>
+		   <if test="params.belongBusinessId != -1 ">
+				BelongBusinessId = #{params.belongBusinessId} 
+			</if>
+			<if test="params.orderType != -1 ">
+				and orderType = #{params.orderType}
+			</if>
+			<if test="params.yjjNumber != 0 ">
+				and  userId in  (select userId from yjj_User where YJJNumber = #{params.yjjNumber}) 
+			</if>
+			<if test="params.orderNo != 0 ">
+				and OrderNo = #{params.orderNo}
+			</if>
+			<if test="params.startTime != 0">
+				<![CDATA[
+				and PayTime >= #{params.startTime}
+				]]>
+			</if>
+			<if test="params.endTime != 0">
+				<![CDATA[
+				and PayTime <= #{params.endTime}
+				]]>
+			</if>
+			<if test="params.startTotalPay != 0">
+				<![CDATA[
+				and TotalMoney >= #{params.startTotalPay}
+				]]>
+			</if>
+			<if test="params.endTotalPay != 0">
+				<![CDATA[
+				and TotalMoney <= #{params.endTotalPay}
+				]]>
+			</if>
+			<if test="params.startCommission != 0">
+				<![CDATA[
+				and Commission >= #{params.startCommission}
+				]]>
+			</if>
+			<if test="params.endCommission != 0">
+				<![CDATA[
+				and Commission <= #{params.endCommission}
+				]]>
+			</if>
+			<if test="params.startAvailableCommission != 0">
+				<![CDATA[
+				and AvailableCommission >= #{params.startAvailableCommission}
+				]]>
+			</if>
+			<if test="params.endAvailableCommission != 0">
+				<![CDATA[
+				and AvailableCommission <= #{params.endAvailableCommission}
+				]]>
+			</if>
+			 </where>
+		</if>
+	</select>
+	
+	<select id="searchAll" parameterType="map" resultType="OrderNew">
+			select *from yjj_OrderNew o  left join yjj_User y on  y.UserId = o.UserId 
+		<if test="params != null">
+			<where>
+		   <if test="params.belongBusinessId != -1 ">
+				o.BelongBusinessId = #{params.belongBusinessId} 
+			</if>
+			<if test="params.yjjNumber != 0 ">
+				and  o.UserId in  (select userId from yjj_User where YJJNumber = #{params.yjjNumber}) 
+			</if>
+			<if test="params.orderNo != 0">
+				and o.OrderNo = #{params.orderNo}
+			</if>
+			<if test="params.startTime != 0">
+				<![CDATA[
+				and o.PayTime >= #{params.startTime}
+				]]>
+			</if>
+			<if test="params.endTime != 0">
+				<![CDATA[
+				and o.PayTime <= #{params.endTime}
+				]]>
+			</if>
+			<if test="params.startTotalPay != 0">
+				<![CDATA[
+				and o.TotalMoney >= #{params.startTotalPay}
+				]]>
+			</if>
+			<if test="params.endTotalPay != 0">
+				<![CDATA[
+				and o.TotalMoney <= #{params.endTotalPay}
+				]]>
+			</if>
+			<if test="params.startCommission != 0">
+				<![CDATA[
+				and o.Commission >= #{params.startCommission}
+				]]>
+			</if>
+			<if test="params.endCommission != 0">
+				<![CDATA[
+				and o.Commission <= #{params.endCommission}
+				]]>
+			</if>
+			<if test="params.startAvailableCommission != 0">
+				<![CDATA[
+				and o.AvailableCommission >= #{params.startAvailableCommission}
+				]]>
+			</if>
+			<if test="params.endAvailableCommission != 0">
+				<![CDATA[
+				and o.AvailableCommission <= #{params.endAvailableCommission}
+				]]>
+			</if>
+			 </where>
+		</if>
+		and o.DistributionStatus = 0
+	</select>
+</mapper>

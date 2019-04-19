@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.store.dao.mapper.ProductPropertyMapper">
+	<select id="getOrderedProductProperties" resultType="ProductProp">
+		<![CDATA[
+			select * from yjj_ProductProperty
+			where ProductId = #{productId}
+			order by OrderIndex
+		]]>
+	</select>
+	
+	<select id="getPropsByNameId" resultType="ProductProp">
+		<![CDATA[
+			select ProductId, PropertyValueId  from yjj_ProductProperty
+			where PropertyNameId = #{propertyNameId}
+		]]>
+	</select>
+</mapper>

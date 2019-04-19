@@ -1,0 +1,32 @@
+http://fly.layui.com/jie/3874/
+
+Java实现LAYIM后端的核心代码，欢迎star
+
+基于layim的即时通讯系统。 涉及技术：java、springMVC、mybatis、jquery、mongoDB等等。
+
+核心功能
+参见 http://www.layui.com/demo/layim.html 
+我这里实现了后端的全部功能。 包括我踩过的坑：1、java操作mongo 2、离线消息推送的线程同步异步问题等等。
+
+如有疑问或者想探讨，欢迎在github给我提issues，同时欢迎star
+
+https://github.com/jkxqj/JIM
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

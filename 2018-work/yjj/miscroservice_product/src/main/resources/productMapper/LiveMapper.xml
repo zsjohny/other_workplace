@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.e_commerce.miscroservice.product.mapper.LiveMapper">
+	<sql id="base_live_user">
+		id,`name`,nick_name,icon,age,id_card,phone,sex,store_id,room_num,live_type,status,del_status,create_time,update_time
+	</sql>
+	<!--根据用户id查询-->
+	<select id="findAnchorByUserId" resultType="com.e_commerce.miscroservice.commons.entity.user.LiveUser">
+		select
+			<include refid="base_live_user"/>
+		from
+			live_user
+		where
+			id = #{userId} and del_status = 0 limit 1
+	</select>
+
+
+	<select id="findLiveUserByStoreAndType"
+			resultType="com.e_commerce.miscroservice.commons.entity.user.LiveUserDTO">
+		select
+		id,
+		`name`,
+		nick_name AS nickName,
+		icon,
+		age,
+		id_card AS idCard,
+		phone,
+		sex,
+		store_id AS storeId,
+		room_num AS roomNum,
+		live_type AS liveType,
+		open_official AS openOfficial,
+		status
+		from
+		live_user
+		where
+		store_id = #{storeId}
+		and del_status = 0
+		and live_type = #{liveType}
+	</select>
+
+
+
+
+    <select id="findLiveUserByRoomNums" resultType="com.e_commerce.miscroservice.commons.entity.user.LiveUser">
+		SELECT
+			`id`,
+			`member_id` AS memberId,
+			`store_id` AS storeId,
+			`nick_name` AS nickName,
+			`icon`,
+			`room_num` AS roomNum,
+			`live_type` AS liveType,
+			`status`,
+			  `live_room_type` as liveRoomType,
+			`del_status` AS delStatus
+		FROM live_user
+		WHERE
+			room_num IN
+			<foreach collection="roomNumList" item="num" open="(" separator="," close=")">
+				#{num}
+			</foreach>
+	</select>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+

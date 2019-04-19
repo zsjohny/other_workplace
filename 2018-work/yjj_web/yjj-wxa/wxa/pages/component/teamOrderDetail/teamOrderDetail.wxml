@@ -1,0 +1,74 @@
+<view class='body-contain'>
+  <view class='order-mod'>
+    <view class='l'>订单编号</view>
+    <view class='r'>{{detailData.orderNumber}}</view>
+  </view>
+  <view class='order-mod'>
+    <view class='l'>下单时间</view>
+    <view class='r'>{{detailData.createTime}}</view>
+  </view>
+  <view class='order-mod'>
+    <view class='l'>配送方式</view>
+    <view class='r'>
+      <block wx:if="{{detailData.orderType == 0}}">到店提货</block>
+      <block wx:if="{{detailData.orderType == 1}}">送货上门</block>
+    </view>
+  </view>
+  <view class='order-mod'>
+    <view class='l'>支付方式</view>
+    <view class='r'>微信在线支付</view>
+  </view>
+  <view class='order-mod'>
+    <view class='l'>交易编号</view>
+    <view class='r'>{{detailData.paymentNo}}</view>
+  </view>
+  <view class='order-mod'>
+    <view class='l'>支付时间</view>
+    <view class='r'>{{detailData.payTime}}</view>
+  </view>
+  <view class='order-product'>
+    <view class='title'>商品清单</view>
+    <view class='list-box'>
+      <view class='item' wx:for="{{orderItemSku}}">
+        <image class="img" mode='aspectFit' src="{{item.img}}"></image>
+        <view class='info'>
+          <view class='name'>{{item.name}}</view>
+          <view class='sku'>
+            <view class='type type1'>颜色：<text class="color-red">{{item.color}}</text></view>
+            <view class='type'>尺寸：<text class="color-red">{{item.size}}</text></view>
+            <view class='type'>数量：<text class="color-red">{{item.count}}</text></view>
+          </view>
+          <view class='price'>￥{{item.price}}</view>
+        </view>
+      </view>
+    </view>
+  </view><!--order-product end-->
+  <view class='order-mod'>
+    <view class='l'>商品总价<text class='explain'>(共1件商品)</text>：</view>
+    <view class='r'>￥{{detailData.payMoney}}</view>
+  </view>
+  <view class='order-mod'>
+    <view class='l'>快递费用：</view>
+    <view class='r'>￥{{detailData.expressMoney}}</view>
+  </view>
+  <view class='order-mod'>
+    <view class='l'>实付金额：</view>
+    <view class='r'>￥{{detailData.payMoney}}</view>
+  </view>
+  <view class='order-mod'>
+    <view class='l'>获取佣金：</view>
+    <view class='r'>￥{{record.totalCommissionCash}}</view>
+  </view>
+  <view class='order-mod'>
+    <view class='l'>获取佣金金币：</view>
+    <view class='r'>{{record.totalCommissionGoldCoin}}</view>
+  </view>
+  <view class='order-mod'>
+    <view class='l'>获取管理金：</view>
+    <view class='r'>￥{{record.totalManagerCash}}</view>
+  </view>
+  <view class='order-mod'>
+    <view class='l'>获取管理金金币：</view>
+    <view class='r'>{{record.totalManagerGoldCoin}}</view>
+  </view>
+</view>

@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jiuy.core.dao.impl.sql.BusinessWithDrawDaoSqlImpl">
+	
+	<select id="search" parameterType="map" resultType="WithDrawApply">
+		SELECT *
+		FROM yjj_WithdrawApply
+			<where> 
+			<if test="params.type != -1 ">
+				Type = #{params.type}
+			</if>
+			<if test="params.tradeId != -1 ">
+				and tradeId like CONCAT("%",#{params.tradeId},"%")
+			</if>
+			
+			<if test="params.tradeNo != '' ">
+				and TradeNo like CONCAT("%", #{params.tradeNo} ,"%")
+			</if>
+			<if test="params.status != -1 ">
+				and Status = #{params.status}
+			</if>
+			<if test="params.startReturnMoney != -1">
+				<![CDATA[
+				and Money >= #{params.startReturnMoney}
+				]]>
+			</if>
+			<if test="params.endReturnMoney != -1">
+				<![CDATA[
+				and Money <= #{params.endReturnMoney}
+				]]>
+			</if>
+			<if test="params.startApplyMoney != -1">
+				<![CDATA[
+				and ApplyMoney >= #{params.startApplyMoney}
+				]]>
+			</if>
+			<if test="params.endApplyMoney != -1">
+				<![CDATA[
+				and ApplyMoney <= #{params.endApplyMoney}
+				]]>
+			</if>
+			<if test="params.startCreateTime != 0">
+				<![CDATA[
+				and CreateTime >= #{params.startCreateTime}
+				]]>
+			</if>
+			<if test="params.endCreateTime != 0">
+				<![CDATA[
+				and CreateTime <= #{params.endCreateTime}
+				]]>
+			</if>
+			<if test="params.startDealTime != 0">
+				<![CDATA[
+				and DealTime >= #{params.startDealTime}
+				]]>
+			</if>
+			<if test="params.endDealTime != 0">
+				<![CDATA[
+				and DealTime <= #{params.endDealTime}
+				]]>
+			</if>			
+		</where>
+		order by CreateTime desc
+		limit #{pageQuery.limit} offset #{pageQuery.offset}
+	</select>
+	
+	<select id="searchCount" parameterType="map" resultType="int">
+		SELECT count(1)
+		FROM yjj_WithdrawApply
+		<where> 
+			<if test="params.type != -1 ">
+				Type = #{params.type}
+			</if>
+			<if test="params.tradeId != -1 ">
+				and TradeId like CONCAT("%",#{params.tradeId},"%")
+			</if>
+			<if test="params.tradeNo != '' ">
+				and TradeNo like CONCAT("%", #{params.tradeNo} ,"%")
+			</if>
+			<if test="params.status != -1 ">
+				and Status = #{params.status}
+			</if>
+			<if test="params.startReturnMoney != -1">
+				<![CDATA[
+				and Money >= #{params.startReturnMoney}
+				]]>
+			</if>
+			<if test="params.endReturnMoney != -1">
+				<![CDATA[
+				and Money <= #{params.endReturnMoney}
+				]]>
+			</if>
+			<if test="params.startCreateTime != 0">
+				<![CDATA[
+				and CreateTime >= #{params.startCreateTime}
+				]]>
+			</if>
+			<if test="params.endCreateTime != 0">
+				<![CDATA[
+				and CreateTime <= #{params.endCreateTime}
+				]]>
+			</if>
+			<if test="params.startDealTime != 0">
+				<![CDATA[
+				and DealTime >= #{params.startDealTime}
+				]]>
+			</if>
+			<if test="params.endDealTime != 0">
+				<![CDATA[
+				and DealTime <= #{params.endDealTime}
+				]]>
+			</if>			
+		</where>
+	</select>
+	
+	<update id="updateWithDraw" parameterType="map">
+		update yjj_WithdrawApply
+		<set>
+	        <if test="params.status!=null">
+	            Status = #{params.status},
+	        </if>
+	        <if test="params.money!=null">
+	            Money = #{params.money},
+	        </if>
+	        <if test="params.tradeNo!=null">
+	            TradeNo = #{params.tradeNo},
+	        </if>
+	        <if test="params.tradeWay != 0">
+	            TradeWay = #{params.tradeWay},
+	        </if>
+	        <if test="params.remark!=null">
+	            Remark = #{params.remark},
+	        </if>
+	         <if test="params.dealTime!=null">
+	            DealTime = #{params.dealTime},
+	        </if>
+	        <if test="params.feedBack != 0">
+	            FeedBack = #{params.feedBack},
+	        </if>
+		</set>
+		<where>
+		     <if test="params.type != -1 ">
+				Type = #{params.type}
+			</if>
+			<if test="id != 0">
+				<![CDATA[
+				and Id = #{params.id}
+				]]>
+			</if>	
+		</where>
+	</update>
+	
+	<select id="getById" parameterType="map" resultType="WithDrawApply">
+	select * from yjj_WithdrawApply
+	where id = #{id}
+	</select>
+</mapper>

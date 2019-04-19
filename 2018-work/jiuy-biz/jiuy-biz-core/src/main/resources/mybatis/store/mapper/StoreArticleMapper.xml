@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.store.dao.mapper.StoreArticleMapper">
+
+	<insert id="insertAndGetId" useGeneratedKeys="true" keyProperty="id"
+		parameterType="com.jiuyuan.entity.newentity.StoreArticle">
+		insert into store_article
+		(store_id,article_title,head_image,article_context,create_time,update_time)
+		values
+		(#{storeId},#{articleTitle},#{headImage},#{articleContext},#{createTime},#{updateTime})
+	</insert>
+
+
+
+
+	<select id="listArticlesSort" resultType="com.jiuyuan.entity.newentity.StoreArticle">
+		SELECT
+			id as id,
+			store_id as storeId,
+			article_title as articleTitle,
+			head_image as headImage,
+			<if test="searchContext != null and searchContext == true">
+				article_context as articleContext,
+			</if>
+			`STATUS`,
+			create_time as createTime,
+			update_time as updateTime,
+			public_state as publicState,
+			top as top
+		FROM
+			store_article
+		WHERE 1=1
+		<if test="query.storeId != null">
+			AND store_id = #{query.storeId}
+		</if>
+		<if test="query.publicState != null">
+			AND public_state = #{query.publicState}
+		</if>
+		<if test="query.status != null">
+			AND `STATUS` = #{query.status}
+		</if>
+		ORDER BY public_state ASC , top DESC, update_time DESC
+		limit #{pageQuery.limit} offset #{pageQuery.offset}
+	</select>
+
+	<select id="selectStoreArticle" resultType="com.jiuyuan.entity.newentity.StoreArticle">
+			select
+			`article_context` as articleContext,
+			`id`,
+			`article_title` as articleTitle,
+			`store_id` as storeId
+			from `store_article` where `id`=#{articleId}
+	</select>
+
+
+</mapper>

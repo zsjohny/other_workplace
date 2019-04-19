@@ -1646,3 +1646,19 @@ curl -o /dev/null -s -w “time_total: %{time_total}\n" "http://www.baidu.com" �
 186 docker  根据 pid  查询容器信息 docker inspect -f '{{.State.Pid}} {{.Id}}' $(docker ps -q) | grep <Pid>
 187 linux 查找所有文件包含的特定字符的文件名称find . |grep -ri "xxx" -l  (-r 递归查询  -l只列出文件名称)
 188 经常删除mysql时候 可以使用 OPTIMIZE TABLE  tableName 优化表
+189 vi 获取root 使用!sudo root保存 :w !sudo tee %
+190 linux 安装软件 sudo yum -y install epel-release 后 sudo yum -y install python-pip
+191 linux ssh 远程执行命令时候 需要把 /etc/profile 下的文件进拷贝到 ~/.bashrc下 变量才会生效
+192 tail -n +2 从第二行开始看文件 eg: docker ps -a |grep -v  miscroservice|awk  '{print $1}' |tail -n +2 
+193 开启启动想使用命令 添加 source /etc/profile 就可以使用自定义的变量
+194 jar xvf 解压 war
+195 find / -name "keyword" -print 2>/dev/null 只丢错误信息
+196 show engine innodb status 查看innode死锁的问题
+197 tee -a file 　附加到既有文件的后面，而非覆盖它 eg cat file |tee -a file 
+198 lscpu 
+	CPU(s): 逻辑cpu数量
+	Thread(s) per core: 每个核的线程数，默认每个物理核为1，开启超线程则为2
+	Core(s) per socket: ：单个物理cpu核数
+	CPU socket(s): cpu插槽数
+199 https://github.com/quericy/one-key-ikev2-vpn.git 下载 配置用户名和密码 /usr/local/etc/ipsec.secrets
+   执行 ipsec restart 即可	

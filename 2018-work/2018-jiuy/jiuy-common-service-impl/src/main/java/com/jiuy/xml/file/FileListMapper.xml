@@ -1,0 +1,360 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" > 
+<mapper namespace="com.jiuy.mapper.file.FileListMapper"> 
+ 
+ 	<!-- 主要的返回映射-->
+	<resultMap id="BaseResultMap" type="com.jiuy.model.file.FileList"	>
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="url"  property="url"  jdbcType="VARCHAR" />
+		<result column="position"  property="position"  jdbcType="INTEGER" />
+		<result column="img_type"  property="imgType"  jdbcType="INTEGER" />
+		<result column="file_id"  property="fileId"  jdbcType="VARCHAR" />
+		<result column="file_name"  property="fileName"  jdbcType="VARCHAR" />
+		<result column="create_time"  property="createTime"  jdbcType="TIMESTAMP" />
+		<result column="upload_user_id"  property="uploadUserId"  jdbcType="VARCHAR" />
+		<result column="upload_user_name"  property="uploadUserName"  jdbcType="VARCHAR" />
+		<result column="last_update_time"  property="lastUpdateTime"  jdbcType="TIMESTAMP" />
+		<result column="last_update_user_id"  property="lastUpdateUserId"  jdbcType="VARCHAR" />
+		<result column="last_update_user_name"  property="lastUpdateUserName"  jdbcType="VARCHAR" />
+		<result column="file_code"  property="fileCode"  jdbcType="VARCHAR" />
+		<result column="size"  property="size"  jdbcType="BIGINT" />
+	</resultMap>
+
+	<!-- 所有的列名-->
+	<sql id="Base_Column_List" >
+		id,url,position,img_type,file_id,file_name,create_time,upload_user_id,upload_user_name,
+		last_update_time,last_update_user_id,last_update_user_name,file_code,size
+	</sql>
+
+	<!-- 精确更新的字段-->
+	<sql id="updateBase">
+		<if test="id  !=null">
+			id = #{id,jdbcType=BIGINT}, 
+		</if>
+		<if test="url  !=null">
+			url = #{url,jdbcType=VARCHAR}, 
+		</if>
+		<if test="position  !=null">
+			position = #{position,jdbcType=INTEGER}, 
+		</if>
+		<if test="imgType  !=null">
+			img_type = #{imgType,jdbcType=INTEGER}, 
+		</if>
+		<if test="fileId  !=null">
+			file_id = #{fileId,jdbcType=VARCHAR}, 
+		</if>
+		<if test="fileName  !=null">
+			file_name = #{fileName,jdbcType=VARCHAR}, 
+		</if>
+		<if test="createTime  !=null">
+			create_time = #{createTime,jdbcType=TIMESTAMP}, 
+		</if>
+		<if test="uploadUserId  !=null">
+			upload_user_id = #{uploadUserId,jdbcType=VARCHAR}, 
+		</if>
+		<if test="uploadUserName  !=null">
+			upload_user_name = #{uploadUserName,jdbcType=VARCHAR}, 
+		</if>
+		<if test="lastUpdateTime  !=null">
+			last_update_time = #{lastUpdateTime,jdbcType=TIMESTAMP}, 
+		</if>
+		<if test="lastUpdateUserId  !=null">
+			last_update_user_id = #{lastUpdateUserId,jdbcType=VARCHAR}, 
+		</if>
+		<if test="lastUpdateUserName  !=null">
+			last_update_user_name = #{lastUpdateUserName,jdbcType=VARCHAR}, 
+		</if>
+		<if test="fileCode  !=null">
+			file_code = #{fileCode,jdbcType=VARCHAR}, 
+		</if>
+		<if test="size  !=null">
+			size = #{size,jdbcType=BIGINT} 
+		</if>
+	</sql>
+
+	<!-- 通过主键查找-->
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="Long" >
+		select 
+		<include refid="Base_Column_List" />
+		from yjj_rb_file_list
+		where  id = #{id,jdbcType=BIGINT} 
+	</select>
+
+	<!-- 通过主键删除-->
+	<delete id="deleteByPrimaryKey" parameterType="Long" >
+		delete from yjj_rb_file_list
+		where id = #{id,jdbcType=BIGINT} 
+	</delete>
+
+	<!-- 普通插入全字段插t入-->
+	<insert id="insert" parameterType="com.jiuy.model.file.FileList" >
+		insert into yjj_rb_file_list
+		(
+			id,
+			url,
+			position,
+			img_type,
+			file_id,
+			file_name,
+			create_time,
+			upload_user_id,
+			upload_user_name,
+			last_update_time,
+			last_update_user_id,
+			last_update_user_name,
+			file_code,
+			size
+		)
+		values
+		(
+			#{id ,jdbcType=BIGINT},
+			#{url ,jdbcType=VARCHAR},
+			#{position ,jdbcType=INTEGER},
+			#{imgType ,jdbcType=INTEGER},
+			#{fileId ,jdbcType=VARCHAR},
+			#{fileName ,jdbcType=VARCHAR},
+			#{createTime ,jdbcType=TIMESTAMP},
+			#{uploadUserId ,jdbcType=VARCHAR},
+			#{uploadUserName ,jdbcType=VARCHAR},
+			#{lastUpdateTime ,jdbcType=TIMESTAMP},
+			#{lastUpdateUserId ,jdbcType=VARCHAR},
+			#{lastUpdateUserName ,jdbcType=VARCHAR},
+			#{fileCode ,jdbcType=VARCHAR},
+			#{size ,jdbcType=BIGINT}
+		)
+	</insert>
+
+	<!-- 批量插入，全部字段插入-->
+	<insert id="insertBach"   parameterType="List" >
+		insert into yjj_rb_file_list
+		(
+			id,
+			url,
+			position,
+			img_type,
+			file_id,
+			file_name,
+			create_time,
+			upload_user_id,
+			upload_user_name,
+			last_update_time,
+			last_update_user_id,
+			last_update_user_name,
+			file_code,
+			size
+		)
+		values 
+		<foreach collection="list" item="item" separator=",">
+		(
+			#{item.id ,jdbcType=BIGINT},
+			#{item.url ,jdbcType=VARCHAR},
+			#{item.position ,jdbcType=INTEGER},
+			#{item.imgType ,jdbcType=INTEGER},
+			#{item.fileId ,jdbcType=VARCHAR},
+			#{item.fileName ,jdbcType=VARCHAR},
+			#{item.createTime ,jdbcType=TIMESTAMP},
+			#{item.uploadUserId ,jdbcType=VARCHAR},
+			#{item.uploadUserName ,jdbcType=VARCHAR},
+			#{item.lastUpdateTime ,jdbcType=TIMESTAMP},
+			#{item.lastUpdateUserId ,jdbcType=VARCHAR},
+			#{item.lastUpdateUserName ,jdbcType=VARCHAR},
+			#{item.fileCode ,jdbcType=VARCHAR},
+			#{item.size ,jdbcType=BIGINT}
+		)
+		</foreach>
+	</insert>
+
+	<!-- 精确插入，非null得字段才会插入-->
+	<insert id="insertSelective" parameterType="com.jiuy.model.file.FileList" useGeneratedKeys="true" keyProperty="id" >
+		insert into yjj_rb_file_list
+		<trim prefix="(" suffix=")" suffixOverrides="," > 
+			<if test="id !=null">  
+				id,
+			</if>
+			<if test="url !=null">  
+				url,
+			</if>
+			<if test="position !=null">  
+				position,
+			</if>
+			<if test="imgType !=null">  
+				img_type,
+			</if>
+			<if test="fileId !=null">  
+				file_id,
+			</if>
+			<if test="fileName !=null">  
+				file_name,
+			</if>
+			<if test="createTime !=null">  
+				create_time,
+			</if>
+			<if test="uploadUserId !=null">  
+				upload_user_id,
+			</if>
+			<if test="uploadUserName !=null">  
+				upload_user_name,
+			</if>
+			<if test="lastUpdateTime !=null">  
+				last_update_time,
+			</if>
+			<if test="lastUpdateUserId !=null">  
+				last_update_user_id,
+			</if>
+			<if test="lastUpdateUserName !=null">  
+				last_update_user_name,
+			</if>
+			<if test="fileCode !=null">  
+				file_code,
+			</if>
+			<if test="size !=null">  
+				size,
+			</if>
+		</trim>
+
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+			<if test="id  !=null">
+				#{id,jdbcType=BIGINT}, 
+			</if>
+			<if test="url  !=null">
+				#{url,jdbcType=VARCHAR}, 
+			</if>
+			<if test="position  !=null">
+				#{position,jdbcType=INTEGER}, 
+			</if>
+			<if test="imgType  !=null">
+				#{imgType,jdbcType=INTEGER}, 
+			</if>
+			<if test="fileId  !=null">
+				#{fileId,jdbcType=VARCHAR}, 
+			</if>
+			<if test="fileName  !=null">
+				#{fileName,jdbcType=VARCHAR}, 
+			</if>
+			<if test="createTime  !=null">
+				#{createTime,jdbcType=TIMESTAMP}, 
+			</if>
+			<if test="uploadUserId  !=null">
+				#{uploadUserId,jdbcType=VARCHAR}, 
+			</if>
+			<if test="uploadUserName  !=null">
+				#{uploadUserName,jdbcType=VARCHAR}, 
+			</if>
+			<if test="lastUpdateTime  !=null">
+				#{lastUpdateTime,jdbcType=TIMESTAMP}, 
+			</if>
+			<if test="lastUpdateUserId  !=null">
+				#{lastUpdateUserId,jdbcType=VARCHAR}, 
+			</if>
+			<if test="lastUpdateUserName  !=null">
+				#{lastUpdateUserName,jdbcType=VARCHAR}, 
+			</if>
+			<if test="fileCode  !=null">
+				#{fileCode,jdbcType=VARCHAR}, 
+			</if>
+			<if test="size  !=null">
+				#{size,jdbcType=BIGINT} 
+			</if>
+		</trim>
+	</insert> 
+
+	<!-- 精确更新-->
+	<update id="updateByPrimaryKeySelective" parameterType="com.jiuy.model.file.FileList" >
+		update yjj_rb_file_list
+		<set>
+			<include refid="updateBase"/>
+		</set>
+		where id = #{id,jdbcType=BIGINT} 
+	</update> 
+
+	<!-- 全字段更新 需要注意-->
+	<update id="updateByPrimaryKey" parameterType="com.jiuy.model.file.FileList" >
+		update yjj_rb_file_list
+		set 
+			id = #{id ,jdbcType=BIGINT},
+			url = #{url ,jdbcType=VARCHAR},
+			position = #{position ,jdbcType=INTEGER},
+			img_type = #{imgType ,jdbcType=INTEGER},
+			file_id = #{fileId ,jdbcType=VARCHAR},
+			file_name = #{fileName ,jdbcType=VARCHAR},
+			create_time = #{createTime ,jdbcType=TIMESTAMP},
+			upload_user_id = #{uploadUserId ,jdbcType=VARCHAR},
+			upload_user_name = #{uploadUserName ,jdbcType=VARCHAR},
+			last_update_time = #{lastUpdateTime ,jdbcType=TIMESTAMP},
+			last_update_user_id = #{lastUpdateUserId ,jdbcType=VARCHAR},
+			last_update_user_name = #{lastUpdateUserName ,jdbcType=VARCHAR},
+			file_code = #{fileCode ,jdbcType=VARCHAR},
+			size = #{size ,jdbcType=BIGINT}
+		where id = #{id,jdbcType=BIGINT} 
+	</update> 
+
+	<!-- 所有的条件集合-->
+	<sql id="whereCase"  >
+		where  1=1 
+		<if test="id  !=null">
+			AND id = #{id,jdbcType=BIGINT} 
+		</if>
+		<if test="url  !=null">
+			AND url = #{url,jdbcType=VARCHAR} 
+		</if>
+		<if test="position  !=null">
+			AND position = #{position,jdbcType=INTEGER} 
+		</if>
+		<if test="imgType  !=null">
+			AND img_type = #{imgType,jdbcType=INTEGER} 
+		</if>
+		<if test="fileId  !=null">
+			AND file_id = #{fileId,jdbcType=VARCHAR} 
+		</if>
+		<if test="fileName  !=null">
+			AND file_name = #{fileName,jdbcType=VARCHAR} 
+		</if>
+		<if test="createTime  !=null">
+			AND create_time = #{createTime,jdbcType=TIMESTAMP} 
+		</if>
+		<if test="uploadUserId  !=null">
+			AND upload_user_id = #{uploadUserId,jdbcType=VARCHAR} 
+		</if>
+		<if test="uploadUserName  !=null">
+			AND upload_user_name = #{uploadUserName,jdbcType=VARCHAR} 
+		</if>
+		<if test="lastUpdateTime  !=null">
+			AND last_update_time = #{lastUpdateTime,jdbcType=TIMESTAMP} 
+		</if>
+		<if test="lastUpdateUserId  !=null">
+			AND last_update_user_id = #{lastUpdateUserId,jdbcType=VARCHAR} 
+		</if>
+		<if test="lastUpdateUserName  !=null">
+			AND last_update_user_name = #{lastUpdateUserName,jdbcType=VARCHAR} 
+		</if>
+		<if test="fileCode  !=null">
+			AND file_code = #{fileCode,jdbcType=VARCHAR} 
+		</if>
+		<if test="size  !=null">
+			AND size = #{size,jdbcType=BIGINT} 
+		</if>
+		<include refid="costomWhereCase"/>
+	</sql>
+
+	<!-- 查询一条，如果返回多条会报错-->
+	<select id="selectOne" parameterType="java.util.Map" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" /> 
+		FROM yjj_rb_file_list 
+		<include refid="whereCase" /> 
+	</select>
+
+	<!-- 查询一个list-->
+	<select id="selectList" parameterType="java.util.Map" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" /> 
+		FROM yjj_rb_file_list 
+		<include refid="whereCase" /> 
+	</select>
+
+	<!--  @Costom -->
+	<!-- 从上一行注释以上为系统生成 从这一行往下为用户自定义 请将自定义的sql放在此行下面 -->
+	<sql id="costomWhereCase">
+	</sql>
+
+</mapper>

@@ -1,0 +1,172 @@
+body{ background: #eaeaea;}
+/*我的财务*/
+.main .balance{ position: relative; width: 100%;  text-align: center;}
+.main .balance .title{padding: 9px 0px 3px; line-height:24px ; color: #333;}
+.main .balance .fund{ font-size:21px ; line-height: 31px; color: #fd4374;}
+.main .balance .cumulative{ font-size: 14px; ; line-height:24px; color: #333;}
+.main .balance .extract{ position: absolute; top: 0px; right: 10px; top:13px;  color: #333; line-height: 18px;  border-bottom: 1px solid #6a6a6a;}
+
+.main .withdrawals{  width: 100%; height: 51px; padding: 10px 0px;}
+.main .withdrawals .item{ display:inline-block; float: left; width: 50%; height: 30px;text-align: center;  }
+.main .withdrawals .item p{font-size:13px; color: #333; line-height:18px ; }
+.main .withdrawals .item font{ font-size: 11px; line-height: 20px; color: #a6a6a6; }
+
+.main .tabsbox .nav-hd {border-top: 1px solid #eaeaea; border-bottom: 1px solid #eaeaea;height: 45px;}
+.main .tabsbox .nav-hd li{ display: block; float: left; width:50% ;  line-height: 43px; text-align: center; }
+.main .tabsbox .nav-hd li.active{color: #fd4374; background: #eaeaea;}
+.main .tabsbox .nav-hd li a{ display: block; width: 100%; height: 100%; font-size: 16px; text-decoration: none;}
+.main .tabsbox .nav-hd li.active a{color: #fd4374;}
+
+#heard_box{ position: absolute; top: 29px; left: 0px; width: 100%;}
+.main #myTab{ position: absolute; top: 170px; left: 0px; width: 100%;}
+
+
+/*上拉加载*/
+#wrapper { position: absolute; top: 48px; bottom: 50px; left: 0; width: 100%;}
+#wrapper.nofooter{ bottom: 0px;}
+#pullDown, #pullUp { padding: 0 10px; height: 30px; line-height: 30px; color: #888; text-align: center;}
+.lodingicon{ width: 18px; height: 18px; display: inline-block;}
+.lodingicon img{ width: 100%;}
+/*End 我的财务*/
+
+
+
+/*登录*/
+.sideMargin{ width: 92%; margin: 0px 4%;}
+.sideMargin .loginUl{ width: 100%;}
+.sideMargin .loginUl li{ width: 100%; height: 40px; margin-bottom: 10px; position: relative; padding-left: 30px; border-bottom: 1px solid #d5d5d5;}
+.sideMargin .loginUl li .icon{ width: 20px; height: 20px; top: 10px; left: 0px; position: absolute; font-size: 0px; text-align: center;}
+.sideMargin .loginUl li .icon img{ width: 100%;}
+.sideMargin .InputCom{ width: 100%; height: 39px; border: none; font-size: 14px; }
+.sideMargin .forgetPassword{ display: inline-block; float: right; text-align: right; color: #999;}
+.sideMargin .forgetPassword:hover{ color: #999;}
+.sideMargin .loginBtnCom{ width: 100%; height: 40px; line-height: 40px; text-align: center; color: #fff; background: #FD4374; border-radius: 3px; display: inline-block; font-size: 16px;}
+.sideMargin .loginBtnCom.disable{ background: #FFB2BF;}
+.sideMargin .loginBtnCom:hover{ color: #fff;}
+.sideMargin .returnState{display: inline-block; max-width: 80%;  min-height: 28px; font-size: 12px; padding: 0px 10px; line-height: 28px; color: #FFFFFF; background: #666; border-radius: 3px; }
+
+.ErrorPrompt{ width: 80%; padding: 5px 10px; margin: 0px 10%; line-height: 20px; text-align: center; color: #fff; border-radius: 5px; background: #999;}
+.ErrorPrompt p span{ font-size: 14px; color: #FD4374;}
+/*找回密码 --- 获取验证码*/
+.RetrievePasswordUl{ width: 100%;}
+.RetrievePasswordUl li{ width: 100%; height: 40px; margin-bottom: 10px; position: relative;  border-bottom: 1px solid #d5d5d5;}
+
+/*找回密码 ---请输入验证码*/
+.promptInfo{ color: #FD4374;text-align: center;}
+.RetrievePasswordUl li.VerificationCodeBox{ padding-right: 80px; width: 100%; }
+.VerificationCodeBG{ display: block; min-width: 90px; padding: 0px 0px 0px 10px ;  display: inline-block; height: 35px;  position: absolute; right: 0px; bottom: -1px; background: #FFFFFF;}
+.VerificationCodeBtn{ width: 100%; padding: 0px 10px; text-align: center; height: 35px; color: #666666; line-height: 33px; border-radius: 5px; border: 1px solid #666666; border-radius: 3px; display: inline-block; background-color: transparent;}
+.VerificationCodeBtn.disable{color: #a6a6a6; border: 1px solid #FFFFFF; }
+
+/*End 登录*/
+
+
+/*首页*/
+#moreMenu{ width:65px ; }
+#moreMenu .dropdown-menu{ top: 44px; min-width: 65px;padding: 0px; margin:  0 0 ; } 
+#moreMenu .moreMenu-icon{ position: absolute; top: -5px; right: 9px; width: 7px; height: 5px; background: url(../images/icon_08.png)  right top  no-repeat #fff; background-size: 100%;}
+#moreMenu .dropdown-menu>li{ border-bottom: 1px solid #eaeaea; }
+#moreMenu .dropdown-menu>li>a{ padding: 0px 5px; text-align: center;height: 26px; line-height: 25px;}
+
+
+/*banner*/
+#index-banner{}
+#index-banner .item{ width: 100%;  /*height: 180px;*/ overflow: hidden; background-color: #ffadad;}
+#index-banner .item img{ width: 100%;}
+#index-banner .carousel-indicators li{width: 7px; height: 7px; }
+#index-banner .carousel-indicators{ bottom: 0px;}
+
+.main .titleCom{ height: 36px; margin-bottom: 10px; font-size: 13px; font-size: 13px; text-align: center; line-height: 35px; border-bottom: 1px solid #ededed;}
+.main .titleCom.newTitle{ margin-bottom: 0px; border-bottom: none;}
+
+.main .brandBox,.main .productBox,.membershiBox{ background: #FFFFFF; margin-bottom: 10px;}
+.brandBox .branList,.productBox.productList{ padding: 0px 5px;}
+.brandBox .branList .pic,.productBox.productList .pic{ width: 100%; overflow: hidden; text-align: center;}
+.brandBox .branList .pic img,.productBox .productList .pic img{ width: 100%; height: 100%;}
+.brandBox .branList p,.productBox .productList p,.productList .txt h2{ white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+.brandBox .branList li,.productBox .productList li{position: relative; float: left;}
+
+.brandBox .branList li{ width: 20%; padding:0px 5px; margin-bottom: 4px;  }
+.brandBox .branList .pic{ border: 1px solid #eaeaea;}
+.brandBox .branList p{width:100% ; line-height:24px ; text-align: center; }
+
+.productBox .productList li{ width: 50%; padding:0px 5px; margin-bottom: 6px; }
+.productList .txt h2{ width: 100%;  font-size: 12px; color: #666; line-height: 22px; padding-top: 4px;}
+.productList .txt p{ line-height: 22px;}
+.productList .txt p.wholesalePrice{ font-size: 12px; color: #fd4374;}
+.productList .txt p.SuggestedPrice{ font-size: 11px; color: #a6a6a6; }
+.productList .productLogo { position: absolute; top: 0px; left: 5px; width:30px; height: 30px;}
+.productList .productLogo img{ width: 100%; height: 100%;}
+
+/*END首页*/
+
+
+/*会员管理*/
+.membershiBox{ position: absolute; top: 29px; left: 0px; width: 100%;}
+#membershipHeard{ border-bottom: 1px solid #eaeaea;}
+#membershipHeard .msg{ font-size: 12px; height: 30px; line-height: 30px; color: #333; text-align: center;}
+#membershipHeard .item{ float: left; width: 50%; text-align: center;}
+#membershipHeard .item span{ color: #fd4374; font-size: 21px; line-height: 30px; }
+.TotalMembership{ margin-top: 3px; padding-bottom: 20px;}
+
+.membershiBox .memberSearch{ position: relative; width: 92%; height: 30px; margin: 10px 4%; padding-left: 33px; border-radius: 4px; background-color: #f5f5f5;}
+.membershiBox .memberSearch .icon{position: absolute; left: 10px; top: 6px; width: 18px; height: 18px; }
+.membershiBox .memberSearch .icon img{ width: 100%; width: 100%;}
+.membershiBox .memberSearch input{position: absolute; z-index: 999; width: 100%; height: 30px; background-color:transparent; border: none; }
+
+.memberScreenList{height: 25px; line-height: 25px;}
+.memberScreenList li{ float: left; width: 33.333%; text-align: center; border-right: 1px solid #eaeaea;}
+.memberScreenList li a{ display: block;}
+.memberScreenList li .icon{ width: 10px; height: 12px; margin: 7px 0px 6px 8px ;}
+
+#memberList{ margin-top: 186px; background: #fff;}
+
+/*END会员管理*/
+
+/*订单统计*/
+.head{position:fixed;top: 0;width: 100%;height: 45px;z-index: 1000;overflow:scroll;overflow-x: hidden;overflow-y: hidden;box-shadow: 3px 1px 5px #888888;}
+.head .nav-li li{width:25%;line-height: 23px;margin-top: 10px;margin-bottom: 10px;border-right: 1px solid #ccc;float: left;text-align: center;}
+.head .nav-li li:last-child{border-right: none}
+.head .nav-li li a{font-size: 13px}
+.head .nav-li li.active{color: #fd4374; background: #fff;}
+
+#purchaseordersinfo{position: fixed;top:84px;width: 96%;margin-left: 2%;z-index: 100}
+#purchaseordersinfo .withdrawals .item{width: 100%;text-align: left;line-height: 40px;padding: 0 10px}
+#purchaseordersinfo .withdrawals{background: #fff;height: 80px;padding: 0}
+#purchaseordersinfo .withdrawals .can-withdrawals{height: 40px;border-bottom: 1px solid #eaeaea}
+#purchaseordersinfo .withdrawals .item p{line-height: 40px;float: left;}
+#purchaseordersinfo .withdrawals .item font{line-height: 40px;float: right;color: #fd4374}
+
+
+
+.main1{margin-top:0;}
+.main1 #wrapper{top: 0}
+.main1 .tabsbox .bill-list{padding-top: 601px;width: 96%;margin-left: 2%;}
+.main1 .tabsbox .bill-list li{border-bottom: none;height: 46px;width: 90%;margin-left: 5%;background:#fff;border-left:1px solid #d2d2d2;border-right:1px solid #d2d2d2;padding: 0}
+.main1 .tabsbox .bill-list li:nth-child(2n){background:#f5f5f5;}
+.main1 .tabsbox .bill-list li .detailed{background-image: none;}
+.main1 .tabsbox .bill-list li .date,.main1 .tabsbox .bill-list li .detailed,.main1 .tabsbox .bill-list li .concern{position: relative;float: left;width: 33.3%;
+ padding:0;height: 46px;line-height: 46px;text-align: center;color: #747474;border-left: 1px solid #d2d2d2;}
+ .main1 .tabsbox .bill-list li .date{border-left: none}
+.main1 .tabsbox .title-list li .date,.main1 .tabsbox .title-list li .detailed,.main1 .tabsbox .title-list li .concern{width: 30%;border-left: 1px solid #d2d2d2;background: #f5f5f5;    margin-top: 20px;}
+.main1 .tabsbox .title-list li .date{margin-left: 5%;    width: 29.95%;}    
+.main1 .tabsbox .title-list li .detailed{width: 29.95%;}    
+.main1 .tabsbox .title-list li .concern{border-right: 1px solid #d2d2d2}
+.main1 .tabsbox .bill-list li .color-33{color: #333}
+.main1 .tabsbox .title-list li{background:#fff;border-top:1px solid #d2d2d2;width: 100%;margin-left: 0;border:none;}
+.main1 .tabsbox .title-list li div{background-image: #f5f5f5;}
+.main1 .tabsbox #income{padding-top:0;background: #fff;}
+/*折线图开始*/
+#linechartbtn{position:fixed;top: 174px;width: 96%;margin-left: 2% !important;z-index:100;height: 50px;background: #fff;padding: 10px}
+#linechartbtn button{border:1px solid #999;padding:5px 10px;color: #999;background: #fff;border-radius: 5px;}
+#linechartbtn .amountbtn{margin-right: 20px;}
+#chartdiv,#chartdiv2{position: fixed;top:224px;width: 96%;margin-left: 2% !important;z-index: 100;height: 397px;background: #fff}
+.highcharts-credits{display: none}
+.addvip{color:red;border:1px solid red;}
+.highcharts-title{display: none}
+.highcharts-yaxis{display: none}
+.highcharts-contextbutton{display: none}
+.highcharts-legend-item{align: 'center',verticalAlign: 'top',x: 0,y: 20}
+/*.morris-hover{display: none !important}*/
+/*折线图结束*/
+/*END订单统计*/

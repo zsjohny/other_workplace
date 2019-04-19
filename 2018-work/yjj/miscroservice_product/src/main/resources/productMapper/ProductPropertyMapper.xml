@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.e_commerce.miscroservice.product.mapper.ProductPropertyMapper">
+
+
+    <select id="listByProduct" resultType="java.util.Map">
+        SELECT pv.PropertyValue AS propValue, pn.PropertyName AS propName
+        FROM yjj_ProductProperty pp
+        JOIN yjj_PropertyName pn ON pn.Id = pp.PropertyNameId
+        JOIN yjj_PropertyValue pv ON pv.Id = pp.PropertyValueId
+        WHERE pp.ProductId = #{productId}
+    </select>
+</mapper>

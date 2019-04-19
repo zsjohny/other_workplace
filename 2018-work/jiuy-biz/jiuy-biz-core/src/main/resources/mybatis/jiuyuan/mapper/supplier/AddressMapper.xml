@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jiuyuan.dao.mapper.shop.AddressMapper">
+
+	<select id="loadAddressList" resultType="com.jiuyuan.entity.account.Address">
+		<![CDATA[
+			select * from store_Address
+			where StoreId = #{userId} and Status = 0
+		]]>
+	</select>
+	
+	<select id="getUserAddress" resultType="com.jiuyuan.entity.account.Address">
+		<![CDATA[
+			select * from store_Address
+			where StoreId = #{userId} and AddrId = #{addressId} and Status = 0
+		]]>
+	</select>
+	
+	<insert id="addAddress" useGeneratedKeys="true" keyProperty="addrId">
+		<![CDATA[
+			insert into store_Address
+			(StoreId, ReceiverName, ProvinceName, CityName, DistrictName, AddrDetail, MailCode, Telephone, FixPhone, AddrFull, Status, IsDefault, CreateTime, UpdateTime)
+			VALUES
+			(#{userId}, #{receiverName}, #{provinceName}, #{cityName}, #{districtName}, #{addrDetail}, #{mailCode}, #{telephone}, #{fixPhone}, #{addrFull}, #{status}, #{isDefault}, #{createTime}, #{updateTime})
+		]]>
+    </insert>
+    
+    <!-- select id="getAreaProvinceList" resultType="AreaProvince">
+		<![CDATA[
+			select * from yjj_Province order by ProvinceCode
+			
+		]]>
+	</select>
+	
+    <select id="getAreaCityList" resultType="AreaCity">
+		<![CDATA[
+			select * from yjj_City where ParentCode = #{provinceCode}
+			
+		]]>
+	</select>
+	
+    <select id="getAreaDistrictList" resultType="AreaDistrict">
+		<![CDATA[
+			select * from yjj_District where ParentCode = #{cityCode}
+			
+		]]>
+	</select -->
+	
+	<update id="removeAddress">
+		<![CDATA[
+			update store_Address
+			set Status = -1
+			where StoreId = #{userId} and AddrId = #{addressId} and Status = 0
+		]]>
+	</update>
+	
+	<update id="removeDefaultAddress">
+		<![CDATA[
+			update store_Address
+			set IsDefault = 0
+			where StoreId = #{userId} and Status = 0
+		]]>
+	</update>
+	
+	<update id="setDefaultAddress" parameterType="map">
+		<![CDATA[
+			update store_Address
+			set IsDefault = 1
+			where StoreId = #{userId} and AddrId = #{addressId} and Status = 0
+		]]>
+	</update>
+	
+	<update id="updateAddress" parameterType="map">
+		<![CDATA[
+			update store_Address
+			set ReceiverName = #{address.receiverName}, ProvinceName = #{address.provinceName}, CityName = #{address.cityName}, DistrictName = #{address.districtName}, AddrDetail = #{address.addrDetail}, MailCode = #{address.mailCode}, Telephone = #{address.telephone}, FixPhone = #{address.fixPhone}, AddrFull = #{address.addrFull}, IsDefault = #{address.isDefault}, UpdateTime = #{address.updateTime}
+			where AddrId = #{address.addrId} and StoreId = #{userId} and Status = 0
+		]]>
+	</update>
+	
+	<select id="AddressOfUserIdsStore" parameterType="map" resultType="com.jiuyuan.entity.account.Address">
+		select * from store_Address
+		where StoreId  in 
+		<foreach collection="userIds" item="userId" open="(" separator="," close=")">
+			#{userId}
+		</foreach> 
+	</select>
+</mapper>

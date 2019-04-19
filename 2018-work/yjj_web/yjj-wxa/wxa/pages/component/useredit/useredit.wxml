@@ -1,0 +1,13 @@
+<view class="user-edit-list">
+    <view  class="item" bindtap="changeHeadFun">
+         <image  src="{{ headUrl }}" background-size="cover" class="head" wx:if="{{ headUrl }}"></image> 
+         <image wx:else src="http://mini-img-main.oss-cn-hangzhou.aliyuncs.com/icon/no-head.png" background-size="cover" style="width:75rpx;height:75rpx" class="head"></image>
+        <view class="arrow"></view>
+    </view>
+    <navigator url="../editname/editname" class="item">
+        <view class="nickname">昵称</view>
+        <view wx:if="{{ nickName }}" class="name">{{ nickName }}</view>
+        <view wx:else class="name">游客</view>
+        <view class="arrow"></view>
+    </navigator>
+</view>

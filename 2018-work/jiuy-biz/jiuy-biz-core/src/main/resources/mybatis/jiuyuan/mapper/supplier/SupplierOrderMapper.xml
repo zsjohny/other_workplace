@@ -1,0 +1,636 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jiuyuan.dao.mapper.supplier.SupplierOrderMapper">
+
+	<sql id="updateBase">
+		<if test="OrderNo  !=null">
+			OrderNo = #{OrderNo,jdbcType=BIGINT},
+		</if>
+		<if test="orderNoAttachmentStr  !=null">
+			orderNo_attachment_str = #{orderNoAttachmentStr,jdbcType=VARCHAR},
+		</if>
+		<if test="StoreId  !=null">
+			StoreId = #{StoreId,jdbcType=BIGINT},
+		</if>
+		<if test="OrderType  !=null">
+			OrderType = #{OrderType,jdbcType=TINYINT},
+		</if>
+		<if test="OrderStatus  !=null">
+			OrderStatus = #{OrderStatus,jdbcType=TINYINT},
+		</if>
+		<if test="orderCloseType  !=null">
+			order_close_type = #{orderCloseType,jdbcType=TINYINT},
+		</if>
+		<if test="TotalMoney  !=null">
+			TotalMoney = #{TotalMoney,jdbcType=DECIMAL},
+		</if>
+		<if test="TotalPay  !=null">
+			TotalPay = #{TotalPay,jdbcType=DECIMAL},
+		</if>
+		<if test="platformTotalPreferential  !=null">
+			platform_total_preferential = #{platformTotalPreferential,jdbcType=DECIMAL},
+		</if>
+		<if test="supplierTotalPreferential  !=null">
+			supplier_total_preferential = #{supplierTotalPreferential,jdbcType=DECIMAL},
+		</if>
+		<if test="supplierPreferential  !=null">
+			supplier_preferential = #{supplierPreferential,jdbcType=DECIMAL},
+		</if>
+		<if test="supplierChangePrice  !=null">
+			supplier_change_price = #{supplierChangePrice,jdbcType=DECIMAL},
+		</if>
+		<if test="originalPrice  !=null">
+			original_price = #{originalPrice,jdbcType=DECIMAL},
+		</if>
+		<if test="totalValidPay  !=null">
+			total_valid_pay = #{totalValidPay,jdbcType=DECIMAL},
+		</if>
+		<if test="classify  !=null">
+			classify = #{classify,jdbcType=TINYINT}
+		</if>
+		<if test="TotalExpressMoney  !=null">
+			TotalExpressMoney = #{TotalExpressMoney,jdbcType=DECIMAL},
+		</if>
+		<if test="ExpressInfo  !=null">
+			ExpressInfo = #{ExpressInfo,jdbcType=VARCHAR},
+		</if>
+		<if test="CoinUsed  !=null">
+			CoinUsed = #{CoinUsed,jdbcType=INTEGER},
+		</if>
+		<if test="Remark  !=null">
+			Remark = #{Remark,jdbcType=VARCHAR},
+		</if>
+		<if test="Platform  !=null">
+			Platform = #{Platform,jdbcType=VARCHAR},
+		</if>
+		<if test="PlatformVersion  !=null">
+			PlatformVersion = #{PlatformVersion,jdbcType=VARCHAR},
+		</if>
+		<if test="Ip  !=null">
+			Ip = #{Ip,jdbcType=VARCHAR},
+		</if>
+		<if test="PaymentNo  !=null">
+			PaymentNo = #{PaymentNo,jdbcType=VARCHAR},
+		</if>
+		<if test="PaymentType  !=null">
+			PaymentType = #{PaymentType,jdbcType=TINYINT},
+		</if>
+		<if test="ParentId  !=null">
+			ParentId = #{ParentId,jdbcType=BIGINT},
+		</if>
+		<if test="MergedId  !=null">
+			MergedId = #{MergedId,jdbcType=BIGINT},
+		</if>
+		<if test="LOWarehouseId  !=null">
+			LOWarehouseId = #{LOWarehouseId,jdbcType=BIGINT},
+		</if>
+		<if test="Status  !=null">
+			Status = #{Status,jdbcType=TINYINT},
+		</if>
+		<if test="CreateTime  !=null">
+			CreateTime = #{CreateTime,jdbcType=BIGINT},
+		</if>
+		<if test="UpdateTime  !=null">
+			UpdateTime = #{UpdateTime,jdbcType=BIGINT},
+		</if>
+		<if test="TotalMarketPrice  !=null">
+			TotalMarketPrice = #{TotalMarketPrice,jdbcType=DECIMAL},
+		</if>
+		<if test="CancelReason  !=null">
+			CancelReason = #{CancelReason,jdbcType=VARCHAR},
+		</if>
+		<if test="PushTime  !=null">
+			PushTime = #{PushTime,jdbcType=BIGINT},
+		</if>
+		<if test="ExpiredTime  !=null">
+			ExpiredTime = #{ExpiredTime,jdbcType=BIGINT},
+		</if>
+		<if test="PayTime  !=null">
+			PayTime = #{PayTime,jdbcType=BIGINT},
+		</if>
+		<if test="SendTime  !=null">
+			SendTime = #{SendTime,jdbcType=BIGINT},
+		</if>
+	<!--	<if test="commission  !=null">
+			Commission = #{commission,jdbcType=DECIMAL},
+		</if>-->
+	<!--	<if test="availableCommission  !=null">
+			AvailableCommission = #{availableCommission,jdbcType=DECIMAL},
+		</if>-->
+		<if test="CommissionPercent  !=null">
+			CommissionPercent = #{CommissionPercent,jdbcType=DECIMAL},
+		</if>
+		<!--<if test="brandOrder  !=null">
+			BrandOrder = #{brandOrder,jdbcType=BIGINT},
+		</if>-->
+		<if test="TotalBuyCount  !=null">
+			TotalBuyCount = #{TotalBuyCount,jdbcType=INTEGER},
+		</if>
+		<if test="hasWithdrawed  !=null">
+			hasWithdrawed = #{hasWithdrawed,jdbcType=TINYINT},
+		</if>
+		<if test="supplierId  !=null">
+			supplierId = #{supplierId,jdbcType=BIGINT},
+		</if>
+		<if test="groundUserId  !=null">
+			groundUserId = #{groundUserId,jdbcType=BIGINT},
+		</if>
+		<if test="superIds  !=null">
+			superIds = #{superIds,jdbcType=VARCHAR},
+		</if>
+		<if test="confirmSignedDate  !=null">
+			confirmSignedDate = #{confirmSignedDate,jdbcType=INTEGER},
+		</if>
+		<if test="confirmSignedTime  !=null">
+			confirmSignedTime = #{confirmSignedTime,jdbcType=BIGINT},
+		</if>
+		<if test="refundUnderway  !=null">
+			refund_underway = #{refundUnderway,jdbcType=TINYINT},
+		</if>
+		<if test="autoTakeDeliveryPauseTimeLength  !=null">
+			auto_take_delivery_pause_time_length = #{autoTakeDeliveryPauseTimeLength,jdbcType=BIGINT},
+		</if>
+		<if test="refundStartTime  !=null">
+			refund_start_time = #{refundStartTime,jdbcType=BIGINT},
+		</if>
+		<if test="totalRefundCost  !=null">
+			total_refund_cost = #{totalRefundCost,jdbcType=DECIMAL},
+		</if>
+		<if test="expressName  !=null">
+			express_name = #{expressName,jdbcType=VARCHAR},
+		</if>
+		<if test="expressPhone  !=null">
+			express_phone = #{expressPhone,jdbcType=VARCHAR},
+		</if>
+		<if test="expressAddress  !=null">
+			express_address = #{expressAddress,jdbcType=VARCHAR},
+		</if>
+		<if test="orderSupplierRemark  !=null">
+			order_supplier_remark = #{orderSupplierRemark,jdbcType=VARCHAR},
+		</if>
+		<if test="orderCloseTime  !=null">
+			order_close_time = #{orderCloseTime,jdbcType=BIGINT},
+		</if>
+		<if test="hangUp  !=null">
+			hangUp = #{hangUp,jdbcType=TINYINT},
+		</if>
+		<if test="lockingOrder  !=null">
+			locking_order = #{lockingOrder,jdbcType=TINYINT},
+		</if>
+		<if test="restrictionActivityProductId  !=null">
+			restriction_activity_product_id = #{restrictionActivityProductId,jdbcType=BIGINT},
+		</if>
+		<!--<if test="sendCoupon  !=null">
+			send_coupon = #{sendCoupon,jdbcType=INTEGER},
+		</if>-->
+
+	</sql>
+
+
+
+
+
+	<select id="getSupplierOrderList">
+
+	</select>
+	<select id="getRestrictionActivityProductAllBuyCount" parameterType="java.util.Map"
+		resultType="int">
+		<![CDATA[
+			SELECT SUM(TotalBuyCount) FROM store_Order WHERE restriction_activity_product_id=#{restrictionActivityProductId} AND storeId=#{storeId} 
+			and OrderStatus<=70
+		]]>	
+	</select>
+
+	<select id="getSupplierCustomerList" parameterType="com.baomidou.mybatisplus.plugins.Page"
+		resultType="java.util.Map">
+		SELECT a.*,b.PhoneNumber AS phoneNumber,b.Province AS province,b.City
+		AS city,b.BusinessName as businessName FROM
+		(SELECT
+		storeId,SUM(totalMoney) + SUM(TotalExpressMoney) AS
+		totalPay,SUM(TotalBuyCount) AS totalBuyCount FROM store_Order WHERE
+		supplierId=#{storeId}
+		AND STATUS=0
+		AND OrderStatus IN (70,100)
+		<!-- or (supplierId=#{storeId}
+		AND STATUS=0
+		AND OrderStatus =100
+		AND order_close_type = 103 ) -->
+		GROUP BY storeId 
+		) a
+		LEFT JOIN
+		yjj_StoreBusiness b
+		ON a.storeId=b.Id
+		<where>
+			status=0
+			<if test="businessName!=''">
+				and businessName like concat ("%", #{businessName}, "%")
+			</if>
+			<if test="phoneNumber!=''">
+				and phoneNumber=#{phoneNumber}
+			</if>
+			<if test="moneyMin!=0">
+				and totalPay>=#{moneyMin}
+			</if>
+			<if test="moneyMax!=0">
+				<![CDATA[
+					and totalPay<=#{moneyMax} 
+				]]>
+			</if>
+			<if test="countMin!=0">
+				and totalBuyCount>=#{countMin}
+			</if>
+			<if test="countMax!=0">
+				<![CDATA[
+					and totalBuyCount<=#{countMax} 
+				]]>
+			</if>
+			<if test="province!=''">
+				and province like concat ("%", #{province}, "%")
+			</if>
+			<if test="city!=''">
+				and city like concat ("%", #{city}, "%")
+			</if>
+		</where>
+	</select>
+
+	<select id="getSupplierCustomerAllCount" parameterType="java.util.Map"
+		resultType="int">
+		SELECT COUNT(*) FROM (SELECT DISTINCT storeId FROM
+		store_Order WHERE supplierId=#{storeId}
+		AND STATUS=0 AND
+		OrderStatus=70) AS c
+	</select>
+
+	<select id="getSupplierCustomerTodayNewCount" parameterType="java.util.Map"
+		resultType="int">
+		<![CDATA[
+			SELECT COUNT(*) FROM (SELECT DISTINCT storeId FROM store_Order WHERE supplierId=#{storeId}
+			AND STATUS=0 AND storeId NOT IN 
+			(SELECT DISTINCT storeId FROM store_Order WHERE supplierId=#{storeId} AND STATUS=0 AND CreateTime<#{time} AND OrderStatus=70)
+			 AND OrderStatus=70) AS c
+		]]>
+	</select>
+
+	<select id="storeOrdersOfOrderNos" parameterType="java.util.Map"
+		resultType="com.jiuyuan.entity.newentity.StoreOrderNew">
+		select * from store_Order
+		where OrderNo in
+		<foreach collection="orderNos" item="orderNo" open="("
+			separator="," close=")">
+			#{orderNo}
+		</foreach>
+	</select>
+
+	<select id="getAllOrderAccumulatedSum" parameterType="map"
+		resultType="Double">
+		<![CDATA[
+			SELECT SUM(TotalPay) FROM 
+			store_Order WHERE storeId=#{storeId} AND parentId>0 AND OrderStatus IN (60,70)
+		]]>
+	</select>
+
+	<select id="getAllOrderTotalRefundCostSum" parameterType="map"
+		resultType="Double">
+		<![CDATA[
+			SELECT SUM(total_refund_cost) FROM 
+			store_Order WHERE storeId=#{storeId} AND parentId>0 AND OrderStatus IN (60,70)
+		]]>
+	</select>
+	<update id="changePriceByOrderNo" 
+		>
+		<![CDATA[
+UPDATE store_Order a, (
+		SELECT h.balance AS difference
+		FROM (
+			SELECT TotalPay - #{changePrice} AS balance
+			FROM store_Order WHERE OrderNo = #{orderNo}
+		) h
+	) b
+SET a.TotalPay = a.TotalPay - b.difference, 
+    a.supplier_total_preferential = a.supplier_preferential + a.supplier_change_price + b.difference,
+    a.supplier_change_price = a.supplier_change_price + b.difference, 
+    UpdateTime = UNIX_TIMESTAMP() * 1000
+WHERE a.OrderNo = #{orderNo} or a.OrderNo = #{parentId}
+		]]>
+	</update>
+
+	<select id="exportOrderData" resultType="java.util.Map">
+	SELECT
+	A.Id as 'id',
+	A.ground_user_name as groundUserName,
+	A.ground_user_phone as groundUserPhone,
+	A.Province AS 'province',
+	A.City AS 'city',
+	A.County AS 'country',
+	A.PhoneNumber AS 'registerPhoneNumber',
+
+	A.BusinessName AS 'registerBusinessName',
+	case when A.CreateTime = '0' then null else
+	FROM_UNIXTIME(A.CreateTime / 1000) end AS 'registerTime',
+
+	A.BusinessAddress AS 'businessAddress',
+
+	B.OrderNo 'orderNo',
+
+	case when B.CreateTime = '0' then null else
+	FROM_UNIXTIME(B.CreateTime / 1000) end AS
+	'orderCreateTime',
+	case when B.PayTime = '0' then null else 
+	FROM_UNIXTIME(B.PayTime / 1000) end AS 'payTime',
+case when confirmSignedTime = '0' then null else
+	FROM_UNIXTIME(confirmSignedTime / 1000) end  AS 'confirmSignedTime',
+
+	SUM(C.TotalMoney) AS 'totalMoney',
+
+	SUM(C.TotalPay) AS 'totalPay',
+
+	SUM(buycount) AS 'buyCount',
+
+	ExpressInfo,
+
+	CASE
+	WHEN B.orderStatus = '0' THEN
+	'代付款'
+	WHEN B.orderStatus = '10' THEN
+	'待发货'
+	WHEN B.orderStatus = '50' THEN
+	'已发货'
+	WHEN B.orderStatus = '70' THEN
+	'交易成功'
+	WHEN B.orderStatus = '80' THEN
+	'待退'
+	WHEN B.orderStatus = '90' THEN
+	'订单取消'
+	WHEN B.orderStatus = '100' THEN
+	'订单关闭'
+	END AS "orderStatus",
+	B.PaymentNo AS 'paymentNo',
+	CASE
+	WHEN B.ParentId = '-1' THEN
+	'母订单'
+	WHEN B.ParentId > '0' THEN
+	'子订单'
+	ELSE
+	'其他'
+	END AS "orderType",
+	D.ClothesNumber AS "clothesNumber",D.mainImg AS mainImg,
+	(
+	SELECT
+	brandname
+	FROM
+	yjj_Brand
+	WHERE
+	yjj_Brand.BrandId = D.BrandId
+	) AS 'brandName',
+	(
+	SELECT
+	ExpressOrderNo
+	FROM
+	store_ExpressInfo
+	WHERE
+	store_ExpressInfo.OrderNo = B.OrderNo
+	) AS 'expressOrderNo',
+	(
+	SELECT
+	ExpressSupplier
+	FROM
+	store_ExpressInfo
+	WHERE
+	store_ExpressInfo.OrderNo = B.OrderNo
+	) AS 'expressSupplier',
+
+	(
+	SELECT
+	case when ExpressUpdateTime = '0' then null else 
+	FROM_UNIXTIME(ExpressUpdateTime / 1000) end
+	FROM
+	store_ExpressInfo
+	WHERE
+	store_ExpressInfo.OrderNo = B.OrderNo
+	) AS 'expressInfoUpdateTime',
+
+	D.oneCategoryName AS 'oneCategoryName',
+
+	D.twoCategoryName AS 'twoCategoryName',
+
+	D.threeCategoryName AS 'threeCategoryName',
+
+	(
+	SELECT
+	ActualDiscount
+	FROM
+	store_CouponUseLog e
+	WHERE
+	B.orderno = e.orderno
+	AND e.userid = B.storeid
+	AND e. STATUS = 0
+	AND e.supplier_id >0
+	) AS 'supplierActualdiscount',
+	(
+	SELECT
+	f.TemplateName
+	FROM
+	store_CouponUseLog e,
+	store_Coupon f
+	WHERE
+	(e.orderno = B.orderno)
+	AND e.userid = B.storeid
+	AND e.CouponId = f.id
+	AND e. STATUS
+	= 0
+	AND e.supplier_id >0
+	) AS 'supplierTemplateName' 
+	,
+	(
+	SELECT
+	ActualDiscount
+	FROM
+	store_CouponUseLog e
+	WHERE
+	B.orderno = e.orderno
+	AND e.userid = B.storeid
+	AND e. STATUS = 0
+	AND e.supplier_id = 0
+	) AS 'platformActualdiscount',
+	(
+	SELECT
+	f.TemplateName
+	FROM
+	store_CouponUseLog e,
+	store_Coupon f
+	WHERE
+	(e.orderno = B.orderno)
+	AND e.userid = B.storeid
+	AND e.CouponId = f.id
+	AND e. STATUS
+	= 0
+	AND e.supplier_id =0
+	) AS 'platformTemplateName' 
+	,
+	E.refund_order_no AS 'refundOrderNo',
+	E.refund_cost AS 'refundCost',
+	CASE
+	WHEN E.refund_status = '1' THEN
+	'待卖家确认'
+	WHEN E.refund_status = '2' THEN
+	'待买家发货'
+	WHEN E.refund_status = '3' THEN
+	'待卖家确认收货'
+	WHEN E.refund_status = '4' THEN
+	'退款成功'
+	WHEN E.refund_status = '5' THEN
+	'卖家拒绝售后关闭'
+	WHEN E.refund_status = '6' THEN
+	'买家超时未发货自动关闭'
+	WHEN E.refund_status = '7' THEN
+	'卖家同意前买家主动关闭'
+	WHEN E.refund_status = '8' THEN
+	'平台客服主动关闭'
+	WHEN E.refund_status = '9' THEN
+	'卖家同意后买家主动关闭'
+	END AS 'refundStatus',
+	E.refund_reason 'refundReason',
+	case when E.apply_time = '0' then null else 
+	FROM_UNIXTIME(E.apply_time / 1000) end AS 'applyTime',
+	E.receiver 'receiver',
+	E.supplier_receive_address 'supplierReceiveAddress',
+	E.receiver_phone 'receiverPhone',
+	CASE
+	WHEN E.refund_type = '1' THEN
+	'仅退款 '
+	WHEN E.refund_type = '2' THEN
+	'退货退款'
+	END AS 'refundType',
+	case when refund_time = '0' then null else
+	FROM_UNIXTIME(refund_time / 1000) end AS 'refundTime',
+	refund_remark AS 'refundRemark'
+	FROM
+	store_OrderItem C
+	LEFT JOIN store_Order B ON C.orderno = B.orderno
+	LEFT JOIN yjj_StoreBusiness A ON A.Id = C.StoreId
+	LEFT JOIN yjj_Product D ON C.ProductId = D.ID
+	LEFT JOIN store_refund_order E ON (
+	C.orderno = E.order_no
+	AND
+	E.refund_order_no IN (
+	SELECT
+	MAX(refund_order_no)
+	FROM
+	store_refund_order
+	GROUP BY
+	order_no
+	)
+	)
+	WHERE
+	B.ParentId > 0
+	and B.CreateTime BETWEEN #{beginTime} and #{endTime}
+	GROUP BY
+	id,
+	A.PhoneNumber,
+	A.BusinessName,
+	A.CreateTime,
+	A.BusinessAddress,
+	B.OrderNo,
+	B.CreateTime,
+	B.orderStatus,
+	B.ParentId,
+	D.ClothesNumber,
+	D.BrandId,
+	D.oneCategoryName,
+	D.twoCategoryName,
+	D.threeCategoryName,
+	D.mainImg,
+	B.PaymentNo,
+	B.PayTime,
+	refundOrderNo,
+	refundCost,
+	refundStatus,
+	refundReason,
+	applyTime,
+	receiver,
+	supplierReceiveAddress,
+	receiverPhone,
+	refundType,
+	confirmSignedTime,
+	province,
+	city,
+	country,
+	refundTime,
+	refundRemark
+	ORDER BY
+	C.ORDERNO;
+</select>
+
+
+	<select id="findLastNoPayAndNoPastDueMemberOrder" resultType="com.jiuyuan.entity.newentity.StoreOrderNewSon">
+		SELECT a.*,b.Id as orderItemId
+		FROM store_order a
+		JOIN store_orderitem b
+		ON a.OrderNo = b.OrderNo
+		WHERE a.StoreId = #{storeId} -- 用户id
+		AND a.`Status` = 0
+		AND a.OrderStatus = 0
+		AND a.classify = 2
+		AND b.member_package_type = #{type} -- 套餐类型
+		AND b.StoreId = a.StoreId
+		AND b.`Status` = 0
+		ORDER BY ExpiredTime DESC
+		LIMIT 1
+	</select>
+	<!--根据订单号删除订单-->
+	<update id="deleteOrderByOrderNo">
+		update store_order
+		set Status = -1
+		where OrderNo = #{orderNo}
+	</update>
+
+	<!--根据id 删除订单细目-->
+	<update id="deleteOrderItemById">
+		update store_orderitem
+		set Status = -1
+		where Id = #{orderItemId}
+	</update>
+	<update id="salvageHistoryOrder" parameterType="com.jiuyuan.entity.newentity.StoreOrderNew">
+		update store_order
+		<set>
+			<include refid="updateBase"/>
+		</set>
+		where OrderNo = #{OrderNo}
+		AND StoreId = #{StoreId}
+		AND `Status` = 0
+		AND OrderStatus = 0
+		AND classify = 2
+	</update>
+
+
+	<select id="findHistorySuccessMemberOrder" resultType="com.jiuyuan.entity.newentity.StoreOrderNew">
+		SELECT a.*
+		FROM store_order a
+		LEFT JOIN store_orderitem b ON a.OrderNo = b.OrderNo
+		WHERE a.StoreId = #{storeId}
+		AND a.classify = 2
+		AND a.`Status` = 0
+		AND a.OrderStatus = 70
+		AND b.member_package_type = #{packageType}
+	</select>
+
+
+	<update id="updateOrderId">
+			update `store_Order` set `OrderNo`=#{storeOrderNew.orderNo} where `OrderNo`=#{orderNo}
+	</update>
+
+    <update id="subWaitMoney">
+		update `yjj_storebusiness_account`
+		set `wait_in_money`=`wait_in_money` - #{operMoney}
+		where id=#{accountId}
+		AND `wait_in_money` - #{operMoney} >= 0
+	</update>
+
+	<select id="selectRefundLog" resultType="com.jiuyuan.entity.newentity.StoreRefundOrderActionLog">
+			select
+			`id`,
+			`refund_order_id` as refundOrderId,
+			`action_time` as actionTime,
+			`action_name` as actionName from `store_refund_order_action_log` where `refund_order_id`=#{orderNo}
+	</select>
+</mapper>

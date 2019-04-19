@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yujj.dao.mapper.UserGiftLogMapper">
+
+	<select id="searchOne" parameterType="map" resultType="UserGiftLog">
+		select * from yjj_UserGiftLog
+		<where>
+			<if test="userId != null">
+				and UserId = #{userId}
+			</if>
+			<if test="startTime != null">
+				and <![CDATA[CreateTime >= #{startTime}]]>
+			</if>
+			<if test="endTime != null">
+				and <![CDATA[CreateTime <= #{endTime}]]>
+			</if>
+		</where>
+		limit 1
+	</select>
+
+	<insert id="add" parameterType="UserGiftLog">
+		insert yjj_UserGiftLog(GiftId, UserId, Content, CreateTime)
+		values(#{userGiftLog.giftId}, #{userGiftLog.userId}, #{userGiftLog.content}, #{userGiftLog.createTime})
+	</insert>
+	
+	<select id="getMonthLog" resultType="UserGiftLog">
+		select * from yjj_UserGiftLog
+		where UserId = #{userId} and <![CDATA[CreateTime >= #{startTime}]]>
+	</select>
+
+</mapper>

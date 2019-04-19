@@ -1,0 +1,17 @@
+
+/* 提现成功 */
+.withdraw-success{
+  padding-top: 100rpx;
+  text-align: center;
+}
+.withdraw-success .icon{
+  width: 75rpx;
+  height: 75rpx;
+  background: url(http://mini-img-main.oss-cn-hangzhou.aliyuncs.com/icon/success-icon.png) no-repeat;
+  background-size: 75rpx;
+  margin: 0 auto;
+}
+.withdraw-success .text{
+  font-size: 30rpx;
+  padding-top: 20rpx;
+}

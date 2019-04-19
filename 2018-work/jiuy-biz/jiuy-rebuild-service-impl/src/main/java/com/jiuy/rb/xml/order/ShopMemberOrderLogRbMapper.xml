@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jiuy.rb.mapper.order.ShopMemberOrderLogRbMapper">
+
+	<!-- 主要的返回映射-->
+	<resultMap id="BaseResultMap" type="com.jiuy.rb.model.order.ShopMemberOrderLogRb"	>
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="store_id"  property="storeId"  jdbcType="BIGINT" />
+		<result column="member_id"  property="memberId"  jdbcType="BIGINT" />
+		<result column="order_id"  property="orderId"  jdbcType="BIGINT" />
+		<result column="old_status"  property="oldStatus"  jdbcType="TINYINT" />
+		<result column="new_status"  property="newStatus"  jdbcType="TINYINT" />
+		<result column="create_time"  property="createTime"  jdbcType="BIGINT" />
+		<result column="oper_account"  property="operAccount"  jdbcType="VARCHAR" />
+	</resultMap>
+
+	<!-- 所有的列名-->
+	<sql id="Base_Column_List" >
+		id,store_id,member_id,order_id,old_status,new_status,create_time,oper_account
+	</sql>
+
+	<!-- 精确更新的字段-->
+	<sql id="updateBase">
+		<if test="id  !=null">
+			id = #{id,jdbcType=BIGINT},
+		</if>
+		<if test="storeId  !=null">
+			store_id = #{storeId,jdbcType=BIGINT},
+		</if>
+		<if test="memberId  !=null">
+			member_id = #{memberId,jdbcType=BIGINT},
+		</if>
+		<if test="orderId  !=null">
+			order_id = #{orderId,jdbcType=BIGINT},
+		</if>
+		<if test="oldStatus  !=null">
+			old_status = #{oldStatus,jdbcType=TINYINT},
+		</if>
+		<if test="newStatus  !=null">
+			new_status = #{newStatus,jdbcType=TINYINT},
+		</if>
+		<if test="createTime  !=null">
+			create_time = #{createTime,jdbcType=BIGINT},
+		</if>
+		<if test="operAccount  !=null">
+			oper_account = #{operAccount,jdbcType=VARCHAR}
+		</if>
+	</sql>
+
+	<!-- 通过主键查找-->
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="Long" >
+		select
+		<include refid="Base_Column_List" />
+		from shop_member_order_log
+		where  id = #{id,jdbcType=BIGINT}
+	</select>
+
+	<!-- 通过主键删除-->
+	<delete id="deleteByPrimaryKey" parameterType="Long" >
+		delete from shop_member_order_log
+		where id = #{id,jdbcType=BIGINT}
+	</delete>
+
+	<!-- 普通插入全字段插t入-->
+	<insert id="insert" parameterType="com.jiuy.rb.model.order.ShopMemberOrderLogRb" >
+		insert into shop_member_order_log
+		(
+			id,
+			store_id,
+			member_id,
+			order_id,
+			old_status,
+			new_status,
+			create_time,
+			oper_account
+		)
+		values
+		(
+			#{id ,jdbcType=BIGINT},
+			#{storeId ,jdbcType=BIGINT},
+			#{memberId ,jdbcType=BIGINT},
+			#{orderId ,jdbcType=BIGINT},
+			#{oldStatus ,jdbcType=TINYINT},
+			#{newStatus ,jdbcType=TINYINT},
+			#{createTime ,jdbcType=BIGINT},
+			#{operAccount ,jdbcType=VARCHAR}
+		)
+	</insert>
+
+	<!-- 批量插入，全部字段插入-->
+	<insert id="insertBach"   parameterType="List" >
+		insert into shop_member_order_log
+		(
+		id,
+		store_id,
+		member_id,
+		order_id,
+		old_status,
+		new_status,
+		create_time,
+		oper_account
+		)
+		values
+		<foreach collection="list" item="item" separator=",">
+			(
+			#{item.id ,jdbcType=BIGINT},
+			#{item.storeId ,jdbcType=BIGINT},
+			#{item.memberId ,jdbcType=BIGINT},
+			#{item.orderId ,jdbcType=BIGINT},
+			#{item.oldStatus ,jdbcType=TINYINT},
+			#{item.newStatus ,jdbcType=TINYINT},
+			#{item.createTime ,jdbcType=BIGINT},
+			#{item.operAccount ,jdbcType=VARCHAR}
+			)
+		</foreach>
+	</insert>
+
+	<!-- 精确插入，非null得字段才会插入-->
+	<insert id="insertSelective" parameterType="com.jiuy.rb.model.order.ShopMemberOrderLogRb" useGeneratedKeys="true" keyProperty="id" >
+		insert into shop_member_order_log
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="id !=null">
+				id,
+			</if>
+			<if test="storeId !=null">
+				store_id,
+			</if>
+			<if test="memberId !=null">
+				member_id,
+			</if>
+			<if test="orderId !=null">
+				order_id,
+			</if>
+			<if test="oldStatus !=null">
+				old_status,
+			</if>
+			<if test="newStatus !=null">
+				new_status,
+			</if>
+			<if test="createTime !=null">
+				create_time,
+			</if>
+			<if test="operAccount !=null">
+				oper_account,
+			</if>
+		</trim>
+
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+			<if test="id  !=null">
+				#{id,jdbcType=BIGINT},
+			</if>
+			<if test="storeId  !=null">
+				#{storeId,jdbcType=BIGINT},
+			</if>
+			<if test="memberId  !=null">
+				#{memberId,jdbcType=BIGINT},
+			</if>
+			<if test="orderId  !=null">
+				#{orderId,jdbcType=BIGINT},
+			</if>
+			<if test="oldStatus  !=null">
+				#{oldStatus,jdbcType=TINYINT},
+			</if>
+			<if test="newStatus  !=null">
+				#{newStatus,jdbcType=TINYINT},
+			</if>
+			<if test="createTime  !=null">
+				#{createTime,jdbcType=BIGINT},
+			</if>
+			<if test="operAccount  !=null">
+				#{operAccount,jdbcType=VARCHAR}
+			</if>
+		</trim>
+	</insert>
+
+	<!-- 精确更新-->
+	<update id="updateByPrimaryKeySelective" parameterType="com.jiuy.rb.model.order.ShopMemberOrderLogRb" >
+		update shop_member_order_log
+		<set>
+			<include refid="updateBase"/>
+		</set>
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+
+	<!-- 全字段更新 需要注意-->
+	<update id="updateByPrimaryKey" parameterType="com.jiuy.rb.model.order.ShopMemberOrderLogRb" >
+		update shop_member_order_log
+		set
+			id = #{id ,jdbcType=BIGINT},
+			store_id = #{storeId ,jdbcType=BIGINT},
+			member_id = #{memberId ,jdbcType=BIGINT},
+			order_id = #{orderId ,jdbcType=BIGINT},
+			old_status = #{oldStatus ,jdbcType=TINYINT},
+			new_status = #{newStatus ,jdbcType=TINYINT},
+			create_time = #{createTime ,jdbcType=BIGINT},
+			oper_account = #{operAccount ,jdbcType=VARCHAR}
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+
+	<!-- 所有的条件集合-->
+	<sql id="whereCase"  >
+		where  1=1
+		<if test="id  !=null">
+			AND id = #{id,jdbcType=BIGINT}
+		</if>
+		<if test="storeId  !=null">
+			AND store_id = #{storeId,jdbcType=BIGINT}
+		</if>
+		<if test="memberId  !=null">
+			AND member_id = #{memberId,jdbcType=BIGINT}
+		</if>
+		<if test="orderId  !=null">
+			AND order_id = #{orderId,jdbcType=BIGINT}
+		</if>
+		<if test="oldStatus  !=null">
+			AND old_status = #{oldStatus,jdbcType=TINYINT}
+		</if>
+		<if test="newStatus  !=null">
+			AND new_status = #{newStatus,jdbcType=TINYINT}
+		</if>
+		<if test="createTime  !=null">
+			AND create_time = #{createTime,jdbcType=BIGINT}
+		</if>
+		<if test="operAccount  !=null">
+			AND oper_account = #{operAccount,jdbcType=VARCHAR}
+		</if>
+		<include refid="costomWhereCase"/>
+	</sql>
+
+	<!-- 查询一条，如果返回多条会报错-->
+	<select id="selectOne" parameterType="java.util.Map" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM shop_member_order_log
+		<include refid="whereCase" />
+	</select>
+
+	<!-- 查询一个list-->
+	<select id="selectList" parameterType="java.util.Map" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM shop_member_order_log
+		<include refid="whereCase" />
+	</select>
+
+	<!-- 查询一个list-->
+	<select id="selectCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+		SELECT
+		count(1)
+		FROM shop_member_order_log
+		<include refid="whereCase" />
+	</select>
+
+	<!--  @Costom -->
+	<!-- 从上一行注释以上为系统生成 从这一行往下为用户自定义 请将自定义的sql放在此行下面 -->
+	<sql id="costomWhereCase">
+	</sql>
+
+</mapper>

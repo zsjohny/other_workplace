@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.store.dao.mapper.ShopMemberDeliveryAddressMapper">
+
+
+    <select id="findExistById" parameterType="long" resultType="int">
+       select  count(*) from  shop_member_delivery_address where  id=#{id}
+    </select>
+
+
+	<select id="selectAddress" resultType="com.jiuyuan.entity.newentity.ShopMemberDeliveryAddress">
+			 select
+            id,
+            linkman_name as linkmanName,
+            phone_number as phoneNumber,
+            address,
+            default_status as defaultStatus,
+            location
+            from `shop_member_delivery_address` where shop_member_id=#{memberId} and status=1
+	</select>
+    <select id="selectLastUsedAddress" resultType="map">
+		SELECT
+		id as deliveryAddressId,
+		linkman_name as linkmanName,
+		phone_number as phoneNumber,
+		location as location,
+		address as address
+		FROM
+		shop_member_delivery_address
+		WHERE
+		last_used_time =#{time}
+		AND shop_member_id = #{memberId}
+		and store_id = #{storeId}
+		and status = 1
+	</select>
+	<select id="selectTime" resultType="Long">
+			SELECT
+		max(last_used_time)
+		FROM
+		shop_member_delivery_address
+		WHERE
+		shop_member_id = #{memberId}
+		and store_id = #{storeId}
+		and status = 1
+	</select>
+
+
+    <select id="findDeliveryAddressById" resultType="com.jiuyuan.entity.newentity.ShopMemberDeliveryAddress">
+	  	select phone_number as phoneNumber,linkman_name as linkmanName,location,address from shop_member_delivery_address where id = #{deliveryAddressId}
+	</select>
+
+	<!--地址信息-->
+    <select id="findDeliveryAddressByStoreMemberId"
+            resultType="com.jiuyuan.entity.newentity.ShopMemberDeliveryAddress">
+		select id,phone_number as phoneNumber,linkman_name as linkmanName,location,address
+		from shop_member_delivery_address
+		where store_id = #{storeId} and shop_member_id = #{memberId}
+		order by last_used_time desc
+	</select>
+    <insert id="addDeliveryAddress" parameterType="com.jiuyuan.entity.newentity.ShopMemberDeliveryAddress" useGeneratedKeys="true" keyProperty="shopMemberDeliveryAddress.id" >
+	  INSERT INTO shop_member_delivery_address
+            (shop_member_id,
+             store_id,
+             linkman_name,
+             phone_number,
+             location,
+             address,
+             STATUS,
+             last_used_time,
+             create_time,
+             update_time)
+VALUES (#{memberId},#{storeId},#{linkmanName},#{phoneNumber},#{location},#{address},1,
+        UNIX_TIMESTAMP() * 1000,
+        UNIX_TIMESTAMP() * 1000,
+        UNIX_TIMESTAMP() * 1000)
+  </insert>
+
+
+	<select id="selectShopMemberDeliveryAddress" resultType="com.jiuyuan.entity.newentity.ShopMemberDeliveryAddress">
+			select
+			`id`,
+			`location`,
+			`address`,
+			`phone_number` as phoneNumber,
+			`linkman_name` as linkmanName
+			from `shop_member_delivery_address` where `id`=#{id}
+	</select>
+</mapper>

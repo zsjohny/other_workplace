@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yujj.dao.mapper.ShoppingCartMapper">
+	<select id="getCartItems" resultType="CartItem">
+		<![CDATA[
+			select * from yjj_ShoppingCart
+			where UserId = #{userId} and Status = 0
+			order by CreateTime
+		]]>
+	</select>
+	
+	<select id="getDiscountInfoListById" resultType="DiscountInfo">
+		<![CDATA[
+			select * from yjj_DiscountInfo
+			where type = #{type} and RelatedId =  #{id} and status = 0 and Full > 0
+			order by Full
+		]]>
+	</select>
+	
+	<select id="getDiscountInfoListByType" resultType="DiscountInfo">
+		<![CDATA[
+			select * from yjj_DiscountInfo
+			where type = #{type} and status = 0 and RelatedId in
+		]]>
+		<foreach collection="ids" item="id" open="(" separator="," close=")">
+			<![CDATA[
+				#{id}
+			]]>
+		</foreach>
+		<![CDATA[
+			order by Full
+		]]>
+	</select>
+
+	<select id="getCartItem" resultType="CartItem">
+		<![CDATA[
+			select * from yjj_ShoppingCart
+			where UserId = #{userId} and ProductId = #{productId} and SkuId = #{skuId} and Status = 0
+		]]>
+	</select>
+	
+	<insert id="addCartItem">
+		<![CDATA[
+			insert into yjj_ShoppingCart
+			(UserId, ProductId, SkuId, BuyCount, IsSelected, Status, CreateTime, UpdateTime, StatisticsId, LogIds)
+			values
+			(#{userId}, #{productId}, #{skuId}, #{buyCount}, 1, #{status}, #{createTime}, #{updateTime}, #{statisticsId}, #{logIds})
+		]]>
+	</insert>
+	
+	<update id="addCount" parameterType="map">
+		<![CDATA[
+			update yjj_ShoppingCart
+			set BuyCount = BuyCount + #{count}, UpdateTime = #{time}, IsSelected = 1
+			where UserId = #{userId} and ProductId = #{productId} and SkuId = #{skuId}
+		]]>
+	</update>
+
+	<update id="removeCartItem" parameterType="map">
+		<![CDATA[
+			delete from yjj_ShoppingCart
+			where UserId = #{userId} and ProductId = #{productId} and SkuId = #{skuId}
+		]]>
+	</update>
+	
+	<update id="saveProductInCart" parameterType="map">
+		<![CDATA[
+			update yjj_ShoppingCart
+			set BuyCount = #{buyCount}, IsSelected = #{isSelected}, SkuId = #{skuId}, UpdateTime = #{time}, CreateTime = #{time}
+			where Id = #{id}
+		]]>
+	</update>
+	
+	<select id="getCartItemById" parameterType="map" resultType="CartItem">
+		<![CDATA[
+			select *
+			from yjj_ShoppingCart
+			where Id = #{id} and Status = 0
+		]]>
+	</select>
+	
+	<update id="removeCartItemByIds" parameterType="map">
+		<![CDATA[
+			delete from yjj_ShoppingCart
+			where UserId = #{userId} and Id in
+		]]>
+		<foreach collection="ids" item="id" open="(" separator="," close=")">
+			<![CDATA[
+				#{id}
+			]]>
+		</foreach>
+	</update>
+</mapper>

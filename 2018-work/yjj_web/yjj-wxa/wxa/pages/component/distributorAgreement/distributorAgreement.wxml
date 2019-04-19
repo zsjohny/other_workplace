@@ -1,0 +1,4 @@
+<!--分销商协议内容-->
+<view class="share-box">
+  <web-view src="{{websiteUrl}}"></web-view>
+</view>

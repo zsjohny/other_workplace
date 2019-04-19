@@ -1,0 +1,244 @@
+/**申请售后 **/
+.body-contain{
+  padding-bottom: 80rpx;
+}
+.bt-border20{
+  border-bottom:20rpx solid #f4f4f4;
+}
+.refund-type{
+  padding: 0 24rpx;
+  height: 190rpx;
+}
+.refund-type .title{
+  font-size: 30rpx;
+  padding-top: 34rpx;
+}
+.refund-type .btn{
+  width: 294rpx;
+  height: 60rpx;
+  border:2rpx solid #bfbfbf;
+  float: left;
+  margin-right: 30rpx;
+  font-size: 26rpx;
+  line-height: 60rpx;
+  text-align: center;
+  border-radius: 6rpx;
+  margin-top: 24rpx;
+}
+.refund-type .active{
+  border:2rpx solid #fd4374;
+  color: #fd4374
+}
+/*商品模块*/
+.refund-product{
+  height: auto;
+  overflow: hidden;
+}
+.refund-product .title{
+  height: 84rpx;
+  border-bottom: 2rpx solid #f4f4f4;
+  line-height: 84rpx;
+  font-size: 30rpx;
+  padding-left: 24rpx;
+}
+.refund-product .list-box{
+  height: auto;
+  overflow: hidden;
+  border-bottom: 2rpx solid #f4f4f4;
+}
+.refund-product .item{
+  height: auto;
+  overflow: hidden;
+  padding: 20rpx 0;
+  display: -webkit-box;
+  color: #6c6c6c;
+  font-size: 28rpx;
+  border-bottom: 2rpx solid #f4f4f4;
+  margin: 0 24rpx;
+}
+.refund-product .item:last-child{
+  border-bottom:none;
+}
+.refund-product .item image{
+  width: 180rpx;
+  height: 180rpx;
+  margin-right: 24rpx;
+}
+.refund-product .item .info{
+  -webkit-box-flex: 1;
+  position: relative;
+}
+.refund-product .item .name{
+  font-size: 28rpx;
+  height: 70rpx;
+  line-height: 35rpx;
+  overflow : hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  color: #333;
+}
+.refund-product .item .sku{
+  margin-top: 14rpx;
+  font-size: 20rpx;
+  display: -webkit-flex;
+  display: flex;
+  color: #cacaca
+}
+.refund-product .item .sku .type{
+  width: 33.33%;
+}
+.refund-product .item .sku .type3{
+  text-align: right
+}
+.refund-product .item .sku .type .color-red,
+.refund-product .item .sku .type text{
+  font-size: 24rpx;
+}
+.refund-product .item .price{
+  padding-top: 28rpx;
+  height: auto;
+  overflow: hidden;
+  font-size: 32rpx;
+}
+/*数量加减*/
+.refund-number{
+  position: absolute;
+  right: 0;
+  bottom: 0;
+}
+.refund-number .ac-item{
+  float: left;
+  height: 40rpx;
+  line-height: 40rpx;
+  text-align: center;
+  width: 42rpx;
+  border: 2rpx solid #bfbfbf;
+  color: #9a9a9a;
+  font-size: 26rpx;
+}
+.refund-number .ac-item:nth-child(1){
+  border-top-left-radius: 6rpx;
+  border-bottom-left-radius: 6rpx;
+}
+.refund-number .ac-item:nth-child(3){
+  border-top-right-radius: 6rpx;
+  border-bottom-right-radius: 6rpx;
+}
+.refund-number .num-item{
+  min-width: 42rpx;
+  border-left: none;
+  border-right: none;
+  color: #fd4374;
+}
+/*退款表单*/
+.refund-form{
+  padding: 0 24rpx 30rpx;
+  font-size: 24rpx;
+}
+.refund-form .form-title{
+  font-size: 30rpx;
+  height: 86rpx;
+  line-height: 86rpx;
+}
+.refund-form .form-title .l{
+  float: left;
+}
+.refund-form .form-title .r{
+  float: right;
+}
+.refund-form .form-item text,
+.refund-form .form-item .input-placeholder,
+.refund-form .form-title .ft-must{
+  color: #9a9a9a;
+  font-size: 24rpx;
+}
+.refund-form .form-item{
+  height: 72rpx;
+  background: #f8f8f8;
+  line-height: 72rpx;
+  font-size: 24rpx;
+  padding-left: 24rpx;
+  display: -webkit-box;
+}
+.refund-form .form-item label{
+  color: #6b6b6b;
+}
+.refund-form .form-item input{
+  display: block
+}
+.refund-form .form-item input{
+  -webkit-box-flex: 1;
+  height: 68rpx;
+}
+.refund-form .form-item1{
+  margin-top: 20rpx;
+}
+.refund-form .form-item2{
+  height: 250rpx;
+  position: relative
+}
+.refund-form .form-item2 .ui-textarea{
+  width: 650rpx;
+  height: 200rpx;
+  line-height: 1.5;
+  padding-top: 10rpx
+}
+.refund-form .form-item .error-placeholder{
+  color: #fd4374;
+}
+.refund-form .form-item2 .font-lenght{
+  position: absolute;
+  right: 30rpx;
+  bottom: 20rpx;
+  color: #848484;
+  font-size: 24rpx;
+  line-height: 1.5
+}
+.upload-box{
+  display: -webkit-flex;
+}
+.upload-box .img-item{
+  width: 163rpx;
+  height: 163rpx;
+  margin-right: 20rpx;
+  position: relative;
+}
+.upload-box .img-item:last-child{
+  margin-right: 0;
+}
+.upload-box .img-upload{
+  border: 2rpx dashed #bfbfbf;
+  border-radius: 10rpx;
+}
+.upload-box .img-upload .icon{
+  background: url(https://yjj-img-main.oss-cn-hangzhou.aliyuncs.com/icon/new/camera-icon.png) no-repeat;
+  width: 60rpx;
+  height: 50rpx;
+  margin: 15rpx auto;
+  background-size: 60rpx 50rpx;
+}
+.upload-box .img-upload .text{
+  width: 120rpx;
+  color: #bfbfbf;
+  text-align: center;
+  margin: 0 auto;
+}
+.upload-box .img-item image{
+  width: 163rpx;
+  height: 163rpx;
+  display: block;
+}
+.upload-box .img-item .close{
+  width: 40rpx;
+  height: 40rpx;
+  background: url(http://mini-img-main.oss-cn-hangzhou.aliyuncs.com/icon/close-box-icon.png) no-repeat;
+  background-size: 40rpx;
+  position: absolute;
+  right: -20rpx;
+  top: -20rpx;
+  z-index: 100;
+}
+.submit-btn{
+  margin: 50rpx auto 0;
+}

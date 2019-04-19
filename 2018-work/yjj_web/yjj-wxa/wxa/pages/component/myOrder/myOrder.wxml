@@ -1,0 +1,158 @@
+<!--我的订单-->
+<view class="order-tab">
+  <view class="item {{ tabState == -1 ? 'active' : '' }}" bindtap="tabFun" data-tab="-1">全部</view>
+  <view class="item {{ tabState == 0 ? 'active' : '' }}" bindtap="tabFun" data-tab="0">待付款</view>
+  <view class="item {{ tabState == 5 ? 'active' : '' }}" bindtap="tabFun" data-tab="5">待发货</view>
+  <view class="item {{ tabState == 1 || tabState == 6 ? 'active' : '' }}" bindtap="tabFun" data-tab="6">待收货</view>
+  <view class="item {{ tabState == 4 ? 'active' : '' }}" bindtap="tabFun" data-tab="4">已完成</view>
+</view>
+<view class='order-notice'>
+  <view class='text'>交易成功订单，7天后将无法申请售后</view>
+</view>
+<view class='order-box'>
+ <!--无订单  -->
+  <view class='noorder' wx:if="{{orderListData.length == 0}}">
+      <view class='icon'></view>
+      <view>暂无此类订单</view>
+  </view>
+  <!--全部  -->
+  <view class="all-box">
+      <view class="order-list" wx:if="{{orderListData.length > 0}}">
+        <block wx:for="{{orderListData }}" wx:key="{{item.orderId }}">
+          <view class="item" >
+            <view class='orderListbox' bindtap="gotoOrderDetail" data-id="{{ item.orderId}}" data-banner="{{item.banner}}" data-State="{{ item.orderStatus }}">
+                <view class="orderID">
+                  <view class='odd'>订单编号: <text class='orderNumber'>{{item.orderNumber}}</text></view>
+                  <view class='deal' wx:if="{{item.orderStatus==0}}"><text>待付款</text></view>
+                  <view class='deal' wx:elif="{{item.orderStatus==1}}"><text>待提货</text></view>
+                  <view class='deal' wx:elif="{{item.orderStatus==2}}"><text>退款中</text></view>
+                  <view class='deal' wx:elif="{{item.orderStatus==5}}"><text>待发货</text></view>
+                  <view class='deal' wx:elif="{{item.orderStatus==6}}"><text>待收货</text></view>
+                  <view class='deal' wx:elif="{{item.orderStatus==3}}"><text>交易关闭</text></view>
+                  <view class='deal' wx:elif="{{item.orderStatus==4}}"><text>交易成功</text></view>
+                </view>
+                <view class='box'>
+                  <block wx:for="{{item.itemList}}" wx:key="item.list.id">
+                    <view class="imgList">
+                      <image class="img" mode='aspectFit' src='{{item.orderPhoto}}'></image>
+                        <view class='goodWrap'>
+                          <view class='goodsName'>{{item.orderName}}</view>
+                          <view class='goodSku'>
+                            <view>颜色: <text class='skuItem'>{{item.orderColor}}</text></view>
+                            <view>尺寸: <text class='skuItem'>{{item.orderSize}}</text></view>
+                            <view>数量: <text class='skuItem'>{{item.orderCount}}</text></view>
+                          </view>
+                          <view class='price'>￥ <text class='priceNum'>{{item.orderPrice}}</text></view>
+                          <view class='refund-state'>
+                            <block wx:if="{{item.refundStatus == 0 || item.refundStatus == 3}}">退款中</block>
+                            <block wx:if="{{item.refundStatus == 1}}">退货成功</block>
+                            <block wx:if="{{item.refundStatus == 2}}">退款失败</block>
+                          </view>
+                        </view>
+                    </view>
+                  </block>
+                  <view class='orderMuch'>
+                    <view class='orderCount'>共<text>{{item.count}}</text>件商品</view>
+                    <view class='orderMoney'>实付款<text>￥{{item.price}}</text> <text class="com-gray">(含运费￥0.00)</text></view>
+                  </view>
+                </view>
+            </view>
+            <view class='btn-box' wx:if="{{item.orderStatus==4}}">
+                <view class='orderPick orderCancel' bindtap="refundApply" wx:if="{{item.fullApplyTime ==0  && item.banner ==0}}" data-item="{{ item }}">申请售后</view>
+                <view class='orderPick checkExpress' bindtap="openExpressDetail" data-id="{{ item.orderId }}">查看物流</view>
+                <view class='orderPick checkExpress' bindtap="showDeletePopup" data-id="{{ item.orderId }}">删除订单</view>
+            </view>
+            <view class='btn-box' wx:elif="{{item.orderStatus==0}}">
+              <block wx:if="{{item.buyWay == 0}}">
+                <view class="orderPick orderCancel" bindtap='showCancelPopup' data-id="{{ item.orderId }}">取消订单</view>
+                <view class="orderPick" bindtap='payFunc' data-id="{{ item.orderId }}" disabled="{{ item.orderId==orderId?true : fasle }}">付款</view>
+              </block>
+              <!--团购  -->
+              <block  wx:elif="{{item.buyWay == 1}}">
+                <view wx:if="{{item.buttonStatus == 1}}">
+                <view class="orderPick" bindtap='payFunc' data-id="{{ item.orderId }}" disabled="{{item.orderId==orderId?true : fasle }}">付款</view>
+                </view>
+                <view wx:elif="{{item.buttonStatus == 2}}">
+                  <button class='orderPick share-btn'  data-id="{{ item.orderId }}"  open-type="share">邀请参团</button>
+                </view>
+              </block>
+              <!--秒杀  -->
+              <block  wx:elif="{{item.buyWay == 2}}">
+                <view class="orderPick orderTime" bindtap='payFunc' data-id="{{ item.orderId }}" disabled="{{item.orderId==orderId?true : fasle }}">付款</view>
+              </block>
+            </view>
+            <view class='btn-box' wx:elif="{{item.orderStatus==3}}">
+                <view class='orderPick checkExpress' bindtap="showDeletePopup" data-id="{{ item.orderId }}">删除订单</view>
+            </view>
+            <view class='btn-box' wx:elif="{{item.orderStatus==6}}">
+              <view class='orderPick orderCancel' bindtap="refundApply" wx:if="{{item.fullApplyTime ==0}}" data-item="{{ item }}" data-id="{{ item.orderId }}">申请售后</view>
+              <view class='orderPick checkExpress' bindtap="openExpressDetail" data-id="{{ item.orderId }}">查看物流</view>
+              <view class='orderPick' bindtap="openReceiptXbox" data-id="{{ item.orderId }}">确认收货</view>
+            </view>
+            <view class='btn-box' bindtap="showCodePopup" wx:elif="{{item.orderStatus==1}}" data-id="{{ item.orderId }}">
+                <view class='orderPick'>提货二维码</view>
+            </view>
+            <view class='btn-box' wx:elif="{{item.orderStatus==5}}">
+              <!-- banner 0显示  1不显示 -->
+              <view class='orderPick orderCancel' bindtap="refundApply" wx:if="{{ item.fullApplyTime == 0 && item.banner ==0}}" data-item="{{ item }}">申请售后</view>
+              <view class='orderPick checkExpress' bindtap="openExpressDetail" data-id="{{ item.orderId }}">查看物流</view>
+            </view>
+          </view>
+        </block>
+      </view>  
+      <!--上拉加载更多-->
+      <view class="more-load2">
+        <!--底部加载loadding-->
+        <view wx:if="{{ hasMore }}" class="go-loading more-loading">
+          <view class="loading-mod"></view>
+          <text class="tx">正在载入中…</text>
+        </view>
+        <view wx:if="{{ moreOver }}" class="tips2"><text>已经显示全部</text></view>
+      </view>
+  </view>
+</view>  
+<!--查看提货二维码-->
+<view class="check-codeImg" wx:if="{{isShowCodeModel}}">
+    <view class="check-bg" wx:if="{{boxOpcityBg}}" bindtap="closeCodeImgBox"></view>
+    <view class="check-box">
+        <view class="title">{{text1}}</view>
+        <view class="code-box">
+          <image wx:if="{{codeShowState}}" src="{{imageUrl}}" class="img"></image>
+          <view class="reflesh-box" bindtap="refleshCode" wx:if="{{refleshBtn}}" data-id="{{ codeOrderId }}">
+              <view class="icon"></view>
+              <view class="text">点击刷新</view>
+          </view>
+        </view>
+        <view class="prompt" wx:if="{{invalidPrompt}}">{{text5}}<view>{{text6}}</view></view>
+        <view class='code-explain' wx:if="{{codeShowState}}">{{text2}}</view>
+        <view class="explain" wx:if="{{codeShowState}}">
+          <view><text>{{text3}}</text></view>
+          <view class="ct">{{text4}}，<text data-phone="{{telePhoneNumber}}" bindtap="makePhone">{{telePhoneNumber}}</text></view>  
+        </view>
+    </view>
+    <view class="close-btn" bindtap="closeCodeImgBox">关闭</view>
+</view>
+<!--提货状态  -->
+<view class='pickStatus' wx:if="{{pickStatus}}">
+    <view class="pick-bg"  wx:if="{{pickOpcityBg}}" bindtap="hidePickBox"></view>
+    <view class='model-l'>
+        <view class='success'>交易完成</view>
+        <view class='icon'></view>
+        <view class='sure'>您已确认收货</view>
+    </view>
+</view>
+<!-- 团购秒杀活动提示框组件模块 -->
+<import src="../../template/prompt.wxml" />
+<template is="promptXbox" data="{{...activityPromptData}}"/>
+<!-- 确认收货弹窗 -->
+<confirmPopup id="receiptPopup" bind:cancelEvent="closeReceiptXbox" bind:confirmEvent="checkReceipt" iconClassName="ask-icon">
+  <view slot="title">您已收到该订单的全部商品了吗？</view>
+</confirmPopup>
+<!-- 删除订单 -->
+<confirmPopup id="deletePopup" bind:cancelEvent="closeDeleteXbox" bind:confirmEvent="deleteOrderFunc">
+  <view slot="title">您确定要删除订单吗？</view>
+</confirmPopup>
+<!-- 取消订单 -->
+<confirmPopup id="cancelPopup" bind:cancelEvent="closeCancelXbox" bind:confirmEvent="cancelOrderFunc" iconClassName="ask-icon">
+  <view slot="title">您确定要取消订单吗？</view>
+</confirmPopup>

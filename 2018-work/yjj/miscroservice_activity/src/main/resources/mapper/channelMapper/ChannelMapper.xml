@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.e_commerce.miscroservice.activity.mapper.ChannelMapper">
+
+    <!--渠道商表-->
+    <select id="searchAll" resultType="com.e_commerce.miscroservice.activity.entityvo.ChannelResponse">
+        select *from `yjj_channel_user`
+        where 1=1
+        <if test="request.id!=null and request.id!=''">
+            and `id` =#{request.id}
+        </if>
+        <if test="request.name!=null and request.name!=''">
+            and `user_name`=#{request.name}
+        </if>
+        <if test="request.phone!=null and request.phone!=''">
+            and `phone`=#{request.phone}
+        </if>
+        <if test="request.status==0">
+            and `partner_status`=0
+        </if>
+        <if test="request.status==1">
+            and `partner_status`=1
+        </if>
+        <!--<if test="request.status!=null and request.status!=''">-->
+            <!--and `partner_status`=#{request.status}-->
+        <!--</if>-->
+
+        <if test="request.startTime!=null and request.startTime!=''">
+            and `create_time`&gt;= #{request.startTime}
+        </if>
+        <if test="request.overTime!=null and request.overTime!=''">
+            and `create_time` &lt;= #{request.overTime}
+        </if>
+        <if test="request.delStatus!=null">
+            and `del_status`=0
+        </if>
+        and `belongStoreId`=121
+        ORDER by `create_time` DESC
+    </select>
+
+    <select id="selectAllUser" resultType="com.e_commerce.miscroservice.activity.entityvo.ChannelUserResponse">
+        select *from `yjj_channel_user_fans` c,`shop_member` s where c.`shop_member_id`=s.`id` and
+        c.`channel_user_id`=#{request.channelId}
+
+        <if test="request.name!=null and request.name!=''">
+            and s.`user_nickname`=#{request.name}
+        </if>
+        <if test="request.phone!=null and request.phone!=''">
+            and s.`wx_phone`=#{request.phone}
+        </if>
+        <if test="request.sex!=null and request.sex!=''">
+            and s.`sex`=#{request.sex}
+        </if>
+        <if test="request.authority==0">
+            and s.`sex`!=0
+        </if>
+        <if test="request.authority==1">
+            and s.`sex`=0
+        </if>
+        <if test="request.startTime!=null and request.startTime!=''">
+            and  <![CDATA[
+                c.`create_time`>=#{request.startTime}
+                ]]>
+        </if>
+        <if test="request.overTime!=null and request.overTime!=''">
+            and  <![CDATA[
+                c.`create_time` <=#{request.overTime}
+                ]]>
+        </if>
+        and `del_status`=0
+    </select>
+
+    <select id="selectMyFans" resultType="com.e_commerce.miscroservice.activity.entity.channel.ChannelUserGather">
+        select *from `yjj_channel_user_gather` where `channel_user_id`=#{request.channelId}
+        <if test="request.startTime!=null and request.startTime!=''">
+            and  <![CDATA[
+                `create_time`>=#{request.startTime}
+                ]]>
+        </if>
+        <if test="request.overTime!=null and request.overTime!=''">
+            and  <![CDATA[
+                `create_time` <=#{request.overTime}
+                ]]>
+        </if>
+    </select>
+
+    <select id="selectMyFanNew" resultType="com.e_commerce.miscroservice.activity.entity.channel.ChannelUserGather">
+        select *from `yjj_channel_user_gather` where `channel_user_id`=#{request.channelId}
+        <if test="request.startTime!=null and request.startTime!=''">
+            and  <![CDATA[
+                `create_time`>=#{request.startTime}
+                ]]>
+        </if>
+        <if test="request.overTime!=null and request.overTime!=''">
+            and  <![CDATA[
+                `create_time` <=#{request.overTime}
+                ]]>
+        </if>
+    </select>
+    <select id="selectActualFans" resultType="com.e_commerce.miscroservice.activity.entity.channel.ChannelUserFans">
+        select * from `yjj_channel_user_fans` where `channel_user_id`=#{request.channelId}
+        <if test="request.startTime!=null and request.startTime!=''">
+            and  <![CDATA[
+                `create_time`>=#{request.startTime}
+                ]]>
+        </if>
+        <if test="request.overTime!=null and request.overTime!=''">
+            and  <![CDATA[
+                `create_time` <=#{request.overTime}
+                ]]>
+        </if>
+    </select>
+
+
+    <select id="selectActualFanNew" resultType="com.e_commerce.miscroservice.activity.entity.channel.ChannelUserFans">
+        select * from `yjj_channel_user_fans` where `channel_user_id`=#{request.channelId}
+        <if test="request.startTime!=null and request.startTime!=''">
+            and  <![CDATA[
+                `create_time`>=#{request.startTime}
+                ]]>
+        </if>
+        <if test="request.overTime!=null and request.overTime!=''">
+            and  <![CDATA[
+                `create_time` <=#{request.overTime}
+                ]]>
+        </if>
+    </select>
+
+
+    <select id="selectTodayUser" resultType="Long">
+        select count(*) from `yjj_channel_user_fans` where `channel_user_id`=#{id}
+        <if test="startTime!=null and startTime!=''">
+            and  <![CDATA[
+                `create_time`>=#{startTime}
+                ]]>
+        </if>
+        <if test="overTime!=null and overTime!=''">
+            and  <![CDATA[
+                `create_time` <=#{overTime}
+                ]]>
+        </if>
+        and `del_status`=0
+    </select>
+
+    <select id="selectTodayOrder" resultType="Long">
+        select count(*) from `yjj_channel_order_record` where `shop_member_id`=#{shopMemberId} and
+        `channel_user_id`=#{id}
+        <if test="startTime!=null and startTime!=''">
+            and  <![CDATA[
+                `create_time`>=#{startTime}
+                ]]>
+        </if>
+        <if test="overTime!=null and overTime!=''">
+            and  <![CDATA[
+                `create_time` <=#{overTime}
+                ]]>
+        </if>
+    </select>
+
+
+    <select id="selectActualFanCount" resultType="com.e_commerce.miscroservice.activity.entity.channel.ChannelUserFans">
+        select * from `yjj_channel_user_fans` where `channel_user_id`=#{channelId}
+        <if test="startTime!=null and startTime!=''">
+            and  <![CDATA[
+                `create_time`>=#{startTime}
+                ]]>
+        </if>
+        <if test="overTime!=null and overTime!=''">
+            and  <![CDATA[
+                `create_time` <=#{overTime}
+                ]]>
+        </if>
+    </select>
+
+    <select id="selectShopMemeber"
+            resultType="com.e_commerce.miscroservice.commons.entity.application.user.ShopMemberVo">
+            select *from `shop_member` where `id`=#{memberId} and `status`=0
+    </select>
+
+    <!--<select id="selectTodayUser" resultType="Long">-->
+    <!--select count(*) from `yjj_channel_user` where `id`=#{id}-->
+    <!--<if test="startTime!=null and startTime!=''">-->
+    <!--and  <![CDATA[-->
+    <!--`create_time`>=#{startTime}-->
+    <!--]]>-->
+    <!--</if>-->
+    <!--<if test="overTime!=null and overTime!=''">-->
+    <!--and  <![CDATA[-->
+    <!--`create_time` <=#{overTime}-->
+    <!--]]>-->
+    <!--</if>-->
+    <!--</select>-->
+
+
+    <update id="updateChannel">
+            update `yjj_channel_user` set `user_name`=#{name} ,`phone`=#{phone},`partner_status`=#{status} where `id`=#{id}
+    </update>
+
+    <select id="selectQrCode" resultType="String">
+            select `in_shop_qr_img` as inShopQrImg from `yjj_channel_user` where `id`=#{channelId}
+    </select>
+
+    <update id="updateImg">
+            update `yjj_channel_user` set `in_shop_qr_img`=#{img} where `id`=#{channelId}
+    </update>
+
+
+    <select id="selectUser" resultType="com.e_commerce.miscroservice.activity.entity.channel.ChannelUser">
+            select *from `yjj_channel_user` where `phone`=#{phone}
+    </select>
+
+    <select id="selectStoreWxaList" parameterType="Long" resultType="com.e_commerce.miscroservice.activity.entity.channel.StoreWxa">
+			select *from `jiuy_store_wxa` where `store_id`=#{storeId}
+	</select>
+    <!--&lt;!&ndash;查询用户在所有店中店的订单数量&ndash;&gt;-->
+    <!--<select id="selectAllOrderCount" resultType="Long">-->
+        <!--select count(*) as `count` from `shop_member_order` where `member_id`=187-->
+        <!--&#45;&#45; in-->
+        <!--&lt;!&ndash;<foreach collection="list" item="id" index="index" open="(" close=")" separator=",">&ndash;&gt;-->
+        <!--&lt;!&ndash;#{id}&ndash;&gt;-->
+        <!--&lt;!&ndash;</foreach>&ndash;&gt;selectAllUser-->
+        <!--<if test="orderStatus!=null">-->
+            <!--and `order_status`=#{orderStatus}-->
+        <!--</if>-->
+    <!--</select>-->
+</mapper>

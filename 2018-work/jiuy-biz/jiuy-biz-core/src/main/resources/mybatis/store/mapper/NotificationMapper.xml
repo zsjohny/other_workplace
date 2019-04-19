@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.store.dao.mapper.NotificationMapper">
+
+    <select id="getCountExclude910" resultType="int">
+		<![CDATA[
+		SELECT count(c.Id) FROM (
+		select a.*, b.PageView as UserPageView from shop_notification a left join 
+			(select * from shop_user_notification where UserId=#{userId}) b on a.Id=b.NotificationId
+			where a.Status = 0 and PushStatus = 1 and (b.PageView is null or b.PageView = 0) and PushTime > #{registerTime} AND 
+			(a.storeIdArrays='' OR FIND_IN_SET(#{keyWord}, a.storeIdArrays)) AND (b.Status=0 OR b.Status IS NULL)
+		 ) as c
+		]]>
+	</select>
+
+	<select id="getAllListExclude910" resultType="ShopNotification">
+		<![CDATA[
+			SELECT a.*, b.PageView AS UserPageView FROM shop_notification a LEFT JOIN 
+			(SELECT * FROM shop_user_notification WHERE UserId=#{storeId}) b ON a.Id=b.NotificationId
+			WHERE a.STATUS = 0 AND PushStatus = 1 AND (b.PageView IS NULL OR b.PageView = 0) AND PushTime > #{registerTime} AND 
+			(a.storeIdArrays='' OR FIND_IN_SET(#{keyWord}, a.storeIdArrays)) AND (b.Status=0 OR b.Status IS NULL)
+		]]>
+    </select>
+
+    <select id="getListExclude910" resultType="ShopNotification">
+		<![CDATA[
+			SELECT a.*, b.PageView AS UserPageView FROM shop_notification a LEFT JOIN 
+			(SELECT * FROM shop_user_notification WHERE UserId=#{storeId}) b ON a.Id=b.NotificationId
+			WHERE a.STATUS = 0 AND PushStatus = 1 AND (b.PageView IS NULL OR b.PageView = 0) AND PushTime > #{registerTime} AND 
+			(a.storeIdArrays='' OR FIND_IN_SET(#{keyWord}, a.storeIdArrays)) AND (b.Status=0 OR b.Status IS NULL)
+			order by PushTime desc
+			limit #{pageQuery.limit} offset #{pageQuery.offset}
+		]]>
+    </select>
+
+    <select id="getNotificationList" resultType="ShopNotification">
+        <![CDATA[
+			SELECT a.*, b.PageView AS UserPageView FROM shop_notification a LEFT JOIN 
+			(SELECT * FROM shop_user_notification WHERE UserId=#{storeId}) b ON a.Id=b.NotificationId
+			WHERE a.STATUS = 0 AND PushStatus = 1 AND PushTime > #{registerTime} AND 
+			(a.storeIdArrays='' OR FIND_IN_SET(#{keyWord}, a.storeIdArrays))  AND (b.Status=0 OR b.Status IS NULL)
+			order by PushTime desc
+		]]>
+        <if test="pageQuery!=null">
+            limit #{pageQuery.limit} offset #{pageQuery.offset}
+        </if>
+    </select>
+
+    <select id="getNotificationAllCount" resultType="int">
+		<![CDATA[
+			SELECT count(c.Id) FROM (		
+			SELECT a.*, b.PageView AS UserPageView FROM shop_notification a LEFT JOIN 
+			(SELECT * FROM shop_user_notification WHERE UserId=#{storeId}) b ON a.Id=b.NotificationId
+			WHERE a.STATUS = 0 AND PushStatus = 1 AND PushTime > #{registerTime} AND 
+			(a.storeIdArrays='' OR FIND_IN_SET(#{keyWord}, a.storeIdArrays))  AND (b.Status=0 OR b.Status IS NULL)
+			 ) as c
+		]]>
+    </select>
+
+    <insert id="addUserNotification" parameterType="map">
+        <![CDATA[ INSERT INTO shop_user_notification (UserId,NotificationId,PageView, CreateTime, UpdateTime)
+			VALUES
+		]]>
+        <foreach collection="userNotifications" item="userNotification" open="(" separator="),(" close=")">
+            <![CDATA[
+				#{userNotification.userId}, #{userNotification.notificationId}, 1, #{userNotification.createTime}, #{userNotification.updateTime}			
+			]]>
+        </foreach>
+        <![CDATA[
+			ON DUPLICATE KEY UPDATE PageView=PageView+1, UpdateTime=UNIX_TIMESTAMP(now())*1000;
+		]]>
+    </insert>
+
+    <update id="updateNotificationPageView" parameterType="map">
+        <![CDATA[
+			update shop_notification
+			set PageView = PageView + 1
+			where Id in
+		]]>
+        <foreach collection="ids" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
+
+    <update id="updatePushStatus" parameterType="map">
+		UPDATE 
+			shop_notification
+		SET 
+			PushStatus = 1
+		WHERE 
+			Id = #{id}
+	</update>
+
+    <select id="getPushingNotification" parameterType="map" resultType="ShopNotification">
+        select * from shop_notification
+        <where>
+            Status = 0 AND PushStatus = 0
+            <if test="startTime != 0">
+                <![CDATA[
+				AND PushTime > #{startTime}
+				]]>
+            </if>
+            <if test="endTime != 0">
+                <![CDATA[
+				AND PushTime < #{endTime}
+				]]>
+            </if>
+        </where>
+    </select>
+
+    <insert id="addNotification" parameterType="ShopNotification">
+		INSERT into shop_notification (Title, Abstracts, Image, LinkUrl, CreateTime, UpdateTime, PushStatus, PushTime , Type)
+		VALUES (#{shopNotification.title},#{shopNotification.abstracts},#{shopNotification.image}, #{shopNotification.linkUrl} ,#{shopNotification.createTime},#{shopNotification.updateTime},#{shopNotification.pushStatus},#{shopNotification.pushTime},#{shopNotification.type})
+	</insert>
+
+    <insert id="deleteNotification" parameterType="map">
+        <![CDATA[ INSERT INTO shop_user_notification (UserId,NotificationId,PageView, CreateTime, UpdateTime,Status)
+			VALUES
+		]]>
+        <foreach collection="userNotificationList" item="userNotification" open="(" separator="),(" close=")">
+            <![CDATA[
+				#{userNotification.userId}, #{userNotification.notificationId}, #{userNotification.pageView},
+				#{userNotification.createTime}, #{userNotification.updateTime},#{userNotification.status}
+			]]>
+        </foreach>
+        <![CDATA[
+			ON DUPLICATE KEY UPDATE Status=-1, UpdateTime=UNIX_TIMESTAMP(now())*1000;
+		]]>
+    </insert>
+
+
+    <insert id="addNotificationSpecial"  parameterType="ShopNotification">
+      INSERT into shop_notification(Title, Abstracts, Image, LinkUrl, CreateTime, UpdateTime, PushStatus, PushTime , Type,storeIdArrays)
+		VALUES
+		(
+		#{shopNotification.title},
+		#{shopNotification.abstracts},
+		#{shopNotification.image},
+		#{shopNotification.linkUrl} ,
+		#{shopNotification.createTime},
+		#{shopNotification.updateTime},
+		#{shopNotification.pushStatus},
+		#{shopNotification.pushTime},
+		#{shopNotification.type},
+		#{shopNotification.storeIdArrays}
+		)
+	</insert>
+</mapper>

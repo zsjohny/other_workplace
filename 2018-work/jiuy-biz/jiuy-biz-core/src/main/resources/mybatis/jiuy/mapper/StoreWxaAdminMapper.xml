@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jiuy.core.dao.impl.sql.StoreWxaAdminMapper">
+
+	<!-- 配置映射字段 -->  
+    <resultMap id="storeWxaResultMap" type="StoreWxa">  
+        <id property="id" column="id"/>  
+        <result property="storeId" column="store_id"/>
+        <result property="appId" column="app_id"/>
+        <result property="nickName" column="nick_name"/>
+        <result property="headImg" column="head_img"/>
+        <result property="userName" column="user_name"/>
+        <result property="alias" column="alias"/>
+        <result property="qrcodeUrl" column="qrcode_url"/>
+        <result property="principalName" column="principal_name"/>
+        <result property="signature" column="signature"/>
+        <result property="idc" column="idc"/>
+        <result property="refreshToken" column="refresh_token"/>
+        <result property="authorizerInfoJson" column="authorizer_info_json"/>
+        <result property="mchId" column="mch_id"/>
+        <result property="payKey" column="pay_key"/>
+        <result property="createTime" column="create_time"/>
+    </resultMap>
+	
+	<select id="getStoreWxaByStoreId" parameterType="map" resultMap="storeWxaResultMap">
+		SELECT * FROM jiuy_store_wxa 
+		WHERE store_id=#{storeId} ;
+	</select>
+	
+	<!-- 更改小程序发布版二维码 -->
+	<update id="updateWxaOnlineWxaQrcodeUrl" parameterType="map">
+		UPDATE
+			jiuy_store_wxa
+		SET
+			 qrcode_url = #{onlineWxaQrcodeUrl}
+		WHERE
+			store_id = #{storeId}
+	</update>
+	
+	<!-- 设置商户号-->
+	<update id="setMchId" parameterType="map">
+		UPDATE
+			jiuy_store_wxa
+		SET
+			 mch_id = #{mchId}
+		WHERE
+			store_id = #{storeId}
+	</update>
+	
+	<!-- 设置商户秘钥 -->
+	<update id="setPayKey" parameterType="map">
+		UPDATE
+			jiuy_store_wxa
+		SET
+			 pay_key = #{payKey}
+		WHERE
+			store_id = #{storeId}
+	</update>
+
+
+	<!-- 取消小程序授权（解除小程序和门店的关联）-->
+ 	<delete id="delStoreWxaByStoreId" parameterType="map">
+		DELETE FROM jiuy_store_wxa
+		WHERE store_id = #{storeId} ;
+	</delete>
+
+	<!-- 取消小程序授权（解除小程序和门店的关联）-->
+	<update id="cancelAuth" parameterType="map">
+		update yjj_StoreBusiness set WxaAppId='',WeiXinNum='' where Id = #{storeId};
+	</update>
+</mapper>

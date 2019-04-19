@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yujj.dao.mapper.CategoryFilterMapper">
+	<select id="getProductFilterByCatId" resultType="CategoryFilter">
+		<![CDATA[
+			select * from yjj_CategoryFilter
+			where Status = 0  and CategoryId = #{id}
+			order by Weight desc
+		]]>
+	</select>
+	
+	<select id="getProductFilterByCatIds" resultType="CategoryFilter">
+		<![CDATA[
+			select * from yjj_CategoryFilter
+			where Status = 0  and CategoryId in 
+			]]>
+		<foreach collection="ids" item="categoryId" open="(" separator="," close=")">
+			<![CDATA[
+				#{categoryId}
+			]]>
+		</foreach>
+		
+		<![CDATA[
+			order by Weight desc
+		]]>
+	</select>
+	
+	<select id="getProductFilterByBrandIds" resultType="BrandFilter">
+		<![CDATA[
+			select * from yjj_BrandFilter
+			where Status = 0  
+			order by Weight desc
+		]]>
+	</select>
+</mapper>

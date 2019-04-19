@@ -1,0 +1,127 @@
+/*申请权益 */
+.apply-box .logo{
+  width: 119rpx;
+  height: 119rpx;
+  background: url(http://mini-img-main.oss-cn-hangzhou.aliyuncs.com/icon/new/logo.png) no-repeat;
+  background-size: 119rpx;
+  margin: 38rpx auto 24rpx;
+}
+.apply-box .logo-text{
+  color: #fd4374;
+  font-size: 32rpx;
+  text-align: center;
+}
+.apply-form{
+  width: 655rpx;
+  margin: 0 auto;
+}
+.apply-form .form-item{
+  height: 150rpx;
+  border-bottom: 2rpx solid #eee;
+}
+.apply-form .form-item .title{
+  color: #6b6b6b;
+  font-size: 28rpx;
+  padding-top: 34rpx;
+  display: block;
+}
+.apply-form .form-item input{
+  width: 655rpx;
+  height: 80rpx;
+  line-height: 80rpx;
+  font-size: 30rpx;
+}
+.placeholder-font{
+  font-size: 24rpx;
+  color: #9a9a9a
+}
+.agree-box{
+  margin-top: 60rpx;
+  display: -webkit-flex;
+}
+.agree-box .checkbox{
+  width: 28rpx;
+  height: 28rpx;
+  border-radius: 50%;
+  border:2rpx solid #bab9b9;
+}
+.agree-box .active{
+  width: 32rpx;
+  height: 32rpx;
+  background: url(http://mini-img-main.oss-cn-hangzhou.aliyuncs.com/icon/new/success-red-icon.png);
+  background-size: 32rpx;
+  border:none;
+}
+.agree-box .agreement{
+  font-size: 24rpx;
+  padding-left: 24rpx;
+}
+.apply-btn{
+  width: 655rpx;
+  height: 88rpx;
+  line-height: 88rpx;
+  text-align: center;
+  color: #fff;
+  font-size: 30rpx;
+  background: #fd4374;
+  margin: 26rpx auto;
+  border-radius: 8rpx;
+}
+.apply-explain{
+  line-height: 44rpx;
+  color: #bab9b9;
+  font-size: 24rpx;
+}
+/*申请成功弹窗*/
+.success-xbox .bg{
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 10020;
+  background: rgba(0, 0, 0, 0.65);
+}
+.success-xbox .box{
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  width: 500rpx;
+  height: 340rpx; 
+  margin: -170rpx -250rpx;
+  z-index: 10030;
+  background: #fff;
+  border-radius: 8rpx;
+}
+.success-xbox .box .success-icon{
+  width: 75rpx;
+  height: 75rpx;
+  background: url(http://mini-img-main.oss-cn-hangzhou.aliyuncs.com/icon/success-icon.png);
+  background-size: 75rpx;
+  margin: 40rpx auto 30rpx;
+}
+.success-xbox .box .success-text{
+  text-align: center;
+  font-size: 32rpx;
+}
+.success-xbox .box .close-icon{
+  width: 50rpx;
+  height: 50rpx;
+  background: url(http://mini-img-main.oss-cn-hangzhou.aliyuncs.com/icon/close-icon1.png);
+  background-size: 50rpx;
+  position: absolute;
+  right: -25rpx;
+  top: -25rpx;
+  z-index: 20000;
+}
+.success-xbox .box .back-btn{
+  width: 360rpx;
+  height: 80rpx;
+  line-height: 80rpx;
+  text-align: center;
+  color: #fff;
+  font-size: 30rpx;
+  background: #fd4374;
+  margin: 30rpx auto;
+  border-radius: 8rpx;
+}

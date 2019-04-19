@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jiuyuan.dao.mapper.store.SalesVolumeProductMapper">
+
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.store.entity.SalesVolumeProduct">
+		<id column="id" property="id" />
+		<result column="product_id" property="productId" />
+		<result column="sales_volume" property="salesVolume" />
+		<result column="collection_count" property="collectionCount" />
+		<result column="star_count" property="starCount" />
+		<result column="order_count" property="orderCount" />
+		<result column="order_success_count" property="orderSuccessCount" />
+		<result column="refund_count" property="refundCount" />
+		<result column="view_count" property="viewCount" />
+		<result column="update_time" property="updateTime" />
+		<result column="product_type" property="productType" />
+	</resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, product_id AS productId, sales_volume AS salesVolume, collection_count AS collectionCount, star_count AS starCount, order_count AS orderCount, order_success_count AS orderSuccessCount, refund_count AS refundCount, view_count AS viewCount, update_time AS updateTime, product_type AS productType
+    </sql>
+
+
+	<select id="selectProductMonitor" resultMap="BaseResultMap" parameterType="Map">
+		select
+			`id`,
+			`product_id`,
+			`sales_volume`,
+			`collection_count`,
+			`star_count`,
+			`order_count`,
+			`order_success_count`,
+			`refund_count`,
+			`view_count`,
+			`update_time`,
+			`product_type`
+		from yjj_sales_volume_product
+		where product_type = #{productType}
+		<if test="productIds!=null and productIds.size()>0">
+			and product_id in (
+			<foreach collection="productIds" separator="," item="id">
+				#{id}
+			</foreach>
+			)
+		</if>
+
+	</select>
+
+</mapper>

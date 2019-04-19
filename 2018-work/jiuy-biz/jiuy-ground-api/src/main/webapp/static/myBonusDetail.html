@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<title>我的奖金</title>
+	<meta name="description" content="">
+	<meta name="keywords" content="">
+	<script src="js/adaptation.js"></script>
+	<link type="text/css" rel="stylesheet" href="css/base.css">
+	<link type="text/css" rel="stylesheet" href="css/common.css">
+	<link type="text/css" rel="stylesheet" href="js/date/calendar.min.css">
+</head>
+<body>
+    <div class="bonusSearch-time"> 
+       <input type="text" class="time calendars" id="startTime" format="yy-mm-dd">
+       <span>~</span>
+       <input type="text" class="time calendars" id="endTime"  format="yy-mm-dd">
+       <input type="button" class="bonusSearch-btn" value="查询">
+    </div>
+    <!-- 奖金动态列表 -->
+    <div class="income-list">
+        <ul id="bonus-list">
+
+        </ul>
+        <div class="complete-state" style="display: none">下拉查看更多</div>
+    </div>
+    <!-- 列表模板 -->
+    <script type="text/html" id="template-list">
+        {{if data.length > 0}}
+            {{each data as value}}
+                <li>
+                    <div class="date-title">{{value.time}}<span>{{value.name}}</span></div>
+                    <div class="income"><span><i class="number">+{{value.incomeMoney}}</i>元</span></div>
+                    <div class="info">
+                        <span>注册奖:<i class="number">{{value.registerPersonCount}}</i>个</span>/
+                        <span>激活奖:<i class="number">{{value.activationPersonCount}}</i>个</span>/
+                        <span>成交奖:<i class="number">{{value.dealPersonCount}}</i>个</span>
+                    </div>
+                </li>
+            {{/each}} 
+         {{else}}
+             <li class="no-record">无相关记录</li>
+         {{/if}}     
+    </script>
+    <script type="text/javascript" src="js/jquery-3.0.0.min.js"></script>
+    <script type="text/javascript" src="js/template.js"></script>
+    <script type="text/javascript" src="js/common.js"></script>
+    <script type="text/javascript" src="js/date/calendar.min.js"></script>
+    <script type="text/javascript">
+        //我的奖金列表-2017-12-07详细版本
+        function initBonusListData(){
+            $.ajax({
+                url : "/myInfo/getMyDetailedBonusList.json",
+                type : "GET",
+                dataType : "json",
+                async:false,
+                data:{
+                   size:10,
+                   current:1
+                },
+                success : function(res){
+                    console.log(res);
+                    if (res.successful) {
+                        //奖金列表动态
+                        var modHtml = template("template-list",res);
+                        $("#bonus-list").html(modHtml);
+                        //无记录时隐藏掉“下拉加载更多“的提示
+                        if(res.data.length == 0){
+                            $(".complete-state").hide();
+                        }else{
+                            $(".complete-state").show();
+                        }
+                    }else{
+                         //未登录跳转至登录页面
+                        if(res.code == "-999"){
+                            window.location.href = 'login.html?origin=myBonusDetail.html';
+                        }else{
+                             //没修改初始密码时,跳转至修改密码页面
+                            if(res.code =="-809"){
+                                var btnHTML = "<a class='true' href='/static/modifyPassword.html?origin=myBonusDetail.html'>确定</a>";
+                                var closeUrl = "modifyPassword.html?origin=myBonusDetail.html";
+                                comfirmBoxLink("show",res.error,btnHTML,closeUrl);
+                            }else{
+                                comfirmBox("show",res.error,1);
+                            }
+                        }
+                    }
+                }
+            });
+        }
+        $(function(){
+            initBonusListData();
+        })
+        //下拉加载更多
+        var isOver = 1;
+        var pages = 2;
+        $(window).scroll(function(){
+            var scrollTopH = $(document).height() - $(this).scrollTop() - $(this).height();
+            var $startTime = $("#startTime").val(),
+                $endTime = $("#endTime").val();
+            var sendData = {
+                size:10,
+                current:pages
+            };
+            if($startTime && $endTime){
+                sendData = {
+                    searchTimeStart:$startTime,
+                    searchTimeEnd:$endTime,
+                    size:10,
+                    current:pages
+                };
+            }
+            console.log(sendData);
+            if(scrollTopH < 2 && isOver){
+                $.ajax({
+                    url : "/myInfo/getMyDetailedBonusList.json",
+                    type : "GET",
+                    dataType : "json",
+                    async:false,
+                    data:sendData,
+                    success : function(res){
+                        console.log(res);
+                        if (res.successful) {
+                            //奖金列表动态
+                            if(res.data.length > 0){
+                                var modHtml = template("template-list",res);
+                                $("#bonus-list").append(modHtml);
+                                isOver = 1;
+                                pages ++;
+                            }else{
+                                $(".complete-state").show().html("已经显示全部");
+                                isOver = 0;
+                            }
+                        }else{
+                            comfirmBox("show",res.error,1);
+                        }
+                    }
+                });
+            } 
+        });
+
+        //搜索函数
+        $(".bonusSearch-btn").on("click",function(){
+            var $startTime = new Date($("#startTime").val()).getTime(),
+                $endTime = new Date($("#endTime").val()).getTime();
+            console.log($startTime,$endTime); 
+            var yesterDayTimes = 24*60*60*1000;
+            var d = new Date(),
+                today = d.getFullYear()+"-"+(d.getMonth()+1)+"-"+d.getDate(),
+                todayTimes = new Date(today).getTime();
+            //console.log(today,todayTimes);
+            if(!$endTime || !$startTime){
+                comfirmBox("show","请选择日期",1);
+                return 
+            }if($startTime > $endTime){
+                comfirmBox("show","开始日期不能大于结束日期",1);
+                return 
+            }
+            if(($endTime >= todayTimes) || ($startTime >= todayTimes)){
+                comfirmBox("show","请选择昨天以及昨天以前的日期",1);
+                return 
+            }
+            var sendData = {
+                searchTimeStart:$("#startTime").val(),
+                searchTimeEnd:$("#endTime").val(),
+                size:10,
+                current:1
+            };
+            console.log(sendData);
+            $.ajax({
+                url : "/myInfo/getMyDetailedBonusList.json",
+                type : "GET",
+                dataType : "json",
+                async:false,
+                data:sendData,
+                success : function(res){
+                    console.log(res);
+                    if (res.successful) {
+                        //奖金列表动态
+                        var modHtml = template("template-list",res);
+                        $("#bonus-list").html(modHtml);
+                        //无记录时隐藏掉“下拉加载更多“的提示
+                        if(res.data.length == 0){
+                            $(".complete-state").hide();
+                        }else{
+                            $(".complete-state").show();
+                        }
+                    }else{
+                        comfirmBox("show",res.error,1);
+                    }
+                }
+            });
+        })
+    </script>
+</body>
+</html>

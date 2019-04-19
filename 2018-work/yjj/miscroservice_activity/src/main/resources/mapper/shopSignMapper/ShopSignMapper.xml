@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.e_commerce.miscroservice.activity.mapper.ShopSignMapper">
+
+    <resultMap id="BaseResult" type="com.e_commerce.miscroservice.commons.entity.application.activity.Sign">
+
+    </resultMap>
+
+    <sql id="baseSql">
+
+    </sql>
+    <select id="getNowSignByUser" resultType="java.lang.Integer">
+        SELECT count(user_id) FROM shop_sign where user_id = #{userId} and curdate() = DATE_FORMAT(FROM_UNIXTIME(add_date),'%Y-%m-%d')
+    </select>
+    <select id="getSignLogMonthByUser" resultType="java.lang.String">
+        SELECT DISTINCT (DATE_FORMAT(FROM_UNIXTIME(a.add_date), '%d'))
+        FROM shop_sign_log a WHERE a.user_id=#{userId} and DATE_FORMAT(FROM_UNIXTIME(a.add_date), '%Y%m') = DATE_FORMAT(CURDATE(), '%Y%m')
+    </select>
+    <select id="getSignLogLimitDescByUser"
+            resultType="com.e_commerce.miscroservice.commons.entity.application.activity.SignLog">
+        select * from shop_sign_log where user_id = #{userId} order by add_date desc limit 1
+    </select>
+
+
+</mapper>
+
+
+
+
+
+
+
+
+
+
+

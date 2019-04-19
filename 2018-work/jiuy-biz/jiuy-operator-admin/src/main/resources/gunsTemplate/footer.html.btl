@@ -1,0 +1,62 @@
+
+<div class="container footer-place"><img src="/img/map.png" alt=""></div>
+<div class="container footer-content">
+    <table class="footer-content-div">
+        <tr >
+            <td class="footer-content-dl">
+                <div class="footer-content-dl-one">
+                    <span class="footer-content-dl-one-img"><img src="/img/phone.png" alt=""></span>
+                    <span class="marginleft100">400-118-0099</span>
+                </div>
+                <div class="footer-content-dl-two">
+                    <span class="footer-content-dl-one-img"><img src="/img/place.png" alt=""></span>
+                    <span class="marginleft100" style="font-size: 12px;">浙江省杭州市滨江区秋溢路288号东冠高新科技园1号楼1208室</span>
+                </div>
+            </td>
+            <td class="footer-content-dl " >
+                <div class="footer-content-dl-three">
+                    <ul class="footer-content-dl-three-list">
+                        <li class="footer-content-dl-three-listItem"><a href="/server.html">服务条款</a> </li>
+                        <li class="footer-content-dl-three-listItem"><a href="/privacy.html">隐私条款</a></li>
+                        <li class="footer-content-dl-three-listItem"><a href="/joinUs.html">招贤纳士</a></li>
+                        <li class="footer-content-dl-three-listItem"><a href="/aboutCompany.html">关于我们</a></li>
+                    </ul>
+                </div>
+                <div class="footer-content-dl-four right">
+                    <p>CopyRight © 2015-2016 杭州玖远网络科技有限公司 浙ICP备15017271号 Yujiejie Inc</p>
+                    <p>版权所有 经营许可证编号：浙B1.B2-2015034</p>
+                    <p>浙公网安备 33010802002977号</p>
+                </div>
+            </td>
+            <td class="footer-content-dl">
+                <div class="footer-content-dl-img">
+
+                    <p><img src="/img/public.png" alt=""></p>
+                    <p>公众号二维码</p>
+                </div>
+                <div class="footer-content-dl-img">
+
+                    <p><img src="/img/app.png" alt=""></p>
+                    <p>APP下载二维码</p>
+                </div>
+            </td>
+        </tr>
+
+    </table>
+   <!--友情链接-->
+    <div class="container friend-link">
+       <div class="friend-link-title">友情链接:</div>
+       <ul class="friend-link-list">
+           <%
+           for(item in page.operatorRelationUrls){
+           %>
+           <li class="item">
+               <a href="${item.jumpUrl}" target="_blank">
+                   <img src="${item.imageUrl}" alt="${item.imageTitle}">
+                   <p>${item.title}</p>
+               </a>
+           </li>
+           <% } %>
+       </ul>
+    </div><!-- friend-link end -->
+</div><!-- footer-content end -->

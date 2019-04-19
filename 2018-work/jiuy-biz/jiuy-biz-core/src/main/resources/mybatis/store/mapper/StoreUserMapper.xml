@@ -1,0 +1,376 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.store.dao.mapper.StoreUserMapper">
+
+
+
+	<select id="getStoreBusinessByStoreId" resultMap="StoreBusinessMap">
+		<![CDATA[
+			select *,is_open_wxa as isOpenWxa from yjj_StoreBusiness
+			where Id = #{storeId} 
+		]]>
+	</select>
+	
+		
+	
+	
+	<select id="getStoreBusinessByWxaAppId" resultMap="StoreBusinessMap">
+		<![CDATA[
+			select *,is_open_wxa as isOpenWxa from yjj_StoreBusiness
+			where WxaAppId = #{wxaAppId} 
+		]]>
+	</select>
+
+	<select id="getStoreBusiness4Login" resultMap="StoreBusinessMap">
+		<![CDATA[
+			select *,is_open_wxa as isOpenWxa from yjj_StoreBusiness
+			where UserName = #{userName} 
+		]]>
+	</select>
+	
+	<select id="getStoreBusinessByPhone" resultMap="StoreBusinessMap">
+		<![CDATA[
+			select *,is_open_wxa as isOpenWxa, first_login_status as firstLoginStatus from yjj_StoreBusiness
+			where UserName = #{phone}  or PhoneNumber = #{phone} limit 1
+		]]>
+	</select>
+	
+	<select id="getStoreBusinessById" resultMap="StoreBusinessMap">
+		<![CDATA[
+			SELECT
+	*, is_open_wxa AS isOpenWxa,data_audit_status AS dataAuditStatus , wxa_open_time AS wxaOpenTime, wxa_close_time AS wxaCloseTime,
+	store_display_images AS storeDisplayImages, wxa_business_type AS wxaBusinessType
+FROM
+	yjj_StoreBusiness
+WHERE	 id =  #{id}
+		]]>
+	</select>
+	
+	<select id="getStoreBusinessByWeixinId" resultMap="StoreBusinessMap">
+		<![CDATA[
+			select *,is_open_wxa as isOpenWxa from yjj_StoreBusiness
+			where BindWeixinId = #{weixinId}   limit 1
+		]]>
+	</select>
+	<resultMap type="StoreBusiness" id="StoreBusinessMap">
+		<result column="first_login_status" property="firstLoginStatus" />
+		<result column="ground_user_id" property="groundUserId" />
+		<result column="audit_time" property="auditTime" />
+		<result column="one_stage_time" property="oneStageTime" />
+		<result column="two_stage_time" property="twoStageTime" />
+		<result column="three_stage_time" property="threeStageTime" />
+		<result column="super_ids" property="superIds" />
+		<result column="store_display_images" property="storeDisplayImages" />
+		<result column="audit_status" property="auditStatus" />
+		<result column="activation_time" property="activationTime" />
+		<result column="ground_user_phone" property="groundUserPhone" />
+		<result column="ground_user_name" property="groundUserName" />
+		<result column="store_style" property="storeStyle" />
+		<result column="store_age" property="storeAge" />
+		<result column="store_area_scope" property="storeAreaScope" />
+		<result column="purchase_channel" property="purchaseChannel" />
+		<result column="price_level" property="priceLevel" />
+	</resultMap>
+
+
+	<select id="getStoreBusinessAuditList" resultMap="StoreBusinessMap">
+		<![CDATA[
+			select t.* ,(select status from jiuy_store_audit where storeId =t.id limit 1) auditStatus from yjj_StoreBusiness t
+			having auditStatus = #{status} 
+			limit #{pageQuery.limit} offset #{pageQuery.offset}
+		]]>
+	</select>
+
+	<select id="getStoreBusinessByWeiXinNum" resultMap="StoreBusinessMap">
+		<![CDATA[
+			select *,is_open_wxa as isOpenWxa from yjj_StoreBusiness
+			where WeiXinNum = #{weiXinNum}   limit 1
+		]]>
+	</select>
+
+	<select id="getStoreBusinessByBusinessNumber" resultMap="StoreBusinessMap">
+		<![CDATA[
+			select *,is_open_wxa as isOpenWxa from yjj_StoreBusiness
+			where BusinessNumber = #{businessNumber}   limit 1
+		]]>
+	</select>
+
+
+
+	<update id="resetUserPassword" parameterType="map">
+		<![CDATA[
+			update yjj_StoreBusiness
+			set UserPassword = #{password}, UpdateTime = unix_timestamp()*1000
+			where userName = #{userName}
+		]]>
+	</update>
+
+	<update id="updateUserCid" parameterType="map">
+		<![CDATA[
+			update yjj_StoreBusiness
+			set UserCID = #{userCid}, UpdateTime = unix_timestamp()*1000
+			where Id = #{id}
+		]]>
+	</update>
+
+	<update id="updateStoreActiveTime" parameterType="map">
+		<![CDATA[
+			update yjj_StoreBusiness
+			set ActiveTime = #{sysTime}, UpdateTime = unix_timestamp()*1000
+			where Id = #{storeId}
+		]]>
+	</update>
+
+	<update id="cancelAuth" parameterType="map">
+		<![CDATA[
+			update yjj_StoreBusiness
+			set WxaAppId = "", UpdateTime = unix_timestamp()*1000
+			where Id = #{storeId}
+		]]>
+	</update>
+
+	<update id="updateUserBusinessNumber" parameterType="map">
+		<![CDATA[
+			update yjj_StoreBusiness
+			set BusinessNumber = #{businessNumber}, UpdateTime = unix_timestamp()*1000
+			where Id = #{id}
+		]]>
+	</update>
+
+	<update id="fillStoreBusinessData" parameterType="StoreBusiness">
+		<![CDATA[
+			update yjj_StoreBusiness
+			set
+		]]>
+		<if test="businessName != null">
+			BusinessName = #{businessName},
+		</if>
+		<if test="companyName != null">
+			CompanyName = #{companyName},
+		</if>
+		<if test="province != null">
+			Province = #{province},
+		</if>
+		<if test="city != null">
+			City = #{city},
+		</if>
+		<if test="county != null">
+			County = #{county},
+		</if>
+		<if test="businessAddress != null">
+			BusinessAddress = #{businessAddress},
+		</if>
+		<if test="legalPerson != null">
+			LegalPerson = #{legalPerson},
+		</if>
+		<if test="legalIdNumber != null">
+			LegalIdNumber = #{legalIdNumber},
+		</if>
+		<if test="qualificationProofImages != null">
+			qualificationProofImages=#{qualificationProofImages},
+		</if>
+		<if test="groundUserId != 0">
+			ground_user_id=#{groundUserId},
+		</if>
+		<if test="superIds != ''">
+			super_ids=#{superIds},
+		</if>
+		<if test="auditStatus != -1">
+			audit_status=#{auditStatus},
+		</if>
+		<if test="groundUserPhone != null">
+			ground_user_phone=#{groundUserPhone},
+		</if>
+		<if test="groundUserName != null">
+			ground_user_name=#{groundUserName},
+		</if>
+		<if test="storeStyle != null">
+			store_style=#{storeStyle},
+		</if>
+		<if test="storeAreaScope != null">
+			store_area_scope=#{storeAreaScope},
+		</if>
+		<if test="purchaseChannel != null">
+			purchase_channel=#{purchaseChannel},
+		</if>
+		<if test="priceLevel != null">
+			price_level=#{priceLevel},
+		</if>
+		<if test="storeAge != null">
+			store_age=#{storeAge},
+		</if>
+		<if test="dataAuditStatus != null">
+			data_audit_status=#{dataAuditStatus},
+		</if>
+		<if test="dataAuditTime != null">
+			data_audit_time=#{dataAuditTime},
+		</if>
+		UpdateTime = unix_timestamp()*1000 
+		<![CDATA[
+			where Id = #{id} 
+		]]>
+	</update>
+
+	<update id="updateUserProtocolTime" parameterType="map">
+		<![CDATA[
+			update yjj_StoreBusiness
+			set protocolTime = #{time}, UpdateTime = unix_timestamp()*1000
+			where Id = #{id}
+		]]>
+	</update>
+
+
+
+	<update id="wxaAuth" parameterType="map">
+			update yjj_StoreBusiness
+			set WxaAppId = #{wxaAppId},WeiXinNum = #{weiXinNum}, UpdateTime = unix_timestamp()*1000
+			<if test="wxaOpenTime != null">, wxa_open_time = #{wxaOpenTime}</if>
+			<if test="wxaCloseTime != null">, wxa_close_time = #{wxaCloseTime}</if>
+			,wxa_business_type = 2
+			,is_open_wxa = 1
+			where Id = #{storeId}
+	</update>
+
+	<update id="updateUserNickName" parameterType="map">
+		<![CDATA[
+			update yjj_StoreBusiness
+			set BindWeixinName = #{userNickName}, UpdateTime = unix_timestamp()*1000
+			where Id = #{id}
+		]]>
+	</update>
+
+	<update id="updateStoreNotice" parameterType="map">
+		<![CDATA[
+			update yjj_StoreBusiness
+			set StoreNotice = #{storeNotice}, UpdateTime = unix_timestamp()*1000
+			where Id = #{id}
+		]]>
+	</update>
+
+	<update id="updateSupplierId">
+	    <![CDATA[
+	        update yjj_StoreBusiness
+	        set supplierId = #{supplierId}
+	        where Id = #{storeId}
+	    ]]>
+	</update>
+
+	<update id="oldUserBindWeixin" parameterType="StoreBusiness">
+		<![CDATA[
+			update yjj_StoreBusiness
+			set 
+			BindWeixinName = #{bindWeixinName},
+			BindWeixinId = #{bindWeixinId},
+			BindWeixinIcon = #{bindWeixinIcon},
+			 UpdateTime = unix_timestamp()*1000
+			where Id = #{id} and (BindWeixinId is null  or BindWeixinId = '')
+		]]>
+	</update>
+
+
+
+	<insert id="addStoreBusiness" keyColumn="id" useGeneratedKeys="true"
+		keyProperty="id" parameterType="StoreBusiness">
+		INSERT INTO
+		yjj_StoreBusiness
+		(BusinessName, CompanyName, Status, CreateTime,
+		UpdateTime,
+		DistributionStatus,
+		PhoneNumber, BusinessAddress, LicenseNumber,
+		OrganizationNo, TaxId, LegalPerson,
+		Province, City, StoreArea,
+		StoreDescription,
+		StoreLogo, StoreShowImgs, StorePanoramaImg,
+		CommissionPercentage,
+		BankAccountName, BankName,
+		BankAccountNo,BankCardFlag,
+		AlipayFlag,WeixinFlag,
+		AlipayAccount,
+		AlipayName,
+		WeixinAccount,WeixinName,IdCardNumber,BusinessType,UserName,UserPassword,Grade,BusinessHours,SignTime,
+		DefaultCommissionPercentage,SuperBusinessIds,MemberCommissionPercentage,
+		BindWeixinId, BindWeixinName, BindWeixinIcon)
+		VALUES
+		(#{businessName},
+		#{companyName}, #{status}, #{createTime}, #{updateTime},
+		#{distributionStatus}, #{phoneNumber}, #{businessAddress},
+		#{licenseNumber}, #{organizationNo},
+		#{taxId}, #{legalPerson},
+		#{province}, #{city}, #{storeArea},
+		#{storeDescription},
+		#{storeLogo},
+		#{storeShowImgs},
+		#{storePanoramaImg}, #{commissionPercentage},
+		#{bankAccountName},
+		#{bankName}, #{bankAccountNo},#{bankCardFlag},
+		#{alipayFlag},
+		#{weixinFlag}, #{alipayAccount}, #{alipayName},
+		#{weixinAccount},
+		#{weixinName}, #{idCardNumber},
+		#{businessType},'','',#{grade},#{businessHours},#{signTime},
+		#{defaultCommissionPercentage},#{superBusinessIds},#{memberCommissionPercentage},#{bindWeixinId},#{bindWeixinName},#{bindWeixinIcon})
+	</insert>
+
+	<insert id="saveStoreAudit" keyColumn="id" useGeneratedKeys="true"
+		keyProperty="id" parameterType="StoreAudit">
+		INSERT INTO jiuy_store_audit
+		(StoreId,
+		Status, CreateTime, UpdateTime)
+		VALUES
+		(#{storeId}, #{status},
+		#{createTime}, #{updateTime})
+		ON DUPLICATE KEY UPDATE STATUS = 0,
+		CreateTime=#{createTime}, UpdateTime
+		= #{updateTime}
+	</insert>
+
+	<select id="selectAuditCountByStoreId" parameterType="map"
+		resultType="int">
+		SELECT COUNT(*) FROM
+		jiuy_store_audit
+		WHERE storeId=#{storeId} AND
+		STATUS IN
+		<foreach collection="statusArray" item="status" open="("
+			separator="," close=")">
+			#{status}
+		</foreach>
+	</select>
+
+	<select id="getStoreBusinessCountByBusinessNumber"
+		parameterType="map" resultType="int">
+		SELECT count(*) FROM yjj_StoreBusiness
+		WHERE BusinessName=#{businessName} AND id NOT IN (#{storeId})
+	</select>
+
+	<update id="updateStoreAuditStatus" parameterType="StoreAudit">
+		UPDATE
+		jiuy_store_audit
+		SET STATUS =
+		#{status},UpdateTime=UNIX_TIMESTAMP()*1000
+		WHERE
+		StoreId =
+		#{storeId}
+	</update>
+
+	<update id="cleanStoreBusinessProvinceCityCounty" parameterType="map">
+		<![CDATA[
+			UPDATE yjj_StoreBusiness 
+			SET
+			Province = '' , 
+			City = '' , 
+			County = '' 
+			WHERE
+			Id = #{storeId} 
+		]]>
+	</update>
+
+	<update id="addStoreBusinessStoreDisplayImages" parameterType="map">
+	    <![CDATA[
+	        update yjj_StoreBusiness
+	        set store_display_images = #{storeDisplayImages}
+	        where Id = #{storeId}
+	    ]]>
+	</update>
+
+</mapper>

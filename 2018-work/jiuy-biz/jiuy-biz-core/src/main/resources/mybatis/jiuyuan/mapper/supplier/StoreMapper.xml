@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jiuyuan.dao.mapper.supplier.StoreMapper">
+
+    <cache size="1000" flushInterval="300000"></cache>
+
+    <select id="getStoreBusinessDetail" parameterType="com.baomidou.mybatisplus.plugins.Page"
+            resultType="java.util.Map">
+		SELECT
+		a.*, b.PhoneNumber AS phoneNumber,
+		b.Province AS
+		province,
+		b.City AS city,
+		b.BusinessName AS businessName,
+		b.BusinessAddress as businessAddress,
+		b.Status as status,
+		b.LegalPerson
+		as legalPerson,
+		c.totalBackCount as totalBackCount,
+		c.totalBackCost AS
+		totalBackCost
+		FROM
+		(
+		SELECT
+		storeId,
+		SUM(TotalMoney) +
+		SUM(TotalExpressMoney) AS totalPay,
+		SUM(TotalBuyCount) AS totalBuyCount
+		FROM
+		store_Order
+		WHERE
+		store_Order.supplierId =#{supplierId}
+		and STATUS =
+		0
+		AND OrderStatus IN ( 70,100)
+		and total_refund_cost >= 0
+		GROUP BY
+		storeId
+		) a
+		LEFT JOIN yjj_StoreBusiness b ON a.storeId = #{storeId} AND
+		b.Id = a.storeId
+		LEFT JOIN (
+		SELECT
+		storeId,
+		SUM(TotalBuyCount) AS
+		totalBackCount,
+		SUM(total_refund_cost) AS totalBackCost
+		FROM
+		store_Order
+		WHERE
+		store_Order.supplierId =#{supplierId}
+		and STATUS = 0
+		AND
+		OrderStatus IN ( 70,100)
+		and total_refund_cost > 0
+		GROUP BY
+		storeId
+		) c ON
+		c.storeId = a.storeId
+		WHERE
+		STATUS = 0
+
+	</select>
+
+
+    <select id="findStoreDisplayImagesAndWxaAppIdById" parameterType="long"
+            resultType="com.jiuyuan.entity.newentity.StoreBusiness">
+      select  store_display_images as storeDisplayImages ,wxa_article_show as wxaArticleShow from
+      yjj_StoreBusiness where  Id =#{storeId}
+	</select>
+
+
+    <select id="exportUserData" resultType="java.util.Map">
+		SELECT
+		b.id,
+		phonenumber AS
+		'registerPhone',
+		businessname AS 'registerBusinessname',
+		legalperson AS
+		'legalperson',
+		FROM_UNIXTIME(b.CreateTime / 1000) AS 'registerTime',
+		Province AS 'province',
+		City AS 'city',
+		County AS 'country',
+		businessaddress AS 'registerAddress',
+		CASE
+		WHEN a. STATUS = '0' THEN
+		'提交审核'
+		WHEN a. STATUS = '1' THEN
+		'审核通过'
+		WHEN a. STATUS = '-1' THEN
+		'审核不通过'
+		WHEN a. STATUS = '-2' THEN
+		'禁用'
+		END AS 'status',
+		(
+		SELECT
+		min(
+		FROM_UNIXTIME(c.CreateTime / 1000)
+		)
+		FROM
+		store_UserVisitHistory c
+		WHERE
+		b.id = c.UserId
+		) AS 'firstVisitTime',
+		(
+		SELECT
+		max(
+		FROM_UNIXTIME(c.UpdateTime / 1000)
+		)
+		FROM
+		store_UserVisitHistory c
+		WHERE
+		b.id = c.UserId
+		) AS 'lastVisitTime',
+		(
+		SELECT
+		sum(Count)
+		FROM
+		store_UserVisitHistory c
+		WHERE
+		b.id = c.UserId
+		) AS
+		'productTotalVisitCount',
+		ground_user_phone AS 'groundUserPhone',
+		ground_user_name AS 'groundUserName'
+		FROM
+		jiuy_store_audit a,
+		yjj_StoreBusiness b
+		WHERE
+		a.StoreId = b.Id
+		and b.CreateTime BETWEEN
+		#{beginTime} AND #{endTime}
+		ORDER BY
+		registerTime
+	</select>
+
+    <select id="findHomeStoreById" resultType="com.jiuyuan.entity.newentity.StoreBusiness">
+		select storeNotice,store_display_images storeDisplayImages,has_hotonline hasHotonline,id,hot_online hotOnline
+		from yjj_StoreBusiness
+		where id = #{id}
+	</select>
+    <!--		<if test="membersFindRequest.delState!=null and membersFindRequest.delState!=''">
+                    and
+                    b.del_state = #{membersFindRequest.delState}
+                </if>-->
+    <select id="selectMyPageLists" resultType="com.yujj.entity.member.MemberOperatorResponse">
+        select
+        b.id,
+        b.`name`,
+        a.PhoneNumber as phone,
+        b.province as province,
+        b.city as city,
+        b.district as county,
+        b.type,
+        b.canal,
+        b.del_state as delState,
+        b.create_time as createTime,
+        b.end_time as endTime,
+        case when c.count_money is null then 0.00 else c.count_money end as countMoney
+        from
+        yjj_storebusiness a,
+        yjj_member b left join yjj_storebusiness_account c on b.user_id = c.user_id
+        <trim prefix="WHERE" prefixOverrides="AND |OR">
+            a.Id = b.user_id
+            <if test="membersFindRequest.name!=null and membersFindRequest.name!=''">
+                and
+                b.`name` = #{membersFindRequest.name}
+            </if>
+            <if test="membersFindRequest.phone!=null and membersFindRequest.phone!=''">
+                and
+                a.`PhoneNumber` like CONCAT('%',#{membersFindRequest.phone},'%')
+            </if>
+            <if test="membersFindRequest.delState!=null">
+                and
+                b.del_state = #{membersFindRequest.delState}
+            </if>
+            <if test="membersFindRequest.endTime!=null and membersFindRequest.endTime!=''">
+                and
+                b.create_time <![CDATA[<=]]> #{membersFindRequest.endTime}
+            </if>
+            <if test="membersFindRequest.startTime!=null and membersFindRequest.startTime!=''">
+                and
+                b.create_time <![CDATA[>=]]> #{membersFindRequest.startTime}
+            </if>
+        </trim>
+        order by b.create_time desc
+    </select>
+    <!--		<if test="membersFindRequest.delState!=null and membersFindRequest.delState!=''">
+                    and
+                    b.del_state = #{membersFindRequest.delState}
+                </if>-->
+    <update id="updateWxaArticleShowById" parameterType="map">
+		UPDATE yjj_StoreBusiness
+		SET wxa_article_show = #{wxaArticleShow}
+		WHERE Id = #{storeId}
+	</update>
+
+
+    <update id="updateWxaCloseTime">
+		UPDATE yjj_storebusiness
+		SET wxa_close_time = #{newWxaCloseTime}, UpdateTime = #{updTime}
+		WHERE wxa_close_time = #{historyWxaCloseTime}
+		AND Id =#{storeId}
+	</update>
+    <select id="findWxaTypeById" resultType="int">
+   select  wxaType from  yjj_StoreBusiness where  id =#{id};
+
+	</select>
+	<!--查询用户信息-->
+	<select id="findStoreBusinessById" resultType="com.jiuyuan.entity.newentity.StoreBusiness">
+		select hot_online hotOnline,has_hotonline hasHotonline,id ,wxa_article_show wxaArticleShow
+		 ,BusinessName,BusinessAddress,PhoneNumber
+		 from yjj_storebusiness where id = #{storeId}
+	</select>
+
+
+	<!--<select id="selectStoreBusiness" resultType="com.jiuyuan.entity.newentity.StoreBusiness">-->
+<!--&#45;&#45; 			select * from `yjj_StoreBusiness` where `id`=#{storeId}-->
+	<!--</select>-->
+</mapper>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yujj.dao.mapper.InvitedUserActionLogMapper">
+
+	<insert id="add" parameterType="InvitedUserActionLog">
+		insert yjj_InvitedUserActionLog(UserId, Invitor, Action, RelatedId, CreateTime)
+		values(#{invitedUserActionLog.userId}, #{invitedUserActionLog.invitor}, #{invitedUserActionLog.action}, #{invitedUserActionLog.relatedId}, #{invitedUserActionLog.createTime})
+	</insert>
+	
+	<select id="searchCount" resultType="int">
+		select Count(1) from yjj_InvitedUserActionLog
+		where Invitor = #{invitor}
+		order by id desc
+	</select>
+	
+	<select id="search" resultType="InvitedUserActionLog">
+		select * from yjj_InvitedUserActionLog
+		where Invitor = #{invitor}
+		order by id desc
+		limit #{pageQuery.limit} offset #{pageQuery.offset}
+	</select>
+	
+	<select id="getByUserId" resultType="InvitedUserActionLog">
+		select * from yjj_InvitedUserActionLog
+		where UserId = #{userId} and Action = #{action}
+		limit 1
+	</select>
+	
+	<select id="getByInvitor" resultType="InvitedUserActionLog">
+		select * from yjj_InvitedUserActionLog
+		where Invitor = #{invitor} and Action = #{action}
+	</select>	
+	
+	<select id="getNewInvitedOrderCount" resultType="int">
+		select count(1)
+		from (select * from yjj_InvitedUserActionLog
+		    where Invitor = #{invitor} and Action = #{action}) as a
+		left join yjj_User as b 
+		on a.UserId = b.UserId
+		where <![CDATA[a.CreateTime > #{startTime} and a.CreateTime - b.CreateTime < #{expiredTime}]]>
+	</select>
+	
+	<select id="getInvitedCount" resultType="int">
+		select count(1) from yjj_InvitedUserActionLog
+		where Invitor = #{invitor} and Action = #{action} and <![CDATA[ CreateTime >= #{startTime} and CreateTime <= #{endTime} ]]>
+	</select>
+	
+</mapper>

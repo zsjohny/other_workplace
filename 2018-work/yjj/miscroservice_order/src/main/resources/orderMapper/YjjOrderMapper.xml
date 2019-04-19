@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.e_commerce.miscroservice.order.mapper.YjjOrderMapper">
+    <!--根据订单号查询订单-->
+    <select id="findYjjOrderByOrderNo" resultType="com.e_commerce.miscroservice.commons.entity.order.YjjOrder">
+        select * from yjj_order where OrderNo = #{orderNo} and Status=0
+    </select>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+

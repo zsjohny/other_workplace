@@ -1,0 +1,239 @@
+/*查看提货二维码共用样式 */
+@import '/pages/component/orderDetail/orderDetail.wxss';  
+page{
+  background: #f4f4f4;
+}
+/*我的团购 */
+.teamBuy-box{
+  height: auto;
+  overflow: hidden;
+  padding-bottom: 50rpx;
+}
+.teamBuy-nav{
+  height: 100rpx;
+  line-height: 100rpx;
+  display: -webkit-flex;
+  display: flex;
+  box-sizing: border-box;
+}
+.teamBuy-nav .item{
+  width: 50%;
+  position: relative;
+  text-align: center;
+  background: #fff;
+  font-size: 30rpx;
+}
+.teamBuy-nav .item1::after{
+  content: '';
+  width: 2rpx;
+  height: 48rpx;
+  background: #f4f4f4;
+  position: absolute;
+  right: 0;
+  top:22rpx; 
+}
+.teamBuy-nav .active{
+  color: #ff2742
+}
+.teamBuy-nav .active::before{
+  content: '';
+  width: 60rpx;
+  height: 4rpx;
+  overflow: hidden;
+  background: #ff2742;
+  position: absolute;
+  left: 50%;
+  bottom:10rpx; 
+  margin-left: -30rpx;
+}
+/**公告提示**/
+.teamBuy-notice{
+  height: auto;
+  overflow: hidden;
+  min-height: 70rpx;
+  background: #ffb0c7;
+  color: #fff;
+  font-size: 24rpx;
+  padding:14rpx 24rpx;
+  line-height: 1.5
+}
+/**无缝滚动动画**/
+@-webkit-keyframes remindMessage{
+    0% {
+        -webkit-transform: translateX(750rpx);
+        transform: translateX(750rpx);
+    }
+    100% {
+        -webkit-transform: translateX(-130%);
+        transform: translateX(-130%);
+    }
+}
+@keyframes remindMessage{
+    0% {
+        -webkit-transform: translateX(750rpx);
+        transform: translateX(750rpx);
+    }
+    100% {
+        -webkit-transform: translateX(-130%);
+        transform: translateX(-130%);
+    }
+}
+/**团购列表**/
+.teamBuy-list{
+  height: auto;
+  overflow: hidden;
+  padding-bottom: 20rpx;
+}
+.teamBuy-list .item{
+  height: auto;
+  overflow: hidden;
+  background: #fff;
+  padding: 0 24rpx;
+  margin-top: 20rpx;
+}
+.teamBuy-list .item .head{
+  height: 84rpx;
+  line-height: 84rpx;
+  position: relative
+}
+.teamBuy-list .item .head .order{
+  font-size: 28rpx;
+}
+.teamBuy-list .item .head .order text{
+  font-size: 24rpx;
+  color: rgba(0, 0, 0, 0.4)
+}
+.teamBuy-list .item .head .state{
+  height: 30rpx;
+  line-height: 30rpx;
+  color: #fd4374;
+  position: absolute;
+  right: 0;
+  top: 26rpx;
+  font-size: 24rpx;
+}
+.teamBuy-list .item .item-box{
+  display: -webkit-flex;
+  display: flex;
+}
+.teamBuy-list .item .img,
+.teamBuy-list .item image{
+  width: 182rpx;
+  height: 182rpx;
+}
+.teamBuy-list .item .info{
+  width: 496rpx;
+  margin-left: 24rpx;
+}
+.teamBuy-list .item .info .title{
+  font-size: 26rpx;
+  height: 70rpx;
+  line-height: 35rpx;
+  overflow : hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  padding-top: 5rpx;
+}
+.teamBuy-list .item .param{
+  margin-top: 10px;
+  font-size: 20rpx;
+  display: -webkit-flex;
+  display: flex;
+  color: rgba(0, 0, 0, 0.4)
+}
+.teamBuy-list .item .param .type{
+  width: 33.33%;
+}
+.teamBuy-list .item .param .type1{
+  width: 50%;
+}
+.teamBuy-list .item .param .type .color-red,
+.teamBuy-list .item .param .type text{
+  font-size: 24rpx;
+}
+.teamBuy-list .item .param .type .price{
+  font-size: 24rpx;
+}
+.teamBuy-list .item .param .type .rmb{
+  font-size: 20rpx;
+}
+.teamBuy-list .item .param .old-price{
+  position: relative
+}
+.teamBuy-list .item .param .old-price::after{
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 16rpx;
+  width: 100%;
+  height: 2rpx;
+  background: rgba(0, 0, 0, 0.4)
+}
+.teamBuy-list .item .down-time{
+  color: rgba(0, 0, 0, 0.4);
+  padding-bottom: 20rpx;
+  font-size: 24rpx;
+  margin-top: 20rpx;
+}
+.teamBuy-list .item .down-time text{
+  color: #333;
+}
+.teamBuy-list .item .total{
+  text-align: right;
+  font-size: 24rpx;
+  color: rgba(0, 0, 0, 0.4);
+  height: 84rpx;
+  line-height: 84rpx;
+  border-top: 2rpx solid #f4f4f4;
+}
+.teamBuy-list .item .total-box{
+  height: 124rpx;
+  line-height: 124rpx;
+  text-align:left;
+}
+.teamBuy-list .item .total-box1{
+  margin-top: 30rpx;
+}
+.teamBuy-list .item .total .sum{
+  font-size: 36rpx;
+}
+.teamBuy-list .item .btn-box{
+  height: 68rpx;
+  text-align: right;
+  margin-bottom: 20rpx;
+}
+.teamBuy-list .item .btn-box .btn{
+  display: inline-block;
+  height: 64rpx;
+  line-height: 64rpx;
+  text-align: center;
+  border-radius: 8rpx;
+  font-size: 26rpx;
+  border: 2rpx solid #848484;
+  color: #848484;
+  background: #fff;
+  padding: 0 25rpx;
+}
+.teamBuy-list .item .btn-box .express-btn{
+  margin-right: 30rpx;
+}
+.teamBuy-list .item .btn-box .take-btn{
+  border: 2rpx solid #fd4374;
+  color: #fd4374
+}
+.teamBuy-list .item .operator-box{
+  position: relative;
+}
+.teamBuy-list .item .operator-box .btn-box{
+  position: absolute;
+  right: 0;
+  top: 29rpx;
+}
+.teamBuy-list .item .operator-box .btn-box .share-btn{
+  background: none;
+}
+.teamBuy-list .item .btn-box .take-btn::after,
+.teamBuy-list .item .operator-box .btn-box .share-btn::after{
+  border: none;
+}

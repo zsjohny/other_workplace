@@ -1,0 +1,344 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" > 
+<mapper namespace="com.jiuy.mapper.monitoring.MonitoringPageReportMapper"> 
+    <resultMap id="BaseResultMap" type="com.jiuy.model.monitoring.MonitoringPageReport"   >
+        <id   column="id"  property="id" jdbcType="BIGINT" />
+        <result column="page_name"  property="pageName"  jdbcType="VARCHAR" />
+        <result column="page_code"  property="pageCode"  jdbcType="VARCHAR" />
+        <result column="page_uv"  property="pageUv"  jdbcType="BIGINT" />
+        <result column="page_pv"  property="pagePv"  jdbcType="BIGINT" />
+        <result column="page_stay_evg"  property="pageStayEvg"  jdbcType="BIGINT" />
+        <result column="page_lost_percent"  property="pageLostPercent"  jdbcType="DOUBLE" />
+        <result column="page_stay_total"  property="pageStayTotal"  jdbcType="BIGINT" />
+        <result column="event_count"  property="eventCount"  jdbcType="BIGINT" />
+        <result column="event_uv_percent"  property="eventUvPercent"  jdbcType="DOUBLE" />
+        <result column="event_pv_percent"  property="eventPvPercent"  jdbcType="DOUBLE" />
+        <result column="report_time"  property="reportTime"  jdbcType="TIMESTAMP" />
+        <result column="last_report_time"  property="lastReportTime"  jdbcType="TIMESTAMP" />
+        <result column="report_day"  property="reportDay"  jdbcType="DATE" />
+    </resultMap>
+
+     <sql id="Base_Column_List" >
+        id,page_name,page_code,page_uv,page_pv,page_stay_evg,page_lost_percent,page_stay_total,event_count,
+        event_uv_percent,event_pv_percent,report_time,last_report_time,report_day
+    </sql>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap"  parameterType="java.lang.Long"   >
+        select
+                <include refid="Base_Column_List" />
+        from yjj_monitoring_page_report
+        where  id = #{id,jdbcType=BIGINT} 
+    </select>
+
+    <delete id="deleteByPrimaryKey"   parameterType="java.lang.Long"   >
+        delete from yjj_monitoring_page_report
+        where  id = #{id,jdbcType=BIGINT} 
+    </delete>
+
+    <insert id="insert"   parameterType="com.jiuy.model.monitoring.MonitoringPageReport"   >
+        insert into yjj_monitoring_page_report
+                (id,page_name,page_code,page_uv,page_pv,page_stay_evg,page_lost_percent,page_stay_total,event_count,
+        event_uv_percent,event_pv_percent,report_time,last_report_time,report_day)
+        values(#{id,jdbcType=BIGINT},#{pageName,jdbcType=VARCHAR},#{pageCode,jdbcType=VARCHAR},#{pageUv,jdbcType=BIGINT},#{pagePv,jdbcType=BIGINT},#{pageStayEvg,jdbcType=BIGINT},#{pageLostPercent,jdbcType=DOUBLE},#{pageStayTotal,jdbcType=BIGINT},#{eventCount,jdbcType=BIGINT},
+                  #{eventUvPercent,jdbcType=DOUBLE},#{eventPvPercent,jdbcType=DOUBLE},#{reportTime,jdbcType=TIMESTAMP},#{lastReportTime,jdbcType=TIMESTAMP},#{reportDay,jdbcType=DATE})
+    </insert>
+
+    <insert id="insertBach"   parameterType="List"  >
+        insert into yjj_monitoring_page_report
+                 (id,page_name,page_code,page_uv,page_pv,page_stay_evg,page_lost_percent,page_stay_total,event_count,
+        event_uv_percent,event_pv_percent,report_time,last_report_time,report_day)
+        values 
+                 <foreach collection="list" item="item" separator=",">
+                 (
+                     #{item.id,jdbcType=BIGINT},
+                     #{item.pageName,jdbcType=VARCHAR},
+                     #{item.pageCode,jdbcType=VARCHAR},
+                     #{item.pageUv,jdbcType=BIGINT},
+                     #{item.pagePv,jdbcType=BIGINT},
+                     #{item.pageStayEvg,jdbcType=BIGINT},
+                     #{item.pageLostPercent,jdbcType=DOUBLE},
+                     #{item.pageStayTotal,jdbcType=BIGINT},
+                     #{item.eventCount,jdbcType=BIGINT},
+                     #{item.eventUvPercent,jdbcType=DOUBLE},
+                     #{item.eventPvPercent,jdbcType=DOUBLE},
+                     #{item.reportTime,jdbcType=TIMESTAMP},
+                     #{item.lastReportTime,jdbcType=TIMESTAMP},
+                     #{item.reportDay,jdbcType=DATE}
+                  )
+                 </foreach>
+    </insert>
+    <insert id="insertSelective"   parameterType="com.jiuy.model.monitoring.MonitoringPageReport"  useGeneratedKeys="true"  keyProperty="id" >
+        insert into yjj_monitoring_page_report
+       <trim prefix="(" suffix=")" suffixOverrides="," >  
+              <if test="id  !=null">  
+                   id,
+              </if>
+              <if test="pageName  !=null">  
+                   page_name,
+              </if>
+              <if test="pageCode  !=null">  
+                   page_code,
+              </if>
+              <if test="pageUv  !=null">  
+                   page_uv,
+              </if>
+              <if test="pagePv  !=null">  
+                   page_pv,
+              </if>
+              <if test="pageStayEvg  !=null">  
+                   page_stay_evg,
+              </if>
+              <if test="pageLostPercent  !=null">  
+                   page_lost_percent,
+              </if>
+              <if test="pageStayTotal  !=null">  
+                   page_stay_total,
+              </if>
+              <if test="eventCount  !=null">  
+                   event_count,
+              </if>
+              <if test="eventUvPercent  !=null">  
+                   event_uv_percent,
+              </if>
+              <if test="eventPvPercent  !=null">  
+                   event_pv_percent,
+              </if>
+              <if test="reportTime  !=null">  
+                   report_time,
+              </if>
+              <if test="lastReportTime  !=null">  
+                   last_report_time,
+              </if>
+              <if test="reportDay  !=null">  
+                   report_day
+              </if>
+       </trim> 
+       <trim prefix="values (" suffix=")" suffixOverrides="," >
+              <if test="id  !=null">  
+                   #{id,jdbcType=BIGINT},
+              </if>
+              <if test="pageName  !=null">  
+                   #{pageName,jdbcType=VARCHAR},
+              </if>
+              <if test="pageCode  !=null">  
+                   #{pageCode,jdbcType=VARCHAR},
+              </if>
+              <if test="pageUv  !=null">  
+                   #{pageUv,jdbcType=BIGINT},
+              </if>
+              <if test="pagePv  !=null">  
+                   #{pagePv,jdbcType=BIGINT},
+              </if>
+              <if test="pageStayEvg  !=null">  
+                   #{pageStayEvg,jdbcType=BIGINT},
+              </if>
+              <if test="pageLostPercent  !=null">  
+                   #{pageLostPercent,jdbcType=DOUBLE},
+              </if>
+              <if test="pageStayTotal  !=null">  
+                   #{pageStayTotal,jdbcType=BIGINT},
+              </if>
+              <if test="eventCount  !=null">  
+                   #{eventCount,jdbcType=BIGINT},
+              </if>
+              <if test="eventUvPercent  !=null">  
+                   #{eventUvPercent,jdbcType=DOUBLE},
+              </if>
+              <if test="eventPvPercent  !=null">  
+                   #{eventPvPercent,jdbcType=DOUBLE},
+              </if>
+              <if test="reportTime  !=null">  
+                   #{reportTime,jdbcType=TIMESTAMP},
+              </if>
+              <if test="lastReportTime  !=null">  
+                   #{lastReportTime,jdbcType=TIMESTAMP},
+              </if>
+              <if test="reportDay  !=null">  
+                   #{reportDay,jdbcType=DATE}
+              </if>
+       </trim> 
+    </insert> 
+
+    <update id="updateByPrimaryKeySelective"   parameterType="com.jiuy.model.monitoring.MonitoringPageReport"   >
+        update yjj_monitoring_page_report
+             <set> 
+              <if test="id  !=null">  
+                   id  = #{id,jdbcType=BIGINT},
+              </if>
+              <if test="pageName  !=null">  
+                   page_name  = #{pageName,jdbcType=VARCHAR},
+              </if>
+              <if test="pageCode  !=null">  
+                   page_code  = #{pageCode,jdbcType=VARCHAR},
+              </if>
+              <if test="pageUv  !=null">  
+                   page_uv  = #{pageUv,jdbcType=BIGINT},
+              </if>
+              <if test="pagePv  !=null">  
+                   page_pv  = #{pagePv,jdbcType=BIGINT},
+              </if>
+              <if test="pageStayEvg  !=null">  
+                   page_stay_evg  = #{pageStayEvg,jdbcType=BIGINT},
+              </if>
+              <if test="pageLostPercent  !=null">  
+                   page_lost_percent  = #{pageLostPercent,jdbcType=DOUBLE},
+              </if>
+              <if test="pageStayTotal  !=null">  
+                   page_stay_total  = #{pageStayTotal,jdbcType=BIGINT},
+              </if>
+              <if test="eventCount  !=null">  
+                   event_count  = #{eventCount,jdbcType=BIGINT},
+              </if>
+              <if test="eventUvPercent  !=null">  
+                   event_uv_percent  = #{eventUvPercent,jdbcType=DOUBLE},
+              </if>
+              <if test="eventPvPercent  !=null">  
+                   event_pv_percent  = #{eventPvPercent,jdbcType=DOUBLE},
+              </if>
+              <if test="reportTime  !=null">  
+                   report_time  = #{reportTime,jdbcType=TIMESTAMP},
+              </if>
+              <if test="lastReportTime  !=null">  
+                   last_report_time  = #{lastReportTime,jdbcType=TIMESTAMP},
+              </if>
+              <if test="reportDay  !=null">  
+                   report_day  = #{reportDay,jdbcType=DATE}
+              </if>
+       </set> 
+       where id = #{id,jdbcType=BIGINT} 
+    </update> 
+
+    <update id="updateByPrimaryKey"   parameterType="com.jiuy.model.monitoring.MonitoringPageReport"   >
+        update yjj_monitoring_page_report  set  
+                   id  = #{id,jdbcType=BIGINT},
+                   page_name  = #{pageName,jdbcType=VARCHAR},
+                   page_code  = #{pageCode,jdbcType=VARCHAR},
+                   page_uv  = #{pageUv,jdbcType=BIGINT},
+                   page_pv  = #{pagePv,jdbcType=BIGINT},
+                   page_stay_evg  = #{pageStayEvg,jdbcType=BIGINT},
+                   page_lost_percent  = #{pageLostPercent,jdbcType=DOUBLE},
+                   page_stay_total  = #{pageStayTotal,jdbcType=BIGINT},
+                   event_count  = #{eventCount,jdbcType=BIGINT},
+                   event_uv_percent  = #{eventUvPercent,jdbcType=DOUBLE},
+                   event_pv_percent  = #{eventPvPercent,jdbcType=DOUBLE},
+                   report_time  = #{reportTime,jdbcType=TIMESTAMP},
+                   last_report_time  = #{lastReportTime,jdbcType=TIMESTAMP},
+                   report_day  = #{reportDay,jdbcType=DATE}
+       where id = #{id,jdbcType=BIGINT} 
+    </update> 
+
+    <sql id="whereCase"  >
+         where  1=1  
+        <if test="id !=null">  
+         AND id  = #{id,jdbcType=BIGINT}
+        </if>
+        <if test="pageName !=null">  
+         AND page_name  = #{pageName,jdbcType=VARCHAR}
+        </if>
+        <if test="pageCode !=null">  
+         AND page_code  = #{pageCode,jdbcType=VARCHAR}
+        </if>
+        <if test="pageUv !=null">  
+         AND page_uv  = #{pageUv,jdbcType=BIGINT}
+        </if>
+        <if test="pagePv !=null">  
+         AND page_pv  = #{pagePv,jdbcType=BIGINT}
+        </if>
+        <if test="pageStayEvg !=null">  
+         AND page_stay_evg  = #{pageStayEvg,jdbcType=BIGINT}
+        </if>
+        <if test="pageLostPercent !=null">  
+         AND page_lost_percent  = #{pageLostPercent,jdbcType=DOUBLE}
+        </if>
+        <if test="pageStayTotal !=null">  
+         AND page_stay_total  = #{pageStayTotal,jdbcType=BIGINT}
+        </if>
+        <if test="eventCount !=null">  
+         AND event_count  = #{eventCount,jdbcType=BIGINT}
+        </if>
+        <if test="eventUvPercent !=null">  
+         AND event_uv_percent  = #{eventUvPercent,jdbcType=DOUBLE}
+        </if>
+        <if test="eventPvPercent !=null">  
+         AND event_pv_percent  = #{eventPvPercent,jdbcType=DOUBLE}
+        </if>
+        <if test="reportTime !=null">  
+         AND report_time  = #{reportTime,jdbcType=TIMESTAMP}
+        </if>
+        <if test="lastReportTime !=null">  
+         AND last_report_time  = #{lastReportTime,jdbcType=TIMESTAMP}
+        </if>
+        <if test="reportDay !=null">  
+         AND report_day  = #{reportDay,jdbcType=DATE}
+        </if>
+        <include refid="costomWhereCase"/>
+    </sql> 
+
+    <select id="selectOne" parameterType="java.util.Map" resultMap="BaseResultMap">
+         SELECT
+         <include refid="Base_Column_List" /> 
+         FROM yjj_monitoring_page_report 
+         <include refid="whereCase" /> 
+    </select>
+
+    <select id="selectList" parameterType="java.util.Map" resultMap="BaseResultMap">
+         SELECT
+         <include refid="Base_Column_List" /> 
+         FROM yjj_monitoring_page_report 
+         <include refid="whereCase" /> 
+    </select>
+
+    <select id="selectCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+         SELECT
+         count(1) 
+         FROM yjj_monitoring_page_report 
+         <include refid="whereCase" /> 
+    </select>
+
+<!--  @Costom -->
+<!-- 从上一行注释以上为系统生成 从这一行往下为用户自定义 请将自定义的sql放在此行下面 -->
+
+    <sql id="costomWhereCase">
+        <if test="beginDate !=null">
+            AND to_days(report_day) &gt;= to_days(#{beginDate})
+        </if>
+        <if test="endDate !=null">
+            AND to_days(report_day) &lt;= to_days(#{endDate})
+        </if>
+    </sql>
+
+    <!-- 删除某一天的全部统计 -->
+    <delete id="deleteByDate">
+        delete from yjj_monitoring_page_report where TO_DAYS(report_day) = TO_DAYS(#{data})
+    </delete>
+
+    <select id="sumPageReport" resultMap="BaseResultMap">
+        SELECT
+            t.*,
+            t.page_stay_total/t.page_pv as page_stay_evg,
+            t.event_count/t.page_pv as event_uv_percent,
+            t.event_count/t.page_uv as event_pv_percent
+        FROM
+            (
+                SELECT
+                    page_code,
+                    page_name,
+                    SUM(page_pv) AS page_pv,
+                    SUM(page_uv) AS page_uv,
+                    SUM(page_stay_total) AS page_stay_total,
+                    SUM(event_count) AS event_count
+                FROM
+                    yjj_monitoring_page_report
+                    where 1 =1
+                    <if test="beginDate !=null">
+                        AND to_days(report_day) &gt;= to_days(#{beginDate})
+                    </if>
+                    <if test="endDate !=null">
+                        AND to_days(report_day) &lt;= to_days(#{endDate})
+                    </if>
+                GROUP BY
+                    page_code,
+                    page_name
+            ) AS t
+    </select>
+</mapper>

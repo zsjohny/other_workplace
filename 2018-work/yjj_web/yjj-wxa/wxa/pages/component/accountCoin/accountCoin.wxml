@@ -1,0 +1,108 @@
+<!--账户金币-->
+<view class='body-contain'>
+  <view class="account-head">
+    <view class="swiper-box">
+      <view class='item item1'>
+        <view class='dl-head'>
+          <view class='dt'>金币总数</view>
+          <view class='dd'>{{goldData.count}}</view>
+        </view>
+        <view class='dl-list'>
+          <view class='dd'>
+            <view class='tit'>今日新增</view>
+            <view class='num'>{{goldData.today}}</view>
+          </view>
+          <view class='dd'>
+            <view class='tit'>已结算</view>
+            <view class='num'>{{goldData.already}}</view>
+          </view>
+          <view class='dd'>
+            <view class='tit'>待结算金币</view>
+            <view class='num'>{{goldData.wait}}</view>
+          </view>
+        </view>
+      </view>         
+    </view>
+  </view>
+  <!--收支列表 -->
+  <view class='account-list'>
+    <view class='list-head'>
+      <view class='th1'>收支明细</view>
+      <view class='th2' bindtap='showFilterXbox'></view>
+    </view>
+    <view wx:if="{{ listData.length > 0 }}">
+      <block wx:for="{{ listData }}" wx:key="{{item.id}}">
+        <view class='tr' bindtap='gotoAmountDetail' data-id='{{item.id}}' data-incometype='{{item.inOutType}}'>
+          <view class='icon icon1'>
+            <block wx:if="{{item.status == 1}}">待</block>
+            <block wx:if="{{item.status == 2}}">已</block>
+          </view>
+          <view class='info'>
+            <view class='name'>
+              <block wx:if="{{item.type == 0}}">订单佣金</block>
+              <block wx:if="{{item.type == 1}}">管理奖金</block>
+              <block wx:if="{{item.type == 3}}">签到</block>
+              <block wx:if="{{item.type == 40}}">分享商品</block>
+            </view>
+            <view class='time'>{{item.strTime}}</view>
+          </view>
+          <view class='info info1'>
+            <!-- <view class='balance'>余额：5603.00</view> -->
+            <view wx:if="{{item.inOutType == 1}}" class='gain'>+{{item.operGoldCoin}}</view>
+            <view wx:if="{{item.inOutType == 2}}" class='gain'>-{{item.operGoldCoin}}</view>
+          </view>
+        </view>
+      </block>  
+    </view>
+    <!-- 无数据时 -->
+    <view wx:else class='no-record-box'>
+      <view class='icon'></view>
+      <view class='text'>可能太久远，多分享就会有了</view>
+    </view>
+  </view>
+  <!--上拉加载更多、底部加载loadding-->
+  <view class="more-load2">
+    <view wx:if="{{ hasMore }}" class="go-loading more-loading">
+      <view class="loading-mod"></view>
+      <text class="tx">正在载入中…</text> 
+    </view>
+    <view wx:if="{{ moreOver }}" class="tips2"><text>T^T 我是有底线的</text></view>
+  </view>
+</view>  
+<!--筛选弹窗-->
+<view class="filter-xbox">
+  <view class="filter-bg {{ filterXboxState ? 'show' : ''}}" bindtap='closeFilterXbox'></view>  
+  <view class="filter-container {{ filterXboxState ? 'xbox-animate' : ''}}">
+    <view class="ui-format">
+      <view class="format-title">类型：</view>
+      <view class="format-box" bindtap='chooseType' data-click="1">
+        <block wx:for="{{ typeData }}" wx:key="{{item.code}}">
+          <view class="item {{(chooseTypeIndex == item.code) ? 'cur' : ''}}" data-code='{{item.code}}'>{{item.name}}</view>
+        </block>
+      </view>
+    </view>
+    <view class="ui-format">
+      <view class="format-title">状态：</view>
+      <view class="format-box" bindtap='chooseType' data-click="2">
+        <block wx:for="{{ stateData }}" wx:key="{{item.code}}">
+          <view class="item {{(chooseStateIndex == item.code) ? 'cur' : ''}}" data-code='{{item.code}}'>{{item.name}}</view>
+        </block>
+      </view>
+    </view>
+    <view class="ui-format">
+      <view class="format-title">种类：</view>
+      <view class="format-box" bindtap='chooseType' data-click="3">
+        <block wx:for="{{ kindData }}" wx:key="{{item.code}}">
+          <view class="item {{(chooseKindIndex == item.code) ? 'cur' : ''}}" data-code='{{item.code}}'>{{item.name}}</view>
+        </block>
+      </view>
+    </view>
+    <view class='btn-box'>
+      <view class='close-btn' bindtap='closeFilterXbox'>取消</view>
+      <view class='confirm-btn' bindtap='chooseConfirm'>确定</view>
+    </view>
+  </view>
+</view>
+<!--回到顶部-->
+<import src="../../template/backTop.wxml" />
+<template is="backTop" data="{{goTopShowState}}" />

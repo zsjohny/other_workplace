@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yujj.dao.mapper.UserSharedRecordOrderNewMapper">
+	<insert id="insertUserSharedRecordOrderNew" useGeneratedKeys="true" keyProperty="id">
+		<![CDATA[
+			INSERT INTO yjj_UserSharedRecordOrderNew 
+			(id,UserSharedRecordId,OrderNo,CreateTime)
+			VALUES
+			(#{id},#{userSharedRecordId},#{orderNo},#{createTime});
+		]]>
+	</insert>
+	
+	<select id="getUserSharedRecordOrderNew" resultType="UserSharedRecordOrderNew">
+		<![CDATA[
+			select * from yjj_UserSharedRecordOrderNew 
+			where orderNo=#{orderNo}
+		]]>
+	</select>
+</mapper>

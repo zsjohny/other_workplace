@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" > 
+<mapper namespace="com.e_commerce.miscroservice.distribution.mapper.ShopMemberAccountCashOutInMapper">
+ 
+ 	<!-- 主要的返回映射-->
+	<resultMap id="BaseResultMap" type="com.e_commerce.miscroservice.commons.entity.application.distributionSystem.ShopMemberAccountCashOutIn"	>
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="source_id"  property="sourceId"  jdbcType="BIGINT" />
+		<result column="from_id"  property="fromId"  jdbcType="BIGINT" />
+		<result column="in_out_type"  property="inOutType"  jdbcType="SMALLINT" />
+		<result column="user_id"  property="userId"  jdbcType="BIGINT" />
+		<result column="user_dstb_grade"  property="userDstbGrade"  jdbcType="INTEGER" />
+		<result column="order_no"  property="orderNo"  jdbcType="VARCHAR" />
+		<result column="payment_no"  property="paymentNo"  jdbcType="VARCHAR" />
+		<result column="status"  property="status"  jdbcType="SMALLINT" />
+		<result column="detail_status"  property="detailStatus"  jdbcType="SMALLINT" />
+		<result column="oper_cash"  property="operCash"  jdbcType="DECIMAL" />
+		<result column="balance_cash"  property="balanceCash"  jdbcType="DECIMAL" />
+		<result column="oper_gold_coin"  property="operGoldCoin"  jdbcType="DECIMAL" />
+		<result column="oper_time"  property="operTime"  jdbcType="BIGINT" />
+		<result column="original_gold_coin"  property="originalGoldCoin"  jdbcType="DECIMAL" />
+		<result column="original_cash"  property="originalCash"  jdbcType="DECIMAL" />
+		<result column="order_earnings_snapshoot"  property="orderEarningsSnapshoot"  jdbcType="DECIMAL" />
+		<result column="earnings_ratio"  property="earningsRatio"  jdbcType="DECIMAL" />
+		<result column="currency_ratio"  property="currencyRatio"  jdbcType="DECIMAL" />
+		<result column="type"  property="type"  jdbcType="SMALLINT" />
+		<result column="del_status"  property="delStatus"  jdbcType="SMALLINT" />
+		<result column="remark"  property="remark"  jdbcType="VARCHAR" />
+		<result column="create_time"  property="createTime"  jdbcType="TIMESTAMP" />
+		<result column="update_time"  property="updateTime"  jdbcType="TIMESTAMP" />
+	</resultMap>
+
+	<!-- 所有的列名-->
+	<sql id="Base_Column_List" >
+		id,source_id,from_id,in_out_type,user_id,user_dstb_grade,order_no,payment_no,status,
+		detail_status,oper_cash,balance_cash,oper_gold_coin,oper_time,original_gold_coin,original_cash,order_earnings_snapshoot,
+		earnings_ratio,currency_ratio,type,del_status,remark,create_time,update_time
+	</sql>
+
+
+
+	<!-- 精确插入，非null得字段才会插入-->
+	<insert id="insertSelective" parameterType="com.e_commerce.miscroservice.commons.entity.application.distributionSystem.ShopMemberAccountCashOutIn" useGeneratedKeys="true" keyProperty="id" >
+		insert into shop_member_account_cash_out_in
+		<trim prefix="(" suffix=")" suffixOverrides="," > 
+			<if test="id !=null">  
+				id,
+			</if>
+			<if test="sourceId !=null">  
+				source_id,
+			</if>
+			<if test="fromId !=null">
+				from_id,
+			</if>
+			<if test="inOutType !=null">  
+				in_out_type,
+			</if>
+			<if test="userId !=null">  
+				user_id,
+			</if>
+			<if test="userDstbGrade !=null">  
+				user_dstb_grade,
+			</if>
+			<if test="orderNo !=null">  
+				order_no,
+			</if>
+			<if test="paymentNo !=null">  
+				payment_no,
+			</if>
+			<if test="status !=null">  
+				status,
+			</if>
+			<if test="detailStatus !=null">
+				detail_status,
+			</if>
+			<if test="operCash !=null">
+				oper_cash,
+			</if>
+			<if test="balanceCash !=null">  
+				balance_cash,
+			</if>
+			<if test="operGoldCoin !=null">  
+				oper_gold_coin,
+			</if>
+			<if test="operTime !=null">  
+				oper_time,
+			</if>
+			<if test="originalGoldCoin !=null">  
+				original_gold_coin,
+			</if>
+			<if test="originalCash !=null">  
+				original_cash,
+			</if>
+			<if test="orderEarningsSnapshoot !=null">  
+				order_earnings_snapshoot,
+			</if>
+			<if test="earningsRatio !=null">  
+				earnings_ratio,
+			</if>
+			<if test="currencyRatio !=null">  
+				currency_ratio,
+			</if>
+			<if test="type !=null">  
+				type,
+			</if>
+			<if test="delStatus !=null">  
+				del_status,
+			</if>
+			<if test="remark !=null">  
+				remark,
+			</if>
+			<if test="createTime !=null">  
+				create_time,
+			</if>
+			<if test="updateTime !=null">  
+				update_time,
+			</if>
+		</trim>
+
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+			<if test="id  !=null">
+				#{id,jdbcType=BIGINT}, 
+			</if>
+			<if test="sourceId  !=null">
+				#{sourceId,jdbcType=BIGINT}, 
+			</if>
+			<if test="fromId  !=null">
+				#{fromId,jdbcType=VARCHAR},
+			</if>
+			<if test="inOutType  !=null">
+				#{inOutType,jdbcType=SMALLINT}, 
+			</if>
+			<if test="userId  !=null">
+				#{userId,jdbcType=BIGINT}, 
+			</if>
+			<if test="userDstbGrade  !=null">
+				#{userDstbGrade,jdbcType=INTEGER}, 
+			</if>
+			<if test="orderNo  !=null">
+				#{orderNo,jdbcType=VARCHAR}, 
+			</if>
+			<if test="paymentNo  !=null">
+				#{paymentNo,jdbcType=VARCHAR}, 
+			</if>
+			<if test="status  !=null">
+				#{status,jdbcType=SMALLINT}, 
+			</if>
+			<if test="detailStatus  !=null">
+				#{detailStatus,jdbcType=SMALLINT},
+            </if>
+            <if test="operCash  !=null">
+				#{operCash,jdbcType=DECIMAL}, 
+			</if>
+			<if test="balanceCash  !=null">
+				#{balanceCash,jdbcType=DECIMAL}, 
+			</if>
+			<if test="operGoldCoin  !=null">
+				#{operGoldCoin,jdbcType=DECIMAL}, 
+			</if>
+			<if test="operTime  !=null">
+				#{operTime,jdbcType=BIGINT}, 
+			</if>
+			<if test="originalGoldCoin  !=null">
+				#{originalGoldCoin,jdbcType=DECIMAL}, 
+			</if>
+			<if test="originalCash  !=null">
+				#{originalCash,jdbcType=DECIMAL}, 
+			</if>
+			<if test="orderEarningsSnapshoot  !=null">
+				#{orderEarningsSnapshoot,jdbcType=DECIMAL}, 
+			</if>
+			<if test="earningsRatio  !=null">
+				#{earningsRatio,jdbcType=DECIMAL}, 
+			</if>
+			<if test="currencyRatio  !=null">
+				#{currencyRatio,jdbcType=DECIMAL}, 
+			</if>
+			<if test="type  !=null">
+				#{type,jdbcType=SMALLINT}, 
+			</if>
+			<if test="delStatus  !=null">
+				#{delStatus,jdbcType=SMALLINT}, 
+			</if>
+			<if test="remark  !=null">
+				#{remark,jdbcType=VARCHAR}, 
+			</if>
+			<if test="createTime  !=null">
+				#{createTime,jdbcType=TIMESTAMP}, 
+			</if>
+			<if test="updateTime  !=null">
+				#{updateTime,jdbcType=TIMESTAMP} 
+			</if>
+		</trim>
+	</insert> 
+
+<!--今日总进账金额-->
+    <select id="findTodayCountMoney" resultType="java.lang.Double">
+        select (CASE WHEN SUM(oper_cash) is null then 0.00 ELSE SUM(oper_cash) END ) as cash
+        from shop_member_account_cash_out_in
+        where user_id = #{userId} and `status` in ('1','2') and `type` in ('0','1','2','10','11','40','41')
+        and curdate() = DATE_FORMAT(FROM_UNIXTIME(oper_time/1000),'%Y-%m-%d')
+    </select>
+	<!--今日佣金 进账-->
+    <select id="findCommissionTodayCountMoney" resultType="java.lang.Double">
+        select (CASE WHEN SUM(oper_cash) is null then 0.00 ELSE SUM(oper_cash) END ) as cash
+        from shop_member_account_cash_out_in
+        where user_id = #{userId} and `status` in ('1','2') and `type` in ('0','1','2','40','41')
+        and curdate() = DATE_FORMAT(FROM_UNIXTIME(oper_time/1000),'%Y-%m-%d')
+    </select>
+	<!--今日管理奖 进账-->
+    <select id="findManageTodayCountMoney" resultType="java.lang.Double">
+        select (CASE WHEN SUM(oper_cash) is null then 0.00 ELSE SUM(oper_cash) END ) as cash
+        from shop_member_account_cash_out_in
+        where user_id = #{userId} and `status` in ('1','2') and `type` in ('10','11')
+        and curdate() = DATE_FORMAT(FROM_UNIXTIME(oper_time/1000),'%Y-%m-%d')
+    </select>
+	<!--今日金币进账-->
+    <select id="findTodayGoldCountMoney" resultType="java.lang.Double">
+          select (CASE WHEN SUM(oper_gold_coin) is null then 0.00 ELSE SUM(oper_gold_coin) END ) as cash
+        from shop_member_account_cash_out_in
+        where user_id = #{userId} and `status` in ('1','2') and in_out_type = 1
+        and curdate() = DATE_FORMAT(FROM_UNIXTIME(oper_time/1000),'%Y-%m-%d')
+    </select>
+
+	<!--当月签到阶段奖励查询-->
+	<select id="findPeriodicalPrizeMonthLog"
+			resultType="com.e_commerce.miscroservice.commons.entity.application.distributionSystem.ShopMemberAccountCashOutIn">
+         SELECT *
+        FROM shop_member_account_cash_out_in a WHERE a.type = 21 and a.user_id=#{userId} and DATE_FORMAT(FROM_UNIXTIME(a.oper_time/1000), '%Y%m') = DATE_FORMAT(CURDATE(), '%Y%m')
+    </select>
+
+
+	<update id="updCreateTime">
+		UPDATE shop_member_account_cash_out_in
+		SET create_time = #{createTime}
+		WHERE id = #{id}
+	</update>
+
+
+    <!-- 历史分享收益 -->
+	<select id="findHistoryShareEarnings" resultType="map">
+		SELECT IFNULL(SUM(outIn.oper_cash),0) AS shareEarningsCash, IFNULL(SUM(outIn.oper_gold_coin),0) AS shareEarningsGoldCoin
+		FROM shop_member_account_cash_out_in outIn
+		WHERE outIn.user_id = #{userId}
+		AND outIn.type IN (40,41)
+		AND outIn.del_status = 0
+	</select>
+
+
+
+
+	<select id="recentlyPlatformShares" resultType="map">
+		SELECT member.user_nickname AS nickName, outIn.oper_cash AS earningCash
+		FROM shop_member_account_cash_out_in outIn JOIN shop_member member ON member.id = outIn.user_id
+		WHERE outIn.del_status = 0
+		AND outIn.type = 40
+		AND outIn.oper_cash > 0
+		ORDER BY outIn.create_time DESC
+		LIMIT 5
+	</select>
+
+</mapper>

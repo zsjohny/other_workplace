@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.e_commerce.miscroservice.store.mapper.ShopOrderItemMapper">
+
+	<!--订单详情列表-->
+	<select id="getOrderItem" resultType="com.e_commerce.miscroservice.store.entity.vo.StoreOrderitem">
+		<![CDATA[
+			select * from store_OrderItem
+			where StoreId = #{userId} and OrderNo in
+		]]>
+		<foreach collection="orderNos" item="orderNo" open="(" separator="," close=")">
+			<![CDATA[
+				#{orderNo}
+			]]>
+		</foreach>
+		<![CDATA[
+			 order by lOWarehouseId
+			]]>
+	</select>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,24 @@
+<!--新增地址-->
+<view class="store-box">
+  <view class="item">
+      <view class="title">联系人名</view>
+      <input type='text' class='input-name input-text' bindinput ="userNameInput" placeholder="联系人"/>
+  </view>
+  <view class="item">
+      <view class="title">联系电话</view>
+      <input type='number' class='input-phone input-text' bindinput="phoneWdInput" maxlength="11" placeholder="联系号码"/>
+  </view>
+  <view class="item">
+      <view class="title">所在地区</view>
+      <picker mode="region" bindchange="bindRegionChange" value="{{region}}" custom-item="{{customItem}}">
+        <view class="picker">
+        {{region[0]}}{{region[1]}}{{region[2]}}
+        </view>
+      </picker> 
+  </view>
+  <view class="item bor-bottom">
+      <view class="title">详细地址</view>
+      <input type='text' class='input-address input-text' bindinput="addressInput" placeholder="详情地址"/>
+  </view>
+  <button class="ui-btn get-btn save" bindtap='saveSubmit' disabled="{{ btnDisabled ? fasle : true }}">保存</button>
+</view> 

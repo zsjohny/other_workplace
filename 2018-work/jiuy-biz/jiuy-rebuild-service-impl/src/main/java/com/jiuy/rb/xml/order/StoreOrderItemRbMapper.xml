@@ -1,0 +1,541 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" > 
+<mapper namespace="com.jiuy.rb.mapper.order.StoreOrderItemRbMapper"> 
+ 
+ 	<!-- 主要的返回映射-->
+	<resultMap id="BaseResultMap" type="com.jiuy.rb.model.order.StoreOrderItemRb"	>
+		<id column="Id" property="id" jdbcType="BIGINT" />
+		<result column="OrderNo"  property="orderNo"  jdbcType="BIGINT" />
+		<result column="StoreId"  property="storeId"  jdbcType="BIGINT" />
+		<result column="ProductId"  property="productId"  jdbcType="BIGINT" />
+		<result column="SkuId"  property="skuId"  jdbcType="BIGINT" />
+		<result column="TotalMoney"  property="totalMoney"  jdbcType="DECIMAL" />
+		<result column="TotalExpressMoney"  property="totalExpressMoney"  jdbcType="DECIMAL" />
+		<result column="Money"  property="money"  jdbcType="DECIMAL" />
+		<result column="ExpressMoney"  property="expressMoney"  jdbcType="DECIMAL" />
+		<result column="TotalUnavalCoinUsed"  property="totalUnavalCoinUsed"  jdbcType="INTEGER" />
+		<result column="UnavalCoinUsed"  property="unavalCoinUsed"  jdbcType="INTEGER" />
+		<result column="BuyCount"  property="buyCount"  jdbcType="INTEGER" />
+		<result column="SkuSnapshot"  property="skuSnapshot"  jdbcType="VARCHAR" />
+		<result column="Status"  property="status"  jdbcType="TINYINT" />
+		<result column="CreateTime"  property="createTime"  jdbcType="BIGINT" />
+		<result column="UpdateTime"  property="updateTime"  jdbcType="BIGINT" />
+		<result column="BrandId"  property="brandId"  jdbcType="BIGINT" />
+		<result column="LOWarehouseId"  property="lOWarehouseId"  jdbcType="BIGINT" />
+		<result column="TotalPay"  property="totalPay"  jdbcType="DECIMAL" />
+		<result column="TotalMarketPrice"  property="totalMarketPrice"  jdbcType="DECIMAL" />
+		<result column="MarketPrice"  property="marketPrice"  jdbcType="DECIMAL" />
+		<result column="TotalAvailableCommission"  property="totalAvailableCommission"  jdbcType="DECIMAL" />
+		<result column="Position"  property="position"  jdbcType="VARCHAR" />
+		<result column="supplierId"  property="supplierId"  jdbcType="BIGINT" />
+	</resultMap>
+
+	<!-- 所有的列名-->
+	<sql id="Base_Column_List" >
+		Id,OrderNo,StoreId,ProductId,SkuId,TotalMoney,TotalExpressMoney,Money,ExpressMoney,
+		TotalUnavalCoinUsed,UnavalCoinUsed,BuyCount,SkuSnapshot,Status,CreateTime,UpdateTime,BrandId,
+		LOWarehouseId,TotalPay,TotalMarketPrice,MarketPrice,TotalAvailableCommission,Position,supplierId
+	</sql>
+
+	<!-- 精确更新的字段-->
+	<sql id="updateBase">
+		<if test="id  !=null">
+			Id = #{id,jdbcType=BIGINT}, 
+		</if>
+		<if test="orderNo  !=null">
+			OrderNo = #{orderNo,jdbcType=BIGINT}, 
+		</if>
+		<if test="storeId  !=null">
+			StoreId = #{storeId,jdbcType=BIGINT}, 
+		</if>
+		<if test="productId  !=null">
+			ProductId = #{productId,jdbcType=BIGINT}, 
+		</if>
+		<if test="skuId  !=null">
+			SkuId = #{skuId,jdbcType=BIGINT}, 
+		</if>
+		<if test="totalMoney  !=null">
+			TotalMoney = #{totalMoney,jdbcType=DECIMAL}, 
+		</if>
+		<if test="totalExpressMoney  !=null">
+			TotalExpressMoney = #{totalExpressMoney,jdbcType=DECIMAL}, 
+		</if>
+		<if test="money  !=null">
+			Money = #{money,jdbcType=DECIMAL}, 
+		</if>
+		<if test="expressMoney  !=null">
+			ExpressMoney = #{expressMoney,jdbcType=DECIMAL}, 
+		</if>
+		<if test="totalUnavalCoinUsed  !=null">
+			TotalUnavalCoinUsed = #{totalUnavalCoinUsed,jdbcType=INTEGER}, 
+		</if>
+		<if test="unavalCoinUsed  !=null">
+			UnavalCoinUsed = #{unavalCoinUsed,jdbcType=INTEGER}, 
+		</if>
+		<if test="buyCount  !=null">
+			BuyCount = #{buyCount,jdbcType=INTEGER}, 
+		</if>
+		<if test="skuSnapshot  !=null">
+			SkuSnapshot = #{skuSnapshot,jdbcType=VARCHAR}, 
+		</if>
+		<if test="status  !=null">
+			Status = #{status,jdbcType=TINYINT}, 
+		</if>
+		<if test="createTime  !=null">
+			CreateTime = #{createTime,jdbcType=BIGINT}, 
+		</if>
+		<if test="updateTime  !=null">
+			UpdateTime = #{updateTime,jdbcType=BIGINT}, 
+		</if>
+		<if test="brandId  !=null">
+			BrandId = #{brandId,jdbcType=BIGINT}, 
+		</if>
+		<if test="lOWarehouseId  !=null">
+			LOWarehouseId = #{lOWarehouseId,jdbcType=BIGINT}, 
+		</if>
+		<if test="totalPay  !=null">
+			TotalPay = #{totalPay,jdbcType=DECIMAL}, 
+		</if>
+		<if test="totalMarketPrice  !=null">
+			TotalMarketPrice = #{totalMarketPrice,jdbcType=DECIMAL}, 
+		</if>
+		<if test="marketPrice  !=null">
+			MarketPrice = #{marketPrice,jdbcType=DECIMAL}, 
+		</if>
+		<if test="totalAvailableCommission  !=null">
+			TotalAvailableCommission = #{totalAvailableCommission,jdbcType=DECIMAL}, 
+		</if>
+		<if test="position  !=null">
+			Position = #{position,jdbcType=VARCHAR}, 
+		</if>
+		<if test="supplierId  !=null">
+			supplierId = #{supplierId,jdbcType=BIGINT} 
+		</if>
+	</sql>
+
+	<!-- 通过主键查找-->
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="Long" >
+		select 
+		<include refid="Base_Column_List" />
+		from store_orderitem
+		where  Id = #{id,jdbcType=BIGINT} 
+	</select>
+
+	<!-- 通过主键删除-->
+	<delete id="deleteByPrimaryKey" parameterType="Long" >
+		delete from store_orderitem
+		where Id = #{id,jdbcType=BIGINT} 
+	</delete>
+
+	<!-- 普通插入全字段插t入-->
+	<insert id="insert" parameterType="com.jiuy.rb.model.order.StoreOrderItemRb" >
+		insert into store_orderitem
+		(
+			Id,
+			OrderNo,
+			StoreId,
+			ProductId,
+			SkuId,
+			TotalMoney,
+			TotalExpressMoney,
+			Money,
+			ExpressMoney,
+			TotalUnavalCoinUsed,
+			UnavalCoinUsed,
+			BuyCount,
+			SkuSnapshot,
+			Status,
+			CreateTime,
+			UpdateTime,
+			BrandId,
+			LOWarehouseId,
+			TotalPay,
+			TotalMarketPrice,
+			MarketPrice,
+			TotalAvailableCommission,
+			Position,
+			supplierId
+		)
+		values
+		(
+			#{id ,jdbcType=BIGINT},
+			#{orderNo ,jdbcType=BIGINT},
+			#{storeId ,jdbcType=BIGINT},
+			#{productId ,jdbcType=BIGINT},
+			#{skuId ,jdbcType=BIGINT},
+			#{totalMoney ,jdbcType=DECIMAL},
+			#{totalExpressMoney ,jdbcType=DECIMAL},
+			#{money ,jdbcType=DECIMAL},
+			#{expressMoney ,jdbcType=DECIMAL},
+			#{totalUnavalCoinUsed ,jdbcType=INTEGER},
+			#{unavalCoinUsed ,jdbcType=INTEGER},
+			#{buyCount ,jdbcType=INTEGER},
+			#{skuSnapshot ,jdbcType=VARCHAR},
+			#{status ,jdbcType=TINYINT},
+			#{createTime ,jdbcType=BIGINT},
+			#{updateTime ,jdbcType=BIGINT},
+			#{brandId ,jdbcType=BIGINT},
+			#{lOWarehouseId ,jdbcType=BIGINT},
+			#{totalPay ,jdbcType=DECIMAL},
+			#{totalMarketPrice ,jdbcType=DECIMAL},
+			#{marketPrice ,jdbcType=DECIMAL},
+			#{totalAvailableCommission ,jdbcType=DECIMAL},
+			#{position ,jdbcType=VARCHAR},
+			#{supplierId ,jdbcType=BIGINT}
+		)
+	</insert>
+
+	<!-- 批量插入，全部字段插入-->
+	<insert id="insertBach"   parameterType="List" >
+		insert into store_orderitem
+		(
+			Id,
+			OrderNo,
+			StoreId,
+			ProductId,
+			SkuId,
+			TotalMoney,
+			TotalExpressMoney,
+			Money,
+			ExpressMoney,
+			TotalUnavalCoinUsed,
+			UnavalCoinUsed,
+			BuyCount,
+			SkuSnapshot,
+			Status,
+			CreateTime,
+			UpdateTime,
+			BrandId,
+			LOWarehouseId,
+			TotalPay,
+			TotalMarketPrice,
+			MarketPrice,
+			TotalAvailableCommission,
+			Position,
+			supplierId
+		)
+		values 
+		<foreach collection="list" item="item" separator=",">
+		(
+			#{item.id ,jdbcType=BIGINT},
+			#{item.orderNo ,jdbcType=BIGINT},
+			#{item.storeId ,jdbcType=BIGINT},
+			#{item.productId ,jdbcType=BIGINT},
+			#{item.skuId ,jdbcType=BIGINT},
+			#{item.totalMoney ,jdbcType=DECIMAL},
+			#{item.totalExpressMoney ,jdbcType=DECIMAL},
+			#{item.money ,jdbcType=DECIMAL},
+			#{item.expressMoney ,jdbcType=DECIMAL},
+			#{item.totalUnavalCoinUsed ,jdbcType=INTEGER},
+			#{item.unavalCoinUsed ,jdbcType=INTEGER},
+			#{item.buyCount ,jdbcType=INTEGER},
+			#{item.skuSnapshot ,jdbcType=VARCHAR},
+			#{item.status ,jdbcType=TINYINT},
+			#{item.createTime ,jdbcType=BIGINT},
+			#{item.updateTime ,jdbcType=BIGINT},
+			#{item.brandId ,jdbcType=BIGINT},
+			#{item.lOWarehouseId ,jdbcType=BIGINT},
+			#{item.totalPay ,jdbcType=DECIMAL},
+			#{item.totalMarketPrice ,jdbcType=DECIMAL},
+			#{item.marketPrice ,jdbcType=DECIMAL},
+			#{item.totalAvailableCommission ,jdbcType=DECIMAL},
+			#{item.position ,jdbcType=VARCHAR},
+			#{item.supplierId ,jdbcType=BIGINT}
+		)
+		</foreach>
+	</insert>
+
+	<!-- 精确插入，非null得字段才会插入-->
+	<insert id="insertSelective" parameterType="com.jiuy.rb.model.order.StoreOrderItemRb" useGeneratedKeys="true" keyProperty="id" >
+		insert into store_orderitem
+		<trim prefix="(" suffix=")" suffixOverrides="," > 
+			<if test="id !=null">  
+				Id,
+			</if>
+			<if test="orderNo !=null">  
+				OrderNo,
+			</if>
+			<if test="storeId !=null">  
+				StoreId,
+			</if>
+			<if test="productId !=null">  
+				ProductId,
+			</if>
+			<if test="skuId !=null">  
+				SkuId,
+			</if>
+			<if test="totalMoney !=null">  
+				TotalMoney,
+			</if>
+			<if test="totalExpressMoney !=null">  
+				TotalExpressMoney,
+			</if>
+			<if test="money !=null">  
+				Money,
+			</if>
+			<if test="expressMoney !=null">  
+				ExpressMoney,
+			</if>
+			<if test="totalUnavalCoinUsed !=null">  
+				TotalUnavalCoinUsed,
+			</if>
+			<if test="unavalCoinUsed !=null">  
+				UnavalCoinUsed,
+			</if>
+			<if test="buyCount !=null">  
+				BuyCount,
+			</if>
+			<if test="skuSnapshot !=null">  
+				SkuSnapshot,
+			</if>
+			<if test="status !=null">  
+				Status,
+			</if>
+			<if test="createTime !=null">  
+				CreateTime,
+			</if>
+			<if test="updateTime !=null">  
+				UpdateTime,
+			</if>
+			<if test="brandId !=null">  
+				BrandId,
+			</if>
+			<if test="lOWarehouseId !=null">  
+				LOWarehouseId,
+			</if>
+			<if test="totalPay !=null">  
+				TotalPay,
+			</if>
+			<if test="totalMarketPrice !=null">  
+				TotalMarketPrice,
+			</if>
+			<if test="marketPrice !=null">  
+				MarketPrice,
+			</if>
+			<if test="totalAvailableCommission !=null">  
+				TotalAvailableCommission,
+			</if>
+			<if test="position !=null">  
+				Position,
+			</if>
+			<if test="supplierId !=null">  
+				supplierId,
+			</if>
+		</trim>
+
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+			<if test="id  !=null">
+				#{id,jdbcType=BIGINT}, 
+			</if>
+			<if test="orderNo  !=null">
+				#{orderNo,jdbcType=BIGINT}, 
+			</if>
+			<if test="storeId  !=null">
+				#{storeId,jdbcType=BIGINT}, 
+			</if>
+			<if test="productId  !=null">
+				#{productId,jdbcType=BIGINT}, 
+			</if>
+			<if test="skuId  !=null">
+				#{skuId,jdbcType=BIGINT}, 
+			</if>
+			<if test="totalMoney  !=null">
+				#{totalMoney,jdbcType=DECIMAL}, 
+			</if>
+			<if test="totalExpressMoney  !=null">
+				#{totalExpressMoney,jdbcType=DECIMAL}, 
+			</if>
+			<if test="money  !=null">
+				#{money,jdbcType=DECIMAL}, 
+			</if>
+			<if test="expressMoney  !=null">
+				#{expressMoney,jdbcType=DECIMAL}, 
+			</if>
+			<if test="totalUnavalCoinUsed  !=null">
+				#{totalUnavalCoinUsed,jdbcType=INTEGER}, 
+			</if>
+			<if test="unavalCoinUsed  !=null">
+				#{unavalCoinUsed,jdbcType=INTEGER}, 
+			</if>
+			<if test="buyCount  !=null">
+				#{buyCount,jdbcType=INTEGER}, 
+			</if>
+			<if test="skuSnapshot  !=null">
+				#{skuSnapshot,jdbcType=VARCHAR}, 
+			</if>
+			<if test="status  !=null">
+				#{status,jdbcType=TINYINT}, 
+			</if>
+			<if test="createTime  !=null">
+				#{createTime,jdbcType=BIGINT}, 
+			</if>
+			<if test="updateTime  !=null">
+				#{updateTime,jdbcType=BIGINT}, 
+			</if>
+			<if test="brandId  !=null">
+				#{brandId,jdbcType=BIGINT}, 
+			</if>
+			<if test="lOWarehouseId  !=null">
+				#{lOWarehouseId,jdbcType=BIGINT}, 
+			</if>
+			<if test="totalPay  !=null">
+				#{totalPay,jdbcType=DECIMAL}, 
+			</if>
+			<if test="totalMarketPrice  !=null">
+				#{totalMarketPrice,jdbcType=DECIMAL}, 
+			</if>
+			<if test="marketPrice  !=null">
+				#{marketPrice,jdbcType=DECIMAL}, 
+			</if>
+			<if test="totalAvailableCommission  !=null">
+				#{totalAvailableCommission,jdbcType=DECIMAL}, 
+			</if>
+			<if test="position  !=null">
+				#{position,jdbcType=VARCHAR}, 
+			</if>
+			<if test="supplierId  !=null">
+				#{supplierId,jdbcType=BIGINT} 
+			</if>
+		</trim>
+	</insert> 
+
+	<!-- 精确更新-->
+	<update id="updateByPrimaryKeySelective" parameterType="com.jiuy.rb.model.order.StoreOrderItemRb" >
+		update store_orderitem
+		<set>
+			<include refid="updateBase"/>
+		</set>
+		where Id = #{id,jdbcType=BIGINT} 
+	</update> 
+
+	<!-- 全字段更新 需要注意-->
+	<update id="updateByPrimaryKey" parameterType="com.jiuy.rb.model.order.StoreOrderItemRb" >
+		update store_orderitem
+		set 
+			Id = #{id ,jdbcType=BIGINT},
+			OrderNo = #{orderNo ,jdbcType=BIGINT},
+			StoreId = #{storeId ,jdbcType=BIGINT},
+			ProductId = #{productId ,jdbcType=BIGINT},
+			SkuId = #{skuId ,jdbcType=BIGINT},
+			TotalMoney = #{totalMoney ,jdbcType=DECIMAL},
+			TotalExpressMoney = #{totalExpressMoney ,jdbcType=DECIMAL},
+			Money = #{money ,jdbcType=DECIMAL},
+			ExpressMoney = #{expressMoney ,jdbcType=DECIMAL},
+			TotalUnavalCoinUsed = #{totalUnavalCoinUsed ,jdbcType=INTEGER},
+			UnavalCoinUsed = #{unavalCoinUsed ,jdbcType=INTEGER},
+			BuyCount = #{buyCount ,jdbcType=INTEGER},
+			SkuSnapshot = #{skuSnapshot ,jdbcType=VARCHAR},
+			Status = #{status ,jdbcType=TINYINT},
+			CreateTime = #{createTime ,jdbcType=BIGINT},
+			UpdateTime = #{updateTime ,jdbcType=BIGINT},
+			BrandId = #{brandId ,jdbcType=BIGINT},
+			LOWarehouseId = #{lOWarehouseId ,jdbcType=BIGINT},
+			TotalPay = #{totalPay ,jdbcType=DECIMAL},
+			TotalMarketPrice = #{totalMarketPrice ,jdbcType=DECIMAL},
+			MarketPrice = #{marketPrice ,jdbcType=DECIMAL},
+			TotalAvailableCommission = #{totalAvailableCommission ,jdbcType=DECIMAL},
+			Position = #{position ,jdbcType=VARCHAR},
+			supplierId = #{supplierId ,jdbcType=BIGINT}
+		where Id = #{id,jdbcType=BIGINT} 
+	</update> 
+
+	<!-- 所有的条件集合-->
+	<sql id="whereCase"  >
+		where  1=1 
+		<if test="id  !=null">
+			AND Id = #{id,jdbcType=BIGINT} 
+		</if>
+		<if test="orderNo  !=null">
+			AND OrderNo = #{orderNo,jdbcType=BIGINT} 
+		</if>
+		<if test="storeId  !=null">
+			AND StoreId = #{storeId,jdbcType=BIGINT} 
+		</if>
+		<if test="productId  !=null">
+			AND ProductId = #{productId,jdbcType=BIGINT} 
+		</if>
+		<if test="skuId  !=null">
+			AND SkuId = #{skuId,jdbcType=BIGINT} 
+		</if>
+		<if test="totalMoney  !=null">
+			AND TotalMoney = #{totalMoney,jdbcType=DECIMAL} 
+		</if>
+		<if test="totalExpressMoney  !=null">
+			AND TotalExpressMoney = #{totalExpressMoney,jdbcType=DECIMAL} 
+		</if>
+		<if test="money  !=null">
+			AND Money = #{money,jdbcType=DECIMAL} 
+		</if>
+		<if test="expressMoney  !=null">
+			AND ExpressMoney = #{expressMoney,jdbcType=DECIMAL} 
+		</if>
+		<if test="totalUnavalCoinUsed  !=null">
+			AND TotalUnavalCoinUsed = #{totalUnavalCoinUsed,jdbcType=INTEGER} 
+		</if>
+		<if test="unavalCoinUsed  !=null">
+			AND UnavalCoinUsed = #{unavalCoinUsed,jdbcType=INTEGER} 
+		</if>
+		<if test="buyCount  !=null">
+			AND BuyCount = #{buyCount,jdbcType=INTEGER} 
+		</if>
+		<if test="skuSnapshot  !=null">
+			AND SkuSnapshot = #{skuSnapshot,jdbcType=VARCHAR} 
+		</if>
+		<if test="status  !=null">
+			AND Status = #{status,jdbcType=TINYINT} 
+		</if>
+		<if test="createTime  !=null">
+			AND CreateTime = #{createTime,jdbcType=BIGINT} 
+		</if>
+		<if test="updateTime  !=null">
+			AND UpdateTime = #{updateTime,jdbcType=BIGINT} 
+		</if>
+		<if test="brandId  !=null">
+			AND BrandId = #{brandId,jdbcType=BIGINT} 
+		</if>
+		<if test="lOWarehouseId  !=null">
+			AND LOWarehouseId = #{lOWarehouseId,jdbcType=BIGINT} 
+		</if>
+		<if test="totalPay  !=null">
+			AND TotalPay = #{totalPay,jdbcType=DECIMAL} 
+		</if>
+		<if test="totalMarketPrice  !=null">
+			AND TotalMarketPrice = #{totalMarketPrice,jdbcType=DECIMAL} 
+		</if>
+		<if test="marketPrice  !=null">
+			AND MarketPrice = #{marketPrice,jdbcType=DECIMAL} 
+		</if>
+		<if test="totalAvailableCommission  !=null">
+			AND TotalAvailableCommission = #{totalAvailableCommission,jdbcType=DECIMAL} 
+		</if>
+		<if test="position  !=null">
+			AND Position = #{position,jdbcType=VARCHAR} 
+		</if>
+		<if test="supplierId  !=null">
+			AND supplierId = #{supplierId,jdbcType=BIGINT} 
+		</if>
+		<include refid="costomWhereCase"/>
+	</sql>
+
+	<!-- 查询一条，如果返回多条会报错-->
+	<select id="selectOne" parameterType="java.util.Map" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" /> 
+		FROM store_orderitem 
+		<include refid="whereCase" /> 
+	</select>
+
+	<!-- 查询一个list-->
+	<select id="selectList" parameterType="java.util.Map" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" /> 
+		FROM store_orderitem 
+		<include refid="whereCase" /> 
+	</select>
+
+	<!--  @Costom -->
+	<!-- 从上一行注释以上为系统生成 从这一行往下为用户自定义 请将自定义的sql放在此行下面 -->
+	<sql id="costomWhereCase">
+	</sql>
+
+</mapper>

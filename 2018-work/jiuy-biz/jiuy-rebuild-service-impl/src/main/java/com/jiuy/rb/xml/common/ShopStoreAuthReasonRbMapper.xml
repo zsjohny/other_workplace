@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" > 
+<mapper namespace="com.jiuy.rb.mapper.common.ShopStoreAuthReasonRbMapper"> 
+ 
+ 	<!-- 主要的返回映射-->
+	<resultMap id="BaseResultMap" type="com.jiuy.rb.model.common.ShopStoreAuthReasonRb"	>
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="no_pass_reason"  property="noPassReason"  jdbcType="VARCHAR" />
+		<result column="create_time"  property="createTime"  jdbcType="BIGINT" />
+		<result column="update_time"  property="updateTime"  jdbcType="BIGINT" />
+		<result column="TYPE"  property="type"  jdbcType="TINYINT" />
+		<result column="weight"  property="weight"  jdbcType="INTEGER" />
+		<result column="is_delete"  property="isDelete"  jdbcType="TINYINT" />
+	</resultMap>
+
+	<!-- 所有的列名-->
+	<sql id="Base_Column_List" >
+		id,no_pass_reason,create_time,update_time,TYPE,weight,is_delete
+	</sql>
+
+	<!-- 精确更新的字段-->
+	<sql id="updateBase">
+		<if test="id  !=null">
+			id = #{id,jdbcType=BIGINT}, 
+		</if>
+		<if test="noPassReason  !=null">
+			no_pass_reason = #{noPassReason,jdbcType=VARCHAR}, 
+		</if>
+		<if test="createTime  !=null">
+			create_time = #{createTime,jdbcType=BIGINT}, 
+		</if>
+		<if test="updateTime  !=null">
+			update_time = #{updateTime,jdbcType=BIGINT}, 
+		</if>
+		<if test="type  !=null">
+			TYPE = #{type,jdbcType=TINYINT}, 
+		</if>
+		<if test="weight  !=null">
+			weight = #{weight,jdbcType=INTEGER}, 
+		</if>
+		<if test="isDelete  !=null">
+			is_delete = #{isDelete,jdbcType=TINYINT} 
+		</if>
+	</sql>
+
+	<!-- 通过主键查找-->
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="Long" >
+		select 
+		<include refid="Base_Column_List" />
+		from shop_store_auth_reason
+		where  id = #{id,jdbcType=BIGINT} 
+	</select>
+
+	<!-- 通过主键删除-->
+	<delete id="deleteByPrimaryKey" parameterType="Long" >
+		delete from shop_store_auth_reason
+		where id = #{id,jdbcType=BIGINT} 
+	</delete>
+
+	<!-- 普通插入全字段插t入-->
+	<insert id="insert" parameterType="com.jiuy.rb.model.common.ShopStoreAuthReasonRb" >
+		insert into shop_store_auth_reason
+		(
+			id,
+			no_pass_reason,
+			create_time,
+			update_time,
+			TYPE,
+			weight,
+			is_delete
+		)
+		values
+		(
+			#{id ,jdbcType=BIGINT},
+			#{noPassReason ,jdbcType=VARCHAR},
+			#{createTime ,jdbcType=BIGINT},
+			#{updateTime ,jdbcType=BIGINT},
+			#{type ,jdbcType=TINYINT},
+			#{weight ,jdbcType=INTEGER},
+			#{isDelete ,jdbcType=TINYINT}
+		)
+	</insert>
+
+	<!-- 批量插入，全部字段插入-->
+	<insert id="insertBach"   parameterType="List" >
+		insert into shop_store_auth_reason
+		(
+			id,
+			no_pass_reason,
+			create_time,
+			update_time,
+			TYPE,
+			weight,
+			is_delete
+		)
+		values 
+		<foreach collection="list" item="item" separator=",">
+		(
+			#{item.id ,jdbcType=BIGINT},
+			#{item.noPassReason ,jdbcType=VARCHAR},
+			#{item.createTime ,jdbcType=BIGINT},
+			#{item.updateTime ,jdbcType=BIGINT},
+			#{item.type ,jdbcType=TINYINT},
+			#{item.weight ,jdbcType=INTEGER},
+			#{item.isDelete ,jdbcType=TINYINT}
+		)
+		</foreach>
+	</insert>
+
+	<!-- 精确插入，非null得字段才会插入-->
+	<insert id="insertSelective" parameterType="com.jiuy.rb.model.common.ShopStoreAuthReasonRb" useGeneratedKeys="true" keyProperty="id" >
+		insert into shop_store_auth_reason
+		<trim prefix="(" suffix=")" suffixOverrides="," > 
+			<if test="id !=null">  
+				id,
+			</if>
+			<if test="noPassReason !=null">  
+				no_pass_reason,
+			</if>
+			<if test="createTime !=null">  
+				create_time,
+			</if>
+			<if test="updateTime !=null">  
+				update_time,
+			</if>
+			<if test="type !=null">  
+				TYPE,
+			</if>
+			<if test="weight !=null">  
+				weight,
+			</if>
+			<if test="isDelete !=null">  
+				is_delete,
+			</if>
+		</trim>
+
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+			<if test="id  !=null">
+				#{id,jdbcType=BIGINT}, 
+			</if>
+			<if test="noPassReason  !=null">
+				#{noPassReason,jdbcType=VARCHAR}, 
+			</if>
+			<if test="createTime  !=null">
+				#{createTime,jdbcType=BIGINT}, 
+			</if>
+			<if test="updateTime  !=null">
+				#{updateTime,jdbcType=BIGINT}, 
+			</if>
+			<if test="type  !=null">
+				#{type,jdbcType=TINYINT}, 
+			</if>
+			<if test="weight  !=null">
+				#{weight,jdbcType=INTEGER}, 
+			</if>
+			<if test="isDelete  !=null">
+				#{isDelete,jdbcType=TINYINT} 
+			</if>
+		</trim>
+	</insert> 
+
+	<!-- 精确更新-->
+	<update id="updateByPrimaryKeySelective" parameterType="com.jiuy.rb.model.common.ShopStoreAuthReasonRb" >
+		update shop_store_auth_reason
+		<set>
+			<include refid="updateBase"/>
+		</set>
+		where id = #{id,jdbcType=BIGINT} 
+	</update> 
+
+	<!-- 全字段更新 需要注意-->
+	<update id="updateByPrimaryKey" parameterType="com.jiuy.rb.model.common.ShopStoreAuthReasonRb" >
+		update shop_store_auth_reason
+		set 
+			id = #{id ,jdbcType=BIGINT},
+			no_pass_reason = #{noPassReason ,jdbcType=VARCHAR},
+			create_time = #{createTime ,jdbcType=BIGINT},
+			update_time = #{updateTime ,jdbcType=BIGINT},
+			TYPE = #{type ,jdbcType=TINYINT},
+			weight = #{weight ,jdbcType=INTEGER},
+			is_delete = #{isDelete ,jdbcType=TINYINT}
+		where id = #{id,jdbcType=BIGINT} 
+	</update> 
+
+	<!-- 所有的条件集合-->
+	<sql id="whereCase"  >
+		where  1=1 
+		<if test="id  !=null">
+			AND id = #{id,jdbcType=BIGINT} 
+		</if>
+		<if test="noPassReason  !=null">
+			AND no_pass_reason = #{noPassReason,jdbcType=VARCHAR} 
+		</if>
+		<if test="createTime  !=null">
+			AND create_time = #{createTime,jdbcType=BIGINT} 
+		</if>
+		<if test="updateTime  !=null">
+			AND update_time = #{updateTime,jdbcType=BIGINT} 
+		</if>
+		<if test="type  !=null">
+			AND TYPE = #{type,jdbcType=TINYINT} 
+		</if>
+		<if test="weight  !=null">
+			AND weight = #{weight,jdbcType=INTEGER} 
+		</if>
+		<if test="isDelete  !=null">
+			AND is_delete = #{isDelete,jdbcType=TINYINT} 
+		</if>
+		<include refid="costomWhereCase"/>
+	</sql>
+
+	<!-- 查询一条，如果返回多条会报错-->
+	<select id="selectOne" parameterType="java.util.Map" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" /> 
+		FROM shop_store_auth_reason 
+		<include refid="whereCase" /> 
+	</select>
+
+	<!-- 查询一个list-->
+	<select id="selectList" parameterType="java.util.Map" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" /> 
+		FROM shop_store_auth_reason 
+		<include refid="whereCase" /> 
+	</select>
+
+	<!--  @Costom -->
+	<!-- 从上一行注释以上为系统生成 从这一行往下为用户自定义 请将自定义的sql放在此行下面 -->
+	<sql id="costomWhereCase">
+	</sql>
+
+</mapper>

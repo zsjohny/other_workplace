@@ -1,0 +1,238 @@
+<!--my.wxml-->
+<view class='user-header'>
+  <view class="user-info">
+    <image class="head" wx:if="{{ headUrl }}" src="{{headUrl}}" bindtap='gotoUseredit'></image>
+    <image wx:else src="http://mini-img-main.oss-cn-hangzhou.aliyuncs.com/icon/no-head.png" class="head" bindtap='gotoUseredit'></image>
+    <view class='name-box'>
+      <view wx:if="{{ nickName }}" class="name" bindtap='gotoUseredit'>{{nickName}}</view>
+      <view wx:else class="name" bindtap='gotoUseredit'>游客</view>
+      <view class='rights-box' bindtap='gotoLegalRight'>
+        <text wx:if="{{grade == 0}}">粉丝</text>
+        <text wx:if="{{grade == 1}}">店长</text>
+        <text wx:if="{{grade == 2}}">分销商</text>
+        <text wx:if="{{grade == 3}}">合伙人</text>
+      </view>
+    </view>
+    <!-- <view class='credentials-icon'></view> -->
+    <view class='set-icon' bindtap='gotoUseredit'></view>
+  </view>
+  <view class='sum-title' bindtap='showAmountExplain'>可用金额(元)</view>
+  <view class='sum' bindtap='gotoAccountPage'>{{myIncome.already}}</view> 
+  <view class='sum-type'>
+    <view class='rmb' bindtap='gotoAccountPage'><text>待结算</text>{{myIncome.wait}}</view>
+    <view class='coin' bindtap='gotoCoinPage'><text>金币</text>{{myIncome.goldCash}}</view>
+  </view>
+  <view class='withdraw-box' bindtap='gotoWithdrawBonus'>
+    <view class='inside-box'>
+      <view class='money'><text>可提现金额(元)：</text>{{myIncome.already}}</view>
+      <view class='btn'>立即提现</view>
+    </view>
+  </view>
+</view>
+<view class="user-list">
+  <view class="order" wx:if="{{wxaType}}" >
+    <view class='myorder-col'>
+      <view class='order-item order-item2' bindtap='pendingPaymentFunc'>
+        <view class='icon'></view>
+        <view class='mycount' wx:if="{{ pendingPaymentCount > 0 }}">
+          <text wx:if="{{ pendingPaymentCount > 99 }}">99+</text>
+          <text wx:else>{{pendingPaymentCount}}</text>
+        </view>
+        <view>待付款</view>
+      </view>
+      <view class='order-item order-item3' bindtap='pendingDeliveryFunc'>
+        <view class='icon'></view>
+        <view class='mycount' wx:if="{{ pendingDeliveryCount > 0 }}">
+          <text wx:if="{{ pendingDeliveryCount > 99 }}">99+</text>
+          <text wx:else>{{pendingDeliveryCount}}</text>
+        </view>
+        <view>待发货</view>
+      </view>
+      <view class='order-item order-item4' bindtap='alreadyShippedFunc'>
+        <view class='icon'></view>
+        <view class='mycount' wx:if="{{ alreadyShippedCount > 0 }}">
+          <text wx:if="{{ alreadyShippedCount > 99 }}">99+</text>
+          <text wx:else>{{alreadyShippedCount}}</text>
+        </view>
+        <view>待收货</view>
+      </view>
+      <view class='order-item order-item5' bindtap='gotoRefundOrder'>
+        <view class='icon'></view>
+        <view class='mycount' wx:if="{{ newalreadyCompletedCount > 0 }}">
+          <text wx:if="{{ newalreadyCompletedCount > 99 }}">99+</text>
+          <text wx:else>{{newalreadyCompletedCount}}</text>
+        </view>
+        <view>退款/售后</view>
+      </view>
+      <view class='order-item order-item1' bindtap='allOrderFunc'>
+        <view class='icon'></view>
+        <view class='mycount' wx:if="{{ allCount > 0 }}">
+          <text wx:if="{{ allCount > 99 }}">99+</text>
+          <text wx:else>{{allCount}}</text>
+        </view>
+        <view>全部订单</view>
+      </view>
+    </view>
+  </view>
+  <view class="item {{ showMyIncomeState ? 'active' : ''}}">
+    <view class='menu' bindtap="showMyIncome">
+      <view class="icon icon5"></view>
+      <text class="name">我的收益</text>
+      <view class="text">{{showMyIncomeText}}</view>
+    </view>
+    <!-- 子菜单 -->
+    <view class='submenu submenu1' wx:if="{{showMyIncomeState}}">
+      <view class='module1'>
+        <view class='section section1'>
+          <view class='tit'>总资产(元)</view>
+          <view class='num'>{{myIncome.count}}</view>
+        </view>
+        <view class='section section2'>
+          <view class='tit'>今日收益(元)</view>
+          <view class='num num1'>{{myIncome.todayCoin}}</view>
+        </view>
+      </view>
+      <view class='module2'>
+        <view class='dd'>
+          <view class='tit'>待结算</view>
+          <view class='num'>{{myIncome.wait}}</view>
+        </view>
+        <view class='dd'>
+          <view class='tit'>已结算</view>
+          <view class='num'>{{myIncome.already}}</view>
+        </view>
+        <view class='dd'>
+          <view class='detail-btn' bindtap='gotoAccountPage'>查看详情</view>
+        </view>
+      </view>
+    </view>
+    <!-- submenu end -->
+  </view>
+  <view class="item {{ showMyTeamState ? 'active' : ''}}"  wx:if="{{grade >= 2}}">
+    <view class='menu' bindtap="showMyTeam">
+      <view class="icon icon6"></view>
+      <text class="name">我的团队</text>
+      <view class="text">{{showMyTeamText}}</view>
+    </view>
+    <!-- 子菜单 -->
+    <view class='submenu team-submenu' wx:if="{{showMyTeamState}}">
+      <view class='dd'>
+        <view class='tit'>今日</view>
+        <view class='num'>{{myTeam.countToday}}</view>
+      </view>
+      <view class='dd'>
+        <view class='tit'>总数</view>
+        <view class='num'>{{myTeam.count}}</view>
+      </view>
+      <view class='dd'>
+        <view class='tit'>分销商</view>
+        <view class='num'>{{myTeam.countDistributor}}</view>
+      </view>
+      <view class='dd'>
+        <view class='tit'>店长</view>
+        <view class='num'>{{myTeam.countStore}}</view>
+      </view>
+    </view>
+    <!-- submenu end -->
+  </view>
+  <view class="item {{ showMyFansState ? 'active' : ''}}">
+    <view class='menu' bindtap="gotoMyFans">
+      <view class="icon icon7"></view>
+      <text class="name">我的粉丝</text>
+      <view class="text">{{showMyFansText}}</view>
+    </view>
+    <!-- 子菜单 -->
+    <view class='submenu submenu1' wx:if="{{showMyFansState}}">
+      <view class='module1'>
+        <view class='section section1'>
+          <view class='tit'>我的粉丝</view>
+          <view class='num'>{{myFans.count}}</view>
+        </view>
+        <view class='section section2'>
+          <view class='tit'>今日新增</view>
+          <view class='num num1'>{{myFans.todayIncrease}}</view>
+        </view>
+      </view>
+      <view class='module2'>
+        <view class='dd'>
+          <view class='tit'>一级粉丝</view>
+          <view class='num'>{{myFans.countClassA}}</view>
+        </view>
+        <view class='dd'>
+          <view class='tit'>二级粉丝</view>
+          <view class='num'>{{myFans.countClassB}}</view>
+        </view>
+        <view class='dd'>
+          <view class='detail-btn' bindtap='gotoMyFansPage'>查看详情</view>
+        </view>
+      </view>
+    </view>
+    <!-- submenu end -->
+  </view>
+  <view class="item" bindtap="gotoTeamOrder">
+    <view class="icon icon8"></view>
+    <text class="name">团队订单</text>
+  </view>
+  <view class="item {{ showMyInviteState ? 'active' : ''}}">
+    <view class='menu' bindtap="gotoMyInvite">
+      <view class="icon icon9"></view>
+      <text class="name">我的邀请人</text>
+    </view>
+    <!-- 子菜单 -->
+    <view class='submenu inviter-submenu' wx:if="{{showMyInviteState}}">
+      <block wx:if="{{myHigher.time}}">
+        <image class='head' src='{{myHigher.img}}' wx:if="{{myHigher.img}}"></image>
+        <image wx:else src="http://mini-img-main.oss-cn-hangzhou.aliyuncs.com/icon/no-head.png" class="head"></image>
+        <view class='info'>
+          <view class='nick'>
+            <block wx:if="{{myHigher.nickName}}">{{myHigher.nickName}}</block>
+            <block wx:else>游客</block>
+          </view>
+          <view class='time'>{{myHigher.time}}</view>
+        </view>
+      </block>
+      <view class='no-higher' wx:else>无邀请人</view>
+    </view>  
+    <!-- submenu end -->
+  </view>
+  <view class="item" bindtap="gotoTeamBuy">
+    <view class="icon icon1"></view>
+    <text class="name">我的团购</text>
+    <view class="text" wx:if="{{waitTeamActivityCount > 0}}">您有{{waitTeamActivityCount}}个订单即将成团</view>
+  </view>
+  <view class="item" bindtap="gotoWant">
+    <view class="icon icon1"></view>
+    <text class="name">我喜欢的</text>
+    <view class="text">{{ favoriteCount }}</view>
+  </view>
+  <navigator class="item" url="../component/myCoupon/myCoupon">
+    <view class="icon icon3"></view>
+    <text class="name">我的优惠券</text>
+    <view class="text">{{myCouponCount}}</view>
+  </navigator>
+  <navigator class="item" url="../component/couponCenter/couponCenter">
+    <view class="icon icon4"></view>
+    <text class="name">领券中心</text>
+    <view class="text" wx:if="{{waitGetShopCouponTemplateCount > 0}}">
+      <text>你还有未领取的优惠券{{waitGetShopCouponTemplateCount}}</text>
+    </view>
+  </navigator>
+  <navigator class="item" url="../component/storeInfo/storeInfo">
+    <view class="icon icon2"></view>
+    <text class="name">关于商家信息</text>
+  </navigator>
+  <navigator class="item" url="../component/helperCenter/helperCenter">
+    <view class="icon icon10"></view>
+    <text class="name">帮助中心</text>
+  </navigator>
+</view>
+<!--客服按钮-->
+<import src="../template/template.wxml" />
+<template is="customService" data="{{msgNumber}}"/>
+<!--电话热线  -->
+<import src="../template/phone.wxml" />
+<template is="phoneService" data="{{hotPhone}}" />
+<!--授权弹窗  -->
+<import src="../template/authorizePopup.wxml" />
+<template is="authorizePopup" data="{{isShowAuthorizePopup}}" />
+    

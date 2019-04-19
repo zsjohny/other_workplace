@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jiuyuan.dao.mapper.shop.PropertyValueNewMapper">
+
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.jiuyuan.entity.newentity.PropertyValueNew">
+		<id column="Id" property="Id" />
+		<result column="PropertyValue" property="PropertyValue" />
+		<result column="PropertyNameId" property="PropertyNameId" />
+		<result column="Status" property="Status" />
+		<result column="OrderIndex" property="OrderIndex" />
+		<result column="CreateTime" property="CreateTime" />
+		<result column="UpdateTime" property="UpdateTime" />
+		<result column="supplierId" property="supplierId" />
+		<result column="propertyValueGroupId" property="propertyValueGroupId" />
+		<result column="storeId" property="storeId" />
+	</resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        Id, PropertyValue, PropertyNameId, Status, OrderIndex, CreateTime, UpdateTime, supplierId, propertyValueGroupId, storeId
+    </sql>
+
+	<select id="findStorePropValue" resultType="com.jiuyuan.entity.newentity.PropertyValueNew" >
+		SELECT
+			<include refid="Base_Column_List"/>
+		FROM
+			yjj_propertyvalue a
+		WHERE
+		`Status` = 0
+		<if test="propertyValue != null and propertyValue !='' ">
+			AND PropertyValue = #{propertyValue}
+		</if>
+		<if test="propertyValueGroupId != null ">
+			AND propertyValueGroupId = #{propertyValueGroupId}
+		</if>
+		AND (
+			a.supplierId = 0
+			OR (
+			a.supplierId = - 1
+			AND a.storeId = #{storeId}
+			)
+		)
+	</select>
+
+
+</mapper>

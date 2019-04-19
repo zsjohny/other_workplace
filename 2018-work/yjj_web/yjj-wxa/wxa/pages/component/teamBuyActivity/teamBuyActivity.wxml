@@ -1,0 +1,86 @@
+<view class="container body-contain">
+  <view class="activity-box1">
+    <!--列表-->
+    <view class="activity-list">
+      <block wx:for="{{activityData}}" wx:key="{{item.id}}">
+        <view class='item'>
+          <navigator class='navigator' hover-class='navigator-click' url="/pages/component/detail/detail?productId={{item.shopProductId}}&activityId={{item.id}}&targetType=1">
+            <block wx:if="{{item.showcaseImgList.length == 1}}">
+                <image class='img bigImg' mode="aspectFit" src='{{item.showcaseImgList[0]}}'></image>
+            </block>
+            <block wx:if="{{item.showcaseImgList.length > 1}}">
+                <image class='img img1' mode="aspectFit" src='{{item.showcaseImgList[0]}}'></image>
+                <image class='img img2' mode="aspectFit" src='{{item.showcaseImgList[1]}}'></image>
+            </block>
+            <block wx:if="{{item.activityState == 3}}">
+                <view class='over-bg'>已结束</view>
+            </block>
+            <view class='time-box' wx:else>
+              <view class='activity-state'>
+                <block wx:if="{{item.activityState == 1}}">即将开始</block>
+                <block wx:if="{{item.activityState == 2}}">进行中</block>
+              </view>
+              <view class='down-time' wx:if="{{item.timeFormat.second >= 0}}">
+                <text class='hours'>{{item.timeFormat.hours}}</text>:
+                <text class='minute'>{{item.timeFormat.minute}}</text>:
+                <text class='second'>{{item.timeFormat.second}}</text> 
+              </view>
+            </view>
+          </navigator>
+          <view class='tit' wx:if="{{item.activityTitle}}">
+              <navigator hover-class='navigator-click' url="/pages/component/detail/detail?productId={{item.shopProductId}}&activityId={{item.id}}&targetType=1">{{item.activityTitle}}</navigator>
+          </view>
+          <view class='activity-info'>
+            <view class='info1'>
+              <view class='new-price'>¥<text>{{item.activityPrice}}</text></view>
+              <view class='old-price' wx:if="{{item.activityProductPrice > 0}}"><text class="del">原价<text class="del-price">¥{{item.activityProductPrice}}</text></text></view>
+            </view>
+            <view class='info2'>
+              <view class='tips1'>
+                  <!-- 3.7.7和之前的老版本是人数成团 -->
+                  <block wx:if="{{item.conditionType == '1'}}">满足{{item.userCount}}人下单</block>
+                  <block wx:else>满足{{item.meetProductCount}}件下单</block>
+              </view>
+              <view class='tips2'><text>即享优惠价</text></view>
+            </view> 
+            <block wx:if="{{item.activityState != 3}}">
+              <button class='info3 invite-btn' data-productid='{{item.shopProductId}}' data-activityid='{{item.id}}' data-name='{{item.shopProductName}}' data-img='{{item.showcaseImgList[0]}}' open-type="share">邀请好友</button>
+            </block>
+            <!-- 已结束 -->
+            <block wx:else>
+              <button class='info3 invite-btn'>售罄啦</button>
+            </block>
+          </view><!-- activity-info end -->
+          <!-- 未结束的活动显示进度条 -->
+          <block wx:if="{{item.activityState == 1 || item.activityState == 2}}">
+            <!-- item.orderedProductCount == item.meetProductCount && item.activityState == 2 -->
+            <view class='progress-bar' wx:if="{{item.activityProgressWidth >= 698}}">
+              <view class='progress-bar-active'>已成团！</view>
+            </view>
+            <view class='progress-bar' wx:else>
+              <view class='progress-bar-active' style='width:{{item.activityProgressWidth}}rpx'></view>
+              <view class='propress-content' wx:if="{{item.conditionType == '1'}}">
+                当前已拼<text>{{item.activityMemberCount}}</text>人，还差<text>{{item.differUserCount}}</text>人成团
+              </view>
+              <view class='propress-content' wx:else>
+                当前已拼<text>{{item.orderedProductCount}}</text>件，还差<text>{{item.differProductCount}}</text>件成团
+              </view>
+            </view>
+          </block>
+        </view>
+      </block>  
+    </view><!-- activity-list end -->
+    <!--上拉加载更多-->
+    <view class="more-load2">
+      <!--底部加载loadding-->
+      <view wx:if="{{ hasMore }}" class="go-loading more-loading">
+        <view class="loading-mod"></view>
+        <text class="tx">正在载入中…</text> 
+      </view>
+      <view wx:if="{{ moreOver }}" class="tips2"><text>已显示全部</text></view>
+    </view>
+    <!--回到顶部-->
+    <import src="../../template/backTop.wxml" />
+    <template is="backTop" data="{{goTopShowState}}" />
+  </view>
+</view> <!--container end-->

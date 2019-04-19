@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.store.dao.mapper.ShopRefundMapper">
+
+
+    <select id="selectRefund" resultType="com.jiuyuan.entity.newentity.ShopOrderAfterSale">
+        select * from  `shop_order_after_sale` where `order_id`=#{orderId} and `sku_id`=#{skuId}
+    </select>
+
+    <select id="selectRefundOrder" resultType="com.jiuyuan.entity.newentity.ShopOrderAfterSale">
+        select * from `shop_order_after_sale` where `order_id`=#{orderId} and `store_id`=#{storeId}
+    </select>
+    <select id="selectRefundOrderList" resultType="com.jiuyuan.entity.newentity.ShopOrderAfterSale">
+            select
+             id,
+             `type`,
+             del_status AS delStatus,
+             after_sale_id as afterSaleId,
+             status,
+             refund_count as refundCount
+             from `shop_order_after_sale` where `order_id`=#{orderId} and `store_id`=#{storeId}
+    </select>
+
+    <select id="applyRefund" resultType="com.jiuyuan.entity.newentity.ShopOrderAfterSale">
+             select
+              `msg` as msg,
+              `apply_time`as applyTime,
+              `operate_time` as operateTime,
+              `apply_back_money` as applyBackMoney,
+              `back_money` as backMoney,
+              `refund_name` as refundName,
+              `after_sale_id` as afterSaleId,
+              `store_id` as storeId,
+              `member_id` as memberId
+              from `shop_order_after_sale` where `order_id`=#{orderId} and `sku_id`=#{skuId}
+    </select>
+
+    <select id="selectRefundCount" parameterType="Long" resultType="Integer">
+            select count(*) from `shop_order_after_sale` where `member_id`=#{memberId} and `del_status` !=2
+    </select>
+
+
+
+    <!--查询店中店所在的memberId-->
+    <select id="selectInShopMemberId" parameterType="Long" resultType="String">
+            select `id` from `shop_member` where `in_shop_member_id` =#{memberId}
+    </select>
+
+    <!--查询用户在所有店中店的订单数量-->
+    <select id="selectAllOrderCount" resultType="Integer">
+        select count(*) from `shop_member_order` where `member_id` in
+        <foreach collection="list" item="id" index="index" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+        <if test="orderStatus!=null">
+            and  `order_status`=#{orderStatus}
+        </if>
+    </select>
+    <!--查询用户在所有店中店的售后订单数量-->
+    <select id="selectRefundCountAll" parameterType="Long" resultType="Integer">
+            select count(*) from `shop_order_after_sale` where `member_id` in
+        <foreach collection="list" item="id" index="index" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+             and `del_status` !=2
+    </select>
+
+    <select id="selectStoreWxaList" parameterType="Long" resultType="com.jiuyuan.entity.store.StoreWxa">
+			select *from `jiuy_store_wxa` where `store_id`=#{storeId}
+	</select>
+
+    <select id="selectAppid" resultType="com.jiuyuan.entity.store.StoreWxa">
+            select `app_id` as appId from `jiuy_store_wxa` where `store_id`=#{storeId}
+    </select>
+    <select id="selectShopMember" parameterType="Long" resultType="com.store.entity.member.ShopMember">
+			select*from `shop_member` where `id`=#{memberId}
+	</select>
+    <select id="selectBindWeixin" resultType="com.store.entity.member.ShopMember">
+            select `bind_weixin` as bindWeixin from `shop_member` where `id`=#{memberId}
+    </select>
+
+    <select id="selectType" parameterType="Long" resultType="com.jiuyuan.entity.newentity.StoreBusiness">
+            select wxa_business_type as wxaBusinessType, WxaAppId  from `yjj_storebusiness` where `Id`=#{storeId}
+    </select>
+    <select id="selectStoreBusinessNew" resultType="Integer">
+            select `wxa_business_type` as wxaBusinessType from `yjj_storebusiness` where `Id`=#{storeId}
+    </select>
+
+    <select id="selectIsAppOrder" resultType="Long">
+            select `OrderNo` from `store_order` where `shop_member_order_id`=#{id}
+    </select>
+</mapper>

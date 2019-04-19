@@ -1,0 +1,303 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" > 
+<mapper namespace="com.jiuy.mapper.common.DataDictionaryMapper"> 
+    <resultMap id="BaseResultMap" type="com.jiuy.model.common.DataDictionary"   >
+        <id   column="id"  property="id" jdbcType="BIGINT" />
+        <result column="code"  property="code"  jdbcType="VARCHAR" />
+        <result column="group_code"  property="groupCode"  jdbcType="VARCHAR" />
+        <result column="val"  property="val"  jdbcType="VARCHAR" />
+        <result column="name"  property="name"  jdbcType="VARCHAR" />
+        <result column="comment"  property="comment"  jdbcType="VARCHAR" />
+        <result column="status"  property="status"  jdbcType="INTEGER" />
+        <result column="create_user_id"  property="createUserId"  jdbcType="VARCHAR" />
+        <result column="create_user_name"  property="createUserName"  jdbcType="VARCHAR" />
+        <result column="create_time"  property="createTime"  jdbcType="TIMESTAMP" />
+        <result column="last_user_id"  property="lastUserId"  jdbcType="VARCHAR" />
+        <result column="last_user_name"  property="lastUserName"  jdbcType="VARCHAR" />
+        <result column="last_update_time"  property="lastUpdateTime"  jdbcType="TIMESTAMP" />
+        <result column="parent_id"  property="parentId"  jdbcType="BIGINT" />
+    </resultMap>
+
+     <sql id="Base_Column_List" >
+        id,`code`,group_code,val,`name`,comment,status,create_user_id,create_user_name,
+        create_time,last_user_id,last_user_name,last_update_time,parent_id
+    </sql>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap"  parameterType="java.lang.Long"   >
+        select
+                <include refid="Base_Column_List" />
+        from yjj_operator_logs
+        where  id = #{id,jdbcType=BIGINT} 
+    </select>
+
+    <delete id="deleteByPrimaryKey"   parameterType="java.lang.Long"   >
+        delete from yjj_data_dictionary
+        where  id = #{id,jdbcType=BIGINT} 
+    </delete>
+
+    <insert id="insert"   parameterType="com.jiuy.model.common.DataDictionary"   >
+        insert into yjj_data_dictionary
+                (id,`code`,group_code,val,`name`,comment,status,create_user_id,create_user_name,
+        create_time,last_user_id,last_user_name,last_update_time,parent_id)
+        values(#{id,jdbcType=BIGINT},#{code,jdbcType=VARCHAR},#{groupCode,jdbcType=VARCHAR},#{val,jdbcType=VARCHAR},#{name,jdbcType=VARCHAR},#{comment,jdbcType=VARCHAR},#{status,jdbcType=INTEGER},#{createUserId,jdbcType=VARCHAR},#{createUserName,jdbcType=VARCHAR},
+                  #{createTime,jdbcType=TIMESTAMP},#{lastUserId,jdbcType=VARCHAR},#{lastUserName,jdbcType=VARCHAR},#{lastUpdateTime,jdbcType=TIMESTAMP},#{parentId,jdbcType=BIGINT})
+    </insert>
+
+    <insert id="insertBach"   parameterType="List"  >
+        insert into yjj_data_dictionary
+                 (id,`code`,group_code,val,`name`,comment,status,create_user_id,create_user_name,
+        create_time,last_user_id,last_user_name,last_update_time,parent_id)
+        values 
+                 <foreach collection="list" item="item" separator=",">
+                 (
+                     #{item.id,jdbcType=BIGINT},
+                     #{item.code,jdbcType=VARCHAR},
+                     #{item.groupCode,jdbcType=VARCHAR},
+                     #{item.val,jdbcType=VARCHAR},
+                     #{item.name,jdbcType=VARCHAR},
+                     #{item.comment,jdbcType=VARCHAR},
+                     #{item.status,jdbcType=INTEGER},
+                     #{item.createUserId,jdbcType=VARCHAR},
+                     #{item.createUserName,jdbcType=VARCHAR},
+                     #{item.createTime,jdbcType=TIMESTAMP},
+                     #{item.lastUserId,jdbcType=VARCHAR},
+                     #{item.lastUserName,jdbcType=VARCHAR},
+                     #{item.lastUpdateTime,jdbcType=TIMESTAMP},
+                     #{item.parentId,jdbcType=BIGINT}
+                  )
+                 </foreach>
+    </insert>
+    <insert id="insertSelective"   parameterType="com.jiuy.model.common.DataDictionary"  useGeneratedKeys="true"  keyProperty="id" >
+        insert into yjj_data_dictionary
+       <trim prefix="(" suffix=")" suffixOverrides="," >  
+              <if test="id  !=null">  
+                   id,
+              </if>
+              <if test="code  !=null">  
+                   `code`,
+              </if>
+              <if test="groupCode  !=null">  
+                   group_code,
+              </if>
+              <if test="val  !=null">  
+                   val,
+              </if>
+              <if test="name  !=null">  
+                   `name`,
+              </if>
+              <if test="comment  !=null">  
+                   comment,
+              </if>
+              <if test="status  !=null">  
+                   status,
+              </if>
+              <if test="createUserId  !=null">  
+                   create_user_id,
+              </if>
+              <if test="createUserName  !=null">  
+                   create_user_name,
+              </if>
+              <if test="createTime  !=null">  
+                   create_time,
+              </if>
+              <if test="lastUserId  !=null">  
+                   last_user_id,
+              </if>
+              <if test="lastUserName  !=null">  
+                   last_user_name,
+              </if>
+              <if test="lastUpdateTime  !=null">  
+                   last_update_time,
+              </if>
+              <if test="parentId  !=null">  
+                   parent_id
+              </if>
+       </trim> 
+       <trim prefix="values (" suffix=")" suffixOverrides="," >
+              <if test="id  !=null">  
+                   #{id,jdbcType=BIGINT},
+              </if>
+              <if test="code  !=null">  
+                   #{code,jdbcType=VARCHAR},
+              </if>
+              <if test="groupCode  !=null">  
+                   #{groupCode,jdbcType=VARCHAR},
+              </if>
+              <if test="val  !=null">  
+                   #{val,jdbcType=VARCHAR},
+              </if>
+              <if test="name  !=null">  
+                   #{name,jdbcType=VARCHAR},
+              </if>
+              <if test="comment  !=null">  
+                   #{comment,jdbcType=VARCHAR},
+              </if>
+              <if test="status  !=null">  
+                   #{status,jdbcType=INTEGER},
+              </if>
+              <if test="createUserId  !=null">  
+                   #{createUserId,jdbcType=VARCHAR},
+              </if>
+              <if test="createUserName  !=null">  
+                   #{createUserName,jdbcType=VARCHAR},
+              </if>
+              <if test="createTime  !=null">  
+                   #{createTime,jdbcType=TIMESTAMP},
+              </if>
+              <if test="lastUserId  !=null">  
+                   #{lastUserId,jdbcType=VARCHAR},
+              </if>
+              <if test="lastUserName  !=null">  
+                   #{lastUserName,jdbcType=VARCHAR},
+              </if>
+              <if test="lastUpdateTime  !=null">  
+                   #{lastUpdateTime,jdbcType=TIMESTAMP},
+              </if>
+              <if test="parentId  !=null">  
+                   #{parentId,jdbcType=BIGINT}
+              </if>
+       </trim> 
+    </insert> 
+
+    <update id="updateByPrimaryKeySelective"   parameterType="com.jiuy.model.common.DataDictionary"   >
+        update yjj_data_dictionary
+             <set> 
+              <if test="id  !=null">  
+                   id  = #{id,jdbcType=BIGINT},
+              </if>
+              <if test="code  !=null">  
+                   `code`  = #{code,jdbcType=VARCHAR},
+              </if>
+              <if test="groupCode  !=null">  
+                   group_code  = #{groupCode,jdbcType=VARCHAR},
+              </if>
+              <if test="val  !=null">  
+                   val  = #{val,jdbcType=VARCHAR},
+              </if>
+              <if test="name  !=null">  
+                   `name`  = #{name,jdbcType=VARCHAR},
+              </if>
+              <if test="comment  !=null">  
+                   comment  = #{comment,jdbcType=VARCHAR},
+              </if>
+              <if test="status  !=null">  
+                   status  = #{status,jdbcType=INTEGER},
+              </if>
+              <if test="createUserId  !=null">  
+                   create_user_id  = #{createUserId,jdbcType=VARCHAR},
+              </if>
+              <if test="createUserName  !=null">  
+                   create_user_name  = #{createUserName,jdbcType=VARCHAR},
+              </if>
+              <if test="createTime  !=null">  
+                   create_time  = #{createTime,jdbcType=TIMESTAMP},
+              </if>
+              <if test="lastUserId  !=null">  
+                   last_user_id  = #{lastUserId,jdbcType=VARCHAR},
+              </if>
+              <if test="lastUserName  !=null">  
+                   last_user_name  = #{lastUserName,jdbcType=VARCHAR},
+              </if>
+              <if test="lastUpdateTime  !=null">  
+                   last_update_time  = #{lastUpdateTime,jdbcType=TIMESTAMP},
+              </if>
+              <if test="parentId  !=null">  
+                   parent_id  = #{parentId,jdbcType=BIGINT}
+              </if>
+       </set> 
+       where id = #{id,jdbcType=BIGINT} 
+    </update> 
+
+    <update id="updateByPrimaryKey"   parameterType="com.jiuy.model.common.DataDictionary"   >
+        update yjj_data_dictionary  set
+                   id  = #{id,jdbcType=BIGINT},
+                   `code`  = #{code,jdbcType=VARCHAR},
+                   group_code  = #{groupCode,jdbcType=VARCHAR},
+                   val  = #{val,jdbcType=VARCHAR},
+                   `name`  = #{name,jdbcType=VARCHAR},
+                   comment  = #{comment,jdbcType=VARCHAR},
+                   status  = #{status,jdbcType=INTEGER},
+                   create_user_id  = #{createUserId,jdbcType=VARCHAR},
+                   create_user_name  = #{createUserName,jdbcType=VARCHAR},
+                   create_time  = #{createTime,jdbcType=TIMESTAMP},
+                   last_user_id  = #{lastUserId,jdbcType=VARCHAR},
+                   last_user_name  = #{lastUserName,jdbcType=VARCHAR},
+                   last_update_time  = #{lastUpdateTime,jdbcType=TIMESTAMP},
+                   parent_id  = #{parentId,jdbcType=BIGINT}
+       where id = #{id,jdbcType=BIGINT} 
+    </update> 
+
+    <sql id="whereCase"  >
+         where  1=1  
+        <if test="id !=null">  
+         AND id  = #{id,jdbcType=BIGINT}
+        </if>
+        <if test="code !=null">  
+         AND `code`  = #{code,jdbcType=VARCHAR}
+        </if>
+        <if test="groupCode !=null">  
+         AND group_code  = #{groupCode,jdbcType=VARCHAR}
+        </if>
+        <if test="val !=null">  
+         AND val  = #{val,jdbcType=VARCHAR}
+        </if>
+        <if test="name !=null">  
+         AND `name`  = #{name,jdbcType=VARCHAR}
+        </if>
+        <if test="comment !=null">  
+         AND comment  = #{comment,jdbcType=VARCHAR}
+        </if>
+        <if test="status !=null">  
+         AND status  = #{status,jdbcType=INTEGER}
+        </if>
+        <if test="createUserId !=null">  
+         AND create_user_id  = #{createUserId,jdbcType=VARCHAR}
+        </if>
+        <if test="createUserName !=null">  
+         AND create_user_name  = #{createUserName,jdbcType=VARCHAR}
+        </if>
+        <if test="createTime !=null">  
+         AND create_time  = #{createTime,jdbcType=TIMESTAMP}
+        </if>
+        <if test="lastUserId !=null">  
+         AND last_user_id  = #{lastUserId,jdbcType=VARCHAR}
+        </if>
+        <if test="lastUserName !=null">  
+         AND last_user_name  = #{lastUserName,jdbcType=VARCHAR}
+        </if>
+        <if test="lastUpdateTime !=null">  
+         AND last_update_time  = #{lastUpdateTime,jdbcType=TIMESTAMP}
+        </if>
+        <if test="parentId !=null">  
+         AND parent_id  = #{parentId,jdbcType=BIGINT}
+        </if>
+        <include refid="costomWhereCase"/>
+    </sql> 
+
+    <select id="selectOne" parameterType="java.util.Map" resultMap="BaseResultMap">
+         SELECT
+         <include refid="Base_Column_List" /> 
+         FROM yjj_data_dictionary
+         <include refid="whereCase" /> 
+    </select>
+
+    <select id="selectList" parameterType="java.util.Map" resultMap="BaseResultMap">
+         SELECT
+         <include refid="Base_Column_List" /> 
+         FROM yjj_data_dictionary
+         <include refid="whereCase" /> 
+    </select>
+
+    <select id="selectCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+         SELECT
+         count(1) 
+         FROM yjj_data_dictionary
+         <include refid="whereCase" /> 
+    </select>
+
+<!--  @Costom -->
+<!-- 从上一行注释以上为系统生成 从这一行往下为用户自定义 请将自定义的sql放在此行下面 -->
+
+    <sql id="costomWhereCase">
+</sql>
+</mapper>

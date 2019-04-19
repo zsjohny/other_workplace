@@ -1,0 +1,731 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" > 
+<mapper namespace="com.jiuy.product.mapper.StoreCouponMapper"> 
+ 
+ 	<!-- 主要的返回映射-->
+	<resultMap id="BaseResultMap" type="com.jiuy.product.model.StoreCoupon"	>
+		<id column="Id" property="id" jdbcType="BIGINT" />
+		<result column="OrderNo"  property="orderNo"  jdbcType="BIGINT" />
+		<result column="Code"  property="code"  jdbcType="VARCHAR" />
+		<result column="CouponTemplateId"  property="couponTemplateId"  jdbcType="BIGINT" />
+		<result column="TemplateName"  property="templateName"  jdbcType="VARCHAR" />
+		<result column="Type"  property="type"  jdbcType="TINYINT" />
+		<result column="Money"  property="money"  jdbcType="DECIMAL" />
+		<result column="RangeType"  property="rangeType"  jdbcType="TINYINT" />
+		<result column="RangeContent"  property="rangeContent"  jdbcType="VARCHAR" />
+		<result column="ValidityStartTime"  property="validityStartTime"  jdbcType="BIGINT" />
+		<result column="ValidityEndTime"  property="validityEndTime"  jdbcType="BIGINT" />
+		<result column="IsLimit"  property="isLimit"  jdbcType="TINYINT" />
+		<result column="Coexist"  property="coexist"  jdbcType="TINYINT" />
+		<result column="StoreId"  property="storeId"  jdbcType="BIGINT" />
+		<result column="BusinessNumber"  property="businessNumber"  jdbcType="BIGINT" />
+		<result column="Status"  property="status"  jdbcType="TINYINT" />
+		<result column="CreateTime"  property="createTime"  jdbcType="BIGINT" />
+		<result column="UpdateTime"  property="updateTime"  jdbcType="BIGINT" />
+		<result column="PushStatus"  property="pushStatus"  jdbcType="TINYINT" />
+		<result column="PushTitle"  property="pushTitle"  jdbcType="VARCHAR" />
+		<result column="PushDescription"  property="pushDescription"  jdbcType="VARCHAR" />
+		<result column="PushUrl"  property="pushUrl"  jdbcType="VARCHAR" />
+		<result column="PushImage"  property="pushImage"  jdbcType="VARCHAR" />
+		<result column="PublishAdminId"  property="publishAdminId"  jdbcType="BIGINT" />
+		<result column="GrantAdminId"  property="grantAdminId"  jdbcType="BIGINT" />
+		<result column="GetWay"  property="getWay"  jdbcType="TINYINT" />
+		<result column="LimitMoney"  property="limitMoney"  jdbcType="DECIMAL" />
+		<result column="RangeTypeIds"  property="rangeTypeIds"  jdbcType="VARCHAR" />
+		<result column="RangeTypeNames"  property="rangeTypeNames"  jdbcType="VARCHAR" />
+		<result column="supplier_id"  property="supplierId"  jdbcType="BIGINT" />
+		<result column="draw_time"  property="drawTime"  jdbcType="BIGINT" />
+		<result column="draw_start_time"  property="drawStartTime"  jdbcType="BIGINT" />
+		<result column="draw_end_time"  property="drawEndTime"  jdbcType="BIGINT" />
+		<result column="publisher"  property="publisher"  jdbcType="VARCHAR" />
+	</resultMap>
+
+	<!-- 所有的列名-->
+	<sql id="Base_Column_List" >
+		Id,OrderNo,Code,CouponTemplateId,TemplateName,Type,Money,RangeType,RangeContent,
+		ValidityStartTime,ValidityEndTime,IsLimit,Coexist,StoreId,BusinessNumber,Status,CreateTime,
+		UpdateTime,PushStatus,PushTitle,PushDescription,PushUrl,PushImage,PublishAdminId,GrantAdminId,
+		GetWay,LimitMoney,RangeTypeIds,RangeTypeNames,supplier_id,draw_time,draw_start_time,draw_end_time,
+		publisher
+	</sql>
+
+	<!-- 精确更新的字段-->
+	<sql id="updateBase">
+		<if test="id  !=null">
+			Id = #{id,jdbcType=BIGINT}, 
+		</if>
+		<if test="orderNo  !=null">
+			OrderNo = #{orderNo,jdbcType=BIGINT}, 
+		</if>
+		<if test="code  !=null">
+			Code = #{code,jdbcType=VARCHAR}, 
+		</if>
+		<if test="couponTemplateId  !=null">
+			CouponTemplateId = #{couponTemplateId,jdbcType=BIGINT}, 
+		</if>
+		<if test="templateName  !=null">
+			TemplateName = #{templateName,jdbcType=VARCHAR}, 
+		</if>
+		<if test="type  !=null">
+			Type = #{type,jdbcType=TINYINT}, 
+		</if>
+		<if test="money  !=null">
+			Money = #{money,jdbcType=DECIMAL}, 
+		</if>
+		<if test="rangeType  !=null">
+			RangeType = #{rangeType,jdbcType=TINYINT}, 
+		</if>
+		<if test="rangeContent  !=null">
+			RangeContent = #{rangeContent,jdbcType=VARCHAR}, 
+		</if>
+		<if test="validityStartTime  !=null">
+			ValidityStartTime = #{validityStartTime,jdbcType=BIGINT}, 
+		</if>
+		<if test="validityEndTime  !=null">
+			ValidityEndTime = #{validityEndTime,jdbcType=BIGINT}, 
+		</if>
+		<if test="isLimit  !=null">
+			IsLimit = #{isLimit,jdbcType=TINYINT}, 
+		</if>
+		<if test="coexist  !=null">
+			Coexist = #{coexist,jdbcType=TINYINT}, 
+		</if>
+		<if test="storeId  !=null">
+			StoreId = #{storeId,jdbcType=BIGINT}, 
+		</if>
+		<if test="businessNumber  !=null">
+			BusinessNumber = #{businessNumber,jdbcType=BIGINT}, 
+		</if>
+		<if test="status  !=null">
+			Status = #{status,jdbcType=TINYINT}, 
+		</if>
+		<if test="createTime  !=null">
+			CreateTime = #{createTime,jdbcType=BIGINT}, 
+		</if>
+		<if test="updateTime  !=null">
+			UpdateTime = #{updateTime,jdbcType=BIGINT}, 
+		</if>
+		<if test="pushStatus  !=null">
+			PushStatus = #{pushStatus,jdbcType=TINYINT}, 
+		</if>
+		<if test="pushTitle  !=null">
+			PushTitle = #{pushTitle,jdbcType=VARCHAR}, 
+		</if>
+		<if test="pushDescription  !=null">
+			PushDescription = #{pushDescription,jdbcType=VARCHAR}, 
+		</if>
+		<if test="pushUrl  !=null">
+			PushUrl = #{pushUrl,jdbcType=VARCHAR}, 
+		</if>
+		<if test="pushImage  !=null">
+			PushImage = #{pushImage,jdbcType=VARCHAR}, 
+		</if>
+		<if test="publishAdminId  !=null">
+			PublishAdminId = #{publishAdminId,jdbcType=BIGINT}, 
+		</if>
+		<if test="grantAdminId  !=null">
+			GrantAdminId = #{grantAdminId,jdbcType=BIGINT}, 
+		</if>
+		<if test="getWay  !=null">
+			GetWay = #{getWay,jdbcType=TINYINT}, 
+		</if>
+		<if test="limitMoney  !=null">
+			LimitMoney = #{limitMoney,jdbcType=DECIMAL}, 
+		</if>
+		<if test="rangeTypeIds  !=null">
+			RangeTypeIds = #{rangeTypeIds,jdbcType=VARCHAR}, 
+		</if>
+		<if test="rangeTypeNames  !=null">
+			RangeTypeNames = #{rangeTypeNames,jdbcType=VARCHAR}, 
+		</if>
+		<if test="supplierId  !=null">
+			supplier_id = #{supplierId,jdbcType=BIGINT}, 
+		</if>
+		<if test="drawTime  !=null">
+			draw_time = #{drawTime,jdbcType=BIGINT}, 
+		</if>
+		<if test="drawStartTime  !=null">
+			draw_start_time = #{drawStartTime,jdbcType=BIGINT}, 
+		</if>
+		<if test="drawEndTime  !=null">
+			draw_end_time = #{drawEndTime,jdbcType=BIGINT}, 
+		</if>
+		<if test="publisher  !=null">
+			publisher = #{publisher,jdbcType=VARCHAR} 
+		</if>
+	</sql>
+
+	<!-- 通过主键查找-->
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="Long" >
+		select 
+		<include refid="Base_Column_List" />
+		from store_coupon
+		where  Id = #{id,jdbcType=BIGINT} 
+	</select>
+
+	<!-- 通过主键删除-->
+	<delete id="deleteByPrimaryKey" parameterType="Long" >
+		delete from store_coupon
+		where Id = #{id,jdbcType=BIGINT} 
+	</delete>
+
+	<!-- 普通插入全字段插t入-->
+	<insert id="insert" parameterType="com.jiuy.product.model.StoreCoupon" >
+		insert into store_coupon
+		(
+			Id,
+			OrderNo,
+			Code,
+			CouponTemplateId,
+			TemplateName,
+			Type,
+			Money,
+			RangeType,
+			RangeContent,
+			ValidityStartTime,
+			ValidityEndTime,
+			IsLimit,
+			Coexist,
+			StoreId,
+			BusinessNumber,
+			Status,
+			CreateTime,
+			UpdateTime,
+			PushStatus,
+			PushTitle,
+			PushDescription,
+			PushUrl,
+			PushImage,
+			PublishAdminId,
+			GrantAdminId,
+			GetWay,
+			LimitMoney,
+			RangeTypeIds,
+			RangeTypeNames,
+			supplier_id,
+			draw_time,
+			draw_start_time,
+			draw_end_time,
+			publisher
+		)
+		values
+		(
+			#{id ,jdbcType=BIGINT},
+			#{orderNo ,jdbcType=BIGINT},
+			#{code ,jdbcType=VARCHAR},
+			#{couponTemplateId ,jdbcType=BIGINT},
+			#{templateName ,jdbcType=VARCHAR},
+			#{type ,jdbcType=TINYINT},
+			#{money ,jdbcType=DECIMAL},
+			#{rangeType ,jdbcType=TINYINT},
+			#{rangeContent ,jdbcType=VARCHAR},
+			#{validityStartTime ,jdbcType=BIGINT},
+			#{validityEndTime ,jdbcType=BIGINT},
+			#{isLimit ,jdbcType=TINYINT},
+			#{coexist ,jdbcType=TINYINT},
+			#{storeId ,jdbcType=BIGINT},
+			#{businessNumber ,jdbcType=BIGINT},
+			#{status ,jdbcType=TINYINT},
+			#{createTime ,jdbcType=BIGINT},
+			#{updateTime ,jdbcType=BIGINT},
+			#{pushStatus ,jdbcType=TINYINT},
+			#{pushTitle ,jdbcType=VARCHAR},
+			#{pushDescription ,jdbcType=VARCHAR},
+			#{pushUrl ,jdbcType=VARCHAR},
+			#{pushImage ,jdbcType=VARCHAR},
+			#{publishAdminId ,jdbcType=BIGINT},
+			#{grantAdminId ,jdbcType=BIGINT},
+			#{getWay ,jdbcType=TINYINT},
+			#{limitMoney ,jdbcType=DECIMAL},
+			#{rangeTypeIds ,jdbcType=VARCHAR},
+			#{rangeTypeNames ,jdbcType=VARCHAR},
+			#{supplierId ,jdbcType=BIGINT},
+			#{drawTime ,jdbcType=BIGINT},
+			#{drawStartTime ,jdbcType=BIGINT},
+			#{drawEndTime ,jdbcType=BIGINT},
+			#{publisher ,jdbcType=VARCHAR}
+		)
+	</insert>
+
+	<!-- 批量插入，全部字段插入-->
+	<insert id="insertBach"   parameterType="List" >
+		insert into store_coupon
+		(
+			Id,
+			OrderNo,
+			Code,
+			CouponTemplateId,
+			TemplateName,
+			Type,
+			Money,
+			RangeType,
+			RangeContent,
+			ValidityStartTime,
+			ValidityEndTime,
+			IsLimit,
+			Coexist,
+			StoreId,
+			BusinessNumber,
+			Status,
+			CreateTime,
+			UpdateTime,
+			PushStatus,
+			PushTitle,
+			PushDescription,
+			PushUrl,
+			PushImage,
+			PublishAdminId,
+			GrantAdminId,
+			GetWay,
+			LimitMoney,
+			RangeTypeIds,
+			RangeTypeNames,
+			supplier_id,
+			draw_time,
+			draw_start_time,
+			draw_end_time,
+			publisher
+		)
+		values 
+		<foreach collection="list" item="item" separator=",">
+		(
+			#{item.id ,jdbcType=BIGINT},
+			#{item.orderNo ,jdbcType=BIGINT},
+			#{item.code ,jdbcType=VARCHAR},
+			#{item.couponTemplateId ,jdbcType=BIGINT},
+			#{item.templateName ,jdbcType=VARCHAR},
+			#{item.type ,jdbcType=TINYINT},
+			#{item.money ,jdbcType=DECIMAL},
+			#{item.rangeType ,jdbcType=TINYINT},
+			#{item.rangeContent ,jdbcType=VARCHAR},
+			#{item.validityStartTime ,jdbcType=BIGINT},
+			#{item.validityEndTime ,jdbcType=BIGINT},
+			#{item.isLimit ,jdbcType=TINYINT},
+			#{item.coexist ,jdbcType=TINYINT},
+			#{item.storeId ,jdbcType=BIGINT},
+			#{item.businessNumber ,jdbcType=BIGINT},
+			#{item.status ,jdbcType=TINYINT},
+			#{item.createTime ,jdbcType=BIGINT},
+			#{item.updateTime ,jdbcType=BIGINT},
+			#{item.pushStatus ,jdbcType=TINYINT},
+			#{item.pushTitle ,jdbcType=VARCHAR},
+			#{item.pushDescription ,jdbcType=VARCHAR},
+			#{item.pushUrl ,jdbcType=VARCHAR},
+			#{item.pushImage ,jdbcType=VARCHAR},
+			#{item.publishAdminId ,jdbcType=BIGINT},
+			#{item.grantAdminId ,jdbcType=BIGINT},
+			#{item.getWay ,jdbcType=TINYINT},
+			#{item.limitMoney ,jdbcType=DECIMAL},
+			#{item.rangeTypeIds ,jdbcType=VARCHAR},
+			#{item.rangeTypeNames ,jdbcType=VARCHAR},
+			#{item.supplierId ,jdbcType=BIGINT},
+			#{item.drawTime ,jdbcType=BIGINT},
+			#{item.drawStartTime ,jdbcType=BIGINT},
+			#{item.drawEndTime ,jdbcType=BIGINT},
+			#{item.publisher ,jdbcType=VARCHAR}
+		)
+		</foreach>
+	</insert>
+
+	<!-- 精确插入，非null得字段才会插入-->
+	<insert id="insertSelective" parameterType="com.jiuy.product.model.StoreCoupon" useGeneratedKeys="true" keyProperty="id" >
+		insert into store_coupon
+		<trim prefix="(" suffix=")" suffixOverrides="," > 
+			<if test="id !=null">  
+				Id,
+			</if>
+			<if test="orderNo !=null">  
+				OrderNo,
+			</if>
+			<if test="code !=null">  
+				Code,
+			</if>
+			<if test="couponTemplateId !=null">  
+				CouponTemplateId,
+			</if>
+			<if test="templateName !=null">  
+				TemplateName,
+			</if>
+			<if test="type !=null">  
+				Type,
+			</if>
+			<if test="money !=null">  
+				Money,
+			</if>
+			<if test="rangeType !=null">  
+				RangeType,
+			</if>
+			<if test="rangeContent !=null">  
+				RangeContent,
+			</if>
+			<if test="validityStartTime !=null">  
+				ValidityStartTime,
+			</if>
+			<if test="validityEndTime !=null">  
+				ValidityEndTime,
+			</if>
+			<if test="isLimit !=null">  
+				IsLimit,
+			</if>
+			<if test="coexist !=null">  
+				Coexist,
+			</if>
+			<if test="storeId !=null">  
+				StoreId,
+			</if>
+			<if test="businessNumber !=null">  
+				BusinessNumber,
+			</if>
+			<if test="status !=null">  
+				Status,
+			</if>
+			<if test="createTime !=null">  
+				CreateTime,
+			</if>
+			<if test="updateTime !=null">  
+				UpdateTime,
+			</if>
+			<if test="pushStatus !=null">  
+				PushStatus,
+			</if>
+			<if test="pushTitle !=null">  
+				PushTitle,
+			</if>
+			<if test="pushDescription !=null">  
+				PushDescription,
+			</if>
+			<if test="pushUrl !=null">  
+				PushUrl,
+			</if>
+			<if test="pushImage !=null">  
+				PushImage,
+			</if>
+			<if test="publishAdminId !=null">  
+				PublishAdminId,
+			</if>
+			<if test="grantAdminId !=null">  
+				GrantAdminId,
+			</if>
+			<if test="getWay !=null">  
+				GetWay,
+			</if>
+			<if test="limitMoney !=null">  
+				LimitMoney,
+			</if>
+			<if test="rangeTypeIds !=null">  
+				RangeTypeIds,
+			</if>
+			<if test="rangeTypeNames !=null">  
+				RangeTypeNames,
+			</if>
+			<if test="supplierId !=null">  
+				supplier_id,
+			</if>
+			<if test="drawTime !=null">  
+				draw_time,
+			</if>
+			<if test="drawStartTime !=null">  
+				draw_start_time,
+			</if>
+			<if test="drawEndTime !=null">  
+				draw_end_time,
+			</if>
+			<if test="publisher !=null">  
+				publisher,
+			</if>
+		</trim>
+
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+			<if test="id  !=null">
+				#{id,jdbcType=BIGINT}, 
+			</if>
+			<if test="orderNo  !=null">
+				#{orderNo,jdbcType=BIGINT}, 
+			</if>
+			<if test="code  !=null">
+				#{code,jdbcType=VARCHAR}, 
+			</if>
+			<if test="couponTemplateId  !=null">
+				#{couponTemplateId,jdbcType=BIGINT}, 
+			</if>
+			<if test="templateName  !=null">
+				#{templateName,jdbcType=VARCHAR}, 
+			</if>
+			<if test="type  !=null">
+				#{type,jdbcType=TINYINT}, 
+			</if>
+			<if test="money  !=null">
+				#{money,jdbcType=DECIMAL}, 
+			</if>
+			<if test="rangeType  !=null">
+				#{rangeType,jdbcType=TINYINT}, 
+			</if>
+			<if test="rangeContent  !=null">
+				#{rangeContent,jdbcType=VARCHAR}, 
+			</if>
+			<if test="validityStartTime  !=null">
+				#{validityStartTime,jdbcType=BIGINT}, 
+			</if>
+			<if test="validityEndTime  !=null">
+				#{validityEndTime,jdbcType=BIGINT}, 
+			</if>
+			<if test="isLimit  !=null">
+				#{isLimit,jdbcType=TINYINT}, 
+			</if>
+			<if test="coexist  !=null">
+				#{coexist,jdbcType=TINYINT}, 
+			</if>
+			<if test="storeId  !=null">
+				#{storeId,jdbcType=BIGINT}, 
+			</if>
+			<if test="businessNumber  !=null">
+				#{businessNumber,jdbcType=BIGINT}, 
+			</if>
+			<if test="status  !=null">
+				#{status,jdbcType=TINYINT}, 
+			</if>
+			<if test="createTime  !=null">
+				#{createTime,jdbcType=BIGINT}, 
+			</if>
+			<if test="updateTime  !=null">
+				#{updateTime,jdbcType=BIGINT}, 
+			</if>
+			<if test="pushStatus  !=null">
+				#{pushStatus,jdbcType=TINYINT}, 
+			</if>
+			<if test="pushTitle  !=null">
+				#{pushTitle,jdbcType=VARCHAR}, 
+			</if>
+			<if test="pushDescription  !=null">
+				#{pushDescription,jdbcType=VARCHAR}, 
+			</if>
+			<if test="pushUrl  !=null">
+				#{pushUrl,jdbcType=VARCHAR}, 
+			</if>
+			<if test="pushImage  !=null">
+				#{pushImage,jdbcType=VARCHAR}, 
+			</if>
+			<if test="publishAdminId  !=null">
+				#{publishAdminId,jdbcType=BIGINT}, 
+			</if>
+			<if test="grantAdminId  !=null">
+				#{grantAdminId,jdbcType=BIGINT}, 
+			</if>
+			<if test="getWay  !=null">
+				#{getWay,jdbcType=TINYINT}, 
+			</if>
+			<if test="limitMoney  !=null">
+				#{limitMoney,jdbcType=DECIMAL}, 
+			</if>
+			<if test="rangeTypeIds  !=null">
+				#{rangeTypeIds,jdbcType=VARCHAR}, 
+			</if>
+			<if test="rangeTypeNames  !=null">
+				#{rangeTypeNames,jdbcType=VARCHAR}, 
+			</if>
+			<if test="supplierId  !=null">
+				#{supplierId,jdbcType=BIGINT}, 
+			</if>
+			<if test="drawTime  !=null">
+				#{drawTime,jdbcType=BIGINT}, 
+			</if>
+			<if test="drawStartTime  !=null">
+				#{drawStartTime,jdbcType=BIGINT}, 
+			</if>
+			<if test="drawEndTime  !=null">
+				#{drawEndTime,jdbcType=BIGINT}, 
+			</if>
+			<if test="publisher  !=null">
+				#{publisher,jdbcType=VARCHAR} 
+			</if>
+		</trim>
+	</insert> 
+
+	<!-- 精确更新-->
+	<update id="updateByPrimaryKeySelective" parameterType="com.jiuy.product.model.StoreCoupon" >
+		update store_coupon
+		<set>
+			<include refid="updateBase"/>
+		</set>
+		where Id = #{id,jdbcType=BIGINT} 
+	</update> 
+
+	<!-- 全字段更新 需要注意-->
+	<update id="updateByPrimaryKey" parameterType="com.jiuy.product.model.StoreCoupon" >
+		update store_coupon
+		set 
+			Id = #{id ,jdbcType=BIGINT},
+			OrderNo = #{orderNo ,jdbcType=BIGINT},
+			Code = #{code ,jdbcType=VARCHAR},
+			CouponTemplateId = #{couponTemplateId ,jdbcType=BIGINT},
+			TemplateName = #{templateName ,jdbcType=VARCHAR},
+			Type = #{type ,jdbcType=TINYINT},
+			Money = #{money ,jdbcType=DECIMAL},
+			RangeType = #{rangeType ,jdbcType=TINYINT},
+			RangeContent = #{rangeContent ,jdbcType=VARCHAR},
+			ValidityStartTime = #{validityStartTime ,jdbcType=BIGINT},
+			ValidityEndTime = #{validityEndTime ,jdbcType=BIGINT},
+			IsLimit = #{isLimit ,jdbcType=TINYINT},
+			Coexist = #{coexist ,jdbcType=TINYINT},
+			StoreId = #{storeId ,jdbcType=BIGINT},
+			BusinessNumber = #{businessNumber ,jdbcType=BIGINT},
+			Status = #{status ,jdbcType=TINYINT},
+			CreateTime = #{createTime ,jdbcType=BIGINT},
+			UpdateTime = #{updateTime ,jdbcType=BIGINT},
+			PushStatus = #{pushStatus ,jdbcType=TINYINT},
+			PushTitle = #{pushTitle ,jdbcType=VARCHAR},
+			PushDescription = #{pushDescription ,jdbcType=VARCHAR},
+			PushUrl = #{pushUrl ,jdbcType=VARCHAR},
+			PushImage = #{pushImage ,jdbcType=VARCHAR},
+			PublishAdminId = #{publishAdminId ,jdbcType=BIGINT},
+			GrantAdminId = #{grantAdminId ,jdbcType=BIGINT},
+			GetWay = #{getWay ,jdbcType=TINYINT},
+			LimitMoney = #{limitMoney ,jdbcType=DECIMAL},
+			RangeTypeIds = #{rangeTypeIds ,jdbcType=VARCHAR},
+			RangeTypeNames = #{rangeTypeNames ,jdbcType=VARCHAR},
+			supplier_id = #{supplierId ,jdbcType=BIGINT},
+			draw_time = #{drawTime ,jdbcType=BIGINT},
+			draw_start_time = #{drawStartTime ,jdbcType=BIGINT},
+			draw_end_time = #{drawEndTime ,jdbcType=BIGINT},
+			publisher = #{publisher ,jdbcType=VARCHAR}
+		where Id = #{id,jdbcType=BIGINT} 
+	</update> 
+
+	<!-- 所有的条件集合-->
+	<sql id="whereCase"  >
+		where  1=1 
+		<if test="id  !=null">
+			AND Id = #{id,jdbcType=BIGINT} 
+		</if>
+		<if test="orderNo  !=null">
+			AND OrderNo = #{orderNo,jdbcType=BIGINT} 
+		</if>
+		<if test="code  !=null">
+			AND Code = #{code,jdbcType=VARCHAR} 
+		</if>
+		<if test="couponTemplateId  !=null">
+			AND CouponTemplateId = #{couponTemplateId,jdbcType=BIGINT} 
+		</if>
+		<if test="templateName  !=null">
+			AND TemplateName = #{templateName,jdbcType=VARCHAR} 
+		</if>
+		<if test="type  !=null">
+			AND Type = #{type,jdbcType=TINYINT} 
+		</if>
+		<if test="money  !=null">
+			AND Money = #{money,jdbcType=DECIMAL} 
+		</if>
+		<if test="rangeType  !=null">
+			AND RangeType = #{rangeType,jdbcType=TINYINT} 
+		</if>
+		<if test="rangeContent  !=null">
+			AND RangeContent = #{rangeContent,jdbcType=VARCHAR} 
+		</if>
+		<if test="validityStartTime  !=null">
+			AND ValidityStartTime = #{validityStartTime,jdbcType=BIGINT} 
+		</if>
+		<if test="validityEndTime  !=null">
+			AND ValidityEndTime = #{validityEndTime,jdbcType=BIGINT} 
+		</if>
+		<if test="isLimit  !=null">
+			AND IsLimit = #{isLimit,jdbcType=TINYINT} 
+		</if>
+		<if test="coexist  !=null">
+			AND Coexist = #{coexist,jdbcType=TINYINT} 
+		</if>
+		<if test="storeId  !=null">
+			AND StoreId = #{storeId,jdbcType=BIGINT} 
+		</if>
+		<if test="businessNumber  !=null">
+			AND BusinessNumber = #{businessNumber,jdbcType=BIGINT} 
+		</if>
+		<if test="status  !=null">
+			AND Status = #{status,jdbcType=TINYINT} 
+		</if>
+		<if test="createTime  !=null">
+			AND CreateTime = #{createTime,jdbcType=BIGINT} 
+		</if>
+		<if test="updateTime  !=null">
+			AND UpdateTime = #{updateTime,jdbcType=BIGINT} 
+		</if>
+		<if test="pushStatus  !=null">
+			AND PushStatus = #{pushStatus,jdbcType=TINYINT} 
+		</if>
+		<if test="pushTitle  !=null">
+			AND PushTitle = #{pushTitle,jdbcType=VARCHAR} 
+		</if>
+		<if test="pushDescription  !=null">
+			AND PushDescription = #{pushDescription,jdbcType=VARCHAR} 
+		</if>
+		<if test="pushUrl  !=null">
+			AND PushUrl = #{pushUrl,jdbcType=VARCHAR} 
+		</if>
+		<if test="pushImage  !=null">
+			AND PushImage = #{pushImage,jdbcType=VARCHAR} 
+		</if>
+		<if test="publishAdminId  !=null">
+			AND PublishAdminId = #{publishAdminId,jdbcType=BIGINT} 
+		</if>
+		<if test="grantAdminId  !=null">
+			AND GrantAdminId = #{grantAdminId,jdbcType=BIGINT} 
+		</if>
+		<if test="getWay  !=null">
+			AND GetWay = #{getWay,jdbcType=TINYINT} 
+		</if>
+		<if test="limitMoney  !=null">
+			AND LimitMoney = #{limitMoney,jdbcType=DECIMAL} 
+		</if>
+		<if test="rangeTypeIds  !=null">
+			AND RangeTypeIds = #{rangeTypeIds,jdbcType=VARCHAR} 
+		</if>
+		<if test="rangeTypeNames  !=null">
+			AND RangeTypeNames = #{rangeTypeNames,jdbcType=VARCHAR} 
+		</if>
+		<if test="supplierId  !=null">
+			AND supplier_id = #{supplierId,jdbcType=BIGINT} 
+		</if>
+		<if test="drawTime  !=null">
+			AND draw_time = #{drawTime,jdbcType=BIGINT} 
+		</if>
+		<if test="drawStartTime  !=null">
+			AND draw_start_time = #{drawStartTime,jdbcType=BIGINT} 
+		</if>
+		<if test="drawEndTime  !=null">
+			AND draw_end_time = #{drawEndTime,jdbcType=BIGINT} 
+		</if>
+		<if test="publisher  !=null">
+			AND publisher = #{publisher,jdbcType=VARCHAR} 
+		</if>
+		<include refid="costomWhereCase"/>
+	</sql>
+
+	<!-- 查询一条，如果返回多条会报错-->
+	<select id="selectOne" parameterType="java.util.Map" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" /> 
+		FROM store_coupon 
+		<include refid="whereCase" /> 
+	</select>
+
+	<!-- 查询一个list-->
+	<select id="selectList" parameterType="java.util.Map" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" /> 
+		FROM store_coupon 
+		<include refid="whereCase" /> 
+	</select>
+
+	<!-- 查询一个list-->
+	<select id="selectCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+		SELECT
+		count(1) 
+		FROM store_coupon
+		<include refid="whereCase" /> 
+	</select>
+
+	<!--  @Costom -->
+	<!-- 从上一行注释以上为系统生成 从这一行往下为用户自定义 请将自定义的sql放在此行下面 -->
+	<sql id="costomWhereCase">
+	</sql>
+
+</mapper>

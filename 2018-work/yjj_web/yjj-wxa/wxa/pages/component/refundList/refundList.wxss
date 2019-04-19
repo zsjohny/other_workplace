@@ -1,0 +1,25 @@
+@import '/style/common.wxss';
+/**退款/售后列表 **/
+page{
+  background: #f4f4f4
+}
+.body-contain{
+  padding-bottom: 120rpx;
+}
+.refund-list .item{
+  background: #fff;
+  margin: 20rpx 24rpx 0;
+}
+.refund-list .item .product-item{
+  padding: 20rpx;
+}
+.refund-list .item .operator-box{
+  border-top:2rpx solid #f4f4f4;
+  height: 124rpx;
+  position: relative
+}
+.refund-list .item .operator-box .btn{
+  top: 30rpx;
+  right: 24rpx;
+  position: absolute;
+}

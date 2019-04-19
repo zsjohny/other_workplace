@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jiuy.core.dao.impl.sql.StoreSettlementDaoSqlImpl">
+	
+	<select id="search" parameterType="map" resultType="StoreSettlement">
+		select * from(select s.BusinessId , s. MemberNumber ,s.TotalPay,(s.TotalCommission +coalesce(o.storeCommission,0)) TotalCommission ,
+				(s.AvailableBalance+coalesce(o.storeAvailable,0)) AvailableBalance,  
+					(s.OrderNum+coalesce(o.storeNum,0)) OrderNum from 
+					(select BusinessId, sum(MemberNumber) as MemberNumber, sum(OrderNum) OrderNum ,sum(TotalPay) TotalPay,
+					sum(TotalCommission) TotalCommission,sum(AvailableBalance) AvailableBalance
+					from store_DayReport
+		<if test="params != null">
+			<where>
+				<if test="params.startSettlementTime != 0 and params.endSettlementTime != 0">
+					<![CDATA[
+						CreateTime >= #{params.startSettlementTime} and  CreateTime <= #{params.endSettlementTime}
+					]]>	
+				</if>	
+				<if test = "params.startMember != -1">
+					 <![CDATA[
+					 		and MemberNumber >= #{params.startMember}
+					 ]]>
+				</if>
+				<if test = "params.endMember != -1">
+					 <![CDATA[
+					 		and MemberNumber <= #{params.endMember}
+					 ]]>
+				</if>
+				<if test = "params.startOrder != -1">
+					 <![CDATA[
+					 		and OrderNum >= #{params.startOrder}
+					 ]]>
+				</if>
+				<if test = "params.endOrder != -1">
+					 <![CDATA[
+					 		and OrderNum <= #{params.endOrder}
+					 ]]>
+				</if>
+				<if test = "params.startPay != 0">
+					 <![CDATA[
+					 		and TotalPay >= #{params.startPay}
+					 ]]>
+				</if>
+				<if test = "params.endPay != 0">
+					 <![CDATA[
+					 		and TotalPay <= #{params.endPay}
+					 ]]>
+				</if>
+				<if test = "params.startCommission != 0">
+					 <![CDATA[
+					 		and TotalCommission >= #{params.startCommission}
+					 ]]>
+				</if>
+				<if test = "params.endCommission != 0">
+					 <![CDATA[
+					 		and TotalCommission <= #{params.endCommission}
+					 ]]>
+				</if>
+				<if test = "params.startBalance != 0">
+					 <![CDATA[
+					 		and AvailableBalance >= #{params.startBalance}
+					 ]]>
+				</if>
+				<if test = "params.endBalance != 0">
+					 <![CDATA[
+					 		and AvailableBalance <= #{params.endBalance}
+					 ]]>
+				</if>
+				<if test="params.businessIds != null">
+		     	 and  BusinessNumber in
+				<foreach collection="params.businessIds" item="businessId" open="(" separator="," close=")">
+					#{businessId}
+				</foreach>
+				</if>
+			</where>
+				group by BusinessId)as s
+					left join (select count(1) as storeNum, StoreId,sum(Commission) as storeCommission, sum(AvailableCommission) storeAvailable 
+					from store_Order where OrderStatus in(10,50,70)
+					<if test="params.startSettlementTime != 0 and params.endSettlementTime != 0">
+					<![CDATA[
+						and CreateTime >= #{params.startSettlementTime} and  CreateTime <= #{params.endSettlementTime}
+					]]>	
+				</if>
+					group by StoreId) o on 
+                    s.BusinessId = o.StoreId) as t 
+        			left join (select BusinessName,Id,BusinessNumber from yjj_StoreBusiness) as b on t.BusinessId= b.Id
+				limit #{pageQuery.limit} offset #{pageQuery.offset}
+		</if>
+	</select>
+	
+	<select id="searchCount" parameterType="map" resultType="int">
+
+		select count(1) from(select s.BusinessId , s. MemberNumber ,s.TotalPay,(s.TotalCommission +coalesce(o.storeCommission,0)) TotalCommission ,
+				(s.AvailableBalance+coalesce(o.storeAvailable,0)) AvailableBalance,  
+					(s.OrderNum+coalesce(o.storeNum,0)) OrderNum from 
+					(select BusinessId, sum(MemberNumber) as MemberNumber, sum(OrderNum) OrderNum ,sum(TotalPay) TotalPay,
+					sum(TotalCommission) TotalCommission,sum(AvailableBalance) AvailableBalance
+					from store_DayReport
+		<if test="params != null">
+			<where>
+				<if test="params.startSettlementTime != 0 and params.endSettlementTime != 0">
+					<![CDATA[
+						CreateTime >= #{params.startSettlementTime} and  CreateTime <= #{params.endSettlementTime}
+					]]>	
+				</if>	
+				<if test = "params.startMember != -1">
+					 <![CDATA[
+					 		and MemberNumber >= #{params.startMember}
+					 ]]>
+				</if>
+				<if test = "params.endMember != -1">
+					 <![CDATA[
+					 		and MemberNumber <= #{params.endMember}
+					 ]]>
+				</if>
+				<if test = "params.startOrder != -1">
+					 <![CDATA[
+					 		and OrderNum >= #{params.startOrder}
+					 ]]>
+				</if>
+				<if test = "params.endOrder != -1">
+					 <![CDATA[
+					 		and OrderNum <= #{params.endOrder}
+					 ]]>
+				</if>
+				<if test = "params.startPay != 0">
+					 <![CDATA[
+					 		and TotalPay >= #{params.startPay}
+					 ]]>
+				</if>
+				<if test = "params.endPay != 0">
+					 <![CDATA[
+					 		and TotalPay <= #{params.endPay}
+					 ]]>
+				</if>
+				<if test = "params.startCommission != 0">
+					 <![CDATA[
+					 		and TotalCommission >= #{params.startCommission}
+					 ]]>
+				</if>
+				<if test = "params.endCommission != 0">
+					 <![CDATA[
+					 		and TotalCommission <= #{params.endCommission}
+					 ]]>
+				</if>
+				<if test = "params.startBalance != 0">
+					 <![CDATA[
+					 		and AvailableBalance >= #{params.startBalance}
+					 ]]>
+				</if>
+				<if test = "params.endBalance != 0">
+					 <![CDATA[
+					 		and AvailableBalance <= #{params.endBalance}
+					 ]]>
+				</if>
+				<if test="params.businessIds != null">
+		     	 and  BusinessNumber in
+				<foreach collection="params.businessIds" item="businessId" open="(" separator="," close=")">
+					#{businessId}
+				</foreach>
+				</if>
+			</where>
+					group by BusinessId)as s
+					left join (select count(1) as storeNum, StoreId,sum(Commission) as storeCommission, sum(AvailableCommission) storeAvailable 
+					from store_Order where OrderStatus in(10,50,70)
+					<if test="params.startSettlementTime != 0 and params.endSettlementTime != 0">
+					<![CDATA[
+						and CreateTime >= #{params.startSettlementTime} and  CreateTime <= #{params.endSettlementTime}
+					]]>	
+				</if>
+					group by StoreId) o on 
+                    s.BusinessId = o.StoreId) as t 
+        			left join (select BusinessName,Id,BusinessNumber from yjj_StoreBusiness) as b on t.BusinessId= b.Id
+		</if>	
+	</select>	
+	
+		<select id="searchAll" parameterType="map" resultType="StoreSettlement">
+				select * from (select BusinessId, sum(MemberNumber) as MemberNumber, sum(OrderNum) OrderNum ,sum(TotalPay) TotalPay,
+		sum(TotalCommission) TotalCommission,sum(AvailableBalance) AvailableBalance
+		from store_DayReport
+		<if test="params != null">
+			<where>
+				<if test="params.startSettlementTime != 0 and params.endSettlementTime != 0">
+					<![CDATA[
+						CreateTime >= #{params.startSettlementTime} and  CreateTime <= #{params.endSettlementTime}
+					]]>	
+				</if>	
+				<if test = "params.startMember != -1">
+					 <![CDATA[
+					 		and MemberNumber >= #{params.startMember}
+					 ]]>
+				</if>
+				<if test = "params.endMember != -1">
+					 <![CDATA[
+					 		and MemberNumber <= #{params.endMember}
+					 ]]>
+				</if>
+				<if test = "params.startOrder != -1">
+					 <![CDATA[
+					 		and OrderNum >= #{params.startOrder}
+					 ]]>
+				</if>
+				<if test = "params.endOrder != -1">
+					 <![CDATA[
+					 		and OrderNum <= #{params.endOrder}
+					 ]]>
+				</if>
+				<if test = "params.startPay != 0">
+					 <![CDATA[
+					 		and TotalPay >= #{params.startPay}
+					 ]]>
+				</if>
+				<if test = "params.endPay != 0">
+					 <![CDATA[
+					 		and TotalPay <= #{params.endPay}
+					 ]]>
+				</if>
+				<if test = "params.startCommission != 0">
+					 <![CDATA[
+					 		and TotalCommission >= #{params.startCommission}
+					 ]]>
+				</if>
+				<if test = "params.endCommission != 0">
+					 <![CDATA[
+					 		and TotalCommission <= #{params.endCommission}
+					 ]]>
+				</if>
+				<if test = "params.startBalance != 0">
+					 <![CDATA[
+					 		and AvailableBalance >= #{params.startBalance}
+					 ]]>
+				</if>
+				<if test = "params.endBalance != 0">
+					 <![CDATA[
+					 		and AvailableBalance <= #{params.endBalance}
+					 ]]>
+				</if>
+				<if test="params.businessIds != null">
+		     	 and  BusinessNumber in
+				<foreach collection="params.businessIds" item="businessId" open="(" separator="," close=")">
+					#{businessId}
+				</foreach>
+				</if>
+			</where>
+				group by BusinessId) as t 
+        		left join (select BusinessName,Id,BusinessNumber from yjj_StoreBusiness) as s on t.BusinessId= s.Id
+		</if>
+	</select>
+</mapper>

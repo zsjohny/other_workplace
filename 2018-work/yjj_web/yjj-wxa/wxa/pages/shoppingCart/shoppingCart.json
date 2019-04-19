@@ -1,0 +1,8 @@
+{
+  "enablePullDownRefresh": false,
+  "backgroundTextStyle": "dark",
+  "navigationBarTitleText": "购物车",
+  "usingComponents": {
+    "confirmPopup": "../../common/confirmPopup/confirmPopup"
+  }
+}

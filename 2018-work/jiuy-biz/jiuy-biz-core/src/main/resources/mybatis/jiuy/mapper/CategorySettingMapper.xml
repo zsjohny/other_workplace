@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jiuy.core.dao.mapper.CategorySettingDaoImpl">
+	
+	<select id="search" resultType="CategorySetting">
+		select * from yjj_CategorySetting
+		<where>
+			<if test="name != null">
+				and Name like concat("%", #{name}, "%")
+			</if>
+			<if test="id != null">
+				and Id = #{id}
+			</if>
+			<if test="linkType != null">
+				and LinkType = #{linkType}
+			</if>
+			and Status = 0
+		</where>
+		<if test="pageQuery != null">
+			limit #{pageQuery.limit} offset #{pageQuery.offset}
+		</if>
+	</select>
+	
+	<select id="searchCount" resultType="int">
+		select count(1) from yjj_CategorySetting
+		<where>
+			<if test="name != null">
+				and Name like concat("%", #{name}, "%")
+			</if>
+			and Status = 0
+		</where>
+	</select>
+	
+	<insert id="add">
+		insert yjj_CategorySetting(Name, Description, LinkType, Sort, DisplayStatus, CreateTime, UpdateTime)
+		values(#{name}, #{description}, #{linkType}, #{sort}, #{displayStatus}, #{createTime}, #{updateTime})
+	</insert>
+	
+	<update id="update">
+		update yjj_CategorySetting
+		<set>
+			<if test="categorySetting != null">
+				Name = #{categorySetting.name}, Description = #{categorySetting.description}, LinkType = #{categorySetting.linkType}, Sort = #{categorySetting.sort}, 
+				DisplayStatus = #{categorySetting.displayStatus}, UpdateTime = #{categorySetting.updateTime} 
+			</if>
+			<if test="status != null">
+				Status = #{status},
+			</if>
+			<if test="content != null">
+				Content = #{content},
+			</if>
+			<if test="updateTime != null">
+				UpdateTime = #{updateTime},
+			</if>
+		</set>
+		<where>
+			<if test="id != null">
+				and Id = #{id}
+			</if>
+			<if test="categorySetting != null">
+				and Id = #{categorySetting.id}
+			</if>
+		</where>
+	</update>
+	
+</mapper>

@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jiuyuan.dao.mapper.supplier.OrderItemNewMapper">
+
+	<sql id="updateBase">
+		<if test="Id  !=null">
+			Id = #{Id,jdbcType=BIGINT},
+		</if>
+		<if test="OrderNo  !=null">
+			OrderNo = #{OrderNo,jdbcType=BIGINT},
+		</if>
+		<if test="StoreId  !=null">
+			StoreId = #{StoreId,jdbcType=BIGINT},
+		</if>
+		<if test="ProductId  !=null">
+			ProductId = #{ProductId,jdbcType=BIGINT},
+		</if>
+		<if test="SkuId  !=null">
+			SkuId = #{SkuId,jdbcType=BIGINT},
+		</if>
+		<if test="TotalMoney  !=null">
+			TotalMoney = #{TotalMoney,jdbcType=DECIMAL},
+		</if>
+		<if test="TotalExpressMoney  !=null">
+			TotalExpressMoney = #{TotalExpressMoney,jdbcType=DECIMAL},
+		</if>
+		<if test="Money  !=null">
+			Money = #{Money,jdbcType=DECIMAL},
+		</if>
+		<if test="ExpressMoney  !=null">
+			ExpressMoney = #{ExpressMoney,jdbcType=DECIMAL},
+		</if>
+		<if test="TotalUnavalCoinUsed  !=null">
+			TotalUnavalCoinUsed = #{TotalUnavalCoinUsed,jdbcType=INTEGER},
+		</if>
+		<if test="UnavalCoinUsed  !=null">
+			UnavalCoinUsed = #{UnavalCoinUsed,jdbcType=INTEGER},
+		</if>
+		<if test="BuyCount  !=null">
+			BuyCount = #{BuyCount,jdbcType=INTEGER},
+		</if>
+		<if test="SkuSnapshot  !=null">
+			SkuSnapshot = #{SkuSnapshot,jdbcType=VARCHAR},
+		</if>
+		<if test="Status  !=null">
+			Status = #{Status,jdbcType=TINYINT},
+		</if>
+		<if test="CreateTime  !=null">
+			CreateTime = #{CreateTime,jdbcType=BIGINT},
+		</if>
+		<if test="UpdateTime  !=null">
+			UpdateTime = #{UpdateTime,jdbcType=BIGINT},
+		</if>
+		<if test="BrandId  !=null">
+			BrandId = #{BrandId,jdbcType=BIGINT},
+		</if>
+		<if test="LOWarehouseId  !=null">
+			LOWarehouseId = #{LOWarehouseId,jdbcType=BIGINT},
+		</if>
+		<if test="TotalPay  !=null">
+			TotalPay = #{TotalPay,jdbcType=DECIMAL},
+		</if>
+		<if test="TotalMarketPrice  !=null">
+			TotalMarketPrice = #{TotalMarketPrice,jdbcType=DECIMAL},
+		</if>
+		<if test="MarketPrice  !=null">
+			MarketPrice = #{MarketPrice,jdbcType=DECIMAL},
+		</if>
+		<if test="TotalAvailableCommission  !=null">
+			TotalAvailableCommission = #{TotalAvailableCommission,jdbcType=DECIMAL},
+		</if>
+		<if test="Position  !=null">
+			Position = #{Position,jdbcType=VARCHAR},
+		</if>
+
+
+		<if test="supplierId  !=null">
+			supplierId = #{supplierId,jdbcType=BIGINT},
+		</if>
+		<if test="memberPackageType  !=null">
+			member_package_type = #{memberPackageType,jdbcType=TINYINT}
+		</if>
+	</sql>
+
+
+	<update id="salvageHistoryOrderItem" parameterType="com.jiuyuan.entity.newentity.StoreOrderItemNew">
+		update store_orderitem
+		<set>
+			<include refid="updateBase"/>
+		</set>
+		where Id = #{Id,jdbcType=BIGINT}
+		AND member_package_type = #{memberPackageType}
+		AND StoreId = #{StoreId}
+		AND Status` = 0
+	</update>
+
+
+
+
+	<select id="orderItemsOfOrderNos" parameterType="map" resultType="com.jiuyuan.entity.newentity.StoreOrderItemNew">
+		select * from store_OrderItem
+		where OrderNo in 
+		<foreach collection="orderNos" item="orderNo" open="(" separator="," close=")">
+			#{orderNo}
+		</foreach> and Status = 0 and BuyCount > 0
+		order by OrderNo asc
+	</select>
+	
+	<select id="getOrederItemIdAndTotalPayByOrderNo" resultType="map">
+	   SELECT Id,TotalMoney FROM store_OrderItem
+	   WHERE OrderNo = #{orderNo}
+	</select>
+</mapper>

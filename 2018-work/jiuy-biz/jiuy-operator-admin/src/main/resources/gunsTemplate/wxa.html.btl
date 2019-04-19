@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="robots" content="noindex,nofollow,noarchive ">
+    <meta charset="UTF-8" >
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta http-equiv="cache-control" content="no-cache">
+    <!--页面关键字-->
+    <meta name="keywords" content="${page.operatorSeo.keywords}"/>
+    <!--页面描述-->
+    <meta name="description" content="${page.operatorSeo.descriptor}"/>
+    <title>
+    <%
+    if(page.operatorSeo.title == null && page.page.operatorSeo.title == ''){
+    %>
+         俞姐姐门店宝
+    <%
+    } else{
+    %>
+    ${page.operatorSeo.title}
+    <%
+    }
+    %>
+    -小程序加盟
+    </title>
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/swiper.min.css">
+    <link rel="stylesheet" href="css/common.css?v1.1">
+    <link rel="stylesheet" href="css/wxa.css">
+    <link rel="stylesheet" href="css/wxaAgent.css">
+</head>
+<body>
+<div class="header-container">
+   <div class="head-nav"></div>
+</div>
+<!--第一屏容器 -->
+  <div class="body-container">
+      <div class="body-bg">
+          <div class="body-shade"></div>
+          <div class="body-text">
+             <div class="body-text-one">
+                智能门店小程序，全国招商中
+             </div>
+              <div class="body-text-two">
+                  <p>智能模块,一键上传</p>
+                  <p class="des"><span class="yellow">100万+企业</span><span>的选择!</span></p>
+              </div>
+              <div class="body-text-three">
+                    <a href="wxaAgent.html" class="join-btn1"  target="_blank">代理加盟</a>
+                    <a href="wxaAgent.html" class="join-btn2 active" target="_blank">招商加盟</a>
+              </div>
+              <div class="body-text-next">
+                 <i class="icon"></i>
+              </div>
+          </div>
+     </div>
+  </div>
+  <!-- body-container end -->
+<div class="section" style="display: none">
+    <div class="section-bg">
+        <div class="container wxa-header">
+            <h1 class="title">智能门店小程序 全国招商中</h1>
+            <p class="explain">
+                <span class="des-left">智能模块 一键上传</span>
+                <span><i>100万+企业</i>的选择！</span>
+            </p>
+            <div class="link">
+                <a class="des-left" href="wxaAgent.html" target="_blank">代理加盟</a>
+                <a href="wxaAgent.html" target="_blank">招商加盟</a>
+            </div>
+        </div>
+        <!-- 面包屑 -->
+        <div class="container section-bg-title">
+            <div class="section-bg-title-border">
+                <span class="section-bg-title-one">首页</span> <i> &gt; </i> <span class="colorPink">小程序</span>
+            </div>
+        </div>
+    </div>
+    <div class="container section-border wxa-container no-padding-bottom">
+        <div class="wxa-title">
+            <h3 class="title">什么是微信小程序？</h3>
+            <div class="title-tips"></div>
+        </div>
+        <p class="wxa-content">小程序是一种不需要下载安装即可使用的应用，它实现了应用“触手可及”的梦想，用户扫一扫或者搜一下即可打开应用。也体现了“用完即走”的理念，用户不用关心是否安装太多的应用的问题。应用将无处不在，随时可用，但又无需安装卸载。小程序是4年内最大的移动互联网商机，率先上线小程序抢占流量红利，实现营收激增！</p>
+        <ul class="wxa-list01">
+            <li class="item item1">
+                <div class="box">
+                    <dl>
+                        <dt>用完即走</dt>
+                        <dd>用户不用关心手否安装太多应用的问题，小程序随时可用又无需安装卸载</dd>
+                    </dl>
+                </div>
+            </li>
+            <li class="item item2">
+                <div class="box">
+                    <dl>
+                        <dt>无需下载</dt>
+                        <dd>用户无需下载和安装小程序只需扫一扫或者搜一下即可打开应用，用完即退出，方便快捷</dd>
+                    </dl>
+                </div>
+            </li>
+            <li class="item item3">
+                <div class="box">
+                    <dl>
+                        <dt>降低门槛</dt>
+                        <dd>面对中小企业解决线上销售困境大大降低电商创业门槛满足各项业务需求</dd>
+                    </dl>
+                </div>
+            </li>
+            <li class="item item4">
+                <div class="box">
+                    <dl>
+                        <dt>安全稳定</dt>
+                        <dd>小程序商城依托微信平台资金流安全有保障接口稳定</dd>
+                    </dl>
+                </div>
+            </li>
+        </ul>
+        <div class="wxa-title">
+            <h3 class="title">智能门店小程序</h3>
+            <div class="title-tips"></div>
+        </div>
+        <p class="wxa-content center">海量商品一键上传、拼团功能、秒杀功能、视频展示功能、商城功能、在线支付、卡券功能、智能模块、吸粉小游戏、分销功能、预约功能。</p>
+        <img class="wxa-img01" src="img/wxa/wxa-img01.jpg" alt="智能门店小程序">
+        <div class="wxa-title">
+            <h3 class="title">加入智能门店小程序你将这样赚钱</h3>
+            <div class="title-tips"></div>
+        </div>
+        <dl class="wxa-list02">
+            <dd class="item">
+                <div class="icon">
+                    <img src="img/wxa/wxa-icon1.png" alt="开通收益">
+                </div>
+                <div class="explain font-color">
+                    开通收益
+                </div>
+            </dd>
+            <dd class="item">
+                <div class="icon">
+                    <img src="img/wxa/wxa-icon2.png" alt="续签收益">
+                </div>
+                <div class="explain font-color0">
+                    续签收益
+                </div>
+            </dd>
+            <dd class="item">
+                <div class="icon">
+                    <img src="img/wxa/wxa-icon3.png" alt="流水收益">
+                </div>
+                <div class="explain font-color1">
+                    流水收益
+                </div>
+            </dd>
+            <dd class="item">
+                <div class="icon">
+                    <img src="img/wxa/wxa-icon4.png" alt="服务收益">
+                </div>
+                <div class="explain font-color2">
+                    服务收益
+                </div>
+            </dd>
+            <dd class="item">
+                <div class="icon">
+                   <img src="img/wxa/wxa-icon5.png" alt="增值收益">
+                </div>
+                <div class="explain font-color3">
+                    增值收益
+                </div>
+            </dd>
+        </dl>
+        <div class="wxa-section03">
+            <div class="box">
+                <h2>抓住微信小程序新机遇</h2>
+                <p>全国8600万家实体商家等待转型升级，新时代下一个风口竟然如此“暴力”，你准备好了吗？俞姐姐小程序面向全国招募代理，邀您一起快速打开全国市场</p>
+            </div>
+        </div>
+    </div><!-- container end -->
+
+    <div class="container section-border wxa-container no-padding-bottom wxa-container01">
+        <div class="wxa-title">
+            <h3 class="title">为什么选择智能门店小程序</h3>
+            <div class="title-tips"></div>
+        </div>
+        <p class="wxa-content center">完整强大的电商解决方案，商城、支付、会员、订单等功能，小程序即商店！</p>
+        <ul class="wxa-list03">
+            <li class="item">
+                <img class="img" src="img/wxa/wxa-list03-img01.png" alt="专业的售前支持">
+                <div class="title">专业的售前支持</div>
+                <p>我们的售前人员将和您沟通您所需要的需求和功能，对您的需求有着全面的理解和掌握。</p>
+            </li>
+            <li class="item">
+                <img class="img" src="img/wxa/wxa-list03-img02.png" alt="雄厚的技术实力">
+                <div class="title">雄厚的技术实力</div>
+                <p>多年的微信产品开发经验，能牢牢把握市场需求和最新动向，让您牢牢把握9亿微信用户红利。</p>
+            </li>
+            <li class="item">
+                <img class="img" src="img/wxa/wxa-list03-img03.png" alt="专业的售前支持">
+                <div class="title">专业的售前支持</div>
+                <p>后续我们定期更新小程序新的功能和玩法，您购买的不仅仅是一套小程序开发和使用方案。</p>
+            </li>
+            <li class="item">
+                <img class="img" src="img/wxa/wxa-list03-img04.png" alt="配套营销产品">
+                <div class="title">配套营销产品</div>
+                <p>微信营销系统，让你的小程序被更多人所熟识，做小程序只是第一步，推广小程序才是重中之重</p>
+            </li>
+        </ul>
+        <div class="wxa-title">
+            <h3 class="title">六大保障让您轻松上手无后顾之忧</h3>
+            <div class="title-tips"></div>
+        </div>
+        <p class="wxa-content center">您购买的不仅仅是一个端口，而是一整套的微信小程序解决方案以及小程序的挣钱的方法</p>
+        <ul class="wxa-list04">
+            <li class="item">
+                <span class="icon icon1"></span>
+                <h4 class="title">运营保障</h4>
+                <p>运营指导、案例分享、行业案例提供</p>
+            </li>
+            <li class="item">
+                <span class="icon icon2"></span>
+                <h4 class="title">培训保障</h4>
+                <p>产品培训、运营培训、销售培训</p>
+            </li>
+            <li class="item">
+                <span class="icon icon3"></span>
+                <h4 class="title">产品保障</h4>
+                <p>紧跟腾讯步伐，定期更新，发布新品</p>
+            </li>
+            <li class="item">
+                <span class="icon icon4"></span>
+                <h4 class="title">营销保障</h4>
+                <p>网站源码、营销物料、推广计划</p>
+            </li>
+            <li class="item">
+                <span class="icon icon5"></span>
+                <h4 class="title">技术保障</h4>
+                <p>售后技术客服为您解决各种技术难题</p>
+            </li>
+            <li class="item">
+                <span class="icon icon6"></span>
+                <h4 class="title">服务保障</h4>
+                <p>售后培训、实施培训、使用培训</p>
+            </li>
+        </ul>
+    </div><!-- container end -->
+    <div class="wxa-container wxa-section05">
+        <div class="box">
+            <div class="wxa-title">
+                <h3 class="title">智能门店小程序功能特性</h3>
+                <div class="title-tips"></div>
+            </div>
+        </div>
+        <p class="wxa-content center">您购买的不仅仅是一个端口，而是一整套的微信小程序解决方案以及小程序的挣钱的方法</p>
+        <ul class="wxa-list05">
+            <li class="item item1">
+                <span class="icon icon1"></span>
+                <h4 class="title">即买即用</h4>
+                <p>智能模块小程序，一键授权可以立即上线</p>
+                <span class="line"></span>
+            </li>
+            <li class="item">
+                <span class="icon icon2"></span>
+                <h4 class="title">智能模块</h4>
+                <p>傻瓜式操作，只需上传产品，智能模块算法自动生成，高点击量布局</p>
+                <span class="line"></span>
+            </li>
+            <li class="item">
+                <span class="icon icon3"></span>
+                <h4 class="title">深入行业</h4>
+                <p>专注于女装行业垂直小程序进行深度开发</p>
+            </li>
+            <li class="item">
+                <span class="icon icon4"></span>
+                <h4 class="title">一键上传</h4>
+                <p>俞姐姐提供海量货源让批发到上传一键生成 </p>
+            </li>
+            <li class="item item5">
+                <span class="icon icon5"></span>
+                <h4 class="title">为店铺引流</h4>
+                <p>朋友圈、群、好友分享传播，显示在附近的小程序里</p>
+            </li>
+            <li class="item">
+                <span class="icon icon6"></span>
+                <h4 class="title">沉淀会员</h4>
+                <p>通过小程序的优惠券、拼团、秒杀等功能提高会员沉淀率</p>
+            </li>
+            <li class="item">
+                <span class="icon icon7"></span>
+                <h4 class="title">节省人力</h4>
+                <p>顾客可以通过小程序办卡点单、支付，节省服务成本</p>
+            </li>
+            <li class="item">
+                <span class="icon icon8"></span>
+                <h4 class="title">全体系支持</h4>
+                <p>拥有完善的小程序+小程序营销方案</p>
+            </li>
+        </ul>
+    </div>
+    <div class="container section-border wxa-container section-border-last">
+        <div class="wxa-title">
+            <h3 class="title">智能门店小程序案例</h3>
+            <div class="title-tips"></div>
+        </div>
+        <div class="wxa-code">
+            <img class="img1" src="img/wxa/wxa-code01.png" align="智能门店小程序案例">
+            <img class="img2" src="img/wxa/wxa-code02.png" align="智能门店小程序案例">
+        </div>
+    </div><!-- container end -->
+</div>
+<!-- 悬浮条 -->
+<div class="ui-suspend-box">
+    <div class="box">
+        <a href="wxaAgent.html" target="_blank">立即了解详情</a>
+        <a href="wxaAgent.html" target="_blank">立即报名参会</a>
+    </div>
+</div>
+<!-- 底部模块 -->
+<footer class="footer" id="footer-box" style="display:none"></footer>
+<script type="text/javascript" src="js/jquery-2.1.1.js"></script>
+<script type="text/javascript" src="js/swiper.min.js"></script>
+<script src="https://qiyukf.com/script/ca7401ee061a67fdcd669ac85f2fa84d.js"></script>
+<script src="js/adaptation.js"></script>
+<script>
+	$(function(){
+		var innerHeight = window.innerHeight || document.documentElement.innerHeight || document.body.innerHeight;
+        var header = $(".header-container").height();
+        $(".body-container").height((innerHeight-header)+"px");
+        $(".body-text-next .icon").on("click",function(){
+            $(".body-container .body-text").hide();
+            $(".body-container").animate({height:0},500);
+            $(".section,.footer,.ui-suspend-box").show();
+        });
+        $(document).on("mousewheel",function(event, delta){
+           var dir = delta > 0 ? 'Up' : 'Down';
+            if (dir == 'Up') {
+                console.log("向上滚动");
+            } else {
+                console.log("向下滚动");
+                 $(".body-container .body-text").hide();
+                 $(".body-container").animate({height:0},500);
+                 $(".section,.footer,.ui-suspend-box").show();
+            }
+        })
+	})
+</script>
+<script src="js/common.js"></script>
+</body>
+</html>

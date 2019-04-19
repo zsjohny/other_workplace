@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jiuyuan.dao.mapper.supplier.SupplierCustomerMapper">
+
+	<select id="getCustomerList" parameterType="com.baomidou.mybatisplus.plugins.Page"
+		resultType="java.util.Map">
+
+		SELECT
+		a.*,
+		b.id as customerId,
+		b.customer_name as customerName,
+		b.phone_number AS phoneNumber,
+		b.remark_name as remarkName,
+		b.customer_type as customerType,
+		b.province AS province,
+		b.city AS city,
+		b.businessName as businessName,
+		b.group_id as groupId
+		FROM
+		supplier_customer b
+		LEFT JOIN
+		(SELECT
+		storeId,
+		SUM(IFNULL(TotalPay,0)) + SUM(IFNULL(TotalExpressMoney,0)) AS totalPay,
+		SUM(IFNULL(TotalBuyCount,0)) AS totalBuyCount
+		FROM
+		store_Order
+		WHERE
+		supplierId=#{supplierId}
+		AND STATUS=0
+		AND OrderStatus IN (
+		70,100,10,50
+		)
+		AND PayTime >0 
+		GROUP BY
+		storeId ) a
+		ON a.StoreId=b.store_id 
+		<where>
+			b.status = 0
+			and b.supplier_id = #{supplierId} 
+			<if test="businessName!=''">
+				and businessName like concat ("%", #{businessName}, "%")
+			</if>
+			<if test="customerName!=''">
+				and customer_name like concat ("%", #{customerName}, "%")
+			</if>
+			<if test="remarkName != ''">
+				and remark_name like concat ("%", #{remarkName}, "%")
+			</if>
+			<if test="phoneNumber!=''">
+				and phone_number = #{phoneNumber}
+			</if>
+			<if test="moneyMin > 0">
+				and totalPay>=#{moneyMin}
+			</if>
+			<if test="moneyMax > 0">
+				<![CDATA[
+					and totalPay<=#{moneyMax} 
+				]]>
+			</if>
+			<if test="countMin > 0">
+				and totalBuyCount>=#{countMin}
+			</if>
+			<if test="countMax > 0">
+				<![CDATA[
+					and totalBuyCount<=#{countMax} 
+				]]>
+			</if>
+			<if test="province!=''">
+				and province like concat ("%", #{province}, "%")
+			</if>
+			<if test="city!=''">
+				and city like concat ("%", #{city}, "%")
+			</if>
+			<if test="groupId !=-1 ">
+				and group_id = #{groupId}
+			</if>
+			<if test="customerType != -1">
+				and customer_type = #{customerType}
+			</if>
+		</where>
+		<if test="orderType == 0">
+			ORDER BY create_time DESC
+		</if>
+		<if test="orderType == 1">
+			ORDER BY totalPay DESC
+		</if>
+		<if test="orderType == 2">
+			ORDER BY totalPay ASC
+		</if>
+		<if test="orderType == 3">
+			ORDER BY totalBuyCount DESC
+		</if>
+		<if test="orderType == 4">
+			ORDER BY totalBuyCount ASC
+		</if>
+
+	</select>
+	
+	<update id="updateSupplierCustomerAddressInfoByStoreIds" parameterType="com.jiuyuan.entity.newentity.SupplierCustomer">
+UPDATE supplier_customer
+SET province = #{province},
+  city = #{city},
+  BusinessAddress = #{businessAddress}
+WHERE store_id IN 
+  <foreach collection="Set" item="id" close=")" open="(" separator="," >
+	#{id}
+  </foreach>
+	</update> 
+	
+	<select id="getCustomerByStoreIdOrPhoneNumber" resultType="com.jiuyuan.entity.newentity.SupplierCustomer">
+	SELECT
+  id              AS id,
+  businessName,
+  customer_name   AS customerName,
+  supplier_id     AS supplierId,
+  store_id        AS storeId,
+  remark_name     AS remarkName,
+  phone_number    AS phoneNumber,
+  group_id        AS groupId,
+  province,
+  city,
+  businessAddress,
+  customer_type   AS customerType,
+  `status`,
+  create_time     AS createTime,
+  update_time     AS updateTime
+FROM supplier_customer
+WHERE  
+      supplier_id = #{supplierId}
+  AND STATUS = 0
+  AND (store_id = #{storeId}
+  <if test="phoneNumber == ''">
+      OR phone_number = #{phoneNumber}
+  </if>
+      AND 1=1)
+	</select>
+</mapper>

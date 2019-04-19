@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" > 
+<mapper namespace="com.jiuy.mapper.logs.OperatorLogsMapper"> 
+ 
+ 	<!-- 主要的返回映射-->
+	<resultMap id="BaseResultMap" type="com.jiuy.model.logs.OperatorLogs"	>
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="moduel_code"  property="moduelCode"  jdbcType="VARCHAR" />
+		<result column="module_name"  property="moduleName"  jdbcType="VARCHAR" />
+		<result column="opertion_user_id"  property="opertionUserId"  jdbcType="VARCHAR" />
+		<result column="opertion_user_name"  property="opertionUserName"  jdbcType="VARCHAR" />
+		<result column="opertion_detail"  property="opertionDetail"  jdbcType="VARCHAR" />
+		<result column="create_time"  property="createTime"  jdbcType="TIMESTAMP" />
+		<result column="create_method"  property="createMethod"  jdbcType="VARCHAR" />
+		<result column="data_id"  property="dataId"  jdbcType="VARCHAR" />
+	</resultMap>
+
+	<!-- 所有的列名-->
+	<sql id="Base_Column_List" >
+		id,moduel_code,module_name,opertion_user_id,opertion_user_name,opertion_detail,create_time,create_method,data_id
+	</sql>
+
+	<!-- 精确更新的字段-->
+	<sql id="updateBase">
+		<if test="id  !=null">
+			id = #{id,jdbcType=BIGINT}, 
+		</if>
+		<if test="moduelCode  !=null">
+			moduel_code = #{moduelCode,jdbcType=VARCHAR}, 
+		</if>
+		<if test="moduleName  !=null">
+			module_name = #{moduleName,jdbcType=VARCHAR}, 
+		</if>
+		<if test="opertionUserId  !=null">
+			opertion_user_id = #{opertionUserId,jdbcType=VARCHAR}, 
+		</if>
+		<if test="opertionUserName  !=null">
+			opertion_user_name = #{opertionUserName,jdbcType=VARCHAR}, 
+		</if>
+		<if test="opertionDetail  !=null">
+			opertion_detail = #{opertionDetail,jdbcType=VARCHAR}, 
+		</if>
+		<if test="createTime  !=null">
+			create_time = #{createTime,jdbcType=TIMESTAMP}, 
+		</if>
+		<if test="createMethod  !=null">
+			create_method = #{createMethod,jdbcType=VARCHAR}, 
+		</if>
+		<if test="dataId  !=null">
+			data_id = #{dataId,jdbcType=VARCHAR} 
+		</if>
+	</sql>
+
+	<!-- 通过主键查找-->
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="Long" >
+		select 
+		<include refid="Base_Column_List" />
+		from yjj_rb_operator_logs
+		where  id = #{id,jdbcType=BIGINT} 
+	</select>
+
+	<!-- 通过主键删除-->
+	<delete id="deleteByPrimaryKey" parameterType="Long" >
+		delete from yjj_rb_operator_logs
+		where id = #{id,jdbcType=BIGINT} 
+	</delete>
+
+	<!-- 普通插入全字段插入-->
+	<insert id="insert" parameterType="com.jiuy.model.logs.OperatorLogs" >
+		insert into yjj_rb_operator_logs
+		(
+			id,
+			moduel_code,
+			module_name,
+			opertion_user_id,
+			opertion_user_name,
+			opertion_detail,
+			create_time,
+			create_method,
+			data_id,
+		)
+		values
+		(
+			#{id ,jdbcType=BIGINT},
+			#{moduelCode ,jdbcType=VARCHAR},
+			#{moduleName ,jdbcType=VARCHAR},
+			#{opertionUserId ,jdbcType=VARCHAR},
+			#{opertionUserName ,jdbcType=VARCHAR},
+			#{opertionDetail ,jdbcType=VARCHAR},
+			#{createTime ,jdbcType=TIMESTAMP},
+			#{createMethod ,jdbcType=VARCHAR},
+			#{dataId ,jdbcType=VARCHAR}
+		)
+	</insert>
+
+	<!-- 批量插入，全部字段插入-->
+	<insert id="insertBach"   parameterType="List" >
+		insert into yjj_rb_operator_logs
+		(
+			id,
+			moduel_code,
+			module_name,
+			opertion_user_id,
+			opertion_user_name,
+			opertion_detail,
+			create_time,
+			create_method,
+			data_id,
+		)
+		values 
+		<foreach collection="list" item="item" separator=",">
+		(
+			#{item.id ,jdbcType=BIGINT},
+			#{item.moduelCode ,jdbcType=VARCHAR},
+			#{item.moduleName ,jdbcType=VARCHAR},
+			#{item.opertionUserId ,jdbcType=VARCHAR},
+			#{item.opertionUserName ,jdbcType=VARCHAR},
+			#{item.opertionDetail ,jdbcType=VARCHAR},
+			#{item.createTime ,jdbcType=TIMESTAMP},
+			#{item.createMethod ,jdbcType=VARCHAR},
+			#{item.dataId ,jdbcType=VARCHAR}
+		)
+		</foreach>
+	</insert>
+
+	<!-- 精确插入，非null得字段才会插入-->
+	<insert id="insertSelective" parameterType="com.jiuy.model.logs.OperatorLogs" useGeneratedKeys="true" keyProperty="id" >
+		insert into yjj_rb_operator_logs
+		<trim prefix="(" suffix=")" suffixOverrides="," > 
+			<if test="id !=null">  
+				id,
+			</if>
+			<if test="moduelCode !=null">  
+				moduel_code,
+			</if>
+			<if test="moduleName !=null">  
+				module_name,
+			</if>
+			<if test="opertionUserId !=null">  
+				opertion_user_id,
+			</if>
+			<if test="opertionUserName !=null">  
+				opertion_user_name,
+			</if>
+			<if test="opertionDetail !=null">  
+				opertion_detail,
+			</if>
+			<if test="createTime !=null">  
+				create_time,
+			</if>
+			<if test="createMethod !=null">  
+				create_method,
+			</if>
+			<if test="dataId !=null">  
+				data_id,
+			</if>
+		</trim>
+
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+			<if test="id  !=null">
+				#{id,jdbcType=BIGINT}, 
+			</if>
+			<if test="moduelCode  !=null">
+				#{moduelCode,jdbcType=VARCHAR}, 
+			</if>
+			<if test="moduleName  !=null">
+				#{moduleName,jdbcType=VARCHAR}, 
+			</if>
+			<if test="opertionUserId  !=null">
+				#{opertionUserId,jdbcType=VARCHAR}, 
+			</if>
+			<if test="opertionUserName  !=null">
+				#{opertionUserName,jdbcType=VARCHAR}, 
+			</if>
+			<if test="opertionDetail  !=null">
+				#{opertionDetail,jdbcType=VARCHAR}, 
+			</if>
+			<if test="createTime  !=null">
+				#{createTime,jdbcType=TIMESTAMP}, 
+			</if>
+			<if test="createMethod  !=null">
+				#{createMethod,jdbcType=VARCHAR}, 
+			</if>
+			<if test="dataId  !=null">
+				#{dataId,jdbcType=VARCHAR} 
+			</if>
+		</trim>
+	</insert> 
+
+	<!-- 精确更新-->
+	<update id="updateByPrimaryKeySelective" parameterType="com.jiuy.model.logs.OperatorLogs" >
+		update yjj_rb_operator_logs
+		<set>
+			<include refid="updateBase"/>
+		</set>
+		where id = #{id,jdbcType=BIGINT} 
+	</update> 
+
+	<!-- 全字段更新 需要注意-->
+	<update id="updateByPrimaryKey" parameterType="com.jiuy.model.logs.OperatorLogs" >
+		update yjj_rb_operator_logs
+		set 
+			id = #{id ,jdbcType=BIGINT},
+			moduel_code = #{moduelCode ,jdbcType=VARCHAR},
+			module_name = #{moduleName ,jdbcType=VARCHAR},
+			opertion_user_id = #{opertionUserId ,jdbcType=VARCHAR},
+			opertion_user_name = #{opertionUserName ,jdbcType=VARCHAR},
+			opertion_detail = #{opertionDetail ,jdbcType=VARCHAR},
+			create_time = #{createTime ,jdbcType=TIMESTAMP},
+			create_method = #{createMethod ,jdbcType=VARCHAR},
+			data_id = #{dataId ,jdbcType=VARCHAR}
+		where id = #{id,jdbcType=BIGINT} 
+	</update> 
+
+	<!-- 所有的条件集合-->
+	<sql id="whereCase"  >
+		where  1=1 
+		<if test="id  !=null">
+			AND id = #{id,jdbcType=BIGINT} 
+		</if>
+		<if test="moduelCode  !=null">
+			AND moduel_code = #{moduelCode,jdbcType=VARCHAR} 
+		</if>
+		<if test="moduleName  !=null">
+			AND module_name = #{moduleName,jdbcType=VARCHAR} 
+		</if>
+		<if test="opertionUserId  !=null">
+			AND opertion_user_id = #{opertionUserId,jdbcType=VARCHAR} 
+		</if>
+		<if test="opertionUserName  !=null">
+			AND opertion_user_name = #{opertionUserName,jdbcType=VARCHAR} 
+		</if>
+		<if test="opertionDetail  !=null">
+			AND opertion_detail = #{opertionDetail,jdbcType=VARCHAR} 
+		</if>
+		<if test="createTime  !=null">
+			AND create_time = #{createTime,jdbcType=TIMESTAMP} 
+		</if>
+		<if test="createMethod  !=null">
+			AND create_method = #{createMethod,jdbcType=VARCHAR} 
+		</if>
+		<if test="dataId  !=null">
+			AND data_id = #{dataId,jdbcType=VARCHAR} 
+		</if>
+		<include refid="costomWhereCase"/>
+	</sql>
+
+	<!-- 查询一条，如果返回多条会报错-->
+	<select id="selectOne" parameterType="java.util.Map" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" /> 
+		FROM yjj_rb_operator_logs
+		<include refid="whereCase" /> 
+	</select>
+
+	<!-- 查询一个list-->
+	<select id="selectList" parameterType="java.util.Map" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" /> 
+		FROM yjj_rb_operator_logs
+		<include refid="whereCase" /> 
+	</select>
+
+	<!--  @Costom -->
+	<!-- 从上一行注释以上为系统生成 从这一行往下为用户自定义 请将自定义的sql放在此行下面 -->
+	<sql id="costomWhereCase">
+	</sql>
+
+</mapper>

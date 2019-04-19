@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jiuyuan.dao.mapper.supplier.SecondBuyActivityMapper">
+
+    <!-- 主要的返回映射-->
+    <resultMap id="BaseResultMap" type="com.jiuyuan.entity.newentity.SecondBuyActivity">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="store_id" property="storeId" jdbcType="BIGINT"/>
+        <result column="activity_title" property="activityTitle" jdbcType="VARCHAR"/>
+        <result column="shop_product_id" property="shopProductId" jdbcType="BIGINT"/>
+        <result column="clothes_number" property="clothesNumber" jdbcType="VARCHAR"/>
+        <result column="shop_product_name" property="shopProductName" jdbcType="VARCHAR"/>
+        <result column="shop_product_mainimg" property="shopProductMainimg" jdbcType="VARCHAR"/>
+        <result column="activity_product_price" property="activityProductPrice" jdbcType="DECIMAL"/>
+        <result column="activity_price" property="activityPrice" jdbcType="DECIMAL"/>
+        <result column="activity_product_count" property="activityProductCount" jdbcType="INTEGER"/>
+        <result column="activity_start_time" property="activityStartTime" jdbcType="BIGINT"/>
+        <result column="activity_end_time" property="activityEndTime" jdbcType="BIGINT"/>
+        <result column="activity_hand_end_time" property="activityHandEndTime" jdbcType="BIGINT"/>
+        <result column="activity_member_count" property="activityMemberCount" jdbcType="INTEGER"/>
+        <result column="del_state" property="delState" jdbcType="TINYINT"/>
+        <result column="create_time" property="createTime" jdbcType="BIGINT"/>
+        <result column="update_time" property="updateTime" jdbcType="BIGINT"/>
+        <result column="shop_product_showcase_imgs" property="shopProductShowcaseImgs" jdbcType="VARCHAR"/>
+        <result column="ordered_product_count" property="orderedProductCount" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!-- 所有的列名-->
+    <sql id="Base_Column_List">
+		id,store_id,activity_title,shop_product_id,clothes_number,shop_product_name,shop_product_mainimg,activity_product_price,activity_price,
+		activity_product_count,activity_start_time,activity_end_time,activity_hand_end_time,activity_member_count,del_state,create_time,update_time,
+		shop_product_showcase_imgs,ordered_product_count
+	</sql>
+
+    <update id="increaseActivityMemberCount">
+		update store_second_buy_activity set activity_member_count = activity_member_count + 1 where id = #{teamBuyActivityId}
+	</update>
+
+    <update id="updatePrice">
+	    update store_second_buy_activity set activity_product_price = #{activityProductPrice} where id = #{secondBuyActivityId}
+	</update>
+
+
+    <!--CASE-->
+    <!--&#45;&#45; 活动未结束-->
+    <!--WHEN activity_hand_end_time = 0 AND activity_end_time > #{current}-->
+    <!--THEN CASE-->
+    <!--&#45;&#45; 进行中-->
+    <!--WHEN activity_start_time < #{current} THEN 9-->
+    <!--&#45;&#45; 待开始-->
+    <!--WHEN activity_start_time >= #{current} THEN 7-->
+    <!--END-->
+    <!--&#45;&#45; 活动已结束-->
+    <!--WHEN activity_hand_end_time>0 OR activity_end_time <=#{current}-->
+    <!--THEN 5-->
+    <!--END AS orderCondition,-->
+    <select id="listSecondBuyActivity" resultType="com.jiuyuan.entity.newentity.SecondBuyActivity">
+        <![CDATA[
+		SELECT
+			id AS id,
+			store_id AS storeId,
+			activity_title AS activityTitle,
+			shop_product_id AS shopProductId,
+			clothes_number AS clothesNumber,
+			shop_product_name AS shopProductName,
+			shop_product_mainimg AS shopProductMainimg,
+			shop_product_showcase_imgs AS shopProductShowcaseImgs,
+			activity_product_price AS activityProductPrice,
+			activity_price AS activityPrice,
+			activity_product_count AS activityProductCount,
+			activity_start_time AS activityStartTime,
+			activity_end_time AS activityEndTime,
+			activity_hand_end_time AS activityHandEndTime,
+			activity_member_count AS activityMemberCount,
+			del_state AS delState,
+			create_time AS createTime,
+			update_time AS updateTime,
+
+			-- 进行中活动按结束时间升序
+			CASE
+				WHEN activity_hand_end_time = 0 AND activity_end_time > #{current}
+					THEN CASE
+								-- 进行中
+								WHEN activity_start_time < #{current} THEN activity_end_time
+								-- 待开始
+								ELSE 8888888888888
+							 END
+					ELSE  8888888888888
+			END AS doingAct,
+			-- 未开始活动按开始时间升序
+						CASE
+				WHEN activity_hand_end_time = 0 AND activity_end_time > #{current}
+					THEN CASE
+								WHEN activity_start_time >= #{current} THEN activity_start_time
+								ELSE 8888888888888
+							 END
+				-- 活动已结束
+					ELSE 8888888888888
+			END AS unstartAct,
+			-- 已结束的按结束时间降序
+			CASE
+				WHEN activity_hand_end_time>0 THEN activity_hand_end_time
+				WHEN activity_end_time <= #{current} THEN activity_end_time
+				ELSE 0
+			END AS overAct
+		FROM
+			store_second_buy_activity
+		WHERE
+			1=1
+		 ]]>
+        <if test="storeId != null">
+            AND store_id = #{storeId}
+        </if>
+        AND del_state = 0
+        ORDER BY
+        doingAct ASC,
+        unstartAct ASC,
+        overAct DESC
+    </select>
+
+
+
+	<update id="updateJoinUser">
+		update store_second_buy_activity
+		set activity_member_count = activity_member_count + #{count}
+		, ordered_product_count = ordered_product_count + #{buyCount}
+		where id = #{secondId}
+		and activity_member_count + #{count} >= 0
+		and ordered_product_count + #{buyCount} >= 0
+	</update>
+
+
+	<select id="findBetweenSameTimeSliceWithProduct" resultType="com.jiuyuan.entity.newentity.SecondBuyActivity">
+		<![CDATA[
+		(SELECT
+		*
+		FROM
+		store_second_buy_activity
+		WHERE
+		activity_hand_end_time = 0
+		AND store_id = #{storeId}
+		AND shop_product_id = #{shopProductId}
+		AND activity_start_time <= #{activityStartTime}
+		AND activity_end_time >= #{activityStartTime}
+		AND del_state = 0
+		)
+		UNION
+		(SELECT
+		*
+		FROM
+		store_second_buy_activity
+		WHERE
+		activity_hand_end_time = 0
+		AND store_id = #{storeId}
+		AND shop_product_id = #{shopProductId}
+		AND activity_start_time >= #{activityStartTime}
+		AND activity_start_time <= #{activityEndTime}
+		AND del_state = 0
+		)
+		 ]]>
+	</select>
+
+    <select id="existOrderByTime" resultType="com.jiuyuan.entity.newentity.SecondBuyActivity">
+		SELECT id ,
+		<![CDATA[
+
+		CASE
+			WHEN a.activity_start_time <= #{currentTime} THEN 2
+			ELSE 1
+			END AS startTimeOrder
+		FROM store_second_buy_activity a
+		WHERE del_state = 0
+		AND activity_hand_end_time = 0
+		AND activity_end_time > #{currentTime}
+		AND store_id = #{storeId}
+		AND shop_product_id = #{shopProductId}
+		ORDER BY startTimeOrder DESC, activity_end_time ASC
+	     limit 1
+        ]]>
+    </select>
+
+
+	<select id="selectOrderByTime" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		<![CDATA[
+		,
+		CASE
+			WHEN a.activity_start_time  <= #{currentTime} THEN 2
+			ELSE 1
+			END AS startTimeOrder
+		FROM store_second_buy_activity a
+		WHERE del_state = 0
+		AND activity_hand_end_time = 0
+		AND activity_end_time > #{currentTime}
+		AND store_id = #{storeId}
+		AND shop_product_id = #{shopProductId}
+		ORDER BY startTimeOrder DESC, activity_end_time ASC
+				 ]]>
+    </select>
+
+
+    <select id="selectSecondBuyActivity" resultType="com.jiuyuan.entity.newentity.SecondBuyActivity">
+			select
+			`activity_price` as activityPrice,
+			`id`,
+			`activity_end_time` as activityEndTime,
+			`activity_start_time` as activityStartTime,
+			`activity_hand_end_time` as activityHandEndTime,
+			`activity_product_count` as activityProductCount,
+			`ordered_product_count` as orderedProductCount
+			from `store_second_buy_activity` where `id`=#{id} and `store_id`=#{storeId} and `shop_product_id`=#{shopProductId} and `del_state`=#{delStatus}
+	</select>
+    <select id="findHaveActivityStatusById" resultType="com.jiuyuan.entity.newentity.SecondBuyActivity">
+		  select  activity_hand_end_time as activityHandEndTime,activity_end_time as activityEndTime ,activity_start_time as activityStartTime
+		  from store_second_buy_activity
+		  where id = #{activeId}
+	</select>
+</mapper>

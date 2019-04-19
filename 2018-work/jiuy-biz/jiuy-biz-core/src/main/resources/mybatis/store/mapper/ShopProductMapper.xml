@@ -1,0 +1,380 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jiuyuan.dao.mapper.supplier.ShopProductMapper">
+
+    <sql id="findProductForFavoriteData">
+        p.id,
+        p.name,
+        p.`status`,
+        p.product_id as  productId,
+        p.sold_out as  soldOut,
+        p.own,
+        p.price,
+        p.summary_images as summaryImages,
+        p.stock_time as stockTime,
+        p.tab_type as tabType
+    </sql>
+    <select id="searchValidShopProductList" resultType="map" parameterType="com.baomidou.mybatisplus.plugins.Page">
+       <![CDATA[
+
+SELECT a.id,
+       a.product_id,
+       a.name, 
+       a.price, 
+       a.summary_images, 
+       a.sold_out, 
+       a.own,
+       b.Name AS productName, 
+       b.mainImg AS mainImg
+FROM shop_product a
+	LEFT JOIN yjj_Product b ON a.product_id = b.id
+WHERE a.store_id = #{storeId}
+	AND a.sold_out = 1
+	AND (
+	     a.name LIKE CONCAT("%",#{keyWords},"%")
+	     OR
+	     b.name LIKE CONCAT("%",#{keyWords},"%")
+	    )
+	AND a.status = 0
+ORDER BY a.ground_time DESC       
+
+        ]]>
+	   
+       
+       
+    </select>
+
+    <update id="increaseShowCount" parameterType="map">
+		<![CDATA[
+
+			update shop_product
+			set show_count = show_count+1
+			where id = #{shopProductId}
+
+        ]]>
+	</update>
+
+    <update id="increaseFavoriteCount" parameterType="map">
+		<![CDATA[
+
+			update shop_product
+			set want_member_count = want_member_count+1
+			where id = #{shopProductId}
+
+        ]]>
+	</update>
+
+    <update id="reduceFavoriteCount" parameterType="map">
+		<![CDATA[
+
+			update shop_product
+			set want_member_count = want_member_count-1
+			where id = #{shopProductId}
+
+        ]]>
+	</update>
+
+    <select id="selectHomepageProductList" parameterType="map" resultType="ShopProduct">
+		<![CDATA[
+
+			SELECT 	a.id,
+					a.name, 
+					a.price,
+					a.stock_time AS stockTime,
+					a.summary_images AS summaryImages,
+					a.create_time AS createTime, 
+					a.update_time AS updateTime
+			FROM 
+			shop_product a 
+			LEFT JOIN yjj_Product b
+			ON a.product_id=b.Id
+			LEFT JOIN yjj_ProductCategory d ON 
+			b.Id=d.productId 
+			LEFT JOIN (SELECT id,STATUS FROM yjj_Category WHERE STATUS>=0) c
+			ON d.CategoryId=c.Id
+			WHERE d.CategoryId=#{categoryId}
+			AND a.sold_out=1 
+			AND a.status=0 
+			AND a.store_id=#{storeId}
+			GROUP BY a.Id 
+			ORDER BY updateTime DESC 
+			LIMIT #{offset},#{limit} 
+
+        ]]>
+	</select>
+
+    <select id="findProductIdAndOwnById" resultType="com.jiuyuan.entity.newentity.ShopProduct">
+        select
+        want_member_count as wantMemberCount,
+        `product_id` as productId ,own,stock_time as stockTime ,price, `name`,`summary_images` as summaryImages,`top_time` as topTime
+        ,xprice,clothes_number as clothesNumber,video_url videoUrl,remark,id,wxaqrcode_url  wxaqrcodeUrl,status,sold_out soldOut
+         from shop_product where id =#{id}
+    </select>
+
+    <select id="findAllIdsByStoreIdAndTypes" resultType="long">
+        select id
+        from shop_product
+        where status =0
+        <!--1代表上架-->
+        and sold_out=1
+        and store_id=#{storeId}
+        <if test="type == 0">
+            <!-- 大于0则为店长推荐 按推荐时间排序-->
+            and top_time > 0
+            order by top_time desc
+        </if>
+        <if test="type != 0">
+            <!-- 等于0则为热销推荐 按上架时间排序-->
+            and top_time = 0
+            order by ground_time desc
+        </if>
+        limit ${start},${end}
+
+    </select>
+
+
+    <select id="getShopProductListByProIds" parameterType="map" resultType="ShopProduct">
+        <![CDATA[
+			SELECT 	a.id,
+					a.name, 
+					a.price, a.product_id productId, a.store_id storeId
+			FROM 
+			shop_product a where product_id in
+			]]>
+        <foreach collection="proIds" item="proId" open="(" separator="," close=")">
+            <![CDATA[
+				#{proId}
+			]]>
+        </foreach>
+        and Status = 0 and store_id = #{storeId}
+    </select>
+
+    <select id="getProductIdsByCategoryIds" parameterType="map" resultType="Long">
+        <![CDATA[
+			SELECT productId FROM yjj_ProductCategory WHERE categoryId IN 
+			]]>
+        <foreach collection="categoryIds" item="categoryId" open="(" separator="," close=")">
+            <![CDATA[
+				#{categoryId}
+			]]>
+        </foreach>
+        <![CDATA[
+		 and Status = 0 GROUP BY ProductId
+		 ]]>
+    </select>
+
+    <select id="getCategoryIdsByProductId" parameterType="map" resultType="Long">
+		<![CDATA[
+
+			SELECT CategoryId FROM yjj_ProductCategory WHERE ProductId = #{productId}  and Status = 0 GROUP BY CategoryId
+
+        ]]>
+	</select>
+
+    <insert id="insertShopProductsBatch">
+        <![CDATA[
+			insert into shop_product
+			(product_id,price,tab_type,sold_out,status,store_id,update_time,create_time,ground_time,own)
+			values
+		 ]]>
+        <foreach collection="shopProductList" item="shopProduct" separator=",">
+            <![CDATA[
+				(#{shopProduct.productId},#{shopProduct.price},#{shopProduct.tabType},#{shopProduct.soldOut},#{shopProduct.status},#{shopProduct.storeId},#{shopProduct.updateTime},#{shopProduct.createTime},#{shopProduct.groundTime},#{shopProduct.own})
+			]]>
+        </foreach>
+    </insert>
+
+
+    <select id="getNavigationProductList" parameterType="com.baomidou.mybatisplus.plugins.Page"
+            resultType="ShopProduct">
+		<![CDATA[
+
+			SELECT
+			shop_product.*
+			FROM
+			shop_tag_product,
+			shop_product
+			WHERE
+			shop_tag_product.shop_product_id = shop_product.id
+			and shop_tag_product.tag_id = #{tagId}
+			and shop_product.sold_out = 1
+			and shop_product.status = 0
+			and shop_product.store_id = #{storeId}
+			order by top_time DESC,ground_time DESC
+
+        ]]>
+	</select>
+
+
+    <select id="randomProduct"  parameterType="com.jiuyuan.entity.newentity.ShopProduct"  resultType="ShopProduct">
+        select *
+        from shop_product
+        WHERE store_id = #{storeId}
+        <if test="status != null">
+            and status = #{status}
+        </if>
+        <if test="soldOut != null">
+            and sold_out = #{soldOut}
+        </if>
+--         and stock > 0
+        and price > 0
+        <![CDATA[
+        order by rand() limit 1;
+        ]]>
+    </select>
+
+
+
+    <select id="listFavoriteStatus" resultType="int">
+        SELECT `status`
+        FROM shop_member_favorite
+        WHERE
+        related_id = #{shopProductId}
+        AND member_id = #{memberId}
+        AND `type` = #{type}
+        AND store_id = #{storeId}
+    </select>
+
+
+    <select id="getShopProductAndActivityPage" parameterType="com.baomidou.mybatisplus.plugins.Page" resultType="map">
+        SELECT
+            CASE id
+        WHEN #{teamBuyShopProductId} THEN
+            2
+        WHEN #{secondBuyShopProductId} THEN
+            1
+        ELSE
+            0
+        END AS activityType,
+         id AS id,
+         product_id AS productId,
+         `name`,
+         price,
+         xprice,
+         market_price AS marketPrice,
+         clothes_number AS clothesNumber,
+         stock,
+         category_id AS categoryId,
+         tag_ids AS tagIds,
+         size_ids AS sizeIds,
+         color_ids AS colorIds,
+         summary_images AS summaryImages,
+         remark,
+         top_time AS topTime,
+         stock_time AS stockTime,
+         tab_type AS tabType,
+         sold_out AS soldOut,
+         `status`,
+         store_id AS storeId,
+         shop_own_detail AS shopOwnDetail,
+         video_url AS videoUrl,
+         want_member_count AS wantMemberCount,
+         show_count AS showCount,
+         update_time AS updateTime,
+         create_time AS createTime,
+         ground_time AS groundTime,
+         own,
+         video_display_image AS videoDisplayImage,
+         video_display_fileId AS videoDisplayFileId,
+         video_display_url AS videoDisplayUrl,
+         wxaqrcode_url AS wxaqrcodeUrl,
+         wxa_product_share_image AS wxaProductShareImage,
+         wxa_product_share_old_images AS wxaProductShareOldImages,
+         color_id AS colorId,
+         color_name AS colorName,
+         size_id AS sizeId,
+         size_name AS sizeName
+        FROM
+            shop_product
+        WHERE
+            store_id = #{storeId}
+            AND STATUS = #{status}
+            AND sold_out = #{soldOut}
+        ORDER BY
+            activityType DESC
+    </select>
+
+
+    <select id="getByStoreId" resultType="Integer">
+            select `wxa_business_type` as wxaBusinessType from `yjj_storebusiness` where `Id`=#{storeId}
+    </select>
+    <!--根据产品id 获取-->
+    <select id="findProductForFavoriteById" resultType="com.jiuyuan.entity.newentity.ShopProduct">
+        select
+         <include refid="findProductForFavoriteData"/>
+        from shop_product p
+        where p.id = #{shopProductId}
+    </select>
+    <!--根据产品ids 获取-->
+    <select id="listProductForFavoriteByIds" resultType="com.jiuyuan.entity.newentity.ShopProduct">
+        select
+        <include refid="findProductForFavoriteData"/>
+        from shop_product p
+        where p.id IN 
+        <foreach collection="shopProductIds" item="shopProductId" open="(" separator="," close=")">
+            #{shopProductId}
+        </foreach>
+    </select>
+
+    <select id="listImgs" resultType="com.jiuyuan.entity.newentity.ProductNew">
+        select
+        Id,
+        DetailImages,
+        SummaryImages
+        from yjj_product p
+        where p.id IN
+        <foreach collection="productIds" item="productId" open="(" separator="," close=")">
+            #{productId}
+        </foreach>
+    </select>
+
+
+    <!--查询是否为自营-->
+    <select id="findOwnProductByIdOwn" resultType="java.lang.Integer">
+        select count(id) from shop_product where  id = #{productId} and own = #{own}
+    </select>
+
+    <select id="selectShopProduct" resultType="com.jiuyuan.entity.newentity.ShopProduct">
+            select
+             `id`,
+             `store_id` as storeId,
+             `own`,
+             `summary_images` as summaryImages,
+             `product_id` as productId,
+             `wxaqrcode_url` as wxaqrcodeUrl
+             from `shop_product` where `id`=#{shopProductId}
+    </select>
+
+
+    <select id="selectShopProductNew" resultType="com.jiuyuan.entity.newentity.ShopProduct">
+            select
+            id as id,
+            product_id as productId,
+             `wxaqrcode_url` as wxaqrcodeUrl,
+             `wxa_product_share_image` as wxaProductShareImage,
+             `product_new_img` as productNewImg,
+             `in_shop_share_img` as inShopShareImg,
+             `share_img_code` as shareImgCode,
+             `store_id` as sroreId
+            from `shop_product` where `id`=#{id} and `status`=#{status}
+    </select>
+
+
+
+    <select id="findLiveProductByLiveProductId" resultType="java.util.Map">
+        SELECT
+            `shop_product_id` AS shopProductId,
+            `supplier_product_id` AS supplierProductId,
+            `live_price` AS livePrice,
+            `anchor_id` AS anchorId,
+            `live_status` AS liveStatus,
+            `room_num` AS roomNum ,
+            `type`,
+            `id`
+        FROM `yjj_live_product`
+        WHERE `del_status` = 0
+        AND id = #{liveProductId}
+
+    </select>
+</mapper>

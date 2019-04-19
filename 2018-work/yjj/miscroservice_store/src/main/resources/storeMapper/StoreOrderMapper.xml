@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.e_commerce.miscroservice.store.mapper.StoreOrderMapper">
+
+	<!--订单查询-->
+	<select id="getUserOrders" resultType="com.e_commerce.miscroservice.store.entity.response.OrderListResponse">
+		<![CDATA[
+			select * from store_order
+			where storeId = #{userId} and status = 0 and ( parentId <= 0 or ParentId = orderNo ) and MergedId != -1 and orderType = 0
+		]]>
+		<if test="status != 5">
+			<![CDATA[
+				and orderStatus = #{status}
+			]]>
+		</if>
+		<![CDATA[
+			order by createTime desc
+		]]>
+	</select>
+	<!--供应商订单-->
+	<select id="getSupplierOrders" resultType="com.e_commerce.miscroservice.store.entity.vo.StoreOrder">
+		<![CDATA[
+			select * from store_Order
+			where supplierId = #{supplierId} and Status = 0 and ParentId > 0 and MergedId != -1 and orderType = 0
+		]]>
+		<if test="status != 5">
+			<choose>
+				<when test="status == 50">
+					and (OrderStatus = 50 or OrderStatus = 60 or OrderStatus = 70)
+				</when>
+				<when test="status == 80">
+					and (OrderStatus = 80 or OrderStatus = 90 or OrderStatus = 100)
+				</when>
+				<otherwise>
+					and OrderStatus = #{status}
+				</otherwise>
+			</choose>
+		</if>
+		<![CDATA[
+			order by OrderNo desc
+		]]>
+	</select>
+	<!--子订单列表-->
+	<select id="getChildOrders" resultType="com.e_commerce.miscroservice.store.entity.vo.OrderDetailsVo">
+
+			SELECT
+			b.id as itemId,b.orderNo,b.productId,b.skuId,b.brandId,b.totalMoney,b.totalExpressMoney,b.money,b.buyCount
+			,d.`name`,e.colorName,e.sizeName,d.mainImg,d.brandName,a.orderStatus
+			from
+			store_order a,
+			store_orderitem b,
+			yjj_product d,
+			yjj_productsku e
+			where
+			a.storeid = #{userId}
+			and a.status=0
+			and a.ordertype = 0
+			and a.orderno = b.OrderNo
+			and d.id = b.ProductId
+			and b.orderno = #{orderNo}
+			and b.skuid=e.id
+	</select>
+    <select id="getStoreOrderByOrderNoOrderItemId" resultType="com.e_commerce.miscroservice.store.entity.vo.StoreOrder">
+        select
+          a.*
+        from
+        store_order a,
+        store_orderitem b
+        where
+        a.orderno = b.orderno
+        and a.orderno = #{orderNo}
+        and b.id = #{orderItemId}
+
+    </select>
+
+	<!--查询订单列表-->
+	<select id="selectOrderList" resultType="com.e_commerce.miscroservice.store.entity.vo.StoreOrderNewResponse">
+			select*from `store_order` where  `StoreId`=#{request.storeId} and `Status`=0
+
+			<if test="request.status!=null">
+				and  `OrderStatus`=#{request.status}
+			</if>
+
+	</select>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+

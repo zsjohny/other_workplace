@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jiuy.core.dao.impl.sql.StoreOrderLogDaoSqlImpl">
+
+	<select id="storeOrderLogOfOrderNos" parameterType="map" resultType="StoreOrderLog1">
+	    select * from store_OrderLog 
+	    where OrderNo in 
+			<foreach collection="orderNos" item="orderNo" open="(" separator="," close=")">
+				#{orderNo}
+			</foreach>	    	
+	</select>  
+	
+	<select id="storeOrderLogPayOfOrderNos" parameterType="map" resultType="StoreOrderLog1">
+	    select * from store_OrderLog 
+	    where OrderNo in 
+			<foreach collection="orderNos" item="orderNo" open="(" separator="," close=")">
+				#{orderNo}
+			</foreach> and OldStatus = 0 and NewStatus = 10
+	</select> 
+	
+	<select id="getByOrderNos" parameterType="map" resultType="StoreOrderLog1">
+	    select * from store_OrderLog 
+	    where OrderNo in 
+			<foreach collection="orderNos" item="orderNo" open="(" separator="," close=")">
+				#{orderNo}
+			</foreach> and OldStatus = #{oldStatus} and NewStatus = #{newStatus}
+	
+	</select>
+	
+	<update id="updateLog" parameterType="map">
+		insert store_OrderLog(StoreId, OrderNo, OldStatus, NewStatus, CreateTime)
+		values 
+		<foreach collection="orderNos" item="orderNo" open="(" separator="),(" close=")">
+			#{storeId}, #{orderNo}, #{oldStatus}, #{newStatus}, #{createTime}
+		</foreach>
+	</update>
+	
+</mapper>

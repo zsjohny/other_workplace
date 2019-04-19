@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" > 
+<mapper namespace="com.e_commerce.miscroservice.product.mapper.StoreShoppingCartMapper">
+
+
+	<!-- 查询购物车的品牌(按修改时间降序) brandId,brandName -->
+	<select id="listMyCartBrand" parameterType="map" resultType="map">
+		SELECT
+			pdc.BrandId AS brandId,
+			pdc.brandName
+		FROM
+			store_shoppingcart cart
+		JOIN yjj_product pdc ON pdc.Id = cart.ProductId
+		WHERE
+			StoreId = #{storeId}
+			AND cart.`Status` = 0
+		GROUP BY
+			pdc.BrandId
+		ORDER BY
+			MAX(cart.UpdateTime) DESC
+	</select>
+
+
+	<!-- 购物车商品列表 -->
+	<select id="listMyCartProduct" resultType="map">
+		SELECT
+			pdc.BrandId AS brandId,
+			pdc.Id AS productId,
+			pdc.`Name` AS productName,
+			pdc.ladderPriceJson AS ladderPriceJson,
+			pdc.minLadderPrice,
+			IFNULL(pdc.member_ladder_price_json,'[]') AS memberLadderPriceJson,
+			pdc.member_ladder_price_min,
+			pdc.memberLevel,
+			pdc.ClothesNumber AS clothesNumber,
+			pdc.mainImg AS productMainImg,
+			pdc.state AS productState,
+			cart.IsSelected AS isSelected,
+			SUM(cart.BuyCount) AS buyCount
+		FROM
+			store_shoppingcart cart
+		JOIN yjj_product pdc ON pdc.Id = cart.ProductId
+		WHERE
+			cart.StoreId= #{storeId}
+			AND pdc.BrandId IN
+			  <foreach collection="brandIdList" item="brandId" open="(" separator="," close=")">
+				  #{brandId}
+			  </foreach>
+		AND cart.`Status` = 0
+		GROUP BY cart.ProductId
+	</select>
+
+
+	<!-- 购物车sku -->
+	<select id="listMyCartSku" resultType="map">
+		SELECT 
+		cart.Id AS cartId,
+		cart.BuyCount AS buyCount,
+		sku.Id AS skuId,
+		sku.colorName,
+		sku.sizeName,
+		sku.RemainCount AS remainCount,
+		sku.ProductId AS productId,
+		sku.BrandId AS brandId
+		FROM store_shoppingcart cart
+		JOIN yjj_productsku sku ON sku.Id = cart.SkuId
+		WHERE
+		cart.`Status` = 0
+		AND cart.StoreId = #{storeId}
+		AND	cart.ProductId IN
+			<foreach collection="productIdList" item="productId" open="(" separator="," close=")">
+				#{productId}
+			</foreach>
+	</select>
+
+
+	<select id="clothesNumberCount" resultType="java.lang.Integer">
+		SELECT
+			COUNT(temp.ProductId)
+		FROM
+			(
+				SELECT
+					cart.ProductId
+				FROM
+					store_shoppingcart cart
+				JOIN yjj_product pdc ON pdc.Id = cart.ProductId
+				WHERE
+					cart.StoreId = #{storeId}
+				AND cart.`Status` = 0
+				GROUP BY
+					cart.ProductId
+			) AS temp
+	</select>
+
+
+	<!-- 删除用户失效的商品 -->
+	<update id="deleteCarts" parameterType="map">
+		UPDATE store_shoppingcart
+		SET `Status` = -1
+		WHERE Id IN (
+			SELECT *
+			FROM (
+				SELECT
+				cart.Id AS cartId
+				FROM
+					store_shoppingcart cart
+				JOIN yjj_product pdc ON pdc.Id = cart.ProductId
+				WHERE cart.StoreId = #{storeId}
+				AND pdc.state != 6
+				AND cart.`Status` != -1
+				<if test="ids != null">
+					AND cart.Id IN
+					<foreach collection="ids" item="id" open="(" separator="," close=")">
+						#{id}
+					</foreach>
+				</if>
+			) AS temp
+		)
+		AND `Status` != -1
+	</update>
+
+
+
+	<!-- 更新购物车购买数量 -->
+	<update id="updateBuyCountById" parameterType="map">
+		UPDATE store_shoppingcart
+		SET BuyCount = #{buyCount}, UpdateTime = #{updateTime}
+		WHERE  StoreId = #{storeId}
+		AND #{buyCount} &lt;= (
+			SELECT
+				*
+			FROM
+				(
+					SELECT
+						IFNULL(sku.RemainCount, 0)
+					FROM
+						store_shoppingcart cart
+					JOIN yjj_productsku sku ON sku.Id = cart.SkuId
+					AND cart.Id = #{id}
+				) AS temp
+		)
+		AND Id = #{id}
+	</update>
+
+</mapper>

@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jiuy.core.dao.impl.sql.ArticalDaoSqlImpl">
+	
+	<select id="searchArtical" parameterType="map" resultType="ArticalVO">
+		SELECT 
+		    c.Id,
+		    c.Title,
+		    c.Content AS EscapeContent,
+		    c.Weight,
+		    c.UpdateTime,
+		    c.ARCategoryId,
+		    c.InterfaceTitle,
+		    c.Abstracts,
+		    c.PageView,
+		    c.Status,
+		    c.PromotionImg,
+		    d.Name AS categoryName,
+		    d.parentName AS parentCategoryName
+		FROM
+		    yjj_Article c
+		        LEFT JOIN
+		    (SELECT 
+		        b.*, a.Name AS parentName
+		    FROM
+		        yjj_ARCategory b
+		    LEFT JOIN yjj_ARCategory a ON a.Id = b.ParentId
+		    WHERE
+		        b.Status = 0) AS d ON c.ARCategoryId = d.Id
+		<where>
+		    c.Status = 0
+				AND (c.Title LIKE CONCAT('%', #{content}, '%') 
+						OR c.Content LIKE CONCAT('%', #{content}, '%'))
+			<if test="aRCategoryId != -1">
+				And c.ARCategoryId = #{aRCategoryId}
+			</if>
+			<if test="aRCategoryId == -1">
+			<![CDATA[
+				And c.ARCategoryId > 0
+			]]>
+			</if>
+		</where>
+		order by c.id desc
+			limit #{query.limit} offset #{query.offset}
+	</select>
+	
+	<select id="searchArticalCount" parameterType="map" resultType="int">
+		SELECT count(1)
+		FROM
+		    yjj_Article c
+		        LEFT JOIN
+		    (SELECT 
+		        b.*, a.Name AS parentName
+		    FROM
+		        yjj_ARCategory b
+		    LEFT JOIN yjj_ARCategory a ON a.Id = b.ParentId
+		    WHERE
+		        b.Status = 0) AS d ON c.ARCategoryId = d.Id
+		<where>
+		    c.Status = 0
+				AND (c.Title LIKE CONCAT('%', #{content}, '%') 
+						OR c.Content LIKE CONCAT('%', #{content}, '%'))
+			<if test="aRCategoryId != -1">
+				And c.ARCategoryId = #{aRCategoryId}
+			</if>
+			<if test="aRCategoryId == -1">
+			<![CDATA[
+				And c.ARCategoryId > 0
+			]]>
+			</if>
+		</where>
+	</select>
+	
+	<update id="remove" parameterType="map">
+		Update
+			yjj_Article
+		SET
+			Status = -1
+		WHERE 
+			Id = #{id}
+	</update>
+	
+	<insert id="addArtical" useGeneratedKeys="true" keyProperty="id" parameterType="Artical">
+		INSERT INTO 
+			yjj_Article(Title, Content, Weight, CreateTime, UpdateTime, 
+			ARCategoryId, Abstracts, PromotionImg, InterfaceTitle)
+		VALUES 
+			(#{title}, #{escapeContent}, #{weight}, #{createTime}, #{updateTime}, 
+			#{aRCategoryId}, #{abstracts}, #{promotionImg}, #{interfaceTitle})
+	</insert>
+	
+	<update id="updateArtical" parameterType="Artical">
+		UPDATE 
+			yjj_Article
+		SET 
+			Title = #{title}, Content = #{escapeContent}, Weight = #{weight}, UpdateTime = #{updateTime}, 
+			ARCategoryId = #{aRCategoryId}, InterfaceTitle= #{interfaceTitle}, Abstracts = #{abstracts}, PromotionImg = #{promotionImg}
+		WHERE 
+			Id = #{id}
+	</update>
+	
+	<select id="loadCatById" parameterType="map" resultType="ArticalVO">
+		SELECT 
+		    a.Id, a.Title, a.Content as EscapeContent, a.Weight, a.UpdateTime, a.ARCategoryId, a.InterfaceTitle, a.Abstracts, 
+		    a.PageView, a.PromotionImg, b.Name
+		FROM
+		    yjj_Article a
+		        LEFT JOIN
+		    yjj_ARCategory b ON a.ARCategoryId = b.Id
+		WHERE
+		    a.Id = #{id}
+	</select>
+	
+	<select id="getCatARCount" parameterType="map" resultType="int">
+		SELECT 
+		    COUNT(*)
+		FROM
+		    yjj_Article
+		WHERE
+		    ARCategoryId = #{aRCategoryId}
+	</select>
+	
+	<select id="searchArticalByCat" parameterType="map" resultType="ArticalVO">
+		SELECT 
+		    Id, Title, Content as EscapeContent, Weight, UpdateTime, ARCategoryId, InterfaceTitle, Abstracts, PageView, PromotionImg
+		FROM
+		    yjj_Article
+		WHERE
+		    ARCategoryId = #{aRCategoryId} AND Status = 0
+		LIMIT #{pageQuery.limit} OFFSET #{pageQuery.offset}
+	</select>
+	
+	<select id="searchArticalCountByCat" parameterType="map" resultType="int">
+		SELECT 
+		    COUNT(*)
+		FROM
+		    yjj_Article
+		WHERE
+		    ARCategoryId = #{aRCategoryId} AND Status = 0
+	</select>
+	
+</mapper>

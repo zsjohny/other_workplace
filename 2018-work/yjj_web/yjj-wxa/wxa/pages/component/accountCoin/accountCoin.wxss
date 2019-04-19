@@ -1,0 +1,16 @@
+@import '/pages/component/accountAmount/accountAmount.wxss';
+/**账户金币 **/
+.account-head,
+.swiper-box .item,
+.swiper-box{
+  width: 742rpx;
+  height: 378rpx;
+}
+.swiper-box .item{
+  background: url(http://mini-img-main.oss-cn-hangzhou.aliyuncs.com/icon/new/coin-bg.png) no-repeat;
+  background-size: 742rpx;
+  margin-bottom: 10rpx;
+}
+.swiper-box .item .dl-head .dt::after{
+  background: none;
+}

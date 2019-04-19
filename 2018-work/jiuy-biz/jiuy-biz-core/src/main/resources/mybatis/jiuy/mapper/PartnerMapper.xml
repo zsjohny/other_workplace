@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Partner">
+
+	<select id="search" parameterType="map" resultType="PartnerVO">
+		SELECT 
+		    *
+		FROM
+	    	yjj_Partner a, yjj_PartnerCatManage b
+		<where>
+			a.PartnerCatManageId = b.Id AND a.Status = 0
+			<if test="name != '' ">
+				and a.Name like CONCAT("%", #{name}, "%")
+			</if>
+			<if test="engName != ''">
+				and a.EngName like CONCAT("%", #{engName} , "%")
+			</if>		
+		</where>
+		limit #{PageQuery.limit} offset #{PageQuery.offset}
+	</select>
+	
+	<select id="searchCount" parameterType="map" resultType="int">
+		select 
+			count(*)
+		FROM
+	    	yjj_Partner a, yjj_PartnerCatManage b
+		<where>
+			a.PartnerCatManageId = b.Id AND a.Status = 0
+			<if test="name != '' ">
+				and Name like CONCAT ("%", name ,"%")
+			</if>
+			<if test="engName != '' ">
+				and EngName like CONCAT ("%", engName, "%")
+			</if>
+		</where>
+	</select>
+
+	<insert id="addBrand" parameterType="PartnerVO">
+		insert into
+			yjj_Partner(Name, EngName, Summary, Description, CreateTime, UpdateTime, IconUrl, Weight, PartnerCatManageId, TemplateId)
+		values
+			(#{name}, #{engName}, #{summary}, #{description}, #{createTime}, #{updateTime}, #{iconUrl}, #{weight}, #{partnerCatManageId}, #{templateId})
+	</insert>
+	
+	<update id="updateBrand" parameterType="PartnerVO">
+		update 
+			yjj_Partner 
+		set
+			Name = #{name}, EngName = #{engName}, Summary = #{summary}, Description = #{description}, UpdateTime = unix_timestamp()*1000, IconUrl = #{iconUrl},
+			Weight = #{weight}, PartnerCatManageId = #{partnerCatManageId}
+		where 
+			Id = #{id}
+	</update>
+	
+	<update id="removeBrand" parameterType="long">	
+		update 
+			yjj_Partner
+		set 
+			Status = -1
+		where 
+			Id = #{id}
+	</update>
+	
+	<select id="getPartnerUrl" parameterType="long" resultType="String">
+		select 
+			Url
+		from 
+			yjj_Partner
+		where
+			Id = #{partnerId}
+	</select>
+	
+	<update id="addPartnerUrl" parameterType="map">	
+		update 
+			yjj_Partner
+		set 
+			Url = #{url}
+		where 
+			Id = #{partnerId}
+	</update>
+	
+	<select id="getIdByEngName" parameterType="String" resultType="int">
+		select Id
+		from yjj_Partner
+		where Name = #{name} and Status = 0
+	</select>
+	
+	<select id="getPartnerByName" resultType="map" parameterType="String">
+		SELECT a.*, b.Id as
+		CategoryId , b.CategoryName
+		FROM yjj_Partner a, yjj_Category b,
+		yjj_PartnerCategory c
+		where a.Id = c.PartnerId and b.Id = c.CategoryId
+		and a.Status = 0 and a.Name like "%"#{name}"%"
+	</select>
+	
+	<select id="getPartnerById" resultType="map" parameterType="long">
+		SELECT a.*, b.Id as
+		CategoryId , b.CategoryName
+		FROM yjj_Partner a, yjj_Category b,
+		yjj_PartnerCategory c
+		where a.Id = c.PartnerId and b.Id = c.CategoryId
+		and a.Status = 0 and a.Id = #{id}
+	</select>
+</mapper>

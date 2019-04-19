@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jiuyuan.dao.mapper.supplier.OperatorArticleMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.jiuyuan.entity.newentity.OperatorArticle">
+		<id column="id" property="id" />
+		<result column="title" property="title" />
+		<result column="preview_image_url" property="previewImageUrl" />
+		<result column="abstracts" property="abstracts" />
+		<result column="content" property="content" />
+		<result column="status" property="status" />
+		<result column="create_time" property="createTime" />
+		<result column="update_time" property="updateTime" />
+		<result column="delete_time" property="deleteTime" />
+		<result column="create_operator_id" property="createOperatorId" />
+		<result column="delete_operator_id" property="deleteOperatorId" />
+		<result column="seo_title" property="seoTitle" />
+		<result column="seo_descriptor" property="seoDescriptor" />
+		<result column="seo_keywords" property="seoKeywords" />
+	</resultMap>
+
+</mapper>

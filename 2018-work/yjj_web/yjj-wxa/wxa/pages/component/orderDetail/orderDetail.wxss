@@ -1,0 +1,168 @@
+@import '/style/common.wxss';
+/**订单详情 **/
+page{
+  background: #f4f4f4
+}
+.body-contain{
+  padding-bottom: 120rpx;
+}
+.bt-margin20{
+  margin-bottom:20rpx;
+}
+.bt-border2{
+  border-bottom:2rpx solid #f4f4f4;
+}
+.order-head{
+  height: 194rpx;
+  color: #fff;
+  background: #fd4374;
+  position: relative;
+  display: -webkit-flex;
+  align-items: center
+}
+.order-head .state{
+  font-size: 32rpx;
+  padding-left: 75rpx;
+}
+.order-head .state .time{
+  font-size: 24rpx;
+}
+.order-head .state-icon{
+  position: absolute;
+  right: 50rpx;
+  top: 36rpx;
+}
+/*卖家已发货*/
+.order-head .already-send{
+  width: 255rpx;
+  height: 122rpx;
+  background: url(https://yjj-img-main.oss-cn-hangzhou.aliyuncs.com/icon/new/already-send.png);
+  background-size: 255rpx;
+}
+/*交易成功*/
+.order-head .trade-success{
+  width: 242rpx;
+  height: 180rpx;
+  background: url(https://yjj-img-main.oss-cn-hangzhou.aliyuncs.com/icon/new/trade-success.png);
+  background-size: 242rpx;
+  top: 16rpx;
+}
+/*等待付款*/
+.order-head .wait-pay{
+  width: 236rpx;
+  height: 176rpx;
+  background: url(https://yjj-img-main.oss-cn-hangzhou.aliyuncs.com/icon/new/wait-pay.png);
+  background-size: 236rpx;
+  top: 16rpx;
+}
+/*等待卖家发货*/
+.order-head .wait-send{
+  width: 228rpx;
+  height: 185rpx;
+  background: url(https://yjj-img-main.oss-cn-hangzhou.aliyuncs.com/icon/new/wait-send.png);
+  background-size: 228rpx;
+  top: 12rpx;
+}
+/*交易关闭*/
+.order-head .trade-close{
+  width: 392rpx;
+  height: 194rpx;
+  background: url(https://yjj-img-main.oss-cn-hangzhou.aliyuncs.com/icon/new/trade-close.png);
+  background-size: 392rpx;
+  top: 0;
+  right: 0;
+}
+/*地址*/
+.order-address{
+  background: #fff;
+  padding: 24rpx 24rpx 24rpx 70rpx;
+  font-size: 26rpx;
+  position: relative;
+}
+.order-address::after{
+  content: '';
+  position: absolute;
+  left: 20rpx;
+  top: 60rpx;
+  width: 45rpx;
+  height: 45rpx;
+  background: url(https://mini-img-main.oss-cn-hangzhou.aliyuncs.com/icon/new/address-icon.png);
+  background-size: 45rpx;
+}
+.order-address .name-box{
+  position: relative
+}
+.order-address .name-box .phone{
+  margin-left: 10rpx;
+}
+.order-address .name-box .r{
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+.order-address .address{
+  padding-top: 12rpx;
+  color: #848484;
+}
+/*商品信息*/
+.order-box{
+  background: #fff;
+}
+.order-box .item{
+  height: auto;
+  overflow: hidden;
+  border-bottom: 2rpx solid #f4f4f4;
+}
+.order-box .detail{
+  line-height: 50rpx;
+  color: #9a9a9a;
+  font-size: 26rpx;
+  padding: 0 24rpx;
+  display: -webkit-flex;
+}
+.order-box .detail text{
+  width: 50%;
+}
+.order-box .detail .r{
+  text-align: right;
+}
+.order-box .pay-line{
+  border-top: 2rpx solid #f4f4f4;
+  height: 86rpx;
+  line-height: 86rpx;
+  display: -webkit-flex;
+  padding: 0 24rpx;
+  font-size: 30rpx;
+  margin-top: 10rpx;
+}
+.order-box .pay-line text{
+  display: block;
+  width: 50%;
+}
+.order-box .pay-line .money{
+  text-align: right;
+}
+.order-info{
+  background: #fff;
+  padding: 20rpx 24rpx;
+}
+.order-info .item{
+  line-height: 60rpx;
+  color: #cacaca;
+  font-size: 24rpx;
+}
+.order-info .item text{
+  font-size: 30rpx;
+  color: #333;
+}
+.order-btn{
+  display: -webkit-flex;
+  height: 124rpx;
+  justify-content: flex-end;
+  background: #fff;
+  align-items: center;
+  padding-right: 24rpx;
+}
+.order-btn .btn-item{
+  margin-left: 30rpx;
+}

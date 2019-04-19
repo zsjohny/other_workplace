@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jiuy.core.dao.impl.sql.LOWarehouseDaoSqlImpl">
+
+    <select id="srchWarehouse" parameterType="map" resultType="LOWarehouse">
+    	select * from  yjj_LOWarehouse
+		<where>
+			status = 0
+			<if test="name!=''">
+				and name like concat("%", #{name}, "%")
+			</if>
+		</where>
+		ORDER BY id DESC
+		<if test="pageQuery!=null">
+			limit #{pageQuery.limit} offset #{pageQuery.offset}
+		</if>
+    </select>
+    
+    <select id="srcWarehouseCount" parameterType="map" resultType="int">
+    	SELECT 
+		    COUNT(*)
+		FROM
+		    yjj_LOWarehouse
+		WHERE
+		Name LIKE CONCAT("%", #{name}, "%")
+		    	AND Status = 0
+    </select>
+    
+    <select id="equalWarehouseCount" parameterType="map" resultType="int">
+    	SELECT 
+		    COUNT(*)
+		FROM
+		    yjj_LOWarehouse
+		WHERE
+		    Name = #{name}
+		    	AND Status = 0
+    </select>
+    
+     <select id="updateEqualWarehouseCount" parameterType="map" resultType="int">
+    	SELECT 
+		    COUNT(*)
+		FROM
+		    yjj_LOWarehouse
+		WHERE
+		Id not in (#{id}) AND
+		    Name = #{name}
+		    	AND Status = 0
+    </select>
+    
+    <select id="loadById" parameterType="map" resultType="LOWarehouse">
+    	SELECT 
+		    *
+		FROM
+		    yjj_LOWarehouse
+		WHERE
+		    Id = #{id}
+    </select>
+    
+    <insert id="add" parameterType="LOWarehouse">
+    	<![CDATA[
+			INSERT INTO 
+				yjj_LOWarehouse(Id, Name, DeliveryLocation, Description, IsFree, FreeCount, Status, CreateTime, UpdateTime, RemainCountSyncSet)
+			VALUES
+				(#{id}, #{name}, #{deliveryLocation}, #{description}, #{isFree}, #{freeCount}, #{status}, unix_timestamp()*1000, unix_timestamp()*1000, #{remainCountSyncSet})
+		]]>
+    </insert>
+    
+    <update id="update">
+    	<![CDATA[
+			update 
+				yjj_LOWarehouse 
+			set 
+				Name = #{name}, DeliveryLocation = #{deliveryLocation}, Description = #{description}, 
+				IsFree = #{isFree}, FreeCount = #{freeCount}, UpdateTime = unix_timestamp()*1000, RemainCountSyncSet = #{remainCountSyncSet}
+		]]>
+		where Id = #{id}
+    </update>
+    
+    <update id="remove" parameterType="map">
+    	update
+    		yjj_LOWarehouse
+    	set 
+    		Status = -1
+    	where 
+    		Id in 
+   		<foreach collection="ids" item="warehouseId" open="(" separator="," close=")">
+			<![CDATA[
+				#{warehouseId}
+			]]>
+		</foreach>
+    </update>
+    
+    <select id="warehouseOfIds" parameterType="map" resultType="LOWarehouse">
+    	select * from yjj_LOWarehouse
+    	where Id in 
+    	<foreach collection="ids" item="warehouseId" open="(" separator="," close=")">
+			<![CDATA[
+				#{warehouseId}
+			]]>
+		</foreach>
+    </select>
+    
+</mapper>

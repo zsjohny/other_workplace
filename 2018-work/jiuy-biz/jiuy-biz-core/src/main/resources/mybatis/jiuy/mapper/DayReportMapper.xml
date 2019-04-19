@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jiuy.core.dao.mapper.DayReportMapperSqlImpl">
+    
+   	<select id="executeStoreDailyReport">
+		<![CDATA[  {call StoreDailyReport (#{startTime}, #{endTime})}  ]]>  
+	</select>
+	
+	<select id="executeGroundCustomerChangeDailyReport">
+	    <![CDATA[  {call GroundCustomerChangeDailyReport(#{date})}]]>
+	</select>
+	
+	<select id="executeGroundUserStatistics">
+	    <![CDATA[  {call GroundUserStatistics(#{date})}]]>
+	</select>
+	
+	<select id="executeGroundBonusDailyReport">
+	    <![CDATA[  {call GroundBonusDailyReport(#{date})}]]>
+	</select>
+    
+   	<select id="executeCategorySaleDailyReport">
+		<![CDATA[  {call CategorySaleDailyReport (#{startTime}, #{endTime})}  ]]>  
+	</select>
+    
+   	<select id="executeTemplateSeniorDailyReport">
+		<![CDATA[  {call TemplateSeniorDailyReport (#{startTime}, #{endTime})}  ]]>  
+	</select>
+    
+   	<select id="executePageProductStatisticsDailyReport">
+		<![CDATA[  {call PageProductStatisticsDailyReport (#{startTime}, #{endTime})}  ]]>  
+	</select>
+    
+   	<select id="executePageStatisticsDailyReport">
+		<![CDATA[  {call PageStatisticsDailyReport (#{startTime}, #{endTime})}  ]]>  
+	</select>
+	
+	<select id="executeUserShareDailyReport">
+		<![CDATA[  {call UserShareDailyReport (#{startTime}, #{endTime})}  ]]>  
+	</select>
+	
+	<select id="executeJiuCoinDeductDailyReport">
+		<![CDATA[  {call JiuCoinDeductDailyReport (#{startTime}, #{endTime})}  ]]>  
+	</select>
+	
+	<select id="executeFirstDiscountDailyReport">
+		<![CDATA[  {call FirstDiscountDailyReport (#{startTime}, #{endTime})}  ]]>  
+	</select>
+	
+	<select id="executeProductDetailDailyReport">
+	    <![CDATA[  {call StoreProductDetailDayReport(#{startTime})}]]>
+	</select>
+	
+</mapper> 

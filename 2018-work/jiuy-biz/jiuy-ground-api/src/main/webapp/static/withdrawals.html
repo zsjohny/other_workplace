@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+	<title>提现申请</title>
+	<meta name="description" content="">
+	<meta name="keywords" content="">
+    <script src="js/adaptation.js"></script>
+	<link type="text/css" rel="stylesheet" href="css/base.css">
+	<link type="text/css" rel="stylesheet" href="css/common.css">
+</head>
+<body>
+    <!--提现模块-->
+    <div class="withdraw-wrap">
+        <div class="withdraw-box">
+            <div class="item">
+                <span>可提现金额：</span>
+                <span id="withdraw-total"></span>元
+            </div>
+            <div class="item">
+                <input type="text" class="withdraw-money" placeholder="">
+            </div>
+        </div>
+        <!-- 提示框 -->
+        <div class="xbox-mod">
+            <div class="mod-mask"></div>
+            <div class="mod-content">
+                <div class="mod-text"></div>
+                <div class="ui-btn close-btn">知道了</div>
+            </div>
+        </div>
+        <input type="button" class="ui-btn fixed-bottom withdraw-btn" value="提交">
+    </div>
+    <!--提现模块 end-->
+    <!-- 提现成功后模块-->
+    <div class="success-wrap">
+        <section class="mod1">
+            <span class="money"><i id="reduce-money"></i>元</span>
+            <span class="icon"></span>
+            <span class="state">提交成功！</span>
+        </section>
+        <section class="mod2">
+            <p>您当前的可提现余额</p>
+            <p><span class="number" id="withdraw-balance"></span>元</p>
+        </section>
+        <div class="mod-btn fixed-bottom">
+            <a class="ui-btn item-btn" href="withdrawals.html">继续提现</a>
+            <a class="ui-btn item-btn" href="withdrawalsRecord.html">查询记录</a>
+        </div>
+    </div>
+    <script type="text/javascript" src="js/jquery-3.0.0.min.js"></script>
+    <script type="text/javascript" src="js/template.js"></script>
+    <script type="text/javascript" src="js/common.js"></script>
+    <script type="text/javascript">
+         $(function(){
+            //获取提现金额
+            function getWithdrawalsMoney(){
+                $.ajax({
+                    url:'/myInfo/getAbleBalance.json',
+                    type : "GET",
+                    dataType : "json",
+                    async:false,
+                    success:function(res){
+                        console.log(res);
+                        if (res.successful) {
+                            $("#withdraw-total").html(res.data.ableBalance);
+                            $("#withdraw-total").attr("data-minWithdrawal",res.data.minWithdrawal);
+                            var $text = "请输入您要提现的金额，最低提现额"+res.data.minWithdrawal+"元";
+                            $(".withdraw-money").attr("placeholder",$text);
+                        }else{
+                            //未登录跳转至登录页面
+                            if(res.code == "-999"){
+                                window.location.href = 'login.html?origin=withdrawals.html';
+                            }else{
+                                //没修改初始密码时,跳转至修改密码页面
+                                if(res.code =="-809"){
+                                    var btnHTML = "<a class='true' href='/static/modifyPassword.html?origin=withdrawals.html'>确定</a>";
+                                    var closeUrl = "modifyPassword.html?origin=withdrawals.html";
+                                    comfirmBoxLink("show",res.error,btnHTML,closeUrl);
+                                }else{
+                                    comfirmBox("show",res.error,1);
+                                }
+                            }
+                        }
+                    }
+                })
+            }
+            getWithdrawalsMoney()
+         })
+    	//关闭弹窗
+        $(".close-btn,.mod-mask").click(function(){
+           $(".xbox-mod").hide(); 
+        })
+        $(".withdraw-btn").click(function(){
+            var re_number = /^[0-9]+(.[0-9]{0,2})?$/;
+            var withdrawMoney = $.trim($(".withdraw-money").val());
+            var minWithdrawal = $("#withdraw-total").attr("data-minWithdrawal");
+            if(!withdrawMoney){
+                $(".xbox-mod").show(); 
+                $(".mod-text").html("请输入您要提现的金额");
+               return 
+            }if(!re_number.test(withdrawMoney)){
+                $(".xbox-mod").show(); 
+                $(".mod-text").html("请输入正确的数字");
+               return 
+            }
+            if(parseFloat(withdrawMoney) < parseFloat(minWithdrawal)){
+               $(".xbox-mod").show(); 
+               var $text = "提交金额不足最低申请提现金额为"+minWithdrawal+"元！请重新输入再提交";
+               $(".mod-text").html($text);
+               return
+            }
+            if(parseFloat(withdrawMoney) > parseFloat($("#withdraw-total").html())){
+               $(".xbox-mod").show(); 
+               $(".mod-text").html("申请提现金额大于可提现余额！请重新输入");
+               return
+            }
+            var sendData = {
+                withdrawalMoney:withdrawMoney
+            };
+            $.ajax({
+                url:'/myInfo/applicationWithdrawal.json',
+                type : "POST",
+                dataType : "json",
+                async:false,
+                data:sendData,
+                success:function(res){
+                    console.log(res);
+                    if (res.successful) {
+                        $(".xbox-mod,.withdraw-wrap").hide(); 
+                        $(".success-wrap").show();
+                        $(".withdraw-money").val("");
+                        $("#reduce-money").html(res.data.withdrawalMoney);
+                        $("#withdraw-balance").html(res.data.balance);
+                    }else{
+                        $(".xbox-mod").show(); 
+                        $(".mod-text").html(res.error);
+                    }
+                }
+            })
+        })
+    </script>
+</body>
+</html>

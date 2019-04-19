@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.store.dao.mapper.BusinessInformationMapper">
+
+	<!-- 开启二级缓存 -->
+	<!--<cache type="org.mybatis.caches.ehcache.LoggingEhcache"/>-->
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.store.entity.BusinessInformation">
+		<id column="id" property="id" />
+		<result column="user_id" property="userId" />
+		<result column="name" property="name" />
+		<result column="address" property="address" />
+		<result column="phone" property="phone" />
+		<result column="introduction" property="introduction" />
+	</resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, user_id AS userId, `name`, address, phone, introduction
+    </sql>
+
+	<!--<insert id="addInformation">-->
+		<!--insert into `yjj_business_information`-->
+		<!--<trim prefix="(" suffix=")" suffixOverrides=",">-->
+			<!--<if test="businessInformation.userId != null and businessInformation.userId != '' ">-->
+				<!--user_id,-->
+			<!--</if>-->
+			<!--<if test="businessInformation.name != null and businessInformation.name != '' ">-->
+				<!--name,-->
+			<!--</if>-->
+			<!--<if test="businessInformation.address != null and businessInformation.address != '' ">-->
+				<!--address,-->
+			<!--</if>-->
+			<!--<if test="businessInformation.phone != null and businessInformation.phone != '' ">-->
+				<!--phone,-->
+			<!--</if>-->
+			<!--<if test="businessInformation.introduction != null and businessInformation.introduction != '' ">-->
+				<!--introduction,-->
+			<!--</if>-->
+
+		<!--</trim>-->
+		<!--<trim prefix="values (" suffix=")" suffixOverrides=",">-->
+
+			<!--<if test="businessInformation.userId != null and businessInformation.userId != '' ">-->
+				<!--#{businessInformation.userId,jdbcType=VARCHAR},-->
+			<!--</if>-->
+			<!--<if test="businessInformation.name != null and businessInformation.name != '' ">-->
+				<!--#{businessInformation.name,jdbcType=VARCHAR},-->
+			<!--</if>-->
+			<!--<if test="businessInformation.address != null and businessInformation.address != '' ">-->
+				<!--#{businessInformation.address,jdbcType=VARCHAR},-->
+			<!--</if>-->
+			<!--<if test="businessInformation.phone != null and businessInformation.phone != '' ">-->
+				<!--#{businessInformation.phone,jdbcType=VARCHAR},-->
+			<!--</if>-->
+			<!--<if test="businessInformation.introduction != null and businessInformation.introduction != '' ">-->
+				<!--#{businessInformation.introduction,jdbcType=VARCHAR},-->
+			<!--</if>-->
+
+		<!--</trim>-->
+	<!--</insert>-->
+
+
+	<select id="selectByUserId" resultType="com.store.entity.BusinessInformation">
+			select
+			`id`,
+			`name`,
+			`address`,
+			`phone`,
+			`Introduction` as introduction,
+			`del_state` as delState,
+			`create_time` as createTime,
+			`update_time` as updateTime
+			from `yjj_business_information` where `user_id`=#{userId}
+	</select>
+
+	<select id="selectStoreBusiness" resultType="com.jiuyuan.entity.newentity.StoreBusiness">
+			select
+			`Id` as Id,
+			`BusinessName` as BusinessName,
+			`BusinessAddress` as BusinessAddress,
+			`PhoneNumber` as PhoneNumber,
+			`wxaType` as wxaType
+			from `yjj_storebusiness` where `Id`=#{storeId}
+	</select>
+</mapper>

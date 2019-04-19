@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" > 
+<mapper namespace="com.jiuy.mapper.QrtzJobDetailsMapper">
+ 
+ 	<!-- 主要的返回映射-->
+	<resultMap id="BaseResultMap" type="com.jiuy.timer.model.QrtzJobDetails"	>
+		<id column="SCHED_NAME" property="schedName" jdbcType="VARCHAR" />
+		<result column="JOB_NAME"  property="jobName"  jdbcType="VARCHAR" />
+		<result column="JOB_GROUP"  property="jobGroup"  jdbcType="VARCHAR" />
+		<result column="DESCRIPTION"  property="description"  jdbcType="VARCHAR" />
+		<result column="JOB_CLASS_NAME"  property="jobClassName"  jdbcType="VARCHAR" />
+		<result column="IS_DURABLE"  property="isDurable"  jdbcType="VARCHAR" />
+		<result column="IS_NONCONCURRENT"  property="isNonconcurrent"  jdbcType="VARCHAR" />
+		<result column="IS_UPDATE_DATA"  property="isUpdateData"  jdbcType="VARCHAR" />
+		<result column="REQUESTS_RECOVERY"  property="requestsRecovery"  jdbcType="VARCHAR" />
+		<result column="JOB_DATA"  property="jobData"  jdbcType="BLOB" />
+	</resultMap>
+
+	<!-- 所有的列名-->
+	<sql id="Base_Column_List" >
+		SCHED_NAME,JOB_NAME,JOB_GROUP,DESCRIPTION,JOB_CLASS_NAME,IS_DURABLE,IS_NONCONCURRENT,IS_UPDATE_DATA,REQUESTS_RECOVERY,
+		JOB_DATA
+	</sql>
+
+	<!-- 精确更新的字段-->
+	<sql id="updateBase">
+		<if test="schedName  !=null">
+			SCHED_NAME = #{schedName,jdbcType=VARCHAR}, 
+		</if>
+		<if test="jobName  !=null">
+			JOB_NAME = #{jobName,jdbcType=VARCHAR}, 
+		</if>
+		<if test="jobGroup  !=null">
+			JOB_GROUP = #{jobGroup,jdbcType=VARCHAR}, 
+		</if>
+		<if test="description  !=null">
+			DESCRIPTION = #{description,jdbcType=VARCHAR}, 
+		</if>
+		<if test="jobClassName  !=null">
+			JOB_CLASS_NAME = #{jobClassName,jdbcType=VARCHAR}, 
+		</if>
+		<if test="isDurable  !=null">
+			IS_DURABLE = #{isDurable,jdbcType=VARCHAR}, 
+		</if>
+		<if test="isNonconcurrent  !=null">
+			IS_NONCONCURRENT = #{isNonconcurrent,jdbcType=VARCHAR}, 
+		</if>
+		<if test="isUpdateData  !=null">
+			IS_UPDATE_DATA = #{isUpdateData,jdbcType=VARCHAR}, 
+		</if>
+		<if test="requestsRecovery  !=null">
+			REQUESTS_RECOVERY = #{requestsRecovery,jdbcType=VARCHAR}, 
+		</if>
+		<if test="jobData  !=null">
+			JOB_DATA = #{jobData,jdbcType=BLOB} 
+		</if>
+	</sql>
+
+	<!-- 通过主键查找-->
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="String" >
+		select 
+		<include refid="Base_Column_List" />
+		from qrtz_job_details
+		where  SCHED_NAME = #{id,jdbcType=VARCHAR} 
+	</select>
+
+	<!-- 通过主键删除-->
+	<delete id="deleteByPrimaryKey" parameterType="String" >
+		delete from qrtz_job_details
+		where SCHED_NAME = #{id,jdbcType=VARCHAR} 
+	</delete>
+
+	<!-- 普通插入全字段插入-->
+	<insert id="insert" parameterType="com.jiuy.timer.model.QrtzJobDetails" >
+		insert into qrtz_job_details
+		(
+			SCHED_NAME,
+			JOB_NAME,
+			JOB_GROUP,
+			DESCRIPTION,
+			JOB_CLASS_NAME,
+			IS_DURABLE,
+			IS_NONCONCURRENT,
+			IS_UPDATE_DATA,
+			REQUESTS_RECOVERY,
+			JOB_DATA,
+		)
+		values
+		(
+			#{schedName ,jdbcType=VARCHAR},
+			#{jobName ,jdbcType=VARCHAR},
+			#{jobGroup ,jdbcType=VARCHAR},
+			#{description ,jdbcType=VARCHAR},
+			#{jobClassName ,jdbcType=VARCHAR},
+			#{isDurable ,jdbcType=VARCHAR},
+			#{isNonconcurrent ,jdbcType=VARCHAR},
+			#{isUpdateData ,jdbcType=VARCHAR},
+			#{requestsRecovery ,jdbcType=VARCHAR},
+			#{jobData ,jdbcType=BLOB}
+		)
+	</insert>
+
+	<!-- 批量插入，全部字段插入-->
+	<insert id="insertBach"   parameterType="List" >
+		insert into qrtz_job_details
+		(
+			SCHED_NAME,
+			JOB_NAME,
+			JOB_GROUP,
+			DESCRIPTION,
+			JOB_CLASS_NAME,
+			IS_DURABLE,
+			IS_NONCONCURRENT,
+			IS_UPDATE_DATA,
+			REQUESTS_RECOVERY,
+			JOB_DATA,
+		)
+		values 
+		<foreach collection="list" item="item" separator=",">
+		(
+			#{item.schedName ,jdbcType=VARCHAR},
+			#{item.jobName ,jdbcType=VARCHAR},
+			#{item.jobGroup ,jdbcType=VARCHAR},
+			#{item.description ,jdbcType=VARCHAR},
+			#{item.jobClassName ,jdbcType=VARCHAR},
+			#{item.isDurable ,jdbcType=VARCHAR},
+			#{item.isNonconcurrent ,jdbcType=VARCHAR},
+			#{item.isUpdateData ,jdbcType=VARCHAR},
+			#{item.requestsRecovery ,jdbcType=VARCHAR},
+			#{item.jobData ,jdbcType=BLOB}
+		)
+		</foreach>
+	</insert>
+
+	<!-- 精确插入，非null得字段才会插入-->
+	<insert id="insertSelective" parameterType="com.jiuy.timer.model.QrtzJobDetails" useGeneratedKeys="true" keyProperty="schedName" >
+		insert into qrtz_job_details
+		<trim prefix="(" suffix=")" suffixOverrides="," > 
+			<if test="schedName !=null">  
+				SCHED_NAME,
+			</if>
+			<if test="jobName !=null">  
+				JOB_NAME,
+			</if>
+			<if test="jobGroup !=null">  
+				JOB_GROUP,
+			</if>
+			<if test="description !=null">  
+				DESCRIPTION,
+			</if>
+			<if test="jobClassName !=null">  
+				JOB_CLASS_NAME,
+			</if>
+			<if test="isDurable !=null">  
+				IS_DURABLE,
+			</if>
+			<if test="isNonconcurrent !=null">  
+				IS_NONCONCURRENT,
+			</if>
+			<if test="isUpdateData !=null">  
+				IS_UPDATE_DATA,
+			</if>
+			<if test="requestsRecovery !=null">  
+				REQUESTS_RECOVERY,
+			</if>
+			<if test="jobData !=null">  
+				JOB_DATA,
+			</if>
+		</trim>
+
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+			<if test="schedName  !=null">
+				#{schedName,jdbcType=VARCHAR}, 
+			</if>
+			<if test="jobName  !=null">
+				#{jobName,jdbcType=VARCHAR}, 
+			</if>
+			<if test="jobGroup  !=null">
+				#{jobGroup,jdbcType=VARCHAR}, 
+			</if>
+			<if test="description  !=null">
+				#{description,jdbcType=VARCHAR}, 
+			</if>
+			<if test="jobClassName  !=null">
+				#{jobClassName,jdbcType=VARCHAR}, 
+			</if>
+			<if test="isDurable  !=null">
+				#{isDurable,jdbcType=VARCHAR}, 
+			</if>
+			<if test="isNonconcurrent  !=null">
+				#{isNonconcurrent,jdbcType=VARCHAR}, 
+			</if>
+			<if test="isUpdateData  !=null">
+				#{isUpdateData,jdbcType=VARCHAR}, 
+			</if>
+			<if test="requestsRecovery  !=null">
+				#{requestsRecovery,jdbcType=VARCHAR}, 
+			</if>
+			<if test="jobData  !=null">
+				#{jobData,jdbcType=BLOB} 
+			</if>
+		</trim>
+	</insert> 
+
+	<!-- 精确更新-->
+	<update id="updateByPrimaryKeySelective" parameterType="com.jiuy.timer.model.QrtzJobDetails" >
+		updateqrtz_job_details
+		<set>
+			<include refid="updateBase"/>
+		</set>
+		where SCHED_NAME = #{schedName,jdbcType=VARCHAR} 
+	</update> 
+
+	<!-- 全字段更新 需要注意-->
+	<update id="updateByPrimaryKey" parameterType="com.jiuy.timer.model.QrtzJobDetails" >
+		update QrtzJobDetails
+		set 
+			SCHED_NAME = #{schedName ,jdbcType=VARCHAR},
+			JOB_NAME = #{jobName ,jdbcType=VARCHAR},
+			JOB_GROUP = #{jobGroup ,jdbcType=VARCHAR},
+			DESCRIPTION = #{description ,jdbcType=VARCHAR},
+			JOB_CLASS_NAME = #{jobClassName ,jdbcType=VARCHAR},
+			IS_DURABLE = #{isDurable ,jdbcType=VARCHAR},
+			IS_NONCONCURRENT = #{isNonconcurrent ,jdbcType=VARCHAR},
+			IS_UPDATE_DATA = #{isUpdateData ,jdbcType=VARCHAR},
+			REQUESTS_RECOVERY = #{requestsRecovery ,jdbcType=VARCHAR},
+			JOB_DATA = #{jobData ,jdbcType=BLOB}
+		where SCHED_NAME = #{schedName,jdbcType=VARCHAR} 
+	</update> 
+
+	<!-- 所有的条件集合-->
+	<sql id="whereCase"  >
+		where  1=1 
+		<if test="schedName  !=null">
+			AND SCHED_NAME = #{schedName,jdbcType=VARCHAR} 
+		</if>
+		<if test="jobName  !=null">
+			AND JOB_NAME = #{jobName,jdbcType=VARCHAR} 
+		</if>
+		<if test="jobGroup  !=null">
+			AND JOB_GROUP = #{jobGroup,jdbcType=VARCHAR} 
+		</if>
+		<if test="description  !=null">
+			AND DESCRIPTION = #{description,jdbcType=VARCHAR} 
+		</if>
+		<if test="jobClassName  !=null">
+			AND JOB_CLASS_NAME = #{jobClassName,jdbcType=VARCHAR} 
+		</if>
+		<if test="isDurable  !=null">
+			AND IS_DURABLE = #{isDurable,jdbcType=VARCHAR} 
+		</if>
+		<if test="isNonconcurrent  !=null">
+			AND IS_NONCONCURRENT = #{isNonconcurrent,jdbcType=VARCHAR} 
+		</if>
+		<if test="isUpdateData  !=null">
+			AND IS_UPDATE_DATA = #{isUpdateData,jdbcType=VARCHAR} 
+		</if>
+		<if test="requestsRecovery  !=null">
+			AND REQUESTS_RECOVERY = #{requestsRecovery,jdbcType=VARCHAR} 
+		</if>
+		<if test="jobData  !=null">
+			AND JOB_DATA = #{jobData,jdbcType=BLOB} 
+		</if>
+		<include refid="costomWhereCase"/>
+	</sql>
+
+	<!-- 查询一条，如果返回多条会报错-->
+	<select id="selectOne" parameterType="java.util.Map" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" /> 
+		FROM qrtz_job_details 
+		<include refid="whereCase" /> 
+	</select>
+
+	<!-- 查询一个list-->
+	<select id="selectList" parameterType="java.util.Map" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" /> 
+		FROM qrtz_job_details 
+		<include refid="whereCase" /> 
+	</select>
+
+	<!--  @Costom -->
+	<!-- 从上一行注释以上为系统生成 从这一行往下为用户自定义 请将自定义的sql放在此行下面 -->
+	<sql id="costomWhereCase">
+	</sql>
+
+</mapper>

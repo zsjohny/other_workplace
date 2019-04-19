@@ -1,0 +1,7 @@
+<!--编辑用户昵称-->
+<view class="edit-nickname">
+    <view class="title">昵称</view>
+    <input type="text" class="nickname-input" value="{{ nickName }}" bindinput="bindKeyInput" maxlength="16" auto-focus />
+</view>
+<view class="prompt-box" wx:if="{{ successState }}">保存成功</view>
+<view class="submit-btn" bindtap="saveFunc">提交</view>

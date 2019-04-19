@@ -1,0 +1,76 @@
+<!--申请售后-->
+<view class='body-contain'>
+  <view class='refund-type bt-border20'>
+    <view class='title'>服务类型</view>
+    <view class="btn-box" bindtap='chooseRefundType'>
+      <view class='btn {{type0 ? "active" : "" }}' data-type='0'>仅退款</view>
+      <view class='btn {{type1 ? "active" : "" }}' data-type='1'>退货退款</view>
+    </view>
+  </view>
+  <view class='refund-product bt-border20'>
+    <view class='title'>商品信息</view>
+    <view class="list-box">
+      <view class='item'>
+        <image class="img" mode='aspectFit' src="{{ productData.photo }}"></image>
+        <view class='info'>
+            <view class='name'>{{productData.name}}</view>
+            <view class='sku'>
+              <view class='type' wx:if="{{ productData.color }}">颜色：<text class="color-red">{{productData.color}}</text></view>
+              <view class='type' wx:if="{{ productData.size }}">尺寸：<text class="color-red">{{productData.size}}</text></view>
+              <view class='type type3'>数量：<text class="ft-red">{{productData.count}}</text></view>
+            </view>
+            <view class='price ft-red'>￥{{productData.money}}</view>
+            <view class="refund-number">
+              <view class="ac-item" bindtap='reduceCount' data-count="{{productData.count}}">-</view>
+              <view class="ac-item num-item">{{productData.count}}</view>
+              <view class="ac-item" bindtap='addCount' data-count="{{productData.count}}">+</view>
+            </view>
+        </view>
+      </view><!-- item end-->
+    </view>
+  </view> <!-- refund-product end--> 
+  <view class='refund-form bt-border20'>
+    <view class='form-title'><text class='l'>退款金额</text><text class='r ft-red'>¥{{productData.refundMoney}}</text></view>
+    <view class='form-box'>
+      <view class='form-item'><text>退款金额去掉了优惠券额度</text></view>
+    </view>
+  </view>
+  <view class='refund-form bt-border20'>
+    <view class='form-title'>联系信息<text class='ft-must'>(必填)</text></view>
+    <view class='form-box'>
+      <view class='form-item'>
+        <label>姓名：</label>
+        <input type='text' placeholder='（请输入联系人名）' data-field="name" value='{{name}}' bindinput="bindKeyInput" bindfocus="removeStyle" placeholder-class="{{nameError ? 'error-placeholder' : 'input-placeholder'}}"></input>
+      </view>
+      <view class='form-item form-item1'>
+        <label>手机号：</label>
+        <input type='text' placeholder='（请输入正确联系方式）' data-field="phone" value='{{phone}}' bindinput="bindKeyInput" bindfocus="removeStyle" maxlength="11" placeholder-class="{{phoneError ? 'error-placeholder' : 'input-placeholder'}}"></input>
+      </view>
+    </view>
+  </view>
+  <view class='refund-form bt-border20'>
+    <view class='form-title'>退款原因<text class='ft-must'>(选填)</text></view>
+    <view class='form-box'>
+      <view class='form-item form-item2'>
+        <textarea class='ui-textarea' maxlength="200" data-field="reason" bindinput="bindKeyInput"></textarea>
+        <view class='font-lenght'><text class='color-red'>{{textLength}}</text>/200</view>
+      </view>
+    </view>
+  </view>
+  <view class='refund-form'>
+    <view class='form-title'>退款凭证<text class='ft-must'>(选填)</text></view>
+    <view class='form-box upload-box'>
+      <block wx:for='{{refundImgArray}}' wx:key='{{index}}'>
+        <view class='img-item'>
+          <image src='{{item}}' bindtap='previewImg' data-value='{{item}}'></image>
+          <view class='close' bindtap='deleteImg' data-value='{{item}}'></view>
+        </view>
+      </block>
+      <view wx:if="{{refundImgArray.length < 4 }}" class='img-item img-upload' bindtap='changeImageFunc'>
+        <view class='icon'></view>
+        <view class='text'>最多上传4张凭证</view>
+      </view>
+    </view>
+  </view>
+  <view class='com-btn submit-btn' bindtap='submitRefund'>提交</view>
+</view>

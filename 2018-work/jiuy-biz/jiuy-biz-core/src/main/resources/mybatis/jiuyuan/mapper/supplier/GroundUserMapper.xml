@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jiuyuan.dao.mapper.supplier.GroundUserMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.jiuyuan.entity.newentity.GroundUser">
+		<id column="id" property="id" />
+		<result column="status" property="status" />
+		<result column="name" property="name" />
+		<result column="phone" property="phone" />
+		<result column="password" property="password" />
+		<result column="salt" property="salt" />
+		<result column="user_type" property="userType" />
+		<result column="pid" property="pid" />
+		<result column="puser_type" property="puserType" />
+		<result column="pname" property="pname" />
+		<result column="pphone" property="pphone" />
+		<result column="super_ids" property="superIds" />
+		<result column="province" property="province" />
+		<result column="city" property="city" />
+		<result column="district" property="district" />
+		<result column="bank_account_no" property="bankAccountNo" />
+		<result column="bank_account_name" property="bankAccountName" />
+		<result column="bank_name" property="bankName" />
+		<result column="create_time" property="createTime" />
+		<result column="individual_client_count" property="individualClientCount" />
+		<result column="first_stage_individual_client_count" property="firstStageIndividualClientCount" />
+		<result column="second_stage_individual_client_count" property="secondStageIndividualClientCount" />
+		<result column="third_stage_individual_client_count" property="thirdStageIndividualClientCount" />
+		<result column="other_stage_individual_client_count" property="otherStageIndividualClientCount" />
+		<result column="team_client_count" property="teamClientCount" />
+		<result column="first_stage_team_client_count" property="firstStageTeamClientCount" />
+		<result column="second_stage_team_client_count" property="secondStageTeamClientCount" />
+		<result column="third_stage_team_client_count" property="thirdStageTeamClientCount" />
+		<result column="other_stage_team_client_count" property="otherStageTeamClientCount" />
+		<result column="individual_client_active_rate" property="individualClientActiveRate" />
+		<result column="team_client_active_rate" property="teamClientActiveRate" />
+		<result column="individual_income" property="individualIncome" />
+		<result column="team_income" property="teamIncome" />
+		<result column="is_originalpassword" property="isOriginalpassword" />
+		<result column="available_balance" property="availableBalance" />
+		<result column="min_withdrawal" property="minWithdrawal" />
+		<result column="individual_total_sale_amount" property="individualTotalSaleAmount" />
+		<result column="team_total_sale_amount" property="teamTotalSaleAmount" />
+	</resultMap>
+		
+		<update id="setAvailableBalance">
+		<![CDATA[
+			update ground_user set available_balance=(available_balance - #{withdrawalMoney}) 
+			where id=#{groundUserId}
+		]]>
+	</update>
+		
+</mapper>

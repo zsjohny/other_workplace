@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yujj.dao.mapper.UserInviteRewardLogMapper">
+	
+	<select id="searchCount" resultType="int">
+		select count(1) from yjj_UserInviteRewardLog
+		where UserId = #{userId}
+	</select>
+	
+	<select id="search" resultType="UserInviteRewardLog">
+		select * from yjj_UserInviteRewardLog
+		where UserId = #{userId}
+		limit #{pageQuery.limit} offset #{pageQuery.offset}
+	</select>
+	
+	<insert id="add" parameterType="UserInviteRewardLog">
+		insert yjj_UserInviteRewardLog(UserId, CouponTemplateId, Count, JiuCoin, CreateTime)
+		values(#{userInviteRewardLog.userId}, #{userInviteRewardLog.couponTemplateId}, #{userInviteRewardLog.count}, 
+			#{userInviteRewardLog.jiuCoin}, #{userInviteRewardLog.createTime})
+	</insert>
+</mapper>

@@ -1,0 +1,4 @@
+/**购物车悬浮图标**/
+.shopping-cart{
+  bottom: 260rpx;
+}

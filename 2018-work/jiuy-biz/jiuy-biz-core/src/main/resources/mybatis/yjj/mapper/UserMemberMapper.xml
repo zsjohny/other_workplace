@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yujj.dao.mapper.UserMemberMapper">
+
+	<insert id="add" useGeneratedKeys="true" keyProperty="id">
+		<![CDATA[ 		
+			insert into yjj_UserMember
+			(UserId, DistributionPartners, ParentDistribution, DistributionStatus, BelongStoreName, BelongStoreId, CreateTime, UpdateTime, InviteRelation)
+			values
+			(#{userId}, #{distributionPartners}, #{parentDistribution}, #{distributionStatus}, #{belongStoreName}, #{belongStoreId}, #{createTime}, #{updateTime}, #{inviteRelation})
+		]]>
+    </insert>
+    
+    <select id="getByUserId" resultType="UserMember"> 
+    	select * from yjj_UserMember
+    	where UserId = #{userId}
+    </select>
+    
+    <update id="changeBelongStoreId">
+    	update yjj_UserMember
+    	set BelongStoreName = #{belongStoreName}, BelongStoreId = #{belongStoreId}, CreateTime = #{currentTime}, UpdateTime = #{currentTime}
+    	where Id = #{id}
+    </update>
+    
+    <update id="addDistributionPartners">
+    	update yjj_UserMember
+    	set DistributionPartners = DistributionPartners + 1
+    	where Id = #{id}
+    </update>
+    
+</mapper>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jiuy.core.dao.impl.sql.StoreCommissionPercentageLogDaoSqlImpl">
+
+	<insert id="insertLog" parameterType="StoreCommissionPercentageLog">
+		insert store_CommissionPercentageLog(StoreId, Type, RelatedId, OldCommissionPercentage, NewCommissionPercentage, CreateTime)
+		values(#{storeId}, #{type}, #{relatedId}, 
+			#{oldCommissionPercentage},#{newCommissionPercentage}, #{createTime})
+	</insert>
+	
+</mapper>

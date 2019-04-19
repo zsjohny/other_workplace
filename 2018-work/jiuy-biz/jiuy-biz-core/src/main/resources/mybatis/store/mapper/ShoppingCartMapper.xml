@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.store.dao.mapper.ShoppingCartMapper">
+
+	<select id="getClothesNumberCount" resultType="int">
+		<![CDATA[
+			SELECT COUNT(StoreId) FROM store_ShoppingCart
+			WHERE storeId = #{storeId} AND STATUS = 0
+		]]>
+	</select>
+
+	<select id="getCartItems" resultType="StoreCartItem">
+		<![CDATA[
+			select * from store_ShoppingCart
+			where StoreId = #{userId} and Status = 0
+			order by CreateTime
+		]]>
+	</select>
+	
+	<select id="getDiscountInfoListById" resultType="DiscountInfo">
+		<![CDATA[
+			select * from yjj_DiscountInfo
+			where type = #{type} and RelatedId =  #{id} and status = 0
+			order by Full
+		]]>
+	</select>
+	
+	<select id="getDiscountInfoListByType" resultType="DiscountInfo">
+		<![CDATA[
+			select * from yjj_DiscountInfo
+			where type = #{type} and status = 0 and RelatedId in
+		]]>
+		<foreach collection="ids" item="id" open="(" separator="," close=")">
+			<![CDATA[
+				#{id}
+			]]>
+		</foreach>
+		<![CDATA[
+			order by Full
+		]]>
+	</select>
+
+	<select id="getCartItem" resultType="StoreCartItem">
+		<![CDATA[
+			select * from store_ShoppingCart
+			where StoreId = #{userId} and ProductId = #{productId} and SkuId = #{skuId} and Status = 0
+		]]>
+	</select>
+	
+	<insert id="addCartItem">
+		<![CDATA[
+			insert into store_ShoppingCart
+			(StoreId, ProductId, SkuId, BuyCount, IsSelected, Status, CreateTime, UpdateTime, StatisticsId)
+			values
+			(#{storeId}, #{productId}, #{skuId}, #{buyCount}, 1, #{status}, #{createTime}, #{updateTime}, #{statisticsId})
+			on duplicate key
+			update Status = 0, UpdateTime = unix_timestamp()*1000, BuyCount = BuyCount + #{buyCount}, StatisticsId = #{statisticsId}
+		]]>
+	</insert>
+	
+	<update id="addCount" parameterType="map">
+		<![CDATA[
+			update store_ShoppingCart
+			set BuyCount = BuyCount + #{count}, UpdateTime = #{time}, IsSelected = 1
+			where StoreId = #{userId} and ProductId = #{productId} and SkuId = #{skuId}
+		]]>
+	</update>
+
+	<update id="removeCartItem" parameterType="map">
+		<![CDATA[
+			delete from store_ShoppingCart
+			where StoreId = #{userId} and ProductId = #{productId} and SkuId = #{skuId}
+		]]>
+	</update>
+	
+	<update id="saveProductInCart" parameterType="map">
+		<![CDATA[
+			update store_ShoppingCart
+			set BuyCount = #{buyCount}, IsSelected = #{isSelected}, SkuId = #{skuId}, UpdateTime = #{time}, CreateTime = #{time}
+			where Id = #{id}
+		]]>
+	</update>
+	
+	<select id="getCartItemById" parameterType="map" resultType="StoreCartItem">
+		<![CDATA[
+			select *
+			from store_ShoppingCart
+			where Id = #{id} and Status = 0
+		]]>
+	</select>
+	
+	<update id="removeCartItemByIds" parameterType="map">
+		<![CDATA[
+			delete from store_ShoppingCart
+			where StoreId = #{userId} and Id in
+		]]>
+		<foreach collection="ids" item="id" open="(" separator="," close=")">
+			<![CDATA[
+				#{id}
+			]]>
+		</foreach>
+	</update>
+	
+	<update id="removeById">
+		update store_ShoppingCart
+		set Status = -1, BuyCount = 0, IsSelected = 0
+		where StoreId = #{userId} and Id = #{id}
+	</update>
+	
+	<update id="removeNotClear">
+		update store_ShoppingCart
+		set Status = -1, IsSelected = 0
+		where StoreId = #{storeId}
+	</update>
+	
+	<insert id="addCartItems">
+		insert into store_ShoppingCart
+		(StoreId, ProductId, SkuId, BuyCount, IsSelected, Status, CreateTime, UpdateTime, StatisticsId)
+		values
+		<foreach collection="cartItems" item="cartItem" open="(" separator="),(" close=")">
+			#{cartItem.storeId}, #{cartItem.productId}, #{cartItem.skuId}, #{cartItem.buyCount}, #{cartItem.isSelected}, #{cartItem.status}, #{cartItem.createTime}, #{cartItem.updateTime}, #{cartItem.statisticsId}
+		</foreach>
+		ON DUPLICATE KEY UPDATE Status = 0, UpdateTime = unix_timestamp()*1000, BuyCount = BuyCount + VALUES(BuyCount), IsSelected = VALUES(IsSelected), StatisticsId = VALUES(StatisticsId)
+	</insert>
+	
+	<insert id="batchAdd">
+		insert into store_ShoppingCart
+		(StoreId, ProductId, SkuId, BuyCount, IsSelected, Status, CreateTime, UpdateTime, StatisticsId)
+		values
+		<foreach collection="cartItems" item="cartItem" open="(" separator="),(" close=")">
+			#{cartItem.storeId}, #{cartItem.productId}, #{cartItem.skuId}, #{cartItem.buyCount}, #{cartItem.isSelected}, #{cartItem.status}, #{cartItem.createTime}, #{cartItem.updateTime}, #{cartItem.statisticsId}
+		</foreach>
+		ON DUPLICATE KEY UPDATE Status = 0, UpdateTime = unix_timestamp()*1000, BuyCount = BuyCount + VALUES(BuyCount), StatisticsId = VALUES(StatisticsId)
+	</insert>
+	
+	<update id="removeCartItemsByProductId">
+		update store_ShoppingCart
+		set BuyCount = 0, Status = -1
+		where StoreId = #{storeId} and ProductId = #{productId}
+	</update>
+	
+	<update id="removeByStoreId">
+		update store_ShoppingCart
+		set BuyCount = 0, Status = -1
+		where StoreId = #{storeId} and Status = 0
+	</update>
+	
+	<update id="removeZeroBuyCount">
+		update store_ShoppingCart
+		set Status = -1
+		where StoreId = #{storeId} and Status = 0 and BuyCount = 0
+	</update>
+	
+	<select id="getTotalCountByStoreId" resultType="int">
+		select count(distinct(ProductId)) from store_ShoppingCart
+		where StoreId = #{storeId} and Status = 0
+	</select>
+	
+</mapper>

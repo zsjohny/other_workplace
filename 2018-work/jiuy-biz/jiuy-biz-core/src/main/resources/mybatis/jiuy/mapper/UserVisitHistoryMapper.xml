@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jiuy.core.dao.mapper.UserVisitHistoryDaoSqlImpl">
+    
+    <select id="searchGroupCount" resultType="map">
+    	select RelatedId, sum(Count) as sumCount
+    	from yjj_UserVisitHistory 
+    	where RelatedId in 
+    		<foreach collection="relatedIds" item="relatedId" open="(" separator="," close=")">
+    			#{relatedId}
+    		</foreach> and type = #{type}
+    	group by RelatedId
+    </select>
+    
+</mapper>

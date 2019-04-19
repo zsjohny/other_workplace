@@ -1,0 +1,9 @@
+
+
+1、yjj-proxy-admin（代理商管理平台）
+
+2、yjj-proxy（代理商微商城-俞姐姐公众号微商城）
+
+3、yjj-crm （CRM）
+
+4、yjj-wxa (微信小程序)

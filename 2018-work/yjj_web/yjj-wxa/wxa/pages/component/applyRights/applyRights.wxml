@@ -1,0 +1,44 @@
+<!--申请权益-->
+<view class="apply-box">
+  <view class='logo'></view>
+  <view class='logo-text'>俞姐姐门店宝</view>
+</view>
+<view class='apply-form'>
+  <view class='form-item'>
+    <label class='title'>姓名：</label>
+    <input type='text' bindinput="bindKeyInput" data-field="name" maxlength='10' placeholder='请输入真实姓名' placeholder-class='placeholder-font' />
+  </view>
+  <view class='form-item'>
+    <label class='title'>微信号：</label>
+    <input type='text' bindinput="bindKeyInput" data-field='wxNumber' maxlength='30' placeholder='请输入真实微信号' placeholder-class='placeholder-font' />
+  </view>
+  <view class='form-item'>
+    <label class='title'>手机号：</label>
+    <input type='number' bindinput="bindKeyInput" data-field='phone'  maxlength='11' placeholder='请输入11位正确手机号' placeholder-class='placeholder-font' />
+  </view>
+  <view class='form-item'>
+    <label class='title'>身份证号：</label>
+    <input type='text' bindinput="bindKeyInput" data-field='identityCard'  maxlength='18' placeholder='请输入真实身份证号' placeholder-class='placeholder-font' />
+  </view>
+  <!-- <view class='agree-box'>
+    <view class="checkbox {{agreeState ? 'active' : ''}}" bindtap='agreeFunc'></view>
+    <view class='agreement'>
+      <text bindtap='agreeFunc'>俞姐姐</text>
+      <text class='color-red' wx:if="{{grade == 2}}" bindtap='gotoAgreementPage'>《合伙人协议》</text>
+      <text class='color-red' wx:if="{{grade == 1}}" bindtap='gotoAgreementPage'>《代理商协议》</text>
+    </view>
+  </view> -->
+  <view class='apply-btn' bindtap='applyRightsSubmit'>立即申请</view>
+  <view class='apply-explain'>1.为保证您在平台权益故采集上述信息</view>
+  <view class='apply-explain'>2.上述信息平台不会向任何人透露</view>
+</view>
+<!-- 申请成功弹窗 -->
+<view class='success-xbox' wx:if="{{successState}}">
+  <view class='bg' bindtap='closeXbox'></view>
+  <view class='box'>
+    <view class="success-icon"></view>
+    <view class="close-icon" bindtap='closeXbox'></view>
+    <view class="success-text">申请成功</view>
+    <view class='back-btn' bindtap='gotoMyPage'>返回个人中心</view>
+  </view>
+</view>

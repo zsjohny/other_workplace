@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jiuy.core.dao.impl.sql.BrandDaoSqlImpl">
+
+	<insert id="addBrand2" useGeneratedKeys="true" keyProperty="id"
+		parameterType="BrandLogo">
+		insert yjj_Brand(BrandId, BrandName, brand_type, brand_promotion_img, Logo,
+		BrandIdentity, CreateTime, UpdateTime, CnName, Description, Weight, cloth_number_prefix)
+		values (#{brandId}, #{brandName}, #{brandType}, #{brandPromotionImg}, #{logo}, #{brandIdentity},
+		#{createTime}, #{updateTime}, #{cnName}, #{description}, #{weight}, #{clothNumberPrefix})
+	</insert>
+
+	<select id="getBrands" resultType="BrandLogo">
+		SELECT
+		*
+		FROM
+		yjj_Brand
+		WHERE
+		Status = 0 order by id desc
+	</select>
+
+	<update id="updateBrand" parameterType="BrandLogo">
+		UPDATE
+		yjj_Brand
+		SET
+		BrandName = #{brandName}, CnName = #{cnName}, brand_type = #{brandType}, brand_promotion_img = #{brandPromotionImg},Logo = #{logo}, Description =
+		#{description},
+		UpdateTime = #{updateTime}, Weight = #{weight}, BrandIdentity =
+		#{brandIdentity},
+		IsDiscount = #{isDiscount}, ExceedMoney = #{exceedMoney}, MinusMoney =
+		#{minusMoney},cloth_number_prefix = #{clothNumberPrefix}
+		WHERE
+		Id = #{id}
+	</update>
+
+	<select id="getBrandIdByName" resultType="int">
+		SELECT BrandId
+		FROM
+		yjj_Brand
+		WHERE Status = 0 AND BrandName = #{brandName}
+	</select>
+
+	<update id="remove" parameterType="long">
+		UPDATE yjj_Brand
+		SET Status = -1
+		<where>
+			BrandId in
+			<foreach collection="brandIds" item="brandId" open="("
+				separator="," close=")">
+				#{brandId}
+			</foreach>
+		</where>
+	</update>
+	
+	<update id="updateStatus" parameterType="map">
+	   UPDATE yjj_Brand
+	   SET Status = #{status}
+	   WHERE BrandId = #{brandId}
+	</update>
+
+	<select id="getByBrandId" parameterType="long" resultMap="BaseResultMap">
+		SELECT *
+		FROM yjj_Brand
+		WHERE Status = 0 AND BrandId = #{brandId}
+	</select>
+
+	<select id="search" parameterType="map" resultType="BrandLogo">
+		select * from yjj_Brand
+		<where>
+			Status = 0
+			<if test="name != null">
+				and (BrandName like concat ("%", #{name}, "%") or CnName
+				like concat ("%", #{name}, "%"))
+			</if>
+			<if test="brandIds != null">
+				and BrandId in
+				<foreach collection="brandIds" item="brandId" open="("
+					separator="," close=")">
+					#{brandId}
+				</foreach>
+			</if>
+			order by id desc
+		</where>
+		<if test="pageQuery != null">
+			limit #{pageQuery.limit} offset #{pageQuery.offset}
+		</if>
+	</select>
+
+	<select id="searchList" parameterType="map" resultMap="BaseResultMap">
+	    <![CDATA[
+	    select * from yjj_Brand
+	    ]]>
+		<where>
+			<if test="status == -100">
+	          <![CDATA[
+	          status >= 0
+	          ]]>
+			</if>
+			<if test="status != -100">
+	          <![CDATA[
+	          and status =#{status}
+	          ]]>
+			</if>
+			<if test="brandType != -1">
+	          <![CDATA[
+	          and brand_type =#{brandType}
+	          ]]>
+			</if>
+
+			<if test="keywords !=null and keywords !=''">
+	          <![CDATA[
+	          and (BrandName like concat("%",#{keywords},"%") or CnName like concat("%",#{keywords},"%"))
+	          ]]>
+			</if>
+			<if test="brandIds != null">
+	          <![CDATA[
+			  and BrandId in
+	          ]]>
+				<foreach collection="brandIds" item="brandId" open="("
+					separator="," close=")">
+					#{brandId}
+				</foreach>
+			</if>
+		</where>
+		order by id desc
+		<if test="pageQuery != null">
+			limit #{pageQuery.limit} offset #{pageQuery.offset}
+		</if>
+	</select>
+	
+	<resultMap type="com.jiuyuan.entity.brand.BrandLogo" id="BaseResultMap">
+	  <result column="cloth_number_prefix" property="clothNumberPrefix" jdbcType="VARCHAR"/>
+	  <result column="Status" property="status" jdbcType="TINYINT"/>
+	  <result column="brand_type" property="brandType"/>
+	  <result column="brand_promotion_img" property="brandPromotionImg"/>
+	</resultMap>
+
+	<select id="searchListCount" parameterType="map" resultType="int">
+	     <![CDATA[
+	    SELECT 
+			COUNT(*)
+		FROM 
+			yjj_Brand
+	    ]]>
+		<where>
+			<if test="status ==-100">
+	          <![CDATA[
+	          status >= 0
+	          ]]>
+			</if>
+			<if test="status != -100">
+	          <![CDATA[
+	          and status =#{status}
+	          ]]>
+			</if>
+			<if test="brandType != -1">
+	          <![CDATA[
+	          and brand_type =#{brandType}
+	          ]]>
+			</if>
+
+			<if test="keywords !=null and keywords !=''">
+	          <![CDATA[
+	          and (BrandName like concat("%",#{keywords},"%") or CnName like concat("%",#{keywords},"%"))
+	          ]]>
+			</if>
+			<if test="brandIds != null">
+	          <![CDATA[
+			  and BrandId in
+	          ]]>
+				<foreach collection="brandIds" item="brandId" open="("
+					separator="," close=")">
+					#{brandId}
+				</foreach>
+			</if>
+		</where>
+	</select>
+
+
+	<select id="searchCount" parameterType="map" resultType="int">
+		SELECT
+		COUNT(*)
+		FROM
+		yjj_Brand
+		WHERE
+		Status = 0
+		AND (BrandName LIKE CONCAT ("%", #{name}, "%")
+		OR CnName LIKE CONCAT ("%", #{cnName}, "%"))
+	</select>
+    
+    <select id="searchCountByClothNumberPrefix" parameterType="map" resultType="long">
+        SELECT
+		id
+		FROM
+		yjj_Brand
+		WHERE
+		cloth_number_prefix = #{clothNumberPrefix}
+    </select>
+    
+	<select id="getBrandListWithPercentage" resultType="BrandLogoCommissionPercentage">
+		SELECT a.* , b.CommissionPercentage AS CommissionPercentage
+		FROM
+		yjj_Brand a left join yjj_BrandBusiness b
+		on a.BrandId = b.BrandId
+		<where>
+			a.Status = 0
+		</where>
+	</select>
+</mapper>

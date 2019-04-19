@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yujj.dao.mapper.SearchKeywordMapper">
+	
+	<select id="getSearchKeywordCount" parameterType="map" resultType="int">
+		<![CDATA[
+			select count(1) from yjj_SearchKeyword where Status > -1 and Type = 1
+		]]>
+	</select>
+	
+	<select id="getSearchKeywords" resultType="AppSearchKeyword">
+	<![CDATA[
+		select * from yjj_SearchKeyword
+	]]>
+	<![CDATA[
+	 	  where Status > -1 and Type = 1
+          order by Weight desc, CreateTime desc
+          limit #{pageQuery.limit} offset #{pageQuery.offset}	]]>		
+
+	</select>
+	
+	<insert id="addSearchKeyword" parameterType="map">
+		<![CDATA[ INSERT INTO yjj_SearchKeyword (Keyword, SearchCount, SearchResultCount, CreateTime, UpdateTime) 
+			VALUES
+		]]>
+		
+		<foreach collection="searchKeywords" item="searchKeyword" open="(" separator="),(" close=")">
+			<![CDATA[
+				#{searchKeyword.keyword}, 1, #{searchKeyword.searchResultHits}, #{searchKeyword.createTime}, #{searchKeyword.updateTime}			
+			]]>
+		</foreach>
+
+		<![CDATA[
+			ON DUPLICATE KEY UPDATE SearchCount=SearchCount+1, SearchResultCount=VALUES(SearchResultCount), UpdateTime=VALUES(updateTime)
+		]]>
+	</insert>
+		
+</mapper>

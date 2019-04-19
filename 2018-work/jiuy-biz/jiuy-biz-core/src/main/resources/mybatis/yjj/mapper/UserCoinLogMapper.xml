@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yujj.dao.mapper.UserCoinLogMapper">
+	<insert id="addUserCoinLog">
+		<![CDATA[
+			insert into yjj_UserCoinLog
+			(UserId, Operation, OldAvalCoins, NewAvalCoins, OldUnavalCoins, NewUnavalCoins, RelatedId, CreateTime, Content)
+			values
+			(#{userId}, #{operation}, #{oldAvalCoins}, #{newAvalCoins}, #{oldUnavalCoins}, #{newUnavalCoins}, #{relatedId}, #{createTime}, #{content})
+		]]>
+	</insert>
+	
+	<select id="getUserCoinLogCount" parameterType="map" resultType="int">
+		<![CDATA[
+			select count(1) from yjj_UserCoinLog
+			where UserId = #{userId} and CreateTime >= #{startTime} and CreateTime < #{endTime}
+		]]>
+		<if test="operation != null">
+			<![CDATA[
+				and Operation = #{operation}
+			]]>
+		</if>
+	</select>
+	
+	<select id="getTotalUserCoin" resultType="int">
+		<![CDATA[
+			select sum(NewUnavalCoins - OldUnavalCoins) from yjj_UserCoinLog
+			where UserId = #{userId} and CreateTime >= #{startTime} and CreateTime < #{endTime}
+		]]>
+		<if test="operation != null">
+			<![CDATA[
+				and Operation = #{operation}
+			]]>
+		</if>
+	</select>
+	
+	<select id="getUserCoinSameLogCount" resultType="int">
+		select count(1) from yjj_UserCoinLog
+		<where>
+			UserId = #{userId} and RelatedId = #{relatedId}
+			<if test="startTime != null">
+				<![CDATA[ CreateTime >= #{startTime} ]]>
+			</if>
+			<if test="endTime != null">
+				<![CDATA[ CreateTime <= #{endTime} ]]>
+			</if>
+			<if test="operation != null">
+				and Operation = #{operation}
+			</if>
+		</where>				
+	</select>
+
+	<select id="getUserCoinLogCountByRelatedId" parameterType="map" resultType="int">
+		<![CDATA[
+			select count(1) from yjj_UserCoinLog
+			where UserId = #{userId} and RelatedId = #{relatedId} and datediff(now(), FROM_UNIXTIME(CreateTime/1000,'%Y-%m-%d %h:%i:%s')) = 0
+		]]>
+		<if test="operation != null">
+			<![CDATA[
+				and Operation = #{operation}
+			]]>
+		</if>
+	</select>
+	
+	<select id="getIncreaseListCount" resultType="int">
+		<![CDATA[
+			select count(1) from yjj_UserCoinLog
+			where UserId = #{userId} and NewUnavalCoins > OldUnavalCoins  
+		]]>
+	</select>
+	
+	<select id="increaseList" resultType="UserCoinLog">
+		<![CDATA[
+			SELECT Id , UserId, Operation, OldAvalCoins, NewAvalCoins, OldUnavalCoins, NewUnavalCoins,
+ 	case Operation when 50 then ifnull((select memo from yjj_Activity a where a.ActivityCode = RelatedId ),'活动') else RelatedId end RelatedId,
+	CreateTime,ReadStatus FROM yjj_UserCoinLog
+			where UserId = #{userId} and NewUnavalCoins > OldUnavalCoins  order by CreateTime desc
+			limit #{pageQuery.limit} offset #{pageQuery.offset}
+		]]>
+	</select>
+	
+	<select id="getReduceListCount" resultType="int">
+		<![CDATA[
+			select count(1) from yjj_UserCoinLog
+			where UserId = #{userId} and NewUnavalCoins < OldUnavalCoins  
+		]]>
+	</select>
+	
+	<select id="getExchangeListCount" resultType="int">
+		select count(1) from yjj_UserCoinLog
+		where UserId = #{userId} and <![CDATA[ NewUnavalCoins < OldUnavalCoins ]]>
+			<if test="type == 0">
+				and (Operation = 10 or Operation = 11)
+			</if>  
+			<if test="type == 1">
+				and Operation = 10
+			</if>
+			<if test="type == 2">
+				and Operation = 11
+			</if>
+	</select>
+	
+	<select id="exchangeList" resultType="UserCoinLog">
+		select * from yjj_UserCoinLog
+		where UserId = #{userId} 
+			<if test="type == 0">
+				and (Operation = 10 or Operation = 11)
+			</if>  
+			<if test="type == 1">
+				and Operation = 10
+			</if>
+			<if test="type == 2">
+				and Operation = 11
+			</if> and <![CDATA[ NewUnavalCoins < OldUnavalCoins ]]> 
+		order by CreateTime desc
+		limit #{pageQuery.limit} offset #{pageQuery.offset}
+	</select>
+	
+	<select id="reduceList" resultType="UserCoinLog">
+		<![CDATA[
+			SELECT Id , UserId, Operation, OldAvalCoins, NewAvalCoins, OldUnavalCoins, NewUnavalCoins,
+ 	case Operation when 50 then ifnull((select memo from yjj_Activity a where a.ActivityCode = RelatedId ),'活动') else RelatedId end RelatedId,
+	CreateTime,ReadStatus FROM yjj_UserCoinLog
+			where UserId = #{userId} and NewUnavalCoins < OldUnavalCoins  order by CreateTime desc
+			limit #{pageQuery.limit} offset #{pageQuery.offset}
+		]]>
+	</select>
+	
+	<select id="getAllListCount" resultType="int">
+		<![CDATA[
+			select count(1) from yjj_UserCoinLog
+			where UserId = #{userId} 
+				or Id in (
+					select Id from yjj_UserCoinLog where UserId = 0 and Type = 3 and Id not in (select Id from yjj_UserCoinLog
+					where Content REGEXP concat( '^', #{userId}, '[^0-9]+|[^0-9]+', #{userId}, '[^0-9]+|[^0-9]+', #{userId}, '$') or Content = #{userId} and UserId = 0))
+				or Id in (
+					select Id from yjj_UserCoinLog where UserId = 0 and Type = 1 and Id in (select Id from yjj_UserCoinLog
+					where Content REGEXP concat( '^', #{userId}, '[^0-9]+|[^0-9]+', #{userId}, '[^0-9]+|[^0-9]+', #{userId}, '$') or Content = #{userId} and UserId = 0))
+				or Id in (
+					select Id from yjj_UserCoinLog where UserId = 0 and Type = 2)
+				or Id in (
+					select Id from yjj_UserCoinLog where UserId = 0 and Type = 4 and Id in (select Id from yjj_UserCoinLog
+					where Content REGEXP concat( '^', #{userId}, '[^0-9]+|[^0-9]+', #{userId}, '[^0-9]+|[^0-9]+', #{userId}, '$') or Content = #{userId} and UserId = 0))
+		]]>
+	</select>
+	
+	<select id="getAllList" resultType="UserCoinLog">
+		<![CDATA[
+			SELECT Id , UserId, Operation, OldAvalCoins, NewAvalCoins, OldUnavalCoins, NewUnavalCoins,
+ 	case Operation when 50 then ifnull((select memo from yjj_Activity a where a.ActivityCode = RelatedId ),'活动') else RelatedId end RelatedId,
+	CreateTime,ReadStatus FROM yjj_UserCoinLog
+			where UserId = #{userId} 
+				or Id in (
+					select Id from yjj_UserCoinLog where Userid = 0 and Type = 3 and Id not in (select Id from yjj_UserCoinLog
+					where Content REGEXP concat( '^', #{userId}, '[^0-9]+|[^0-9]+', #{userId}, '[^0-9]+|[^0-9]+', #{userId}, '$') or Content = #{userId} and UserId = 0))
+				or Id in (
+					select Id from yjj_UserCoinLog where Userid = 0 and Type = 1 and Id in (select Id from yjj_UserCoinLog
+					where Content REGEXP concat( '^', #{userId}, '[^0-9]+|[^0-9]+', #{userId}, '[^0-9]+|[^0-9]+', #{userId}, '$') or Content = #{userId} and UserId = 0))
+				or Id in (
+					select Id from yjj_UserCoinLog where Userid = 0 and Type = 2)
+				or Id in (
+					select Id from yjj_UserCoinLog where Userid = 0 and Type = 4 and Id in (select Id from yjj_UserCoinLog
+					where Content REGEXP concat( '^', #{userId}, '[^0-9]+|[^0-9]+', #{userId}, '[^0-9]+|[^0-9]+', #{userId}, '$') or Content = #{userId} and UserId = 0))
+			order by CreateTime desc
+			limit #{pageQuery.limit} offset #{pageQuery.offset}
+		]]>
+	</select>
+	
+	<select id="countNewReadStatus" resultType="int">
+		<![CDATA[
+			select count(1) from yjj_UserCoinLog
+			where UserId = #{userId} and ReadStatus = 0	
+			
+		]]>
+	</select>
+	
+	<update id="updateReadStatus" parameterType="map">
+		<![CDATA[
+			update yjj_UserCoinLog
+			set ReadStatus = #{status}
+			where UserId = #{userId} and ReadStatus = 0	
+		]]>
+	</update>
+	
+	<select id="getHistoryTotalCoin" resultType="int">
+		select sum(NewUnavalCoins - OldUnavalCoins) from yjj_UserCoinLog
+		where (UserId = #{userId} 
+				or Id in (
+					select Id from yjj_UserCoinLog where Userid = 0 and Type = 3 and Id not in (select Id from yjj_UserCoinLog
+					where Content REGEXP concat( '^', #{userId}, '[^0-9]+|[^0-9]+', #{userId}, '[^0-9]+|[^0-9]+', #{userId}, '$') or Content = #{userId} and UserId = 0))
+				or Id in (
+					select Id from yjj_UserCoinLog where Userid = 0 and Type = 1 and Id in (select Id from yjj_UserCoinLog
+					where Content REGEXP concat( '^', #{userId}, '[^0-9]+|[^0-9]+', #{userId}, '[^0-9]+|[^0-9]+', #{userId}, '$') or Content = #{userId} and UserId = 0))
+				or Id in (
+					select Id from yjj_UserCoinLog where Userid = 0 and Type = 2)
+				or Id in (
+					select Id from yjj_UserCoinLog where Userid = 0 and Type = 4 and Id in (select Id from yjj_UserCoinLog
+					where Content REGEXP concat( '^', #{userId}, '[^0-9]+|[^0-9]+', #{userId}, '[^0-9]+|[^0-9]+', #{userId}, '$') or Content = #{userId} and UserId = 0)))
+			and <![CDATA[ (NewUnavalCoins - OldUnavalCoins) > 0 ]]>
+	</select>
+	
+</mapper>

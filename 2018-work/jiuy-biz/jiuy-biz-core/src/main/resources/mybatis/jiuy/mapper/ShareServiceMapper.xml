@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jiuy.core.dao.impl.sql.ShareServiceDaoSqlImpl">
+
+	<select id="getDayReportData" parameterType="map" resultType="map">
+		select ifnull(sum(ShareCount),0) as shareCount,ifnull(sum(ProductCount),0) as productCount,ifnull(sum(ClickCount),0) as clickCount,
+			ifnull(sum(RegisterCount),0) as registerCount,ifnull(sum(OrderCount),0) as orderCount,ifnull(sum(PayCount),0) as payCount,
+    		ifnull(sum(PayMoney),0) as payMoney
+			from yjj_ShareStatisticsDayReport
+			<where>
+					<if test="startTime != 0">
+						<![CDATA[
+							CreateTime >= #{startTime}
+						]]>
+					</if>
+					<if test="endTime != 0">
+						<![CDATA[
+							and CreateTime < #{endTime}
+						]]>
+					</if>
+			</where>
+	</select>
+
+	<select id="getTotayData" parameterType="map" resultType="map">
+		<![CDATA[
+		 select ifnull((select count(*) from yjj_UserSharedRecord where CreateTime >= #{startTime} and CreateTime < #{endTime}),0)as shareCount,
+		ifnull((select count(*) from yjj_UserSharedRecord where Type =1 and CreateTime >= #{startTime} and CreateTime < #{endTime}),0)as productCount,
+    	ifnull((select count(*) from yjj_UserSharedClickRecord where CreateTime >= #{startTime} and CreateTime < #{endTime}),0)as clickCount,
+    	ifnull((select count(*) from yjj_UserSharedClickRecord where CreateTime >= #{startTime} and CreateTime < #{endTime} and Type =1),0)as registerCount,
+    	ifnull((select count(*) from yjj_UserSharedClickRecord where CreateTime >= #{startTime} and CreateTime < #{endTime} and Type =2),0)as orderCount,
+    	ifnull((select count(*) from yjj_OrderNew where OrderNo in (select RelatedId from yjj_UserSharedClickRecord where CreateTime >= #{startTime} and CreateTime < #{endTime} and Type =2) and OrderStatus in(10,50,70)),0)as payCount,
+    	ifnull((select sum(TotalPay) from yjj_OrderNew where OrderNo in (select RelatedId from yjj_UserSharedClickRecord where CreateTime >= #{startTime} and CreateTime < #{endTime} and Type =2) and OrderStatus in(10,50,70)),0)as payMoney
+		]]>
+	</select>
+	
+	<select id="getRecordCount" parameterType="map" resultType="int">
+		select count(*)
+			from (select * from yjj_UserSharedRecord where status = 0 and Type =1 and userId > 0 
+			<if test = "type != -1">
+				and Channel = #{type}
+			</if>
+			<if test = "startTime != 0">
+				<![CDATA[
+				 and CreateTime >= #{startTime}
+				]]>
+			</if>
+			<if test = "endTime != 0">
+				<![CDATA[
+				 and CreateTime <= #{endTime}
+				]]>
+			</if> 
+				) as a 
+    	left join yjj_User as b on a.UserId = b.UserId left join yjj_Product as c on a.RelatedId =c.Id left join 
+    	(select sum(JiuCoin)as totalJiuCoin,SharedId from yjj_UserSharedClickRecord group by SharedId)as d on d.SharedId = a.Id 
+    		<where>
+    			<if test = "startJiuBi != 0">
+    				<![CDATA[
+    				d.totalJiuCoin >= #{startJiuBi}
+    				]]>
+    			</if>
+    			<if test = "endJiuBi != 0">
+    				<![CDATA[
+    				 and d.totalJiuCoin <= #{endJiuBi}
+    				 ]]>
+    			</if>
+    			<if test = "yjjNumber != 0">   				
+    				and b.yjjNumber = #{yjjNumber}    				
+    			</if>
+    			<if test = "productId != 0">   				
+    				and c.Id = #{productId}   				
+    			</if>
+    			<if test = "phone != 0">   				
+    				and b.BindPhone = #{phone}   				
+    			</if>
+    			<if test = "clothesNumber != '' ">   				
+    				and c.ClothesNumber = #{clothesNumber}   				
+    			</if>  		   	     
+    		</where>
+	</select>
+
+	<select id="searchShareRecord" parameterType="map" resultType="map">
+		select a.*,CASE a.Channel when '0' then '其它' when '1' then '微信好友' when '2' then '微信朋友圈' when '3' then 'QQ'when '4' then 'QQ空间'when '5' then '腾讯微博'when '6' then '新浪微博' else '其它' end as shareWay,
+  				c.Name,from_unixtime(a.CreateTime/1000,"%Y-%m-%d %k:%i:%s")as Time,ifnull(d.totalJiuCoin,0)as totalJiuCoin,b.YjjNumber
+			from (select * from yjj_UserSharedRecord where status = 0 and Type =1 and userId > 0 
+			<if test = "type != -1">
+				and Channel = #{type}
+			</if>
+			<if test = "startTime != 0">
+				<![CDATA[
+				 and CreateTime >= #{startTime}
+				]]>
+			</if>
+			<if test = "endTime != 0">
+				<![CDATA[
+				 and CreateTime <= #{endTime}
+				]]>
+			</if> 
+				) as a 
+    	left join yjj_User as b on a.UserId = b.UserId left join yjj_Product as c on a.RelatedId =c.Id left join 
+    	(select sum(JiuCoin)as totalJiuCoin,SharedId from yjj_UserSharedClickRecord group by SharedId)as d on d.SharedId = a.Id 
+    		<where>
+    			<if test = "startJiuBi != 0">
+    				<![CDATA[
+    				d.totalJiuCoin >= #{startJiuBi}
+    				]]>
+    			</if>
+    			<if test = "endJiuBi != 0">
+    				<![CDATA[
+    				 and d.totalJiuCoin <= #{endJiuBi}
+    				 ]]>
+    			</if>
+    			<if test = "yjjNumber != 0">   				
+    				and b.yjjNumber = #{yjjNumber}    				
+    			</if>
+    			<if test = "productId != 0">   				
+    				and c.Id = #{productId}   				
+    			</if>
+    			<if test = "phone != 0">   				
+    				and b.BindPhone = #{phone}   				
+    			</if>
+    			<if test = "clothesNumber != '' ">   				
+    				and c.ClothesNumber = #{clothesNumber}   				
+    			</if> 		   	     
+    		</where>
+    		order by CreateTime desc
+    		limit #{pageQuery.limit} offset #{pageQuery.offset}
+	</select>
+	
+	<select id="getClickRecordCount" parameterType="map" resultType="int">
+		select count(*)
+			from yjj_UserSharedClickRecord as a left join yjj_User as b on a.UserId = b.UserId left join yjj_User as c on a.SharedUserId = c.UserId
+			where a.status = 0
+				<if test = "shareYjjNumber != 0">
+					and c.YjjNumber = #{shareYjjNumber}
+				</if>
+				<if test = "yjjNumber != 0">
+					and b.YjjNumber = #{yjjNumber}
+				</if>
+				<if test = "type != -1">
+					and a.Type = #{type} 
+				</if>
+				<if test = "startTime != 0">
+    				<![CDATA[
+    				 and a.CreateTime >= #{startTime}
+    				 ]]>
+    			</if>
+    			<if test = "endTime != 0">
+    				<![CDATA[
+    				 and a.CreateTime <= #{endTime}
+    				 ]]>
+    			</if>
+    			<if test = "sharePhone != 0">
+					and c.BindPhone = #{sharePhone} 
+				</if>
+    			<if test = "phone != 0">
+					and b.BindPhone = #{phone} 
+				</if>
+				<if test = "shareId != 0">
+					and a.SharedId = #{shareId}
+				</if>
+	</select>
+	
+	<select id="searchClickShareRecord" parameterType="map" resultType="map">
+		select a.*,b.YJJNumber,c.YJJNumber as ShareYjjNumber,
+		case Type when '1' then '注册' when '2' then '下单' else '其它' end as typeName,from_unixtime(a.CreateTime/1000,'%Y-%m-%d %k:%i:%s') as time
+			from yjj_UserSharedClickRecord as a left join yjj_User as b on a.UserId = b.UserId left join yjj_User as c on a.SharedUserId = c.UserId
+			where a.status = 0
+				<if test = "shareYjjNumber != 0">
+					and c.YjjNumber = #{shareYjjNumber}
+				</if>
+				<if test = "yjjNumber != 0">
+					and b.YjjNumber = #{yjjNumber}
+				</if>
+				<if test = "type != -1">
+					and a.Type = #{type} 
+				</if>
+				<if test = "startTime != 0">
+    				<![CDATA[
+    				 and a.CreateTime >= #{startTime}
+    				 ]]>
+    			</if>
+    			<if test = "endTime != 0">
+    				<![CDATA[
+    				 and a.CreateTime <= #{endTime}
+    				 ]]>
+    			</if>
+    			<if test = "sharePhone != 0">
+					and c.BindPhone = #{sharePhone} 
+				</if>
+    			<if test = "phone != 0">
+					and b.BindPhone = #{phone} 
+				</if>
+				<if test = "shareId != 0">
+					and a.SharedId = #{shareId}
+				</if>
+				order by CreateTime desc
+			limit #{pageQuery.limit} offset #{pageQuery.offset}
+	</select>
+</mapper>

@@ -1,0 +1,187 @@
+/*选择收货详情 */
+.goods-way-nav{
+  width:320rpx;
+  height: 70rpx;
+  line-height: 70rpx;
+  display: -webkit-box;
+  text-align: center;
+  background: #fff;
+  box-sizing: border-box;
+  font-size: 30rpx;
+  margin: 40rpx auto 0;
+  border-radius: 30rpx;
+}
+.goods-way-nav .item{
+  -webkit-box-flex: 1;
+}
+.goods-way-nav .item:nth-child(1){
+  border-radius: 30rpx 0 0 30rpx;
+  border: 2rpx solid #d4d4d4;
+  border-right: none;
+}
+.goods-way-nav .item:nth-child(2){
+  border-radius: 0 30rpx 30rpx 0;
+  border: 2rpx solid #d4d4d4;
+  border-left: none;
+}
+.goods-way-nav .item.active{
+  background:#ff2742;
+  color:#fff;
+  border: 2rpx solid #ff2742;
+}
+.hide{
+  display: none;
+}
+.show{
+  display: block;
+}
+/**到店取货**/
+.Pickup-Address{
+  margin-top: 25rpx;
+}
+.Pickup-Address .l{
+  font-size:32rpx;
+  margin-left:15rpx;
+}
+.goods-way-wrap{
+  height: auto;
+  overflow: hidden;
+}
+.radio-group{
+  border: 1rpx solid #ddd;
+  padding: 10rpx 16rpx
+}
+
+/*送货上门*/
+.radio{
+  display: block;
+  height:120rpx;
+  border:1rpx solid #ddd;
+  margin-bottom:10rpx;
+  line-height: 120rpx;
+}
+.radio-text{
+  display: inline-block;
+}
+.goodsList{
+   position: relative; 
+   border-bottom:4px solid #ddd;
+   display:block;
+  
+}
+.goodsList:first-child{
+  margin-top: 30rpx;
+}
+.goodsList-radio{
+  
+}
+.order-address{
+  padding:10rpx 0rpx 10rpx 30rpx;
+  font-size: 30rpx;
+  display: inline-block;
+  width: 90%;
+  margin-left:30rpx; 
+}
+.order-address .name{
+  font-size: 34rpx;
+  margin-right: 55rpx
+}
+.order-address .phone{
+  /* text-align: right; */
+}
+.order-address .address{
+  padding: 20rpx 0 0 30rpx;
+  color: #6d6d6d;
+  position: relative;
+  font-size: 32rpx;
+}
+.order-address .address::before{
+  content: '';
+  width: 22rpx;
+  height: 28rpx;
+  background: url(http://mini-img-main.oss-cn-hangzhou.aliyuncs.com/icon/address-icon1.png) no-repeat;
+  background-size: 22rpx;
+  position: absolute;
+  left: 0;
+  top: 22rpx;
+}
+.sendListRadio{
+  position:absolute;
+  top:32%;
+  left:15rpx;
+}
+.order-addressSend{
+  padding:15rpx 0rpx 15rpx 30rpx;
+  font-size:30rpx;
+  display:inline-block;
+  width:90%;
+  margin-left:36rpx;
+}
+.order-addressSend .name{
+  font-size: 34rpx;
+  margin-right: 55rpx;
+}
+.order-addressSend .phone{
+  font-size:32rpx;
+}
+.order-addressSend .address{
+  padding: 20rpx 0 0 30rpx;
+  color: #6d6d6d;
+  position: relative;
+  font-size:32rpx;
+}
+.order-addressSend .address::before{
+  content: '';
+  width: 22rpx;
+  height: 28rpx;
+  background: url(http://mini-img-main.oss-cn-hangzhou.aliyuncs.com/icon/address-icon1.png) no-repeat;
+  background-size: 22rpx;
+  position: absolute;
+  left: 0;
+  top: 22rpx;
+}
+.sendRadio .wx-radio-input{
+  margin-left: 10rpx;
+}
+.editAddress{
+  color:#ff2742;
+  float:right;
+  border:1px solid #ff2742;
+  border-radius:20rpx;
+  padding:5rpx 16rpx;
+  margin-right:20rpx;
+}
+/*  重写 radio 样式  */
+radio .wx-radio-input{
+   border-radius: 50%;
+   width: 30rpx;
+   height: 30rpx; 
+}
+radio .wx-radio-input.wx-radio-input-checked{
+   border: none;
+   background: red;
+}
+radio .wx-radio-input.wx-radio-input-checked::before{
+   border-radius: 50%;
+   width: 30rpx;
+   height: 30rpx;
+   line-height: 30rpx;
+   text-align: center;
+   font-size:24rpx;
+   color:#fff;
+   background: transparent;
+   transform:translate(-50%, -50%) scale(1);
+   -webkit-transform:translate(-50%, -50%) scale(1);
+}
+radio-group{
+  margin-bottom: 83rpx;
+}
+/*按钮*/
+/*取消保存  */
+.get-btn{
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  z-index: 100;
+  left:0;
+}

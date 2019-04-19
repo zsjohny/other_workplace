@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.store.dao.mapper.OrderCouponMapper">
+
+	<select id="getCouponByIdArr" resultType="ShopCoupon">
+		<![CDATA[
+			select * from store_Coupon
+			where Id in (${ids}) and Status = 0 and (StoreId = #{userId} or type = 1)
+		]]>
+	</select>
+
+	<select id="getUserOrderCoupon" parameterType="map" resultType="ShopCoupon">
+		<![CDATA[
+			select * from store_Coupon a
+			where type is not null 
+		]]>
+		<include refid="couponStatusSql" />
+		<![CDATA[
+			order by Money desc
+		]]>
+	</select>
+
+	<sql id="couponStatusSql">
+		<if test="status != null">
+			<if test="status == 0">
+				<!-- and ValidityStartTime < unix_timestamp() * 1000 and ValidityEndTime 
+					> unix_timestamp() * 1000 and ( (Status = #{status} and Type = 0 and StoreId 
+					= #{userId} ) or (Status = #{status} and (select count(1) from store_CouponUseLog 
+					where userId = #{userId} and CouponId = a.id and status = 0 ) - (select count(1) 
+					from store_CouponUseLog where userId = #{userId} and CouponId = a.id and 
+					status = 1 ) = 0 and Type = 1 and CreateTime > (SELECT CreateTime FROM yjj_StoreBusiness 
+					where id = #{userId}) ) ) -->
+				<![CDATA[
+			and ValidityStartTime < unix_timestamp() * 1000	and  ValidityEndTime > unix_timestamp() * 1000	and	( (Status = #{status} and Type = 0 and StoreId = #{userId}  ) or (Status = #{status} and (select  count(1) from store_CouponUseLog where userId = #{userId} and CouponId = a.id and status = 0 ) = 0 and Type = 1 and CreateTime > (SELECT CreateTime FROM yjj_StoreBusiness where id = #{userId})) )
+				]]>
+			</if>
+			<if test="status == 1">
+				<![CDATA[
+					and ( ((Status = #{status} or Status = -1 or ValidityStartTime > unix_timestamp() * 1000	or  ValidityEndTime < unix_timestamp() * 1000)  and Type = 0 and StoreId = #{userId}  ) or (((select  count(1) from store_CouponUseLog where userId = #{userId} and CouponId = a.id and status = 0 ) = 1 or ValidityStartTime > unix_timestamp() * 1000	or  ValidityEndTime < unix_timestamp() * 1000 or Status = -1 )  and Type = 1   and CreateTime > (SELECT CreateTime FROM yjj_StoreBusiness where id = #{userId}) ) )
+				]]>
+			</if>
+		</if>
+	</sql>
+
+	<update id="updateCouponUsed" parameterType="map">
+		<![CDATA[
+			update store_Coupon
+			set Status = #{newStatus},  UpdateTime = #{time}, OrderNo = #{orderNo}
+			where Id in 
+			]]>
+		<foreach collection="idArr" item="id" open="(" separator=","
+			close=")">
+			#{id}
+		</foreach>
+			<![CDATA[
+			 and Status = #{oldStatus} and Type = 0
+		]]>
+	</update>
+
+	<select id="getUserCouponListByOrderNo" parameterType="map"
+		resultType="ShopCoupon">
+		<![CDATA[
+			select * from store_Coupon
+			where OrderNo = #{orderNo} 
+			and  Status = 1 
+			order by CreateTime desc
+		]]>
+	</select>
+
+	<update id="updateCouponUnuse" parameterType="map">
+		<![CDATA[
+			update store_Coupon
+			set Status = #{newStatus},  UpdateTime = #{time} , OrderNo = 0
+			where  Status = #{oldStatus} and OrderNo = #{orderNo} and Type = 0
+		]]>
+	</update>
+
+	<select id="getAllMemberCouponListByOrderNo" parameterType="map"
+		resultType="ShopCoupon">
+		<![CDATA[
+			select * from store_Coupon
+			where id in(select couponId from store_CouponUseLog where orderNo =#{orderNo}  )
+			and  type = 1 
+		]]>
+	</select>
+
+	<select id="getUnusedShopCouponListCount" parameterType="map"
+		resultType="int">
+		<![CDATA[
+SELECT COUNT(*)
+FROM store_Coupon
+WHERE (storeId = #{storeId}
+		OR storeId IS NULL
+		AND TYPE = 1
+		AND Id NOT IN (SELECT CouponId
+			FROM store_CouponUseLog
+			WHERE STATUS = 0
+				AND userId = #{storeId})
+		AND CreateTime > (
+			SELECT a.CreateTime
+			FROM yjj_StoreBusiness a
+			WHERE id = #{storeId}
+			))
+	AND STATUS = 0
+	AND (ValidityEndTime = 0
+		OR ValidityEndTime > UNIX_TIMESTAMP() * 1000)
+		]]>
+	</select>
+
+	<select id="getUnusedShopCouponList" parameterType="map"
+		resultType="ShopCoupon">
+		<![CDATA[
+SELECT  Id, 
+	OrderNo, 
+	CODE, 
+	CouponTemplateId, 
+	TemplateName, 
+	TYPE, 
+	Money, 
+	RangeType, 
+	RangeContent, 
+	ValidityStartTime, 
+	ValidityEndTime, 
+	IsLimit, 
+	Coexist, 
+	StoreId, 
+	BusinessNumber, 
+	STATUS, 
+	CreateTime, 
+	UpdateTime, 
+	PushStatus, 
+	PushTitle, 
+	PushDescription, 
+	PushUrl, 
+	PushImage, 
+	PublishAdminId, 
+	GrantAdminId, 
+	GetWay, 
+	LimitMoney, 
+	RangeTypeIds, 
+	RangeTypeNames, 
+	supplier_id as supplierId, 
+	draw_time as drawTime, 
+	draw_start_time as drawStartTime, 
+	draw_end_time as drawEndTime, 
+	publisher
+FROM store_Coupon
+WHERE (storeId = #{storeId}
+		OR storeId IS NULL
+		AND TYPE = 1
+		AND Id NOT IN (SELECT CouponId
+			FROM store_CouponUseLog
+			WHERE STATUS = 0
+				AND userId = #{storeId})
+		AND CreateTime > (
+			SELECT a.CreateTime
+			FROM yjj_StoreBusiness a
+			WHERE id = #{storeId}
+			))
+	AND STATUS = 0
+	AND (ValidityEndTime = 0
+		OR ValidityEndTime > UNIX_TIMESTAMP() * 1000)
+ORDER BY ValidityStartTime
+LIMIT #{pageQuery.offset}, #{pageQuery.limit}
+		]]>
+	</select>
+
+	<select id="getUsedShopCouponListCount" parameterType="map"
+		resultType="int">
+		<![CDATA[
+SELECT COUNT(*)
+FROM store_Coupon
+WHERE STATUS = -1
+	AND ((TYPE = 0
+			OR TYPE = 2)
+		AND StoreId = #{storeId}
+		OR TYPE = 1
+		AND CreateTime > (
+			SELECT CreateTime
+			FROM yjj_StoreBusiness
+			WHERE id = #{storeId}
+			))
+	OR STATUS = 0
+	AND ValidityEndTime != 0
+	AND ValidityEndTime < UNIX_TIMESTAMP() * 1000
+	AND ((TYPE = 0
+			OR TYPE = 2)
+		AND StoreId = #{storeId}
+		OR TYPE = 1
+		AND CreateTime > (
+			SELECT CreateTime
+			FROM yjj_StoreBusiness
+			WHERE id = #{storeId}
+			))
+	OR id IN (SELECT CouponId
+		FROM store_CouponUseLog
+		WHERE STATUS = 0
+			AND userId = #{storeId})
+		]]>
+	</select>
+
+	<select id="getUsedShopCouponList" parameterType="map"
+		resultType="ShopCoupon">
+		<!-- >[CDATA[ SELECT * FROM store_Coupon WHERE storeId=#{storeId} AND ((ValidityEndTime!=0 
+			AND ValidityEndTime<UNIX_TIMESTAMP()*1000) OR STATUS!=0) AND STATUS>-2 order 
+			by CreateTime desc limit #{pageQuery.limit} offset #{pageQuery.offset} ]] -->
+		<![CDATA[
+SELECT Id, 
+	OrderNo, 
+	CODE, 
+	CouponTemplateId, 
+	TemplateName, 
+	TYPE, 
+	Money, 
+	RangeType, 
+	RangeContent, 
+	ValidityStartTime, 
+	ValidityEndTime, 
+	IsLimit, 
+	Coexist, 
+	StoreId, 
+	BusinessNumber, 
+	STATUS, 
+	CreateTime, 
+	UpdateTime, 
+	PushStatus, 
+	PushTitle, 
+	PushDescription, 
+	PushUrl, 
+	PushImage, 
+	PublishAdminId, 
+	GrantAdminId, 
+	GetWay, 
+	LimitMoney, 
+	RangeTypeIds, 
+	RangeTypeNames, 
+	supplier_id as supplierId, 
+	draw_time as drawTime, 
+	draw_start_time as drawStartTime, 
+	draw_end_time as drawEndTime, 
+	publisher
+FROM store_Coupon
+WHERE STATUS = -1
+	AND ((TYPE = 0
+			OR TYPE = 2)
+		AND StoreId = #{storeId}
+		OR TYPE = 1
+		AND CreateTime > (
+			SELECT CreateTime
+			FROM yjj_StoreBusiness
+			WHERE id = #{storeId}
+			))
+	OR STATUS = 0
+	AND ValidityEndTime != 0
+	AND ValidityEndTime < UNIX_TIMESTAMP() * 1000
+	AND ((TYPE = 0
+			OR TYPE = 2)
+		AND StoreId = #{storeId}
+		OR TYPE = 1
+		AND CreateTime > (
+			SELECT CreateTime
+			FROM yjj_StoreBusiness
+			WHERE id = #{storeId}
+			))
+	OR id IN (SELECT CouponId
+		FROM store_CouponUseLog
+		WHERE STATUS = 0
+			AND userId = #{storeId})
+            order by CreateTime desc
+            limit #{pageQuery.limit} offset #{pageQuery.offset}
+
+]]>
+	</select>
+
+	<update id="deleteShopCoupon" parameterType="map">
+		<![CDATA[
+			update store_Coupon
+			set Status = -2,  UpdateTime = #{updateTime} 
+			where id=#{shopCouponId}
+		]]>
+	</update>
+
+	<insert id="batchAddByCoupons">
+		insert into store_Coupon(CouponTemplateId, TemplateName, Type, Money, RangeType, RangeContent, ValidityStartTime, ValidityEndTime, IsLimit,
+		Coexist, StoreId, BusinessNumber, PushStatus, PublishAdminId, GrantAdminId, CreateTime, UpdateTime, GetWay, LimitMoney)
+		values
+		<foreach collection="coupons" item="coupon" open="(" separator="),(" close=")">
+			#{coupon.couponTemplateId}, #{coupon.templateName}, #{coupon.type}, #{coupon.money}, #{coupon.rangeType}, #{coupon.rangeContent}, #{coupon.validityStartTime}, #{coupon.validityEndTime}, #{coupon.isLimit},
+			#{coupon.coexist}, #{coupon.storeId}, #{coupon.businessNumber}, #{coupon.pushStatus}, #{coupon.publishAdminId}, #{coupon.grantAdminId}, #{coupon.createTime}, #{coupon.updateTime}, #{coupon.getWay}, #{coupon.limitMoney}
+		</foreach>
+	</insert>
+
+
+</mapper>

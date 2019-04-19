@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jiuy.core.dao.impl.sql.CouponTemplateDaoSqlImpl">
+    
+    <select id="search" resultType="CouponTemplate">
+    	select * from yjj_CouponTemplate
+    	<where>
+    		Status = 0
+    		<if test="publishCountMin != null">
+    			<![CDATA[and PublishCount >= #{publishCountMin}]]>
+    		</if>
+    		<if test="publishCountMax != null">
+    			<![CDATA[and PublishCount <= #{publishCountMax}]]>
+    		</if>
+    		<if test="id != null">
+    			and Id = #{id}
+    		</if>
+    		<if test="couponTemplate != null">
+    			<if test="couponTemplate.id != null">
+    				and Id = #{couponTemplate.id}
+    			</if>
+    			<if test="couponTemplate.name != null">
+	    			and Name like concat ("%", #{couponTemplate.name}, "%")
+	    		</if>
+	    		<if test="couponTemplate.type != null">
+	    			and Type = #{couponTemplate.type}
+	    		</if>
+	    		<if test="couponTemplate.rangeType != null">
+	    			and RangeType = #{couponTemplate.rangeType}
+	    		</if>
+	    		<if test="couponTemplate.validityStartTime != null">
+	    			<![CDATA[and ValidityStartTime >= #{couponTemplate.validityStartTime}]]>
+	    		</if>
+	    		<if test="couponTemplate.validityEndTime != null">
+	    			<![CDATA[and ValidityEndTime <= #{couponTemplate.validityEndTime}]]>
+	    		</if>
+	    		<if test="couponTemplate.isLimit != null">
+	    			and IsLimit = #{couponTemplate.isLimit}
+	    		</if>
+    		</if>
+    		<if test="moneyMin != null">
+    			<![CDATA[and Money >= #{moneyMin}]]>
+    		</if>
+    		<if test="moneyMax != null">
+    			<![CDATA[and Money <= #{moneyMax}]]>
+    		</if>
+    	</where>
+    	order by id desc
+    	<if test="pageQuery != null">
+    		limit #{pageQuery.limit} offset #{pageQuery.offset}
+    	</if>
+    	
+    </select>
+    
+    <select id="searchCount" parameterType="map" resultType="int">
+    	select count(1) from yjj_CouponTemplate
+    	<where>
+    		Status = 0
+    		<if test="publishCountMin != null">
+    			<![CDATA[and PublishCount >= #{publishCountMin}]]>
+    		</if>
+    		<if test="publishCountMax != null">
+    			<![CDATA[and PublishCount <= #{publishCountMax}]]>
+    		</if>
+    		<if test="couponTemplate.id != null">
+    			and Id = #{couponTemplate.id}
+    		</if>
+    		<if test="couponTemplate.name != null">
+    			and Name like concat ("%", #{couponTemplate.name}, "%")
+    		</if>
+    		<if test="couponTemplate.type != null">
+    			and Type = #{couponTemplate.type}
+    		</if>
+    		<if test="couponTemplate.rangeType != null">
+    			and RangeType = #{couponTemplate.rangeType}
+    		</if>
+    		<if test="couponTemplate.validityStartTime != null">
+    			<![CDATA[and ValidityStartTime >= #{couponTemplate.validityStartTime}]]>
+    		</if>
+    		<if test="couponTemplate.validityEndTime != null">
+    			<![CDATA[and ValidityEndTime <= #{couponTemplate.validityEndTime}]]>
+    		</if>
+    		<if test="couponTemplate.isLimit != null">
+    			and IsLimit = #{couponTemplate.isLimit}
+    		</if>
+    		<if test="moneyMin != null">
+    			<![CDATA[and Money >= #{moneyMin}]]>
+    		</if>
+    		<if test="moneyMax != null">
+    			<![CDATA[and Money <= #{moneyMax}]]>
+    		</if>
+    	</where>
+    </select>
+    
+    <insert id="add" useGeneratedKeys="true" keyProperty="id">
+    	insert into yjj_CouponTemplate(Name, Type, Money, RangeType,RangeContent, ValidityStartTime, ValidityEndTime, IsLimit, CreateTime, UpdateTime,
+    	ExchangeJiuCoinSetting,ExchangeJiuCoinCost,ExchangeLimitTotalCount,ExchangeLimitSingleCount,ExchangeStartTime,ExchangeEndTime,
+    	PromotionJiuCoinSetting,PromotionJiuCoin,PromotionStartTime, PromotionEndTime, LimitMoney)
+    	values(#{name}, #{type}, #{money}, #{rangeType}, #{rangeContent}, #{validityStartTime}, #{validityEndTime}, #{isLimit}, #{createTime}, #{updateTime},
+    	#{exchangeJiuCoinSetting},#{exchangeJiuCoinCost},#{exchangeLimitTotalCount},#{exchangeLimitSingleCount},#{exchangeStartTime},#{exchangeEndTime},
+    	#{promotionJiuCoinSetting},#{promotionJiuCoin},#{promotionStartTime},#{promotionEndTime}, #{limitMoney})
+    </insert>
+    
+    <update id="update">
+    	update yjj_CouponTemplate
+    	<set>
+    		<if test="name != null">
+    			Name = #{name},
+    		</if>
+    		<if test="type != null">
+    			Type = #{type},
+    		</if>
+    		<if test="rangeType != null">
+    			RangeType = #{rangeType},
+    		</if>
+    		<if test="money != null">
+    			Money = #{money},
+    		</if>
+    		<if test="isLimit != null">
+    			IsLimit = #{isLimit},
+    		</if>
+    		<if test="validityStartTime != null">
+    			ValidityStartTime = #{validityStartTime},
+    		</if>
+    		<if test="validityEndTime != null">
+    			ValidityEndTime = #{validityEndTime},
+    		</if>
+    		<if test="rangeContent != null">
+    			RangeContent = #{rangeContent},
+    		</if>
+    		<if test="publishCount != null">
+    			PublishCount = PublishCount + #{publishCount},
+    		</if>
+    		<if test="grantCount != null">
+    			GrantCount = GrantCount + #{grantCount},
+    		</if>
+    		<if test="coexist != null">
+    			Coexist = #{coexist},
+    		</if>
+    		<if test="status != null">
+    			Status = #{status},
+    		</if>
+    		<if test="limitMoney != null">
+    			LimitMoney = #{limitMoney},
+    		</if>
+    		<if test="updateTime != null">
+    			UpdateTime = #{updateTime},
+    		</if>
+    		<if test="exchangeJiuCoinSetting != null">
+    			ExchangeJiuCoinSetting = #{exchangeJiuCoinSetting},
+    		</if>
+    		<if test="exchangeJiuCoinCost != null">
+    			ExchangeJiuCoinCost = #{exchangeJiuCoinCost},
+    		</if>
+    		<if test="exchangeLimitTotalCount != null">
+    			ExchangeLimitTotalCount = #{exchangeLimitTotalCount},
+    		</if>
+    		<if test="exchangeLimitSingleCount != null">
+    			ExchangeLimitSingleCount = #{exchangeLimitSingleCount},
+    		</if>
+    		<if test="exchangeStartTime != null">
+    			ExchangeStartTime = #{exchangeStartTime},
+    		</if>
+    		<if test="exchangeEndTime != null">
+    			ExchangeEndTime = #{exchangeEndTime},
+    		</if>
+    		<if test="promotionJiuCoinSetting != null">
+    			PromotionJiuCoinSetting = #{promotionJiuCoinSetting},
+    		</if>
+    		<if test="promotionJiuCoin != null">
+    			PromotionJiuCoin = #{promotionJiuCoin},
+    		</if>
+    		<if test="promotionStartTime != null">
+    			PromotionStartTime = #{promotionStartTime},
+    		</if>
+    		<if test="promotionEndTime != null">
+    			PromotionEndTime = #{promotionEndTime},
+    		</if>
+    	</set>
+    	where Id = #{id}
+    </update>
+    
+    <update id="updatePublished">
+    	update yjj_CouponTemplate
+    	<set>
+    		<if test="exchangeJiuCoinSetting != null">
+    			ExchangeJiuCoinSetting = #{exchangeJiuCoinSetting},
+    		</if>
+    		<if test="exchangeJiuCoinCost != null">
+    			ExchangeJiuCoinCost = #{exchangeJiuCoinCost},
+    		</if>
+    		<if test="exchangeLimitTotalCount != null">
+    			ExchangeLimitTotalCount = #{exchangeLimitTotalCount},
+    		</if>
+    		<if test="exchangeLimitSingleCount != null">
+    			ExchangeLimitSingleCount = #{exchangeLimitSingleCount},
+    		</if>
+    		<if test="exchangeStartTime != null">
+    			ExchangeStartTime = #{exchangeStartTime},
+    		</if>
+    		<if test="exchangeEndTime != null">
+    			ExchangeEndTime = #{exchangeEndTime},
+    		</if>
+    		<if test="promotionJiuCoinSetting != null">
+    			PromotionJiuCoinSetting = #{promotionJiuCoinSetting},
+    		</if>
+    		<if test="promotionJiuCoin != null">
+    			PromotionJiuCoin = #{promotionJiuCoin},
+    		</if>
+    		<if test="promotionStartTime != null">
+    			PromotionStartTime = #{promotionStartTime},
+    		</if>
+    		<if test="promotionEndTime != null">
+    			PromotionEndTime = #{promotionEndTime},
+    		</if>
+    	</set>
+    	where Id = #{id}
+    </update>
+    
+    <update id="clearExchangeCount" parameterType="long">
+    	update yjj_CouponTemplate
+    	<set>
+    		ExchangeCount = 0
+    	</set>
+    	where Id = #{id}
+    </update>
+    
+</mapper>

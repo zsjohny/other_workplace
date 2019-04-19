@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.e_commerce.miscroservice.operate.mapper.ShopQuestionAnswerManageMapper">
+    <!--批量显示隐藏-->
+    <update id="batchDisplayOrHiding" parameterType="java.util.List">
+        update shop_question_answer set status =#{showNot} where id in
+        <foreach collection="list" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
+    <!-- 批量 删除-->
+    <update id="batchDelNot" parameterType="java.util.List">
+        update shop_question_answer set del_status =#{delNot} where id in
+        <foreach collection="list" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
+    <!--问题类型转换-->
+    <update id="exchangeQuestionType">
+        update  shop_question_answer set question_type_id = #{exchangeId} where question_type_id = #{id}
+    </update>
+    <!--关联问题数量-->
+    <update id="updateQuestionSize">
+        update shop_question_type
+        <set>
+            <if test="code==0">
+                question_size = question_size+#{size}
+            </if>
+            <if test="code==1">
+                question_size = question_size-#{size}
+            </if>
+        </set>
+        where id = #{questionTypeId}
+    </update>
+    <!--批量关联问题修改-->
+    <update id="updateQuestionSizeList" parameterType="java.util.List">
+        update shop_question_type
+        <set>
+            <if test="code==0">
+                question_size = question_size+1
+            </if>
+            <if test="code==1">
+                question_size = question_size-1
+            </if>
+        </set>
+        where id in
+        <foreach collection="list" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
+    <!--查询 问题类型-->
+    <select id="findAllShopQuestionAnswerTpye"
+            resultType="com.e_commerce.miscroservice.operate.entity.response.ShopQuestionTypeResponse">
+
+        select *,create_time as `time` from shop_question_type
+        <trim prefix="where" prefixOverrides="AND|OR">
+            del_status = 0
+            <if test="shopQuestionAnswerTypeRequest.typeName!=null and shopQuestionAnswerTypeRequest.typeName!=''">
+                and type_value = #{shopQuestionAnswerTypeRequest.typeName}
+            </if>
+            <if test="shopQuestionAnswerTypeRequest.createBy!=null and shopQuestionAnswerTypeRequest.createBy!=''">
+                and create_ty = #{shopQuestionAnswerTypeRequest.createBy}
+            </if>
+            <if test="shopQuestionAnswerTypeRequest.createTimeStart!=null and shopQuestionAnswerTypeRequest.createTimeStart!=''">
+                and create_time  <![CDATA[>=]]> #{shopQuestionAnswerTypeRequest.createTimeStart}
+            </if>
+            <if test="shopQuestionAnswerTypeRequest.createTimeEnd!=null and shopQuestionAnswerTypeRequest.createTimeEnd!=''">
+                and create_time  <![CDATA[<=]]> #{shopQuestionAnswerTypeRequest.createTimeEnd}
+            </if>
+        </trim>
+    </select>
+    <!--问题 查询-->
+    <select id="findAllShopQuestionAnswer"
+            resultType="com.e_commerce.miscroservice.operate.entity.response.ShopQuestionAnswerResponse">
+
+        select a.*,a.create_time as `time`,b.type_value from shop_question_answer a left join shop_question_type b on
+        a.question_type_id = b.id
+        <trim prefix="where" prefixOverrides="AND|OR">
+            a.del_status=0
+            <if test="shopQuestionAnswerTypeRequest.typeStatus!=null and shopQuestionAnswerTypeRequest.typeStatus!=''">
+                and a.question_type_id = #{shopQuestionAnswerTypeRequest.typeStatus}
+            </if>
+            <if test="shopQuestionAnswerTypeRequest.questionName!=null and shopQuestionAnswerTypeRequest.questionName!=''">
+                and a.question = #{shopQuestionAnswerTypeRequest.questionName}
+            </if>
+            <if test="shopQuestionAnswerTypeRequest.status!=null and shopQuestionAnswerTypeRequest.status!=''">
+                and a.status = #{shopQuestionAnswerTypeRequest.status}
+            </if>
+            <if test="shopQuestionAnswerTypeRequest.createBy!=null and shopQuestionAnswerTypeRequest.createBy!=''">
+                and a.create_ty = #{shopQuestionAnswerTypeRequest.createBy}
+            </if>
+            <if test="shopQuestionAnswerTypeRequest.createTimeStart!=null and shopQuestionAnswerTypeRequest.createTimeStart!=''">
+                and a.create_time  <![CDATA[>=]]> #{shopQuestionAnswerTypeRequest.createTimeStart}
+            </if>
+            <if test="shopQuestionAnswerTypeRequest.createTimeEnd!=null and shopQuestionAnswerTypeRequest.createTimeEnd!=''">
+                and a.create_time  <![CDATA[<=]]> #{shopQuestionAnswerTypeRequest.createTimeEnd}
+            </if>
+        </trim>
+        order by a.search_time DESC
+    </select>
+    <select id="findQuestionAnswerByIdList" parameterType="java.util.List" resultType="com.e_commerce.miscroservice.commons.entity.application.user.ShopQuestionAnswer">
+        select
+        *
+        from shop_question_answer
+        where id in
+        <foreach collection="list" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+
+    </select>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+

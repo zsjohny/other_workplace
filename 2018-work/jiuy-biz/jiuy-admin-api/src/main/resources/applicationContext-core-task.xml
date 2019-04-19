@@ -1,0 +1,359 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- 设置Task调度 -->
+    <bean id="schedulerFactoryBean"
+	class="org.springframework.scheduling.quartz.SchedulerFactoryBean"
+	autowire="no">
+		<property name="triggers">
+			<list>
+				<ref bean="productSoldoutTrigger"/>
+				<ref bean="orderCloseTrigger"/>
+				<ref bean="notificationTrigger"/>
+				<ref bean="orderSuccessTrigger"/>
+				<ref bean="wdtLogisticsTrigger"/>
+				<ref bean="wdtOrderTrigger"/>
+				<ref bean="wdtSkuCountSynTrigger"/>
+				<ref bean="couponNotificationTrigger"/>
+				<ref bean="afterSaleAutoConfirmTrigger"/>
+				<ref bean="prdctRcmdSttstcsriggerTrigger"/>
+				<ref bean="refreshQianMiTokenTrigger"/>
+				<ref bean="storeDailyReportTrigger"/>
+				<ref bean="categorySaleDailyReportTrigger"/>
+				<ref bean="afterSalesFreezeTrigger"/>
+				<ref bean="storeOrderMergeJobTrigger"/>
+				<ref bean="storeOrderSuccessJobTrigger"/>
+				<ref bean="templateSeniorDailyReportTrigger"/>
+				<ref bean="pageProductStatisticsDailyReportTrigger"/>
+				<ref bean="pageStatisticsDailyReportTrigger"/>
+				<ref bean="userShareDailyReportTrigger"/>
+				<ref bean="jiuCoinDeductDailyReportTrigger"/>
+				<ref bean="firstDiscountDailyReportTrigger"/>
+				
+				<ref bean="autoCashWithdrawalTrigger"/> 
+				<!-- 售后冻结，实现可提现
+				<ref bean="StoreOrderAfterSalesFreezeTrigger"/> -->
+			</list>
+		</property>
+		<property name="taskExecutor" ref="threadPoolTaskExecutor" />
+		<!-- 初始化后是否延时多少秒启动Scheduler，默认是0马上启动，通过startupDelay属性让Scheduler延迟一小段时间后启动，以便让Spring能够更快初始化容器中剩余的Bean. -->
+		<property name="startupDelay">
+			<value>0</value>
+		</property>
+	</bean>
+	
+	<!-- 定时发送待付款模板通知  
+	<bean id="sendMessageAboutShopMemberOrderJob" class="com.jiuy.core.service.task.SendMessageAboutShopMemberOrderJob"/> 
+   	<bean id="sendMessageAboutShopMemberOrderJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">   
+        <property name="targetObject" ref="sendMessageAboutShopMemberOrderJob"/>  
+        <property name="targetMethod" value="execute"/>  
+        <property name="concurrent" value="false"/>
+	</bean>
+	<bean id="sendMessageAboutShopMemberOrderTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">  
+       <property name="jobDetail" ref="sendMessageAboutShopMemberOrderJobDetail"/>  
+       <property name="cronExpression" value="${task.send.Message.ShopMemberOrder}"/>
+    </bean>--> 
+    
+    
+    <!-- 地推用户定时提现 -->
+    <bean id="autoCashWithdrawalJob" class="com.jiuyuan.service.common.GroundWithdrawCashRecordService"/> 
+   	<bean id="autoCashWithdrawalJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">   
+        <property name="targetObject" ref="autoCashWithdrawalJob"/>  
+        <property name="targetMethod" value="execute"/>  
+        <property name="concurrent" value="false"/>
+       <!--  是否允许任务并发执行。当值为false时，表示必须等到前一个线程处理完毕后才再启一个新的线程   -->
+	</bean>
+	<bean id="autoCashWithdrawalTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">  
+       <property name="jobDetail" ref="autoCashWithdrawalJobDetail"/>  
+       <property name="cronExpression" value="${task.auto.cashWithdrawal}"/>
+    </bean> 
+    
+	<bean id="productSoldoutJob" class="com.jiuy.core.service.task.ProductUpdatingJob"/> 
+   	<bean id="productSoldoutJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">   
+        <property name="targetObject" ref="productSoldoutJob"/>  
+        <property name="targetMethod" value="execute"/>  
+        <property name="concurrent" value="false"/>
+        <!-- 是否允许任务并发执行。当值为false时，表示必须等到前一个线程处理完毕后才再启一个新的线程 -->  
+	</bean>
+	<bean id="productSoldoutTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">  
+       <property name="jobDetail" ref="productSoldoutJobDetail"/>  
+       <property name="cronExpression" value="${task.product.soldout}"/>
+    </bean>
+    
+    <!-- 门店订单售后冻结 
+	<bean id="StoreOrderAfterSalesFreeze" class="com.jiuy.core.service.task.StoreOrderAfterSalesFreeze"/> 
+   	<bean id="StoreOrderAfterSalesFreezeDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">   
+        <property name="targetObject" ref="StoreOrderAfterSalesFreeze"/>  
+        <property name="targetMethod" value="execute"/>  
+        <property name="concurrent" value="false"/>
+	</bean>
+	<bean id="StoreOrderAfterSalesFreezeTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">  
+       <property name="jobDetail" ref="StoreOrderAfterSalesFreezeDetail"/>  
+       <property name="cronExpression" value="${task.after.sales.freeze.test}"/>
+    </bean>-->
+	
+    
+	<bean id="orderCloseJob" class="com.jiuy.core.service.task.OrderDisposingJob"/>
+   	<bean id="orderCloseJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">   
+        <property name="targetObject" ref="orderCloseJob"/>  
+        <property name="targetMethod" value="execute"/>  
+        <property name="concurrent" value="false"/>
+        <!-- 是否允许任务并发执行。当值为false时，表示必须等到前一个线程处理完毕后才再启一个新的线程 -->  
+	</bean>
+	<bean id="orderCloseTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">  
+       <property name="jobDetail" ref="orderCloseJobDetail"/>  
+       <property name="cronExpression" value="${task.order.close}"/>
+    </bean>
+    	  
+    	  
+   	<bean id="notificationJob" class="com.jiuy.core.service.task.NotificationDisposingJob"/>
+   	<bean id="notificationDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">   
+        <property name="targetObject" ref="notificationJob"/>  
+        <property name="targetMethod" value="execute"/>  
+        <property name="concurrent" value="false"/>
+        <!-- 是否允许任务并发执行。当值为false时，表示必须等到前一个线程处理完毕后才再启一个新的线程 -->  
+	</bean>  
+	<bean id="notificationTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">  
+       <property name="jobDetail" ref="notificationDetail"/>  
+       <property name="cronExpression" value="${task.notification}"/>
+    </bean>
+    
+    <bean id="orderSuccessJob" class="com.jiuy.core.service.task.OrderSuccessJob"/>
+   	<bean id="orderSuccessDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">   
+        <property name="targetObject" ref="orderSuccessJob"/>  
+        <property name="targetMethod" value="execute"/>  
+        <property name="concurrent" value="false"/>
+        <!-- 是否允许任务并发执行。当值为false时，表示必须等到前一个线程处理完毕后才再启一个新的线程 -->  
+	</bean>  
+	<bean id="orderSuccessTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">  
+       <property name="jobDetail" ref="orderSuccessDetail"/>  
+       <property name="cronExpression" value=" ${task.order.success}"/>
+    </bean>
+    
+    <bean id="wdtLogisticsJob" class="com.jiuy.core.service.task.WdtLogisticsJob"/>
+   	<bean id="wdtLogisticsDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">   
+        <property name="targetObject" ref="wdtLogisticsJob"/>  
+        <property name="targetMethod" value="execute"/>  
+        <property name="concurrent" value="false"/>
+        <!-- 是否允许任务并发执行。当值为false时，表示必须等到前一个线程处理完毕后才再启一个新的线程 -->  
+	</bean>  
+	<bean id="wdtLogisticsTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">  
+       <property name="jobDetail" ref="wdtLogisticsDetail"/>  
+       <property name="cronExpression" value="${task.wdt.logistics}"/>
+    </bean>
+    
+    <bean id="wdtOrderJob" class="com.jiuy.core.service.task.WdtOrderJob"/>
+   	<bean id="wdtOrderDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">   
+        <property name="targetObject" ref="wdtOrderJob"/>  
+        <property name="targetMethod" value="execute"/>  
+        <property name="concurrent" value="false"/>
+        <!-- 是否允许任务并发执行。当值为false时，表示必须等到前一个线程处理完毕后才再启一个新的线程 -->  
+	</bean>  
+	<bean id="wdtOrderTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">  
+       <property name="jobDetail" ref="wdtOrderDetail"/>  
+       <property name="cronExpression" value="${task.wdt.order.push}"/>
+    </bean>
+    
+    <bean id="wdtSkuCountSyncJob" class="com.jiuy.core.service.task.WdtSkuCountSyncJob"/>
+   	<bean id="wdtSkuCountSyncDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">   
+        <property name="targetObject" ref="wdtSkuCountSyncJob"/>  
+        <property name="targetMethod" value="execute"/>  
+        <property name="concurrent" value="false"/>
+        <!-- 是否允许任务并发执行。当值为false时，表示必须等到前一个线程处理完毕后才再启一个新的线程 -->  
+	</bean>  
+	<bean id="wdtSkuCountSynTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">  
+       <property name="jobDetail" ref="wdtSkuCountSyncDetail"/>  
+       <property name="cronExpression" value="${task.wdt.sku.count}"/>
+    </bean>
+    
+
+    <bean id="couponNotificationJob" class="com.jiuy.core.service.task.CouponNotificationJob"/>
+   	<bean id="couponNotificationDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">   
+        <property name="targetObject" ref="couponNotificationJob"/>  
+        <property name="targetMethod" value="execute"/>  
+        <property name="concurrent" value="false"/>
+        <!-- 是否允许任务并发执行。当值为false时，表示必须等到前一个线程处理完毕后才再启一个新的线程 -->  
+	</bean>  
+	<bean id="couponNotificationTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">  
+       <property name="jobDetail" ref="couponNotificationDetail"/>  
+       <property name="cronExpression" value="${task.coupon.notification}"/>
+    </bean>
+       
+    <bean id="afterSaleAutoConfirmJob" class="com.jiuy.core.service.task.AfterSaleAutoConfirmJob"/>
+   	<bean id="afterSaleAutoConfirmDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">   
+        <property name="targetObject" ref="afterSaleAutoConfirmJob"/>  
+        <property name="targetMethod" value="execute"/>  
+        <property name="concurrent" value="false"/>
+        <!-- 是否允许任务并发执行。当值为false时，表示必须等到前一个线程处理完毕后才再启一个新的线程 -->  
+	</bean>  
+	<bean id="afterSaleAutoConfirmTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">  
+       <property name="jobDetail" ref="afterSaleAutoConfirmDetail"/>  
+       <property name="cronExpression" value="${task.aftersale.auto.confirm}"/>
+    </bean>
+           
+    <bean id="prdctRcmdSttstcsJob" class="com.jiuy.core.service.task.PrdctRcmdSttstcsJob"/>
+   	<bean id="prdctRcmdSttstcsDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">   
+        <property name="targetObject" ref="prdctRcmdSttstcsJob"/>  
+        <property name="targetMethod" value="execute"/>  
+        <property name="concurrent" value="false"/>
+        <!-- 是否允许任务并发执行。当值为false时，表示必须等到前一个线程处理完毕后才再启一个新的线程 -->  
+	</bean>
+	<bean id="prdctRcmdSttstcsriggerTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">  
+       <property name="jobDetail" ref="prdctRcmdSttstcsDetail"/>  
+       <property name="cronExpression" value="${task.product.statistics}"/>
+    </bean>
+    
+    <bean id="refreshQianMiTokenJob" class="com.jiuy.core.service.task.QianMiTokenJob"/>
+   	<bean id="refreshQianMiTokenDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">   
+        <property name="targetObject" ref="refreshQianMiTokenJob"/>  
+        <property name="targetMethod" value="execute"/>  
+        <property name="concurrent" value="false"/>
+        <!-- 是否允许任务并发执行。当值为false时，表示必须等到前一个线程处理完毕后才再启一个新的线程 -->  
+	</bean>
+	<bean id="refreshQianMiTokenTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">  
+       <property name="jobDetail" ref="refreshQianMiTokenDetail"/>  
+       <property name="cronExpression" value="${task.qianmi.refresh.token}"/>
+    </bean>
+    
+    <bean id="storeDailyReport" class="com.jiuy.core.service.task.StoreDailyReport"/>
+   	<bean id="storeDailyReportDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">   
+        <property name="targetObject" ref="storeDailyReport"/>  
+        <property name="targetMethod" value="execute"/>  
+        <property name="concurrent" value="false"/>
+        <!-- 是否允许任务并发执行。当值为false时，表示必须等到前一个线程处理完毕后才再启一个新的线程 -->  
+	</bean>
+	<bean id="storeDailyReportTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">  
+       <property name="jobDetail" ref="storeDailyReportDetail"/>  
+       <property name="cronExpression" value="${task.store.daily.report}"/>
+    </bean>
+    
+    <bean id="categorySaleDailyReport" class="com.jiuy.core.service.task.CategorySaleDailyReport"/>
+   	<bean id="categorySaleDailyReportDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">   
+        <property name="targetObject" ref="categorySaleDailyReport"/>  
+        <property name="targetMethod" value="execute"/>  
+        <property name="concurrent" value="false"/>
+        <!-- 是否允许任务并发执行。当值为false时，表示必须等到前一个线程处理完毕后才再启一个新的线程 -->  
+	</bean>
+	<bean id="categorySaleDailyReportTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">  
+       <property name="jobDetail" ref="categorySaleDailyReportDetail"/>  
+       <property name="cronExpression" value="${task.category.sale.daily.report}"/>
+    </bean>
+    
+    <bean id="afterSalesFreeze" class="com.jiuy.core.service.task.AfterSalesFreeze"/>
+   	<bean id="afterSalesFreezeDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">   
+        <property name="targetObject" ref="afterSalesFreeze"/>  
+        <property name="targetMethod" value="execute"/>  
+        <property name="concurrent" value="false"/>
+        <!-- 是否允许任务并发执行。当值为false时，表示必须等到前一个线程处理完毕后才再启一个新的线程 -->  
+	</bean>
+	<bean id="afterSalesFreezeTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">  
+       <property name="jobDetail" ref="afterSalesFreezeDetail"/>  
+       <property name="cronExpression" value="${task.after.sales.freeze}"/>
+    </bean>
+    
+    <bean id="storeOrderMergeJob" class="com.jiuy.core.service.task.StoreOrderMergeJob"/>
+   	<bean id="storeOrderMergeJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">   
+        <property name="targetObject" ref="storeOrderMergeJob"/>  
+        <property name="targetMethod" value="execute"/>  
+        <property name="concurrent" value="false"/>
+        <!-- 是否允许任务并发执行。当值为false时，表示必须等到前一个线程处理完毕后才再启一个新的线程 -->  
+	</bean>
+	<bean id="storeOrderMergeJobTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">  
+       <property name="jobDetail" ref="storeOrderMergeJobDetail"/>  
+       <property name="cronExpression" value="${task.store.order.merge}"/>
+    </bean>
+    
+    
+    <bean id="storeOrderSuccessJob" class="com.jiuy.core.service.task.StoreOrderSuccessJob"/>
+   	<bean id="storeOrderSuccessJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">   
+        <property name="targetObject" ref="storeOrderSuccessJob"/>  
+        <property name="targetMethod" value="execute"/>  
+        <property name="concurrent" value="false"/>
+        <!-- 是否允许任务并发执行。当值为false时，表示必须等到前一个线程处理完毕后才再启一个新的线程 -->  
+	</bean>
+	<bean id="storeOrderSuccessJobTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">  
+       <property name="jobDetail" ref="storeOrderSuccessJobDetail"/>  
+       <property name="cronExpression" value="${task.store.order.success}"/>
+    </bean>
+    
+    <bean id="templateSeniorDailyReport" class="com.jiuy.core.service.task.TemplateSeniorDailyReport"/>
+   	<bean id="templateSeniorDailyReportDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">   
+        <property name="targetObject" ref="templateSeniorDailyReport"/>  
+        <property name="targetMethod" value="execute"/>  
+        <property name="concurrent" value="false"/>
+        <!-- 是否允许任务并发执行。当值为false时，表示必须等到前一个线程处理完毕后才再启一个新的线程 -->  
+	</bean>
+	<bean id="templateSeniorDailyReportTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">  
+       <property name="jobDetail" ref="templateSeniorDailyReportDetail"/>  
+       <property name="cronExpression" value="${task.template.senior.daily.report}"/>
+    </bean>
+    
+            
+    <bean id="pageProductStatisticsDailyReport" class="com.jiuy.core.service.task.PageProductStatisticsDailyReport"/>
+   	<bean id="pageProductStatisticsDailyReportDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">   
+        <property name="targetObject" ref="pageProductStatisticsDailyReport"/>  
+        <property name="targetMethod" value="execute"/>  
+        <property name="concurrent" value="false"/>
+        <!-- 是否允许任务并发执行。当值为false时，表示必须等到前一个线程处理完毕后才再启一个新的线程 -->  
+	</bean>
+	<bean id="pageProductStatisticsDailyReportTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">  
+       <property name="jobDetail" ref="pageProductStatisticsDailyReportDetail"/>  
+       <property name="cronExpression" value="${task.page.product.statistics.daily.report}"/>
+    </bean>
+    
+            
+    <bean id="pageStatisticsDailyReport" class="com.jiuy.core.service.task.PageStatisticsDailyReport"/>
+   	<bean id="pageStatisticsDailyReportDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">   
+        <property name="targetObject" ref="pageStatisticsDailyReport"/>  
+        <property name="targetMethod" value="execute"/>  
+        <property name="concurrent" value="false"/>
+        <!-- 是否允许任务并发执行。当值为false时，表示必须等到前一个线程处理完毕后才再启一个新的线程 -->  
+	</bean>
+	<bean id="pageStatisticsDailyReportTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">  
+       <property name="jobDetail" ref="pageStatisticsDailyReportDetail"/>  
+       <property name="cronExpression" value="${task.page.statistics.daily.report}"/>
+    </bean>
+    
+    
+    <bean id="userShareDailyReport" class="com.jiuy.core.service.task.UserShareDailyReport"/>
+   	<bean id="userShareDailyReportDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">   
+        <property name="targetObject" ref="userShareDailyReport"/>  
+        <property name="targetMethod" value="execute"/>  
+        <property name="concurrent" value="false"/>
+        <!-- 是否允许任务并发执行。当值为false时，表示必须等到前一个线程处理完毕后才再启一个新的线程 -->  
+	</bean>
+	<bean id="userShareDailyReportTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">  
+       <property name="jobDetail" ref="userShareDailyReportDetail"/>  
+       <property name="cronExpression" value="${task.user.share.daily.report}"/>
+    </bean>
+    
+    
+    <bean id="jiuCoinDeductDailyReport" class="com.jiuy.core.service.task.JiuCoinDeductDailyReport"/>
+   	<bean id="jiuCoinDeductDailyReportDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">   
+        <property name="targetObject" ref="jiuCoinDeductDailyReport"/>  
+        <property name="targetMethod" value="execute"/>  
+        <property name="concurrent" value="false"/>
+        <!-- 是否允许任务并发执行。当值为false时，表示必须等到前一个线程处理完毕后才再启一个新的线程 -->  
+	</bean>
+	<bean id="jiuCoinDeductDailyReportTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">  
+       <property name="jobDetail" ref="jiuCoinDeductDailyReportDetail"/>  
+       <property name="cronExpression" value="${task.coin.deduct.daily.report}"/>
+    </bean>
+    
+    
+    <bean id="firstDiscountDailyReport" class="com.jiuy.core.service.task.FirstDiscountDailyReport"/>
+   	<bean id="firstDiscountDailyReportDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">   
+        <property name="targetObject" ref="firstDiscountDailyReport"/>  
+        <property name="targetMethod" value="execute"/>  
+        <property name="concurrent" value="false"/>
+        <!-- 是否允许任务并发执行。当值为false时，表示必须等到前一个线程处理完毕后才再启一个新的线程 -->  
+	</bean>
+	<bean id="firstDiscountDailyReportTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">  
+       <property name="jobDetail" ref="firstDiscountDailyReportDetail"/>  
+       <property name="cronExpression" value="${task.first.discount.daily.report}"/>
+    </bean>
+    
+</beans>

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!--<meta name="robots" content="noindex,nofollow,noarchive ">-->
+
+    <meta charset="UTF-8" >
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta http-equiv="cache-control" content="no-cache">
+    <!--页面关键字-->
+    <meta name="keywords" content="${page.operatorSeo.keywords}"/>
+    <!--页面描述-->
+    <meta name="description" content="${page.operatorSeo.descriptor}"/>
+    <title>
+    <%
+    if(page.operatorSeo.title == null && page.page.operatorSeo.title == ''){
+    %>
+         俞姐姐门店宝
+    <%
+    } else{
+    %>
+    ${page.operatorSeo.title}
+    <%
+    }
+    %>     
+    -新闻动态
+    </title>
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="stylesheet" href="../css/reset.css">
+    <link rel="stylesheet" href="../css/swiper.min.css">
+    <link rel="stylesheet" href="../css/common.css?v1.1">
+    <link rel="stylesheet" href="../css/news.css">
+</head>
+<body>
+<div class="header-container">
+   <div class="head-nav"></div>
+</div>
+<section class="section">
+    <div class="section-bg">
+        <div class="container section-bg-title">
+            <div class="section-bg-title-border">
+                <span class="section-bg-title-one">首页</span> <i> > </i> <span class="colorPink">新闻动态</span>
+            </div>
+
+        </div>
+    </div>
+    <div class="container section-border">
+        <div class="section-news">
+            <%
+             if(page.operatorArticles.~size <= 0){
+            %>
+            <div class="no-article">暂无新闻列表</div>
+            <%
+            }
+            %>
+            <%
+            for(item in page.operatorArticles){
+            %>
+            <article class="article-item ">
+                <a class="article-thumb" href="../articleDetail/${item.id}.html" rel="bookmark" target="_blank"><img class="lazy" src="${item.previewImageUrl}" alt="${item.title}"></a>
+                <dl class="article-info">
+                    <dt><a class="title" href="../articleDetail/${item.id}.html" target="_blank">${item.title}</a></dt>
+                    <dd class="article-content">
+                        <p>${item.abstracts}</p>
+                        <div class="more-box">
+                            <a class="time" href="../articleDetail/${item.id}.html" target="_blank">
+                            MORE</a>
+                            <span class="number">
+                            ${item.createDate}</span>
+                        </div>
+
+                    </dd>
+                    <dd class="source">
+
+                    </dd>
+                </dl>
+            </article>
+            <%
+            }
+            %>
+            
+        </div>
+        <div class="ui-page">
+           <% var j ,h = 0; 
+           j = parseInt(context.articleListIndex) -1;
+           if(j<= 0){
+           j = 1;
+           }
+           h = parseInt(context.articleListIndex) +1;
+           if(h > page.operatorArticlePage.pages){
+           h = page.operatorArticlePage.pages;
+           }
+           %>
+          <a class="pageOpen" href="list${j}.html">上一页</a>
+        <% 
+        for(var i = 1; i <= page.operatorArticlePage.pages;i++){
+         
+       
+        %>
+         
+        <a href='list${i}.html' 
+        <% 
+          if(i == parseInt(context.articleListIndex)){
+        %>
+        class='current'
+        <% } %>
+        >
+        ${i}
+        </a>
+        <%
+        }
+        %>
+        <a class="pageOpen" href="list${h}.html">下一页</a>
+        </div>
+    </div>
+
+
+
+</section>
+<footer class="footer" id="footer-box"></footer>
+<script type="text/javascript" src="../js/jquery-2.1.1.js"></script>
+<script type="text/javascript" src="../js/swiper.min.js"></script>
+<script src="https://qiyukf.com/script/ca7401ee061a67fdcd669ac85f2fa84d.js"></script>
+<script src="../js/adaptation.js"></script>
+<script>
+
+    
+    $(".section-people-content-listItem").on("click",function () {
+        $(this).addClass("active").siblings().removeClass("active");
+        console.log();
+        var i = $(this).index();
+        $(".section-people-content-contenttab").eq(i).show().siblings().hide()
+    })
+    $(".article-item").hover(function(){
+    	$(this).addClass("article-item-active").siblings().removeClass(" article-item-active");
+    },function(){
+        $(this).removeClass(" article-item-active");
+    })
+</script>
+<script src="/js/common.js"></script>
+</body>
+</html>

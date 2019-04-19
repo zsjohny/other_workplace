@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" > 
+<mapper namespace="com.jiuy.rb.mapper.order.StoreOrderLogRbMapper"> 
+ 
+ 	<!-- 主要的返回映射-->
+	<resultMap id="BaseResultMap" type="com.jiuy.rb.model.order.StoreOrderLogRb"	>
+		<id column="Id" property="id" jdbcType="BIGINT" />
+		<result column="StoreId"  property="storeId"  jdbcType="BIGINT" />
+		<result column="OrderNo"  property="orderNo"  jdbcType="BIGINT" />
+		<result column="OldStatus"  property="oldStatus"  jdbcType="TINYINT" />
+		<result column="NewStatus"  property="newStatus"  jdbcType="TINYINT" />
+		<result column="CreateTime"  property="createTime"  jdbcType="BIGINT" />
+		<result column="UpdateTime"  property="updateTime"  jdbcType="BIGINT" />
+	</resultMap>
+
+	<!-- 所有的列名-->
+	<sql id="Base_Column_List" >
+		Id,StoreId,OrderNo,OldStatus,NewStatus,CreateTime,UpdateTime
+	</sql>
+
+	<!-- 精确更新的字段-->
+	<sql id="updateBase">
+		<if test="id  !=null">
+			Id = #{id,jdbcType=BIGINT}, 
+		</if>
+		<if test="storeId  !=null">
+			StoreId = #{storeId,jdbcType=BIGINT}, 
+		</if>
+		<if test="orderNo  !=null">
+			OrderNo = #{orderNo,jdbcType=BIGINT}, 
+		</if>
+		<if test="oldStatus  !=null">
+			OldStatus = #{oldStatus,jdbcType=TINYINT}, 
+		</if>
+		<if test="newStatus  !=null">
+			NewStatus = #{newStatus,jdbcType=TINYINT}, 
+		</if>
+		<if test="createTime  !=null">
+			CreateTime = #{createTime,jdbcType=BIGINT}, 
+		</if>
+		<if test="updateTime  !=null">
+			UpdateTime = #{updateTime,jdbcType=BIGINT} 
+		</if>
+	</sql>
+
+	<!-- 通过主键查找-->
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="Long" >
+		select 
+		<include refid="Base_Column_List" />
+		from store_orderlog
+		where  Id = #{id,jdbcType=BIGINT} 
+	</select>
+
+	<!-- 通过主键删除-->
+	<delete id="deleteByPrimaryKey" parameterType="Long" >
+		delete from store_orderlog
+		where Id = #{id,jdbcType=BIGINT} 
+	</delete>
+
+	<!-- 普通插入全字段插t入-->
+	<insert id="insert" parameterType="com.jiuy.rb.model.order.StoreOrderLogRb" >
+		insert into store_orderlog
+		(
+			Id,
+			StoreId,
+			OrderNo,
+			OldStatus,
+			NewStatus,
+			CreateTime,
+			UpdateTime
+		)
+		values
+		(
+			#{id ,jdbcType=BIGINT},
+			#{storeId ,jdbcType=BIGINT},
+			#{orderNo ,jdbcType=BIGINT},
+			#{oldStatus ,jdbcType=TINYINT},
+			#{newStatus ,jdbcType=TINYINT},
+			#{createTime ,jdbcType=BIGINT},
+			#{updateTime ,jdbcType=BIGINT}
+		)
+	</insert>
+
+	<!-- 批量插入，全部字段插入-->
+	<insert id="insertBach"   parameterType="List" >
+		insert into store_orderlog
+		(
+			Id,
+			StoreId,
+			OrderNo,
+			OldStatus,
+			NewStatus,
+			CreateTime,
+			UpdateTime
+		)
+		values 
+		<foreach collection="list" item="item" separator=",">
+		(
+			#{item.id ,jdbcType=BIGINT},
+			#{item.storeId ,jdbcType=BIGINT},
+			#{item.orderNo ,jdbcType=BIGINT},
+			#{item.oldStatus ,jdbcType=TINYINT},
+			#{item.newStatus ,jdbcType=TINYINT},
+			#{item.createTime ,jdbcType=BIGINT},
+			#{item.updateTime ,jdbcType=BIGINT}
+		)
+		</foreach>
+	</insert>
+
+	<!-- 精确插入，非null得字段才会插入-->
+	<insert id="insertSelective" parameterType="com.jiuy.rb.model.order.StoreOrderLogRb" useGeneratedKeys="true" keyProperty="id" >
+		insert into store_orderlog
+		<trim prefix="(" suffix=")" suffixOverrides="," > 
+			<if test="id !=null">  
+				Id,
+			</if>
+			<if test="storeId !=null">  
+				StoreId,
+			</if>
+			<if test="orderNo !=null">  
+				OrderNo,
+			</if>
+			<if test="oldStatus !=null">  
+				OldStatus,
+			</if>
+			<if test="newStatus !=null">  
+				NewStatus,
+			</if>
+			<if test="createTime !=null">  
+				CreateTime,
+			</if>
+			<if test="updateTime !=null">  
+				UpdateTime,
+			</if>
+		</trim>
+
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+			<if test="id  !=null">
+				#{id,jdbcType=BIGINT}, 
+			</if>
+			<if test="storeId  !=null">
+				#{storeId,jdbcType=BIGINT}, 
+			</if>
+			<if test="orderNo  !=null">
+				#{orderNo,jdbcType=BIGINT}, 
+			</if>
+			<if test="oldStatus  !=null">
+				#{oldStatus,jdbcType=TINYINT}, 
+			</if>
+			<if test="newStatus  !=null">
+				#{newStatus,jdbcType=TINYINT}, 
+			</if>
+			<if test="createTime  !=null">
+				#{createTime,jdbcType=BIGINT}, 
+			</if>
+			<if test="updateTime  !=null">
+				#{updateTime,jdbcType=BIGINT} 
+			</if>
+		</trim>
+	</insert> 
+
+	<!-- 精确更新-->
+	<update id="updateByPrimaryKeySelective" parameterType="com.jiuy.rb.model.order.StoreOrderLogRb" >
+		update store_orderlog
+		<set>
+			<include refid="updateBase"/>
+		</set>
+		where Id = #{id,jdbcType=BIGINT} 
+	</update> 
+
+	<!-- 全字段更新 需要注意-->
+	<update id="updateByPrimaryKey" parameterType="com.jiuy.rb.model.order.StoreOrderLogRb" >
+		update store_orderlog
+		set 
+			Id = #{id ,jdbcType=BIGINT},
+			StoreId = #{storeId ,jdbcType=BIGINT},
+			OrderNo = #{orderNo ,jdbcType=BIGINT},
+			OldStatus = #{oldStatus ,jdbcType=TINYINT},
+			NewStatus = #{newStatus ,jdbcType=TINYINT},
+			CreateTime = #{createTime ,jdbcType=BIGINT},
+			UpdateTime = #{updateTime ,jdbcType=BIGINT}
+		where Id = #{id,jdbcType=BIGINT} 
+	</update> 
+
+	<!-- 所有的条件集合-->
+	<sql id="whereCase"  >
+		where  1=1 
+		<if test="id  !=null">
+			AND Id = #{id,jdbcType=BIGINT} 
+		</if>
+		<if test="storeId  !=null">
+			AND StoreId = #{storeId,jdbcType=BIGINT} 
+		</if>
+		<if test="orderNo  !=null">
+			AND OrderNo = #{orderNo,jdbcType=BIGINT} 
+		</if>
+		<if test="oldStatus  !=null">
+			AND OldStatus = #{oldStatus,jdbcType=TINYINT} 
+		</if>
+		<if test="newStatus  !=null">
+			AND NewStatus = #{newStatus,jdbcType=TINYINT} 
+		</if>
+		<if test="createTime  !=null">
+			AND CreateTime = #{createTime,jdbcType=BIGINT} 
+		</if>
+		<if test="updateTime  !=null">
+			AND UpdateTime = #{updateTime,jdbcType=BIGINT} 
+		</if>
+		<include refid="costomWhereCase"/>
+	</sql>
+
+	<!-- 查询一条，如果返回多条会报错-->
+	<select id="selectOne" parameterType="java.util.Map" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" /> 
+		FROM store_orderlog 
+		<include refid="whereCase" /> 
+	</select>
+
+	<!-- 查询一个list-->
+	<select id="selectList" parameterType="java.util.Map" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" /> 
+		FROM store_orderlog 
+		<include refid="whereCase" /> 
+	</select>
+
+	<!-- 查询一个list-->
+	<select id="selectCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+		SELECT
+		count(1) 
+		FROM store_orderlog
+		<include refid="whereCase" /> 
+	</select>
+
+	<!--  @Costom -->
+	<!-- 从上一行注释以上为系统生成 从这一行往下为用户自定义 请将自定义的sql放在此行下面 -->
+	<sql id="costomWhereCase">
+	</sql>
+
+</mapper>

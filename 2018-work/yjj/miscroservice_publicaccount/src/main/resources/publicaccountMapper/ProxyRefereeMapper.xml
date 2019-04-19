@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" > 
+<mapper namespace="com.e_commerce.miscroservice.publicaccount.mapper.ProxyRefereeMapper">
+ 
+
+	<select id="myProxy" parameterType="map" resultType="com.e_commerce.miscroservice.publicaccount.entity.vo.ProxyRefereeUserInfo">
+		SELECT
+		a.id AS refereeId,
+		a.recommon_user_id AS userId,
+		c.wx_name AS wxName,
+		c.wx_user_icon AS wxUserIcon,
+		b.`name` AS userName,
+		b.phone AS phone,
+		b.id_card_no AS idCardNo,
+		b.province AS province,
+		b.city AS city,
+		b.county AS county,
+		b.create_time AS createTime,
+		b.address_detail AS addressDetail
+		FROM yjj_proxy_referee a
+		JOIN yjj_proxy_customer b ON a.recommon_user_id = b.user_id
+		JOIN yjj_public_account_user c ON b.user_id = c.id
+		WHERE
+		a.recommon_user_type = 2
+		AND a.del_status = 0
+		AND a.`status` = 0
+		AND b.type = 2
+		AND b.del_status = 0
+		AND c.del_status = 0
+		AND a.referee_user_id = #{publicAccountUserId}
+        <if test="phone != null and phone != ''">
+            AND c.phone = #{phone}
+        </if>
+        <if test="name != null and name != ''">
+            AND (b.`name` LIKE concat('%',#{name},'%') OR c.wx_name LIKE concat('%',#{name},'%') )
+        </if>
+		<if test="phoneOrName != null and phoneOrName != ''">
+			AND ( c.phone = #{phoneOrName} OR b.`name` LIKE concat('%',#{phoneOrName},'%') OR c.wx_name LIKE concat('%',#{phoneOrName},'%') )
+		</if>
+        ORDER BY a.create_time DESC
+	</select>
+
+
+	<select id="myCustomer" parameterType="map" resultType="com.e_commerce.miscroservice.publicaccount.entity.vo.ProxyRefereeUserInfo">
+	    SELECT
+			a.id AS refereeId,
+			a.recommon_user_id AS userId,
+			c.wx_name AS wxName,
+			c.wx_user_icon AS wxUserIcon,
+			c.create_time AS createTime,
+			b.`name` AS userName,
+			c.phone AS phone
+            FROM yjj_proxy_referee a
+			LEFT JOIN yjj_proxy_customer b ON a.recommon_user_id = b.user_id
+            JOIN yjj_public_account_user c ON c.id = a.recommon_user_id
+			WHERE
+            a.recommon_user_type = 1
+            AND a.del_status = 0
+            AND a.`status` = 0
+            AND a.referee_user_id = #{publicAccountUserId}
+            AND c.del_status = 0
+            <if test="name != null and name != ''">
+			  AND  ( b.`name` LIKE concat('%',#{name},'%') OR c.wx_name LIKE concat('%',#{name},'%') )
+            </if>
+            <if test="phone != null and phone != ''">
+              AND c.phone = #{phone}
+            </if>
+		    <if test="phoneOrName != null and phoneOrName != ''">
+              AND ( c.phone = #{phoneOrName} OR c.`wx_name` LIKE concat('%',#{phoneOrName},'%') )
+            </if>
+
+		  ORDER BY a.create_time DESC
+	</select>
+
+	<select id="orderNumByType" parameterType="map"  resultType="Integer">
+		SELECT
+		count(1)
+		FROM
+	    yjj_proxy_order ord
+		WHERE
+	    ord.user_id IN ( SELECT ref.recommon_user_id FROM yjj_proxy_referee ref WHERE ref.referee_user_id = #{userId} AND ref.recommon_user_type = #{type} )
+	</select>
+
+	<select id="orderMoneyByType" parameterType="map"  resultType="Map">
+		SELECT
+		IFNULL(SUM(rew.order_money),0) as orderMoney,
+		IFNULL(SUM(rew.reward_money),0) as rewardMoney
+		FROM
+		yjj_proxy_reward rew
+		WHERE
+ 		rew.user_id = #{userId} and
+		rew.order_user_id IN ( SELECT ref.recommon_user_id FROM yjj_proxy_referee ref WHERE ref.referee_user_id = #{userId} AND ref.recommon_user_type = #{type} )
+    </select>
+
+	<select id="orderMoneyBySelf" parameterType="map"  resultType="Map">
+		SELECT
+		IFNULL(SUM(rew.order_money),0) as orderMoney,
+		IFNULL(SUM(rew.reward_money),0) as rewardMoney
+		FROM
+		yjj_proxy_reward rew
+		WHERE
+ 		rew.user_id = #{userId}
+    </select>
+
+	<select id="rewardMoneyIsGrant" parameterType="map"  resultType="Integer">
+		SELECT
+		IFNULL(SUM(rew.reward_money),0) as rewardMoney
+		FROM
+		yjj_proxy_reward rew
+		WHERE
+		rew.user_id = #{userId}
+		AND rew.is_grant =#{type}
+    </select>
+
+</mapper>

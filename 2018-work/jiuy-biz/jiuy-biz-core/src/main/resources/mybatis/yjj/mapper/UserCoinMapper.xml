@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yujj.dao.mapper.UserCoinMapper">
+	<select id="getUserCoin" resultType="UserCoin">
+		<![CDATA[
+			select * from yjj_UserCoin
+			where UserId = #{userId}
+		]]>
+	</select>
+	
+	<insert id="addUserCoin" useGeneratedKeys="true" keyProperty="id">
+		<![CDATA[
+			insert into yjj_UserCoin
+			(UserId, AvalCoins, UnavalCoins, CreateTime, UpdateTime)
+			values
+			(#{userId}, #{avalCoins}, #{unavalCoins}, #{createTime}, #{updateTime})
+		]]>
+	</insert>
+	
+	<update id="updateUserCoin" parameterType="map">
+		<![CDATA[
+			update yjj_UserCoin
+			set AvalCoins = #{newAvalCoins}, UnavalCoins = #{newUnavalCoins}, UpdateTime = #{time}
+			where UserId = #{userId} and AvalCoins = #{oldAvalCoins} and UnavalCoins = #{oldUnavalCoins}
+		]]>
+	</update>
+	
+	<update id="updateUserCoinNew" parameterType="map">
+		<![CDATA[
+			update yjj_UserCoin
+			set UnavalCoins = UnavalCoins + #{getCoins}, UpdateTime = #{time}
+			where UserId = #{userId} 
+		]]>
+	</update>
+	
+</mapper>

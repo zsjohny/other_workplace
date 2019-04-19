@@ -1,0 +1,112 @@
+#---------------------------------------------------
+#######数据库配置
+#---------------------------------------------------
+#jdbcUrl = jdbc:mysql://127.0.0.1/jfinal_weixin?characterEncoding=utf8&zeroDateTimeBehavior=convertToNull
+#user = root
+#password =
+jdbcUrl = jdbc:mysql://rm-uf6w182s6385yl3phgo.mysql.rds.aliyuncs.com:3306/yjjlocal?useUnicode=true&characterEncoding=utf8&allowMultiQueries=true
+user = mysql
+password =mysql
+
+
+#---------------------------------------------------
+#开发者模式
+#---------------------------------------------------
+devMode = true
+
+
+#---------------------------------------------------
+#第三方配置配置
+#---------------------------------------------------
+
+#---------------------------------------------------
+#公众号配置
+#---------------------------------------------------
+# 微信服务器回调所用的 token   Token(令牌)：
+token=yujiejie2017
+
+# 测试用的账号
+appId=wx0927d4005f4e45df
+appSecret=9a877760ce5ff391123781b4dae03363
+
+#是否对消息进行加密，是否对消息进行加密，对应于微信平台的消息加解密方式，false支持明文模式及兼容模式，true支持安全模式及兼容模式
+encryptMessage=false
+encodingAesKey=igBEFs2ut2GLphVD62ZEFIGLXwxtZyfoMW02yJU1nYe
+
+
+
+#---------------------------------------------------
+#第三方配置
+#---------------------------------------------------
+
+third_encryptMessage=true
+#俞姐姐
+#third_appId=wxddd55d6028f404ab
+#third_appSecret=725058b52fa0f53f28d9a5a6bde1c0ea
+#third_token=jiuyuan2017
+#third_encodingAesKey=9HuP5H2P2Fk5wiZyYoWAAMjwJqq3Vt9HuP5H2P2Fk5w
+#俞姐姐门店
+#third_appId=wx22beffcfcd7aea09
+#third_appSecret=a797b78144a7229ad7d72c8e182e0c93
+#third_token=jiuyuan2017
+#third_encodingAesKey=9HuP5H2P2Fk5wiZyYoWAAMjwJqq3Vt9HuP5H2P2Fk5w
+#俞姐姐门店3
+third_appId=wx3ef25e066e478873
+third_appSecret=985112c9579929743260101705effaa4
+third_token=jiuyuan2017
+third_encodingAesKey=9HuP5H2P2Fk5wiZyYoWAAMjwJqq3Vt9HuP5H2P2Fk5w
+
+
+#俞姐姐门店4
+#third_appId=wx3eb544403885e810
+#third_appSecret=f658d5487c253896d6dd45d55bcb9116
+#third_token=jiuyuan2017
+#third_encodingAesKey=9HuP5H2P2Fk5wiZyYoWAAMjwJqq3Vt9HuP5H2P2Fk5w
+//授权者小程序或公众号的appId，用于调试
+third_authorizer1_appId=wx0927d4005f4e45df
+
+#---------------------------------------------------
+#小程序配置
+#---------------------------------------------------
+
+# 微信服务器回调所用的 token   Token(令牌)：
+wxa_token=yujiejie2017
+
+
+# 测试用的账号
+wxa_appId=wx0927d4005f4e45df
+wxa_appSecret=9a877760ce5ff391123781b4dae03363
+
+#是否对消息进行加密，是否对消息进行加密，对应于微信平台的消息加解密方式，false支持明文模式及兼容模式，true支持安全模式及兼容模式
+wxa_encryptMessage=false
+wxa_encodingAesKey=igBEFs2ut2GLphVD62ZEFIGLXwxtZyfoMW02yJU1nYe
+
+//授权者小程序或公众号的appId，全网发布用
+third_wxatest_authorizer_appId=wxd101a85aa106f53e
+third_gzhtest_authorizer_appId=wx570bc396a51b8ff8
+
+#wxa-api项目访问路径
+wxa_api_url=http://dev.yujiejie.com:31080
+
+#董仲三方平台调试
+weixin_server_url=https://weixindz.yujiejie.com/
+requestdomain=https://wxadz.yujiejie.com,https://weixindz.yujiejie.com
+wsrequestdomain=wss://wxadz.yujiejie.com,wss://wxadz.yujiejie.com
+uploaddomain=https://wxadz.yujiejie.com,https://weixindz.yujiejie.com
+downloaddomain=https://wxadz.yujiejie.com,https://weixindz.yujiejie.com
+
+#赵兴林三方平台调试
+#weixin_server_url=https://weixinzxl.yujiejie.com/
+#requestdomain=https://wxazxl.yujiejie.com,https://weixinzxl.yujiejie.com
+#wsrequestdomain=wss://wxazxl.yujiejie.com,wss://wxazxl.yujiejie.com
+#uploaddomain=https://wxazxl.yujiejie.com,https://weixinzxl.yujiejie.com
+#downloaddomain=https://wxazxl.yujiejie.com,https://weixinzxl.yujiejie.com
+
+#本地服务器三方平台调试
+#weixin_server_url=https://local.yujiejie.com/jweixin/
+#requestdomain=https://wxalocal.yujiejie.com,https://weixinlocal.yujiejie.com
+#wsrequestdomain=wss://wxalocal.yujiejie.com,wss://wxalocal.yujiejie.com
+#uploaddomain=https://wxalocal.yujiejie.com,https://weixinlocal.yujiejie.com
+#downloaddomain=https://wxalocal.yujiejie.com,https://weixinlocal.yujiejie.com
+
+memcached_servers=47.96.20.44:11211

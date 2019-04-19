@@ -1,0 +1,378 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" > 
+<mapper namespace="com.jiuy.rb.mapper.product.SalesVolumeProductRbMapper"> 
+ 
+ 	<!-- 主要的返回映射-->
+	<resultMap id="BaseResultMap" type="com.jiuy.rb.model.product.SalesVolumeProductRb"	>
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="product_id"  property="productId"  jdbcType="BIGINT" />
+		<result column="sales_volume"  property="salesVolume"  jdbcType="BIGINT" />
+		<result column="collection_count"  property="collectionCount"  jdbcType="BIGINT" />
+		<result column="star_count"  property="starCount"  jdbcType="BIGINT" />
+		<result column="order_count"  property="orderCount"  jdbcType="BIGINT" />
+		<result column="order_success_count"  property="orderSuccessCount"  jdbcType="BIGINT" />
+		<result column="refund_count"  property="refundCount"  jdbcType="BIGINT" />
+		<result column="view_count"  property="viewCount"  jdbcType="BIGINT" />
+		<result column="update_time"  property="updateTime"  jdbcType="TIMESTAMP" />
+		<result column="product_type"  property="productType"  jdbcType="INTEGER" />
+	</resultMap>
+
+	<!-- 所有的列名-->
+	<sql id="Base_Column_List" >
+		id,product_id,sales_volume,collection_count,star_count,order_count,order_success_count,refund_count,view_count,
+		update_time,product_type
+	</sql>
+
+	<!-- 精确更新的字段-->
+	<sql id="updateBase">
+		<if test="id  !=null">
+			id = #{id,jdbcType=BIGINT}, 
+		</if>
+		<if test="productId  !=null">
+			product_id = #{productId,jdbcType=BIGINT}, 
+		</if>
+		<if test="salesVolume  !=null">
+			sales_volume = #{salesVolume,jdbcType=BIGINT}, 
+		</if>
+		<if test="collectionCount  !=null">
+			collection_count = #{collectionCount,jdbcType=BIGINT}, 
+		</if>
+		<if test="starCount  !=null">
+			star_count = #{starCount,jdbcType=BIGINT}, 
+		</if>
+		<if test="orderCount  !=null">
+			order_count = #{orderCount,jdbcType=BIGINT}, 
+		</if>
+		<if test="orderSuccessCount  !=null">
+			order_success_count = #{orderSuccessCount,jdbcType=BIGINT}, 
+		</if>
+		<if test="refundCount  !=null">
+			refund_count = #{refundCount,jdbcType=BIGINT}, 
+		</if>
+		<if test="viewCount  !=null">
+			view_count = #{viewCount,jdbcType=BIGINT}, 
+		</if>
+		<if test="updateTime  !=null">
+			update_time = #{updateTime,jdbcType=TIMESTAMP}, 
+		</if>
+		<if test="productType  !=null">
+			product_type = #{productType,jdbcType=INTEGER} 
+		</if>
+	</sql>
+
+	<!-- 通过主键查找-->
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="Long" >
+		select 
+		<include refid="Base_Column_List" />
+		from yjj_sales_volume_product
+		where  id = #{id,jdbcType=BIGINT} 
+	</select>
+
+	<!-- 通过主键删除-->
+	<delete id="deleteByPrimaryKey" parameterType="Long" >
+		delete from yjj_sales_volume_product
+		where id = #{id,jdbcType=BIGINT} 
+	</delete>
+
+	<!-- 普通插入全字段插t入-->
+	<insert id="insert" parameterType="com.jiuy.rb.model.product.SalesVolumeProductRb" >
+		insert into yjj_sales_volume_product
+		(
+			id,
+			product_id,
+			sales_volume,
+			collection_count,
+			star_count,
+			order_count,
+			order_success_count,
+			refund_count,
+			view_count,
+			update_time,
+			product_type
+		)
+		values
+		(
+			#{id ,jdbcType=BIGINT},
+			#{productId ,jdbcType=BIGINT},
+			#{salesVolume ,jdbcType=BIGINT},
+			#{collectionCount ,jdbcType=BIGINT},
+			#{starCount ,jdbcType=BIGINT},
+			#{orderCount ,jdbcType=BIGINT},
+			#{orderSuccessCount ,jdbcType=BIGINT},
+			#{refundCount ,jdbcType=BIGINT},
+			#{viewCount ,jdbcType=BIGINT},
+			#{updateTime ,jdbcType=TIMESTAMP},
+			#{productType ,jdbcType=INTEGER}
+		)
+	</insert>
+
+	<!-- 批量插入，全部字段插入-->
+	<insert id="insertBach"   parameterType="List" >
+		insert into yjj_sales_volume_product
+		(
+			id,
+			product_id,
+			sales_volume,
+			collection_count,
+			star_count,
+			order_count,
+			order_success_count,
+			refund_count,
+			view_count,
+			update_time,
+			product_type
+		)
+		values 
+		<foreach collection="list" item="item" separator=",">
+		(
+			#{item.id ,jdbcType=BIGINT},
+			#{item.productId ,jdbcType=BIGINT},
+			#{item.salesVolume ,jdbcType=BIGINT},
+			#{item.collectionCount ,jdbcType=BIGINT},
+			#{item.starCount ,jdbcType=BIGINT},
+			#{item.orderCount ,jdbcType=BIGINT},
+			#{item.orderSuccessCount ,jdbcType=BIGINT},
+			#{item.refundCount ,jdbcType=BIGINT},
+			#{item.viewCount ,jdbcType=BIGINT},
+			#{item.updateTime ,jdbcType=TIMESTAMP},
+			#{item.productType ,jdbcType=INTEGER}
+		)
+		</foreach>
+	</insert>
+
+	<!-- 精确插入，非null得字段才会插入-->
+	<insert id="insertSelective" parameterType="com.jiuy.rb.model.product.SalesVolumeProductRb" useGeneratedKeys="true" keyProperty="id" >
+		insert into yjj_sales_volume_product
+		<trim prefix="(" suffix=")" suffixOverrides="," > 
+			<if test="id !=null">  
+				id,
+			</if>
+			<if test="productId !=null">  
+				product_id,
+			</if>
+			<if test="salesVolume !=null">  
+				sales_volume,
+			</if>
+			<if test="collectionCount !=null">  
+				collection_count,
+			</if>
+			<if test="starCount !=null">  
+				star_count,
+			</if>
+			<if test="orderCount !=null">  
+				order_count,
+			</if>
+			<if test="orderSuccessCount !=null">  
+				order_success_count,
+			</if>
+			<if test="refundCount !=null">  
+				refund_count,
+			</if>
+			<if test="viewCount !=null">  
+				view_count,
+			</if>
+			<if test="updateTime !=null">  
+				update_time,
+			</if>
+			<if test="productType !=null">  
+				product_type,
+			</if>
+		</trim>
+
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+			<if test="id  !=null">
+				#{id,jdbcType=BIGINT}, 
+			</if>
+			<if test="productId  !=null">
+				#{productId,jdbcType=BIGINT}, 
+			</if>
+			<if test="salesVolume  !=null">
+				#{salesVolume,jdbcType=BIGINT}, 
+			</if>
+			<if test="collectionCount  !=null">
+				#{collectionCount,jdbcType=BIGINT}, 
+			</if>
+			<if test="starCount  !=null">
+				#{starCount,jdbcType=BIGINT}, 
+			</if>
+			<if test="orderCount  !=null">
+				#{orderCount,jdbcType=BIGINT}, 
+			</if>
+			<if test="orderSuccessCount  !=null">
+				#{orderSuccessCount,jdbcType=BIGINT}, 
+			</if>
+			<if test="refundCount  !=null">
+				#{refundCount,jdbcType=BIGINT}, 
+			</if>
+			<if test="viewCount  !=null">
+				#{viewCount,jdbcType=BIGINT}, 
+			</if>
+			<if test="updateTime  !=null">
+				#{updateTime,jdbcType=TIMESTAMP}, 
+			</if>
+			<if test="productType  !=null">
+				#{productType,jdbcType=INTEGER} 
+			</if>
+		</trim>
+	</insert> 
+
+	<!-- 精确更新-->
+	<update id="updateByPrimaryKeySelective" parameterType="com.jiuy.rb.model.product.SalesVolumeProductRb" >
+		update yjj_sales_volume_product
+		<set>
+			<include refid="updateBase"/>
+		</set>
+		where id = #{id,jdbcType=BIGINT} 
+	</update> 
+
+	<!-- 全字段更新 需要注意-->
+	<update id="updateByPrimaryKey" parameterType="com.jiuy.rb.model.product.SalesVolumeProductRb" >
+		update yjj_sales_volume_product
+		set 
+			id = #{id ,jdbcType=BIGINT},
+			product_id = #{productId ,jdbcType=BIGINT},
+			sales_volume = #{salesVolume ,jdbcType=BIGINT},
+			collection_count = #{collectionCount ,jdbcType=BIGINT},
+			star_count = #{starCount ,jdbcType=BIGINT},
+			order_count = #{orderCount ,jdbcType=BIGINT},
+			order_success_count = #{orderSuccessCount ,jdbcType=BIGINT},
+			refund_count = #{refundCount ,jdbcType=BIGINT},
+			view_count = #{viewCount ,jdbcType=BIGINT},
+			update_time = #{updateTime ,jdbcType=TIMESTAMP},
+			product_type = #{productType ,jdbcType=INTEGER}
+		where id = #{id,jdbcType=BIGINT} 
+	</update> 
+
+	<!-- 所有的条件集合-->
+	<sql id="whereCase"  >
+		where  1=1 
+		<if test="id  !=null">
+			AND id = #{id,jdbcType=BIGINT} 
+		</if>
+		<if test="productId  !=null">
+			AND product_id = #{productId,jdbcType=BIGINT} 
+		</if>
+		<if test="salesVolume  !=null">
+			AND sales_volume = #{salesVolume,jdbcType=BIGINT} 
+		</if>
+		<if test="collectionCount  !=null">
+			AND collection_count = #{collectionCount,jdbcType=BIGINT} 
+		</if>
+		<if test="starCount  !=null">
+			AND star_count = #{starCount,jdbcType=BIGINT} 
+		</if>
+		<if test="orderCount  !=null">
+			AND order_count = #{orderCount,jdbcType=BIGINT} 
+		</if>
+		<if test="orderSuccessCount  !=null">
+			AND order_success_count = #{orderSuccessCount,jdbcType=BIGINT} 
+		</if>
+		<if test="refundCount  !=null">
+			AND refund_count = #{refundCount,jdbcType=BIGINT} 
+		</if>
+		<if test="viewCount  !=null">
+			AND view_count = #{viewCount,jdbcType=BIGINT} 
+		</if>
+		<if test="updateTime  !=null">
+			AND update_time = #{updateTime,jdbcType=TIMESTAMP} 
+		</if>
+		<if test="productType  !=null">
+			AND product_type = #{productType,jdbcType=INTEGER} 
+		</if>
+		<include refid="costomWhereCase"/>
+	</sql>
+
+	<!-- 查询一条，如果返回多条会报错-->
+	<select id="selectOne" parameterType="java.util.Map" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" /> 
+		FROM yjj_sales_volume_product 
+		<include refid="whereCase" /> 
+	</select>
+
+	<!-- 查询一个list-->
+	<select id="selectList" parameterType="java.util.Map" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" /> 
+		FROM yjj_sales_volume_product 
+		<include refid="whereCase" /> 
+	</select>
+
+	<!-- 查询一个list-->
+	<select id="selectCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+		SELECT
+		count(1) 
+		FROM yjj_sales_volume_product
+		<include refid="whereCase" /> 
+	</select>
+
+	<!--  @Costom -->
+	<!-- 从上一行注释以上为系统生成 从这一行往下为用户自定义 请将自定义的sql放在此行下面 -->
+	<sql id="costomWhereCase">
+		<if test="productIds != null">
+			AND product_id IN
+			<foreach collection="productIds" item="pId" open="(" close=")" separator=",">
+				#{pId}
+			</foreach>
+		</if>
+
+	</sql>
+
+
+	<update id="addSalesVolume" >
+		update yjj_sales_volume_product set sales_volume = sales_volume+#{salesVolume} where product_type = #{productType} and product_id = #{productId};
+	</update>
+
+	<update id="safeAddCount" parameterType="com.jiuy.rb.model.product.SalesVolumeProductRb">
+
+		UPDATE yjj_sales_volume_product
+		SET update_time = #{updateTime}
+		<if test="salesVolume != null and salesVolume != 0">
+			, sales_volume = sales_volume + #{salesVolume}
+		</if>
+		<if test="collectionCount != null and collectionCount != 0">
+			, collection_count = collection_count + #{collectionCount}
+		</if>
+		<if test="starCount != null and starCount != 0">
+			, star_count = star_count+#{starCount}
+		</if>
+		<if test="orderCount != null and orderCount != 0">
+			, order_count = order_count+#{orderCount}
+		</if>
+		<if test="orderSuccessCount != null and orderSuccessCount != 0">
+			, order_success_count = order_success_count+#{orderSuccessCount}
+		</if>
+		<if test="refundCount != null and refundCount != 0">
+			, refund_count = refund_count+#{refundCount}
+		</if>
+		<if test="viewCount != null and viewCount != 0">
+			, view_count = view_count+#{viewCount}
+		</if>
+		WHERE
+			product_type = #{productType}
+			AND product_id = #{productId}
+		<if test="salesVolume != null and salesVolume != 0">
+		<![CDATA[	AND sales_volume+ #{salesVolume} >= 0]]>
+		</if>
+		<if test="collectionCount != null and collectionCount != 0">
+		<![CDATA[	AND collection_count+#{collectionCount} >= 0 ]]>
+		</if>
+		<if test="starCount != null and starCount != 0">
+		<![CDATA[	AND star_count+#{starCount} >= 0 ]]>
+		</if>
+		<if test="orderCount != null and orderCount != 0">
+		<![CDATA[	AND order_count+#{orderCount} >= 0 ]]>
+		</if>
+		<if test="orderSuccessCount != null and orderSuccessCount != 0">
+		<![CDATA[	AND order_success_count+#{orderSuccessCount} >= 0 ]]>
+		</if>
+		<if test="refundCount != null and refundCount != 0">
+		<![CDATA[	AND refund_count+#{refundCount} >= 0 ]]>
+		</if>
+		<if test="viewCount != null and viewCount != 0">
+		<![CDATA[	AND view_count+#{viewCount} >= 0 ]]>
+		</if>
+
+	</update>
+
+</mapper>

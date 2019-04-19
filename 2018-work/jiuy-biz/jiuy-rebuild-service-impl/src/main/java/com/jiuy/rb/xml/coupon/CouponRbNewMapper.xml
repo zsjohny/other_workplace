@@ -1,0 +1,562 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" > 
+<mapper namespace="com.jiuy.rb.mapper.coupon.CouponRbNewMapper">
+
+	<!-- 主要的返回映射-->
+	<resultMap id="BaseResultMap" type="com.jiuy.rb.model.coupon.CouponRbNew"	>
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="member_id"  property="memberId"  jdbcType="BIGINT" />
+		<result column="store_id"  property="storeId"  jdbcType="BIGINT" />
+		<result column="user_type"  property="userType"  jdbcType="INTEGER" />
+		<result column="template_id"  property="templateId"  jdbcType="BIGINT" />
+		<result column="price"  property="price"  jdbcType="DECIMAL" />
+		<result column="discount"  property="discount"  jdbcType="DECIMAL" />
+		<result column="template_name"  property="templateName"  jdbcType="VARCHAR" />
+		<result column="status"  property="status"  jdbcType="INTEGER" />
+		<result column="order_favorable_mone"  property="orderFavorableMone"  jdbcType="DECIMAL" />
+		<result column="order_money"  property="orderMoney"  jdbcType="DECIMAL" />
+		<result column="order_no"  property="orderNo"  jdbcType="VARCHAR" />
+		<result column="use_begin_time"  property="useBeginTime"  jdbcType="TIMESTAMP" />
+		<result column="use_end_time"  property="useEndTime"  jdbcType="TIMESTAMP" />
+		<result column="create_time"  property="createTime"  jdbcType="TIMESTAMP" />
+		<result column="publish_user_id"  property="publishUserId"  jdbcType="BIGINT" />
+		<result column="publish_user"  property="publishUser"  jdbcType="VARCHAR" />
+		<result column="update_time"  property="updateTime"  jdbcType="TIMESTAMP" />
+		<result column="limit_money"  property="limitMoney"  jdbcType="DECIMAL" />
+	</resultMap>
+
+	<!-- 所有的列名-->
+	<sql id="Base_Column_List" >
+		id,member_id,store_id,user_type,template_id,price,discount,template_name,status,
+		order_favorable_mone,order_money,order_no,use_begin_time,use_end_time,create_time,publish_user_id,publish_user,
+		update_time,limit_money
+	</sql>
+
+	<!-- 精确更新的字段-->
+	<sql id="updateBase">
+		<if test="id  !=null">
+			id = #{id,jdbcType=BIGINT},
+		</if>
+		<if test="memberId  !=null">
+			member_id = #{memberId,jdbcType=BIGINT},
+		</if>
+		<if test="storeId  !=null">
+			store_id = #{storeId,jdbcType=BIGINT},
+		</if>
+		<if test="userType  !=null">
+			user_type = #{userType,jdbcType=INTEGER},
+		</if>
+		<if test="templateId  !=null">
+			template_id = #{templateId,jdbcType=BIGINT},
+		</if>
+		<if test="price  !=null">
+			price = #{price,jdbcType=DECIMAL},
+		</if>
+		<if test="discount  !=null">
+			discount = #{discount,jdbcType=DECIMAL},
+		</if>
+		<if test="templateName  !=null">
+			template_name = #{templateName,jdbcType=VARCHAR},
+		</if>
+		<if test="status  !=null">
+			status = #{status,jdbcType=INTEGER},
+		</if>
+		<if test="orderFavorableMone  !=null">
+			order_favorable_mone = #{orderFavorableMone,jdbcType=DECIMAL},
+		</if>
+		<if test="orderMoney  !=null">
+			order_money = #{orderMoney,jdbcType=DECIMAL},
+		</if>
+		<if test="orderNo  !=null">
+			order_no = #{orderNo,jdbcType=VARCHAR},
+		</if>
+		<if test="useBeginTime  !=null">
+			use_begin_time = #{useBeginTime,jdbcType=TIMESTAMP},
+		</if>
+		<if test="useEndTime  !=null">
+			use_end_time = #{useEndTime,jdbcType=TIMESTAMP},
+		</if>
+		<if test="createTime  !=null">
+			create_time = #{createTime,jdbcType=TIMESTAMP},
+		</if>
+		<if test="publishUserId  !=null">
+			publish_user_id = #{publishUserId,jdbcType=BIGINT},
+		</if>
+		<if test="publishUser  !=null">
+			publish_user = #{publishUser,jdbcType=VARCHAR},
+		</if>
+		<if test="updateTime  !=null">
+			update_time = #{updateTime,jdbcType=TIMESTAMP},
+		</if>
+		<if test="limitMoney  !=null">
+			limit_money = #{limitMoney,jdbcType=DECIMAL},
+		</if>
+	</sql>
+
+	<!-- 通过主键查找-->
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="Long" >
+		select
+		<include refid="Base_Column_List" />
+		from yjj_coupon_new
+		where  id = #{id,jdbcType=BIGINT}
+	</select>
+
+	<!-- 通过主键删除-->
+	<delete id="deleteByPrimaryKey" parameterType="Long" >
+		delete from yjj_coupon_new
+		where id = #{id,jdbcType=BIGINT}
+	</delete>
+
+	<!-- 普通插入全字段插t入-->
+	<insert id="insert" parameterType="com.jiuy.rb.model.coupon.CouponRbNew" >
+		insert into yjj_coupon_new
+		(
+			id,
+			member_id,
+			store_id,
+			user_type,
+			template_id,
+			price,
+			discount,
+			template_name,
+			status,
+			order_favorable_mone,
+			order_money,
+			order_no,
+			use_begin_time,
+			use_end_time,
+			create_time,
+			publish_user_id,
+			publish_user,
+			update_time,
+			limit_money
+		)
+		values
+		(
+			#{id ,jdbcType=BIGINT},
+			#{memberId ,jdbcType=BIGINT},
+			#{storeId ,jdbcType=BIGINT},
+			#{userType ,jdbcType=INTEGER},
+			#{templateId ,jdbcType=BIGINT},
+			#{price ,jdbcType=DECIMAL},
+			#{discount ,jdbcType=DECIMAL},
+			#{templateName ,jdbcType=VARCHAR},
+			#{status ,jdbcType=INTEGER},
+			#{orderFavorableMone ,jdbcType=DECIMAL},
+			#{orderMoney ,jdbcType=DECIMAL},
+			#{orderNo ,jdbcType=VARCHAR},
+			#{useBeginTime ,jdbcType=TIMESTAMP},
+			#{useEndTime ,jdbcType=TIMESTAMP},
+			#{createTime ,jdbcType=TIMESTAMP},
+			#{publishUserId ,jdbcType=BIGINT},
+			#{publishUser ,jdbcType=VARCHAR},
+			#{updateTime ,jdbcType=TIMESTAMP},
+			#{limitMoney ,jdbcType=DECIMAL}
+		)
+	</insert>
+
+	<!-- 批量插入，全部字段插入-->
+	<insert id="insertBach"   parameterType="List" >
+		insert into yjj_coupon_new
+		(
+		id,
+		member_id,
+		store_id,
+		user_type,
+		template_id,
+		price,
+		discount,
+		template_name,
+		status,
+		order_favorable_mone,
+		order_money,
+		order_no,
+		use_begin_time,
+		use_end_time,
+		create_time,
+		publish_user_id,
+		publish_user,
+		update_time,
+		limit_money
+		)
+		values
+		<foreach collection="list" item="item" separator=",">
+			(
+			#{item.id ,jdbcType=BIGINT},
+			#{item.memberId ,jdbcType=BIGINT},
+			#{item.storeId ,jdbcType=BIGINT},
+			#{item.userType ,jdbcType=INTEGER},
+			#{item.templateId ,jdbcType=BIGINT},
+			#{item.price ,jdbcType=DECIMAL},
+			#{item.discount ,jdbcType=DECIMAL},
+			#{item.templateName ,jdbcType=VARCHAR},
+			#{item.status ,jdbcType=INTEGER},
+			#{item.orderFavorableMone ,jdbcType=DECIMAL},
+			#{item.orderMoney ,jdbcType=DECIMAL},
+			#{item.orderNo ,jdbcType=VARCHAR},
+			#{item.useBeginTime ,jdbcType=TIMESTAMP},
+			#{item.useEndTime ,jdbcType=TIMESTAMP},
+			#{item.createTime ,jdbcType=TIMESTAMP},
+			#{item.publishUserId ,jdbcType=BIGINT},
+			#{item.publishUser ,jdbcType=VARCHAR},
+			#{item.updateTime ,jdbcType=TIMESTAMP},
+			#{item.limitMoney ,jdbcType=DECIMAL}
+			)
+		</foreach>
+	</insert>
+
+	<!-- 精确插入，非null得字段才会插入-->
+	<insert id="insertSelective" parameterType="com.jiuy.rb.model.coupon.CouponRbNew" useGeneratedKeys="true" keyProperty="id" >
+		insert into yjj_coupon_new
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+			<if test="id !=null">
+				id,
+			</if>
+			<if test="memberId !=null">
+				member_id,
+			</if>
+			<if test="storeId !=null">
+				store_id,
+			</if>
+			<if test="userType !=null">
+				user_type,
+			</if>
+			<if test="templateId !=null">
+				template_id,
+			</if>
+			<if test="price !=null">
+				price,
+			</if>
+			<if test="discount !=null">
+				discount,
+			</if>
+			<if test="templateName !=null">
+				template_name,
+			</if>
+			<if test="status !=null">
+				status,
+			</if>
+			<if test="orderFavorableMone !=null">
+				order_favorable_mone,
+			</if>
+			<if test="orderMoney !=null">
+				order_money,
+			</if>
+			<if test="orderNo !=null">
+				order_no,
+			</if>
+			<if test="useBeginTime !=null">
+				use_begin_time,
+			</if>
+			<if test="useEndTime !=null">
+				use_end_time,
+			</if>
+			<if test="createTime !=null">
+				create_time,
+			</if>
+			<if test="publishUserId !=null">
+				publish_user_id,
+			</if>
+			<if test="publishUser !=null">
+				publish_user,
+			</if>
+			<if test="updateTime !=null">
+				update_time,
+			</if>
+			<if test="limitMoney !=null">
+				limit_money,
+			</if>
+		</trim>
+
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+			<if test="id  !=null">
+				#{id,jdbcType=BIGINT},
+			</if>
+			<if test="memberId  !=null">
+				#{memberId,jdbcType=BIGINT},
+			</if>
+			<if test="storeId  !=null">
+				#{storeId,jdbcType=BIGINT},
+			</if>
+			<if test="userType  !=null">
+				#{userType,jdbcType=INTEGER},
+			</if>
+			<if test="templateId  !=null">
+				#{templateId,jdbcType=BIGINT},
+			</if>
+			<if test="price  !=null">
+				#{price,jdbcType=DECIMAL},
+			</if>
+			<if test="discount  !=null">
+				#{discount,jdbcType=DECIMAL},
+			</if>
+			<if test="templateName  !=null">
+				#{templateName,jdbcType=VARCHAR},
+			</if>
+			<if test="status  !=null">
+				#{status,jdbcType=INTEGER},
+			</if>
+			<if test="orderFavorableMone  !=null">
+				#{orderFavorableMone,jdbcType=DECIMAL},
+			</if>
+			<if test="orderMoney  !=null">
+				#{orderMoney,jdbcType=DECIMAL},
+			</if>
+			<if test="orderNo  !=null">
+				#{orderNo,jdbcType=VARCHAR},
+			</if>
+			<if test="useBeginTime  !=null">
+				#{useBeginTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="useEndTime  !=null">
+				#{useEndTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="createTime  !=null">
+				#{createTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="publishUserId  !=null">
+				#{publishUserId,jdbcType=BIGINT},
+			</if>
+			<if test="publishUser  !=null">
+				#{publishUser,jdbcType=VARCHAR},
+			</if>
+			<if test="updateTime  !=null">
+				#{updateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="limitMoney  !=null">
+				#{limitMoney,jdbcType=DECIMAL},
+			</if>
+		</trim>
+	</insert>
+
+	<!-- 精确更新-->
+	<update id="updateByPrimaryKeySelective" parameterType="com.jiuy.rb.model.coupon.CouponRbNew" >
+		update yjj_coupon_new
+		<set>
+			<include refid="updateBase"/>
+		</set>
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+
+	<!-- 全字段更新 需要注意-->
+	<update id="updateByPrimaryKey" parameterType="com.jiuy.rb.model.coupon.CouponRbNew" >
+		update yjj_coupon_new
+		set
+			id = #{id ,jdbcType=BIGINT},
+			member_id = #{memberId ,jdbcType=BIGINT},
+			store_id = #{storeId ,jdbcType=BIGINT},
+			user_type = #{userType ,jdbcType=INTEGER},
+			template_id = #{templateId ,jdbcType=BIGINT},
+			price = #{price ,jdbcType=DECIMAL},
+			discount = #{discount ,jdbcType=DECIMAL},
+			template_name = #{templateName ,jdbcType=VARCHAR},
+			status = #{status ,jdbcType=INTEGER},
+			order_favorable_mone = #{orderFavorableMone ,jdbcType=DECIMAL},
+			order_money = #{orderMoney ,jdbcType=DECIMAL},
+			order_no = #{orderNo ,jdbcType=VARCHAR},
+			use_begin_time = #{useBeginTime ,jdbcType=TIMESTAMP},
+			use_end_time = #{useEndTime ,jdbcType=TIMESTAMP},
+			create_time = #{createTime ,jdbcType=TIMESTAMP},
+			publish_user_id = #{publishUserId ,jdbcType=BIGINT},
+			publish_user = #{publishUser ,jdbcType=VARCHAR},
+			update_time = #{updateTime ,jdbcType=TIMESTAMP},
+			limit_money = #{limitMoney ,jdbcType=DECIMAL}
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+
+	<!-- 所有的条件集合-->
+	<sql id="whereCase"  >
+		where  1=1
+		<if test="id  !=null">
+			AND id = #{id,jdbcType=BIGINT}
+		</if>
+		<if test="memberId  !=null">
+			AND member_id = #{memberId,jdbcType=BIGINT}
+		</if>
+		<if test="storeId  !=null">
+			AND store_id = #{storeId,jdbcType=BIGINT}
+		</if>
+		<if test="userType  !=null">
+			AND user_type = #{userType,jdbcType=INTEGER}
+		</if>
+		<if test="templateId  !=null">
+			AND template_id = #{templateId,jdbcType=BIGINT}
+		</if>
+		<if test="price  !=null">
+			AND price = #{price,jdbcType=DECIMAL}
+		</if>
+		<if test="discount  !=null">
+			AND discount = #{discount,jdbcType=DECIMAL}
+		</if>
+		<if test="templateName  !=null">
+			AND template_name = #{templateName,jdbcType=VARCHAR}
+		</if>
+		<if test="status  !=null">
+			AND status = #{status,jdbcType=INTEGER}
+		</if>
+		<if test="orderFavorableMone  !=null">
+			AND order_favorable_mone = #{orderFavorableMone,jdbcType=DECIMAL}
+		</if>
+		<if test="orderMoney  !=null">
+			AND order_money = #{orderMoney,jdbcType=DECIMAL}
+		</if>
+		<if test="orderNo  !=null">
+			AND order_no = #{orderNo,jdbcType=VARCHAR}
+		</if>
+		<if test="useBeginTime  !=null">
+			AND use_begin_time = #{useBeginTime,jdbcType=TIMESTAMP}
+		</if>
+		<if test="useEndTime  !=null">
+			AND use_end_time = #{useEndTime,jdbcType=TIMESTAMP}
+		</if>
+		<if test="createTime  !=null">
+			AND create_time = #{createTime,jdbcType=TIMESTAMP}
+		</if>
+		<if test="publishUserId  !=null">
+			AND publish_user_id = #{publishUserId,jdbcType=BIGINT}
+		</if>
+		<if test="publishUser  !=null">
+			AND publish_user = #{publishUser,jdbcType=VARCHAR}
+		</if>
+		<if test="updateTime  !=null">
+			AND update_time = #{updateTime,jdbcType=TIMESTAMP}
+		</if>
+		<if test="limitMoney  !=null">
+			AND limit_money = #{limitMoney,jdbcType=DECIMAL}
+		</if>
+		<include refid="costomWhereCase"/>
+	</sql>
+
+	<!-- 查询一条，如果返回多条会报错-->
+	<select id="selectOne" parameterType="java.util.Map" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" /> 
+		FROM yjj_coupon_new 
+		<include refid="whereCase" /> 
+	</select>
+
+	<!-- 查询一个list-->
+	<select id="selectList" parameterType="java.util.Map" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" /> 
+		FROM yjj_coupon_new 
+		<include refid="whereCase" />
+		order by id desc
+	</select>
+
+	<!-- 查询一个list-->
+	<select id="selectCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+		SELECT
+		count(1) 
+		FROM yjj_coupon_new
+		<include refid="whereCase" /> 
+	</select>
+
+	<!--  @Costom -->
+	<!-- 从上一行注释以上为系统生成 从这一行往下为用户自定义 请将自定义的sql放在此行下面 -->
+	<sql id="costomWhereCase">
+		<if test="aliveType==1">
+			and NOW() &lt;= use_end_time
+		</if>
+		<if test="aliveType==0">
+			and NOW() &gt;= use_end_time and status &lt;&gt; 1
+		</if>
+		<if test="aliveType==2">
+			and status =  1
+		</if>
+	</sql>
+
+	<!--删除优惠券-->
+	<update id="deleteCoupon" >
+		update yjj_coupon_new set status = -2, update_time = now() where id = #{id}
+	</update>
+
+	<!--查询订单可以使用的优惠券-->
+	<select id="selectOrderCoupon" resultType="com.jiuy.rb.model.coupon.CouponRbNewQuery">
+		SELECT
+			coupon.id,
+			coupon.template_id as templateId,
+			coupon.template_name as templateName,
+			coupon.price as price,
+			coupon.discount as  discount,
+			temp.use_range as useRange,
+			temp.range_ids as rangeIds,
+			coupon.use_begin_time as useBeginTime,
+			coupon.use_end_time as useEndTime,
+			coupon.limit_money as limitMoney
+		FROM
+			yjj_coupon_new AS coupon
+		LEFT JOIN yjj_coupon_template_new AS temp ON temp.id = coupon.template_id
+		WHERE 1 =1
+			and temp.limit_money &lt;= #{orderPrice}
+		    and coupon.use_end_time >= #{stringTime} and coupon.use_begin_time &lt;= #{stringTime}
+			AND coupon.STATUS = 0
+		    <if test="storeId !=null">
+				and coupon.store_id = #{storeId}
+		    </if>
+			<if test="memberId !=null">
+				and coupon.member_id = #{memberId}
+			</if>
+		    <if test="sysType !=null">
+			   and temp.sys_type = #{sysType}
+		    </if>
+            limit #{pageCurrentbak},#{pageSizebak}
+	</select>
+
+
+	<!--核销有信息-->
+	<select id="selectHxInfo" parameterType="com.jiuy.rb.model.coupon.CouponRbNewQuery" resultType="Map">
+		SELECT
+			count(1) AS personCount,
+			sum(couponCount) AS couponCount,
+			sum(money) AS money
+		FROM
+			(
+				SELECT
+					COUNT(1) AS couponCount,
+					sum(price) AS money
+				FROM
+					yjj_coupon_new
+				<include refid="whereCase" />
+				GROUP BY
+					member_id
+			) AS t;
+	</select>
+
+	<!--查询使用列表-->
+	<select id="selectCouponGroup" resultType="Map">
+		SELECT
+			count(1) as  count,
+			t.status1 as `status`,
+			CONCAT(t.status1,'_',template_id) as tempStatus
+		FROM
+		(
+			SELECT
+				CASE
+				WHEN NOW() > use_end_time
+				AND `status` &lt;&gt; 1 THEN
+				2
+				ELSE
+				`status`
+				END AS `status1`,
+				cn.*
+			FROM
+			yjj_coupon_new AS cn
+			WHERE 1 = 1
+				<if test="tempIds !=null and tempIds.size()>0">
+					and template_id in
+					<foreach collection="tempIds" separator="," open="(" close=")" item="tempId">
+						#{tempId}
+					</foreach>
+				</if>
+				<if test="userType !=null">
+					AND user_type = #{userType}
+				</if>
+				<if test="publisUserId !=null">
+					AND publish_user_id = #{publisUserId}
+				</if>
+		) AS t
+		GROUP BY
+		t.status1
+	</select>
+</mapper>

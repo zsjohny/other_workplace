@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yujj.dao.mapper.HomeFloorVOMapper">
+	<select id="getHomeFloors" resultType="HomeFloorVO">
+		<![CDATA[
+		select a.*, b.Content, b.Name as TemplateName from yjj_HomeFloor a, yjj_HomeTemplate b
+		where a.HomeTemplateId = b.Id and a.type = 1 and a.status=0 and a.ActivityPlaceId = 0 order by a.Weight desc
+		limit #{pageQuery.limit} offset #{pageQuery.offset}
+		]]>
+	</select>
+	
+	<select id="getHomeFloors185" resultType="HomeFloorVO">
+		<![CDATA[
+		select a.*, b.Content, b.Name as TemplateName from yjj_HomeFloor a, yjj_HomeTemplate b
+		where a.HomeTemplateId = b.Id and a.type = 1 and a.status=0 and a.ActivityPlaceId = 0 and b.Name like '模板8-%' order by a.Weight desc
+		limit #{pageQuery.limit} offset #{pageQuery.offset}
+		]]>
+	</select>
+	
+	<select id="getHomeFloorCount" resultType="int">
+		<![CDATA[
+		select count(*) from yjj_HomeFloor a
+		where a.type = 1 and a.status=0
+		]]>
+	</select>
+	
+	<select id="getHomeFloorCount185" resultType="int">
+		<![CDATA[
+	 	select count(1) from yjj_HomeFloor a, yjj_HomeTemplate b
+		where a.HomeTemplateId = b.Id and a.type = 1 and a.status=0 and a.ActivityPlaceId = 0 and b.Name like '模板8-%'
+		]]>
+	</select>
+	
+	<select id="getHomeFloorCount186" resultType="int">
+		<![CDATA[
+	 	select count(1) from yjj_HomeFloor a, yjj_HomeTemplate b
+		where a.HomeTemplateId = b.Id and a.type = 1 and a.status=0 and a.ActivityPlaceId = #{activityPlaceId}
+		]]>
+	</select>
+	
+	<select id="getHomeFloors186" resultType="HomeFloorVO">
+		<![CDATA[
+		select a.*, b.Content, b.Name as TemplateName from yjj_HomeFloor a, yjj_HomeTemplate b
+		where a.HomeTemplateId = b.Id and a.type = 1 and a.status=0 and a.ActivityPlaceId = #{activityPlaceId} order by a.Weight desc
+		limit #{pageQuery.limit} offset #{pageQuery.offset}
+		]]>
+	</select>
+	
+	
+	<!-- new -->
+	
+	<select id="getHomeFloorCount187" resultType="int">
+	<![CDATA[
+	 	select count(1) from yjj_HomeFloor a, yjj_HomeTemplate b
+		where a.HomeTemplateId = b.Id and a.PublishStatus = 1 and a.status = 0 and a.Type = #{type} and RelatedId = #{relatedId} 
+		and a.IsShow = 0
+		]]>
+		<if test="type != 2">
+			<![CDATA[
+			and b.Name like '模板8-%' 	
+			]]>
+		</if>
+	</select>
+	
+	<select id="getHomeFloors187" resultType="HomeFloorVO">
+	<![CDATA[
+		select a.*, b.Content, b.Name as TemplateName from yjj_HomeFloor a, yjj_HomeTemplate b
+		where a.HomeTemplateId = b.Id and a.PublishStatus = 1 and a.status = 0 and a.Type = #{type} and RelatedId = #{relatedId}
+		]]>
+		
+		 <if test="type != 2">
+			<![CDATA[
+			and b.Name like '模板8-%' 	
+			]]>
+		</if>
+		 <![CDATA[
+		 and a.IsShow = 0
+		order by a.Weight desc
+		]]>
+		<if test="pageQuery != null">
+			limit #{pageQuery.limit} offset #{pageQuery.offset}
+		</if>
+	</select>
+	
+</mapper>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jiuyuan.dao.mapper.supplier.GroundBonusGrantMapper">
+
+	<select id="getBalanceToBeCredited" parameterType="map" resultType="Double">
+		<![CDATA[
+			SELECT IFNULL(SUM(cash),0) FROM ground_bonus_grant WHERE ground_user_id=#{groundUserId} AND allow_get_out_time=0 AND into_time<#{time}
+			AND into_time>0
+		]]>
+	</select>
+	
+	<!-- select id="getBalanceCredited" parameterType="map" resultType="Double">
+		<![CDATA[
+			SELECT SUM(cash) FROM ground_bonus_grant WHERE ground_user_id=#{groundUserId} AND allow_get_out_time<#{time}
+		]]>
+	</select -->
+</mapper>

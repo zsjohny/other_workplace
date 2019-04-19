@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jiuy.core.dao.impl.sql.NotificationDaoSqlImpl">
+	
+	<select id="searchNotification" parameterType="map" resultType="Notification">
+		SELECT 
+		    *
+		FROM
+		    shop_notification 
+		WHERE
+		    Title LIKE CONCAT("%", #{title} ,"%") AND Status = 0  and Type not in (9,10) 
+		ORDER BY Id desc
+		LIMIT #{pageQuery.limit} OFFSET #{pageQuery.offset}
+	</select>
+	
+	<select id="searchNotificationCount" parameterType="map" resultType="int">
+		SELECT 
+		    COUNT(*)
+		FROM
+		    shop_notification 
+		WHERE
+		    Title LIKE CONCAT("%", #{title} ,"%") AND Status = 0  and Type not in (9,10) 
+	</select>
+	
+
+	<insert id="addNotification" useGeneratedKeys="true" keyProperty="id" parameterType="Notification">
+		INSERT into shop_notification(Title, Abstracts, Image, LinkUrl, CreateTime, UpdateTime, PushStatus, PushTime , Type,storeIdArrays)
+		VALUES (#{title},#{abstracts},#{image}, #{linkUrl} ,#{createTime},#{updateTime},#{pushStatus},#{pushTime},#{type},#{storeIdArrays})
+	</insert>
+	
+	<insert id="addNotificationBasicInfo" useGeneratedKeys="true" keyProperty="id" parameterType="Notification">
+		INSERT into shop_notification(Title, Abstracts, Image, CreateTime, UpdateTime,storeIdArrays)
+		VALUES (#{title},#{abstracts},#{image},#{createTime},#{updateTime},#{storeIdArrays})
+	</insert>
+	
+	<insert id="addFullNotification" useGeneratedKeys="true" keyProperty="id" parameterType="Notification">
+		INSERT into shop_notification(Title, Abstracts, Image, LinkUrl, CreateTime, UpdateTime, PushStatus, PushTime , Type)
+		VALUES (#{title}, #{abstracts}, #{image}, #{linkUrl}, #{createTime}, #{updateTime}, #{pushStatus}, #{pushTime}, #{type})
+	</insert>
+	
+	
+	<insert id="addUserNotification" useGeneratedKeys="true" keyProperty="id" parameterType="UserNotification">
+		INSERT INTO shop_user_notification (UserId,NotificationId,PageView, CreateTime, UpdateTime) 
+		VALUES (#{userId},#{notificationId},0,#{createTime},#{updateTime})			
+	</insert>
+	
+	<insert id="addUserNotificationList" parameterType="map">
+        <![CDATA[ INSERT INTO shop_user_notification (UserId,NotificationId,PageView, CreateTime, UpdateTime) 
+            VALUES
+        ]]>
+        
+        <foreach collection="notificationList" item="userNotification" open="(" separator="),(" close=")">
+            <![CDATA[
+                #{userNotification.userId}, #{userNotification.notificationId}, 1, #{userNotification.createTime}, #{userNotification.updateTime}            
+            ]]>
+        </foreach>
+        <![CDATA[
+            ON DUPLICATE KEY UPDATE PageView=PageView+1, UpdateTime=UNIX_TIMESTAMP(now())*1000;
+        ]]>
+    </insert>
+	
+	<update id="rmNotification" parameterType="map">
+		UPDATE
+			shop_notification
+		SET
+			Status = -1, UpdateTime = #{updateTime}
+		WHERE
+			Id = #{id}
+	</update>
+	
+	<update id="updateNotification" parameterType="Notification">
+		UPDATE
+			shop_notification
+		SET
+			Title = #{title}, Abstracts = #{abstracts}, Image = #{image}, PushTime = #{pushTime}, LinkUrl = #{linkUrl}, Type = #{type}, PushStatus = 0
+		WHERE
+			Id = #{id}
+	</update>
+	
+	<select id="getPushingNotification" parameterType="map" resultType="Notification">
+		select * from shop_notification
+		<where>
+			Status = 0 AND PushStatus = 0
+			<if test = "startTime != 0">
+				<![CDATA[
+				AND PushTime > #{startTime}
+				]]>
+			</if>
+			<if test = "endTime != 0">
+				<![CDATA[
+				AND PushTime < #{endTime}
+				]]>
+			</if>
+		</where>
+	</select>
+	
+	<select id="getUserNotificationList" parameterType="map" resultType="UserNotification">
+		select * from shop_user_notification
+		<where>
+			NotificationId = #{notificationId}
+		</where>
+	</select>
+	
+	<update id="updatePushStatus" parameterType="map">
+		UPDATE 
+			shop_notification
+		SET 
+			PushStatus = 1
+		WHERE 
+			Id = #{id}
+	</update>
+</mapper>

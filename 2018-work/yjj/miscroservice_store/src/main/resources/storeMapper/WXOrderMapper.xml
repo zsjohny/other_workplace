@@ -1,0 +1,764 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.e_commerce.miscroservice.store.mapper.WXOrderMapper">
+
+
+	<!--&lt;!&ndash; 通用查询映射结果 &ndash;&gt;-->
+	<!--<resultMap id="BaseResultMap" type="com.jiuyuan.entity.newentity.ShopMemberOrder">-->
+		<!--<id column="id" property="id" />-->
+		<!--<result column="order_number" property="orderNumber" />-->
+		<!--<result column="store_id" property="storeId" />-->
+		<!--<result column="member_id" property="memberId" />-->
+		<!--<result column="team_id" property="teamId" />-->
+		<!--<result column="second_id" property="secondId" />-->
+		<!--<result column="total_express_and_money" property="totalExpressAndMoney" />-->
+		<!--<result column="total_money" property="totalMoney" />-->
+		<!--<result column="pay_money" property="payMoney" />-->
+		<!--<result column="sale_money" property="saleMoney" />-->
+		<!--<result column="express_money" property="expressMoney" />-->
+		<!--<result column="count" property="count" />-->
+		<!--<result column="summary_images" property="summaryImages" />-->
+		<!--<result column="order_type" property="orderType" />-->
+		<!--<result column="order_status" property="orderStatus" />-->
+		<!--<result column="payment_no" property="paymentNo" />-->
+		<!--<result column="cancel_reason_type" property="cancelReasonType" />-->
+		<!--<result column="cancel_reason" property="cancelReason" />-->
+		<!--<result column="order_stop_time" property="orderStopTime" />-->
+		<!--<result column="pay_time" property="payTime" />-->
+		<!--<result column="take_delivery_time" property="takeDeliveryTime" />-->
+		<!--<result column="order_finish_time" property="orderFinishTime" />-->
+		<!--<result column="update_time" property="updateTime" />-->
+		<!--<result column="create_time" property="createTime" />-->
+		<!--<result column="user_nickname" property="userNickname" />-->
+		<!--<result column="coupon_id" property="couponId" />-->
+		<!--<result column="coupon_name" property="couponName" />-->
+		<!--<result column="coupon_limit_money" property="couponLimitMoney" />-->
+		<!--<result column="send_message" property="sendMessage" />-->
+		<!--<result column="pay_form_id" property="payFormId" />-->
+		<!--<result column="payment_type" property="paymentType" />-->
+		<!--<result column="expree_supplier_cnname" property="expreeSupplierCnname" />-->
+		<!--<result column="express_supplier" property="expressSupplier" />-->
+		<!--<result column="express_no" property="expressNo" />-->
+		<!--<result column="receiver_name" property="receiverName" />-->
+		<!--<result column="receiver_phone" property="receiverPhone" />-->
+		<!--<result column="receiver_address" property="receiverAddress" />-->
+		<!--<result column="delivery_time" property="deliveryTime" />-->
+		<!--<result column="confirmSignedDate" property="confirmSignedDate" />-->
+		<!--<result column="confirmSignedTime" property="confirmSignedTime" />-->
+		<!--<result column="remark" property="remark" />-->
+		<!--<result column="express_info" property="expressInfo" />-->
+		<!--<result column="buy_way" property="buyWay" />-->
+	<!--</resultMap>-->
+
+	<!--&lt;!&ndash; 通用查询结果列 &ndash;&gt;-->
+	<!--<sql id="Base_Column_List">-->
+        <!--id, order_number AS orderNumber, store_id AS storeId, member_id AS memberId, team_id AS teamId, second_id AS secondId, total_express_and_money AS totalExpressAndMoney, total_money AS totalMoney, pay_money AS payMoney, sale_money AS saleMoney, express_money AS expressMoney, count, summary_images AS summaryImages, order_type AS orderType, order_status AS orderStatus, payment_no AS paymentNo, cancel_reason_type AS cancelReasonType, cancel_reason AS cancelReason, order_stop_time AS orderStopTime, pay_time AS payTime, take_delivery_time AS takeDeliveryTime, order_finish_time AS orderFinishTime, update_time AS updateTime, create_time AS createTime, user_nickname AS userNickname, coupon_id AS couponId, coupon_name AS couponName, coupon_limit_money AS couponLimitMoney, send_message AS sendMessage, pay_form_id AS payFormId, payment_type AS paymentType, expree_supplier_cnname AS expreeSupplierCnname, express_supplier AS expressSupplier, express_no AS expressNo, receiver_name AS receiverName, receiver_phone AS receiverPhone, receiver_address AS receiverAddress, delivery_time AS deliveryTime, confirmSignedDate, confirmSignedTime, remark, express_info AS expressInfo, buy_way AS buyWay-->
+    <!--</sql>-->
+
+
+	<!--<select id="selectOrderType" resultType="map">-->
+		<!--SELECT-->
+		<!--id,-->
+		<!--order_type as orderType-->
+		<!--FROM-->
+		<!--shop_member_order-->
+		<!--WHERE-->
+		<!--create_time = (-->
+		<!--SELECT-->
+		<!--max(create_time)-->
+		<!--FROM-->
+		<!--shop_member_order-->
+		<!--WHERE-->
+		<!--member_id = #{memberId}-->
+		<!--and store_id = #{storeId}-->
+		<!--)-->
+		<!--AND member_id = #{memberId}-->
+		<!--and store_id = #{storeId}-->
+	<!--</select>-->
+
+	<select id="getRefundOrderList" resultType="com.e_commerce.miscroservice.store.entity.vo.ShopMemberOrderResponse">
+		select*from `shop_member_order` where member_id = #{request.userId} and order_status !=-1
+		<if test="request.orderStatus!=null">
+			and `order_status`=#{request.orderStatus}
+		</if>
+		order by `update_time` desc
+
+	</select>
+	<!--SELECT a.*-->
+	<!--FROM `shop_member_order` a-->
+	<!--<if test="request.orderStatus== 0">-->
+	<!--LEFT JOIN 	`store_team_buy_activity` b-->
+	<!--ON a.team_id = b.id-->
+	<!--</if>-->
+	<!--where a.store_id = #{request.shopId}-->
+	<!--AND a.member_id = #{request.userId}-->
+
+	<!--and a.order_status !=-1-->
+
+	<!--<if test="request.orderStatus == 6">-->
+	<!--AND a.order_status IN (1, 6)-->
+	<!--</if>-->
+	<!--<if test="request.orderStatus == 5">-->
+	<!--AND a.order_status IN (5)-->
+	<!--</if>-->
+	<!--<if test="request.orderStatus == 4">-->
+	<!--AND a.order_status = 4-->
+	<!--</if>-->
+	<!--<if test="request.orderStatus == 0">-->
+	<!--<![CDATA[-->
+	<!--AND a.order_status = 0-->
+	<!--AND (-->
+	<!--&#45;&#45; 团购是null, 或者团购成团成功-->
+	<!--team_id IS NULL-->
+	<!--OR-->
+	<!--(-->
+	<!--team_id > 0-->
+	<!--AND-->
+	<!--(-->
+	<!--( b.condition_type = 1 AND b.user_count <= b.activity_member_count )-->
+	<!--OR-->
+	<!--( b.condition_type = 2 AND b.meet_product_count <= b.ordered_product_count )-->
+	<!--)-->
+	<!--)-->
+	<!--)-->
+	<!--]]>-->
+	<!--</if>-->
+	<!--&#45;&#45; 		ORDER BY a.update_time DESC-->
+	<!--查询所有的订单-->
+	<select id="getRefundOrderListNew" resultType="com.e_commerce.miscroservice.store.entity.vo.ShopMemberOrderResponse">
+			select*from `shop_member_order` where `store_id`=#{request.shopId}
+		<if test="request.orderStatus !=null">
+			AND `order_status`=#{request.orderStatus}
+		</if>
+
+
+	</select>
+
+	<!--<select id="countByOrderStatus" resultType="int">-->
+		<!--SELECT COUNT(1)-->
+		<!--FROM shop_member_order a-->
+		<!--<if test="orderStatus == 0">-->
+			<!--LEFT JOIN store_team_buy_activity b-->
+			<!--ON a.team_id = b.id-->
+		<!--</if>-->
+		<!--where a.store_id = #{storeId}-->
+		<!--AND a.member_id = #{memberId}-->
+		<!--<if test="orderStatus == 1">-->
+			<!--AND a.order_status = 1-->
+		<!--</if>-->
+		<!--<if test="orderStatus == 5">-->
+			<!--AND a.order_status IN (5, 6)-->
+		<!--</if>-->
+		<!--<if test="orderStatus == 4">-->
+			<!--AND a.order_status = 4-->
+		<!--</if>-->
+		<!--<if test="orderStatus == 0">-->
+            <!--<![CDATA[-->
+            <!--AND a.order_status = 0-->
+            <!--AND (-->
+            <!--&#45;&#45; 团购是null, 或者团购成团成功-->
+                <!--team_id IS NULL-->
+                <!--OR-->
+                <!--(-->
+                    <!--team_id > 0-->
+                    <!--AND-->
+                    <!--(-->
+                        <!--( b.condition_type = 1 AND b.user_count <= b.activity_member_count )-->
+                        <!--OR-->
+                        <!--( b.condition_type = 2 AND b.meet_product_count <= b.ordered_product_count )-->
+                    <!--)-->
+                <!--)-->
+            <!--)-->
+			<!--]]>-->
+		<!--</if>-->
+		<!--ORDER BY a.update_time DESC-->
+	<!--</select>-->
+
+	<!--查询所有订单-->
+	<!--<select id="" resultType="com.e_commerce.miscroservice.store.entity.vo.ShopMemberOrderResponse">-->
+			<!--select *from `shop_member_order` s-->
+		<!--<if test="orderStatus == 0">-->
+			<!--LEFT JOIN store_team_buy_activity b-->
+			<!--ON a.team_id = b.id-->
+		<!--</if>-->
+		<!--where a.store_id = #{storeId}-->
+		<!--AND a.member_id = #{memberId}-->
+		<!--<if test="orderStatus == 6">-->
+			<!--AND a.order_status IN (1, 6)-->
+		<!--</if>-->
+		<!--<if test="orderStatus == 5">-->
+			<!--AND a.order_status IN (5)-->
+		<!--</if>-->
+		<!--<if test="orderStatus == 4">-->
+			<!--AND a.order_status = 4-->
+		<!--</if>-->
+		<!--<if test="orderStatus == 0">-->
+			<!--<![CDATA[-->
+            <!--AND a.order_status = 0-->
+            <!--AND (-->
+            <!--&#45;&#45; 团购是null, 或者团购成团成功-->
+                <!--team_id IS NULL-->
+                <!--OR-->
+                <!--(-->
+                    <!--team_id > 0-->
+                    <!--AND-->
+                    <!--(-->
+                        <!--( b.condition_type = 1 AND b.user_count <= b.activity_member_count )-->
+                        <!--OR-->
+                        <!--( b.condition_type = 2 AND b.meet_product_count <= b.ordered_product_count )-->
+                    <!--)-->
+                <!--)-->
+            <!--)-->
+			<!--]]>-->
+		<!--</if>-->
+		<!--ORDER BY a.update_time DESC-->
+	<!--</select>-->
+	<!--查询订单详情-->
+	<!--<select id="selectByOrderNo" parameterType="Long" resultType="com.e_commerce.miscroservice.store.entity.vo.ShopMemberOrderItem">-->
+			<!--select-->
+			<!--id,-->
+			<!--order_id as orderId,-->
+			<!--order_number as orderNumber,-->
+			<!--shop_product_id as shopProductId,-->
+			<!--own,-->
+			<!--product_id as productId,-->
+			<!--product_sku_id as productSkuId,-->
+			<!--count,-->
+			<!--summary_images as summaryImages,-->
+			<!--name,-->
+			<!--color,-->
+			<!--size,-->
+			<!--price,-->
+			<!--update_time as updateTime,-->
+			<!--create_time as createTime,-->
+			<!--self_count as selfCount,-->
+			<!--supplier_count as supplierCount,-->
+			<!--live_product_id as liveProductId-->
+			<!--from `shop_member_order_item` where `order_number`=#{orderNumberNo}-->
+	<!--</select>-->
+	<select id="selectByOrderNo" parameterType="Long" resultType="com.e_commerce.miscroservice.store.entity.vo.ShopMemberOrderItem">
+			select
+			id,
+			order_id as orderId,
+			order_number as orderNumber,
+			shop_product_id as shopProductId,
+			own,
+			product_id as productId,
+			product_sku_id as productSkuId,
+			count,
+			summary_images as summaryImages,
+			name,
+			color,
+			size,
+			price,
+			update_time as updateTime,
+			create_time as createTime,
+			self_count as selfCount,
+			supplier_count as supplierCount,
+			live_product_id as liveProductId
+			from `shop_member_order_item` where `order_id`=#{orderNo}
+	</select>
+
+	<!--查询订单详情-->
+	<select id="selectByOrderId" parameterType="Long" resultType="com.e_commerce.miscroservice.store.entity.vo.ShopMemberOrderItemResponse">
+		select*from `shop_member_order_item` where `order_id`=#{orderNo}
+	</select>
+	<!--查询订单详情-->
+	<select id="selectItem" resultType="com.e_commerce.miscroservice.store.entity.vo.ShopMemberOrderItem">
+			select*from `shop_member_order_item` where `order_id`=#{orderId} and `product_sku_id`=#{skuId}
+	</select>
+
+	<select id="selectItemNew" resultType="com.e_commerce.miscroservice.store.entity.vo.ShopMemberOrderItem">
+			select
+			order_id as orderId,
+			order_number as orderNumber,
+			shop_product_id as shopProductId,
+			own,
+			product_id as productId,
+			product_sku_id as productSkuId,
+			count,
+			summary_images as summaryImages,
+			name,
+			color,
+			size,
+			price,
+			live_product_id as liveProductId
+			from `shop_member_order_item` where `order_id`=#{orderId} and `product_sku_id`=#{skuId}
+	</select>
+	<!--查询售后订单-->
+	<select id="selectRefund" resultType="com.e_commerce.miscroservice.store.entity.vo.ShopOrderAfterSale">
+			select
+			 id,
+			 after_sale_id as afterSaleId,
+			 msg as msg,
+			 `name`,
+			 phone,
+			 order_id as orderId,
+			 apply_time as applyTime,
+			 operate_time as operateTime,
+			 `type`,
+			 status,
+			 apply_back_money as applyBackMoney,
+			 back_money as backMoney,
+			sku_id as skuId,
+			reasons,
+			img_first as imgFirst,
+			img_second as imgSecond,
+			img_third as imgThird,
+			img_fourth as imgFourth,
+			img_fifth as imgFifth,
+			del_status as delStatus,
+			create_time as createTime,
+			update_time as updateTime,
+			store_id as storeId,
+			member_id as memberId,
+			refund_count as refundCount,
+			refund_name as refundName,
+			refund_remark as refundRemark
+			from `shop_order_after_sale` where `order_id`=#{orderNo} and `sku_id`=#{skuId}
+	</select>
+	<!--查询订单-->
+	<select id="selectOrder" parameterType="Long" resultType="com.e_commerce.miscroservice.store.entity.vo.ShopMemberOrder">
+		select
+		`id`,
+		`order_number` as orderNumber,
+		`store_id` as storeId,
+		`member_id` as memberId,
+		`pay_form_id` as payFormId,
+		`sale_money` as saleMoney,
+		`buy_way` as buyWay,
+		`total_money` as totalMoney,
+		`team_id` as teamId,
+		`second_id` as secondId,
+		`confirmSignedTime`,
+		`create_time` as createTime,
+		`pay_time` as payTime,
+		`order_type` as orderType
+		from `shop_member_order` where `id`=#{orderId}
+	</select>
+
+
+	<!--更改订单状态-->
+	<update id="updateOrder" parameterType="Long">
+			update `shop_member_order` set `order_status`=2 where `id`=#{orderId}
+	</update>
+
+	<!--插入售后订单-->
+	<insert id="insertRefundOrder" parameterType="com.e_commerce.miscroservice.store.entity.vo.ShopOrderAfterSale">
+		insert into `shop_order_after_sale` (`after_sale_id`,`name`,`phone`,`order_id`,`apply_time`,`type`,`apply_back_money`,`sku_id`,`reasons`,
+		`img_first`,`store_id`,`member_id`,`refund_count`,`refund_name`,`refund_remark`
+		) values (
+		#{afterSaleId},
+		#{name},
+		#{phone},
+		#{orderId},
+		#{applyTime},
+		#{type},
+		#{applyBackMoney},
+		#{skuId},
+		#{reasons},
+		#{imgFirst},
+		#{storeId},
+		#{memberId},
+		#{refundCount},
+		#{refundName},
+		#{refundRemark}
+		)
+	</insert>
+	<!--`#{id},-->
+	<!--#{afterSaleId},-->
+	<!--#{msg},-->
+	<!--#{name},-->
+	<!--#{phone},-->
+	<!--#{orderId},-->
+	<!--#{applyTime},-->
+	<!--#{operateTime},-->
+	<!--#{type},-->
+	<!--#{status},-->
+	<!--#{applyBackMoney},-->
+	<!--#{backMoney},-->
+	<!--#{skuId},-->
+	<!--#{reasons},-->
+	<!--#{imgFirst},-->
+	<!--#{imgSecond},-->
+	<!--#{imgThird},-->
+	<!--#{imgFourth},-->
+	<!--#{imgFifth},-->
+	<!--#{delStatus},-->
+	<!--#{createTime},-->
+	<!--#{updateTime},-->
+	<!--#{storeId},-->
+	<!--#{memberId},-->
+	<!--#{refundCount},-->
+	<!--#{refundName}-->
+
+	<!--`id`=#{id},-->
+	<!--`after_sale_id`=#{afterSaleId},-->
+	<!--`msg`=#{msg},-->
+	<!--`name`=#{name},-->
+	<!--`phone`=#{phone},-->
+	<!--`order_id`=#{orderId},-->
+	<!--`apply_time`=#{applyTime},-->
+	<!--`operate_time`=#{operateTime},-->
+	<!--`type`=#{type},-->
+	<!--`status`=#{status},-->
+	<!--`apply_back_money`=#{applyBackMoney},-->
+	<!--`back_money`=#{backMoney},-->
+	<!--`sku_id`=#{skuId},-->
+	<!--`reasons`=#{reasons},-->
+	<!--`img_first`=#{imgFirst},-->
+	<!--`img_second`=#{imgSecond},-->
+	<!--`img_third`=#{imgThird},-->
+	<!--`img_fourth`=#{imgFourth},-->
+	<!--`img_fifth`=#{imgFifth},-->
+	<!--`del_status`=#{delStatus},-->
+	<!--`create_time`=#{createTime},-->
+	<!--`update_time`=#{updateTime},-->
+	<!--`store_id`=#{storeId},-->
+	<!--`member_id`=#{memberId},-->
+	<!--`refund_count`=#{refundCount},-->
+	<!--`refund_name`=#{refundName}-->
+	<!--查询所有售后订单列表-->
+	<select id="selectRefundList" resultType="com.e_commerce.miscroservice.store.entity.vo.RefundResponse">
+			select*from `shop_order_after_sale` where `member_id`=#{request.userId} and `del_status` !=2 order by create_time desc
+	</select>
+	<!--根据售后订单号查询订单信息-->
+	<select id="selectRefundItem"  resultType="com.e_commerce.miscroservice.store.entity.vo.ShopOrderAfterSale">
+			select * from `shop_order_after_sale` where `after_sale_id`=#{afterSaleId} and `member_id`=#{userId}
+	</select>
+	<!--查看订单详情-->
+	<select id="selectOrderItem" resultType="com.e_commerce.miscroservice.store.entity.vo.ShopMemberOrder">
+			select
+			id,
+			order_number as orderNumber,
+			store_id as storeId,
+			member_id as memberId,
+			team_id as teamId,
+			second_id as secondId,
+			total_express_and_money as totalExpressAndMoney,
+			total_money as  totalMoney,
+			pay_money as payMoney,
+			sale_money as saleMoney,
+			express_money as expressMoney,
+			`count` as count,
+			summary_images as summaryImages,
+			order_type as orderType,
+			order_status as orderStatus,
+			payment_no as paymentNo,
+			cancel_reason_type as cancelReasonType,
+			cancel_reason as cancelReason,
+			order_stop_time as orderStopTime,
+			pay_time as payTime,
+			take_delivery_time as takeDeliveryTime,
+			order_finish_time as orderFinishTime,
+			update_time as updateTime,
+			create_time as createTime,
+			user_nickname as userNickname,
+			coupon_id as couponId,
+			coupon_name as couponName,
+			coupon_limit_money as couponLimitMoney,
+			send_message as sendMessage,
+			pay_form_id as payFormId,
+			payment_type as paymentType,
+			expree_supplier_cnname as expreeSupplierCnname,
+			express_supplier as expressSupplier,
+			express_no as expressNo,
+			receiver_name as receiverName,
+			receiver_phone as receiverPhone,
+			receiver_address as receiverAddress,
+			delivery_time as deliveryTime,
+			confirmSignedDate as confirmSignedDate,
+			confirmSignedTime as confirmSignedTime,
+			remark as remark,
+			express_info as expressInfo,
+			buy_way as buyWay,
+			gold_coin as goldCoin
+			from `shop_member_order` where `id`=#{id}  and `member_id`=#{userId}
+
+	</select>
+
+	<!--查询我的售后订单-->
+	<select id="selectMyRefundList" resultType="com.e_commerce.miscroservice.store.entity.vo.RefundResponse">
+			select *from `shop_order_after_sale` where `store_id`=#{request.storeId} and `del_status` !=2
+		<if test="request.orderId!=null">
+			AND `order_id`=#{request.orderId}
+		</if>
+		<if test="request.status!=null">
+			AND `status`=#{request.status}
+		</if>
+		<if test="request.type!=null">
+			AND `type`=#{request.type}
+		</if>
+
+	</select>
+
+	<!--查询我的售后订单-->
+	<select id="selectNewRefund" resultType="com.e_commerce.miscroservice.store.entity.vo.RefundResponse">
+		select *from `shop_order_after_sale` where `store_id`=#{request.storeId} and `del_status` !=1
+		<if test="request.orderId!=null">
+			AND `order_id`=#{request.orderId}
+		</if>
+		<if test="request.status!=null">
+			AND `status`=#{request.status}
+		</if>
+		<if test="request.type!=null">
+			AND `type`=#{request.type}
+		</if>
+		order by create_time desc
+	</select>
+	<!--根据商家id 和售后订单号查询订单详情-->
+	<select id="selectRufund" resultType="com.e_commerce.miscroservice.store.entity.vo.ShopOrderAfterSale">
+			select*from`shop_order_after_sale` where `member_id`=#{userId} and `after_sale_id`=#{afterSaleId} and `del_status`!=2
+	</select>
+
+	<select id="selectRefundNew" resultType="com.e_commerce.miscroservice.store.entity.vo.ShopOrderAfterSale">
+			select*from`shop_order_after_sale` where `store_id`=#{storeId} and `after_sale_id`=#{afterSaleId} and `del_status`!=1
+	</select>
+
+	<!--更新订单-->
+	<update id="updateRefoundOrder">
+			update  `shop_order_after_sale` set `del_status`=#{shopOrderAfterSale.delStatus} where `after_sale_id`=#{shopOrderAfterSale.afterSaleId} and  `member_id`=#{shopOrderAfterSale.memberId}
+	</update>
+
+	<!--店家手机号码-->
+	<select id="selectStorePhone" parameterType="Long" resultType="Long">
+			select `bind_phone` from `shop_member` where `store_id`=#{stroeId}
+	</select>
+
+	<!--更改订单状态-->
+	<update id="updateOrderNew">
+			update  `shop_member_order` set `order_status`=10 where member_id =#{userId} and `id`=#{id}
+	</update>
+
+	<!--查询团购人数-->
+	<select id="selectById" resultType="com.e_commerce.miscroservice.store.entity.vo.TeamBuyActivity">
+			select * from `store_team_buy_activity` where  `id`=#{teamId}
+	</select>
+
+	<select id="selectBySId" resultType="com.e_commerce.miscroservice.store.entity.vo.SecondBuyActivity">
+			select *from `store_second_buy_activity` where `id`=#{secondId}
+	</select>
+
+	<!--根据商家id和售后单号查询售后单号详情-->
+	<select id="selectByStoreId" resultType="com.e_commerce.miscroservice.store.entity.vo.ShopOrderAfterSale">
+			select
+			 id,
+			 after_sale_id as afterSaleId,
+			 msg as msg,
+			 `name`,
+			 phone,
+			 order_id as orderId,
+			 apply_time as applyTime,
+			 operate_time as operateTime,
+			 `type`,
+			 status,
+			 apply_back_money as applyBackMoney,
+			 back_money as backMoney,
+			sku_id as skuId,
+			reasons,
+			img_first as imgFirst,
+			img_second as imgSecond,
+			img_third as imgThird,
+			img_fourth as imgFourth,
+			img_fifth as imgFifth,
+			del_status as delStatus,
+			create_time as createTime,
+			update_time as updateTime,
+			store_id as storeId,
+			member_id as memberId,
+			refund_count as refundCount,
+			refund_name as refundName,
+			refund_remark as refundRemark
+			 from `shop_order_after_sale` where  `after_sale_id`=#{refundOrderNo} and `store_id`=#{storeId}
+	</select>
+
+	<!--更改信息-->
+	<update id="updateRefundOrder">
+			update `shop_order_after_sale` set `status`=#{request.status},`msg`=#{request.msg},`back_money`=#{request.backMoney},`operate_time`=#{request.operateTime} where`store_id`=#{request.storeId} and `after_sale_id`=#{request.afterSaleId}
+	</update>
+
+	<!--删除订单-->
+	<update id="deleteOrderMy">
+			update `shop_order_after_sale` set `del_status`=1  where `after_sale_id`=#{refundOrderNo} and `store_id`=#{storeId}
+	</update>
+
+	<!--查找收货地址-->
+	<select id="selecrMyAdress" resultType="com.e_commerce.miscroservice.store.entity.vo.Address">
+			select
+			  `AddrId` as addrId,
+			  `UserId` as userId,
+			  `ReceiverName` as receiverName,
+			  `ProvinceName` as provinceName,
+			  `CityName` as cityName,
+			  `DistrictName` as districtName,
+			  `AddrDetail` as addrDetail,
+			  `MailCode` as mailCode,
+			  `Telephone` as telephone,
+			  `FixPhone` as fixPhone,
+			  `AddrFull` as addrFull,
+			  `Status` as status,
+			  `IsDefault` as isDefault,
+			  `CreateTime` as createTime,
+			  `UpdateTime` as updateTime
+			from `yjj_address` where `UserId`=#{storeId}
+	</select>
+
+	<!--确认收货-->
+	<update id="refoundOrder">
+			update `shop_order_after_sale` set `status`=1  where `after_sale_id`=#{refundOrderNo} and `store_id`=#{storeId}
+	</update>
+
+	<!--日志-->
+	<insert id="updateLog">
+			insert into `store_refund_order_action_log` (`refund_order_id`,`action_time`,`action_name`) values (#{log.refundOrderId},#{log.actionTime},#{log.actionName})
+	</insert>
+
+	<!--查找日志-->
+	<select id="selectLog"  parameterType="Long" resultType="com.e_commerce.miscroservice.store.entity.vo.StoreRefundOrderActionLog">
+			select *from `store_refund_order_action_log` where `refund_order_id`=#{refundOrderNo}
+	</select>
+	<!--根据快递名称查询快递商家信息-->
+	<select id="selectList" parameterType="String"  resultType="com.e_commerce.miscroservice.commons.entity.application.order.ExpressSupplier">
+        select
+        Id as id,
+        CnName as cnName,
+        EngName as engName,
+        QueryLink as queryLink,
+        Status as status,
+        CreateTime as createTime,
+        UpdateTime as updateTime
+         from `yjj_ExpressSupplier` where `EngName`=#{EngName}
+    </select>
+
+	<!--删除已存在的售后订单-->
+	<delete id="deleteRefundOrder">
+			delete from `shop_order_after_sale` where `order_id`=#{orderId} and `sku_id`=#{skuId}
+	</delete>
+
+	<!--删除用户售后订单-->
+	<update id="deleteRefundOrderNewselectRefundList">
+				update `shop_order_after_sale` set `del_status`=2  where `after_sale_id`=#{afterSaleId} and `member_id`=#{userId}
+	</update>
+
+	<update id="deleteRefundOrderNew">
+				update `shop_order_after_sale` set `del_status`=2  where `after_sale_id`=#{afterSaleId} and `member_id`=#{userId}
+	</update>
+	<select id="selectAdress"  parameterType="Long" resultType="com.e_commerce.miscroservice.store.entity.vo.StoreBusiness">
+			select *from `yjj_storebusiness` where `Id`=#{storeId}
+	</select>
+
+	<select id="selectActive" parameterType="Long" resultType="com.e_commerce.miscroservice.store.entity.vo.SecondBuyActivity">
+			select * from `store_second_buy_activity` where `id`=#{secondId}
+	</select>
+	<select id="selectActiveNew" parameterType="Long" resultType="com.e_commerce.miscroservice.store.entity.vo.SecondBuyActivity">
+			select activity_price as activityPrice from `store_second_buy_activity` where `id`=#{secondId}
+	</select>
+
+	<select id="selectTeam" parameterType="Long" resultType="com.e_commerce.miscroservice.store.entity.vo.TeamBuyActivity">
+			select *from `store_team_buy_activity` where `id`=#{teamId}
+	</select>
+
+	<select id="selectTeamNew" parameterType="Long" resultType="com.e_commerce.miscroservice.store.entity.vo.TeamBuyActivity">
+			select
+			activity_price as activityPrice
+			from `store_team_buy_activity` where `id`=#{teamId}
+	</select>
+	<select id="selectStoreWxaList" parameterType="Long" resultType="com.e_commerce.miscroservice.store.entity.vo.StoreWxa">
+			select *from `jiuy_store_wxa` where `store_id`=#{storeId}
+	</select>
+    <select id="selectStoreWxaListNew" parameterType="Long" resultType="com.e_commerce.miscroservice.store.entity.vo.StoreWxa">
+			select
+            id,
+            app_id as appId
+			from `jiuy_store_wxa` where `store_id`=#{storeId}
+	</select>
+
+	<update id="updateById">
+			update `shop_member_order` set `pay_form_id`=#{shopMemberOrder.payFormId} where `id`=#{shopMemberOrder.id}
+	</update>
+
+
+	<select id="getStoreBusinessById" parameterType="Long" resultType="com.e_commerce.miscroservice.store.entity.vo.StoreBusiness">
+			select*from `yjj_storebusiness` where `Id`=#{storeId}
+	</select>
+    <select id="getStoreBusinessByIdNew" parameterType="Long" resultType="com.e_commerce.miscroservice.store.entity.vo.StoreBusiness">
+			select
+            `WxaAppId` as wxaAppId,
+            `wxa_business_type` as wxaBusinessType
+			from `yjj_storebusiness` where `Id`=#{storeId}
+	</select>
+
+	<select id="getMemberById" parameterType="Long" resultType="com.e_commerce.miscroservice.store.entity.vo.ShopMember">
+			select *from `shop_member` where `id`=#{memberId}
+	</select>
+    <select id="getMemberByIdNew" parameterType="Long" resultType="com.e_commerce.miscroservice.store.entity.vo.ShopMember">
+			select
+            `bind_weixin` as bindWeixin,
+            `in_shop_member_id` as inShopMemberId
+			from `shop_member` where `id`=#{memberId}
+	</select>
+
+	<select id="selectShopMember" parameterType="Long" resultType="com.e_commerce.miscroservice.store.entity.vo.ShopMember">
+			select*from `shop_member` where `id`=#{memberId}
+	</select>
+    <select id="selectShopMemberNew" parameterType="Long" resultType="com.e_commerce.miscroservice.store.entity.vo.ShopMember">
+			select
+			 id,
+            bind_weixin as bindWeixin
+			 from `shop_member` where `id`=#{memberId}
+	</select>
+
+	<select id="selectOrderByRefundOrder" resultType="Long">
+			select order_id as orderId from `shop_order_after_sale` where `after_sale_id`=#{refundOrderNo} and `del_status`=0
+	</select>
+
+	<!--根据订单号查询订单信息-->
+	<!--<select id="selectByOrderNoNew" parameterType="Long" resultType="com.e_commerce.miscroservice.store.entity.vo.StoreOrderNew" >-->
+        <!--select * from `store_order` where `OrderNo`=#{OrderNo} and `Status`=0-->
+    <!--</select>-->
+
+	<select id="selectByOrderNoNewF" resultType="com.e_commerce.miscroservice.store.entity.vo.StoreOrderNew">
+			select * from `store_order` where `OrderNo`=#{orderNo} and `Status`=0
+	</select>
+	<select id="selectRefundOrder" resultType="com.e_commerce.miscroservice.store.entity.vo.StoreRefundOrder">
+		select *from  `store_refund_order` where `order_no`=#{orderNo}
+	</select>
+	<delete id="deleteRefundOrderNo">
+			delete from `store_refund_order`  where `order_no`=#{orderNo}
+	</delete>
+
+	<select id="selectMemberOrderById" resultType="Integer">
+			select count as `count` from `shop_member_order` where `id`=#{wxOrderIdNew}
+	</select>
+
+	<select id="selectAppOrderId" resultType="Long">
+			select OrderNo as orderNo from `store_order` where `shop_member_order_id`=#{orderId}
+	</select>
+
+	<select id="selectBusinessAccount" resultType="com.e_commerce.miscroservice.commons.entity.application.user.YjjStoreBusinessAccount">
+			select
+			 id,
+			 count_money as countMoney,
+			 frozen_money as frozenMoney,
+			 use_money as useMoney,
+			 user_id as userId,
+			 del_status as delStatus,
+			 create_time as createTime,
+			 update_time as updateTime,
+			 status,
+			 wait_in_money as waitInMoney,
+			 real_use_money as realUseMoney,
+			 remainder_money as remainderMoney
+			from `yjj_storebusiness_account` where `user_id`=#{storeId} and `del_status`=0 and `status`=0
+	</select>
+	<select id="selectName" resultType="String">
+			select `user_nickname` as userNickname from `shop_member` where `id`=#{memberId}
+	</select>
+
+	<select id="selectOrderNumber" resultType="String">
+			select 	`order_number` from `shop_member_order` where `id`=#{orderId}
+	</select>
+	<select id="selectCreateTime" resultType="Long">
+			select `delivery_time` from `shop_member_order` where `id`=#{wxOrderId}
+	</select>
+</mapper>

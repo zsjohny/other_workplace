@@ -1,0 +1,551 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" > 
+<mapper namespace="com.jiuy.rb.mapper.product.RestrictionActivityProductRbMapper"> 
+ 
+ 	<!-- 主要的返回映射-->
+	<resultMap id="BaseResultMap" type="com.jiuy.rb.model.product.RestrictionActivityProductRb"	>
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="product_id"  property="productId"  jdbcType="BIGINT" />
+		<result column="product_name"  property="productName"  jdbcType="VARCHAR" />
+		<result column="clothes_number"  property="clothesNumber"  jdbcType="VARCHAR" />
+		<result column="product_status"  property="productStatus"  jdbcType="TINYINT" />
+		<result column="sku_count"  property="skuCount"  jdbcType="INTEGER" />
+		<result column="main_image"  property="mainImage"  jdbcType="VARCHAR" />
+		<result column="showcase_image"  property="showcaseImage"  jdbcType="VARCHAR" />
+		<result column="promotion_image"  property="promotionImage"  jdbcType="VARCHAR" />
+		<result column="remain_count"  property="remainCount"  jdbcType="INTEGER" />
+		<result column="total_remain_count"  property="totalRemainCount"  jdbcType="INTEGER" />
+		<result column="sale_count"  property="saleCount"  jdbcType="INTEGER" />
+		<result column="restriction_count"  property="restrictionCount"  jdbcType="INTEGER" />
+		<result column="activity_product_price"  property="activityProductPrice"  jdbcType="DECIMAL" />
+		<result column="product_price"  property="productPrice"  jdbcType="DECIMAL" />
+		<result column="activity_begin_time"  property="activityBeginTime"  jdbcType="BIGINT" />
+		<result column="activity_end_time"  property="activityEndTime"  jdbcType="BIGINT" />
+		<result column="activity_product_shelf_time"  property="activityProductShelfTime"  jdbcType="BIGINT" />
+		<result column="activity_product_drop_off_time"  property="activityProductDropOffTime"  jdbcType="BIGINT" />
+		<result column="create_time"  property="createTime"  jdbcType="BIGINT" />
+		<result column="update_time"  property="updateTime"  jdbcType="BIGINT" />
+		<result column="mini_purchase_count"  property="miniPurchaseCount"  jdbcType="INTEGER" />
+	</resultMap>
+
+	<!-- 所有的列名-->
+	<sql id="Base_Column_List" >
+		id,product_id,product_name,clothes_number,product_status,sku_count,main_image,showcase_image,promotion_image,
+		remain_count,total_remain_count,sale_count,restriction_count,activity_product_price,product_price,activity_begin_time,activity_end_time,
+		activity_product_shelf_time,activity_product_drop_off_time,create_time,update_time,mini_purchase_count
+	</sql>
+
+	<!-- 精确更新的字段-->
+	<sql id="updateBase">
+		<if test="id  !=null">
+			id = #{id,jdbcType=BIGINT}, 
+		</if>
+		<if test="productId  !=null">
+			product_id = #{productId,jdbcType=BIGINT}, 
+		</if>
+		<if test="productName  !=null">
+			product_name = #{productName,jdbcType=VARCHAR}, 
+		</if>
+		<if test="clothesNumber  !=null">
+			clothes_number = #{clothesNumber,jdbcType=VARCHAR}, 
+		</if>
+		<if test="productStatus  !=null">
+			product_status = #{productStatus,jdbcType=TINYINT}, 
+		</if>
+		<if test="skuCount  !=null">
+			sku_count = #{skuCount,jdbcType=INTEGER}, 
+		</if>
+		<if test="mainImage  !=null">
+			main_image = #{mainImage,jdbcType=VARCHAR}, 
+		</if>
+		<if test="showcaseImage  !=null">
+			showcase_image = #{showcaseImage,jdbcType=VARCHAR}, 
+		</if>
+		<if test="promotionImage  !=null">
+			promotion_image = #{promotionImage,jdbcType=VARCHAR}, 
+		</if>
+		<if test="remainCount  !=null">
+			remain_count = #{remainCount,jdbcType=INTEGER}, 
+		</if>
+		<if test="totalRemainCount  !=null">
+			total_remain_count = #{totalRemainCount,jdbcType=INTEGER}, 
+		</if>
+		<if test="saleCount  !=null">
+			sale_count = #{saleCount,jdbcType=INTEGER}, 
+		</if>
+		<if test="restrictionCount  !=null">
+			restriction_count = #{restrictionCount,jdbcType=INTEGER}, 
+		</if>
+		<if test="activityProductPrice  !=null">
+			activity_product_price = #{activityProductPrice,jdbcType=DECIMAL}, 
+		</if>
+		<if test="productPrice  !=null">
+			product_price = #{productPrice,jdbcType=DECIMAL}, 
+		</if>
+		<if test="activityBeginTime  !=null">
+			activity_begin_time = #{activityBeginTime,jdbcType=BIGINT}, 
+		</if>
+		<if test="activityEndTime  !=null">
+			activity_end_time = #{activityEndTime,jdbcType=BIGINT}, 
+		</if>
+		<if test="activityProductShelfTime  !=null">
+			activity_product_shelf_time = #{activityProductShelfTime,jdbcType=BIGINT}, 
+		</if>
+		<if test="activityProductDropOffTime  !=null">
+			activity_product_drop_off_time = #{activityProductDropOffTime,jdbcType=BIGINT}, 
+		</if>
+		<if test="createTime  !=null">
+			create_time = #{createTime,jdbcType=BIGINT}, 
+		</if>
+		<if test="updateTime  !=null">
+			update_time = #{updateTime,jdbcType=BIGINT}, 
+		</if>
+		<if test="miniPurchaseCount  !=null">
+			mini_purchase_count = #{miniPurchaseCount,jdbcType=INTEGER} 
+		</if>
+	</sql>
+
+	<!-- 通过主键查找-->
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="Long" >
+		select 
+		<include refid="Base_Column_List" />
+		from yjj_restriction_activity_product
+		where  id = #{id,jdbcType=BIGINT} 
+	</select>
+
+	<!-- 通过主键删除-->
+	<delete id="deleteByPrimaryKey" parameterType="Long" >
+		delete from yjj_restriction_activity_product
+		where id = #{id,jdbcType=BIGINT} 
+	</delete>
+
+	<!-- 普通插入全字段插t入-->
+	<insert id="insert" parameterType="com.jiuy.rb.model.product.RestrictionActivityProductRb" >
+		insert into yjj_restriction_activity_product
+		(
+			id,
+			product_id,
+			product_name,
+			clothes_number,
+			product_status,
+			sku_count,
+			main_image,
+			showcase_image,
+			promotion_image,
+			remain_count,
+			total_remain_count,
+			sale_count,
+			restriction_count,
+			activity_product_price,
+			product_price,
+			activity_begin_time,
+			activity_end_time,
+			activity_product_shelf_time,
+			activity_product_drop_off_time,
+			create_time,
+			update_time,
+			mini_purchase_count
+		)
+		values
+		(
+			#{id ,jdbcType=BIGINT},
+			#{productId ,jdbcType=BIGINT},
+			#{productName ,jdbcType=VARCHAR},
+			#{clothesNumber ,jdbcType=VARCHAR},
+			#{productStatus ,jdbcType=TINYINT},
+			#{skuCount ,jdbcType=INTEGER},
+			#{mainImage ,jdbcType=VARCHAR},
+			#{showcaseImage ,jdbcType=VARCHAR},
+			#{promotionImage ,jdbcType=VARCHAR},
+			#{remainCount ,jdbcType=INTEGER},
+			#{totalRemainCount ,jdbcType=INTEGER},
+			#{saleCount ,jdbcType=INTEGER},
+			#{restrictionCount ,jdbcType=INTEGER},
+			#{activityProductPrice ,jdbcType=DECIMAL},
+			#{productPrice ,jdbcType=DECIMAL},
+			#{activityBeginTime ,jdbcType=BIGINT},
+			#{activityEndTime ,jdbcType=BIGINT},
+			#{activityProductShelfTime ,jdbcType=BIGINT},
+			#{activityProductDropOffTime ,jdbcType=BIGINT},
+			#{createTime ,jdbcType=BIGINT},
+			#{updateTime ,jdbcType=BIGINT},
+			#{miniPurchaseCount ,jdbcType=INTEGER}
+		)
+	</insert>
+
+	<!-- 批量插入，全部字段插入-->
+	<insert id="insertBach"   parameterType="List" >
+		insert into yjj_restriction_activity_product
+		(
+			id,
+			product_id,
+			product_name,
+			clothes_number,
+			product_status,
+			sku_count,
+			main_image,
+			showcase_image,
+			promotion_image,
+			remain_count,
+			total_remain_count,
+			sale_count,
+			restriction_count,
+			activity_product_price,
+			product_price,
+			activity_begin_time,
+			activity_end_time,
+			activity_product_shelf_time,
+			activity_product_drop_off_time,
+			create_time,
+			update_time,
+			mini_purchase_count
+		)
+		values 
+		<foreach collection="list" item="item" separator=",">
+		(
+			#{item.id ,jdbcType=BIGINT},
+			#{item.productId ,jdbcType=BIGINT},
+			#{item.productName ,jdbcType=VARCHAR},
+			#{item.clothesNumber ,jdbcType=VARCHAR},
+			#{item.productStatus ,jdbcType=TINYINT},
+			#{item.skuCount ,jdbcType=INTEGER},
+			#{item.mainImage ,jdbcType=VARCHAR},
+			#{item.showcaseImage ,jdbcType=VARCHAR},
+			#{item.promotionImage ,jdbcType=VARCHAR},
+			#{item.remainCount ,jdbcType=INTEGER},
+			#{item.totalRemainCount ,jdbcType=INTEGER},
+			#{item.saleCount ,jdbcType=INTEGER},
+			#{item.restrictionCount ,jdbcType=INTEGER},
+			#{item.activityProductPrice ,jdbcType=DECIMAL},
+			#{item.productPrice ,jdbcType=DECIMAL},
+			#{item.activityBeginTime ,jdbcType=BIGINT},
+			#{item.activityEndTime ,jdbcType=BIGINT},
+			#{item.activityProductShelfTime ,jdbcType=BIGINT},
+			#{item.activityProductDropOffTime ,jdbcType=BIGINT},
+			#{item.createTime ,jdbcType=BIGINT},
+			#{item.updateTime ,jdbcType=BIGINT},
+			#{item.miniPurchaseCount ,jdbcType=INTEGER}
+		)
+		</foreach>
+	</insert>
+
+	<!-- 精确插入，非null得字段才会插入-->
+	<insert id="insertSelective" parameterType="com.jiuy.rb.model.product.RestrictionActivityProductRb" useGeneratedKeys="true" keyProperty="id" >
+		insert into yjj_restriction_activity_product
+		<trim prefix="(" suffix=")" suffixOverrides="," > 
+			<if test="id !=null">  
+				id,
+			</if>
+			<if test="productId !=null">  
+				product_id,
+			</if>
+			<if test="productName !=null">  
+				product_name,
+			</if>
+			<if test="clothesNumber !=null">  
+				clothes_number,
+			</if>
+			<if test="productStatus !=null">  
+				product_status,
+			</if>
+			<if test="skuCount !=null">  
+				sku_count,
+			</if>
+			<if test="mainImage !=null">  
+				main_image,
+			</if>
+			<if test="showcaseImage !=null">  
+				showcase_image,
+			</if>
+			<if test="promotionImage !=null">  
+				promotion_image,
+			</if>
+			<if test="remainCount !=null">  
+				remain_count,
+			</if>
+			<if test="totalRemainCount !=null">  
+				total_remain_count,
+			</if>
+			<if test="saleCount !=null">  
+				sale_count,
+			</if>
+			<if test="restrictionCount !=null">  
+				restriction_count,
+			</if>
+			<if test="activityProductPrice !=null">  
+				activity_product_price,
+			</if>
+			<if test="productPrice !=null">  
+				product_price,
+			</if>
+			<if test="activityBeginTime !=null">  
+				activity_begin_time,
+			</if>
+			<if test="activityEndTime !=null">  
+				activity_end_time,
+			</if>
+			<if test="activityProductShelfTime !=null">  
+				activity_product_shelf_time,
+			</if>
+			<if test="activityProductDropOffTime !=null">  
+				activity_product_drop_off_time,
+			</if>
+			<if test="createTime !=null">  
+				create_time,
+			</if>
+			<if test="updateTime !=null">  
+				update_time,
+			</if>
+			<if test="miniPurchaseCount !=null">  
+				mini_purchase_count,
+			</if>
+		</trim>
+
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+			<if test="id  !=null">
+				#{id,jdbcType=BIGINT}, 
+			</if>
+			<if test="productId  !=null">
+				#{productId,jdbcType=BIGINT}, 
+			</if>
+			<if test="productName  !=null">
+				#{productName,jdbcType=VARCHAR}, 
+			</if>
+			<if test="clothesNumber  !=null">
+				#{clothesNumber,jdbcType=VARCHAR}, 
+			</if>
+			<if test="productStatus  !=null">
+				#{productStatus,jdbcType=TINYINT}, 
+			</if>
+			<if test="skuCount  !=null">
+				#{skuCount,jdbcType=INTEGER}, 
+			</if>
+			<if test="mainImage  !=null">
+				#{mainImage,jdbcType=VARCHAR}, 
+			</if>
+			<if test="showcaseImage  !=null">
+				#{showcaseImage,jdbcType=VARCHAR}, 
+			</if>
+			<if test="promotionImage  !=null">
+				#{promotionImage,jdbcType=VARCHAR}, 
+			</if>
+			<if test="remainCount  !=null">
+				#{remainCount,jdbcType=INTEGER}, 
+			</if>
+			<if test="totalRemainCount  !=null">
+				#{totalRemainCount,jdbcType=INTEGER}, 
+			</if>
+			<if test="saleCount  !=null">
+				#{saleCount,jdbcType=INTEGER}, 
+			</if>
+			<if test="restrictionCount  !=null">
+				#{restrictionCount,jdbcType=INTEGER}, 
+			</if>
+			<if test="activityProductPrice  !=null">
+				#{activityProductPrice,jdbcType=DECIMAL}, 
+			</if>
+			<if test="productPrice  !=null">
+				#{productPrice,jdbcType=DECIMAL}, 
+			</if>
+			<if test="activityBeginTime  !=null">
+				#{activityBeginTime,jdbcType=BIGINT}, 
+			</if>
+			<if test="activityEndTime  !=null">
+				#{activityEndTime,jdbcType=BIGINT}, 
+			</if>
+			<if test="activityProductShelfTime  !=null">
+				#{activityProductShelfTime,jdbcType=BIGINT}, 
+			</if>
+			<if test="activityProductDropOffTime  !=null">
+				#{activityProductDropOffTime,jdbcType=BIGINT}, 
+			</if>
+			<if test="createTime  !=null">
+				#{createTime,jdbcType=BIGINT}, 
+			</if>
+			<if test="updateTime  !=null">
+				#{updateTime,jdbcType=BIGINT}, 
+			</if>
+			<if test="miniPurchaseCount  !=null">
+				#{miniPurchaseCount,jdbcType=INTEGER} 
+			</if>
+		</trim>
+	</insert> 
+
+	<!-- 精确更新-->
+	<update id="updateByPrimaryKeySelective" parameterType="com.jiuy.rb.model.product.RestrictionActivityProductRb" >
+		update yjj_restriction_activity_product
+		<set>
+			<include refid="updateBase"/>
+		</set>
+		where id = #{id,jdbcType=BIGINT} 
+	</update> 
+
+	<!-- 全字段更新 需要注意-->
+	<update id="updateByPrimaryKey" parameterType="com.jiuy.rb.model.product.RestrictionActivityProductRb" >
+		update yjj_restriction_activity_product
+		set 
+			id = #{id ,jdbcType=BIGINT},
+			product_id = #{productId ,jdbcType=BIGINT},
+			product_name = #{productName ,jdbcType=VARCHAR},
+			clothes_number = #{clothesNumber ,jdbcType=VARCHAR},
+			product_status = #{productStatus ,jdbcType=TINYINT},
+			sku_count = #{skuCount ,jdbcType=INTEGER},
+			main_image = #{mainImage ,jdbcType=VARCHAR},
+			showcase_image = #{showcaseImage ,jdbcType=VARCHAR},
+			promotion_image = #{promotionImage ,jdbcType=VARCHAR},
+			remain_count = #{remainCount ,jdbcType=INTEGER},
+			total_remain_count = #{totalRemainCount ,jdbcType=INTEGER},
+			sale_count = #{saleCount ,jdbcType=INTEGER},
+			restriction_count = #{restrictionCount ,jdbcType=INTEGER},
+			activity_product_price = #{activityProductPrice ,jdbcType=DECIMAL},
+			product_price = #{productPrice ,jdbcType=DECIMAL},
+			activity_begin_time = #{activityBeginTime ,jdbcType=BIGINT},
+			activity_end_time = #{activityEndTime ,jdbcType=BIGINT},
+			activity_product_shelf_time = #{activityProductShelfTime ,jdbcType=BIGINT},
+			activity_product_drop_off_time = #{activityProductDropOffTime ,jdbcType=BIGINT},
+			create_time = #{createTime ,jdbcType=BIGINT},
+			update_time = #{updateTime ,jdbcType=BIGINT},
+			mini_purchase_count = #{miniPurchaseCount ,jdbcType=INTEGER}
+		where id = #{id,jdbcType=BIGINT} 
+	</update> 
+
+	<!-- 所有的条件集合-->
+	<sql id="whereCase"  >
+		where  1=1 
+		<if test="id  !=null">
+			AND id = #{id,jdbcType=BIGINT} 
+		</if>
+		<if test="productId  !=null">
+			AND product_id = #{productId,jdbcType=BIGINT} 
+		</if>
+		<if test="productName  !=null">
+			AND product_name = #{productName,jdbcType=VARCHAR} 
+		</if>
+		<if test="clothesNumber  !=null">
+			AND clothes_number = #{clothesNumber,jdbcType=VARCHAR} 
+		</if>
+		<if test="productStatus  !=null">
+			AND product_status = #{productStatus,jdbcType=TINYINT} 
+		</if>
+		<if test="skuCount  !=null">
+			AND sku_count = #{skuCount,jdbcType=INTEGER} 
+		</if>
+		<if test="mainImage  !=null">
+			AND main_image = #{mainImage,jdbcType=VARCHAR} 
+		</if>
+		<if test="showcaseImage  !=null">
+			AND showcase_image = #{showcaseImage,jdbcType=VARCHAR} 
+		</if>
+		<if test="promotionImage  !=null">
+			AND promotion_image = #{promotionImage,jdbcType=VARCHAR} 
+		</if>
+		<if test="remainCount  !=null">
+			AND remain_count = #{remainCount,jdbcType=INTEGER} 
+		</if>
+		<if test="totalRemainCount  !=null">
+			AND total_remain_count = #{totalRemainCount,jdbcType=INTEGER} 
+		</if>
+		<if test="saleCount  !=null">
+			AND sale_count = #{saleCount,jdbcType=INTEGER} 
+		</if>
+		<if test="restrictionCount  !=null">
+			AND restriction_count = #{restrictionCount,jdbcType=INTEGER} 
+		</if>
+		<if test="activityProductPrice  !=null">
+			AND activity_product_price = #{activityProductPrice,jdbcType=DECIMAL} 
+		</if>
+		<if test="productPrice  !=null">
+			AND product_price = #{productPrice,jdbcType=DECIMAL} 
+		</if>
+		<if test="activityBeginTime  !=null">
+			AND activity_begin_time = #{activityBeginTime,jdbcType=BIGINT} 
+		</if>
+		<if test="activityEndTime  !=null">
+			AND activity_end_time = #{activityEndTime,jdbcType=BIGINT} 
+		</if>
+		<if test="activityProductShelfTime  !=null">
+			AND activity_product_shelf_time = #{activityProductShelfTime,jdbcType=BIGINT} 
+		</if>
+		<if test="activityProductDropOffTime  !=null">
+			AND activity_product_drop_off_time = #{activityProductDropOffTime,jdbcType=BIGINT} 
+		</if>
+		<if test="createTime  !=null">
+			AND create_time = #{createTime,jdbcType=BIGINT} 
+		</if>
+		<if test="updateTime  !=null">
+			AND update_time = #{updateTime,jdbcType=BIGINT} 
+		</if>
+		<if test="miniPurchaseCount  !=null">
+			AND mini_purchase_count = #{miniPurchaseCount,jdbcType=INTEGER} 
+		</if>
+		<include refid="costomWhereCase"/>
+	</sql>
+
+	<!-- 查询一条，如果返回多条会报错-->
+	<select id="selectOne" parameterType="java.util.Map" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" /> 
+		FROM yjj_restriction_activity_product 
+		<include refid="whereCase" /> 
+	</select>
+
+	<!-- 查询一个list-->
+	<select id="selectList" parameterType="java.util.Map" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" /> 
+		FROM yjj_restriction_activity_product 
+		<include refid="whereCase" /> 
+	</select>
+
+	<!-- 查询一个list-->
+	<select id="selectCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+		SELECT
+		count(1) 
+		FROM yjj_restriction_activity_product
+		<include refid="whereCase" /> 
+	</select>
+
+	<!--  @Costom -->
+	<!-- 从上一行注释以上为系统生成 从这一行往下为用户自定义 请将自定义的sql放在此行下面 -->
+	<sql id="costomWhereCase">
+		<if test="ids!=null and ids.size()>0">
+			and id  in (
+			<foreach collection="ids" item="id" separator=",">
+				#{id}
+			</foreach>
+			)
+		</if>
+	</sql>
+
+	<!-- 获取活动商品 -->
+	<select id="selectFilterProduct" parameterType="Map" resultMap="BaseResultMap">
+		SELECT
+			activity.*
+		FROM
+			yjj_restriction_activity_product AS activity
+			LEFT JOIN yjj_product AS product ON product.id = activity.product_id
+		where 1 =1
+			<if test="saleTotalCountMin !=null">
+				and sale_count &gt;= #{saleTotalCountMin}
+			</if>
+			<if test="saleTotalCountMax !=null">
+				and sale_count &lt;= #{saleTotalCountMax}
+			</if>
+			<if test="lastPutonTimeBegin !=null">
+				and product.last_puton_time &gt;=#{lastPutonTimeBegin}
+			</if>
+			<if test="lastPutonTimeEnd  !=null">
+				and product.last_puton_time &lt;=#{lastPutonTimeEnd}
+			</if>
+		 	<if test="oneCategoryId !=null">
+				and product.oneCategoryId = #{oneCategoryId}
+			</if>
+			<if test="twoCategoryId !=null">
+				and product.twoCategoryId = #{twoCategoryId}
+			</if>
+			<if test="threeCategoryId !=null">
+				and product.threeCategoryId = #{threeCategoryId}
+			</if>
+	</select>
+
+</mapper>

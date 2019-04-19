@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.e_commerce.miscroservice.activity.mapper.ActivityImageShareMapper">
+
+    <!--根据类型查询分享活动-->
+    <select id="findActivityImageShareByType"
+            resultType="com.e_commerce.miscroservice.activity.entity.ActivityImageShare">
+        select * from activity_image_share where `type`=#{type} and share_type = #{shareType} order by update_time desc limit 1
+    </select>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+

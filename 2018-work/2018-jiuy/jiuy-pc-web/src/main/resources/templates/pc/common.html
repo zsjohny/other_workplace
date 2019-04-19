@@ -1,0 +1,81 @@
+
+
+<!-- 头的配置 不带 seo -->
+<th:block th:fragment="header-common">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width">
+    <link rel="stylesheet" href="/css/common.css?v20180814">
+    <script type="text/javascript" src="/js/jquery.min-3.0.0.js"></script>
+    <script src="/js/common.js?v20180810"></script>
+    <link rel="shortcut icon" href="/images/favicon.ico"/>
+</th:block>
+
+
+<!-- 头的配置带 seo -->
+<th:block th:fragment="header-common-seo">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width">
+    <title th:text="${seo.title}"></title>
+    <meta name="keywords" th:content="${seo.keywords}" />
+    <meta name="description" th:content="${seo.descriptor}" />
+    <link rel="stylesheet" href="/css/common.css?v20180814">
+    <script type="text/javascript" src="/js/jquery.min-3.0.0.js"></script>
+    <script src="/js/common.js?v20180811"></script>
+    <link rel="shortcut icon" href="/images/favicon.ico"/>
+</th:block>
+
+
+<!-- 导航栏 -->
+<div id="nav-common">
+    <header class="ui-header">
+        <div class="wd1200 header-nav">
+            <div class="logo">
+                <div class="logo-img"><img src="/images/public/logo.png" alt="俞姐姐智能门店"></div>
+                <div class="logo-text"><h1>俞姐姐智能门店</h1></div>
+            </div>
+            <div class="nav">
+                <ul>
+                    <li class="item1" data-id="index"><a href="/index.html">公司首页</a></li>
+                    <li class="item4" data-id="wxa"><a href="/wxa.html">智能门店</a></li>
+                    <li class="item2" data-id="aboutCompany"><a href="/aboutCompany.html">关于公司</a></li>
+                    <li class="item3" data-id="joinUs"><a href="/joinUs.html">加入我们</a></li>
+                    <li class="item5" data-id="newList"><a href="/news/list1.html">新闻动态</a></li>
+                </ul>
+            </div>
+        </div>
+    </header>
+</div>
+
+
+<!-- 底部 -->
+<div id="foot-common">
+    <footer class="ui-footer">
+        <div class="wd1200 footer-mian">
+            <div class="footer-mod1">俞姐姐智能门店</div>
+            <div class="footer-mod2">
+                <div class="page-nav">
+                    <a href="/server.html">服务条款</a><span>|</span>
+                    <a href="/privacy.html">隐私条款</a><span>|</span>
+                    <a href="/joinUs.html">招贤纳士</a><span>|</span>
+                    <a href="/aboutCompany.html">关于我们</a>
+                </div>
+                <p class="cory-right">CopyRight © 2015-2018 杭州玖远网络科技有限公司 浙ICP备15017271号 Yujiejie</p>
+                <p class="cory-right">Inc版权所有 经营许可证编号：浙B1.B2-2015034</p>
+                <p class="cory-right">浙公网安备 33010802002977号</p>
+            </div>
+            <div class="footer-mod3">
+                <dl class="tel-phone">
+                    <dt>客服电话：</dt>
+                    <dd>400-118-0099</dd>
+                </dl>
+                <ul class="code">
+                    <li class="first"><img src="/images/public/wx-code.png" alt="俞姐姐公众号"><p>公众号二维码</p></li>
+                    <li><img src="/images/public/app.png" alt="俞姐姐公众号"><p>进货app二维码</p></li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+    <script src="https://qiyukf.com/script/ca7401ee061a67fdcd669ac85f2fa84d.js"></script>
+</div>

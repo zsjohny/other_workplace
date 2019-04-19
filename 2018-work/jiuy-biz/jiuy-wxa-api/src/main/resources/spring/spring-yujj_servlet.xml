@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:cache="http://www.springframework.org/schema/cache"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+
+
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd
+	http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd">
+
+    <import resource="classpath:/spring/spring-yujj-common.xml"/>
+    <context:component-scan base-package="com.jiuy.wxa.api.controller"/>
+
+
+    <bean id="objectMapper" class="com.yujj.ext.jackson.spring.ObjectMapperFactory"/>
+
+    <mvc:annotation-driven conversion-service="conversionService" ignoreDefaultModelOnRedirect="true">
+        <mvc:argument-resolvers>
+            <bean class="com.jiuyuan.ext.spring.web.method.ClientIpMethodArgumentResolver"/>
+            <bean class="com.jiuyuan.ext.spring.web.method.UriParamsMethodArgumentResolver"/>
+            <bean class="com.jiuyuan.ext.spring.web.method.RequestAttributeArgumentResolver"/>
+            <bean class="com.wxa.ext.spring.web.method.ShopDetailMethodArgumentResolver"/>
+            <bean class="com.wxa.ext.spring.web.method.MemberDetailMethodArgumentResolver"/>
+            <bean class="com.jiuyuan.ext.spring.web.method.UserAgentPlatformMethodArgumentResolver"/>
+            <bean class="com.jiuyuan.ext.spring.web.method.ClientPlatformMethodArgumentResolver"/>
+        </mvc:argument-resolvers>
+        <mvc:message-converters>
+            <bean class="com.jiuyuan.ext.spring.web.converter.CustomMappingJackson2HttpMessageConverter">
+                <property name="objectMapper" ref="objectMapper"/>
+            </bean>
+            <bean class="org.springframework.http.converter.BufferedImageHttpMessageConverter"/>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
+
+    <bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
+        <property name="converters">
+            <list>
+                <bean class="com.jiuyuan.ext.spring.convert.CustomStringToEnumConverterFactory"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
+        <property name="templateLoaderPath" value="/WEB-INF/template/"/>
+        <property name="freemarkerSettings">
+            <props>
+                <prop key="template_update_delay">${freemarker.template.update.delay}</prop>
+                <prop key="default_encoding">UTF-8</prop>
+                <prop key="url_escaping_charset">UTF-8</prop>
+                <prop key="locale">zh_CN</prop>
+                <prop key="number_format">0.##########</prop>
+                <prop key="template_exception_handler">rethrow</prop>
+            </props>
+        </property>
+        <property name="freemarkerVariables">
+            <map>
+                <entry key="long2DateString" value-ref="long2DateStringMethod"/>
+                <entry key="getFromNumberKeyMap" value-ref="getFromNumberKeyMapMethod"/>
+                <entry key="uriBuilder" value-ref="uriBuilderCreateMethod"/>
+                <!-- static classes -->
+                <entry key="stringUtil" value-ref="stringUtil"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="long2DateStringMethod" class="com.yujj.ext.freemarker.Long2DateStringMethod"/>
+    <bean id="getFromNumberKeyMapMethod" class="com.yujj.ext.freemarker.GetFromNumberKeyMapMethod"/>
+    <bean id="uriBuilderCreateMethod" class="com.yujj.ext.freemarker.UriBuilderCreateMethod"/>
+    <bean id="stringUtil" class="com.yujj.util.StringUtil"/>
+
+    <bean class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
+        <property name="cache" value="true"/>
+        <property name="prefix" value=""/>
+        <property name="suffix" value=".ftl"/>
+        <property name="contentType" value="text/html; charset=UTF-8"/>
+    </bean>
+
+    <bean id="contentNegotiationManager" class="org.springframework.web.accept.ContentNegotiationManagerFactoryBean">
+        <property name="favorParameter" value="true"/>
+        <property name="parameterName" value="format"/>
+        <property name="ignoreAcceptHeader" value="false"/>
+        <property name="mediaTypes">
+            <value>
+                do=text/html
+                json=application/json
+            </value>
+        </property>
+        <property name="defaultContentType" value="text/html"/>
+    </bean>
+
+    <bean class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
+        <property name="defaultViews">
+            <list>
+                <!-- JSON View -->
+                <bean class="org.springframework.web.servlet.view.json.MappingJackson2JsonView">
+                    <property name="objectMapper" ref="objectMapper"/>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <mvc:interceptors>
+        <bean class="org.springframework.web.servlet.mvc.WebContentInterceptor">
+            <property name="cacheSeconds" value="0"/>
+            <property name="useExpiresHeader" value="true"/>
+            <property name="useCacheControlHeader" value="true"/>
+            <property name="useCacheControlNoStore" value="true"/>
+        </bean>
+        <bean class="com.jiuyuan.web.interceptor.SetRequestAttributesInterceptor"/>
+        <bean class="com.jiuyuan.web.interceptor.ContentTypeFilterInterceptor"/>
+        <bean class="com.jiuyuan.web.interceptor.IpConfineInterceptor"/>
+        <bean class="com.wxa.db.DbClearInterceptor"/>
+        <!--  -->
+        <!--   <bean class="com.wxa.web.interceptor.ParamSignInterceptor"/>-->
+        <!-- <bean class="com.wxa.web.interceptor.UserDetailInterceptor"/>-->
+        <bean class="com.wxa.web.interceptor.CheckLoginInterceptor"/>
+        <!--
+                <bean class="com.wxa.web.interceptor.MDCInterceptor"/>-->
+        <!-- keep the ExceptionInterceptor last -->
+        <bean class="com.jiuyuan.web.interceptor.ExceptionInterceptor"/>
+    </mvc:interceptors>
+
+    <bean name="urlPathHelper" class="org.springframework.web.util.UrlPathHelper"/>
+
+    <bean id="multipartResolver"
+          class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="maxUploadSize" value="2097152"></property>
+    </bean>
+
+    <!--cache-->
+
+    <!--启用缓存注解-->
+    <cache:annotation-driven cache-manager="cacheManager"/>
+    <bean id="cacheManagerFactory" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean">
+        <property name="configLocation" value="classpath:spring/ehcache-setting.xml"/>
+    </bean>
+    <bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager">
+        <property name="cacheManager" ref="cacheManagerFactory"/>
+    </bean>
+
+</beans>

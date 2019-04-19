@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jiuyuan.dao.mapper.shop.StoreShoppingCartNewMapper">
+
+	<select id="getCartItemMapList" parameterType="map" resultType="com.jiuyuan.entity.newentity.CartItemNewVO">
+		<![CDATA[	
+				SELECT
+				c.Id AS cartId, 
+				c.ProductId AS productId,
+				c.StoreId AS storeId,
+				c.SkuId AS skuId,
+				c.BuyCount AS buyCount,
+				c.IsSelected AS isSelected,
+				p.BrandId AS brandId,
+				p.brandName AS brandName,
+				p.ladderPriceJson AS ladderPriceJson,
+				p.member_ladder_price_json AS memberLadderPriceJson,
+				p.memberLevel,
+				p.ClothesNumber AS clothesNumber,
+				p.Name AS productName,
+				p.mainImg AS productMainImg,
+				p.state AS productState
+				
+			FROM
+				store_ShoppingCart c,
+				yjj_Product p
+				
+			WHERE
+				c.StoreId = #{storeId}
+			AND c.STATUS = 0
+			AND c.ProductId = p.id
+			ORDER BY
+				c.CreateTime
+		]]>
+	</select>
+	
+</mapper>

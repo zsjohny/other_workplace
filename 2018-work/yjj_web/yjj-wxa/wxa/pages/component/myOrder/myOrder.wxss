@@ -1,0 +1,272 @@
+@import '/style/common.wxss';
+page{
+  background: #f4f4f4;
+}
+.order-tab{
+  width: 100%;
+  height: 80rpx;
+  line-height: 80rpx;
+  text-align: center;
+  display: -webkit-box;
+  display: box;
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 1000;
+  background: #fff;
+  color: #848484;
+}
+.order-tab .item{
+  width: 20%;
+  -webkit-box-flex: 1;
+  position: relative;
+  font-size: 30rpx;
+}
+.order-tab .active{
+  color: #fd4374;
+}
+.order-tab .active::after{
+  content: '';
+  width: 70rpx;
+  height: 4rpx;
+  overflow: hidden;
+  background: #fd4374;
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  z-index: 1;
+  margin-left: -35rpx;
+}
+/**公告提示**/
+.order-notice{
+  height: auto;
+  overflow: hidden;
+  background: #ffb0c7;
+  color: #fff;
+  font-size: 24rpx;
+  padding:14rpx 24rpx;
+  line-height: 1.5;
+  margin-top: 80rpx;
+}
+/**订单列表**/
+.order-box{
+  height: auto;
+  margin-top: 20rpx;
+  padding-bottom: 40rpx;
+}
+.hide{
+  display: none;
+}
+.show{
+  display: block;
+}
+.order-list text{
+  color: #fd4374;
+}
+.order-list .com-gray{
+  font-size: 24rpx;
+  color: #8D8D8D
+}
+.order-list{
+  font-size: 30rpx;
+  position: relative;
+}
+.noorder{
+  position:fixed;
+  left:50%;
+  top:50%;
+  z-index:100;
+  text-align:center;
+  font-size: 30rpx;
+  height: 252rpx;
+  width: 180rpx;
+  margin-top: -126rpx;
+  margin-left: -90rpx;
+}
+.order-box .noorder .icon{
+    width: 176rpx;
+  height: 176rpx;
+  background: url(http://mini-img-main.oss-cn-hangzhou.aliyuncs.com/icon/order-no.png) no-repeat;
+  background-size: 176rpx 176rpx;
+  margin: 0 auto;
+  margin-bottom:30rpx;
+}
+.order-list .item{
+  width: 702rpx;
+  background: #fff;
+  border:2rpx solid #ecebeb;
+  margin: 24rpx auto;
+  position: relative;
+}
+.order-list .orderListbox{
+  height: auto;
+  overflow: hidden;
+  padding-bottom: 24rpx;
+}
+.order-list .orderListbox .box{
+  /* margin: 20rpx 24rpx 0; */
+  border-bottom:1px solid #f4f4f4;
+}
+.order-list .order-go{
+   padding: 0 24rpx;
+   height: 64rpx;
+   line-height: 64rpx;
+}
+.order-list .orderID{
+  height: 70rpx;
+  line-height: 70rpx;
+  display: flex;
+  position: relative;
+  margin-bottom: 20rpx;
+  background: #f0efef;
+  font-size: 28rpx;
+}
+.order-list .orderID .odd{
+  color: #6d6d6d;
+  margin-left: 24rpx;
+}
+.order-list .orderID .odd .orderNumber{
+  color: rgba(0, 0, 0, 0.4);
+  font-size: 24rpx
+}
+.order-list .orderID .deal{
+  position: absolute;
+  right: 24rpx;
+  top: 0
+}
+.order-list .imgList{
+  width: 702rpx;
+  display: inline-flex;
+  padding: 0 0 20rpx 20rpx;
+  border-bottom: 2rpx solid #f4f4f4;
+  margin-bottom: 20rpx;
+}
+.order-list .imgList .img{
+  width: 146rpx;
+  height: 146rpx;
+  background-color: #ddd;
+  margin-right: 21rpx
+}
+.order-list .imgList .refund-state{
+  position: absolute;
+  right: 24rpx;
+  bottom: 0;
+  font-size: 24rpx;
+}
+.goodWrap{
+  width: 490rpx;
+  position: relative
+}
+.goodWrap .goodsName{
+  font-size: 26rpx;
+  color: #333;
+}
+.goodWrap .goodSku{
+  display: flex;
+  align-content: center;
+  justify-content: space-between;
+  margin-top: 25rpx;
+  color: rgba(0, 0, 0, 0.4);
+  font-size: 20rpx;
+}
+.goodWrap .skuItem{
+  font-size: 24rpx;
+}
+.goodWrap .price{
+  font-size: 18rpx;
+  color: #ff2742;
+  margin-top: 25rpx;
+}
+.goodWrap .price .priceNum {
+  font-size: 32rpx;
+}
+.order-list .orderMuch{
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-right: 20rpx;
+  /* position: relative; */
+  margin-top: 20rpx;
+  color: #9a9a9a;
+  font-size: 24rpx;
+  padding-bottom: 20rpx;
+}
+.order-list .orderMuch .orderMoney{
+  /* display: inline-flex; */
+  line-height: 40rpx;
+  margin-left: 20rpx;
+}
+.order-list .orderMuch .orderCount text{
+  color: #9a9a9a;
+}
+.order-list .orderMuch .orderMoney text{
+  font-size: 36rpx;
+}
+.order-list .orderMuch .orderMoney .com-gray{
+  color: #bfbfbf;
+  font-size: 22rpx;
+}
+.order-list .icon{
+  position: absolute;
+  right: 31rpx;
+  top: 165rpx;
+  background: url(http://mini-img-main.oss-cn-hangzhou.aliyuncs.com/icon/new/arrow02.png) no-repeat;
+  background-size: 28rpx 27rpx;
+  width: 28rpx;
+  height: 27rpx;
+}
+.order-list .odt{
+    font-size: 28rpx;
+    display: inline-flex;
+    height: 64rpx;
+    color: #666;
+    margin-left: 24rpx;
+    line-height: 64rpx;
+}
+.pickall{
+  display: block;
+  width: 100%;
+  height: 54rpx;
+  position: relative;
+  padding-bottom: 17rpx;
+  padding-top: 17rpx;
+   border-top:1px solid #CBCBCB;
+  border-bottom:1px solid #CBCBCB;
+}
+
+/**确认收货、查看物流按钮**/
+.order-list .btn-box{
+  height: 68rpx;
+  margin-bottom: 24rpx;
+  display: -webkit-flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-right: 24rpx;
+}
+.order-list .btn-box .orderPick{
+  line-height: 64rpx;
+  text-align: center;
+  border-radius: 8rpx;
+  font-size: 26rpx;
+  border: 2rpx solid #fd4374;
+  color: #fd4374;
+  background: #fff; 
+  padding: 0 24rpx; 
+  margin-left: 30rpx;
+}
+.order-list .btn-box .share-btn::after{
+  border: none;
+  background: none;
+}
+.order-list .btn-box .checkExpress{
+  right: 190rpx;
+  border: 2rpx solid #848484;
+  color: #848484;
+}
+.order-list .btn-box .orderCancel{
+  border: 2rpx solid #cacaca;
+  color: #cacaca;
+}
+.more-load2 .tips2 text{
+  color: #848484;
+}

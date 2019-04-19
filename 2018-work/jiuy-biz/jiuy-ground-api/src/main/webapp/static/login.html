@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<!--允许全屏--> 
+	<meta content="yes" name="apple-mobile-web-app-capable"> 
+	<meta content="yes" name="apple-touch-fullscreen"> 
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+	<title>登录地推管理系统</title>
+	<meta name="description" content="">
+	<meta name="keywords" content="">
+	<script src="js/adaptation.js"></script>
+	<link type="text/css" rel="stylesheet" href="css/base.css">
+	<link type="text/css" rel="stylesheet" href="css/common.css">
+</head>
+<body>
+    <div class="login-box">
+    	<div class="item"><input type="number" id="phone" placeholder="输入手机号码" maxlength="11"></div>
+        <div class="item"><input type="password" id="password" placeholder="输入登录密码"></div>
+        <input type="button" name="" class="ui-btn fixed-bottom login-btn" value="登录">
+<!--         <div class="prompt-wrap" style="display: none;">
+    <div class="prompt-text"><span class="text"></span></div>
+</div> -->
+    </div>
+    <div class="prompt-mod">
+        <div class="prompt-box">
+            <div class="error"><p>您的账号已冻结！请联系客服</p></div>
+        </div>
+    </div>
+    <script type="text/javascript" src="js/jquery-3.0.0.min.js"></script>
+    <script type="text/javascript" src="js/common.js"></script>
+    <script type="text/javascript">
+          $(function(){
+        	  var originUrl = getUrlParam("origin");//原始页面url
+              console.log(originUrl);
+        	  //校验函数
+              function checkNull(){
+                	var flag = 1;
+                	var phone = $.trim($("#phone").val()),
+           		        password = $.trim($("#password").val());
+               		if(!re_null.test(phone)){
+                        comfirmBox("show","请输入手机号",1);
+                        flag = 0;
+               		}else if(phone && !re_phone.test(phone)){
+                        comfirmBox("show","请输入正确格式的手机号",1);
+                        flag = 0;
+               		}else if(!re_null.test(password)){
+                        comfirmBox("show","请输入密码",1);
+                        flag = 0;
+               		}
+                   return flag
+              }
+              //提交登录
+         	 $(".login-btn").click(function(){
+             	 	var phone = $("#phone").val(),
+             		    password = $("#password").val();
+             		var sendData = {
+               			phone:phone,
+               			password:password
+             		};    
+             		if (!checkNull()) {return}
+                    var modifyPasswordUrl = "modifyPassword.html?phone=" + phone + "&origin=" + originUrl;
+             		$.ajax({
+               			url:'/submitLogin.json',
+               			type:'POST',
+               			dataType:'json',
+               			data:sendData,
+               			success:function(res){
+               				if(res.successful){
+                                localStorage.setItem("isOriginalpassword",res.data.isOriginalpassword);
+                                //是否是初始密码
+             					if(res.data.isOriginalpassword){
+             						 window.location.href = modifyPasswordUrl;
+             					}else{
+                                      //跳转回原页面
+                                     if(originUrl != null && originUrl != ""){
+                                        window.location.href = originUrl
+                                     }//如果是修改密码页面时
+                                     else if(originUrl && originUrl.indexOf("modifyPassword") != '-1'){
+                                          window.location.href = modifyPasswordUrl;
+                                     }else{
+                                        //默认跳转至账户信息
+                                        console.log(0);
+                                        window.location.href = "accountInfo.html"
+                                     }
+                     			}
+                   			}else{
+               					$(".prompt-mod").show().find(".error p").html(res.error);
+                                timingHideError();
+                   			}
+               			}
+             		})
+           	 })
+          })
+    </script>
+</body>
+</html>

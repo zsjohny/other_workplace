@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.e_commerce.miscroservice.activity.mapper.ChannelUserFansMapper">
+
+
+    <update id="payOrderSuccess">
+        update yjj_channel_user_fans
+        set shop_member_order_count = shop_member_order_count + #{orderCount}
+        where shop_member_id = #{shopMemberId}
+        and del_status = 0
+        and shop_member_order_count + #{orderCount} &gt;= 0
+    </update>
+
+</mapper>
+
+
+
+
+
+
+
+
+
+
+

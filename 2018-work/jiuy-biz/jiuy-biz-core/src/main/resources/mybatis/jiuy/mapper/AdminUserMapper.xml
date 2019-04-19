@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jiuy.core.dao.impl.sql.AdminUserDaoSqlImpl">
+	<resultMap type="AdminUser" id="adminUserMap">
+		<id property="userId" column="UserId"/>
+        <result column="Status" property="userStatus" typeHandler="com.jiuyuan.ext.mybatis.IntEnumTypeHandler"/>
+	</resultMap>
+
+	<select id="getRegisterNum" resultType="int">
+		SELECT count(*) 
+		FROM yjj_User
+	</select>
+
+	<select id="registerCount" parameterType="map" resultType="int">
+		<![CDATA[
+		select count(*) from yjj_User
+		where CreateTime > #{startTime} and CreateTime < #{endTime} and Status = 0
+		]]>
+	</select>
+	
+	<select id="getPhoneRegisterNumByTime" parameterType="map" resultType="int">
+		<![CDATA[
+		SELECT count(*)
+		FROM yjj_User
+		WHERE Status = 0 AND UserType = 1 AND CreateTime > #{startTime} AND CreateTime < #{endTime}
+		]]>
+	</select>
+	
+	<select id="getWeixinUserNumByTime" parameterType="map" resultType="int">
+		<![CDATA[
+		SELECT count(*)
+		FROM yjj_User
+		WHERE Status = 0 AND UserType = 2 AND CreateTime > #{startTime} AND CreateTime < #{endTime}
+		]]>
+	</select>
+	
+	<select id="search" parameterType="map" resultType="AdminUser">
+		select * from yjj_AdminUser
+		<where>
+			Status = 0 
+			<if test="adminUser != null">
+				<if test="adminUser.userId != null">
+					and UserId = #{adminUser.userId}
+				</if>
+				<if test="adminUser.userName != null ">
+					and UserName like CONCAT('%' ,#{adminUser.userName}, '%') 
+				</if>
+				<if test="adminUser.roleId != null"> 
+					and RoleId = #{adminUser.roleId}
+				</if>
+				<if test="adminUser.userPhone != null">
+					and UserPhone like CONCAT('%' ,#{adminUser.userPhone}, '%')
+				</if>
+			</if>
+			<if test="userName != null">
+				and UserName = #{userName}
+			</if>
+			<if test="userPassword != null">
+				and UserPassword = #{userPassword}
+			</if>
+			<if test="userId != null">
+				and UserId = #{userId}
+			</if>
+		</where>
+		<if test="pageQuery != null">
+			limit #{pageQuery.limit} offset #{pageQuery.offset}
+		</if>
+	</select>
+	
+	<select id="searchCount" resultType="int">
+		select count(*) from yjj_AdminUser
+		<where>
+			Status = 0 
+			<if test="adminUser != null">
+				<if test="adminUser.userId != null">
+					and UserId = #{adminUser.userId}
+				</if>
+				<if test="adminUser.userName != null ">
+					and UserName like CONCAT('%',#{adminUser.userName},'%' ) 
+				</if>
+				<if test="adminUser.roleId != null"> 
+					and RoleId = #{adminUser.roleId}
+				</if>
+				<if test="adminUser.userPhone != null">
+					and UserPhone like CONCAT('%' ,#{adminUser.userPhone}, '%')
+				</if>
+			</if>
+		</where>
+	</select>
+		
+	<insert id="add" parameterType="AdminUser">
+		insert into yjj_AdminUser(UserName, UserPassword, RoleId, UserRealName, UserDepartment, UserJob, UserPhone, CreateTime, UpdateTime)
+		values(#{userName}, #{userPassword}, #{roleId}, #{userRealName}, #{userDepartment}, #{userJob}, #{userPhone}, #{createTime}, #{updateTime})
+	</insert>
+	
+	<update id="update">
+		update yjj_AdminUser
+		<set>
+			<if test="roleId != null">
+				RoleId = #{roleId},
+			</if>
+			<if test="userPhone != null">
+				UserPhone = #{userPhone},
+			</if>
+			<if test="status != null">
+				Status = #{status},
+			</if>
+			<if test="password != null">
+				UserPassword = #{password},
+			</if>
+		</set>
+		<where>
+			<if test="userId != null">
+				and UserId = #{userId}
+			</if>
+		</where>
+	</update>
+	
+	<select id="getCountOfRole" resultType="map">
+		select RoleId, count(*) as count 
+		from yjj_AdminUser
+		group by RoleId		
+	</select>
+	
+	<select id="searchStoreId" parameterType="long" resultType="long">
+	select BelongStoreId from yjj_UserMember
+		where UserId = (select UserId from yjj_ServiceTicket where Id = #{serviceId})	
+	</select>
+	
+	<select id="searchCountStoreId" parameterType="long" resultType="int">
+	select count(*) from yjj_UserMember
+		where UserId = (select UserId from yjj_ServiceTicket where Id = #{serviceId})	
+	</select>
+	
+	<update id="resetPassword">
+		update yjj_AdminUser
+		set UserPassword = #{newPassword}
+		where UserId = #{userId}
+	</update>
+	
+	<update id="updateHttpUrl">
+		update 
+		<if test = "tableName != null">
+			${tableName}
+			<set>
+				<if test="columnName != null">
+					<if test="newUrl != null">
+					${columnName} = #{newUrl}
+					</if>
+				</if>
+			</set>
+			<where>
+				<if test="primaryKey != null">
+					<if test ="id != null">
+						${primaryKey} = #{id}
+					</if>
+				</if>
+			</where>
+		</if>
+	</update>
+	
+		
+	<select id="getByYjjNumber" resultType="User">
+		select * from yjj_User
+		where YJJNumber = #{yjjNumber}
+	</select>
+	
+	<select id="getYjjNumberById" resultType="User">
+		select * from yjj_User
+		where UserId = #{userId}
+	</select>	
+</mapper>

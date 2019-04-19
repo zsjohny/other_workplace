@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" > 
+<mapper namespace="com.jiuy.rb.mapper.common.GlobalSettingRbMapper">
+ 
+ 	<!-- 主要的返回映射-->
+	<resultMap id="BaseResultMap" type="com.jiuy.rb.model.common.GlobalSettingRb"	>
+		<id column="Id" property="id" jdbcType="BIGINT" />
+		<result column="PropertyName"  property="propertyName"  jdbcType="VARCHAR" />
+		<result column="PropertyValue"  property="propertyValue"  jdbcType="VARCHAR" />
+		<result column="Status"  property="status"  jdbcType="TINYINT" />
+		<result column="CreateTime"  property="createTime"  jdbcType="BIGINT" />
+		<result column="UpdateTime"  property="updateTime"  jdbcType="BIGINT" />
+		<result column="GroupId"  property="groupId"  jdbcType="INTEGER" />
+		<result column="GroupName"  property="groupName"  jdbcType="VARCHAR" />
+		<result column="Description"  property="description"  jdbcType="VARCHAR" />
+	</resultMap>
+
+	<!-- 所有的列名-->
+	<sql id="Base_Column_List" >
+		Id,PropertyName,PropertyValue,Status,CreateTime,UpdateTime,GroupId,GroupName,Description
+	</sql>
+
+	<!-- 精确更新的字段-->
+	<sql id="updateBase">
+		<if test="id  !=null">
+			Id = #{id,jdbcType=BIGINT}, 
+		</if>
+		<if test="propertyName  !=null">
+			PropertyName = #{propertyName,jdbcType=VARCHAR}, 
+		</if>
+		<if test="propertyValue  !=null">
+			PropertyValue = #{propertyValue,jdbcType=VARCHAR}, 
+		</if>
+		<if test="status  !=null">
+			Status = #{status,jdbcType=TINYINT}, 
+		</if>
+		<if test="createTime  !=null">
+			CreateTime = #{createTime,jdbcType=BIGINT}, 
+		</if>
+		<if test="updateTime  !=null">
+			UpdateTime = #{updateTime,jdbcType=BIGINT}, 
+		</if>
+		<if test="groupId  !=null">
+			GroupId = #{groupId,jdbcType=INTEGER}, 
+		</if>
+		<if test="groupName  !=null">
+			GroupName = #{groupName,jdbcType=VARCHAR}, 
+		</if>
+		<if test="description  !=null">
+			Description = #{description,jdbcType=VARCHAR} 
+		</if>
+	</sql>
+
+	<!-- 通过主键查找-->
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="Long" >
+		select 
+		<include refid="Base_Column_List" />
+		from yjj_globalsetting
+		where  Id = #{id,jdbcType=BIGINT} 
+	</select>
+
+	<!-- 通过主键删除-->
+	<delete id="deleteByPrimaryKey" parameterType="Long" >
+		delete from yjj_globalsetting
+		where Id = #{id,jdbcType=BIGINT} 
+	</delete>
+
+	<!-- 普通插入全字段插入-->
+	<insert id="insert" parameterType="com.jiuy.rb.model.common.GlobalSettingRb" >
+		insert into yjj_globalsetting
+		(
+			Id,
+			PropertyName,
+			PropertyValue,
+			Status,
+			CreateTime,
+			UpdateTime,
+			GroupId,
+			GroupName,
+			Description,
+		)
+		values
+		(
+			#{id ,jdbcType=BIGINT},
+			#{propertyName ,jdbcType=VARCHAR},
+			#{propertyValue ,jdbcType=VARCHAR},
+			#{status ,jdbcType=TINYINT},
+			#{createTime ,jdbcType=BIGINT},
+			#{updateTime ,jdbcType=BIGINT},
+			#{groupId ,jdbcType=INTEGER},
+			#{groupName ,jdbcType=VARCHAR},
+			#{description ,jdbcType=VARCHAR}
+		)
+	</insert>
+
+	<!-- 批量插入，全部字段插入-->
+	<insert id="insertBach"   parameterType="List" >
+		insert into yjj_globalsetting
+		(
+			Id,
+			PropertyName,
+			PropertyValue,
+			Status,
+			CreateTime,
+			UpdateTime,
+			GroupId,
+			GroupName,
+			Description,
+		)
+		values 
+		<foreach collection="list" item="item" separator=",">
+		(
+			#{item.id ,jdbcType=BIGINT},
+			#{item.propertyName ,jdbcType=VARCHAR},
+			#{item.propertyValue ,jdbcType=VARCHAR},
+			#{item.status ,jdbcType=TINYINT},
+			#{item.createTime ,jdbcType=BIGINT},
+			#{item.updateTime ,jdbcType=BIGINT},
+			#{item.groupId ,jdbcType=INTEGER},
+			#{item.groupName ,jdbcType=VARCHAR},
+			#{item.description ,jdbcType=VARCHAR}
+		)
+		</foreach>
+	</insert>
+
+	<!-- 精确插入，非null得字段才会插入-->
+	<insert id="insertSelective" parameterType="com.jiuy.rb.model.common.GlobalSettingRb" useGeneratedKeys="true" keyProperty="id" >
+		insert into yjj_globalsetting
+		<trim prefix="(" suffix=")" suffixOverrides="," > 
+			<if test="id !=null">  
+				Id,
+			</if>
+			<if test="propertyName !=null">  
+				PropertyName,
+			</if>
+			<if test="propertyValue !=null">  
+				PropertyValue,
+			</if>
+			<if test="status !=null">  
+				Status,
+			</if>
+			<if test="createTime !=null">  
+				CreateTime,
+			</if>
+			<if test="updateTime !=null">  
+				UpdateTime,
+			</if>
+			<if test="groupId !=null">  
+				GroupId,
+			</if>
+			<if test="groupName !=null">  
+				GroupName,
+			</if>
+			<if test="description !=null">  
+				Description,
+			</if>
+		</trim>
+
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+			<if test="id  !=null">
+				#{id,jdbcType=BIGINT}, 
+			</if>
+			<if test="propertyName  !=null">
+				#{propertyName,jdbcType=VARCHAR}, 
+			</if>
+			<if test="propertyValue  !=null">
+				#{propertyValue,jdbcType=VARCHAR}, 
+			</if>
+			<if test="status  !=null">
+				#{status,jdbcType=TINYINT}, 
+			</if>
+			<if test="createTime  !=null">
+				#{createTime,jdbcType=BIGINT}, 
+			</if>
+			<if test="updateTime  !=null">
+				#{updateTime,jdbcType=BIGINT}, 
+			</if>
+			<if test="groupId  !=null">
+				#{groupId,jdbcType=INTEGER}, 
+			</if>
+			<if test="groupName  !=null">
+				#{groupName,jdbcType=VARCHAR}, 
+			</if>
+			<if test="description  !=null">
+				#{description,jdbcType=VARCHAR} 
+			</if>
+		</trim>
+	</insert> 
+
+	<!-- 精确更新-->
+	<update id="updateByPrimaryKeySelective" parameterType="com.jiuy.rb.model.common.GlobalSettingRb" >
+		update yjj_globalsetting
+		<set>
+			<include refid="updateBase"/>
+		</set>
+		where Id = #{id,jdbcType=BIGINT} 
+	</update> 
+
+	<!-- 全字段更新 需要注意-->
+	<update id="updateByPrimaryKey" parameterType="com.jiuy.rb.model.common.GlobalSettingRb" >
+		update yjj_globalsetting
+		set 
+			Id = #{id ,jdbcType=BIGINT},
+			PropertyName = #{propertyName ,jdbcType=VARCHAR},
+			PropertyValue = #{propertyValue ,jdbcType=VARCHAR},
+			Status = #{status ,jdbcType=TINYINT},
+			CreateTime = #{createTime ,jdbcType=BIGINT},
+			UpdateTime = #{updateTime ,jdbcType=BIGINT},
+			GroupId = #{groupId ,jdbcType=INTEGER},
+			GroupName = #{groupName ,jdbcType=VARCHAR},
+			Description = #{description ,jdbcType=VARCHAR}
+		where Id = #{id,jdbcType=BIGINT} 
+	</update> 
+
+	<!-- 所有的条件集合-->
+	<sql id="whereCase"  >
+		where  1=1 
+		<if test="id  !=null">
+			AND Id = #{id,jdbcType=BIGINT} 
+		</if>
+		<if test="propertyName  !=null">
+			AND PropertyName = #{propertyName,jdbcType=VARCHAR} 
+		</if>
+		<if test="propertyValue  !=null">
+			AND PropertyValue = #{propertyValue,jdbcType=VARCHAR} 
+		</if>
+		<if test="status  !=null">
+			AND Status = #{status,jdbcType=TINYINT} 
+		</if>
+		<if test="createTime  !=null">
+			AND CreateTime = #{createTime,jdbcType=BIGINT} 
+		</if>
+		<if test="updateTime  !=null">
+			AND UpdateTime = #{updateTime,jdbcType=BIGINT} 
+		</if>
+		<if test="groupId  !=null">
+			AND GroupId = #{groupId,jdbcType=INTEGER} 
+		</if>
+		<if test="groupName  !=null">
+			AND GroupName = #{groupName,jdbcType=VARCHAR} 
+		</if>
+		<if test="description  !=null">
+			AND Description = #{description,jdbcType=VARCHAR} 
+		</if>
+		<include refid="costomWhereCase"/>
+	</sql>
+
+	<!-- 查询一条，如果返回多条会报错-->
+	<select id="selectOne" parameterType="java.util.Map" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" /> 
+		FROM yjj_globalsetting 
+		<include refid="whereCase" /> 
+	</select>
+
+	<!-- 查询一个list-->
+	<select id="selectList" parameterType="java.util.Map" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" /> 
+		FROM yjj_globalsetting 
+		<include refid="whereCase" /> 
+	</select>
+
+	<!--  @Costom -->
+	<!-- 从上一行注释以上为系统生成 从这一行往下为用户自定义 请将自定义的sql放在此行下面 -->
+	<sql id="costomWhereCase">
+	</sql>
+
+</mapper>

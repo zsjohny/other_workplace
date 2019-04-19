@@ -1,0 +1,33 @@
+<import src="../../../wxParse/wxParse.wxml"/> 
+<view class="container body-contain">
+  <view class="scroll-box">
+    <view class='questionWrap'>
+      <image src='https://yjj-img-main.oss-cn-hangzhou.aliyuncs.com/qa/icon-question.png' class='img'></image>
+      <text>{{qaInfo.question}}</text>
+    </view>
+    <view class='answerWrap'>
+      <image src='https://yjj-img-main.oss-cn-hangzhou.aliyuncs.com/qa/icon-answer.png' class='img'></image>
+      <view class='content'>
+          <template is="wxParse" data="{{wxParseData:answer.nodes}}"/>
+      </view>
+    </view>
+
+  </view>
+  <view class='evaluation'>
+    <text class='info'>以上回答对你有帮助吗</text>
+  </view>
+  <view class='btnWrap' wx:if="{{isUserful}}">
+    <view class='btn' bindtap='useful' data-select='0'>
+      <image src='https://yjj-img-main.oss-cn-hangzhou.aliyuncs.com/qa/useful.png' class='img'></image>
+      <text>有帮助</text>
+    </view>
+    <view class='btn' bindtap='useful' data-select='1'>
+      <image src='https://yjj-img-main.oss-cn-hangzhou.aliyuncs.com/qa/unuseful.png' class='img'></image>
+      <text>没帮助</text>
+    </view>
+  </view>
+  <view class='userfulWrap' wx:if="{{!isUserful}}">
+    <text wx:if="{{use == 0}}">感谢支持!</text>
+    <text wx:if="{{use == 1}}">感谢反馈，我们会尽快改进！</text>
+  </view>
+</view>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.store.dao.mapper.ExpressInfoMapper">
+
+	<select id="getUserExpressInfoByOrderNo" parameterType="map" resultType="ExpressInfo">
+		<![CDATA[
+			select * from store_ExpressInfo
+			where OrderNo = #{orderNo} 
+		]]>
+	</select>
+	
+	<select id="getExpressChineseNameByExpressSupplier" parameterType="map" resultType="String">
+		<![CDATA[
+			SELECT 	CnName
+			FROM yjj_ExpressSupplier 
+			WHERE EngName =#{expressSupplier} 
+		]]>
+	</select>
+</mapper>

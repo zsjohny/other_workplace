@@ -1,0 +1,57 @@
+/*清除  */
+
+.search-late{
+    width: 675rpx;
+    height: 60rpx;
+    position: relative;
+    padding-left: 70rpx;
+    font-size:33rpx;
+    padding-top: 12rpx
+}
+.search-late::after{
+   width: 44rpx;
+  height: 44rpx;
+  content: '';
+  background: url(https://yjj-img-www.oss-cn-hangzhou.aliyuncs.com/15227467441811522746744181.png) no-repeat;
+  background-size: 44rpx;
+  position: absolute;
+  left: 16rpx;
+  top: 12rpx;
+}
+.search-clear{
+  font-size:30rpx;
+  position:absolute;
+  left:50%;
+  top:50%;
+  margin-left:-125rpx;
+  margin-top:-21rpx;
+  width:200rpx;
+  padding-left: 50rpx;
+}
+.search-clear::after{
+  width: 44rpx;
+  height: 44rpx;
+  content: '';
+  background: url("https://yjj-img-www.oss-cn-hangzhou.aliyuncs.com/15228110492781522811049278.png") no-repeat;
+  background-size: 44rpx;
+  position: absolute;
+  left: 0rpx;
+  top: 0rpx;
+}
+.search-new{
+  padding-left: 35px;
+  padding-right: 35px;
+  text-align: left;
+}
+.keywordItem{
+  display: inline-block;
+  padding: 4rpx 10rpx;
+  background-color: #ddd;
+  border-radius: 6rpx;
+  margin-right: 26rpx;
+  margin-bottom: 20rpx;
+  font-size: 28rpx;
+}
+.keywordItem:last-child{
+  margin-right: 0;
+}

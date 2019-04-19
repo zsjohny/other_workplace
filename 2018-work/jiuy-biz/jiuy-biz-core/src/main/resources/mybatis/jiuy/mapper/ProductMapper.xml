@@ -1,0 +1,956 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jiuy.core.dao.impl.sql.ProductMapperSqlImpl">
+
+	<resultMap type="Product" id="Product">
+		<id property="id" column="Id" />
+		<result property="detailImages" column="DetailImages" />
+		<result property="clothesNumber" column="ClothesNumber" />
+		<result property="summaryImages" column="SummaryImages" />
+		<result property="name" column="Name" />
+	</resultMap>
+
+	<select id="getProductById" resultType="Product">
+		<![CDATA[
+			select * from yjj_Product
+			where Id = #{productId}
+		]]>
+	
+	</select>
+	<select id="getPromotionProductById" resultType="Product">
+		<![CDATA[
+			select * from yjj_Product
+			where Id = #{productId}
+		]]>
+		<if test="promoSetting!=''">
+		<![CDATA[
+			and	promotionSetting = #{promoSetting}
+		]]>
+		</if>
+		
+	</select>
+
+	<select id="getProductShareByProId" resultType="ProductShare">
+		<![CDATA[
+			select * from yjj_ProductShare
+			where ProductId = #{productId}
+		]]>
+	</select>
+
+	<select id="getProductByCategoryId" parameterType="map"
+		resultType="Product">
+		<![CDATA[
+			select * from yjj_Product
+			where CategoryId = #{categoryId}
+			limit #{pageQuery.limit} offset #{pageQuery.offset}
+		]]>
+	</select>
+
+	<select id="getProductByCategoryIds" parameterType="map"
+		resultType="Product">
+		<![CDATA[
+			select * from yjj_Product
+			where CategoryId in
+		]]>
+		<foreach collection="categoryIds" item="categoryId" open="("
+			separator="," close=")">
+			<![CDATA[
+				#{categoryId}
+			]]>
+		</foreach>
+		<![CDATA[
+			limit #{pageQuery.limit} offset #{pageQuery.offset}
+		]]>
+	</select>
+	
+	
+	
+
+	<!-- add by LiuWeisheng on 2015/07/19 -->
+	<insert id="add" keyColumn="id" useGeneratedKeys="true" keyProperty="id" parameterType="Product">
+		INSERT INTO
+		yjj_Product(Name, CategoryId, DetailImages, Status, SaleStartTime,
+			SaleEndTime, SaleCurrencyType, SaleTotalCount, SaleMonthlyMaxCount, 
+			Price, Favorite, AssessmentCount,ExpressFree, ExpressDetails,
+			CreateTime, UpdateTime, ProductSeq, SummaryImages, remark, MarketPrice,
+			SizeTableImage, ClothesNumber, PromotionImage, Weight, BrandId, ShowStatus,
+			BottomPrice, MarketPriceMin, MarketPriceMax, 
+			Cash, JiuCoin, RestrictHistoryBuy, RestrictDayBuy, PromotionSetting, PromotionCash, 
+			PromotionJiuCoin, PromotionStartTime, PromotionEndTime, RestrictCycle,
+			RestrictHistoryBuyTime, RestrictDayBuyTime, LOWarehouseId
+			)
+		VALUES(#{name}, #{categoryId}, #{detailImages}, #{status}, #{saleStartTime},
+			#{saleEndTime}, #{saleCurrencyType}, #{saleTotalCount}, #{saleMonthlyMaxCount},
+			#{price}, #{favorite}, #{assessmentCount}, #{expressFree}, #{expressDetails},
+			#{createTime}, #{updateTime}, #{productSeq}, #{summaryImages}, #{remark}, #{marketPrice},
+			#{sizeTableImage}, #{clothesNumber}, #{promotionImage}, #{weight}, #{brandId}, #{showStatus},
+			#{bottomPrice}, #{marketPriceMin}, #{marketPriceMax}, 
+			#{cash}, #{jiuCoin}, #{restrictHistoryBuy}, #{restrictDayBuy}, #{promotionSetting}, #{promotionCash}, 
+			#{promotionJiuCoin}, #{promotionStartTime}, #{promotionEndTime}, #{restrictCycle},
+			#{restrictHistoryBuyTime}, #{restrictDayBuyTime}, #{lOWarehouseId}
+			)
+		<selectKey keyProperty="id" resultType="long">
+			select LAST_INSERT_ID() as id
+		</selectKey>
+	</insert>
+	
+	<insert id="insertProduct"  keyColumn="id" useGeneratedKeys="true" keyProperty="id" parameterType="Product">
+		INSERT INTO
+		yjj_Product(Name, DetailImages, Status, SaleStartTime,
+			SaleEndTime, SaleTotalCount, SaleMonthlyMaxCount, 
+			Price, 
+			CreateTime, UpdateTime, SummaryImages, remark, MarketPrice,
+			SizeTableImage, ClothesNumber, PromotionImage, Weight, BrandId, ShowStatus,
+			BottomPrice, MarketPriceMin, MarketPriceMax, 
+			Cash, JiuCoin, RestrictHistoryBuy, RestrictDayBuy, PromotionSetting, PromotionCash, 
+			PromotionJiuCoin, PromotionStartTime, PromotionEndTime, RestrictCycle,
+			RestrictHistoryBuyTime, RestrictDayBuyTime, LOWarehouseId, Type, WholeSaleCash
+			)
+		VALUES(#{name}, #{detailImages}, #{status}, #{saleStartTime},
+			#{saleEndTime}, #{saleTotalCount}, #{saleMonthlyMaxCount},
+			#{price}, 
+			#{createTime}, #{updateTime}, #{summaryImages}, #{remark}, #{marketPrice},
+			#{sizeTableImage}, #{clothesNumber}, #{promotionImage}, #{weight}, #{brandId}, #{showStatus},
+			#{bottomPrice}, #{marketPriceMin}, #{marketPriceMax}, 
+			#{cash}, #{jiuCoin}, #{restrictHistoryBuy}, #{restrictDayBuy}, #{promotionSetting}, #{promotionCash}, 
+			#{promotionJiuCoin}, #{promotionStartTime}, #{promotionEndTime}, #{restrictCycle},
+			#{restrictHistoryBuyTime}, #{restrictDayBuyTime}, #{lOWarehouseId}, #{type}, #{wholeSaleCash}
+			)
+		<selectKey keyProperty="id" resultType="long">
+			select LAST_INSERT_ID() as id
+		</selectKey>
+	</insert>
+	
+	<insert id="insertProductShare"  useGeneratedKeys="true" keyProperty="id" parameterType="ProductShare">
+		INSERT INTO
+		yjj_ProductShare(ProductId,
+			CreateTime, UpdateTime, ShareTitle, ShareDesc, ShareImg
+			)
+		VALUES(#{productId},
+			#{createTime}, #{updateTime}, 
+			#{shareTitle}, #{shareDesc}, #{shareImg}
+			)
+			on duplicate key update ShareTitle = VALUES(shareTitle), ShareDesc = VALUES(shareDesc), ShareImg = VALUES(shareImg), UpdateTime = #{updateTime}
+	
+	</insert>
+	
+	<update id="updateProduct" parameterType="Product">
+		<![CDATA[
+			update 
+				yjj_Product 
+			set 
+				Name = #{name}, SummaryImages = #{summaryImages}, DetailImages = #{detailImages}, BrandId = #{brandId},
+				Price = #{price}, remark = #{remark}, MarketPrice = #{marketPrice}, 
+				SizeTableImage = #{sizeTableImage}, ClothesNumber= #{clothesNumber}, PromotionImage = #{promotionImage}, Weight = #{weight}, BrandId = #{brandId}, 
+				ShowStatus = #{showStatus}, BottomPrice = #{bottomPrice}, MarketPriceMin = #{marketPriceMin}, MarketPriceMax = #{marketPriceMax},
+				Cash = #{cash}, JiuCoin = #{jiuCoin}, RestrictHistoryBuy = #{restrictHistoryBuy}, RestrictDayBuy = #{restrictDayBuy}, PromotionSetting = #{promotionSetting}, 
+				PromotionCash = #{promotionCash}, PromotionJiuCoin = #{promotionJiuCoin}, PromotionStartTime = #{promotionStartTime}, PromotionEndTime = #{promotionEndTime}, 
+				RestrictCycle = #{restrictCycle}, RestrictHistoryBuyTime = #{restrictHistoryBuyTime}, RestrictDayBuyTime = #{restrictDayBuyTime}, LOWarehouseId = #{lOWarehouseId},
+				Description = #{description}, RestrictId = #{restrictId}, VCategoryId = #{vCategoryId}, Together = #{together}, LOWarehouseId2 = #{lOWarehouseId2}, SetLOWarehouseId2 = #{setLOWarehouseId2}, 
+				BuyType = #{buyType}, DisplayType = #{displayType}, PromotionBuyType = #{promotionBuyType}, PromotionDisplayType = #{promotionDisplayType},
+				Type = #{type}, WholeSaleCash = #{wholeSaleCash},DeductPercent = #{deductPercent},videoUrl = #{videoUrl},videoName = #{videoName},
+				videoFileId = #{videoFileId}
+			where 
+				Id = #{id}
+		]]>
+	</update>
+	
+	<update id="updateProductWholeSaleCash" parameterType="Product">
+		<![CDATA[
+			update 
+				yjj_Product 
+			set 
+				WholeSaleCash = #{wholeSaleCash}
+			where 
+				Id = #{id}
+		]]>
+	</update>
+	
+	<select id="getProductList" resultType="Product">
+		<![CDATA[
+			select * from yjj_Product
+			where Status = 0 OR Status = 1
+			ORDER BY Id DESC
+			limit #{pageQuery.limit} offset #{pageQuery.offset}
+		]]>
+	</select>
+
+	<select id="getProductCount" resultType="int">
+		<![CDATA[
+			select count(*) from yjj_Product
+			where Status = 0
+		]]>
+	</select>
+
+	<update id="deactivateProductByIds">
+		<![CDATA[
+			update yjj_Product set Status = -1
+			where Id in
+		]]>
+		<foreach collection="ids" item="id" open="(" separator=","
+			close=")">
+			<![CDATA[
+				#{id}
+			]]>
+		</foreach>
+	</update>
+
+	<select id="chkProductClothesNum" parameterType="java.lang.String"
+		resultType="int">
+		SELECT Id
+		FROM yjj_Product
+		WHERE ClothesNumber = #{_parameter}
+	</select>
+
+	<select id="getCategoriesInfo" parameterType="long" resultType="map">
+		SELECT a.CategoryId, b.CategoryName
+		FROM yjj_ProductCategory a, yjj_Category b
+		WHERE
+		a.CategoryId = b.Id and a.ProductId = #{productId}
+	</select>
+
+	<select id="getPropertyInfo" parameterType="long" resultType="map">
+		SELECT
+		a.Id, a.PropertyValue, a.PropertyNameId
+		FROM yjj_PropertyValue a,
+		yjj_ProductProperty b
+		WHERE a.Id = b.PropertyValueId AND b.ProductId =
+		#{productId}
+	</select>
+
+	<select id="getRemark" parameterType="long" resultType="String">
+		SELECT Remark
+		FROM yjj_Product
+		WHERE Id = #{productId}
+	</select>
+	
+	<select id="getDescription" parameterType="long" resultType="String">
+		SELECT Description
+		FROM yjj_Product
+		WHERE Id = #{productId}
+	</select>
+
+	<select id="loadproductIdList" parameterType="map" resultType="Integer">
+		select Id from yjj_Product
+		where Status = 0
+		limit #{pageQuery.limit}
+		offset #{pageQuery.offset}
+	</select>
+
+	<select id="loadProductCategoryNames" parameterType="List"
+		resultType="map">
+		select a.ProductId, b.CategoryName
+		from yjj_ProductCategory a, yjj_Category b
+		where a.CategoryId = b.Id and ProductId in
+		<foreach collection="list" item="id" open="(" separator=","
+			close=")">
+			#{id}
+		</foreach>
+	</select>
+
+	<update id="updateProductBrandId" parameterType="int">
+		UPDATE yjj_Product set BrandId = #{brandId}
+		WHERE Id in 
+		(SELECT ProductId FROM yjj_ProductProperty
+		WHERE PropertyValueId = #{brandId} )
+	</update>
+	
+	<select id="searchProWinByClothesNum" parameterType="String" resultType="ProductWindow">
+		SELECT 
+			p.id as Id, p.ClothesNumber as ClothesNum, p.Name, p.PromotionImage, p.Price, p.DetailImages AS SummaryImages, 
+			b.BrandId, b.BrandIdentity, p.MarketPrice, p.MarketPriceMin, p.MarketPriceMax, p.WholeSaleCash as cash, p.jiuCoin, p.PromotionCash, p.PromotionStartTime, p.PromotionEndTime
+		FROM 
+			yjj_Product p join yjj_Brand b
+		ON 
+			p.BrandId = b.BrandId
+		WHERE
+			ClothesNumber = #{clothesNum}
+		limit 1
+	</select>
+	
+	<select id="getIdsByRootPath" parameterType="map" resultType="Product">
+		SELECT 
+		   	Id, DetailImages, SummaryImages, PromotionImage, SizeTableImage
+		FROM
+		    yjj_Product
+		WHERE
+		    DetailImages LIKE CONCAT("%", #{oldImgRootPath} ,"%") 
+		    	OR PromotionImage LIKE CONCAT("%", #{oldImgRootPath} ,"%")
+		    	OR SummaryImages LIKE CONCAT("%", #{oldImgRootPath} ,"%")
+		    	OR SizeTableImage LIKE CONCAT("%", #{oldImgRootPath} ,"%") 
+	</select>
+	
+	<select id="searchOverview" parameterType="map" resultType="map">
+		select a.Id, a.SummaryImages, a.Name, b.BrandName, a.ClothesNumber,
+		    a.Cash, a.BrandId, a.Weight, d.remainCount
+		from yjj_Product a left join yjj_Brand b 
+		on a.BrandId = b.BrandId join
+		    (select sum(RemainCount) as remainCount, ProductId
+		    from yjj_ProductSKU 
+		    <where>
+		        Status = 0 
+		        <if test="skuStatus == 1">
+		        and ProductId NOT IN (
+		        	select ProductId
+		            from yjj_ProductSKU
+		            where RemainCount = 0)
+		        </if>
+		        <if test="skuStatus == 2">
+		        and ProductId IN (
+		        	select ProductId
+	            	from yjj_ProductSKU
+		            where RemainCount = 0)
+		        </if>
+		    </where>
+		    group by ProductId) AS d ON d.ProductId = a.Id
+		<where>
+		    a.ClothesNumber like CONCAT ("%", #{clothesNo}, "%")
+	        <if test="brandId != 0">
+				and a.BrandId = #{brandId}
+			</if>
+			<![CDATA[
+				${saleStatusSql}
+			]]>
+		</where>
+		<![CDATA[
+			${orderSql}
+		]]>
+		LIMIT 
+			#{pageQuery.limit} 
+		OFFSET 
+			#{pageQuery.offset}
+
+	</select>
+	
+	<select id="searchOverviewCount" parameterType="map" resultType="int">
+		select count(*) 
+		from yjj_Product a left join yjj_Brand b 
+		on a.BrandId = b.BrandId join 
+			(select sum(RemainCount) as remainCount, ProductId
+		    from yjj_ProductSKU
+		    <where>
+		        Status = 0 
+		        <if test="skuStatus == 1">
+		        and ProductId not in (
+		        	select ProductId
+		            from yjj_ProductSKU
+		            where RemainCount = 0)
+		        </if>
+		        <if test="skuStatus == 2">
+		        and ProductId in (
+		        	select ProductId
+		            from yjj_ProductSKU
+		            where RemainCount = 0)
+		        </if>
+		    </where>
+		    group by ProductId) as d 
+		on d.ProductId = a.Id
+		<where>
+		    a.ClothesNumber like CONCAT ("%", #{clothesNo}, "%") and a.Status = 0
+	        <if test="brandId != 0">
+			and a.BrandId = #{brandId}
+			</if>
+			<![CDATA[
+				${saleStatusSql}
+			]]>
+		</where>
+	</select>
+	
+	<select id="getMaxWeight" resultType="int">
+		SELECT
+			MAX(Weight)
+		FROM 
+			yjj_Product
+		WHERE
+			<![CDATA[
+			SaleStartTime < UNIX_TIMESTAMP() * 1000
+            AND (SaleEndTime = 0
+            OR SaleEndTime > UNIX_TIMESTAMP() * 1000)
+            AND Status = 0
+            ]]>
+	</select>
+	
+	<select id="isOnSale" parameterType="map" resultType="int">
+		SELECT
+			count(*)
+		FROM 
+			yjj_Product
+		WHERE
+			<![CDATA[
+			SaleStartTime < UNIX_TIMESTAMP() * 1000
+           		AND (SaleEndTime = 0 OR SaleEndTime > UNIX_TIMESTAMP() * 1000)
+            	AND Status = 0
+            	AND Id = #{id}
+            ]]>
+	</select>
+	
+	<update id="updateProWeight" parameterType="map">
+		UPDATE 
+			yjj_Product
+		SET 	
+			Weight = #{weight}
+		WHERE
+			Id = #{productId}
+	</update>
+	
+	<select id="getByClothesNums" parameterType="map" resultType="Product">
+		select * from yjj_Product
+		<where>
+			ClothesNumber in 
+			<foreach collection="clothesNums" item="clothesNum" open="(" separator="," close=")">
+				<![CDATA[
+					#{clothesNum}
+				]]>
+			</foreach>
+		</where>
+	</select>	
+	
+	<select id="productOfIds" parameterType="map" resultType="Product">
+		SELECT
+			*
+		FROM 
+			yjj_Product
+		WHERE
+			Id IN 
+			<foreach collection="ids" item="id" open="(" separator="," close=")">
+				<![CDATA[
+					#{id}
+				]]>
+			</foreach>
+	</select>
+	
+	<select id="getAllProducts" resultType="Product">
+		select * from yjj_Product
+	</select>
+	
+	<select id="getBySkuId" parameterType="map" resultType="Product">
+		select * from yjj_Product 
+		where Id in (select ProductId from yjj_ProductSKU where Id = #{skuId})
+	</select>
+	
+	<select id="productsOfRestrctIds" parameterType="map" resultType="Product">	
+		select * from yjj_Product 
+		where RestrictId in 
+		<foreach collection="restrictionIds" item="restrictionId" open="(" separator="," close=")">
+			#{restrictionId}
+		</foreach> 
+		order by RestrictId asc
+	</select>
+		
+	<update id="batchDeleteVCategory" parameterType="map">
+		update yjj_Product
+		<set>		
+			<if test="vCategoryId != null">
+				VCategoryId = 0,
+			</if>
+		</set>
+		where VCategoryId = #{vCategoryId}
+	</update>
+	
+	<update id="batchUpdate" parameterType="map">
+		update yjj_Product
+		<set>
+			<if test="restrictId != null">
+				RestrictId = #{restrictId},
+			</if>		
+			<if test="vCategoryId != null">
+				VCategoryId = #{vCategoryId},
+			</if>
+			<if test="subscriptId != null">
+				SubscriptId = #{subscriptId},
+			</if>
+		</set>
+		where Id in
+		<foreach collection="productIds" item="productId" open="(" separator="," close=")">
+			#{productId}
+		</foreach>
+	</update>
+
+	<update id="batchRemoveRestrictId" parameterType="map">
+		update yjj_Product
+		set RestrictId = 0
+		where RestrictId = #{restrictId}
+	</update>
+	
+	<select id="getByWarehouse" resultType="Product">
+		select * from yjj_Product
+	</select>
+	
+	<select id="checkInfoCompleted" resultType="Product">
+		select * from 
+			(select * from yjj_Product
+			where Id = #{id} ) as a join yjj_ProductCategory as b on a.Id = b.ProductId 
+		limit 1
+	</select>
+	
+	<update id="updateWarehouseId">
+		update yjj_Product
+		set LOWarehouseId = #{warehouseId}
+		where ClothesNumber in
+			<foreach collection="clothesNos" item="clothesNo" open="(" separator="," close=")">
+				#{clothesNo}
+			</foreach>
+	</update>
+	
+	<select id="search" resultType="Product">
+		select * from yjj_Product
+		<where>
+			<if test="clothesNo != null">
+				and ClothesNumber = #{clothesNo}
+			</if>
+			<if test="brandId != null">
+				and BrandId = #{brandId}
+			</if>
+		</where>
+	</select>
+	
+	<update id="update">
+		update yjj_Product
+		<set>
+			<if test="clothesNo != null">
+				clothesNumber = #{clothesNo},
+			</if>
+			<if test="status != null">
+				status = #{status},
+			</if>
+			<if test="weight != null">
+				Weight = #{weight},
+			</if>
+			<if test="updateTime !=null">
+				UpdateTime = #{updateTime},
+			</if>
+			<if test="saleStartTime != null">
+				SaleStartTime = #{saleStartTime},
+			</if>
+			<if test="saleEndTime != null">
+				SaleEndTime = #{saleEndTime},
+			</if>
+			<if test="promotionSaleCount != null">
+				PromotionSaleCount = #{promotionSaleCount},
+			</if>
+			<if test="promotionVisitCount != null">
+				PromotionVisitCount = #{promotionVisitCount},
+			</if>
+			<if test="brandId != null">
+				BrandId = #{brandId},
+			</if>
+		</set>
+		<where>
+			id = #{id}
+		</where>
+	</update>
+	
+	<select id="executeRcmdSttstcs">
+		<![CDATA[  {call yjj_PrdctRcmdSttstcs ()}  ]]>  
+	</select>
+	
+	<select id="productsOfSubscriptIds" parameterType="map" resultType="Product">	
+		select * from yjj_Product 
+		where SubscriptId in 
+		<foreach collection="subscriptIds" item="subscriptId" open="(" separator="," close=")">
+			#{subscriptId}
+		</foreach> 
+		order by SubscriptId asc
+	</select>
+	
+	<update id="batchUpdateSubscriptId" parameterType="map">
+		update yjj_Product
+		<set>
+			<if test="subscriptId != null">
+				SubscriptId = #{subscriptId},
+			</if>		
+		</set>
+		where Id in
+		<foreach collection="productIds" item="productId" open="(" separator="," close=")">
+			#{productId}
+		</foreach>
+	</update>
+	
+	<update id="batchRemoveSubscriptId" parameterType="map">
+		update yjj_Product
+		set SubscriptId = 0
+		where SubscriptId = #{subscriptId}
+	</update>
+	
+	<select id="getBySeasonOnSale" resultType="Product">
+		select * from yjj_Product where Id in (
+			select ProductId from yjj_ProductSKU 
+			where ProductId in ( 
+					select ProductId from yjj_ProductProperty 
+					where PropertyValueId in (432)) 
+				and Status = 0 
+				and (SaleEndTime = 0 or <![CDATA[SaleEndTime > unix_timestamp() * 1000]]>))
+	</select>
+	
+	<select id="searchPrice" resultType="Product">
+		select * from yjj_Product
+		<where>
+			<if test="minCash != null">
+				and Cash <![CDATA[ >= #{minCash}]]>
+			</if>
+			<if test="maxCash != null">
+				and Cash <![CDATA[ <= #{maxCash}]]>
+			</if>
+		</where>
+	</select>
+	
+	<update id="updateProductPromotionInfo" parameterType="map">
+		update yjj_Product
+		<set>
+			<if test="promotionCash!=null">
+				PromotionCash = #{promotionCash},
+			</if>
+			<if test="promotionJiuCoin!=null">
+				PromotionJiuCoin = #{promotionJiuCoin},
+			</if>
+			<if test="promotionStartTime!=null">
+				PromotionStartTime = #{promotionStartTime},
+			</if>
+			<if test="promotionEndTime!=null">
+				PromotionEndTime = #{promotionEndTime},
+			</if>
+			<if test="promotionSetting!=null">
+				PromotionSetting = #{promotionSetting}
+			</if>
+		</set>
+		where Id in
+		<foreach collection="productIds" item="productId" open="(" separator="," close=")">
+			#{productId}
+		</foreach>
+	</update>
+	
+	<update id="updateProductPromotionInfoByDiscount" parameterType="map">
+		update yjj_Product
+		<set>
+			<if test="discount!=null">
+				PromotionCash = Cash * #{discount},
+			</if>
+			<if test="promotionStartTime!=null">
+				PromotionStartTime = #{promotionStartTime},
+			</if>
+			<if test="promotionEndTime!=null">
+				PromotionEndTime = #{promotionEndTime},
+			</if>
+			<if test="promotionSetting!=null">
+				PromotionSetting = #{promotionSetting},
+			</if>
+				PromotionJiuCoin = JiuCoin
+		</set>
+		where Id in
+		<foreach collection="productIds" item="productId" open="(" separator="," close=")">
+			#{productId}
+		</foreach>
+	</update>
+	
+	<select id="getQianmiProduct" resultType="Product">
+		<![CDATA[
+			select * from yjj_Product where Id in(2108);
+		]]> 
+	</select>
+	
+	<select id="getByWarehouseId" resultType="Product">
+		select * from yjj_Product
+		where LOWarehouseId = #{warehouseId}
+	</select>
+	
+	<select id="getByWarehouseIds" resultType="Product">
+		select * from yjj_Product
+		where LOWarehouseId in
+			<foreach collection="warehouseIds" item="warehouseId" open="(" separator="," close=")">
+				#{warehouseId}
+			</foreach>
+	</select>
+	
+	<select id="getByNotInWarehouseIds" resultType="Product">
+		select * from yjj_Product
+		where LOWarehouseId not in
+			<foreach collection="warehouseIds" item="warehouseId" open="(" separator="," close=")">
+				#{warehouseId}
+			</foreach>		
+	</select>	
+		
+	<select id="productMap" resultType="map">
+		select b.*, a.Name, a.ClothesNumber, a.Cash from (select ProductId, sum(RemainCount) as RemainCount, avg(CostPrice) as CostPrice
+		from yjj_ProductSKU
+		where
+			ProductId in
+				(select ProductId from yjj_ProductProperty 
+					where PropertyValueId in 						
+							<foreach collection="seasonIds" item="seasonId" open="(" separator="," close=")">
+								#{seasonId}
+							</foreach>)
+							 and Status > -2
+           group by ProductId) as b left join yjj_Product a on b.ProductId=a.Id	
+	</select>
+	
+	<select id="searchJiuCoinDeductProduct" resultType="DeductProductVO">
+		Select * ,ifnull((SELECT sum(DeductCoinNum) FROM yjj_OrderItem where ProductId = p.Id and DeductCoinNum > 0),0) as TotalDeductCoinNum
+		from yjj_Product p left join yjj_Brand b on p.BrandId = b.BrandId
+		join (select sum(RemainCount) as remainCount, ProductId
+		    from yjj_ProductSKU 
+		    <where>
+				Status = 0
+				<if test="skuStatus == 1">
+                AND
+                <![CDATA[
+		        ProductId IN (
+		        	select ProductId
+		            from yjj_ProductSKU
+		            where RemainCount > 0)
+		            ]]>
+		        </if>
+		        <if test="skuStatus == 2">
+		        AND
+		        <![CDATA[
+		        ProductId IN (
+		        	select ProductId
+		            from yjj_ProductSKU
+		            where RemainCount <= 0)
+		            ]]>
+		        </if>
+		        <if test="skuStatus == 3">
+		        AND
+		        <![CDATA[
+		        ProductId IN (
+		        	select ProductId
+		            from yjj_ProductSKU
+		            where RemainCount <= 10 and RemainCount > 0)
+		        	]]>
+		        </if>
+		    </where>
+		    group by ProductId) as d on p.Id = d.ProductId
+		<where>
+			p.Status >= -1 AND p.DeductPercent > 0
+			<if test="id != -1">
+				and p.Id = #{id}
+			</if>
+			<if test="name != ''">
+				AND p.Name like CONCAT ("%",#{name},"%")
+			</if>
+			<if test="clothesNumber != ''">
+				AND p.ClothesNumber like CONCAT ("%",#{clothesNumber},"%")
+			</if>
+			<if test="brandName != ''">
+				AND b.BrandName like CONCAT ("%",#{brandName},"%")
+			</if>
+			<if test="properties!=null">
+				<![CDATA[and p.Id in (${properties})]]>
+		    </if>
+		    <![CDATA[
+				${saleStatusSql}
+			]]>
+		</where>
+		Order By p.Id desc
+		<if test="pageQuery != null">
+			limit #{pageQuery.limit} offset #{pageQuery.offset}
+		</if>
+	</select>
+	
+	<select id="searchJiuCoinDeductProductCount" resultType="int">
+		Select count(1) from yjj_Product p left join yjj_Brand b on p.BrandId = b.BrandId
+		join (select sum(RemainCount) as remainCount, ProductId
+		    from yjj_ProductSKU 
+		    <where>
+				Status = 0
+				<if test="skuStatus == 1">
+                AND
+                <![CDATA[
+		        ProductId IN (
+		        	select ProductId
+		            from yjj_ProductSKU
+		            where RemainCount > 0)
+		            ]]>
+		        </if>
+		        <if test="skuStatus == 2">
+		        AND
+		        <![CDATA[
+		        ProductId IN (
+		        	select ProductId
+		            from yjj_ProductSKU
+		            where RemainCount <= 0)
+		            ]]>
+		        </if>
+		        <if test="skuStatus == 3">
+		        AND
+		        <![CDATA[
+		        ProductId IN (
+		        	select ProductId
+		            from yjj_ProductSKU
+		            where RemainCount <= 10 and RemainCount > 0)
+		        	]]>
+		        </if>
+		    </where>
+		    group by ProductId) as d on p.Id = d.ProductId
+		<where>
+			p.Status >= -1 AND p.DeductPercent > 0
+			<if test="id != -1">
+				and p.Id = #{id}
+			</if>
+			<if test="name != ''">
+				AND p.Name like CONCAT ("%",#{name},"%")
+			</if>
+			<if test="clothesNumber != ''">
+				AND p.ClothesNumber like CONCAT ("%",#{clothesNumber},"%")
+			</if>
+			<if test="brandName != ''">
+				AND b.BrandName like CONCAT ("%",#{brandName},"%")
+			</if>
+			<if test="properties!=null">
+				<![CDATA[and p.Id in (${properties})]]>
+		    </if>
+		    <![CDATA[
+				${saleStatusSql}
+			]]>
+		</where>
+	</select>
+	
+	<update id="updateProductDeductPercent" parameterType="map">
+		update yjj_Product
+		<set>
+			<if test="deductPercent!=null">
+				DeductPercent = #{deductPercent}
+			</if>
+		</set>
+		where Id in
+		<foreach collection="productIds" item="productId" open="(" separator="," close=")">
+			#{productId}
+		</foreach>
+	</update>
+	
+	<select id="getProductByName" resultType="Product">
+		select * from yjj_Product 
+		where 
+			Name like CONCAT ("%", #{name}, "%")
+	</select>
+	
+	<update id="updateShopProduct" parameterType="ShopProduct">
+		UPDATE shop_product 
+			<set>
+				<if test="name!=null">
+					NAME = #{name}, 
+				</if>
+				<if test="xprice!=0">
+					xprice = #{xprice} ,
+				</if>
+				<if test="marketPrice!=0">
+					market_price = #{marketPrice} , 
+				</if>
+				<if test="clothesNumber!=null">
+					clothes_number = #{clothesNumber} , 
+				</if>
+				<if test="videoUrl!=null">
+					video_url = #{videoUrl} , 
+				</if>
+				update_time = #{updateTime} 
+			</set>			
+			WHERE
+			product_id = #{productId}
+	</update>
+
+	
+	<select id="getShopProductByProductId" resultType="ShopProduct">
+		select 
+			id as id ,
+			product_id as productId,	
+			name as name,
+			price as price,
+			xprice as xprice,
+			market_price as marketPrice,
+			clothes_number as clothesNumber,
+			stock as stock,
+			category_id as categoryId,
+			tag_ids as tagIds,
+			size_ids as sizeIds,
+			color_ids as colorIds,
+			summary_images as summaryImages,
+			remark as remark,
+			top_time as topTime,
+			stock_time as stockTime,
+			tab_type as tabType,
+			sold_out as soldOut,
+			status as status,
+			store_id as storeId,
+			shop_own_detail as shopOwnDetail,
+			video_url as videoUrl,
+			want_member_count as wantMemberCount,
+			show_count as  showCount,
+			create_time as createTime,
+			ground_time as groundTime,
+			own as own
+		from shop_product 
+		WHERE
+			 status = 0
+			 and product_id = #{productId} 
+	</select>
+	
+	
+	<select id="getShopProduct" resultType="ShopProduct">
+		select 
+			id as id ,
+			product_id as productId,	
+			name as name,
+			price as price,
+			xprice as xprice,
+			market_price as marketPrice,
+			clothes_number as clothesNumber,
+			stock as stock,
+			category_id as categoryId,
+			tag_ids as tagIds,
+			size_ids as sizeIds,
+			color_ids as colorIds,
+			summary_images as summaryImages,
+			remark as remark,
+			top_time as topTime,
+			stock_time as stockTime,
+			tab_type as tabType,
+			sold_out as soldOut,
+			status as status,
+			store_id as storeId,
+			shop_own_detail as shopOwnDetail,
+			video_url as videoUrl,
+			want_member_count as wantMemberCount,
+			show_count as  showCount,
+			create_time as createTime,
+			ground_time as groundTime,
+			own as own
+		from shop_product 
+		WHERE
+			  product_id = #{productId}
+			 and store_id = #{storeId} 
+	</select>
+	
+	
+	<insert id="addShopProduct" keyColumn="id" useGeneratedKeys="true" keyProperty="id" parameterType="shopProduct">
+		INSERT INTO
+		shop_product(product_id, status, tab_type, sold_out, own,
+			update_time, create_time, ground_time, store_id, price
+			)
+		VALUES(#{productId}, #{status}, #{tabType}, #{soldOut}, #{own},
+			#{updateTime}, #{createTime}, #{groundTime}, #{storeId},#{price}
+			)
+	</insert>
+	
+	
+	<update id="soldOutShopProductByProductId" parameterType="map">
+		UPDATE shop_product 
+		SET 
+		sold_out = 2
+		WHERE
+		product_id=#{productId}
+	</update>
+	
+	<update id="soldOutShopProduct" parameterType="map">
+		UPDATE shop_product 
+		SET 
+		sold_out = 2
+		WHERE
+		id=#{shopProductId}
+	</update>
+	
+	<update id="updateProductSaleCount" parameterType="map">
+		update yjj_Product set SaleTotalCount = SaleTotalCount +
+		#{count}
+		where Id = #{productId}
+	</update>
+</mapper>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.store.dao.mapper.StoreWxaCodeMapper">
+
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="StoreWxaCode">
+		<id column="id" property="id" />
+		<result column="wxa_id" property="wxaId" />
+		<result column="online_template" property="onlineTemplate" />
+		<result column="online_version" property="onlineVersion" />
+		<result column="online_release_time" property="onlineReleaseTime" />
+		<result column="test_template" property="testTemplate" />
+		<result column="test_version" property="testVersion" />
+		<result column="test_upload_time" property="testUploadTime" />
+		<result column="test_qrcode_url" property="testQrcodeUrl" />
+		<result column="test_weiXinNums" property="testWeiXinNums" />
+		<result column="submit_audit_time" property="submitAuditTime" />
+		<result column="submit_audit_admin_id" property="submitAuditAdminId" />
+		<result column="audit_template" property="auditTemplate" />
+		<result column="audit_version" property="auditVersion" />
+		<result column="audit_state" property="auditState" />
+		<result column="audit_back_time" property="auditBackTime" />
+		<result column="audit_back_result_msg" property="auditBackResultMsg" />
+		<result column="audit_back_result_json" property="auditBackResultJson" />
+		<result column="create_time" property="createTime" />
+	</resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, wxa_id AS wxaId, online_template AS onlineTemplate, online_version AS onlineVersion, online_release_time AS onlineReleaseTime, test_template AS testTemplate, test_version AS testVersion, test_upload_time AS testUploadTime, test_qrcode_url AS testQrcodeUrl, test_weiXinNums AS testWeiXinNums, submit_audit_time AS submitAuditTime, submit_audit_admin_id AS submitAuditAdminId, audit_template AS auditTemplate, audit_version AS auditVersion, audit_state AS auditState, audit_back_time AS auditBackTime, audit_back_result_msg AS auditBackResultMsg, audit_back_result_json AS auditBackResultJson, create_time AS createTime
+    </sql>
+
+</mapper>

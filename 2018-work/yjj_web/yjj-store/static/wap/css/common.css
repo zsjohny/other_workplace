@@ -1,0 +1,322 @@
+/**会员首页**/
+.body-bg{
+	background: #f4f4f4;
+}
+img{
+	display: block;
+	width: 100%;
+}
+.ui-box{
+	background: #fff;
+}
+.ui-box .swiper-slide {
+	text-align: center;
+	width: 6.42rem;
+	height: 3.85rem;
+	padding-top: 0.20rem!important;
+}
+.ui-box .swiper-slide img{
+	width: 6.42rem;
+	height: 3.85rem;
+	margin: 0 auto;
+}
+/*vip特权模块*/
+.vip-box{
+	height: auto;
+	overflow: hidden;
+	margin-top: 0.35rem;
+}
+.vip-box .title{
+	height: 0.6rem;
+	line-height: 0.6rem;
+	font-size: 0.28rem;
+	position: relative;
+	margin: 0 0.24rem 0.35rem;
+	padding-left: 0.3rem;
+	text-align: center;
+}
+.vip-box .item{
+	width: 25%;
+	float: left;
+	height: 2.3rem;
+	text-align: center;
+}
+.vip-box .item .icon{
+	width: 1.0rem;
+	height: 1.0rem;
+	display: block;
+	margin: 0 auto 0.2rem;
+}
+.vip-box .item .icon1{
+	background: url(../images/icon/icon1.png) no-repeat;
+	background-size: 1.0rem
+}
+.vip-box .item .icon2{
+	background: url(../images/icon/icon2.png) no-repeat;
+	background-size: 1.0rem
+}
+.vip-box .item .icon3{
+	background: url(../images/icon/icon3.png) no-repeat;
+	background-size: 1.0rem
+}
+.vip-box .item .icon4{
+	background: url(../images/icon/icon4.png) no-repeat;
+	background-size: 1.0rem
+}
+.vip-box .item .icon5{
+	background: url(../images/icon/icon5.png) no-repeat;
+	background-size: 1.0rem
+}
+.vip-box .item .icon6{
+	background: url(../images/icon/icon6.png) no-repeat;
+	background-size: 1.0rem
+}
+.vip-box .item .icon7{
+	background: url(../images/icon/icon7.png) no-repeat;
+	background-size: 1.0rem
+}
+.vip-box .item .icon8{
+	background: url(../images/icon/icon8.png) no-repeat;
+	background-size: 1.0rem
+}
+.vip-box .item .icon9{
+	background: url(../images/icon/icon9.png) no-repeat;
+	background-size: 1.0rem
+}
+.vip-box .item .icon10{
+	background: url(../images/icon/icon10.png) no-repeat;
+	background-size: 1.0rem
+}
+.vip-box .item .icon11{
+	background: url(../images/icon/icon11.png) no-repeat;
+	background-size: 1.0rem
+}
+.vip-box .item .text{
+	font-size: 0.24rem;
+	color: #9a9a9a;
+}
+.box-padding{
+	padding-bottom: 1.2rem
+}
+/**通用提示弹窗**/
+.ui-popup .bg{
+	width: 100%;
+	height: 100%;
+	position: fixed;
+	left: 0;
+	top: 0;
+	background: rgba(0,0,0,0.5);
+	z-index: 9999;
+}
+.ui-popup .box{
+	width: 6rem;
+	height: 3.0rem;
+	position: fixed;
+	left: 50%;
+	top: 50%;
+	background: #fff;
+	z-index: 10000;
+	border-radius: 0.08rem;
+	margin: -1.5rem -3rem;
+}
+.ui-popup .box .title{
+	font-size: 0.28rem;
+	color: #666;
+	padding: 0.8rem 0.3rem 0.6rem;
+	text-align: center;
+}
+.ui-popup .box .btn{
+	width: 2rem;
+	height: 0.8rem;
+	line-height: 0.8rem;
+	text-align: center;
+	background: #fd4374;
+	text-align: center;
+	font-size: 0.28rem;
+	margin: 0 auto;
+	border-radius: 0.08rem;
+	color: #fff;
+}
+/**支付订单页**/
+.order-box{
+	width: 7.02rem;
+	height: auto;
+	overflow: hidden;
+	margin: 0.3rem auto 0;
+}
+.order-box .order-head{
+	height: 0.7rem;
+	line-height: 0.7rem;
+	font-size: 0.26rem;
+	color: #959595;
+	padding-left: 0.24rem;
+	background: #f8f8f8;
+}
+.order-box .order-head span{
+	color: #333;
+}
+.order-box .box{
+	padding: 0.24rem;
+	border:1px solid #ecebeb;
+	box-sizing: border-box;
+	display: -webkit-flex;
+	display: -moz-flex;
+	display: flex;
+}
+.order-box .box img{
+	width: 1.8rem;
+	height: 1.8rem
+}
+.order-box .box .info{
+	width: 4.6rem;
+	margin-left: 0.2rem;
+	position: relative;
+}
+.order-box .box .info .title{
+	font-size: 0.28rem
+}
+.order-box .box .info .price{
+	font-size: 0.26rem;
+	position: absolute;
+	left: 0.2rem;
+	bottom: 0;
+	color: #ff2742;
+}
+.order-box .box .info .price i{
+	font-size: 0.24rem;
+}
+.order-box .box .info .price span{
+	font-size: 0.38rem
+}
+.vip-time{
+	height: 0.86rem;
+	line-height: 0.86rem;
+	font-size: 0.28rem;
+}
+.vip-time .l{
+	float: left;
+	color: #959595
+}
+.vip-time .r{
+	float: right;
+}
+.pay-mode{
+	padding: 0 0.24rem;
+	border-top: 0.2rem solid #f4f4f4;
+	font-size: 0.28rem;
+}
+.pay-mode dt{
+	height: 0.86rem;
+	line-height: 0.86rem;
+	border-bottom: 1px solid #f4f4f4;
+}
+.pay-mode dt span{	
+	font-size: 0.32rem;
+	color: #ff2742;
+}
+.pay-mode dd{
+	border-bottom: 1px solid #f4f4f4;
+	height: 1.24rem;
+	line-height: 1.24rem;
+	position: relative;
+	overflow: hidden;
+}
+.pay-mode dd .icon{
+	display: block;
+	position: relative;
+	height: 0.64rem;
+	padding-left: 0.82rem;
+	margin-top: 0.3rem;
+	line-height: 0.64rem
+}
+.pay-mode dd .icon::before{
+	content: '';
+	width: 0.64rem;
+	height: 0.64rem;
+	position: absolute;
+	left: 0;
+	top: 0;
+}
+.pay-mode dd .wxpay::before{
+	background: url(../images/wxpay-icon.png);
+	background-size: 0.64rem;
+}
+.pay-mode dd .alipay::before{
+	background: url(../images/alipay-icon.png);
+	background-size: 0.64rem;
+}
+.pay-mode dd .choose{
+	position: absolute;
+	right: 0;
+	top: 0.41rem;
+	width: 0.42rem;
+	height: 0.42rem;
+	background: url(../images/pay-icon1.png);
+	background-size: 0.42rem;
+}
+.pay-mode .active .choose{
+	background: url(../images/pay-icon2.png);
+	background-size: 0.42rem;
+}
+.pay-btn{
+	width: 7.02rem;
+	height: 0.8rem;
+	line-height: 0.8rem;
+	text-align: center;
+	font-size: 0.30rem;
+	background:#fd4374;
+	color: #fff;
+	position: fixed;
+	left: 50%;
+	bottom: 1rem;
+	z-index: 10000;
+	margin-left: -3.51rem;
+	border-radius: 0.08rem
+}
+/**支付成功页**/
+.success-mod{
+	text-align: center;
+	padding-top: 1.0rem;
+}
+.success-mod .title{
+	color: #9a9a9a;
+	font-size: 0.34rem
+}
+.success-mod .title i{
+	color: #333;
+}
+.success-mod .box{
+	width: 5.2rem;
+	height: 3.62rem;
+	background: url(../images/success-img.png);
+	background-size: 5.2rem 3.62rem;
+	margin:0 auto;
+	position: relative;
+	text-align: center;
+}
+.success-mod .box span{
+	width: 100%;
+	position: absolute;
+	left: 0.2rem;
+	top: 0.4rem;
+	color: #fd4374;
+	font-size: 0.52rem;
+}
+.success-mod .des{
+	color: #fd4374;
+	margin-top: 0.9rem;
+	font-size: 0.36rem
+}
+.success-mod .detail-btn{
+	width: 3.2rem;
+	height: 0.8rem;
+	line-height: 0.8rem;
+	text-align: center;
+	background: #fd4374;
+	text-align: center;
+	font-size: 0.28rem;
+	margin: 0.5rem auto;
+	border-radius: 0.08rem;
+	color: #fff;
+	box-shadow: -2px 0 3px #fec5d4,0 -1px 4px #fec5d4,2px 0 2px #fec5d4,0 3px 4px #fec5d4;
+}

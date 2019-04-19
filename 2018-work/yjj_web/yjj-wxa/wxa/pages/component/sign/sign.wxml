@@ -1,0 +1,64 @@
+<view class="container">
+    <view class="signBg"></view>
+    <view class="signDays">本月已连续签到
+        <view class="signDayWrap">
+            <image class="signIcon" src="http://mini-img-main.oss-cn-hangzhou.aliyuncs.com/icon/new/sign-icon1.png"></image>
+            <text class="signDayNum">{{signedDays}}</text>
+        </view>
+        天
+    </view>
+    <!--日历表-->
+    <view class="calenderWrap">
+        <!--年月-->
+        <view class="month">{{cur_year}}-{{cur_month}}</view>
+        <view class="week">
+            <view wx:for="{{weeks_ch}}" wx:key="{{index}}" data-idx="{{index}}">{{item}}</view>
+        </view>
+        <view class='days'>
+            <!-- 列 -->
+            <view class="columns" wx:for="{{days.length/7}}" wx:for-index="i" wx:key="i">
+                <view wx:for="{{days}}" wx:for-index="j" wx:key="j">
+                    <!-- 行 -->
+                    <view class="rows" wx:if="{{j/7 == i}}">
+                        <view class="rows" wx:for="{{7}}" wx:for-index="k" wx:key="k">
+                            <!-- 每个月份的空的单元格 -->
+                            <view class='cell' wx:if="{{days[j+k].date == null}}">
+                                <text decode="{{true}}">&nbsp;&nbsp;</text>
+                            </view>
+                            <!-- 每个月份的有数字的单元格 -->
+                            <view class='cell' wx:else>
+                                <!-- 日期已签到 -->
+                                <view wx:if="{{days[j+k].isSign == true}}" class='cellSigned'>
+                                    <view wx:for="{{dayAward}}" class="signTodayWrap" wx:key="{{item}}">
+                                        <image bindtap="getGift" data-select="{{days[j+k].date}}" wx:if="{{item == days[j+k].date}}" class="signToday" src="http://mini-img-main.oss-cn-hangzhou.aliyuncs.com/icon/new/sign-bag.png"></image>
+                                    </view>
+
+                                    <text>{{days[j+k].date}}</text>
+                                </view>
+                                <!-- 日期未签到 -->
+                                <view wx:else class='cell {{ days[j+k].date < cur_day? "cellUnSign" : ""}}'>
+                                    <view wx:for="{{dayAward}}" class="signTodayWrap" wx:key="{{item}}">
+                                        <image bindtap="getGift" data-select="{{days[j+k].date}}" wx:if="{{item == days[j+k].date}}" class="signToday" src="http://mini-img-main.oss-cn-hangzhou.aliyuncs.com/icon/new/sign-bag.png"></image>
+                                    </view>
+                                    <text>{{days[j+k].date}}</text>
+                                </view>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+            </view>
+        </view>
+    </view>
+    <view class="rewardWrap">
+        <view class="totalWrap">累 计 收 益 <text class="totalReward">{{signCoin}}</text> 金 币</view>
+        <view wx:if="{{isSign == false}}" class="signBtn" bindtap="goSign">立 即 签 到 +{{getPrize}}金币</view>
+        <view wx:else class="signedBtn">已签到</view>
+    </view>
+    <view class="signGiftWrap" wx:if="{{showGiftWrap}}">
+        <view class="giftWrap">
+            <image class="giftImg" src="http://mini-img-main.oss-cn-hangzhou.aliyuncs.com/icon/new/sign-gift.png"></image>
+            <view class="giftInfo">真幸运，额外奖励 <text class="giftReward"> {{giftCoin}} </text>金币</view>
+            <view class="giftDone" bindtap="closeGiftWrap">完成</view>
+        </view>
+    </view>
+</view>

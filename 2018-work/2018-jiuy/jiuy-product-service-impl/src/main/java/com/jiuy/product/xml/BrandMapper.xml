@@ -1,0 +1,414 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" > 
+<mapper namespace="com.jiuy.product.mapper.BrandMapper"> 
+ 
+ 	<!-- 主要的返回映射-->
+	<resultMap id="BaseResultMap" type="com.jiuy.product.model.Brand"	>
+		<id column="Id" property="id" jdbcType="INTEGER" />
+		<result column="BrandId"  property="brandid"  jdbcType="BIGINT" />
+		<result column="BrandName"  property="brandname"  jdbcType="VARCHAR" />
+		<result column="Logo"  property="logo"  jdbcType="VARCHAR" />
+		<result column="STATUS"  property="status"  jdbcType="TINYINT" />
+		<result column="CreateTime"  property="createtime"  jdbcType="BIGINT" />
+		<result column="UpdateTime"  property="updatetime"  jdbcType="BIGINT" />
+		<result column="CnName"  property="cnname"  jdbcType="VARCHAR" />
+		<result column="Description"  property="description"  jdbcType="VARCHAR" />
+		<result column="Weight"  property="weight"  jdbcType="INTEGER" />
+		<result column="BrandIdentity"  property="brandidentity"  jdbcType="VARCHAR" />
+		<result column="IsDiscount"  property="isdiscount"  jdbcType="TINYINT" />
+		<result column="ExceedMoney"  property="exceedmoney"  jdbcType="DECIMAL" />
+		<result column="MinusMoney"  property="minusmoney"  jdbcType="DECIMAL" />
+		<result column="cloth_number_prefix"  property="clothNumberPrefix"  jdbcType="VARCHAR" />
+		<result column="brand_type"  property="brandType"  jdbcType="TINYINT" />
+		<result column="brand_promotion_img"  property="brandPromotionImg"  jdbcType="VARCHAR" />
+	</resultMap>
+
+	<!-- 所有的列名-->
+	<sql id="Base_Column_List" >
+		Id,BrandId,BrandName,Logo,STATUS,CreateTime,UpdateTime,CnName,Description,
+		Weight,BrandIdentity,IsDiscount,ExceedMoney,MinusMoney,cloth_number_prefix,brand_type,brand_promotion_img
+	</sql>
+
+	<!-- 精确更新的字段-->
+	<sql id="updateBase">
+		<if test="id  !=null">
+			Id = #{id,jdbcType=INTEGER}, 
+		</if>
+		<if test="brandid  !=null">
+			BrandId = #{brandid,jdbcType=BIGINT}, 
+		</if>
+		<if test="brandname  !=null">
+			BrandName = #{brandname,jdbcType=VARCHAR}, 
+		</if>
+		<if test="logo  !=null">
+			Logo = #{logo,jdbcType=VARCHAR}, 
+		</if>
+		<if test="status  !=null">
+			STATUS = #{status,jdbcType=TINYINT}, 
+		</if>
+		<if test="createtime  !=null">
+			CreateTime = #{createtime,jdbcType=BIGINT}, 
+		</if>
+		<if test="updatetime  !=null">
+			UpdateTime = #{updatetime,jdbcType=BIGINT}, 
+		</if>
+		<if test="cnname  !=null">
+			CnName = #{cnname,jdbcType=VARCHAR}, 
+		</if>
+		<if test="description  !=null">
+			Description = #{description,jdbcType=VARCHAR}, 
+		</if>
+		<if test="weight  !=null">
+			Weight = #{weight,jdbcType=INTEGER}, 
+		</if>
+		<if test="brandidentity  !=null">
+			BrandIdentity = #{brandidentity,jdbcType=VARCHAR}, 
+		</if>
+		<if test="isdiscount  !=null">
+			IsDiscount = #{isdiscount,jdbcType=TINYINT}, 
+		</if>
+		<if test="exceedmoney  !=null">
+			ExceedMoney = #{exceedmoney,jdbcType=DECIMAL}, 
+		</if>
+		<if test="minusmoney  !=null">
+			MinusMoney = #{minusmoney,jdbcType=DECIMAL}, 
+		</if>
+		<if test="clothNumberPrefix  !=null">
+			cloth_number_prefix = #{clothNumberPrefix,jdbcType=VARCHAR}, 
+		</if>
+		<if test="brandType  !=null">
+			brand_type = #{brandType,jdbcType=TINYINT}, 
+		</if>
+		<if test="brandPromotionImg  !=null">
+			brand_promotion_img = #{brandPromotionImg,jdbcType=VARCHAR} 
+		</if>
+	</sql>
+
+	<!-- 通过主键查找-->
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="Integer" >
+		select 
+		<include refid="Base_Column_List" />
+		from yjj_rb_Brand
+		where  Id = #{id,jdbcType=INTEGER} 
+	</select>
+
+	<!-- 通过主键删除-->
+	<delete id="deleteByPrimaryKey" parameterType="Integer" >
+		delete from yjj_rb_Brand
+		where Id = #{id,jdbcType=INTEGER} 
+	</delete>
+
+	<!-- 普通插入全字段插入-->
+	<insert id="insert" parameterType="com.jiuy.product.model.Brand" >
+		insert into yjj_rb_Brand
+		(
+			Id,
+			BrandId,
+			BrandName,
+			Logo,
+			STATUS,
+			CreateTime,
+			UpdateTime,
+			CnName,
+			Description,
+			Weight,
+			BrandIdentity,
+			IsDiscount,
+			ExceedMoney,
+			MinusMoney,
+			cloth_number_prefix,
+			brand_type,
+			brand_promotion_img,
+		)
+		values
+		(
+			#{id ,jdbcType=INTEGER},
+			#{brandid ,jdbcType=BIGINT},
+			#{brandname ,jdbcType=VARCHAR},
+			#{logo ,jdbcType=VARCHAR},
+			#{status ,jdbcType=TINYINT},
+			#{createtime ,jdbcType=BIGINT},
+			#{updatetime ,jdbcType=BIGINT},
+			#{cnname ,jdbcType=VARCHAR},
+			#{description ,jdbcType=VARCHAR},
+			#{weight ,jdbcType=INTEGER},
+			#{brandidentity ,jdbcType=VARCHAR},
+			#{isdiscount ,jdbcType=TINYINT},
+			#{exceedmoney ,jdbcType=DECIMAL},
+			#{minusmoney ,jdbcType=DECIMAL},
+			#{clothNumberPrefix ,jdbcType=VARCHAR},
+			#{brandType ,jdbcType=TINYINT},
+			#{brandPromotionImg ,jdbcType=VARCHAR}
+		)
+	</insert>
+
+	<!-- 批量插入，全部字段插入-->
+	<insert id="insertBach"   parameterType="List" >
+		insert into yjj_rb_Brand
+		(
+			Id,
+			BrandId,
+			BrandName,
+			Logo,
+			STATUS,
+			CreateTime,
+			UpdateTime,
+			CnName,
+			Description,
+			Weight,
+			BrandIdentity,
+			IsDiscount,
+			ExceedMoney,
+			MinusMoney,
+			cloth_number_prefix,
+			brand_type,
+			brand_promotion_img,
+		)
+		values 
+		<foreach collection="list" item="item" separator=",">
+		(
+			#{item.id ,jdbcType=INTEGER},
+			#{item.brandid ,jdbcType=BIGINT},
+			#{item.brandname ,jdbcType=VARCHAR},
+			#{item.logo ,jdbcType=VARCHAR},
+			#{item.status ,jdbcType=TINYINT},
+			#{item.createtime ,jdbcType=BIGINT},
+			#{item.updatetime ,jdbcType=BIGINT},
+			#{item.cnname ,jdbcType=VARCHAR},
+			#{item.description ,jdbcType=VARCHAR},
+			#{item.weight ,jdbcType=INTEGER},
+			#{item.brandidentity ,jdbcType=VARCHAR},
+			#{item.isdiscount ,jdbcType=TINYINT},
+			#{item.exceedmoney ,jdbcType=DECIMAL},
+			#{item.minusmoney ,jdbcType=DECIMAL},
+			#{item.clothNumberPrefix ,jdbcType=VARCHAR},
+			#{item.brandType ,jdbcType=TINYINT},
+			#{item.brandPromotionImg ,jdbcType=VARCHAR}
+		)
+		</foreach>
+	</insert>
+
+	<!-- 精确插入，非null得字段才会插入-->
+	<insert id="insertSelective" parameterType="com.jiuy.product.model.Brand" useGeneratedKeys="true" keyProperty="id" >
+		insert into yjj_rb_Brand
+		<trim prefix="(" suffix=")" suffixOverrides="," > 
+			<if test="id !=null">  
+				Id,
+			</if>
+			<if test="brandid !=null">  
+				BrandId,
+			</if>
+			<if test="brandname !=null">  
+				BrandName,
+			</if>
+			<if test="logo !=null">  
+				Logo,
+			</if>
+			<if test="status !=null">  
+				STATUS,
+			</if>
+			<if test="createtime !=null">  
+				CreateTime,
+			</if>
+			<if test="updatetime !=null">  
+				UpdateTime,
+			</if>
+			<if test="cnname !=null">  
+				CnName,
+			</if>
+			<if test="description !=null">  
+				Description,
+			</if>
+			<if test="weight !=null">  
+				Weight,
+			</if>
+			<if test="brandidentity !=null">  
+				BrandIdentity,
+			</if>
+			<if test="isdiscount !=null">  
+				IsDiscount,
+			</if>
+			<if test="exceedmoney !=null">  
+				ExceedMoney,
+			</if>
+			<if test="minusmoney !=null">  
+				MinusMoney,
+			</if>
+			<if test="clothNumberPrefix !=null">  
+				cloth_number_prefix,
+			</if>
+			<if test="brandType !=null">  
+				brand_type,
+			</if>
+			<if test="brandPromotionImg !=null">  
+				brand_promotion_img,
+			</if>
+		</trim>
+
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+			<if test="id  !=null">
+				#{id,jdbcType=INTEGER}, 
+			</if>
+			<if test="brandid  !=null">
+				#{brandid,jdbcType=BIGINT}, 
+			</if>
+			<if test="brandname  !=null">
+				#{brandname,jdbcType=VARCHAR}, 
+			</if>
+			<if test="logo  !=null">
+				#{logo,jdbcType=VARCHAR}, 
+			</if>
+			<if test="status  !=null">
+				#{status,jdbcType=TINYINT}, 
+			</if>
+			<if test="createtime  !=null">
+				#{createtime,jdbcType=BIGINT}, 
+			</if>
+			<if test="updatetime  !=null">
+				#{updatetime,jdbcType=BIGINT}, 
+			</if>
+			<if test="cnname  !=null">
+				#{cnname,jdbcType=VARCHAR}, 
+			</if>
+			<if test="description  !=null">
+				#{description,jdbcType=VARCHAR}, 
+			</if>
+			<if test="weight  !=null">
+				#{weight,jdbcType=INTEGER}, 
+			</if>
+			<if test="brandidentity  !=null">
+				#{brandidentity,jdbcType=VARCHAR}, 
+			</if>
+			<if test="isdiscount  !=null">
+				#{isdiscount,jdbcType=TINYINT}, 
+			</if>
+			<if test="exceedmoney  !=null">
+				#{exceedmoney,jdbcType=DECIMAL}, 
+			</if>
+			<if test="minusmoney  !=null">
+				#{minusmoney,jdbcType=DECIMAL}, 
+			</if>
+			<if test="clothNumberPrefix  !=null">
+				#{clothNumberPrefix,jdbcType=VARCHAR}, 
+			</if>
+			<if test="brandType  !=null">
+				#{brandType,jdbcType=TINYINT}, 
+			</if>
+			<if test="brandPromotionImg  !=null">
+				#{brandPromotionImg,jdbcType=VARCHAR} 
+			</if>
+		</trim>
+	</insert> 
+
+	<!-- 精确更新-->
+	<update id="updateByPrimaryKeySelective" parameterType="com.jiuy.product.model.Brand" >
+		update yjj_rb_Brand
+		<set>
+			<include refid="updateBase"/>
+		</set>
+		where Id = #{id,jdbcType=INTEGER} 
+	</update> 
+
+	<!-- 全字段更新 需要注意-->
+	<update id="updateByPrimaryKey" parameterType="com.jiuy.product.model.Brand" >
+		update yjj_rb_Brand
+		set 
+			Id = #{id ,jdbcType=INTEGER},
+			BrandId = #{brandid ,jdbcType=BIGINT},
+			BrandName = #{brandname ,jdbcType=VARCHAR},
+			Logo = #{logo ,jdbcType=VARCHAR},
+			STATUS = #{status ,jdbcType=TINYINT},
+			CreateTime = #{createtime ,jdbcType=BIGINT},
+			UpdateTime = #{updatetime ,jdbcType=BIGINT},
+			CnName = #{cnname ,jdbcType=VARCHAR},
+			Description = #{description ,jdbcType=VARCHAR},
+			Weight = #{weight ,jdbcType=INTEGER},
+			BrandIdentity = #{brandidentity ,jdbcType=VARCHAR},
+			IsDiscount = #{isdiscount ,jdbcType=TINYINT},
+			ExceedMoney = #{exceedmoney ,jdbcType=DECIMAL},
+			MinusMoney = #{minusmoney ,jdbcType=DECIMAL},
+			cloth_number_prefix = #{clothNumberPrefix ,jdbcType=VARCHAR},
+			brand_type = #{brandType ,jdbcType=TINYINT},
+			brand_promotion_img = #{brandPromotionImg ,jdbcType=VARCHAR}
+		where Id = #{id,jdbcType=INTEGER} 
+	</update> 
+
+	<!-- 所有的条件集合-->
+	<sql id="whereCase"  >
+		where  1=1 
+		<if test="id  !=null">
+			AND Id = #{id,jdbcType=INTEGER} 
+		</if>
+		<if test="brandid  !=null">
+			AND BrandId = #{brandid,jdbcType=BIGINT} 
+		</if>
+		<if test="brandname  !=null">
+			AND BrandName = #{brandname,jdbcType=VARCHAR} 
+		</if>
+		<if test="logo  !=null">
+			AND Logo = #{logo,jdbcType=VARCHAR} 
+		</if>
+		<if test="status  !=null">
+			AND STATUS = #{status,jdbcType=TINYINT} 
+		</if>
+		<if test="createtime  !=null">
+			AND CreateTime = #{createtime,jdbcType=BIGINT} 
+		</if>
+		<if test="updatetime  !=null">
+			AND UpdateTime = #{updatetime,jdbcType=BIGINT} 
+		</if>
+		<if test="cnname  !=null">
+			AND CnName = #{cnname,jdbcType=VARCHAR} 
+		</if>
+		<if test="description  !=null">
+			AND Description = #{description,jdbcType=VARCHAR} 
+		</if>
+		<if test="weight  !=null">
+			AND Weight = #{weight,jdbcType=INTEGER} 
+		</if>
+		<if test="brandidentity  !=null">
+			AND BrandIdentity = #{brandidentity,jdbcType=VARCHAR} 
+		</if>
+		<if test="isdiscount  !=null">
+			AND IsDiscount = #{isdiscount,jdbcType=TINYINT} 
+		</if>
+		<if test="exceedmoney  !=null">
+			AND ExceedMoney = #{exceedmoney,jdbcType=DECIMAL} 
+		</if>
+		<if test="minusmoney  !=null">
+			AND MinusMoney = #{minusmoney,jdbcType=DECIMAL} 
+		</if>
+		<if test="clothNumberPrefix  !=null">
+			AND cloth_number_prefix = #{clothNumberPrefix,jdbcType=VARCHAR} 
+		</if>
+		<if test="brandType  !=null">
+			AND brand_type = #{brandType,jdbcType=TINYINT} 
+		</if>
+		<if test="brandPromotionImg  !=null">
+			AND brand_promotion_img = #{brandPromotionImg,jdbcType=VARCHAR} 
+		</if>
+		<include refid="costomWhereCase"/>
+	</sql>
+
+	<!-- 查询一条，如果返回多条会报错-->
+	<select id="selectOne" parameterType="java.util.Map" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" /> 
+		FROM yjj_rb_Brand
+		<include refid="whereCase" /> 
+	</select>
+
+	<!-- 查询一个list-->
+	<select id="selectList" parameterType="java.util.Map" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" /> 
+		FROM yjj_rb_Brand
+		<include refid="whereCase" /> 
+	</select>
+
+	<!--  @Costom -->
+	<!-- 从上一行注释以上为系统生成 从这一行往下为用户自定义 请将自定义的sql放在此行下面 -->
+	<sql id="costomWhereCase">
+	</sql>
+
+</mapper>

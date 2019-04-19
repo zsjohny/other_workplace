@@ -1,0 +1,102 @@
+/* 立即提现 */
+page{
+  background: #f4f4f4;
+}
+.withdraw-head{
+  padding: 24rpx;
+  background: #fff;
+  border-top: 2rpx solid #eee;
+  border-bottom: 2rpx solid #eee;
+  display: -webkit-flex;
+  margin: 22rpx 0;
+}
+.withdraw-head .head{
+  width: 110rpx;
+  height: 110rpx;
+  margin-right: 24rpx;
+  display: block;
+  border-radius: 50%;
+}
+.withdraw-head .tit{
+  color: #cacaca;
+  font-size: 24rpx;
+  padding-top: 10rpx;
+}
+.withdraw-head .nick{
+  font-size: 30rpx;
+  padding-top: 16rpx;
+}
+.withdraw-form{
+  height: auto;
+  overflow: hidden;
+  border-top:2rpx solid #eee;
+  padding:24rpx 24rpx 0;
+  background: #fff;
+}
+.withdraw-form .title{
+  font-size: 24rpx;
+}
+.withdraw-item{
+  border-bottom:2rpx solid #eee;
+  height: 100rpx;
+  overflow: hidden
+}
+.withdraw-item .input-item{
+  height: 70rpx;
+  font-size: 70rpx;
+  position: relative;
+  padding-left:42rpx;
+  margin-top: 18rpx;
+  display: block;
+}
+.withdraw-item .input-item::after{
+  content: '￥';
+  position: absolute;
+  left: 0;
+  top: 15rpx;
+  font-size: 30rpx;
+}
+.withdraw-item .placeholder-font{
+  color: #cacaca;
+  font-size: 24rpx;
+}
+.withdraw-limit{
+  height: 82rpx;
+  line-height: 82rpx;
+  color: #a4a4a4;
+  position: relative;
+  font-size: 24rpx;
+}
+.withdraw-limit .record{
+  position: absolute;
+  right: 0rpx;
+  top: 5rpx;
+  color: #fd4374;
+}
+.withdraw-btn{
+  width:702rpx;
+  height:88rpx;
+  border-radius:8rpx;
+  background:#fd4374;
+  font-size:30rpx;
+  text-align:center;
+  line-height:88rpx;
+  margin:30rpx auto;
+  color:#fff;
+}
+.withdraw-btn1{
+  background:rgba(250, 51, 116, 0.5);
+}
+.withdraw-rule{
+  margin-top: 24rpx;
+  color: #848484;
+  margin-left: 24rpx;
+}
+.withdraw-rule .title{
+  font-size: 26rpx;
+  padding-bottom: 16rpx;
+}
+.withdraw-rule .dd{
+  font-size: 24rpx;
+  line-height: 46rpx;
+}

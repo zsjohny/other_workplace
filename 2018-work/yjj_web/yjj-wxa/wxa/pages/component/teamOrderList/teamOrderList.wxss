@@ -1,0 +1,139 @@
+
+.bannerWrap{
+    width: 702rpx;
+    height: 378rpx;
+    background: url("http://mini-img-main.oss-cn-hangzhou.aliyuncs.com/icon/new/team-bg.png");
+    background-position: center;
+    background-size: cover;
+    margin-top: 30rpx;
+    margin-left: 24rpx;
+    text-align: center;
+    color: #fff;
+    font-size: 30rpx;
+}
+.bannerTop{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 40rpx;
+}
+.question{
+    width: 44rpx;
+    height: 44rpx;
+    margin-left: 15rpx;
+}
+.allOrderNum{
+    font-size: 36rpx;
+    font-weight: bold;
+    margin-top: 30rpx;
+}
+.bannerBottom{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 600rpx;
+    margin-left: 51rpx;
+    margin-top: 30rpx;
+    border-top: 1rpx solid #fff;
+    padding-top: 40rpx;
+}
+.bannerBl, .bannerBr{
+    font-size: 30rpx;
+}
+.bannerTitle{
+    font-size: 20rpx;
+    margin-bottom: 15rpx;
+}
+.orderWrap{
+    width: 702rpx;
+    margin-top: 50rpx;
+    margin-left: 24rpx;
+}
+.orderTop{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 30rpx;
+    width: 702rpx;
+}
+.orderTopL{
+    display: flex;
+    align-items: center;
+}
+.orderTopR{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    width: 262rpx;
+    height: 60rpx;
+    border-radius: 30rpx;
+    font-size: 22rpx;
+    color: #fff;
+    background: linear-gradient(to right, #780ae7 , #a25efe);
+}
+.searchIcon{
+    width: 29rpx;
+    height: 30rpx;
+}
+.orderTopLine{
+    width: 15rpx;
+    height: 45rpx;
+    background-color: #fd4374;
+    border-radius: 10rpx;
+    margin-right: 30rpx;
+}
+.orderList{
+    width: 702rpx;
+    margin-bottom: 20rpx;
+}
+.orderNo{
+    color: #9a9a9a;
+    font-size: 26rpx;
+    background-color: #f6f6f6;
+    padding: 30rpx 24rpx;
+    display: flex;
+    justify-content: space-between;
+}
+.orderStatus{
+    color: #fd4374;
+}
+.goodsWrap{
+    padding: 30rpx 24rpx;
+    border: 1rpx solid #ecebeb;
+}
+.orderMoney{
+    color: #ff0039;
+}
+.property{
+    color: #9a9a9a;
+    font-size: 22rpx;
+    margin-top: 20rpx;
+}
+.priceWrap{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: #9a9a9a;
+    font-size: 22rpx;
+    margin-top: 30rpx;
+}
+.price{
+    color: #ff0039;
+    font-size: 28rpx;
+}
+.reward{
+    font-size: 22rpx;
+}
+.noOrder{
+    text-align: center;
+    margin-top: 150rpx;
+    font-size: 28rpx;
+}
+.icon{
+    width:200rpx;
+    height:200rpx;
+    padding-bottom:60rpx;
+    background:url(http://mini-img-main.oss-cn-hangzhou.aliyuncs.com/icon/3.7.7/no-record.png) no-repeat;
+    background-size:200rpx;
+    margin:0 auto;
+}

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yujj.dao.mapper.UserInviteMapper">
+	<select id="getUserInvite" parameterType="map" resultType="UserInvite">
+		<![CDATA[
+			select * from yjj_UserInvite
+			where UserId = #{userId}
+		]]>
+	</select>
+
+	<select id="getUserInviteByCode" parameterType="map" resultType="UserInvite">
+		<![CDATA[
+			select * from yjj_UserInvite
+			where InviteCode = #{inviteCode}
+		]]>
+	</select>
+
+	<insert id="addUserInvite">
+		<![CDATA[
+			insert into yjj_UserInvite
+			(UserId, InviteCode, InviteCount, CreateTime, UpdateTime)
+			values
+			(#{userId}, #{inviteCode}, #{inviteCount}, #{createTime}, #{updateTime})
+		]]>
+	</insert>
+	
+	<update id="incrUserInviteCount" parameterType="map">
+		<![CDATA[
+			update yjj_UserInvite
+			set InviteCount = InviteCount + 1, UpdateTime = unix_timestamp()*1000
+			where UserId = #{userId}
+		]]>
+	</update>
+	
+	<insert id="addUserInviteRecord" useGeneratedKeys="true" keyProperty="id">
+		<![CDATA[
+			insert into yjj_UserInviteRecord
+			(UserId, InvitedUserId, Status, CreateTime, UpdateTime)
+			values
+			(#{userId}, #{invitedUserId}, #{status}, #{createTime}, #{updateTime})
+		]]>
+	</insert>
+	
+	<select id="getByInvitedUserId" resultType="UserInviteRecord">
+		select * from yjj_UserInviteRecord
+		where InvitedUserId = #{userId}
+	</select>
+</mapper>

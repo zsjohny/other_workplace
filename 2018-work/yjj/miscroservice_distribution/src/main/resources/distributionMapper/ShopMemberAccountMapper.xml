@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" > 
+<mapper namespace="com.e_commerce.miscroservice.distribution.mapper.ShopMemberAccountMapper">
+
+
+    <update id="updateCommissionWaitCashAndGoldCoin">
+        UPDATE shop_member_account
+        SET
+        id = id
+        <if test="operCash != null">
+            , wait_in_total_cash = wait_in_total_cash + #{operCash}
+            , commission_wait_in_total_cash = commission_wait_in_total_cash + #{operCash}
+            , all_cash = all_cash + #{operCash}
+        </if>
+        <if test="operGoldCoin != null">
+            , wait_in_total_gold_coin = wait_in_total_gold_coin + #{operGoldCoin}
+            , commission_wait_in_total_gold_coin = commission_wait_in_total_gold_coin + #{operGoldCoin}
+            , all_gold_coin = all_gold_coin + #{operGoldCoin}
+        </if>
+        WHERE id = #{id}
+        <if test="operCash != null">
+            AND wait_in_total_cash + #{operCash} &gt;= 0
+            AND commission_wait_in_total_cash + #{operCash} &gt;= 0
+            AND all_cash + #{operCash} &gt;= 0
+        </if>
+        <if test="operGoldCoin != null">
+            AND wait_in_total_gold_coin + #{operGoldCoin} &gt;= 0
+            AND commission_wait_in_total_gold_coin + #{operGoldCoin} &gt;= 0
+            AND all_gold_coin + #{operGoldCoin} &gt;= 0
+        </if>
+    </update>
+
+
+    <update id="updateManagerWaitCashAndGoldCoin">
+		UPDATE shop_member_account
+		SET
+			wait_in_total_cash = wait_in_total_cash + #{operCash}
+			, manage_wait_in_total_cash = manage_wait_in_total_cash + #{operCash}
+			, all_cash = all_cash + #{operCash}
+
+			, wait_in_total_gold_coin = wait_in_total_gold_coin + #{operGoldCoin}
+			, manage_wait_in_total_gold_coin = manage_wait_in_total_gold_coin + #{operGoldCoin}
+			, all_gold_coin = all_gold_coin + #{operGoldCoin}
+		WHERE
+			id = #{id}
+			AND wait_in_total_cash + #{operCash} &gt;= 0
+			AND manage_wait_in_total_cash + #{operCash} &gt;= 0
+			AND all_cash + #{operCash} &gt;= 0
+
+			AND wait_in_total_gold_coin + #{operGoldCoin} &gt;= 0
+			AND manage_wait_in_total_gold_coin + #{operGoldCoin} &gt;= 0
+			AND all_gold_coin + #{operGoldCoin} &gt;= 0
+
+    </update>
+
+
+    <update id="updateWaitCommission2Alive">
+        UPDATE `shop_member_account`
+        SET
+        wait_in_total_cash = wait_in_total_cash - #{operCash}
+        , alive_cash = alive_cash + #{operCash}
+        , commission_wait_in_total_cash = commission_wait_in_total_cash - #{operCash}
+        , commission_alive_cash = commission_alive_cash + #{operCash}
+
+        , wait_in_total_gold_coin = wait_in_total_gold_coin - #{operGoldCoin}
+        , alive_gold_coin = alive_gold_coin + #{operGoldCoin}
+        , commission_wait_in_total_gold_coin = commission_wait_in_total_gold_coin - #{operGoldCoin}
+        , commission_alive_gold_coin = commission_alive_gold_coin + #{operGoldCoin}
+
+        , history_gold_coin_earning = history_gold_coin_earning + #{operGoldCoin}
+        , history_cash_earning = history_cash_earning + #{operCash}
+
+        WHERE id = #{id}
+        AND wait_in_total_cash - #{operCash} &gt;= 0
+        AND alive_cash + #{operCash} &gt;= 0
+        AND commission_wait_in_total_cash - #{operCash} &gt;= 0
+        AND commission_alive_cash + #{operCash} &gt;= 0
+
+        AND wait_in_total_gold_coin - #{operGoldCoin} &gt;= 0
+        AND alive_gold_coin + #{operGoldCoin} &gt;= 0
+        AND commission_wait_in_total_gold_coin - #{operGoldCoin} &gt;= 0
+        AND commission_alive_gold_coin +#{operGoldCoin} &gt;= 0
+
+        AND history_gold_coin_earning + #{operGoldCoin} >= 0
+        AND history_cash_earning + #{operCash} >= 0
+
+    </update>
+
+
+    <update id="updateWaitTeamIn2Alive">
+		UPDATE `shop_member_account`
+		SET
+			wait_in_total_cash  = wait_in_total_cash - #{operCash}
+			, alive_cash = alive_cash + #{operCash}
+			, manage_wait_in_total_cash = manage_wait_in_total_cash - #{operCash}
+			, manage_alive_cash = manage_alive_cash + #{operCash}
+
+			, wait_in_total_gold_coin = wait_in_total_gold_coin - #{operGoldCoin}
+			, alive_gold_coin = alive_gold_coin + #{operGoldCoin}
+			, manage_wait_in_total_gold_coin = manage_wait_in_total_gold_coin - #{operGoldCoin}
+			, manage_alive_gold_coin = manage_alive_gold_coin +#{operGoldCoin}
+
+			, history_gold_coin_earning = history_gold_coin_earning + #{operGoldCoin}
+			, history_cash_earning = history_cash_earning + #{operCash}
+
+		WHERE id = #{id}
+			AND wait_in_total_cash - #{operCash} &gt;= 0
+			AND alive_cash + #{operCash} &gt;= 0
+			AND manage_wait_in_total_cash - #{operCash} &gt;= 0
+			AND manage_alive_cash + #{operCash} &gt;= 0
+
+			AND wait_in_total_gold_coin - #{operGoldCoin} &gt;= 0
+			AND alive_gold_coin + #{operGoldCoin} &gt;= 0
+			AND manage_wait_in_total_gold_coin - #{operGoldCoin} &gt;= 0
+			AND manage_alive_gold_coin +#{operGoldCoin} &gt;= 0
+
+			AND history_gold_coin_earning + #{operGoldCoin} >= 0
+			AND history_cash_earning + #{operCash} >= 0
+    </update>
+
+
+    <update id="lock">
+		UPDATE shop_member_account
+		SET version = version + 1
+		WHERE id = #{id}
+	</update>
+
+
+    <update id="accountPreCashOut">
+		UPDATE shop_member_account
+		SET alive_cash = alive_cash - #{operCash},
+		commission_alive_cash = commission_alive_cash - #{fromCommission},
+		manage_alive_cash = manage_alive_cash - #{fromTeamIn},
+		frozen_cash = frozen_cash + #{operCash}
+		WHERE id = #{id}
+		AND alive_cash - #{operCash} &gt;= 0
+		AND commission_alive_cash - #{fromCommission} &gt;= 0
+	  	AND manage_alive_cash - #{fromTeamIn} &gt;= 0
+	  	AND frozen_cash + #{operCash} &gt;= 0
+	</update>
+
+
+    <update id="cashOutSuccess">
+		UPDATE shop_member_account
+		SET all_cash = all_cash + #{operCash}
+		, frozen_cash = frozen_cash + #{operCash}
+		, history_cash_out = history_cash_out - #{operCash}
+		WHERE id = #{id}
+		AND all_cash + #{operCash} &gt;= 0
+		AND frozen_cash + #{operCash} &gt;= 0
+		AND history_cash_out - #{operCash} &gt;= 0
+	</update>
+
+    <select id="findOrderAccountDetails"
+            resultType="com.e_commerce.miscroservice.commons.entity.order.OrderAccountDetailsResponse">
+        SELECT
+            a.order_number,
+            a.user_nickname,
+            a.count,
+            a.pay_money,
+            a.express_money,
+            a.sale_money,
+            a.pay_time,
+            a.confirmSignedTime,
+            a.order_status,
+            a.gold_coin,
+            (b.oper_cash ) as money,
+            (b.oper_gold_coin ) as coin,
+            b.order_earnings_snapshoot,
+            b.earnings_ratio,
+            b.payment_no,
+            b.type,
+            b.status,
+            b.oper_cash,
+            b.oper_gold_coin,
+            b.order_no as orderNo,
+            b.create_time as operTime
+        FROM
+            shop_member_account_cash_out_in b LEFT JOIN  shop_member_order a on b.order_no = a.order_number
+        WHERE
+		 b.id = #{id}
+	</select>
+
+
+    <!-- 账户增加可用的金币或现金,并且加到佣金中 -->
+    <update id="addAliveGoldCashAndCommissionCashGold">
+        UPDATE shop_member_account
+        SET
+            history_cash_earning = history_cash_earning + #{operCash}
+            , all_cash = all_cash + #{operCash}
+            , alive_cash = alive_cash + #{operCash}
+            , history_gold_coin_earning = history_gold_coin_earning + #{operGoldCoin}
+            , all_gold_coin = all_gold_coin + #{operGoldCoin}
+            , alive_gold_coin = alive_gold_coin + #{operGoldCoin}
+
+            , commission_alive_cash = commission_alive_cash + #{operCash}
+            , commission_alive_gold_coin = commission_alive_gold_coin + #{operGoldCoin}
+        WHERE id = #{id}
+             AND history_cash_earning + #{operCash} &gt;= 0
+             AND all_cash + #{operCash} &gt;= 0
+             AND alive_cash + #{operCash} &gt;= 0
+             AND history_gold_coin_earning + #{operGoldCoin} &gt;= 0
+             AND all_gold_coin + #{operGoldCoin} &gt;= 0
+             AND alive_gold_coin + #{operGoldCoin} &gt;= 0
+
+             AND commission_alive_cash + #{operCash} &gt;= 0
+             AND commission_alive_gold_coin + #{operGoldCoin} &gt;= 0
+    </update>
+
+
+</mapper>

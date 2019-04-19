@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.store.dao.mapper.OrderItemMapper">
+	<insert id="insertOrderItems" parameterType="map">
+		<![CDATA[
+			insert into store_OrderItem
+
+			(OrderNo, StoreId, ProductId, SkuId, TotalMoney, 
+			TotalExpressMoney, Money, ExpressMoney, BuyCount, 
+			SkuSnapshot, Status, CreateTime, UpdateTime, BrandId, 
+			LOWarehouseId, TotalUnavalCoinUsed, UnavalCoinUsed, TotalPay , TotalMarketPrice, MarketPrice, TotalAvailableCommission, Position,supplierId)
+			values
+		]]>
+		<foreach collection="orderItems" item="orderItem" open="(" separator="),(" close=")">
+			<![CDATA[
+				#{orderId}, #{orderItem.storeId}, #{orderItem.productId}, #{orderItem.skuId}, #{orderItem.totalMoney}, 
+				#{orderItem.totalExpressMoney}, #{orderItem.money}, #{orderItem.expressMoney}, #{orderItem.buyCount}, 
+				#{orderItem.skuSnapshot}, #{orderItem.status}, #{orderItem.createTime}, #{orderItem.updateTime}, #{orderItem.brandId}, 
+				#{orderItem.lOWarehouseId}, #{orderItem.totalUnavalCoinUsed}, #{orderItem.unavalCoinUsed}, #{orderItem.totalPay},
+				#{orderItem.totalMarketPrice}, #{orderItem.marketPrice}, #{orderItem.totalAvailableCommission}, #{orderItem.position},#{orderItem.supplierId}
+
+			]]>
+		</foreach>
+	</insert>
+	
+	<select id="getOrderItems" parameterType="map" resultType="ShopStoreOrderItem">
+		<![CDATA[
+			select * from store_OrderItem
+			where storeId = #{storeId} and OrderNo in
+		]]>
+		<foreach collection="orderIds" item="orderId" open="(" separator="," close=")">
+			<![CDATA[
+				#{orderId}
+			]]>
+		</foreach>
+		<![CDATA[
+			 order by lOWarehouseId
+			]]>
+	</select>
+	
+	<update id="updateOrderNo" parameterType="map">
+		<![CDATA[
+			update store_OrderItem
+			set OrderNo=#{orderNo}, UpdateTime = #{time}
+			where Id = #{itemId}
+		]]>
+	</update>
+	
+	<select id="getOrderNewItems" parameterType="map" resultType="ShopStoreOrderItem">
+		<![CDATA[
+			select * from store_OrderItem
+			where StoreId = #{storeId} and OrderNo in
+		]]>
+		<foreach collection="orderNos" item="orderNo" open="(" separator="," close=")">
+			<![CDATA[
+				#{orderNo}
+			]]>
+		</foreach>
+		<![CDATA[
+			 order by lOWarehouseId
+			]]>
+	</select>
+	
+	<select id="getOrderNewItemsByOrderNO" parameterType="map" resultType="ShopStoreOrderItem">
+		<![CDATA[
+			select * from store_OrderItem
+			where StoreId = #{storeId} and OrderNo = #{orderNo}
+		 	order by lOWarehouseId
+			]]>
+	</select>
+	
+	<select id="getOrderItemById" parameterType="map" resultType="ShopStoreOrderItem">
+		<![CDATA[
+			select * from store_OrderItem
+			where StoreId = #{storeId} and id = #{orderItemId}
+			]]>
+	</select>
+	
+	<select id="getOrderNewItemsOnlyByOrderNO" parameterType="map" resultType="ShopStoreOrderItem">
+		<![CDATA[
+			select * from store_OrderItem
+			where OrderNo = #{orderNo}
+			]]>
+	</select>
+
+	<select id="selectStoreById" resultType="Integer">
+			select `wxa_business_type` as wxaBusinessType from `yjj_storebusiness` where `Id`=#{storeId}
+	</select>
+
+	<select id="selectOwn" resultType="Integer">
+			select own from `shop_member_order_item` where  `order_number`=#{orderNo}
+	</select>
+
+	<select id="selectType" resultType="Integer">
+			select `type` from `store_order` where `OrderNo`=#{orderNo}
+	</select>
+</mapper>

@@ -1,0 +1,59 @@
+---
+#限流开关
+limter.flow.enabled: false
+---
+#文件加载的环境配置
+spring:
+  profiles:
+    active: test
+  application:
+    name: publicaccount
+
+---
+#端口
+server:
+  port: 8085
+
+#开启熔断机制
+feign.hystrix.enabled: true
+
+---
+#mybatis的扫包路径
+mybatis:
+  typeAliasesPackage: com.e_commerce.miscroservice.publicaccount.po.*
+  mapper-locations: classpath:publicaccountMapper/*.xml
+
+mapper:
+  identity: MYSQL
+  mappers:
+  - com.e_commerce.miscroservice.commons.helper.plug.mybatis.mapper.BaseMapper
+  not-empty: false
+
+pagehelper:
+  helper-dialect: mysql
+  params: count=countSql
+  reasonable: true
+  support-methods-arguments: true
+
+---
+#打开数据库配置
+open.datasource: true
+flyway.enabled: false
+
+
+---
+#mq管理
+mq:
+  #是否打开发送开关 true是 false不是
+  openSend: false
+  # 发送消息的集合管理  格式  消息名称:消息的类型(fanout,direct):接受的监听类的名称(首字母小写) eg msg:fanout:demoListener
+  channels: timer_scheduler_timer_send_withdraw_deposit_bank_delay_task:fanout:withdrawDepositListener
+
+---
+#公账号
+publicaccount.appid: wx176676190b6d64ae
+publicaccount.secret: a3798f6af930b3c1039199c338e83296
+
+---
+#其他配置
+publicaccount.user.defaultName: userName1

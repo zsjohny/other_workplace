@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yujj.dao.mapper.LOPostageMapper">
+	
+	<select id="getPostage" parameterType="map" resultType="LOPostage">
+		select Postage from yjj_LOPostage
+		where DeliveryLocation = #{deliveryLocation} and DistributionLocation = #{distributionLocation} and status = 0
+	</select>
+
+</mapper>

@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" > 
+<mapper namespace="com.jiuy.rb.mapper.coupon.WxaShareMapper"> 
+ 
+ 	<!-- 主要的返回映射-->
+	<resultMap id="BaseResultMap" type="com.jiuy.rb.model.coupon.WxaShare"	>
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="source_user"  property="sourceUser"  jdbcType="BIGINT" />
+		<result column="target_user"  property="targetUser"  jdbcType="BIGINT" />
+		<result column="wx_id"  property="wxId"  jdbcType="VARCHAR" />
+		<result column="wx_nickname"  property="wxNickname"  jdbcType="VARCHAR" />
+		<result column="wx_header_portrait"  property="wxHeaderPortrait"  jdbcType="VARCHAR" />
+		<result column="create_time"  property="createTime"  jdbcType="TIMESTAMP" />
+		<result column="share_type"  property="shareType"  jdbcType="INTEGER" />
+	</resultMap>
+
+	<!-- 所有的列名-->
+	<sql id="Base_Column_List" >
+		id,source_user,target_user,wx_id,wx_nickname,wx_header_portrait,create_time,share_type
+	</sql>
+
+	<!-- 精确更新的字段-->
+	<sql id="updateBase">
+		<if test="id  !=null">
+			id = #{id,jdbcType=BIGINT}, 
+		</if>
+		<if test="sourceUser  !=null">
+			source_user = #{sourceUser,jdbcType=BIGINT}, 
+		</if>
+		<if test="targetUser  !=null">
+			target_user = #{targetUser,jdbcType=BIGINT}, 
+		</if>
+		<if test="wxId  !=null">
+			wx_id = #{wxId,jdbcType=VARCHAR}, 
+		</if>
+		<if test="wxNickname  !=null">
+			wx_nickname = #{wxNickname,jdbcType=VARCHAR}, 
+		</if>
+		<if test="wxHeaderPortrait  !=null">
+			wx_header_portrait = #{wxHeaderPortrait,jdbcType=VARCHAR}, 
+		</if>
+		<if test="createTime  !=null">
+			create_time = #{createTime,jdbcType=TIMESTAMP}, 
+		</if>
+		<if test="shareType  !=null">
+			share_type = #{shareType,jdbcType=INTEGER} 
+		</if>
+	</sql>
+
+	<!-- 通过主键查找-->
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="Long" >
+		select 
+		<include refid="Base_Column_List" />
+		from yjj_wxa_share
+		where  id = #{id,jdbcType=BIGINT} 
+	</select>
+
+	<!-- 通过主键删除-->
+	<delete id="deleteByPrimaryKey" parameterType="Long" >
+		delete from yjj_wxa_share
+		where id = #{id,jdbcType=BIGINT} 
+	</delete>
+
+	<!-- 普通插入全字段插t入-->
+	<insert id="insert" parameterType="com.jiuy.rb.model.coupon.WxaShare" >
+		insert into yjj_wxa_share
+		(
+			id,
+			source_user,
+			target_user,
+			wx_id,
+			wx_nickname,
+			wx_header_portrait,
+			create_time,
+			share_type
+		)
+		values
+		(
+			#{id ,jdbcType=BIGINT},
+			#{sourceUser ,jdbcType=BIGINT},
+			#{targetUser ,jdbcType=BIGINT},
+			#{wxId ,jdbcType=VARCHAR},
+			#{wxNickname ,jdbcType=VARCHAR},
+			#{wxHeaderPortrait ,jdbcType=VARCHAR},
+			#{createTime ,jdbcType=TIMESTAMP},
+			#{shareType ,jdbcType=INTEGER}
+		)
+	</insert>
+
+	<!-- 批量插入，全部字段插入-->
+	<insert id="insertBach"   parameterType="List" >
+		insert into yjj_wxa_share
+		(
+			id,
+			source_user,
+			target_user,
+			wx_id,
+			wx_nickname,
+			wx_header_portrait,
+			create_time,
+			share_type
+		)
+		values 
+		<foreach collection="list" item="item" separator=",">
+		(
+			#{item.id ,jdbcType=BIGINT},
+			#{item.sourceUser ,jdbcType=BIGINT},
+			#{item.targetUser ,jdbcType=BIGINT},
+			#{item.wxId ,jdbcType=VARCHAR},
+			#{item.wxNickname ,jdbcType=VARCHAR},
+			#{item.wxHeaderPortrait ,jdbcType=VARCHAR},
+			#{item.createTime ,jdbcType=TIMESTAMP},
+			#{item.shareType ,jdbcType=INTEGER}
+		)
+		</foreach>
+	</insert>
+
+	<!-- 精确插入，非null得字段才会插入-->
+	<insert id="insertSelective" parameterType="com.jiuy.rb.model.coupon.WxaShare" useGeneratedKeys="true" keyProperty="id" >
+		insert into yjj_wxa_share
+		<trim prefix="(" suffix=")" suffixOverrides="," > 
+			<if test="id !=null">  
+				id,
+			</if>
+			<if test="sourceUser !=null">  
+				source_user,
+			</if>
+			<if test="targetUser !=null">  
+				target_user,
+			</if>
+			<if test="wxId !=null">  
+				wx_id,
+			</if>
+			<if test="wxNickname !=null">  
+				wx_nickname,
+			</if>
+			<if test="wxHeaderPortrait !=null">  
+				wx_header_portrait,
+			</if>
+			<if test="createTime !=null">  
+				create_time,
+			</if>
+			<if test="shareType !=null">  
+				share_type,
+			</if>
+		</trim>
+
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+			<if test="id  !=null">
+				#{id,jdbcType=BIGINT}, 
+			</if>
+			<if test="sourceUser  !=null">
+				#{sourceUser,jdbcType=BIGINT}, 
+			</if>
+			<if test="targetUser  !=null">
+				#{targetUser,jdbcType=BIGINT}, 
+			</if>
+			<if test="wxId  !=null">
+				#{wxId,jdbcType=VARCHAR}, 
+			</if>
+			<if test="wxNickname  !=null">
+				#{wxNickname,jdbcType=VARCHAR}, 
+			</if>
+			<if test="wxHeaderPortrait  !=null">
+				#{wxHeaderPortrait,jdbcType=VARCHAR}, 
+			</if>
+			<if test="createTime  !=null">
+				#{createTime,jdbcType=TIMESTAMP}, 
+			</if>
+			<if test="shareType  !=null">
+				#{shareType,jdbcType=INTEGER} 
+			</if>
+		</trim>
+	</insert> 
+
+	<!-- 精确更新-->
+	<update id="updateByPrimaryKeySelective" parameterType="com.jiuy.rb.model.coupon.WxaShare" >
+		update yjj_wxa_share
+		<set>
+			<include refid="updateBase"/>
+		</set>
+		where id = #{id,jdbcType=BIGINT} 
+	</update> 
+
+	<!-- 全字段更新 需要注意-->
+	<update id="updateByPrimaryKey" parameterType="com.jiuy.rb.model.coupon.WxaShare" >
+		update yjj_wxa_share
+		set 
+			id = #{id ,jdbcType=BIGINT},
+			source_user = #{sourceUser ,jdbcType=BIGINT},
+			target_user = #{targetUser ,jdbcType=BIGINT},
+			wx_id = #{wxId ,jdbcType=VARCHAR},
+			wx_nickname = #{wxNickname ,jdbcType=VARCHAR},
+			wx_header_portrait = #{wxHeaderPortrait ,jdbcType=VARCHAR},
+			create_time = #{createTime ,jdbcType=TIMESTAMP},
+			share_type = #{shareType ,jdbcType=INTEGER}
+		where id = #{id,jdbcType=BIGINT} 
+	</update> 
+
+	<!-- 所有的条件集合-->
+	<sql id="whereCase"  >
+		where  1=1 
+		<if test="id  !=null">
+			AND id = #{id,jdbcType=BIGINT} 
+		</if>
+		<if test="sourceUser  !=null">
+			AND source_user = #{sourceUser,jdbcType=BIGINT} 
+		</if>
+		<if test="targetUser  !=null">
+			AND target_user = #{targetUser,jdbcType=BIGINT} 
+		</if>
+		<if test="wxId  !=null">
+			AND wx_id = #{wxId,jdbcType=VARCHAR} 
+		</if>
+		<if test="wxNickname  !=null">
+			AND wx_nickname = #{wxNickname,jdbcType=VARCHAR} 
+		</if>
+		<if test="wxHeaderPortrait  !=null">
+			AND wx_header_portrait = #{wxHeaderPortrait,jdbcType=VARCHAR} 
+		</if>
+		<if test="createTime  !=null">
+			AND create_time = #{createTime,jdbcType=TIMESTAMP} 
+		</if>
+		<if test="shareType  !=null">
+			AND share_type = #{shareType,jdbcType=INTEGER} 
+		</if>
+		<include refid="costomWhereCase"/>
+	</sql>
+
+	<!-- 查询一条，如果返回多条会报错-->
+	<select id="selectOne" parameterType="java.util.Map" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" /> 
+		FROM yjj_wxa_share 
+		<include refid="whereCase" /> 
+	</select>
+
+	<!-- 查询一个list-->
+	<select id="selectList" parameterType="java.util.Map" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" /> 
+		FROM yjj_wxa_share 
+		<include refid="whereCase" /> 
+	</select>
+
+	<!-- 查询一个list-->
+	<select id="selectCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+		SELECT
+		count(1) 
+		FROM yjj_wxa_share
+		<include refid="whereCase" /> 
+	</select>
+
+	<!--  @Costom -->
+	<!-- 从上一行注释以上为系统生成 从这一行往下为用户自定义 请将自定义的sql放在此行下面 -->
+	<sql id="costomWhereCase">
+
+	</sql>
+
+
+	<!--获取分组 每个用户邀请了多少人-->
+	<select id="selectWxaCountGroup" resultType="Map" parameterType="Map">
+		SELECT
+			count(1) as count ,source_user sourceUser
+		from yjj_wxa_share
+		where source_user in
+		<foreach collection="userIds" separator="," item="userId" open="(" close=")">
+		  #{userId}
+		</foreach>
+		GROUP BY source_user
+	</select>
+
+</mapper>

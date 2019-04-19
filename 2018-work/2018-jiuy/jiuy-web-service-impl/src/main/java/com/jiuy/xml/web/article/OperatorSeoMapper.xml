@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" > 
+<mapper namespace="com.jiuy.mapper.web.article.OperatorSeoMapper"> 
+ 
+ 	<!-- 主要的返回映射-->
+	<resultMap id="BaseResultMap" type="com.jiuy.model.web.article.OperatorSeo"	>
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="title"  property="title"  jdbcType="VARCHAR" />
+		<result column="descriptor"  property="descriptor"  jdbcType="VARCHAR" />
+		<result column="keywords"  property="keywords"  jdbcType="VARCHAR" />
+		<result column="seo_type"  property="seoType"  jdbcType="TINYINT" />
+		<result column="status"  property="status"  jdbcType="TINYINT" />
+		<result column="create_time"  property="createTime"  jdbcType="BIGINT" />
+		<result column="update_time"  property="updateTime"  jdbcType="BIGINT" />
+		<result column="delete_time"  property="deleteTime"  jdbcType="BIGINT" />
+		<result column="create_operator_id"  property="createOperatorId"  jdbcType="BIGINT" />
+	</resultMap>
+
+	<!-- 所有的列名-->
+	<sql id="Base_Column_List" >
+		id,title,descriptor,keywords,seo_type,status,create_time,update_time,delete_time,
+		create_operator_id
+	</sql>
+
+	<!-- 精确更新的字段-->
+	<sql id="updateBase">
+		<if test="id  !=null">
+			id = #{id,jdbcType=BIGINT}, 
+		</if>
+		<if test="title  !=null">
+			title = #{title,jdbcType=VARCHAR}, 
+		</if>
+		<if test="descriptor  !=null">
+			descriptor = #{descriptor,jdbcType=VARCHAR}, 
+		</if>
+		<if test="keywords  !=null">
+			keywords = #{keywords,jdbcType=VARCHAR}, 
+		</if>
+		<if test="seoType  !=null">
+			seo_type = #{seoType,jdbcType=TINYINT}, 
+		</if>
+		<if test="status  !=null">
+			status = #{status,jdbcType=TINYINT}, 
+		</if>
+		<if test="createTime  !=null">
+			create_time = #{createTime,jdbcType=BIGINT}, 
+		</if>
+		<if test="updateTime  !=null">
+			update_time = #{updateTime,jdbcType=BIGINT}, 
+		</if>
+		<if test="deleteTime  !=null">
+			delete_time = #{deleteTime,jdbcType=BIGINT}, 
+		</if>
+		<if test="createOperatorId  !=null">
+			create_operator_id = #{createOperatorId,jdbcType=BIGINT} 
+		</if>
+	</sql>
+
+	<!-- 通过主键查找-->
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="Long" >
+		select 
+		<include refid="Base_Column_List" />
+		from operator_seo
+		where  id = #{id,jdbcType=BIGINT} 
+	</select>
+
+	<!-- 通过主键删除-->
+	<delete id="deleteByPrimaryKey" parameterType="Long" >
+		delete from operator_seo
+		where id = #{id,jdbcType=BIGINT} 
+	</delete>
+
+	<!-- 普通插入全字段插t入-->
+	<insert id="insert" parameterType="com.jiuy.model.web.article.OperatorSeo" >
+		insert into operator_seo
+		(
+			id,
+			title,
+			descriptor,
+			keywords,
+			seo_type,
+			status,
+			create_time,
+			update_time,
+			delete_time,
+			create_operator_id
+		)
+		values
+		(
+			#{id ,jdbcType=BIGINT},
+			#{title ,jdbcType=VARCHAR},
+			#{descriptor ,jdbcType=VARCHAR},
+			#{keywords ,jdbcType=VARCHAR},
+			#{seoType ,jdbcType=TINYINT},
+			#{status ,jdbcType=TINYINT},
+			#{createTime ,jdbcType=BIGINT},
+			#{updateTime ,jdbcType=BIGINT},
+			#{deleteTime ,jdbcType=BIGINT},
+			#{createOperatorId ,jdbcType=BIGINT}
+		)
+	</insert>
+
+	<!-- 批量插入，全部字段插入-->
+	<insert id="insertBach"   parameterType="List" >
+		insert into operator_seo
+		(
+			id,
+			title,
+			descriptor,
+			keywords,
+			seo_type,
+			status,
+			create_time,
+			update_time,
+			delete_time,
+			create_operator_id
+		)
+		values 
+		<foreach collection="list" item="item" separator=",">
+		(
+			#{item.id ,jdbcType=BIGINT},
+			#{item.title ,jdbcType=VARCHAR},
+			#{item.descriptor ,jdbcType=VARCHAR},
+			#{item.keywords ,jdbcType=VARCHAR},
+			#{item.seoType ,jdbcType=TINYINT},
+			#{item.status ,jdbcType=TINYINT},
+			#{item.createTime ,jdbcType=BIGINT},
+			#{item.updateTime ,jdbcType=BIGINT},
+			#{item.deleteTime ,jdbcType=BIGINT},
+			#{item.createOperatorId ,jdbcType=BIGINT}
+		)
+		</foreach>
+	</insert>
+
+	<!-- 精确插入，非null得字段才会插入-->
+	<insert id="insertSelective" parameterType="com.jiuy.model.web.article.OperatorSeo" useGeneratedKeys="true" keyProperty="id" >
+		insert into operator_seo
+		<trim prefix="(" suffix=")" suffixOverrides="," > 
+			<if test="id !=null">  
+				id,
+			</if>
+			<if test="title !=null">  
+				title,
+			</if>
+			<if test="descriptor !=null">  
+				descriptor,
+			</if>
+			<if test="keywords !=null">  
+				keywords,
+			</if>
+			<if test="seoType !=null">  
+				seo_type,
+			</if>
+			<if test="status !=null">  
+				status,
+			</if>
+			<if test="createTime !=null">  
+				create_time,
+			</if>
+			<if test="updateTime !=null">  
+				update_time,
+			</if>
+			<if test="deleteTime !=null">  
+				delete_time,
+			</if>
+			<if test="createOperatorId !=null">  
+				create_operator_id,
+			</if>
+		</trim>
+
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+			<if test="id  !=null">
+				#{id,jdbcType=BIGINT}, 
+			</if>
+			<if test="title  !=null">
+				#{title,jdbcType=VARCHAR}, 
+			</if>
+			<if test="descriptor  !=null">
+				#{descriptor,jdbcType=VARCHAR}, 
+			</if>
+			<if test="keywords  !=null">
+				#{keywords,jdbcType=VARCHAR}, 
+			</if>
+			<if test="seoType  !=null">
+				#{seoType,jdbcType=TINYINT}, 
+			</if>
+			<if test="status  !=null">
+				#{status,jdbcType=TINYINT}, 
+			</if>
+			<if test="createTime  !=null">
+				#{createTime,jdbcType=BIGINT}, 
+			</if>
+			<if test="updateTime  !=null">
+				#{updateTime,jdbcType=BIGINT}, 
+			</if>
+			<if test="deleteTime  !=null">
+				#{deleteTime,jdbcType=BIGINT}, 
+			</if>
+			<if test="createOperatorId  !=null">
+				#{createOperatorId,jdbcType=BIGINT} 
+			</if>
+		</trim>
+	</insert> 
+
+	<!-- 精确更新-->
+	<update id="updateByPrimaryKeySelective" parameterType="com.jiuy.model.web.article.OperatorSeo" >
+		update operator_seo
+		<set>
+			<include refid="updateBase"/>
+		</set>
+		where id = #{id,jdbcType=BIGINT} 
+	</update> 
+
+	<!-- 全字段更新 需要注意-->
+	<update id="updateByPrimaryKey" parameterType="com.jiuy.model.web.article.OperatorSeo" >
+		update operator_seo
+		set 
+			id = #{id ,jdbcType=BIGINT},
+			title = #{title ,jdbcType=VARCHAR},
+			descriptor = #{descriptor ,jdbcType=VARCHAR},
+			keywords = #{keywords ,jdbcType=VARCHAR},
+			seo_type = #{seoType ,jdbcType=TINYINT},
+			status = #{status ,jdbcType=TINYINT},
+			create_time = #{createTime ,jdbcType=BIGINT},
+			update_time = #{updateTime ,jdbcType=BIGINT},
+			delete_time = #{deleteTime ,jdbcType=BIGINT},
+			create_operator_id = #{createOperatorId ,jdbcType=BIGINT}
+		where id = #{id,jdbcType=BIGINT} 
+	</update> 
+
+	<!-- 所有的条件集合-->
+	<sql id="whereCase"  >
+		where  1=1 
+		<if test="id  !=null">
+			AND id = #{id,jdbcType=BIGINT} 
+		</if>
+		<if test="title  !=null">
+			AND title = #{title,jdbcType=VARCHAR} 
+		</if>
+		<if test="descriptor  !=null">
+			AND descriptor = #{descriptor,jdbcType=VARCHAR} 
+		</if>
+		<if test="keywords  !=null">
+			AND keywords = #{keywords,jdbcType=VARCHAR} 
+		</if>
+		<if test="seoType  !=null">
+			AND seo_type = #{seoType,jdbcType=TINYINT} 
+		</if>
+		<if test="status  !=null">
+			AND status = #{status,jdbcType=TINYINT} 
+		</if>
+		<if test="createTime  !=null">
+			AND create_time = #{createTime,jdbcType=BIGINT} 
+		</if>
+		<if test="updateTime  !=null">
+			AND update_time = #{updateTime,jdbcType=BIGINT} 
+		</if>
+		<if test="deleteTime  !=null">
+			AND delete_time = #{deleteTime,jdbcType=BIGINT} 
+		</if>
+		<if test="createOperatorId  !=null">
+			AND create_operator_id = #{createOperatorId,jdbcType=BIGINT} 
+		</if>
+		<include refid="costomWhereCase"/>
+	</sql>
+
+	<!-- 查询一条，如果返回多条会报错-->
+	<select id="selectOne" parameterType="java.util.Map" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" /> 
+		FROM operator_seo 
+		<include refid="whereCase" /> 
+	</select>
+
+	<!-- 查询一个list-->
+	<select id="selectList" parameterType="java.util.Map" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" /> 
+		FROM operator_seo 
+		<include refid="whereCase" /> 
+	</select>
+
+	<!-- 查询一个list-->
+	<select id="selectCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+		SELECT
+		count(1) 
+		FROM operator_seo
+		<include refid="whereCase" /> 
+	</select>
+
+	<!--  @Costom -->
+	<!-- 从上一行注释以上为系统生成 从这一行往下为用户自定义 请将自定义的sql放在此行下面 -->
+	<sql id="costomWhereCase">
+	</sql>
+
+</mapper>

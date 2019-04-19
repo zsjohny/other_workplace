@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.e_commerce.miscroservice.distribution.mapper.DistributionSystemMapper">
+
+    <!-- 合伙人今日添加总数-->
+    <select id="findUnderPartnerCountToday" resultType="java.lang.Integer">
+        SELECT
+          COUNT(user_id)
+        from
+          yjj_distribution_system
+        where
+          partner_id = #{userId}
+           and user_id != #{userId}
+        and CURDATE() = FROM_UNIXTIME(UNIX_TIMESTAMP(create_time),'%Y-%m-%d');
+
+    </select>
+    <!--分销商旗下今日添加人数-->
+    <select id="findUnderDistributorCountToday" resultType="java.lang.Integer">
+        SELECT
+          COUNT(user_id)
+        from
+          yjj_distribution_system
+        where
+          distributor_id = #{userId}
+          and user_id != #{userId}
+        and CURDATE() = FROM_UNIXTIME(UNIX_TIMESTAMP(create_time),'%Y-%m-%d');
+
+    </select>
+    <!--今日新增粉丝数-->
+    <select id="todayIncrease" resultType="java.lang.Integer">
+        SELECT COUNT(user_id)
+        from yjj_distribution_system
+        where (higher_up = #{userId} or top_up = #{userId})
+        and CURDATE() = FROM_UNIXTIME(UNIX_TIMESTAMP(create_time),'%Y-%m-%d');
+
+
+    </select>
+    <!--我的一级粉丝-->
+    <select id="findFollowerDetails" resultType="com.e_commerce.miscroservice.commons.entity.distribution.UnderMyClassAResponse">
+        select b.user_nickname as nickName,b.user_icon as img ,a.create_time as `time` from yjj_distribution_system a,shop_member b where a.user_id = b.id and a.higher_up = #{userId} order by a.create_time desc
+    </select>
+
+    <!--我的上级信息-->
+    <select id="findHigherInformation" resultType="com.e_commerce.miscroservice.commons.entity.distribution.UnderMyClassAResponse">
+        select b.user_nickname as nickName,b.user_icon as img ,a.create_time as `time` from yjj_distribution_system a,shop_member b where a.user_id = b.id and a.user_id = #{userId}
+    </select>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+

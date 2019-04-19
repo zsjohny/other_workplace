@@ -1,0 +1,3 @@
+insert into yjj.Tb_Tree_Dictionary (groupid,dictid,dictname,groupname,parentid,dictlevel,status) values ('ADDRESS_GROUP','ZJ','浙江','地址','',1,1);
+insert into yjj.Tb_Tree_Dictionary (groupid,dictid,dictname,groupname,parentid,dictlevel,status) values ('ADDRESS_GROUP','HZ','杭州','地址','ZJ',2,1);
+insert into yjj.Tb_Tree_Dictionary (groupid,dictid,dictname,groupname,parentid,dictlevel,status) values ('ADDRESS_GROUP','BJQ','滨江区','地址','HZ',3,1);

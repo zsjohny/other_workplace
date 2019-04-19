@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.e_commerce.miscroservice.payment.mapper.SqlMapper">
+
+
+    <update id="updShareShopQrImg">
+        UPDATE `yjj_store_wxa_shop_audit_data` SET share_qr_code_url = NULL
+        WHERE store_id =#{storeId}
+    </update>
+    
+</mapper>
+
+
+
+
+
+
+
+
+
+
+

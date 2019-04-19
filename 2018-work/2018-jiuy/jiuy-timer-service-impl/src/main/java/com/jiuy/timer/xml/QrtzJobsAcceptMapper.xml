@@ -1,0 +1,387 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" > 
+<mapper namespace="com.jiuy.timer.mapper.QrtzJobsAcceptMapper"> 
+ 
+ 	<!-- 主要的返回映射-->
+	<resultMap id="BaseResultMap" type="com.jiuy.timer.model.QrtzJobsAccept"	>
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="job_name"  property="jobName"  jdbcType="VARCHAR" />
+		<result column="job_group"  property="jobGroup"  jdbcType="VARCHAR" />
+		<result column="job_comment"  property="jobComment"  jdbcType="VARCHAR" />
+		<result column="job_class_name"  property="jobClassName"  jdbcType="VARCHAR" />
+		<result column="feedback_url"  property="feedbackUrl"  jdbcType="VARCHAR" />
+		<result column="feedback_data"  property="feedbackData"  jdbcType="VARCHAR" />
+		<result column="date"  property="date"  jdbcType="VARCHAR" />
+		<result column="cron_expression"  property="cronExpression"  jdbcType="VARCHAR" />
+		<result column="del_state"  property="delState"  jdbcType="INTEGER" />
+		<result column="create_time"  property="createTime"  jdbcType="TIMESTAMP" />
+		<result column="update_time"  property="updateTime"  jdbcType="TIMESTAMP" />
+		<result column="begin_date"  property="beginDate"  jdbcType="VARCHAR" />
+		<result column="end_date"  property="endDate"  jdbcType="VARCHAR" />
+		<result column="each_time"  property="eachTime"  jdbcType="INTEGER" />
+	</resultMap>
+
+	<!-- 所有的列名-->
+	<sql id="Base_Column_List" >
+		id,job_name,job_group,job_comment,job_class_name,feedback_url,feedback_data,date,cron_expression,
+		del_state,create_time,update_time,begin_date,end_date,each_time
+	</sql>
+
+	<!-- 精确更新的字段-->
+	<sql id="updateBase">
+		<if test="id  !=null">
+			id = #{id,jdbcType=BIGINT}, 
+		</if>
+		<if test="jobName  !=null">
+			job_name = #{jobName,jdbcType=VARCHAR}, 
+		</if>
+		<if test="jobGroup  !=null">
+			job_group = #{jobGroup,jdbcType=VARCHAR}, 
+		</if>
+		<if test="jobComment  !=null">
+			job_comment = #{jobComment,jdbcType=VARCHAR}, 
+		</if>
+		<if test="jobClassName  !=null">
+			job_class_name = #{jobClassName,jdbcType=VARCHAR}, 
+		</if>
+		<if test="feedbackUrl  !=null">
+			feedback_url = #{feedbackUrl,jdbcType=VARCHAR}, 
+		</if>
+		<if test="feedbackData  !=null">
+			feedback_data = #{feedbackData,jdbcType=VARCHAR}, 
+		</if>
+		<if test="date  !=null">
+			date = #{date,jdbcType=VARCHAR}, 
+		</if>
+		<if test="cronExpression  !=null">
+			cron_expression = #{cronExpression,jdbcType=VARCHAR}, 
+		</if>
+		<if test="delState  !=null">
+			del_state = #{delState,jdbcType=INTEGER}, 
+		</if>
+		<if test="createTime  !=null">
+			create_time = #{createTime,jdbcType=TIMESTAMP}, 
+		</if>
+		<if test="updateTime  !=null">
+			update_time = #{updateTime,jdbcType=TIMESTAMP}, 
+		</if>
+		<if test="beginDate  !=null">
+			begin_date = #{beginDate,jdbcType=VARCHAR}, 
+		</if>
+		<if test="endDate  !=null">
+			end_date = #{endDate,jdbcType=VARCHAR}, 
+		</if>
+		<if test="eachTime  !=null">
+			each_time = #{eachTime,jdbcType=INTEGER} 
+		</if>
+	</sql>
+
+	<!-- 通过主键查找-->
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="Long" >
+		select 
+		<include refid="Base_Column_List" />
+		from qrtz_jobs_accept
+		where  id = #{id,jdbcType=BIGINT} 
+	</select>
+
+	<!-- 通过主键删除-->
+	<delete id="deleteByPrimaryKey" parameterType="Long" >
+		delete from qrtz_jobs_accept
+		where id = #{id,jdbcType=BIGINT} 
+	</delete>
+
+	<!-- 普通插入全字段插t入-->
+	<insert id="insert" parameterType="com.jiuy.timer.model.QrtzJobsAccept" >
+		insert into qrtz_jobs_accept
+		(
+			id,
+			job_name,
+			job_group,
+			job_comment,
+			job_class_name,
+			feedback_url,
+			feedback_data,
+			date,
+			cron_expression,
+			del_state,
+			create_time,
+			update_time,
+			begin_date,
+			end_date,
+			each_time
+		)
+		values
+		(
+			#{id ,jdbcType=BIGINT},
+			#{jobName ,jdbcType=VARCHAR},
+			#{jobGroup ,jdbcType=VARCHAR},
+			#{jobComment ,jdbcType=VARCHAR},
+			#{jobClassName ,jdbcType=VARCHAR},
+			#{feedbackUrl ,jdbcType=VARCHAR},
+			#{feedbackData ,jdbcType=VARCHAR},
+			#{date ,jdbcType=VARCHAR},
+			#{cronExpression ,jdbcType=VARCHAR},
+			#{delState ,jdbcType=INTEGER},
+			#{createTime ,jdbcType=TIMESTAMP},
+			#{updateTime ,jdbcType=TIMESTAMP},
+			#{beginDate ,jdbcType=VARCHAR},
+			#{endDate ,jdbcType=VARCHAR},
+			#{eachTime ,jdbcType=INTEGER}
+		)
+	</insert>
+
+	<!-- 批量插入，全部字段插入-->
+	<insert id="insertBach"   parameterType="List" >
+		insert into qrtz_jobs_accept
+		(
+			id,
+			job_name,
+			job_group,
+			job_comment,
+			job_class_name,
+			feedback_url,
+			feedback_data,
+			date,
+			cron_expression,
+			del_state,
+			create_time,
+			update_time,
+			begin_date,
+			end_date,
+			each_time
+		)
+		values 
+		<foreach collection="list" item="item" separator=",">
+		(
+			#{item.id ,jdbcType=BIGINT},
+			#{item.jobName ,jdbcType=VARCHAR},
+			#{item.jobGroup ,jdbcType=VARCHAR},
+			#{item.jobComment ,jdbcType=VARCHAR},
+			#{item.jobClassName ,jdbcType=VARCHAR},
+			#{item.feedbackUrl ,jdbcType=VARCHAR},
+			#{item.feedbackData ,jdbcType=VARCHAR},
+			#{item.date ,jdbcType=VARCHAR},
+			#{item.cronExpression ,jdbcType=VARCHAR},
+			#{item.delState ,jdbcType=INTEGER},
+			#{item.createTime ,jdbcType=TIMESTAMP},
+			#{item.updateTime ,jdbcType=TIMESTAMP},
+			#{item.beginDate ,jdbcType=VARCHAR},
+			#{item.endDate ,jdbcType=VARCHAR},
+			#{item.eachTime ,jdbcType=INTEGER}
+		)
+		</foreach>
+	</insert>
+
+	<!-- 精确插入，非null得字段才会插入-->
+	<insert id="insertSelective" parameterType="com.jiuy.timer.model.QrtzJobsAccept" useGeneratedKeys="true" keyProperty="id" >
+		insert into qrtz_jobs_accept
+		<trim prefix="(" suffix=")" suffixOverrides="," > 
+			<if test="id !=null">  
+				id,
+			</if>
+			<if test="jobName !=null">  
+				job_name,
+			</if>
+			<if test="jobGroup !=null">  
+				job_group,
+			</if>
+			<if test="jobComment !=null">  
+				job_comment,
+			</if>
+			<if test="jobClassName !=null">  
+				job_class_name,
+			</if>
+			<if test="feedbackUrl !=null">  
+				feedback_url,
+			</if>
+			<if test="feedbackData !=null">  
+				feedback_data,
+			</if>
+			<if test="date !=null">  
+				date,
+			</if>
+			<if test="cronExpression !=null">  
+				cron_expression,
+			</if>
+			<if test="delState !=null">  
+				del_state,
+			</if>
+			<if test="createTime !=null">  
+				create_time,
+			</if>
+			<if test="updateTime !=null">  
+				update_time,
+			</if>
+			<if test="beginDate !=null">  
+				begin_date,
+			</if>
+			<if test="endDate !=null">  
+				end_date,
+			</if>
+			<if test="eachTime !=null">  
+				each_time,
+			</if>
+		</trim>
+
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+			<if test="id  !=null">
+				#{id,jdbcType=BIGINT}, 
+			</if>
+			<if test="jobName  !=null">
+				#{jobName,jdbcType=VARCHAR}, 
+			</if>
+			<if test="jobGroup  !=null">
+				#{jobGroup,jdbcType=VARCHAR}, 
+			</if>
+			<if test="jobComment  !=null">
+				#{jobComment,jdbcType=VARCHAR}, 
+			</if>
+			<if test="jobClassName  !=null">
+				#{jobClassName,jdbcType=VARCHAR}, 
+			</if>
+			<if test="feedbackUrl  !=null">
+				#{feedbackUrl,jdbcType=VARCHAR}, 
+			</if>
+			<if test="feedbackData  !=null">
+				#{feedbackData,jdbcType=VARCHAR}, 
+			</if>
+			<if test="date  !=null">
+				#{date,jdbcType=VARCHAR}, 
+			</if>
+			<if test="cronExpression  !=null">
+				#{cronExpression,jdbcType=VARCHAR}, 
+			</if>
+			<if test="delState  !=null">
+				#{delState,jdbcType=INTEGER}, 
+			</if>
+			<if test="createTime  !=null">
+				#{createTime,jdbcType=TIMESTAMP}, 
+			</if>
+			<if test="updateTime  !=null">
+				#{updateTime,jdbcType=TIMESTAMP}, 
+			</if>
+			<if test="beginDate  !=null">
+				#{beginDate,jdbcType=VARCHAR}, 
+			</if>
+			<if test="endDate  !=null">
+				#{endDate,jdbcType=VARCHAR}, 
+			</if>
+			<if test="eachTime  !=null">
+				#{eachTime,jdbcType=INTEGER} 
+			</if>
+		</trim>
+	</insert> 
+
+	<!-- 精确更新-->
+	<update id="updateByPrimaryKeySelective" parameterType="com.jiuy.timer.model.QrtzJobsAccept" >
+		update qrtz_jobs_accept
+		<set>
+			<include refid="updateBase"/>
+		</set>
+		where id = #{id,jdbcType=BIGINT} 
+	</update> 
+
+	<!-- 全字段更新 需要注意-->
+	<update id="updateByPrimaryKey" parameterType="com.jiuy.timer.model.QrtzJobsAccept" >
+		update qrtz_jobs_accept
+		set 
+			id = #{id ,jdbcType=BIGINT},
+			job_name = #{jobName ,jdbcType=VARCHAR},
+			job_group = #{jobGroup ,jdbcType=VARCHAR},
+			job_comment = #{jobComment ,jdbcType=VARCHAR},
+			job_class_name = #{jobClassName ,jdbcType=VARCHAR},
+			feedback_url = #{feedbackUrl ,jdbcType=VARCHAR},
+			feedback_data = #{feedbackData ,jdbcType=VARCHAR},
+			date = #{date ,jdbcType=VARCHAR},
+			cron_expression = #{cronExpression ,jdbcType=VARCHAR},
+			del_state = #{delState ,jdbcType=INTEGER},
+			create_time = #{createTime ,jdbcType=TIMESTAMP},
+			update_time = #{updateTime ,jdbcType=TIMESTAMP},
+			begin_date = #{beginDate ,jdbcType=VARCHAR},
+			end_date = #{endDate ,jdbcType=VARCHAR},
+			each_time = #{eachTime ,jdbcType=INTEGER}
+		where id = #{id,jdbcType=BIGINT} 
+	</update> 
+
+	<!-- 所有的条件集合-->
+	<sql id="whereCase"  >
+		where  1=1 
+		<if test="id  !=null">
+			AND id = #{id,jdbcType=BIGINT} 
+		</if>
+		<if test="jobName  !=null">
+			AND job_name = #{jobName,jdbcType=VARCHAR} 
+		</if>
+		<if test="jobGroup  !=null">
+			AND job_group = #{jobGroup,jdbcType=VARCHAR} 
+		</if>
+		<if test="jobComment  !=null">
+			AND job_comment = #{jobComment,jdbcType=VARCHAR} 
+		</if>
+		<if test="jobClassName  !=null">
+			AND job_class_name = #{jobClassName,jdbcType=VARCHAR} 
+		</if>
+		<if test="feedbackUrl  !=null">
+			AND feedback_url = #{feedbackUrl,jdbcType=VARCHAR} 
+		</if>
+		<if test="feedbackData  !=null">
+			AND feedback_data = #{feedbackData,jdbcType=VARCHAR} 
+		</if>
+		<if test="date  !=null">
+			AND date = #{date,jdbcType=VARCHAR} 
+		</if>
+		<if test="cronExpression  !=null">
+			AND cron_expression = #{cronExpression,jdbcType=VARCHAR} 
+		</if>
+		<if test="delState  !=null">
+			AND del_state = #{delState,jdbcType=INTEGER} 
+		</if>
+		<if test="createTime  !=null">
+			AND create_time = #{createTime,jdbcType=TIMESTAMP} 
+		</if>
+		<if test="updateTime  !=null">
+			AND update_time = #{updateTime,jdbcType=TIMESTAMP} 
+		</if>
+		<if test="beginDate  !=null">
+			AND begin_date = #{beginDate,jdbcType=VARCHAR} 
+		</if>
+		<if test="endDate  !=null">
+			AND end_date = #{endDate,jdbcType=VARCHAR} 
+		</if>
+		<if test="eachTime  !=null">
+			AND each_time = #{eachTime,jdbcType=INTEGER} 
+		</if>
+		<include refid="costomWhereCase"/>
+	</sql>
+
+	<!-- 查询一条，如果返回多条会报错-->
+	<select id="selectOne" parameterType="java.util.Map" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" /> 
+		FROM qrtz_jobs_accept 
+		<include refid="whereCase" /> 
+	</select>
+
+	<!-- 查询一个list-->
+	<select id="selectList" parameterType="java.util.Map" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" /> 
+		FROM qrtz_jobs_accept 
+		<include refid="whereCase" /> 
+	</select>
+
+	<!-- 查询一个list-->
+	<select id="selectCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+		SELECT
+		count(1) 
+		FROM qrtz_jobs_accept
+		<include refid="whereCase" /> 
+	</select>
+
+	<!--  @Costom -->
+	<!-- 从上一行注释以上为系统生成 从这一行往下为用户自定义 请将自定义的sql放在此行下面 -->
+	<sql id="costomWhereCase">
+	</sql>
+
+
+</mapper>

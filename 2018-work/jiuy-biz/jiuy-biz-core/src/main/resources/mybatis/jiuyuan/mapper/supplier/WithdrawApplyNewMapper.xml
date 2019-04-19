@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jiuyuan.dao.mapper.supplier.WithdrawApplyNewMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.jiuyuan.entity.newentity.WithdrawApplyNew">
+		<id column="Id" property="Id" />
+		<result column="RelatedId" property="RelatedId" />
+		<result column="TradeId" property="TradeId" />
+		<result column="CreateTime" property="CreateTime" />
+		<result column="UpdateTime" property="UpdateTime" />
+		<result column="Status" property="Status" />
+		<result column="Type" property="Type" />
+		<result column="ApplyMoney" property="ApplyMoney" />
+		<result column="Money" property="Money" />
+		<result column="TradeWay" property="TradeWay" />
+		<result column="TradeName" property="TradeName" />
+		<result column="TradeAccount" property="TradeAccount" />
+		<result column="TradeBankName" property="TradeBankName" />
+		<result column="DealTime" property="DealTime" />
+		<result column="Remark" property="Remark" />
+		<result column="TradeNo" property="TradeNo" />
+		<result column="freeze_time" property="freezeTime" />
+		<result column="admin_id" property="adminId" />
+	</resultMap>
+	
+	<select id="search" parameterType="com.baomidou.mybatisplus.plugins.Page" resultMap="BaseResultMap">
+	    <![CDATA[
+	    select * from yjj_WithdrawApply where 1 = 1
+	    ]]>
+	     <if test="tradeId != -1">
+	        <![CDATA[
+	        and TradeId like CONCAT('%',#{tradeId},'%')
+	        ]]>
+	     </if>
+	     <if test="tradeNo != null and tradeNo != ''">
+	        <![CDATA[
+	        and TradeNo like CONCAT('%',#{tradeNo},'%')
+	        ]]>
+	     </if>
+	     <if test="supplierId != 0">
+	        <![CDATA[
+	        and RelatedId like CONCAT('%',#{supplierId},'%')
+	        ]]>
+	     </if>
+	     <if test="status != -1">
+	     	<![CDATA[
+	        and Status = #{status}
+	        ]]>
+	     </if>
+	     <if test="startApplyMoney != -1">
+	        <![CDATA[
+	        and ApplyMoney >= #{startApplyMoney}
+	        ]]>
+	     </if>
+	     <if test="endApplyMoney != -1">
+	        <![CDATA[
+	        and ApplyMoney <= #{endApplyMoney}
+	        ]]>
+	     </if>
+	     <if test="startCreateTimeL != 0">
+	        <![CDATA[
+	        and CreateTime >= #{startCreateTimeL}
+	        ]]>
+	     </if>
+	     <if test="endCreateTimeL != 0">
+	        <![CDATA[
+	        and CreateTime <= #{endCreateTimeL}
+	        ]]>
+	     </if>
+	     <![CDATA[
+	        and type = #{type}
+	     order by Status ASC,CreateTime DESC
+	     ]]>
+	</select>
+
+</mapper>

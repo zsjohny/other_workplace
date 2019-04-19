@@ -1,0 +1,75 @@
+<!--我的优惠券-->
+<view class="mycoupon-nav">
+  <view class="item {{ tabState1 ? 'active' : '' }}" bindtap="tabFun" data-tab="1">未使用<text>({{noUseCount}})</text></view>
+  <view class="item {{ tabState2 ? 'active' : '' }}" bindtap="tabFun" data-tab="2">已使用<text>({{useCount}})</text></view>
+  <view class="item {{ tabState0 ? 'active' : '' }}" bindtap="tabFun" data-tab="0">已过期<text>({{overdueCount}})</text></view>
+</view>
+<view class="mycoupon-box">
+  <view class="coupon-list {{tabState0 ? 'coupon-State' : ''}}" wx:if="{{couponData.length > 0}}">
+    <block wx:for="{{ couponData }}" wx:key="{{ item }}">
+      <view class='item' data-id="{{ item.id }}">
+        <view bindtap="checkDetail" data-status='{{item.statusStr}}'  data-id="{{ item.id }}">
+          <view class="name">{{item.name}}</view>
+          <view class="state" wx:if="{{tabState1 || tabState2}}">{{ item.status }}</view>
+          <view class='box'>
+              <view class="money" wx:if="{{item.couponType == 0 || item.couponType == 1}}"><text class='rmb'>¥</text><text class='number'>{{ item.money }}元</text></view>
+              <view class="money" wx:else><text class='number'>{{ item.discount }}折</text></view>
+            <view class='text-box'>
+              <text class="ct">{{item.limitText}}</text>
+            </view>
+          </view>
+          <view class="time">有效期：<text>{{item.validityStartTime}}<text class='line'>～</text>{{item.validityEndTime}}</text></view>
+        </view>
+        <!-- 未使用-->
+        <block wx:if="{{ tabState1 }}">
+          <view class="product-btn-wrap" wx:if="{{item.userRange == 2 || item.userRange == 3}}" bindtap='gotoCouponProduct' data-id='{{item.id}}'><view class='product-btn'></view></view>
+        </block>
+        <!-- 已过期 -->
+        <view wx:if="{{ tabState0 }}" class='icon'></view>
+      </view>
+    </block>
+  </view>
+  <!--没有优惠券-->
+  <view class="no-coupon" wx:if="{{isCoupon}}">
+    <view class="icon"></view>
+    <view class="text">您当前暂无该类优惠券</view>
+    <view class='take-btn' wx:if="{{tabState1 && couponData.length == 0}}" bindtap='gotoCouponCenter'>现在去领取</view>
+  </view>
+  <!--上拉加载更多-->
+  <view class="more-load2">
+    <view wx:if="{{ hasMore }}" class="go-loading more-loading">
+      <view class="loading-mod"></view>
+      <text class="tx">正在载入中…</text>
+    </view>
+    <view wx:if="{{ moreOver }}" class="tips2"><text>已经显示全部</text></view>
+  </view>
+</view><!-- mycoupon-box end -->
+<!--查看优惠券-->
+<view class="check-coupon" wx:if="{{boxShow}}">
+    <view class="check-bg" bindtap="closeBox"></view>
+    <view class="check-box">
+        <view class="title">
+            <view class="num" wx:if="{{couponOwnData.couponType == 2}}"><text>{{couponOwnData.discount}}</text>折</view>
+            <view class="num" wx:else>￥<text>{{couponOwnData.money}}</text></view>
+            <view class="name">{{couponOwnData.name}}</view>
+        </view>
+        <view class="code-box">
+          <image wx:if="{{codeImgState}}" src="{{codeImgUrl}}" class="img"></image>
+          <view class="reflesh-box" bindtap="refleshCode" wx:if="{{refleshBtn}}" data-couponId="{{couponId}}">
+              <view class="icon"></view>
+              <view class="text">点击刷新</view>
+          </view>
+        </view>
+        <view class="explain">
+          <view class="tit">使用说明：</view>
+          <view class="ct">
+            <view>{{couponOwnData.limitText}}</view>
+          </view>
+        </view>
+        <view class="prompt" wx:if="{{invalidPrompt}}">
+        二维码失效！<view>使用超时，请点击刷新再试</view>
+        </view>
+    </view>
+    <view class="close-btn" bindtap="closeBox">关闭</view>
+</view>
+

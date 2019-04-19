@@ -1,0 +1,100 @@
+/*订单详情*/
+.order-container{
+    padding:10px 20px;
+    margin: 20px;
+    font-size: 14px
+}
+.order-head{
+  height: 40px;
+  line-height: 40px;
+  .number{
+    float: left;
+    span{
+      margin-left: 30px;
+    }
+  }
+  .platform{
+    float: right;
+    margin-right: 20px;
+  }
+}
+.order-table{
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  th,td{
+    border:1px solid #ebeef5;
+    padding: 14px 20px;
+  }
+  th{
+    color: #333;
+  }
+  td{
+    color: #666;
+  }
+  .img{
+    float: left;
+    margin-right: 15px;
+    img{
+      width: 80px;
+      height: 80px;
+    }
+  }
+  .info{
+    height: auto;
+    overflow: hidden;
+    .title{
+      font-size: 16px;
+      padding-top: 10px;
+      cursor: pointer;
+    }
+    .price{
+      padding-top: 20px;
+      color: #F4516C
+    }
+  }
+  .order-user li{
+    text-align: center;
+    list-style: none;
+    width: 14%;
+    float: left;
+    img{
+      display: block;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      margin: 0 auto;
+    }
+    p{
+      padding-top: 12px;
+      margin: 0;
+      span{
+        color: #F4516C
+      }
+    }
+  }
+}
+.express-info{
+  width: 40%;
+  padding-top: 20px;
+  .title{
+    font-weight: 500;
+    padding-bottom: 10px;
+    cursor: pointer;
+    span{
+      color: #36A3F7;
+      margin-left: 15px;
+    }
+  }
+  dd{
+    line-height: 30px;
+    color: #666;
+    padding-left: 20px;
+    margin: 0;
+    p{
+      padding: 0;
+      margin: 0;
+      line-height: 30px;
+    }
+  }
+}

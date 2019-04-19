@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jiuy.core.dao.impl.sql.UserCoinLogDaoSqlImpl">
+
+    <insert id="addUserCoinLog" parameterType="UserCoinLog">
+		<![CDATA[
+			insert into yjj_UserCoinLog
+			(UserId, Operation, OldAvalCoins, NewAvalCoins, OldUnavalCoins, NewUnavalCoins, RelatedId, CreateTime)
+			values
+			(#{userId}, #{operation , typeHandler=com.jiuyuan.ext.mybatis.IntEnumTypeHandler}, #{oldAvalCoins}, #{newAvalCoins}, #{oldUnavalCoins}, #{newUnavalCoins}, #{relatedId}, #{createTime})
+		]]>
+	</insert>
+	
+	<insert id="addGrantUserCoinLog" parameterType="map">
+		<![CDATA[
+			insert into yjj_UserCoinLog
+			(UserId, Operation, OldAvalCoins, NewAvalCoins, OldUnavalCoins, NewUnavalCoins, RelatedId, CreateTime, Content, Type)
+			values
+			(0, #{operation}, 0, 0, 0, #{newUnavalCoins}, #{relatedId}, #{createTime}, #{content}, #{type})
+		]]>
+	</insert>
+	
+	<select id="getUserCoinLogCount" parameterType="map" resultType="int">
+		<![CDATA[
+			select count(*) from yjj_UserCoinLog
+			where UserId = #{userId} and CreateTime >= #{startTime} and CreateTime < #{endTime}
+		]]>
+		<if test="operation != null">
+			<![CDATA[
+				and Operation = #{operation}
+			]]>
+		</if>
+	</select>
+	
+</mapper>

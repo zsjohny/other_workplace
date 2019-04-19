@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" > 
+<mapper namespace="com.jiuy.rb.mapper.user.SupplierCustomerGroupRbMapper"> 
+ 
+ 	<!-- 主要的返回映射-->
+	<resultMap id="BaseResultMap" type="com.jiuy.rb.model.user.SupplierCustomerGroupRb"	>
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="supplier_id"  property="supplierId"  jdbcType="BIGINT" />
+		<result column="group_name"  property="groupName"  jdbcType="VARCHAR" />
+		<result column="remark"  property="remark"  jdbcType="VARCHAR" />
+		<result column="status"  property="status"  jdbcType="TINYINT" />
+		<result column="default_group"  property="defaultGroup"  jdbcType="TINYINT" />
+		<result column="create_time"  property="createTime"  jdbcType="BIGINT" />
+		<result column="update_time"  property="updateTime"  jdbcType="BIGINT" />
+	</resultMap>
+
+	<!-- 所有的列名-->
+	<sql id="Base_Column_List" >
+		id,supplier_id,group_name,remark,status,default_group,create_time,update_time
+	</sql>
+
+	<!-- 精确更新的字段-->
+	<sql id="updateBase">
+		<if test="id  !=null">
+			id = #{id,jdbcType=BIGINT}, 
+		</if>
+		<if test="supplierId  !=null">
+			supplier_id = #{supplierId,jdbcType=BIGINT}, 
+		</if>
+		<if test="groupName  !=null">
+			group_name = #{groupName,jdbcType=VARCHAR}, 
+		</if>
+		<if test="remark  !=null">
+			remark = #{remark,jdbcType=VARCHAR}, 
+		</if>
+		<if test="status  !=null">
+			status = #{status,jdbcType=TINYINT}, 
+		</if>
+		<if test="defaultGroup  !=null">
+			default_group = #{defaultGroup,jdbcType=TINYINT}, 
+		</if>
+		<if test="createTime  !=null">
+			create_time = #{createTime,jdbcType=BIGINT}, 
+		</if>
+		<if test="updateTime  !=null">
+			update_time = #{updateTime,jdbcType=BIGINT} 
+		</if>
+	</sql>
+
+	<!-- 通过主键查找-->
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="Long" >
+		select 
+		<include refid="Base_Column_List" />
+		from supplier_customer_group
+		where  id = #{id,jdbcType=BIGINT} 
+	</select>
+
+	<!-- 通过主键删除-->
+	<delete id="deleteByPrimaryKey" parameterType="Long" >
+		delete from supplier_customer_group
+		where id = #{id,jdbcType=BIGINT} 
+	</delete>
+
+	<!-- 普通插入全字段插t入-->
+	<insert id="insert" parameterType="com.jiuy.rb.model.user.SupplierCustomerGroupRb" >
+		insert into supplier_customer_group
+		(
+			id,
+			supplier_id,
+			group_name,
+			remark,
+			status,
+			default_group,
+			create_time,
+			update_time
+		)
+		values
+		(
+			#{id ,jdbcType=BIGINT},
+			#{supplierId ,jdbcType=BIGINT},
+			#{groupName ,jdbcType=VARCHAR},
+			#{remark ,jdbcType=VARCHAR},
+			#{status ,jdbcType=TINYINT},
+			#{defaultGroup ,jdbcType=TINYINT},
+			#{createTime ,jdbcType=BIGINT},
+			#{updateTime ,jdbcType=BIGINT}
+		)
+	</insert>
+
+	<!-- 批量插入，全部字段插入-->
+	<insert id="insertBach"   parameterType="List" >
+		insert into supplier_customer_group
+		(
+			id,
+			supplier_id,
+			group_name,
+			remark,
+			status,
+			default_group,
+			create_time,
+			update_time
+		)
+		values 
+		<foreach collection="list" item="item" separator=",">
+		(
+			#{item.id ,jdbcType=BIGINT},
+			#{item.supplierId ,jdbcType=BIGINT},
+			#{item.groupName ,jdbcType=VARCHAR},
+			#{item.remark ,jdbcType=VARCHAR},
+			#{item.status ,jdbcType=TINYINT},
+			#{item.defaultGroup ,jdbcType=TINYINT},
+			#{item.createTime ,jdbcType=BIGINT},
+			#{item.updateTime ,jdbcType=BIGINT}
+		)
+		</foreach>
+	</insert>
+
+	<!-- 精确插入，非null得字段才会插入-->
+	<insert id="insertSelective" parameterType="com.jiuy.rb.model.user.SupplierCustomerGroupRb" useGeneratedKeys="true" keyProperty="id" >
+		insert into supplier_customer_group
+		<trim prefix="(" suffix=")" suffixOverrides="," > 
+			<if test="id !=null">  
+				id,
+			</if>
+			<if test="supplierId !=null">  
+				supplier_id,
+			</if>
+			<if test="groupName !=null">  
+				group_name,
+			</if>
+			<if test="remark !=null">  
+				remark,
+			</if>
+			<if test="status !=null">  
+				status,
+			</if>
+			<if test="defaultGroup !=null">  
+				default_group,
+			</if>
+			<if test="createTime !=null">  
+				create_time,
+			</if>
+			<if test="updateTime !=null">  
+				update_time,
+			</if>
+		</trim>
+
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+			<if test="id  !=null">
+				#{id,jdbcType=BIGINT}, 
+			</if>
+			<if test="supplierId  !=null">
+				#{supplierId,jdbcType=BIGINT}, 
+			</if>
+			<if test="groupName  !=null">
+				#{groupName,jdbcType=VARCHAR}, 
+			</if>
+			<if test="remark  !=null">
+				#{remark,jdbcType=VARCHAR}, 
+			</if>
+			<if test="status  !=null">
+				#{status,jdbcType=TINYINT}, 
+			</if>
+			<if test="defaultGroup  !=null">
+				#{defaultGroup,jdbcType=TINYINT}, 
+			</if>
+			<if test="createTime  !=null">
+				#{createTime,jdbcType=BIGINT}, 
+			</if>
+			<if test="updateTime  !=null">
+				#{updateTime,jdbcType=BIGINT} 
+			</if>
+		</trim>
+	</insert> 
+
+	<!-- 精确更新-->
+	<update id="updateByPrimaryKeySelective" parameterType="com.jiuy.rb.model.user.SupplierCustomerGroupRb" >
+		update supplier_customer_group
+		<set>
+			<include refid="updateBase"/>
+		</set>
+		where id = #{id,jdbcType=BIGINT} 
+	</update> 
+
+	<!-- 全字段更新 需要注意-->
+	<update id="updateByPrimaryKey" parameterType="com.jiuy.rb.model.user.SupplierCustomerGroupRb" >
+		update supplier_customer_group
+		set 
+			id = #{id ,jdbcType=BIGINT},
+			supplier_id = #{supplierId ,jdbcType=BIGINT},
+			group_name = #{groupName ,jdbcType=VARCHAR},
+			remark = #{remark ,jdbcType=VARCHAR},
+			status = #{status ,jdbcType=TINYINT},
+			default_group = #{defaultGroup ,jdbcType=TINYINT},
+			create_time = #{createTime ,jdbcType=BIGINT},
+			update_time = #{updateTime ,jdbcType=BIGINT}
+		where id = #{id,jdbcType=BIGINT} 
+	</update> 
+
+	<!-- 所有的条件集合-->
+	<sql id="whereCase"  >
+		where  1=1 
+		<if test="id  !=null">
+			AND id = #{id,jdbcType=BIGINT} 
+		</if>
+		<if test="supplierId  !=null">
+			AND supplier_id = #{supplierId,jdbcType=BIGINT} 
+		</if>
+		<if test="groupName  !=null">
+			AND group_name = #{groupName,jdbcType=VARCHAR} 
+		</if>
+		<if test="remark  !=null">
+			AND remark = #{remark,jdbcType=VARCHAR} 
+		</if>
+		<if test="status  !=null">
+			AND status = #{status,jdbcType=TINYINT} 
+		</if>
+		<if test="defaultGroup  !=null">
+			AND default_group = #{defaultGroup,jdbcType=TINYINT} 
+		</if>
+		<if test="createTime  !=null">
+			AND create_time = #{createTime,jdbcType=BIGINT} 
+		</if>
+		<if test="updateTime  !=null">
+			AND update_time = #{updateTime,jdbcType=BIGINT} 
+		</if>
+		<include refid="costomWhereCase"/>
+	</sql>
+
+	<!-- 查询一条，如果返回多条会报错-->
+	<select id="selectOne" parameterType="java.util.Map" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" /> 
+		FROM supplier_customer_group 
+		<include refid="whereCase" /> 
+	</select>
+
+	<!-- 查询一个list-->
+	<select id="selectList" parameterType="java.util.Map" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" /> 
+		FROM supplier_customer_group 
+		<include refid="whereCase" /> 
+	</select>
+
+	<!-- 查询一个list-->
+	<select id="selectCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+		SELECT
+		count(1) 
+		FROM supplier_customer_group
+		<include refid="whereCase" /> 
+	</select>
+
+	<!--  @Costom -->
+	<!-- 从上一行注释以上为系统生成 从这一行往下为用户自定义 请将自定义的sql放在此行下面 -->
+	<sql id="costomWhereCase">
+	</sql>
+
+
+	<select id="selectGroupBySupplierId" resultType="com.jiuy.rb.model.user.SupplierCustomerGroupRbQuery">
+		SELECT
+			count(*) AS count,
+			supplier_customer_group.id,
+			supplier_customer_group.group_name AS groupName
+		FROM
+			supplier_customer_group
+			LEFT JOIN supplier_customer ON supplier_customer.group_id = supplier_customer_group.id
+		WHERE
+			supplier_customer_group.supplier_id = #{supplierId}
+			AND supplier_customer_group.`status` = 0
+		GROUP BY
+			supplier_customer_group.id
+		ORDER BY
+			count DESC,
+			supplier_customer_group.create_time ASC;
+	</select>
+
+</mapper>

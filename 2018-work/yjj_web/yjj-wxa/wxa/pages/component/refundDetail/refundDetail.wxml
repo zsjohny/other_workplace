@@ -1,0 +1,67 @@
+<!--售后详情-->
+<view class='body-contain'>
+  <view class='detail-head'>
+    <view class='state'>
+      <block wx:if="{{detailData.status == 0 || detailData.status == 3}}">退款中</block>
+      <block wx:if="{{detailData.status == 2}}">退款失败</block>
+      <block wx:if="{{detailData.status == 1}}">退款成功</block>
+    </view>
+    <view class="state-content {{wholeShowState ? 'show-content' : 'hide-content'}}">{{detailData.mation}}</view>
+    <view class='state-progress' bindtap='gotoRefundProgress' data-saleid='{{detailData.refundAfterSaleId}}'>
+      <view class='box'>查看进度</view>
+    </view>
+    <view class="more-content {{wholeShowState ? 'more-content1' : ''}}" bindtap='showWhole' wx:if="{{mationLenght > 59}}">
+      <text hidden='{{wholeShowState}}'>全文</text>
+      <text hidden='{{!wholeShowState}}'>收起</text>
+    </view>
+  </view><!-- detail-head end -->
+  <!-- <view class='refund-info bt-border2'>退款信息
+      <block wx:if="{{detailData.type == 1}}">（退货退款）</block>
+      <block wx:if="{{detailData.type == 0}}">（仅退款）</block>
+  </view> -->
+  <view class='refund-info bt-margin20'><text class='l'>退款金额</text><text class='r'>¥{{detailData.refundMoney}}</text></view>
+  <view class='refund-box bt-margin20'>
+    <view class='title'>退款信息
+      <block wx:if="{{detailData.type == 1}}">（退货退款）</block>
+      <block wx:if="{{detailData.type == 0}}">（仅退款）</block>
+    </view>
+    <view class='item product-item'>
+      <image class="img" mode='aspectFit' src="{{detailData.refundPhoto}}"></image>
+      <view class='info'>
+        <view class='name'>{{detailData.refundName}}</view>
+        <view class='sku'>
+          <view class='type type1' wx:if="{{ detailData.refundColor }}">颜色：<text class="color-red">{{detailData.refundColor}}</text></view>
+          <view class='type' wx:if="{{ detailData.refundSize }}">尺寸：<text class="color-red">{{detailData.refundSize}}</text></view>
+          <view class='type type3'>数量：<text class="ft-red">{{detailData.refundCount}}</text></view>
+        </view>
+      </view>
+    </view><!-- item end-->
+    <view class='detail'>申请时间：{{detailData.refundApplyTime}}</view>
+    <view class='detail'>售后单号：{{detailData.refundAfterSaleId}}</view>
+    <view class='detail'>订单编号：{{detailData.orderNumber}}</view>
+  </view> <!-- refund-box end -->
+  <view class='refund-reason'>
+    <view class='title'>退款原因：</view>
+    <view class='content-main'>
+      <view class="content {{reasonWholeShowState ? 'show-content' : 'hide-content'}}" wx:if="{{detailData.refundReson}}">
+        {{detailData.refundReson}}
+      </view>
+      <view class='img-box'  wx:if="{{refundListImg.length > 0}}">
+        <image wx:for="{{refundListImg}}" wx:key="{{item}}" class='img' src='{{item}}'></image>
+      </view>
+      <view class='more-btn' bindtap='showReasonWhole' wx:if="{{detailData.refundReson}}" wx:if="{{reasonLenght > 59}}">
+          <text hidden='{{reasonWholeShowState}}'>查看更多</text>
+          <text hidden='{{!reasonWholeShowState}}'>收起</text>
+      </view>
+    </view>
+  </view>
+</view>
+<view class='com-fixed-btn'>
+  <button class='btn-item com-red-bg wd33 contact-btn' open-type="contact">联系客服</button>
+  <view class='btn-item com-red-bg1 wd33' wx:if="{{detailData.status == 2}}" bindtap='applyFunc'>再次申请</view>
+  <view class='btn-item com-gray-bg wd33' wx:if="{{detailData.status == 1 || detailData.status == 2}}" bindtap='showbox'>删除</view>
+</view>
+<!-- 删除订单 -->
+<confirmPopup id="deletePopup"  bind:cancelEvent="closexbox" bind:confirmEvent="confirmDeleteFunc">
+  <view slot="title">确定要删除售后单？</view>
+</confirmPopup>

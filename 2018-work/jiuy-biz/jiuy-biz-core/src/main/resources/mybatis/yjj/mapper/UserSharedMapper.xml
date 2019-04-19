@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yujj.dao.mapper.UserSharedMapper">
+	<insert id="addUserSharedRecord" useGeneratedKeys="true" keyProperty="id">
+		<![CDATA[
+			insert into yjj_UserSharedRecord
+			(Id,UserId,Type,RelatedId,Channel,Status,CreateTime,UpdateTime)
+			values
+			(#{id},#{userId},#{type},#{relatedId},#{channel},#{status},#{createTime},#{updateTime})
+		]]>
+	</insert>
+	
+	<select id="getRecordBySharedId" resultType="UserSharedRecord">
+		<![CDATA[
+			select * from yjj_UserSharedRecord 
+			where id=#{sharedId}
+		]]>
+	</select>
+	
+	<select id="getUserSharedList" resultType="UserSharedRecord">
+		<![CDATA[
+			select * from yjj_UserSharedRecord 
+			where userId=#{userId}
+			order by Id desc
+		]]>
+	</select>
+</mapper>

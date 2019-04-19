@@ -1,0 +1,16 @@
+<view class="withdraw-success">
+  <view class='progress'>
+    <view class='icon1'></view>
+    <view class='icon2'></view>
+    <view class='line line1'></view>
+    <view class='line line2'></view>
+  </view>
+  <view class='box'>
+    <view class='text1'>发起提现申请，等待受理</view>
+    <view class='text2'>{{userName}}</view>
+    <view class='text2'>¥ {{money}}</view>
+    <view class='text2'>{{createTime}}</view>
+    <view class='text3'>预计2小时到账</view>
+  </view>
+</view>
+<view class='back-btn' bindtap="gotoMypage">完成</view>

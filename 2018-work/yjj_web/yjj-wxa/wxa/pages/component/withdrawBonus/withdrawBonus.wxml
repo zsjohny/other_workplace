@@ -1,0 +1,27 @@
+
+<view class='withdraw-head'>
+  <image class='head' wx:if="{{headUrl}}" src='{{headUrl}}'></image>
+  <image class='head' wx:else src='http://mini-img-main.oss-cn-hangzhou.aliyuncs.com/icon/no-head.png'></image>
+  <view class='info'>
+    <view class='tit'>微信昵称</view>
+    <view class='nick'>{{nickName}}</view>
+  </view>
+</view>
+<view class='withdraw-form'>
+  <view class='title'>提现金额</view>
+  <view class='withdraw-item'>
+    <input class="input-item" type='number' value='{{inputAccount}}' placeholder='请输入需要提现的金额' placeholder-class='placeholder-font' maxlength='11' bindinput="bindKeyInput"></input>
+  </view>
+  <view class='withdraw-limit'>
+    <view class='limit'>可提现金额：{{aliveAccount}}元</view>
+    <view class='record' bindtap='setWithdrawNumber'>全部提现</view>
+  </view>
+</view>
+<view class='withdraw-btn' wx:if="{{isWithdraw}}" bindtap='confirmWithdrawFunc'>确认提现</view>
+<view class='withdraw-btn withdraw-btn1' wx:else>确认提现</view>
+<view class='withdraw-rule'>
+  <view class='title'>提现规则</view>
+  <view class="dd">1、提现金额＜500元时，每周三可提现</view>
+  <view class="dd">2、提现金额≥500元时，随时可提现</view>
+</view>
+

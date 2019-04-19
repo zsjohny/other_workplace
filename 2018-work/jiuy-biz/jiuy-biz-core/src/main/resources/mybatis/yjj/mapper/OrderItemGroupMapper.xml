@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yujj.dao.mapper.OrderItemGroupMapper">
+<!-- 
+	<insert id="insertOrderItemGroups" parameterType="map">
+		<![CDATA[
+			insert into yjj_OrderItemGroup
+			(OrderId, UserId, BrandId, Status, CreateTime, UpdateTime, TotalMoney, TotalExpressMoney, OrderStatus, LOWarehouseId)
+			values
+		]]>
+		<foreach collection="orderItemGroups" item="orderItemGroup" open="(" separator="),(" close=")">
+			<![CDATA[
+				#{orderId}, #{orderItemGroup.userId}, #{orderItemGroup.brandId}, #{orderItemGroup.status}, #{orderItemGroup.createTime}, #{orderItemGroup.updateTime}, #{orderItemGroup.totalMoney}, #{orderItemGroup.totalExpressMoney}, #{orderStatus}, #{orderItemGroup.lOWarehouseId}
+			]]>
+		</foreach>
+	</insert> -->
+	
+	<insert id="insertOrderItemGroup" useGeneratedKeys="true" keyProperty="id" parameterType="OrderItemGroup">
+		<![CDATA[
+			insert into yjj_OrderItemGroup
+			(OrderId, UserId, BrandId, Status, CreateTime, UpdateTime, TotalMoney, TotalExpressMoney, 
+			OrderStatus, LOWarehouseId, TotalUnavalCoinUsed, TotalPay)
+			values
+			(#{orderId}, #{userId}, #{brandId}, #{status}, #{createTime}, #{updateTime}, #{totalMoney}, #{totalExpressMoney}, 
+			#{orderStatus}, #{lOWarehouseId}, #{totalUnavalCoinUsed}, #{totalPay})
+		]]>
+	</insert>
+	<!-- 
+	<select id="getOrderItemGroups" parameterType="map" resultType="OrderItemGroup">
+		<![CDATA[
+			select * from yjj_OrderItemGroup
+			where UserId = #{userId} and OrderId in
+		]]>
+		<foreach collection="orderIds" item="orderId" open="(" separator="," close=")">
+			<![CDATA[
+				#{orderId}
+			]]>
+		</foreach>
+	</select> -->
+	<!-- 
+	<update id="cancelOrder" parameterType="map">
+		<![CDATA[
+			update yjj_OrderItemGroup
+			set Status = -1, UpdateTime = #{time}
+			where OrderId = #{orderId}
+		]]>
+	</update> -->
+	<!-- 
+	<update id="updateOrderStatus" parameterType="map">
+		<![CDATA[
+			update yjj_OrderItemGroup
+			set OrderStatus = #{newStatus}, UpdateTime = #{time}
+			where OrderId = #{orderId} and OrderStatus = #{oldStatus}
+		]]>
+	</update> -->
+</mapper>

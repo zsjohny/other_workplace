@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.store.dao.mapper.ProductSKUMapper">
+    <select id="getProductSKUsOfProduct" resultType="ProductSKU">
+		<![CDATA[
+
+                    select case a.isRemainCountLock when 1 then (case  when (a.remainCountStartTime<unix_timestamp()*1000 and a.remainCountEndTime>unix_timestamp()*1000) then  a.remainCount-a.RemainCountLock  else a.remainCount end) else a.RemainCount end as RemainCount,
+                     a.* from yjj_ProductSKU a
+                    where a.ProductId = #{productId} and a.Status >= 0 and a.SaleStartTime < unix_timestamp()*1000 and (a.SaleEndTime = 0 or a.SaleEndTime > unix_timestamp()*1000)
+
+        ]]>
+	</select>
+
+    <select id="getProductSKUsByRestrictionActivityProductId" resultType="ProductSKU">
+		<![CDATA[
+
+                    SELECT CASE a.isRemainCountLock WHEN 1 THEN (CASE  WHEN (a.remainCountStartTime<UNIX_TIMESTAMP()*1000 AND a.remainCountEndTime>UNIX_TIMESTAMP()*1000) THEN  a.remainCount-a.RemainCountLock  ELSE a.remainCount END) ELSE a.RemainCount END AS RemainCount,
+                     a.* FROM yjj_ProductSKU a
+                    WHERE a.id IN (SELECT product_sku_id FROM yjj_restriction_activity_product_sku WHERE activity_product_id=#{restrictionActivityProductId})
+
+        ]]>
+	</select>
+
+    <select id="getProductSKU" resultType="ProductSKU">
+		<![CDATA[
+
+                    select * from yjj_ProductSKU
+                    where Id = #{id}
+
+        ]]>
+	</select>
+
+    <select id="getProductSKUs" resultType="ProductSKU">
+        <![CDATA[
+			select * from yjj_ProductSKU
+			where Id in
+		]]>
+        <foreach collection="ids" item="id" open="(" separator="," close=")">
+            <![CDATA[
+				#{id}
+			]]>
+        </foreach>
+    </select>
+
+    <update id="updateRemainCount" parameterType="map">
+		<![CDATA[
+
+                    update yjj_ProductSKU
+                    set RemainCount = RemainCount + #{by}
+                    where Id = #{id} and RemainCount + #{by} >= 0
+
+        ]]>
+	</update>
+
+    <update id="updateRemainCountSecond" parameterType="map">
+		<![CDATA[
+
+                    update yjj_ProductSKU
+                    set RemainCount2 = RemainCount2 + #{by}
+                    where Id = #{id} and RemainCount2 + #{by} >= 0
+
+        ]]>
+	</update>
+
+    <select id="getProductSKUsPropVO" resultType="StoreProductSKUsPropVO">
+		<![CDATA[
+
+                    select ProductId, group_concat(PropertyIds Separator ' ') as PropertyIds from yjj_ProductSKU where status > -1 group by ProductId
+
+        ]]>
+	</select>
+
+    <!--<![CDATA[
+            select case a.isRemainCountLock when 1 then (case  when (a.remainCountStartTime<unix_timestamp()*1000 and a.remainCountEndTime>unix_timestamp()*1000) then  a.remainCount-a.RemainCountLock  else a.remainCount end) else a.RemainCount end as RemainCount,
+            a.* from yjj_ProductSKU a
+            where a.ProductId = #{productId} and a.SaleStartTime < unix_timestamp()*1000 and (a.SaleEndTime = 0 or a.SaleEndTime > unix_timestamp()*1000)
+        ]]>-->
+    <select id="getAllProductSKUsOfProduct" resultType="ProductSKU">
+
+		SELECT
+ a.*
+FROM
+	yjj_ProductSKU a
+WHERE
+	a.ProductId =#{productId}
+	</select>
+
+    <select id="getByProductIdPropertyIds" resultType="ProductSKU">
+		select * from yjj_ProductSKU
+		where PropertyIds = #{propertyIds} and ProductId = #{productId} and <![CDATA[ Status > -3
+        ]]>
+    </select>
+
+    <select id="getProductSKUsByProductId" resultType="ProductSKU">
+		<![CDATA[
+
+                    select * from yjj_ProductSKU
+                    where ProductId = #{productId} and SaleStartTime < unix_timestamp()*1000 and (SaleEndTime = 0 or SaleEndTime > unix_timestamp()*1000) and Status>-1
+
+        ]]>
+	</select>
+
+    <select id="getSaleStartProductNums" resultType="Integer">
+		<![CDATA[
+
+                    SELECT COUNT(DISTINCT productId) AS COUNT FROM  yjj_ProductSKU
+                    WHERE  SaleStartTime < unix_timestamp()*1000 and (SaleEndTime = 0 or SaleEndTime > unix_timestamp()*1000) and Status>-1
+                    AND productId NOT IN (
+                         SELECT product_id FROM shop_product
+                         WHERE store_id=#{storeId})
+
+        ]]>
+		
+	</select>
+
+    <select id="getAllSynchronousUpdateProductIds" resultType="Long">
+		<![CDATA[
+
+                    SELECT DISTINCT productId AS productId FROM  yjj_ProductSKU
+                    WHERE  SaleStartTime < unix_timestamp()*1000 and (SaleEndTime = 0 or SaleEndTime > unix_timestamp()*1000) and Status>-1
+                    AND productId NOT IN (
+                         SELECT product_id FROM shop_product
+                         WHERE store_id=#{storeId})
+
+        ]]>
+		
+	</select>
+
+
+    <select id="storeProductInventory" resultType="int">
+		SELECT
+		IFNULL(sum(RemainCount),0) AS inventory
+		FROM
+		yjj_ProductSKU
+		WHERE
+		wxa_product_id = #{shopProductId}
+	    AND STATUS = 0
+		AND own_type = 2
+	</select>
+
+
+    <select id="supplierProductInventory" resultType="int">
+		SELECT
+		IFNULL(sum(RemainCount),0) AS inventory
+		FROM
+		yjj_ProductSKU
+		WHERE
+		ProductId = #{productId}
+		AND STATUS = 0
+		AND own_type = 1
+	</select>
+
+
+</mapper>

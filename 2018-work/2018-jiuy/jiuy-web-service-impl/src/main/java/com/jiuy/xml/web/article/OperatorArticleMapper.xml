@@ -1,0 +1,360 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" > 
+<mapper namespace="com.jiuy.mapper.web.article.OperatorArticleMapper"> 
+ 
+ 	<!-- 主要的返回映射-->
+	<resultMap id="BaseResultMap" type="com.jiuy.model.web.article.OperatorArticle"	>
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="title"  property="title"  jdbcType="VARCHAR" />
+		<result column="preview_image_url"  property="previewImageUrl"  jdbcType="VARCHAR" />
+		<result column="abstracts"  property="abstracts"  jdbcType="VARCHAR" />
+		<result column="content"  property="content"  jdbcType="VARCHAR" />
+		<result column="status"  property="status"  jdbcType="TINYINT" />
+		<result column="create_time"  property="createTime"  jdbcType="BIGINT" />
+		<result column="update_time"  property="updateTime"  jdbcType="BIGINT" />
+		<result column="delete_time"  property="deleteTime"  jdbcType="BIGINT" />
+		<result column="create_operator_id"  property="createOperatorId"  jdbcType="BIGINT" />
+		<result column="delete_operator_id"  property="deleteOperatorId"  jdbcType="BIGINT" />
+		<result column="seo_title"  property="seoTitle"  jdbcType="VARCHAR" />
+		<result column="seo_descriptor"  property="seoDescriptor"  jdbcType="VARCHAR" />
+		<result column="seo_keywords"  property="seoKeywords"  jdbcType="VARCHAR" />
+	</resultMap>
+
+	<!-- 所有的列名-->
+	<sql id="Base_Column_List" >
+		id,title,preview_image_url,abstracts,content,status,create_time,update_time,delete_time,
+		create_operator_id,delete_operator_id,seo_title,seo_descriptor,seo_keywords
+	</sql>
+
+	<!-- 精确更新的字段-->
+	<sql id="updateBase">
+		<if test="id  !=null">
+			id = #{id,jdbcType=BIGINT}, 
+		</if>
+		<if test="title  !=null">
+			title = #{title,jdbcType=VARCHAR}, 
+		</if>
+		<if test="previewImageUrl  !=null">
+			preview_image_url = #{previewImageUrl,jdbcType=VARCHAR}, 
+		</if>
+		<if test="abstracts  !=null">
+			abstracts = #{abstracts,jdbcType=VARCHAR}, 
+		</if>
+		<if test="content  !=null">
+			content = #{content,jdbcType=VARCHAR}, 
+		</if>
+		<if test="status  !=null">
+			status = #{status,jdbcType=TINYINT}, 
+		</if>
+		<if test="createTime  !=null">
+			create_time = #{createTime,jdbcType=BIGINT}, 
+		</if>
+		<if test="updateTime  !=null">
+			update_time = #{updateTime,jdbcType=BIGINT}, 
+		</if>
+		<if test="deleteTime  !=null">
+			delete_time = #{deleteTime,jdbcType=BIGINT}, 
+		</if>
+		<if test="createOperatorId  !=null">
+			create_operator_id = #{createOperatorId,jdbcType=BIGINT}, 
+		</if>
+		<if test="deleteOperatorId  !=null">
+			delete_operator_id = #{deleteOperatorId,jdbcType=BIGINT}, 
+		</if>
+		<if test="seoTitle  !=null">
+			seo_title = #{seoTitle,jdbcType=VARCHAR}, 
+		</if>
+		<if test="seoDescriptor  !=null">
+			seo_descriptor = #{seoDescriptor,jdbcType=VARCHAR}, 
+		</if>
+		<if test="seoKeywords  !=null">
+			seo_keywords = #{seoKeywords,jdbcType=VARCHAR} 
+		</if>
+	</sql>
+
+	<!-- 通过主键查找-->
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="Long" >
+		select 
+		<include refid="Base_Column_List" />
+		from operator_article
+		where  id = #{id,jdbcType=BIGINT} 
+	</select>
+
+	<!-- 通过主键删除-->
+	<delete id="deleteByPrimaryKey" parameterType="Long" >
+		delete from operator_article
+		where id = #{id,jdbcType=BIGINT} 
+	</delete>
+
+	<!-- 普通插入全字段插入-->
+	<insert id="insert" parameterType="com.jiuy.model.web.article.OperatorArticle" >
+		insert into operator_article
+		(
+			id,
+			title,
+			preview_image_url,
+			abstracts,
+			content,
+			status,
+			create_time,
+			update_time,
+			delete_time,
+			create_operator_id,
+			delete_operator_id,
+			seo_title,
+			seo_descriptor,
+			seo_keywords,
+		)
+		values
+		(
+			#{id ,jdbcType=BIGINT},
+			#{title ,jdbcType=VARCHAR},
+			#{previewImageUrl ,jdbcType=VARCHAR},
+			#{abstracts ,jdbcType=VARCHAR},
+			#{content ,jdbcType=VARCHAR},
+			#{status ,jdbcType=TINYINT},
+			#{createTime ,jdbcType=BIGINT},
+			#{updateTime ,jdbcType=BIGINT},
+			#{deleteTime ,jdbcType=BIGINT},
+			#{createOperatorId ,jdbcType=BIGINT},
+			#{deleteOperatorId ,jdbcType=BIGINT},
+			#{seoTitle ,jdbcType=VARCHAR},
+			#{seoDescriptor ,jdbcType=VARCHAR},
+			#{seoKeywords ,jdbcType=VARCHAR}
+		)
+	</insert>
+
+	<!-- 批量插入，全部字段插入-->
+	<insert id="insertBach"   parameterType="List" >
+		insert into operator_article
+		(
+			id,
+			title,
+			preview_image_url,
+			abstracts,
+			content,
+			status,
+			create_time,
+			update_time,
+			delete_time,
+			create_operator_id,
+			delete_operator_id,
+			seo_title,
+			seo_descriptor,
+			seo_keywords,
+		)
+		values 
+		<foreach collection="list" item="item" separator=",">
+		(
+			#{item.id ,jdbcType=BIGINT},
+			#{item.title ,jdbcType=VARCHAR},
+			#{item.previewImageUrl ,jdbcType=VARCHAR},
+			#{item.abstracts ,jdbcType=VARCHAR},
+			#{item.content ,jdbcType=VARCHAR},
+			#{item.status ,jdbcType=TINYINT},
+			#{item.createTime ,jdbcType=BIGINT},
+			#{item.updateTime ,jdbcType=BIGINT},
+			#{item.deleteTime ,jdbcType=BIGINT},
+			#{item.createOperatorId ,jdbcType=BIGINT},
+			#{item.deleteOperatorId ,jdbcType=BIGINT},
+			#{item.seoTitle ,jdbcType=VARCHAR},
+			#{item.seoDescriptor ,jdbcType=VARCHAR},
+			#{item.seoKeywords ,jdbcType=VARCHAR}
+		)
+		</foreach>
+	</insert>
+
+	<!-- 精确插入，非null得字段才会插入-->
+	<insert id="insertSelective" parameterType="com.jiuy.model.web.article.OperatorArticle" useGeneratedKeys="true" keyProperty="id" >
+		insert into operator_article
+		<trim prefix="(" suffix=")" suffixOverrides="," > 
+			<if test="id !=null">  
+				id,
+			</if>
+			<if test="title !=null">  
+				title,
+			</if>
+			<if test="previewImageUrl !=null">  
+				preview_image_url,
+			</if>
+			<if test="abstracts !=null">  
+				abstracts,
+			</if>
+			<if test="content !=null">  
+				content,
+			</if>
+			<if test="status !=null">  
+				status,
+			</if>
+			<if test="createTime !=null">  
+				create_time,
+			</if>
+			<if test="updateTime !=null">  
+				update_time,
+			</if>
+			<if test="deleteTime !=null">  
+				delete_time,
+			</if>
+			<if test="createOperatorId !=null">  
+				create_operator_id,
+			</if>
+			<if test="deleteOperatorId !=null">  
+				delete_operator_id,
+			</if>
+			<if test="seoTitle !=null">  
+				seo_title,
+			</if>
+			<if test="seoDescriptor !=null">  
+				seo_descriptor,
+			</if>
+			<if test="seoKeywords !=null">  
+				seo_keywords,
+			</if>
+		</trim>
+
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+			<if test="id  !=null">
+				id = #{id,jdbcType=BIGINT}, 
+			</if>
+			<if test="title  !=null">
+				title = #{title,jdbcType=VARCHAR}, 
+			</if>
+			<if test="previewImageUrl  !=null">
+				preview_image_url = #{previewImageUrl,jdbcType=VARCHAR}, 
+			</if>
+			<if test="abstracts  !=null">
+				abstracts = #{abstracts,jdbcType=VARCHAR}, 
+			</if>
+			<if test="content  !=null">
+				content = #{content,jdbcType=VARCHAR}, 
+			</if>
+			<if test="status  !=null">
+				status = #{status,jdbcType=TINYINT}, 
+			</if>
+			<if test="createTime  !=null">
+				create_time = #{createTime,jdbcType=BIGINT}, 
+			</if>
+			<if test="updateTime  !=null">
+				update_time = #{updateTime,jdbcType=BIGINT}, 
+			</if>
+			<if test="deleteTime  !=null">
+				delete_time = #{deleteTime,jdbcType=BIGINT}, 
+			</if>
+			<if test="createOperatorId  !=null">
+				create_operator_id = #{createOperatorId,jdbcType=BIGINT}, 
+			</if>
+			<if test="deleteOperatorId  !=null">
+				delete_operator_id = #{deleteOperatorId,jdbcType=BIGINT}, 
+			</if>
+			<if test="seoTitle  !=null">
+				seo_title = #{seoTitle,jdbcType=VARCHAR}, 
+			</if>
+			<if test="seoDescriptor  !=null">
+				seo_descriptor = #{seoDescriptor,jdbcType=VARCHAR}, 
+			</if>
+			<if test="seoKeywords  !=null">
+				seo_keywords = #{seoKeywords,jdbcType=VARCHAR} 
+			</if>
+		</trim>
+	</insert> 
+
+	<!-- 精确更新-->
+	<update id="updateByPrimaryKeySelective" parameterType="com.jiuy.model.web.article.OperatorArticle" >
+		updateoperator_article
+		<set>
+			<include refid="updateBase"/>
+		</set>
+		where id = #{id,jdbcType=BIGINT} 
+	</update> 
+
+	<!-- 全字段更新 需要注意-->
+	<update id="updateByPrimaryKey" parameterType="com.jiuy.model.web.article.OperatorArticle" >
+		update OperatorArticle
+		set 
+			id = #{id ,jdbcType=BIGINT},
+			title = #{title ,jdbcType=VARCHAR},
+			preview_image_url = #{previewImageUrl ,jdbcType=VARCHAR},
+			abstracts = #{abstracts ,jdbcType=VARCHAR},
+			content = #{content ,jdbcType=VARCHAR},
+			status = #{status ,jdbcType=TINYINT},
+			create_time = #{createTime ,jdbcType=BIGINT},
+			update_time = #{updateTime ,jdbcType=BIGINT},
+			delete_time = #{deleteTime ,jdbcType=BIGINT},
+			create_operator_id = #{createOperatorId ,jdbcType=BIGINT},
+			delete_operator_id = #{deleteOperatorId ,jdbcType=BIGINT},
+			seo_title = #{seoTitle ,jdbcType=VARCHAR},
+			seo_descriptor = #{seoDescriptor ,jdbcType=VARCHAR},
+			seo_keywords = #{seoKeywords ,jdbcType=VARCHAR}
+		where id = #{id,jdbcType=BIGINT} 
+	</update> 
+
+	<!-- 所有的条件集合-->
+	<sql id="whereCase"  >
+		where  1=1 
+		<if test="id  !=null">
+			AND id = #{id,jdbcType=BIGINT}, 
+		</if>
+		<if test="title  !=null">
+			AND title = #{title,jdbcType=VARCHAR}, 
+		</if>
+		<if test="previewImageUrl  !=null">
+			AND preview_image_url = #{previewImageUrl,jdbcType=VARCHAR}, 
+		</if>
+		<if test="abstracts  !=null">
+			AND abstracts = #{abstracts,jdbcType=VARCHAR}, 
+		</if>
+		<if test="content  !=null">
+			AND content = #{content,jdbcType=VARCHAR}, 
+		</if>
+		<if test="status  !=null">
+			AND status = #{status,jdbcType=TINYINT}, 
+		</if>
+		<if test="createTime  !=null">
+			AND create_time = #{createTime,jdbcType=BIGINT}, 
+		</if>
+		<if test="updateTime  !=null">
+			AND update_time = #{updateTime,jdbcType=BIGINT}, 
+		</if>
+		<if test="deleteTime  !=null">
+			AND delete_time = #{deleteTime,jdbcType=BIGINT}, 
+		</if>
+		<if test="createOperatorId  !=null">
+			AND create_operator_id = #{createOperatorId,jdbcType=BIGINT}, 
+		</if>
+		<if test="deleteOperatorId  !=null">
+			AND delete_operator_id = #{deleteOperatorId,jdbcType=BIGINT}, 
+		</if>
+		<if test="seoTitle  !=null">
+			AND seo_title = #{seoTitle,jdbcType=VARCHAR}, 
+		</if>
+		<if test="seoDescriptor  !=null">
+			AND seo_descriptor = #{seoDescriptor,jdbcType=VARCHAR}, 
+		</if>
+		<if test="seoKeywords  !=null">
+			AND seo_keywords = #{seoKeywords,jdbcType=VARCHAR} 
+		</if>
+		<include refid="costomWhereCase"/>
+	</sql>
+
+	<!-- 查询一条，如果返回多条会报错-->
+	<select id="selectOne" parameterType="java.util.Map" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" /> 
+		FROM operator_article 
+		<include refid="whereCase" /> 
+	</select>
+
+	<!-- 查询一个list-->
+	<select id="selectList" parameterType="java.util.Map" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" /> 
+		FROM operator_article 
+		<include refid="whereCase" /> 
+	</select>
+
+	<!--  @Costom -->
+	<!-- 从上一行注释以上为系统生成 从这一行往下为用户自定义 请将自定义的sql放在此行下面 -->
+	<sql id="costomWhereCase">
+	</sql>
+
+</mapper>

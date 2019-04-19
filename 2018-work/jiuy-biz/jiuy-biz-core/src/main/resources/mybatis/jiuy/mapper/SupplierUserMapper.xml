@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jiuy.core.dao.SupplierUserDaoImpl">
+	<update id="handleSupplierAvailableBalance" parameterType="map">
+	   UPDATE supplier_user
+	   SET available_balance = available_balance +#{availableBalance} 
+	   WHERE id = #{id};
+	</update>
+	
+	<select id="getAvailableBalanceById" parameterType="map" resultType="BigDecimal">
+	   SELECT available_balance
+	   FROM supplier_user 
+	   WHERE id = #{supplierId}
+	</select>
+
+    
+</mapper>

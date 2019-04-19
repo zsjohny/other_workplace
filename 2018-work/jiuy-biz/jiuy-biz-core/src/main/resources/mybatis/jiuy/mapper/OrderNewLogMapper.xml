@@ -1,0 +1,431 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jiuy.core.dao.impl.sql.OrderNewLogDaoSqlImpl">
+	
+	<select id="orderNewLogOfOrderNos" parameterType="map" resultType="OrderNewLog">
+	    select * from yjj_OrderNewLog 
+	    where OrderNo in 
+			<foreach collection="orderNos" item="orderNo" open="(" separator="," close=")">
+				#{orderNo}
+			</foreach>	    	
+	</select>    
+	
+	<select id="orderNewLogPayOfOrderNos" parameterType="map" resultType="OrderNewLog">
+	    select * from yjj_OrderNewLog 
+	    where OrderNo in 
+			<foreach collection="orderNos" item="orderNo" open="(" separator="," close=")">
+				#{orderNo}
+			</foreach> and OldStatus = 0 and NewStatus = 10
+	</select> 
+	
+	<update id="updateLog" parameterType="map">
+		insert yjj_OrderNewLog(UserId, OrderNo, OldStatus, NewStatus, CreateTime)
+		values 
+		<foreach collection="orderNos" item="orderNo" open="(" separator="),(" close=")">
+			#{userId}, #{orderNo}, #{oldStatus}, #{newStatus}, #{createTime}
+		</foreach>
+		<![CDATA[
+            ON DUPLICATE KEY UPDATE CreateTime = VALUES(CreateTime)
+        ]]>
+	</update>
+	
+	<select id="getByOrderNos" resultType="OrderNewLog">
+		select * from yjj_OrderNewLog 
+	    where OrderNo in 
+			<foreach collection="orderNos" item="orderNo" open="(" separator="," close=")">
+				#{orderNo}
+			</foreach> and OldStatus = #{oldStatus} and NewStatus = #{newStatus}
+	</select>
+	
+	<select id="getNewUserBuyCountByTime" parameterType="map" resultType="int">
+		SELECT 
+		    COUNT(*)
+		FROM
+		    yjj_OrderNewLog
+		WHERE
+			userId IN (SELECT 
+		            UserId
+		        FROM
+		            yjj_User      
+		        WHERE
+	        <![CDATA[
+		            CreateTime > #{startTime}
+		                AND CreateTime < #{endTime})
+
+		        AND CreateTime > #{startTime}
+		        AND CreateTime < #{endTime}
+	        	AND OldStatus = 0
+		        AND NewStatus = 10
+		        AND OrderNo NOT IN (SELECT OrderNo FROM  yjj_OrderNewLog WHERE NewStatus = 90
+		                AND CreateTime > #{startTime})
+		        AND OrderNo NOT IN (select OrderNo from yjj_OrderItem where ProductId in(0,856) 
+		       										and CreateTime > #{startTime} 
+		       										and CreateTime < #{endTime})
+		       	AND OrderNo NOT IN (select OrderNo from yjj_OrderNew  where TotalPay = 0 and CoinUsed > 0
+		       										and PayTime > #{startTime} 
+		       										and PayTime < #{endTime})
+				]]>
+	</select>
+	
+		<select id="getSaleNumByTime" parameterType="map" resultType="int">
+		<![CDATA[
+		select count(*) from yjj_OrderNewLog 
+		where CreateTime > #{startTime} and CreateTime < #{endTime} and OldStatus = 0 and NewStatus = 10
+			and OrderNo not in 
+	        (select OrderNo from yjj_OrderNewLog
+	        	where NewStatus = 90 and CreateTime > #{startTime})			
+	       	and OrderNo not in 
+	       		(select OrderNo from yjj_OrderItem where ProductId in(0,856) 
+					and CreateTime > #{startTime} and CreateTime < #{endTime} and status = 0)
+			AND OrderNo NOT IN (select OrderNo from yjj_OrderNew  where TotalPay = 0 and CoinUsed > 0
+		       										and PayTime > #{startTime} 
+		       										and PayTime < #{endTime})
+		]]>
+	</select>
+	
+		<select id="getSaleProductCountByTime" parameterType="map" resultType="int">
+		<![CDATA[
+		select sum(BuyCount) from yjj_OrderItem where ParentId in
+			(select OrderNo from yjj_OrderNewLog where CreateTime > #{startTime} and CreateTime < #{endTime}
+				and	OldStatus = 0 and NewStatus = 10 
+				and OrderNo not in 		
+					(select OrderNo from yjj_OrderNewLog
+		        		where NewStatus = 90 and CreateTime > #{startTime})	
+			) and ProductId <> 856 and ProductId <> 0 and Status = 0 and TotalPay > 0 and UnavalCoinUsed = 0
+		]]>
+	</select>
+	
+		<select id="saleCountPerProduct" resultType="map">
+		select a.*, b.Name, b.ClothesNumber from (
+			select sum(BuyCount) as count, ProductId  
+			from yjj_OrderItem
+			where OrderNo in
+			<![CDATA[
+				(select OrderNo from yjj_OrderNewLog where CreateTime >= #{startTime} and CreateTime < #{endTime}
+					and	OldStatus = 0 and NewStatus = 10 
+					and OrderId not in 		
+						(select OrderNo from yjj_OrderNewLog
+			        		where NewStatus = 90 and CreateTime >= #{startTime})	
+				) and ProductId <> 856 and ProductId <> 0 and Status = 0
+			]]>
+			group by ProductId ) as a left join yjj_Product as b on a.ProductId = b.Id 
+		order by count desc
+	</select>
+	
+		<select id="saleCountPerCategory" resultType="map">
+		select sum(count) as count2, CategoryId, c.CategoryName, c.ParentId
+		from (
+			<![CDATA[
+			select sum(BuyCount) as count, ProductId  
+			from yjj_OrderItem
+			where OrderNo in
+				(select OrderNo from yjj_OrderNewLog where CreateTime >= #{startTime} and CreateTime < #{endTime}
+					and OldStatus = 0 and NewStatus = 10 
+					and OrderNo not in 		
+						(select OrderNo from yjj_OrderNewLog
+			        		where NewStatus = 90 and CreateTime >= #{startTime})	
+				) and ProductId <> 856 and ProductId <> 0 and Status = 0
+			group by ProductId ) as a left join yjj_ProductCategory as b on a.ProductId = b.ProductId left join yjj_Category as c
+	        on c.Id = b.CategoryId
+	        ]]>
+        group by CategoryId
+        order by count2 desc
+	</select>
+	
+		<select id="saleCountPerBrand" resultType="map">
+		select a.count, b.BrandName from (
+			select sum(BuyCount) as count, BrandId  
+			from yjj_OrderItem
+			where OrderNo in
+			<![CDATA[
+				(select OrderNo from yjj_OrderNewLog where CreateTime >= #{startTime} and CreateTime < #{endTime}
+					and OldStatus = 0 and NewStatus = 10 
+					and OrderNo not in 		
+						(select OrderNo from yjj_OrderNewLog
+			        		where NewStatus = 90 and CreateTime >= #{startTime})	
+				) and ProductId <> 856 and ProductId <> 0 and Status = 0
+			]]>
+			group by BrandId ) as a left join yjj_Brand as b on a.BrandId = b.BrandId 
+		order by count desc	
+	</select>
+	
+	<select id="rankSaleLocation" resultType="map">
+	select count(*) as count, sum(TotalMoney) as sumMoney, sum(TotalExpressMoney) as sumExpressMoney, count(distinct(a.UserId)) as userCount, ProvinceName, CityName 
+		from (select * from yjj_OrderNew 
+			where OrderNo in (
+				select OrderNo 
+				from yjj_OrderNewLog 
+				<![CDATA[
+				where CreateTime >= #{startTime} and CreateTime < #{endTime} and OldStatus = 0 and NewStatus = 10
+					and OrderNo not in 
+			        (select OrderNo from yjj_OrderNewLog
+			        	where NewStatus = 90 and CreateTime >= #{startTime})			
+			       	and OrderNo not in 
+			       		(select OrderNo from yjj_OrderItem where ProductId in( 0, 856 ) 
+							and CreateTime >= #{startTime} and CreateTime < #{endTime} and status = 0)
+				]]>)
+			) as a left join yjj_Address as b on a.UserId = b.UserId and a.ExpressInfo like concat("%", b.AddrFull, "%")
+		group by ProvinceName, CityName
+		order by count desc
+	</select>
+	
+	<select id="rankSaleLocationUser" resultType="map">
+		select count(distinct(a.UserId)) as count, ProvinceName, CityName 
+		from (select * from yjj_OrderNew 
+			where OrderNo in (
+				select OrderNo 
+				from yjj_OrderNewLog 
+				<![CDATA[
+				where CreateTime >= #{startTime} and CreateTime < #{endTime} and OldStatus = 0 and NewStatus = 10
+					and OrderNo not in 
+			        (select OrderNo from yjj_OrderNewLog
+			        	where NewStatus = 90 and CreateTime >= #{startTime})			
+			       	and OrderNo not in 
+			       		(select OrderNo from yjj_OrderItem where ProductId in (0,856) 
+							and CreateTime >= #{startTime} and CreateTime < #{endTime} and status = 0)
+				]]>)
+			) as a left join yjj_Address as b on a.UserId = b.UserId and a.ExpressInfo like concat("%", b.AddrFull, "%")
+		group by ProvinceName, CityName
+		order by count desc
+	</select>
+	
+		<select id="rankBuyers" resultType="map">
+		select count(*) as count, sum(TotalMoney) as sumMoney, sum(TotalExpressMoney) as sumExpressMoney , UserId 
+		from yjj_OrderNew 
+		where OrderNo in (
+			select OrderNo 
+			from yjj_OrderNewLog 
+			<![CDATA[
+			where CreateTime >= #{startTime} and CreateTime < #{endTime} and OldStatus = 0 and NewStatus = 10
+				and OrderNo not in 
+		        (select OrderNo from yjj_OrderNewLog
+		        	where NewStatus = 90 and CreateTime >= #{startTime})			
+		       	and OrderNo not in 
+		       		(select OrderNo from yjj_OrderItem where ProductId in (0,856) 
+						and CreateTime >= #{startTime} and CreateTime < #{endTime} and status = 0)
+			]]>) 
+		group by UserId
+		order by count desc
+	</select>
+	
+	<select id="rankBuyersRecordsTime" resultType="map">
+	select CreateTime, UserId from yjj_OrderNew where OrderNo in (
+		<if test="sequence == 0">
+			select min(OrderNo) as minId
+		</if>
+		<if test="sequence == 1">
+			select max(OrderNo) as maxId
+		</if>
+		from yjj_OrderNew 
+		where OrderNo in (
+			select OrderNo 
+			from yjj_OrderNewLog 
+			<![CDATA[
+			where CreateTime >= #{startTime} and CreateTime < #{endTime} and OldStatus = 0 and NewStatus = 10
+				and OrderNo not in 
+		        (select OrderNo from yjj_OrderNewLog
+		        	where NewStatus = 90 and CreateTime >= #{startTime})			
+		       	and OrderNo not in 
+		       		(select OrderNo from yjj_OrderItem where ProductId in (0,856) 
+						and CreateTime >= #{startTime} and CreateTime < #{endTime} and status = 0)
+			]]>) 
+		group by UserId)
+	</select>
+	
+		<select id="hotSaleCategory" parameterType="map" resultType="map">
+		<![CDATA[
+			select a.ProductId, a.TotalCount, c.Name, c.ClothesNumber
+			from (select productId, sum(BuyCount) as TotalCount from yjj_OrderItem where OrderNo in
+				(select OrderNo from yjj_OrderNewLog where CreateTime > #{startTime} and CreateTime < #{endTime}
+					and	OldStatus = 0 and NewStatus = 10 
+					and OrderNo not in 		
+						(select OrderNo from yjj_OrderNewLog
+			        		where NewStatus = 90 and CreateTime > #{startTime})	
+				) and ProductId <> 856  and ProductId <> 0 and CreateTime > #{startTime} and CreateTime < #{endTime} and Status = 0 
+	            group by ProductId) as a 
+	            join (SELECT distinct(productid) FROM yjj_ProductCategory where CategoryId in (SELECT Id FROM yjj_Category where ParentId = #{categoryId}) or CategoryId = #{categoryId}) as b
+			on b.ProductId = a.ProductId join yjj_Product as c on c.Id = a.ProductId
+			order by TotalCount desc
+			limit #{count}
+		]]>
+	</select>
+	
+		<select id="hotSaleOfActivity" parameterType="map" resultType="map">
+		<![CDATA[
+			select SkuId, sum(BuyCount) as TotalCount from yjj_OrderItem where OrderNo in
+				(select OrderNo from yjj_OrderNewLog where CreateTime > #{startTime} and CreateTime < #{endTime}
+					and	OldStatus = 0 and NewStatus = 10 
+					and OrderNo not in 		
+						(select OrderNo from yjj_OrderNewLog
+			        		where NewStatus = 90 and CreateTime > #{startTime})	
+				) and ProductId <> 856  and ProductId <> 0 and CreateTime > #{startTime} and CreateTime < #{endTime} and Status = 0
+	            group by SkuId
+			order by TotalCount desc
+		]]>
+	</select>
+	
+		<select id="saleOrderCountPerDay" resultType="map">
+		select count(1) as count,from_unixtime(PayTime/1000, "%Y-%m-%d") as day 
+			from yjj_OrderNew where OrderStatus in(10,50,70) and (ParentId =-1 or ParentId = OrderNo) 
+			<![CDATA[
+			and PayTime>= #{startTime} and PayTime <= #{endTime}
+			]]>
+		group by day
+	</select>
+	
+		<select id="saleProductCountPerDay" resultType="map">
+		select sum(BuyCount) as count, from_unixtime(a.CreateTime/1000, "%Y-%m-%d") as day  
+		from yjj_OrderItem a left join yjj_OrderNew b on a.orderNo=b.orderNo
+		where b.parentId in
+		<![CDATA[
+			(select OrderNo from yjj_OrderNewLog where CreateTime >= #{startTime} and CreateTime < #{endTime}
+				and	OldStatus = 0 and NewStatus = 10 
+				and OrderNo not in 		
+					(select OrderNo from yjj_OrderNewLog
+		        		where NewStatus = 90 and CreateTime >= #{startTime})	
+			) and a.ProductId <> 856  and a.ProductId <> 0 and a.Status = 0
+		]]>
+		group by day 
+	</select>
+	
+		<select id="saleOrderMoneytPerDay" resultType="map">
+		select sum(TotalExpressMoney) as expressMoney, SUM(TotalMoney) as orderMoney, from_unixtime(CreateTime/1000, "%Y-%m-%d") as day  
+		from yjj_OrderItem
+		where OrderNo in
+		<![CDATA[
+			(select OrderNo from yjj_OrderNewLog where CreateTime >= #{startTime} and CreateTime < #{endTime}
+				and	OldStatus = 0 and NewStatus = 10 
+				and OrderNo not in 		
+					(select OrderNo from yjj_OrderNewLog
+		        		where NewStatus = 90 and CreateTime >= #{startTime})	
+			) and ProductId <> 856  and ProductId <> 0 and Status = 0
+		]]>
+		group by day
+	</select>
+
+	<select id="getNewUserOrderCountPerDay" parameterType="map" resultType="int">
+		SELECT count(*)  FROM yjj_OrderNew where parentId > 0  and PayTime > 0 
+			 and OrderStatus in(10,50,70)
+	        <![CDATA[
+		       	and CreateTime >= #{startTime}
+		        and CreateTime <= #{endTime}
+				and UserId IN (SELECT 
+		            UserId
+		       			 FROM
+		            		yjj_User      
+		        				WHERE
+		            		CreateTime >= #{startTime}
+		                	AND CreateTime <= #{endTime})
+				]]>
+	</select>
+	
+<!-- 	<select id="getNewUserProductCountPerDay" parameterType="map" resultType="map">
+		select coalesce(sum(BuyCount),0) as count 
+			from yjj_OrderItem a left join yjj_OrderNew b on a.orderNo=b.orderNo
+				where a.userId IN (SELECT UserId FROM yjj_User      
+		        	WHERE
+		        	 <![CDATA[
+		            CreateTime >= #{startTime}
+		                AND CreateTime <= #{endTime})
+       		and b.parentid in
+			(select OrderNo from yjj_OrderNewLog where CreateTime >= #{startTime} and CreateTime <= #{endTime}
+				and	OldStatus = 0 and NewStatus = 10 
+				and OrderNO not in 		
+					(select OrderNO from yjj_OrderNewLog
+		        		where NewStatus = 90 and CreateTime >= #{startTime})	
+			) and a.ProductId <> 856 and a.Status = 0  
+				]]>
+	</select> -->
+	
+	<select id="getNewUserProductCountPerDay" parameterType="map" resultType="map">
+		select coalesce(sum(BuyCount),0) as count  from yjj_OrderItem where OrderNo in
+			(SELECT OrderNo FROM yjj_OrderNewLog WHERE userId IN (SELECT 
+			UserId FROM yjj_User  WHERE
+			<![CDATA[
+		            CreateTime > #{startTime}
+		                AND CreateTime < #{endTime})
+		        AND CreateTime > #{startTime}
+		        AND CreateTime < #{endTime}
+	        	AND OldStatus = 0
+		        AND NewStatus = 10
+		        AND OrderNo NOT IN (SELECT OrderNo FROM  yjj_OrderNewLog WHERE NewStatus = 90
+		                AND CreateTime > #{startTime})
+		        AND OrderNo NOT IN (select OrderNo from yjj_OrderItem where ProductId = 856 
+		       										and CreateTime > #{startTime}
+		       										and CreateTime < #{endTime}))
+				]]>
+	</select>
+	
+		<select id="rankProductHotsale" resultType="map">
+			select ProductId, sum(BuyCount) as TotalCount 
+			from yjj_OrderItem 
+			where OrderNo in
+				<![CDATA[
+				(select OrderNo from yjj_OrderNewLog 
+					where CreateTime > #{startTime} 
+						and CreateTime < #{endTime}
+						and	OldStatus = 0 and NewStatus = 10 
+						and OrderNo not in 		
+							(select OrderNo from yjj_OrderNewLog
+			        			where NewStatus = 90 and CreateTime > #{startTime})) 
+				and ProductId <> 856  and ProductId <> 0 and CreateTime > #{startTime} 
+				and CreateTime < #{endTime} and Status = 0
+				]]>
+				and ProductId in
+					(select ProductId from yjj_ProductProperty 
+						where PropertyValueId in 
+							<foreach collection="seasonIds" item="seasonId" open="(" separator="," close=")">
+								#{seasonId}
+							</foreach>)
+            group by ProductId
+ 			order by TotalCount desc
+	</select>
+	
+	<select id="productsale" resultType="map">
+			select ProductId, sum(BuyCount) as TotalCount 
+			from yjj_OrderItem 
+			where OrderNo in
+				<![CDATA[
+				(select OrderNo from yjj_OrderNewLog 
+					where OldStatus = 0 and NewStatus = 10 
+						and OrderNo not in 		
+							(select OrderNo from yjj_OrderNewLog
+			        			where NewStatus = 90) 
+				and ProductId <> 856  and ProductId <> 0
+				and Status = 0
+				]]>
+				and ProductId in
+					(select ProductId from yjj_ProductProperty 
+						where PropertyValueId in 
+							<foreach collection="seasonIds" item="seasonId" open="(" separator="," close=")">
+								#{seasonId}
+							</foreach>)
+				)
+            group by ProductId
+	</select>
+	
+	<select id="productSkuSale" resultType="map">
+			select SkuId, sum(BuyCount) as TotalCount 
+			from yjj_OrderItem 
+			where OrderNo in
+				<![CDATA[
+				(select OrderNo from yjj_OrderNewLog 
+					where OldStatus = 0 and NewStatus = 10 
+						and OrderNo not in 		
+							(select OrderNo from yjj_OrderNewLog
+			        			where NewStatus = 90) 
+				and ProductId <> 856  and ProductId <> 0
+				and Status = 0
+				]]>
+				and ProductId in
+					(select ProductId from yjj_ProductProperty 
+						where PropertyValueId in 
+							<foreach collection="seasonIds" item="seasonId" open="(" separator="," close=")">
+								#{seasonId}
+							</foreach>)
+				)
+            group by SkuId
+	</select>
+
+</mapper>

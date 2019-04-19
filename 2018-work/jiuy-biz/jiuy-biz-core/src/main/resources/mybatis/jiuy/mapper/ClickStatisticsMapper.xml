@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jiuy.core.dao.impl.sql.ClickStatisticsDaoSqlImpl">
+	
+	<insert id="addStatistics" useGeneratedKeys="true" keyProperty="id" parameterType="ClickStatistics">
+		insert into yjj_Statistics(Type,Code,LifeStartTime,LifeEndTime,UserClick,UnknownClick,RelatedOrderCount,CreateTime,UpdateTime)
+		values (#{type}, #{code}, #{lifeStartTime}, #{lifeEndTime}, #{userClick}, #{unknownClick}, #{relatedOrderCount}, #{createTime}, #{updateTime})
+	</insert>
+	
+	<select id="search" parameterType="map" resultType="ClickStatistics">
+		Select *
+		from yjj_Statistics
+		<where>
+			Type = 0
+			
+			<if test="statisticsId != -1">
+			AND Id = #{statisticsId}
+			</if>
+			
+			<if test="onlineStartTime != -1">
+			<![CDATA[
+		    and LifeStartTime >= #{onlineStartTime}
+		    ]]>
+			</if>
+			
+			<if test="onlineEndTime != -1">
+			<![CDATA[
+		    and LifeEndTime <= #{onlineEndTime}
+		    ]]>
+			</if>
+			
+			<if test="startRelatedOrderCount != -1">
+			<![CDATA[
+			AND RelatedOrderCount >= #{startRelatedOrderCount}
+			]]>
+			</if>
+			<if test="endRelatedOrderCount != -1">
+			<![CDATA[
+			AND RelatedOrderCount <= #{endRelatedOrderCount}
+			]]>
+			</if>
+			
+			<if test="startClickCount != -1">
+			<![CDATA[
+			AND UserClick+UnknownClick >= #{startClickCount}
+			]]>
+			</if>
+			<if test="endClickCount != -1">
+			<![CDATA[
+			AND UserClick+UnknownClick <= #{endClickCount}
+			]]>
+			</if>
+			
+			<if test="code != '' ">
+			AND Code like CONCAT('%',#{code},'%')
+			
+			</if>
+			<if test="startFloorId != -1 and endFloorId==-1">
+				<![CDATA[
+					and RelatedId = #{startFloorId}
+				]]>
+			</if>
+			
+			<if test="endFloorId != -1">
+				<![CDATA[
+					and RelatedId <= #{endFloorId} and RelatedId >= #{startFloorId}
+				]]>
+			</if>
+			
+			<if test="templateId != '' or serialNumber != ''">
+				<![CDATA[
+					and Code REGEXP CONCAT ('L.*M',#{templateId},'N',#{serialNumber},'ID.*')
+				]]>
+			</if>
+			
+			<![CDATA[
+
+			and Code NOT REGEXP CONCAT ('L.*M10..N',#{serialNumber},'ID.*')
+			]]>
+
+			
+			<if test="floorIds != null">
+	            AND RelatedId IN 
+	            <foreach collection="floorIds" item="floorId" open="(" close=")" separator=","  >
+				  	#{floorId}
+	            </foreach>
+			</if>
+			
+		</where>
+		
+		<if test="sort==0">
+			ORDER BY LifeStartTime DESC
+		</if>
+		
+		<if test="sort==1">
+			ORDER BY Code ASC
+		</if>
+		
+		limit #{pageQuery.limit} offset #{pageQuery.offset}
+	</select>
+	
+	<select id="searchCount" parameterType="map" resultType="int">
+		SELECT COUNT(*)
+		FROM yjj_Statistics
+		<where>
+			Type = 0
+			
+			<if test="statisticsId != -1">
+			AND Id = #{statisticsId}
+			</if>
+			
+			<if test="onlineStartTime != -1">
+			<![CDATA[
+		    and LifeStartTime >= #{onlineStartTime}
+		    ]]>
+			</if>
+			
+			<if test="onlineEndTime != -1">
+			<![CDATA[
+		    and LifeEndTime <= #{onlineEndTime}
+		    ]]>
+			</if>
+			
+			<if test="startRelatedOrderCount != -1">
+			<![CDATA[
+			AND RelatedOrderCount >= #{startRelatedOrderCount}
+			]]>
+			</if>
+			<if test="endRelatedOrderCount != -1">
+			<![CDATA[
+			AND RelatedOrderCount <= #{endRelatedOrderCount}
+			]]>
+			</if>
+			
+			<if test="startClickCount != -1">
+			<![CDATA[
+			AND UserClick+UnknownClick >= #{startClickCount}
+			]]>
+			</if>
+			<if test="endClickCount != -1">
+			<![CDATA[
+			AND UserClick+UnknownClick <= #{endClickCount}
+			]]>
+			</if>
+			
+			<if test="code != '' ">
+			AND Code like CONCAT('%',#{code},'%')
+			
+			</if>
+			<if test="startFloorId != -1 and endFloorId==-1">
+				<![CDATA[
+					and RelatedId = #{startFloorId}
+				]]>
+			</if>
+			
+			<if test="endFloorId != -1">
+				<![CDATA[
+					and RelatedId <= #{endFloorId} and RelatedId >= #{startFloorId}
+				]]>
+			</if>
+			
+			<if test="templateId != '' or serialNumber != ''">
+				<![CDATA[
+					and Code REGEXP CONCAT ('L.*M',#{templateId},'N',#{serialNumber},'ID.*')
+				]]>
+			</if>
+			
+
+			<![CDATA[
+
+			and Code NOT REGEXP CONCAT ('L.*M10..N',#{serialNumber},'ID.*')
+			]]>
+
+
+			
+			<if test="floorIds != null">
+	            AND RelatedId IN 
+	            <foreach collection="floorIds" item="floorId" open="(" close=")" separator=","  >
+				  	#{floorId}
+	            </foreach>
+			</if>
+			
+		</where>
+		
+	</select>
+	
+	<select id="searchFloorName" parameterType="map" resultType = "String">
+		Select Name
+		from yjj_HomeFloor
+		<where>
+			Id = #{id};
+		</where>
+	</select>
+	
+	<select id="searchTemplateImgUrl" parameterType="map" resultType = "String">
+		Select ImgUrl
+		from yjj_HomeTemplate
+		<where>
+			Id = #{id};
+		</where>
+	</select>
+	
+	<select id="getIdsOfFloorName" parameterType="map" resultType = "Long">
+		Select Id
+		from yjj_HomeFloor
+		<where>
+			Name like CONCAT ('%',#{name},'%')
+		</where>
+	</select>
+	
+		
+	<select id="getIdsOfCode" parameterType="map" resultType = "Long">
+		Select Id
+		from yjj_Statistics
+		<where>
+			Code like CONCAT('%',#{code},'%')
+		</where>
+	</select>
+
+</mapper>

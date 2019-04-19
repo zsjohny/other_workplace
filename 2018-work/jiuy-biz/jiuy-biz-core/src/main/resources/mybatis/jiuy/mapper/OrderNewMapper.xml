@@ -1,0 +1,513 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jiuy.core.dao.impl.sql.OrderNewDaoSqlImpl">
+
+	<!-- 获得所有未付款的当面付订单 -->
+    <select id="allUnpaidFacepayOrderNew" parameterType="map" resultType="OrderNew">
+    	select * from yjj_OrderNew
+    	<![CDATA[
+    	where OrderType = 2 and OrderStatus = 0 and ExpiredTime < #{time}
+    	]]>
+    </select>
+    
+	<!-- 获得没有被merged的子订单 -->
+    <select id="childOfOrderNew" parameterType="map" resultType="OrderNew">
+    	select * from yjj_OrderNew
+    	<![CDATA[
+    	where ParentId > 0 and OrderStatus = 10 
+    		and UpdateTime > #{startTime} and UpdateTime <= #{endTime} and MergedId = 0 and OrderType= 0
+    	]]>
+    	order by LOWarehouseId asc, ExpressInfo asc
+    </select>
+    
+    <update id="updateMegerdSelf" parameterType="map">
+    	update yjj_OrderNew
+    	set MergedId = OrderNo
+    	where OrderNo in 
+    		<foreach collection="orderNos" item="orderNo" open="(" separator="," close=")">
+    			#{orderNo}
+    		</foreach>
+    </update>
+    
+    <insert id="addMergerdOrderNew" useGeneratedKeys="true" keyProperty="orderNo" parameterType="OrderNew">
+    	insert into yjj_OrderNew(UserId, OrderStatus, TotalMoney, TotalPay, TotalExpressMoney,
+    		ExpressInfo, CoinUsed, MergedId, CreateTime, UpdateTime)
+    	values(#{userId}, #{orderStatus}, #{totalMoney}, #{totalPay}, #{totalExpressMoney}, 
+    		#{expressInfo}, #{coinUsed}, #{mergedId}, #{createTime}, #{updateTime})
+    </insert>
+    
+    <update id="updateMegerdChild" parameterType="map">
+    	update yjj_OrderNew
+    	set MergedId = #{mergedId}
+    	where OrderNo in
+    		<foreach collection="orderNos" item="orderNo" open="(" separator="," close=")">
+    			#{orderNo}
+    		</foreach>
+    </update>
+    
+    <select id="selfMergedOrderNew" parameterType="map" resultType="OrderNew">
+    	select * from yjj_OrderNew
+    	<![CDATA[
+    	where OrderNo = MergedId and OrderStatus = 10  and PushTime = 0
+    		and UpdateTime > #{startTime} and UpdateTime <= #{endTime} 
+    	]]>
+    	<if test="orderType == 1">
+    		and OrderType= 0
+    	</if>
+    	<if test="orderType == 2">
+    		and OrderType= 3
+    	</if>
+    </select>
+    
+    <select id="getParentMergedOrderNews" parameterType="map" resultType="OrderNew">
+    	select * from yjj_OrderNew
+    	<![CDATA[
+    	where MergedId = -1 and OrderStatus = 10  and PushTime = 0
+    		and UpdateTime > #{startTime} and UpdateTime <= #{endTime}
+    	]]>
+    	<if test="orderType == 1">
+    		and OrderType= 0
+    	</if>
+    	<if test="orderType == 2">
+    		and OrderType= 3
+    	</if>
+    </select>
+    
+    <select id="orderNewsOfOrderNos" parameterType="map" resultType="OrderNew">
+    	select * from yjj_OrderNew
+    	where OrderNo in
+    		<foreach collection="orderNos" item="orderNo" open="(" separator="," close=")">
+    			#{orderNo}
+    		</foreach>
+    </select>
+    
+    <select id="orderNewOfOrderNo" parameterType="map" resultType="OrderNew">
+       	select * from yjj_OrderNew
+    	where OrderNo = #{orderNo}
+    </select>
+    
+    <select id="orderNewsOfSplitOrderNos" parameterType="map" resultType="OrderNew">
+    	select * from yjj_OrderNew
+    	where ParentId in
+    		<foreach collection="parentIds" item="parentId" open="(" separator="," close=")">
+    			#{parentId}
+    		</foreach>
+    	order by ParentId asc
+    </select>
+    
+    <select id="orderNewsOfParentMergedOrderNos" parameterType="map" resultType="OrderNew">
+       	select * from yjj_OrderNew
+    	where MergedId in
+    		<foreach collection="mergedIds" item="mergedId" open="(" separator="," close=")">
+    			#{mergedId}
+    		</foreach>
+    	order by MergedId asc
+    </select>
+    
+    <update id="updateOrderStatus" parameterType="map">
+   		update yjj_OrderNew
+    	set OrderStatus = #{orderStatus}
+    	where OrderNo in 
+    		<foreach collection="orderNos" item="orderNo" open="(" separator="," close=")">
+    			#{orderNo}
+    		</foreach>
+    </update>
+    
+    <select id="getOrderNosByOrderStatus" parameterType="map" resultType="Long">
+    	select OrderNo from yjj_OrderNew
+    	<where>
+    		<if test = "orderStatus != 5">
+    			and OrderStatus = #{orderStatus}
+    		</if> 
+    		<if test="afterSaleStatus_list != null">
+    			and AfterSellStatus in 
+    				<foreach collection="afterSaleStatus_list" item="afterSaleStatus" open="(" separator="," close=")">
+    					#{afterSaleStatus}
+    				</foreach> 
+    		</if>
+    	</where> 
+    </select>
+    
+    <select id="getOrderNewByOrderStatus" parameterType="map" resultType="OrderNew">
+    	select * from yjj_OrderNew
+    	<where>
+    		<if test = "orderStatus != 5">
+    			and OrderStatus = #{orderStatus}
+    		</if> 
+    	</where>
+    </select>
+    
+    <select id="searchOrderNews" parameterType="map" resultType="OrderNew">
+    	select * from yjj_OrderNew
+   		where 
+   			<if test="sendType == -1">
+    			OrderType= 0
+    		</if>
+    		<if test="sendType == 3">
+    			 OrderType = 3
+    		</if>
+    		<if test="sendType == -2">
+    			OrderType in(0,3)
+    		</if>
+    		<if test="orderNo != ''">
+    			and OrderNo = #{orderNo}
+    		</if>
+    		<if test="userId != -1">
+    			and UserId = #{userId}
+    		</if>
+    		<if test="receiver != ''">
+    			and ExpressInfo like concat("%", #{receiver}, "%")
+    		</if>
+    		<if test="phone != ''">
+    			and ExpressInfo like concat("%", #{phone}, "%")
+    		</if>
+    		<if test="orderType == 1" >
+    			and MergedId = -1
+    		</if>
+    		<if test="orderType == 2">
+    			<![CDATA[
+    			and (MergedId <> -1) and (ParentId <> -1)
+    			]]>
+    		</if>
+    		<if test="orderType == 3">
+    			and ParentId = -1
+    		</if>
+    		<if test = "orderStatus != -1">
+    			and OrderStatus = #{orderStatus}
+    		</if>
+    		<if test = "orderNos != null">
+    			and OrderNo in
+    			<foreach collection="orderNos" item="orderNo" open="(" separator="," close=")">
+    				#{orderNo}
+    			</foreach>
+    		</if>
+    		<![CDATA[
+    		and CreateTime >= #{startTime} and CreateTime <= #{endTime}
+    		]]>
+		order by CreateTime desc
+    	limit #{pageQuery.limit} offset #{pageQuery.offset}
+    </select>
+    
+    <select id="searchOrderNewsCount" parameterType="map" resultType="int">
+    	select count(OrderNo) from yjj_OrderNew 
+   		where 
+   			<if test="sendType == -1">
+				OrderType= 0
+    		</if>
+    		<if test="sendType == 3">
+    			 OrderType = 3
+    		</if>
+    		<if test="sendType == -2">
+    			OrderType in(0,3)
+    		</if>
+    		<if test="orderNo != ''">
+    			and OrderNo = #{orderNo}
+    		</if>
+    		<if test="userId != -1">
+    			and UserId = #{userId}
+    		</if>
+    		<if test="receiver != ''">
+    			and ExpressInfo like concat("%", #{receiver}, "%")
+    		</if>
+    		<if test="phone != ''">
+    			and ExpressInfo like concat("%", #{phone}, "%")
+    		</if>
+    		<if test="orderType == 1" >
+    			and MergedId = -1
+    		</if>
+    		<if test="orderType == 2">
+    			<![CDATA[
+    			and (MergedId <> -1) and (ParentId <> -1)
+    			]]>
+    		</if>
+    		<if test="orderType == 3">
+    			and ParentId = -1
+    		</if>
+    		<if test = "orderStatus != -1">
+    			and OrderStatus = #{orderStatus}
+    		</if>
+    		<if test = "orderNos != null">
+    			and OrderNo in
+    			<foreach collection="orderNos" item="orderNo" open="(" separator="," close=")">
+    				#{orderNo}
+    			</foreach>
+    		</if>
+    		<![CDATA[
+    		and CreateTime >= #{startTime} and CreateTime <= #{endTime}
+    		]]>
+    </select>
+    
+    <select id="searchUndelivered" parameterType="map" resultType="OrderNew">
+    	select * from yjj_OrderNew 
+   		where OrderStatus = 10
+   			and (MergedId = -1 or (<![CDATA[(MergedId <> -1) and (ParentId <> -1))]]>)
+   			<if test="orderType == 1">
+   				and OrderType= 0
+    		</if>
+    		<if test="orderType == 2">
+   				and OrderType= 3
+    		</if>
+    		<if test="orderNo != ''">
+    			and OrderNo like concat("%", #{orderNo}, "%")
+    		</if>
+    		<if test="userId != -1">
+    			and UserId = #{userId}
+    		</if>
+    		<if test="receiver != ''">
+    			and ExpressInfo like concat("%", #{receiver}, "%")
+    		</if>
+    		<if test="phone != ''">
+    			and ExpressInfo like concat("%", #{phone}, "%")
+    		</if>
+    		<if test = "orderNos != null">
+    			and OrderNo in
+    			<foreach collection="orderNos" item="orderNo" open="(" separator="," close=")">
+    				#{orderNo}
+    			</foreach>
+    		</if>
+    		<![CDATA[
+    		and CreateTime >= #{startTime} and CreateTime <= #{endTime}
+    		]]>
+		order by CreateTime desc
+    	limit #{pageQuery.limit} offset #{pageQuery.offset}
+    </select>
+    
+    <select id="searchUndeliveredCount" parameterType="map" resultType="int">
+    	select count(OrderNo) from yjj_OrderNew
+   		where OrderStatus = 10 
+   			and (MergedId = -1 or (<![CDATA[(MergedId <> -1) and (ParentId <> -1))]]>)
+   			<if test="orderType == 1">
+   				and OrderType= 0
+    		</if>
+    		<if test="orderType == 2">
+   				and OrderType= 3
+    		</if>
+    		<if test="orderNo != ''">
+    			and OrderNo like concat("%", #{orderNo}, "%")
+    		</if>
+    		<if test="userId != -1">
+    			and UserId = #{userId}
+    		</if>
+    		<if test="receiver != ''">
+    			and ExpressInfo like concat("%", #{receiver}, "%")
+    		</if>
+    		<if test="phone != ''">
+    			and ExpressInfo like concat("%", #{phone}, "%")
+    		</if>
+    		<if test = "orderNos != null">
+    			and OrderNo in
+    			<foreach collection="orderNos" item="orderNo" open="(" separator="," close=")">
+    				#{orderNo}
+    			</foreach>
+    		</if>
+    		<![CDATA[
+    		and CreateTime >= #{startTime} and CreateTime <= #{endTime}
+    		]]>
+		order by CreateTime desc
+    </select>
+    
+    
+    <select id="childOfCombinationOrderNos" parameterType="map" resultType="OrderNew">
+    	select * from yjj_OrderNew
+    	where MergedId in
+    		<foreach collection="mergedIds" item="mergedId" open="(" separator="," close=")">
+    			#{mergedId}
+    		</foreach>
+    </select>
+    
+    <select id="childOfSplitOrderNos" parameterType="map" resultType="OrderNew">
+    	select * from yjj_OrderNew
+    	where ParentId in
+    		<foreach collection="parentIds" item="parentId" open="(" separator="," close=")">
+    			#{parentId}
+    		</foreach>
+    </select>
+    
+    <update id="addPushTime" parameterType="map">
+    	update yjj_OrderNew 
+    	set PushTime = #{pushTime}
+    	<where>
+    		OrderNo in
+	    	<foreach collection="orderNos" item="orderNo" open="(" separator="," close=")">
+	    		#{orderNo}
+	    	</foreach>
+    	</where>
+    </update>
+    
+   	<insert id="insert" parameterType="OrderNew" useGeneratedKeys="true" keyProperty="orderNo">
+		insert into yjj_OrderNew(UserId, OrderType, OrderStatus, TotalMoney, TotalPay, TotalExpressMoney, ExpressInfo, CoinUsed, 
+		CreateTime, UpdateTime)
+		values(#{userId}, #{orderType}, #{orderStatus}, #{totalMoney}, #{totalPay}, #{totalExpressMoney}, #{expressInfo}, #{coinUsed}, 
+		#{createTime}, #{updateTime})
+	</insert>
+	
+	<select id="orderNewOfServiceId" parameterType="long" resultType="OrderNew">
+    	select * from yjj_OrderNew where OrderNo =(select OrderNo from yjj_ServiceTicket where Id = #{serviceId})
+    </select>
+    
+    <select id="orderNewOfReturnNo" parameterType="long" resultType="OrderNew">
+    	select * from yjj_OrderNew where OrderNo = #{parentId}
+    </select>
+    
+     <select id="searchOfParentId" parameterType="long" resultType="long">
+    	select orderNo from yjj_OrderNew where parentId = #{orderNo}
+    </select>
+    
+    <update id="updateCommission" parameterType="orderNew">
+		update yjj_OrderNew
+		<set>
+	        <if test="commission != null">
+	        	Commission = #{commission},
+	        </if>
+	        <if test="returnMoney != null">
+	        	ReturnMoney = #{returnMoney}
+	        </if>
+    	</set>
+    	<where>
+    		 OrderNo = #{orderNo}
+    	</where>
+	</update>
+	
+	<update id="freezeAfterSales">
+		update yjj_OrderNew
+		set AfterSellStatus = 2, AvailableCommission = Commission - ReturnCommission
+    	where OrderNo in
+	    	<foreach collection="freezeOrderNos" item="orderNo" open="(" separator="," close=")">
+	    		#{orderNo}
+	    	</foreach>
+	</update>
+	
+	<update id="update">
+		update yjj_OrderNew
+		<set>
+			<if test="uo.brandOrder != null">
+				BrandOrder = #{uo.brandOrder},
+			</if>
+			<if test="uo.updateTime != null">
+				UpdateTime = #{uo.updateTime},
+			</if>
+		</set>
+		where OrderNo = #{orderNo}
+	</update>
+	
+	<select id="getOrderNewOfTime" parameterType="map" resultType="OrderNew">
+    	SELECT a.OrderNo,a.TotalPay,a.TotalExpressMoney,from_unixtime(a.CreateTime/1000, "%Y-%m-%d") as day, 
+    		(select sum(BuyCount) from yjj_OrderItem b where b.OrderNo=a.OrderNo) buyCounts,
+    		(select YJJNumber from yjj_User c where c.UserId = a.UserId) as yjjNumber,
+			(select d.ProvinceName from yjj_Province d where a.ExpressInfo like concat("%", substring(d.ProvinceName,1,2), "%") limit 1) as provinceName
+			FROM yjj_OrderNew a
+    	<![CDATA[
+    		where a.CreateTime >= #{startTime} and a.CreateTime <= #{endTime}
+    		and a.OrderStatus in(10,50,70) and a.ParentId>0
+    		]]>
+    </select>
+    
+    <select id="getByUserIdStatus" resultType="OrderNew">
+		select * from yjj_OrderNew
+		where OrderStatus = #{orderStatus} and UserId = #{userId}
+	</select>
+	
+	<select id="searchUndeliveredMap" resultType="OrderNew">
+		select * from yjj_OrderNew
+		<where>
+			<if test="orderNos != null">
+				and OrderNo in <foreach collection="orderNos" item="orderNo" open="(" separator="," close=")">
+					#{orderNo}
+				</foreach>
+			</if>
+			<if test="so.orderNo != null">
+				and OrderNo = #{so.orderNo}
+			</if>
+			<if test="so.receiver != null">
+				and ExpressInfo like concat ("%", #{so.receiver}, "%")
+			</if>
+			<if test="so.phone != null">
+				and ExpressInfo like concat ("%", #{so.phone}, "%")
+			</if>
+			and (MergedId = -1 or MergedId = OrderNo or (MergedId = 0 and <![CDATA[ ParentId > 0 ]]> )) and OrderStatus = 10 
+			<![CDATA[ and UpdateTime >= #{so.startTime} and UpdateTime <= #{so.endTime} ]]>
+			and Status = 0 and OrderType = 0
+		</where> 
+		<if test="pageQuery != null">
+			limit #{pageQuery.limit} offset #{pageQuery.offset}
+		</if>
+	</select>
+	
+	<select id="searchUndeliveredNewCount" resultType="int">
+		select count(1) from yjj_OrderNew
+		<where>
+			<if test="orderNos != null">
+				and OrderNo in <foreach collection="orderNos" item="orderNo" open="(" separator="," close=")">
+					#{orderNo}
+				</foreach>
+			</if>
+			<if test="so.orderNo != null">
+				and OrderNo = #{so.orderNo}
+			</if>
+			<if test="so.receiver != null">
+				and ExpressInfo like concat ("%", #{so.receiver}, "%")
+			</if>
+			<if test="so.phone != null">
+				and ExpressInfo like concat ("%", #{so.phone}, "%")
+			</if>
+			and (MergedId = -1 or MergedId = OrderNo or (MergedId = 0 and <![CDATA[ ParentId > 0 ]]> )) and OrderStatus = 10 
+			<![CDATA[ and UpdateTime >= #{so.startTime} and UpdateTime <= #{so.endTime} ]]>
+			and Status = 0 and OrderType = 0
+		</where> 
+	</select>
+	
+	<select id="getByMergedNos" resultType="OrderNew">
+		select * from yjj_OrderNew
+		where MergedId in
+			<foreach collection="combineOrderNos" item="combineOrderNo" open="(" separator="," close=")">
+				#{combineOrderNo}
+			</foreach> and Status = 0 and OrderType = 0
+		order by MergedId asc
+	</select>
+	
+	<update id="increseAvailableCommission">
+		update yjj_OrderNew
+		set AvailableCommission = AvailableCommission + #{commission} - #{returnCommission}
+		where OrderNo = #{orderNo}
+	</update>
+	
+	<select id="getOrderAndReturnMoneyForTime" resultType="map">
+		select (select ifnull(sum(TotalPay),0) from yjj_OrderNew where OrderStatus in(0,10,50,70)
+			<![CDATA[
+			 and CreateTime>= #{startTime} and CreateTime<=#{endTime} 
+			 ]]>
+		 	and (ParentId =-1 or ParentId = OrderNo))as toTalOrderMoney,
+ 		 (select ifnull(sum(TotalPay),0) from yjj_OrderNew where OrderStatus in(0,10,50,70) 
+ 		 <![CDATA[
+			 and CreateTime>= #{startTime} and CreateTime<=#{endTime} 
+			 ]]>
+ 		 and (ParentId =-1 or ParentId = OrderNo) and BelongBusinessId>0)as storeOrderMoney,
+  		 (select ifnull(sum(ReturnMoney),0) from yjj_OrderNew where 
+  		 <![CDATA[
+			  CreateTime>= #{startTime} and CreateTime<=#{endTime} 
+			 ]]> 
+  		 and (ParentId =-1 or ParentId = OrderNo))as totalReturnMoney,
+  		 (select ifnull(sum(ReturnMoney),0) from yjj_OrderNew where 
+  		 <![CDATA[
+			  CreateTime>= #{startTime} and CreateTime<=#{endTime} 
+			 ]]>
+  		 and (ParentId =-1 or ParentId = OrderNo) and BelongBusinessId > 0)as storeReturnMoney
+	</select>	
+	
+	<select id="getTotalDataForTime" resultType="map">
+		select ifnull(sum(TotalPay),0)as totalSaleMoney,ifnull(sum(TotalBuyCount),0)as totalBuyCount,ifnull(count(*),0)as totalOrderCount,ifnull(count(distinct(userId)),0)as totalUserCount 
+		from yjj_OrderNew where OrderStatus in(10,50,70) and (ParentId =-1 or ParentId = OrderNo)
+		  <![CDATA[
+			 and PayTime>= #{startTime} and PayTime<=#{endTime} 
+		  ]]>
+	</select>
+	
+	<select id="getStoreTotalDataForTime" resultType="map">
+		select ifnull(sum(TotalPay),0)as storeSaleMoney,ifnull(sum(TotalBuyCount),0)as storeBuyCount,ifnull(count(*),0)as storeOrderCount,ifnull(count(distinct(userId)),0)as storeUserCount 
+		from yjj_OrderNew where OrderStatus in(10,50,70) and (ParentId =-1 or ParentId = OrderNo) 
+		  <![CDATA[
+			 and PayTime>= #{startTime} and PayTime<=#{endTime} and BelongBusinessId > 0
+		  ]]>
+	</select>
+</mapper>

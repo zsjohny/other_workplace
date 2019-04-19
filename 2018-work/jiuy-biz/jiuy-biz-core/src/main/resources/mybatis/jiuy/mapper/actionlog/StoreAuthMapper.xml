@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jiuy.core.dao.impl.sql.StoreAuthMapper">
+
+	<!-- 查询映射结果 -->
+	<resultMap id="storeAuthResultMap" type="com.jiuyuan.entity.store.StoreAuth">
+		<id column="id" property="id" />
+		<result column="store_id" property="storeId" />
+		<result column="auth_state" property="authState" />
+		<result column="no_pass_reason" property="noPassReason" />
+		<result column="auth_pass_time" property="authPassTime" />
+		<result column="auth_no_pass_time" property="authNoPassTime" />
+		<result column="auth_type" property="authType" />
+		<result column="physical_store_name" property="physicalStoreName" />
+		<result column="province" property="province" />
+		<result column="city" property="city" />
+		<result column="county" property="county" />
+		<result column="address" property="address" />
+		<result column="linkman" property="linkman" />
+		<result column="phone" property="phone" />
+		<result column="weixin" property="weixin" />
+		<result column="qq" property="qq" />
+		<result column="email" property="email" />
+		<result column="identity_card_front" property="identityCardFront" />
+		<result column="identity_card_reverse" property="identityCardReverse" />
+		<result column="business_license" property="businessLicense" />
+		<result column="store_imgs" property="storeImgs" />
+		<result column="letter_of_commitment_img" property="letterOfCommitmentImg" />
+		<result column="manage_platform" property="managePlatform" />
+		<result column="online_store_name" property="onlineStoreName" />
+		<result column="online_store_url" property="onlineStoreUrl" />
+		<result column="qualification_evidence_imgs" property="qualificationEvidenceImgs" />
+		<result column="create_time" property="createTime" />
+		<result column="update_time" property="updateTime" />
+	</resultMap>
+
+
+	<select id="getPreinstallNoPassReasonList" parameterType="map" resultType="map">
+		SELECT * FROM shop_store_auth_reason
+		<if test="type!=-1">
+		WHERE TYPE = #{type}
+		</if>
+		<if test="pageQuery!=null">
+			limit #{pageQuery.limit} offset #{pageQuery.offset}
+		</if>
+	</select>
+	
+	<select id="getPreinstallNoPassReasonListCount" resultType="int">
+		SELECT count(*) FROM shop_store_auth_reason WHERE TYPE = #{type}
+	</select>
+	
+
+	<insert id="setPreinstallNoPassReason" keyColumn="id" useGeneratedKeys="true" keyProperty="id" parameterType="map" >
+		INSERT INTO shop_store_auth_reason
+		(no_pass_reason,TYPE)
+		VALUES
+		(#{reason},#{type})		
+	</insert>
+	
+	<delete id="delPreinstallNoPassReason" parameterType="map">
+		DELETE FROM shop_store_auth_reason
+		where id = #{authReasonId}
+	</delete>
+
+	<!-- 实体店名，地址，联系人名，手机号，微信，QQ，邮箱；经营平台，网店名称，网店链接 -->
+	<select id="selectAuthList" parameterType="map" resultMap="storeAuthResultMap">
+		SELECT a.* FROM shop_store_auth a 
+		where a.auth_state=#{authState}
+		<if test="authType!=-1">
+			and a.auth_type=#{authType}
+		</if>
+		<if test="keyWord!=''">
+			and (
+				a.physical_store_name like concat("%", #{keyWord}, "%")
+				or a.address like concat("%", #{keyWord}, "%")
+				or a.linkman like concat("%", #{keyWord}, "%")
+				or a.phone like concat("%", #{keyWord}, "%")
+				or a.weixin like concat("%", #{keyWord}, "%")
+				or a.qq like concat("%", #{keyWord}, "%")
+				or a.email like concat("%", #{keyWord}, "%")
+				or a.manage_platform like concat("%", #{keyWord}, "%")
+				or a.online_store_name like concat("%", #{keyWord}, "%")
+				or a.online_store_url like concat("%", #{keyWord}, "%")
+			)
+		</if>
+		
+		ORDER BY a.update_time DESC 
+		<if test="pageQuery!=null">
+			limit #{pageQuery.limit} offset #{pageQuery.offset}
+		</if>
+	</select>
+	
+	<!-- 实体店名，地址，联系人名，手机号，微信，QQ，邮箱；经营平台，网店名称，网店链接 -->
+	<select id="selectAuthListCount" parameterType="map" resultType="int">
+		SELECT count(1) FROM shop_store_auth a 
+		where a.auth_state=#{authState}
+		<if test="authType!=-1">
+			and a.auth_type=#{authType}
+		</if>
+		<if test="keyWord!=''">
+			and (
+				a.physical_store_name like concat("%", #{keyWord}, "%")
+				or a.address like concat("%", #{keyWord}, "%")
+				or a.linkman like concat("%", #{keyWord}, "%")
+				or a.phone like concat("%", #{keyWord}, "%")
+				or a.weixin like concat("%", #{keyWord}, "%")
+				or a.qq like concat("%", #{keyWord}, "%")
+				or a.email like concat("%", #{keyWord}, "%")
+				or a.manage_platform like concat("%", #{keyWord}, "%")
+				or a.online_store_name like concat("%", #{keyWord}, "%")
+				or a.online_store_url like concat("%", #{keyWord}, "%")
+			)
+		</if>
+	</select>
+	
+	
+	<update id="setAuthPass" parameterType="map">
+		UPDATE shop_store_auth 
+		SET
+		auth_state = #{auth_state},
+		auth_pass_time = #{time},
+		update_time = #{time}
+		WHERE
+		id = #{storeAuthId}
+	</update>
+	
+	<update id="setAuthNoPass" parameterType="map">
+		UPDATE shop_store_auth 
+		SET
+		auth_state = #{auth_state},
+		no_pass_reason = #{noPassReason},
+		auth_no_pass_time = #{time},
+		update_time = #{time}
+		WHERE
+		id = #{storeAuthId}
+	</update>
+	
+</mapper>

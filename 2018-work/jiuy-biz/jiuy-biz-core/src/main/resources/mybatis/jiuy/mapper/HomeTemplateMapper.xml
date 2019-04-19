@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jiuy.core.dao.impl.sql.HomeTemplateDaoSqlImpl">
+	
+	<select id="loadTemplates" parameterType="map" resultType="HomeTemplate">
+	<![CDATA[
+		select 
+			*
+		from 
+			yjj_HomeTemplate t
+		where 
+			not exists (select 
+							1 
+						from 
+							yjj_HomeTemplate 
+						where 
+							Name = t.Name 
+								and id < t.id 
+								and Status = 0)
+			and Name LIKE CONCAT("%", #{name}, "%")
+			]]>
+	</select>
+	
+	<select id="loadTemplateById" parameterType="map" resultType="HomeTemplate">
+	<![CDATA[
+		select 
+			*
+		from 
+			yjj_HomeTemplate
+		where 
+			Id = #{id}
+			]]>
+	</select>
+
+	<update id="updateTemplate" parameterType="HomeTemplate">
+		UPDATE
+			yjj_HomeTemplate
+		SET 
+			Content = #{content}, UpdateTime = #{updateTime}, Name = #{name}, ImgUrl = #{imgUrl}
+		WHERE 
+			Id = #{id}
+	</update>
+	
+	<insert id="addTemplate" useGeneratedKeys="true" keyProperty="id">
+		INSERT 
+			yjj_HomeTemplate(Content, CreateTime, UpdateTime, Name, ImgUrl)
+		VALUES
+			(#{content}, #{createTime}, #{updateTime}, #{name}, #{imgUrl} )
+	</insert>
+	
+	<update id="removeDirtyData">
+		update 
+			yjj_HomeFloor a left join yjj_HomeTemplate b on a.HomeTemplateId = b.Id 
+		set b.Status = - 1
+		where
+			<![CDATA[ 
+			a.Status = 0 and a.NextHomeTemplateId <> 0 and a.ActivityPlaceId = #{activityPlaceId}
+			]]>
+	</update>
+	
+	<select id="templateOfIds" resultType="HomeTemplate">
+		select * from yjj_HomeTemplate
+		where Id in
+			<foreach collection="ids" item="id" open="(" separator="," close=")">
+				#{id}
+			</foreach>
+	</select>
+	
+	<select id="getByName" resultType="HomeTemplate">
+		select * from yjj_HomeTemplate
+		where Name = #{name}
+	</select>
+	
+</mapper>

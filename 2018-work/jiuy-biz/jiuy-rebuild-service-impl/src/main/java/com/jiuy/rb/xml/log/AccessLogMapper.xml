@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" > 
+<mapper namespace="com.jiuy.rb.mapper.log.AccessLogMapper"> 
+ 
+ 	<!-- 主要的返回映射-->
+	<resultMap id="BaseResultMap" type="com.jiuy.rb.model.log.AccessLog"	>
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="ip"  property="ip"  jdbcType="VARCHAR" />
+		<result column="uri"  property="uri"  jdbcType="VARCHAR" />
+		<result column="user_id"  property="userId"  jdbcType="BIGINT" />
+		<result column="type"  property="type"  jdbcType="INTEGER" />
+		<result column="create_time"  property="createTime"  jdbcType="TIMESTAMP" />
+	</resultMap>
+
+	<!-- 所有的列名-->
+	<sql id="Base_Column_List" >
+		id,ip,uri,user_id,type,create_time
+	</sql>
+
+	<!-- 精确更新的字段-->
+	<sql id="updateBase">
+		<if test="id  !=null">
+			id = #{id,jdbcType=BIGINT}, 
+		</if>
+		<if test="ip  !=null">
+			ip = #{ip,jdbcType=VARCHAR}, 
+		</if>
+		<if test="uri  !=null">
+			uri = #{uri,jdbcType=VARCHAR}, 
+		</if>
+		<if test="userId  !=null">
+			user_id = #{userId,jdbcType=BIGINT}, 
+		</if>
+		<if test="type  !=null">
+			type = #{type,jdbcType=INTEGER}, 
+		</if>
+		<if test="createTime  !=null">
+			create_time = #{createTime,jdbcType=TIMESTAMP} 
+		</if>
+	</sql>
+
+	<!-- 通过主键查找-->
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="Long" >
+		select 
+		<include refid="Base_Column_List" />
+		from yjj_access_log
+		where  id = #{id,jdbcType=BIGINT} 
+	</select>
+
+	<!-- 通过主键删除-->
+	<delete id="deleteByPrimaryKey" parameterType="Long" >
+		delete from yjj_access_log
+		where id = #{id,jdbcType=BIGINT} 
+	</delete>
+
+	<!-- 普通插入全字段插t入-->
+	<insert id="insert" parameterType="com.jiuy.rb.model.log.AccessLog" >
+		insert into yjj_access_log
+		(
+			id,
+			ip,
+			uri,
+			user_id,
+			type,
+			create_time
+		)
+		values
+		(
+			#{id ,jdbcType=BIGINT},
+			#{ip ,jdbcType=VARCHAR},
+			#{uri ,jdbcType=VARCHAR},
+			#{userId ,jdbcType=BIGINT},
+			#{type ,jdbcType=INTEGER},
+			#{createTime ,jdbcType=TIMESTAMP}
+		)
+	</insert>
+
+	<!-- 批量插入，全部字段插入-->
+	<insert id="insertBach"   parameterType="List" >
+		insert into yjj_access_log
+		(
+			id,
+			ip,
+			uri,
+			user_id,
+			type,
+			create_time
+		)
+		values 
+		<foreach collection="list" item="item" separator=",">
+		(
+			#{item.id ,jdbcType=BIGINT},
+			#{item.ip ,jdbcType=VARCHAR},
+			#{item.uri ,jdbcType=VARCHAR},
+			#{item.userId ,jdbcType=BIGINT},
+			#{item.type ,jdbcType=INTEGER},
+			#{item.createTime ,jdbcType=TIMESTAMP}
+		)
+		</foreach>
+	</insert>
+
+	<!-- 精确插入，非null得字段才会插入-->
+	<insert id="insertSelective" parameterType="com.jiuy.rb.model.log.AccessLog" useGeneratedKeys="true" keyProperty="id" >
+		insert into yjj_access_log
+		<trim prefix="(" suffix=")" suffixOverrides="," > 
+			<if test="id !=null">  
+				id,
+			</if>
+			<if test="ip !=null">  
+				ip,
+			</if>
+			<if test="uri !=null">  
+				uri,
+			</if>
+			<if test="userId !=null">  
+				user_id,
+			</if>
+			<if test="type !=null">  
+				type,
+			</if>
+			<if test="createTime !=null">  
+				create_time,
+			</if>
+		</trim>
+
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+			<if test="id  !=null">
+				#{id,jdbcType=BIGINT}, 
+			</if>
+			<if test="ip  !=null">
+				#{ip,jdbcType=VARCHAR}, 
+			</if>
+			<if test="uri  !=null">
+				#{uri,jdbcType=VARCHAR}, 
+			</if>
+			<if test="userId  !=null">
+				#{userId,jdbcType=BIGINT}, 
+			</if>
+			<if test="type  !=null">
+				#{type,jdbcType=INTEGER}, 
+			</if>
+			<if test="createTime  !=null">
+				#{createTime,jdbcType=TIMESTAMP} 
+			</if>
+		</trim>
+	</insert> 
+
+	<!-- 精确更新-->
+	<update id="updateByPrimaryKeySelective" parameterType="com.jiuy.rb.model.log.AccessLog" >
+		update yjj_access_log
+		<set>
+			<include refid="updateBase"/>
+		</set>
+		where id = #{id,jdbcType=BIGINT} 
+	</update> 
+
+	<!-- 全字段更新 需要注意-->
+	<update id="updateByPrimaryKey" parameterType="com.jiuy.rb.model.log.AccessLog" >
+		update yjj_access_log
+		set 
+			id = #{id ,jdbcType=BIGINT},
+			ip = #{ip ,jdbcType=VARCHAR},
+			uri = #{uri ,jdbcType=VARCHAR},
+			user_id = #{userId ,jdbcType=BIGINT},
+			type = #{type ,jdbcType=INTEGER},
+			create_time = #{createTime ,jdbcType=TIMESTAMP}
+		where id = #{id,jdbcType=BIGINT} 
+	</update> 
+
+	<!-- 所有的条件集合-->
+	<sql id="whereCase"  >
+		where  1=1 
+		<if test="id  !=null">
+			AND id = #{id,jdbcType=BIGINT} 
+		</if>
+		<if test="ip  !=null">
+			AND ip = #{ip,jdbcType=VARCHAR} 
+		</if>
+		<if test="uri  !=null">
+			AND uri = #{uri,jdbcType=VARCHAR} 
+		</if>
+		<if test="userId  !=null">
+			AND user_id = #{userId,jdbcType=BIGINT} 
+		</if>
+		<if test="type  !=null">
+			AND type = #{type,jdbcType=INTEGER} 
+		</if>
+		<if test="createTime  !=null">
+			AND create_time = #{createTime,jdbcType=TIMESTAMP} 
+		</if>
+		<include refid="costomWhereCase"/>
+	</sql>
+
+	<!-- 查询一条，如果返回多条会报错-->
+	<select id="selectOne" parameterType="java.util.Map" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" /> 
+		FROM yjj_access_log 
+		<include refid="whereCase" /> 
+	</select>
+
+	<!-- 查询一个list-->
+	<select id="selectList" parameterType="java.util.Map" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" /> 
+		FROM yjj_access_log 
+		<include refid="whereCase" /> 
+	</select>
+
+	<!-- 查询一个list-->
+	<select id="selectCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+		SELECT
+		count(1) 
+		FROM yjj_access_log
+		<include refid="whereCase" /> 
+	</select>
+
+	<!--  @Costom -->
+	<!-- 从上一行注释以上为系统生成 从这一行往下为用户自定义 请将自定义的sql放在此行下面 -->
+	<sql id="costomWhereCase">
+	</sql>
+
+</mapper>

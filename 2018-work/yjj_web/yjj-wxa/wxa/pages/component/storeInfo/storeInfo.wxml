@@ -1,0 +1,22 @@
+<!--门店信息-->
+<view class="store-box" wx:if="{{storeData.phone}}">
+   <view class="item">
+       <view class="title">商家名称</view>
+       <view class="content">{{storeData.name}}</view>
+   </view>
+  <view class="item">
+       <view class="title">商家地址</view>
+       <view class="content content1">{{storeData.address}}</view>
+   </view>
+   <view class="item" wx:if="{{storeData.phone}}" bindtap="makePhone" data-phone="{{storeData.phone}}">
+       <view class="title">商家电话</view>
+       <view class="content">{{storeData.phone}}</view>
+   </view>
+   <view class="item" wx:if="{{storeData.introduction}}">
+       <view class="title">商家介绍</view>
+       <view class="content">{{storeData.introduction}}</view>
+   </view>
+</view>
+<view class='no-info' wx:else>
+   商家很懒，没有任何信息
+</view>

@@ -1,0 +1,321 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jiuyuan.dao.mapper.supplier.ProductSkuNewMapper">
+
+    <sql id="skuFindColorSizeRemain">
+        s.RemainCount,s.sizeId,s.colorId
+    </sql>
+    <select id="listSkuColorSizeAndCountByProductId" resultType="com.jiuyuan.entity.newentity.ProductSkuNew">
+      select
+        Id AS Id,
+        ProductId AS ProductId,
+        colorId AS colorId,
+        colorName AS colorName,
+        sizeId AS sizeId,
+        sizeName AS sizeName,
+        RemainCount AS RemainCount
+        from yjj_ProductSKU
+        where ProductId = #{productId}
+        and `Status` = 0
+    </select>
+
+    <select id="listSkuColorSizeAndCountByWxaProductId" resultType="com.jiuyuan.entity.newentity.ProductSkuNew">
+      select
+        Id AS Id,
+        ProductId AS ProductId,
+        colorId AS colorId,
+        colorName AS colorName,
+        sizeId AS sizeId,
+        sizeName AS sizeName,
+        RemainCount AS RemainCount
+        from yjj_ProductSKU
+        where wxa_product_id = #{wxaProductId}
+        and `Status` = 0
+    </select>
+
+
+    <select id="getSkuColorSizeAndCountByProductId" resultType="com.jiuyuan.entity.newentity.ProductSkuNew">
+        select
+        Id AS Id,
+        ProductId AS ProductId,
+        colorId AS colorId,
+        colorName AS colorName,
+        sizeId AS sizeId,
+        sizeName AS sizeName,
+        RemainCount AS RemainCount
+        from yjj_ProductSKU
+        where ProductId = #{productId}
+        and SaleStartTime &lt; #{current}
+        and (SaleEndTime = 0 or SaleEndTime &gt; #{current})
+        and `Status` = 0
+	</select>
+
+    <update id="reduceRemainCount" parameterType="map">
+		<![CDATA[
+
+			UPDATE yjj_ProductSKU
+				SET RemainCount = RemainCount - #{buyCount}
+			WHERE
+				id = #{skuId};
+
+        ]]>
+	</update>
+    <select id="getAllProductSKUsOfProduct" resultType="ProductSkuNew">
+		<![CDATA[
+
+			select case a.isRemainCountLock when 1 then (case  when (a.remainCountStartTime<unix_timestamp()*1000 and a.remainCountEndTime>unix_timestamp()*1000) then  a.remainCount-a.RemainCountLock  else a.remainCount end) else a.RemainCount end as RemainCount,
+			a.* from yjj_ProductSKU a
+			where a.ProductId = #{productId} and a.SaleStartTime < unix_timestamp()*1000 and (a.SaleEndTime = 0 or a.SaleEndTime > unix_timestamp()*1000)
+
+        ]]>
+	</select>
+
+    <select id="getSkuMapListByProductIds" resultType="map">
+        <![CDATA[
+			select 
+			a.Id as skuId,
+			a.ProductId as productId ,
+			a.RemainCount as remainCount ,
+			a.colorId as colorId ,
+			a.colorName as colorName ,
+			a.sizeId as sizeId ,
+			a.sizeName as sizeName 
+	
+	 from yjj_ProductSKU a
+			where ProductId in
+		]]>
+        <foreach collection="productIdList" item="ProductId" open="(" separator="," close=")">
+            <![CDATA[
+				#{ProductId}
+			]]>
+        </foreach>
+    </select>
+
+    <select id="getSkuMapListByWxaProductIds" resultType="map">
+			select
+			a.Id as skuId,
+			a.wxa_product_id as wxaProductId ,
+			a.RemainCount as remainCount ,
+			a.colorId as colorId ,
+			a.colorName as colorName ,
+			a.sizeId as sizeId ,
+			a.sizeName as sizeName
+	 from yjj_ProductSKU a
+			where a.wxa_product_id = #{productId}
+    </select>
+
+
+    <!--
+        <insert id="insertProductSkuBatch" parameterType="List">
+            <![CDATA[
+                insert into yjj_ProductSKU( ProductId,PropertyIds,Price, RemainCount, Status,CreateTime, UpdateTime, SkuNo, Cash) values ]]>
+            <foreach collection="list" item="item" index="index"
+                separator=",">
+                ( #{item.productId},#{item.propertyIds},#{item.price},
+                #{item.remainCount},#{item.status},#{item.createTime},#{item.updateTime},
+                #{item.skuNo}, #{item.cash}
+                )
+            </foreach>
+        </insert> -->
+
+
+    <select id="countSkuHistory" parameterType="Map" resultType="int">
+        <![CDATA[
+		SELECT
+			COUNT(1)
+		FROM(
+		SELECT
+		product.Id AS productId,
+		sku.ClothesNumber,
+		sku.colorName,
+		sku.sizeName,
+		sku.`Name`,
+		sku.RemainCount,
+		sku.Id as skuId,
+		product.BrandId,
+		product.auditTime,
+		product.last_puton_time,
+		product.WholeSaleCash
+		FROM
+		yjj_ProductSKU AS sku
+		LEFT JOIN yjj_Product AS product ON sku.ProductId = product.Id
+		WHERE
+		product.state = 6
+		]]>
+        <if test="startTime != null and startTime > 0">
+            <![CDATA[
+			AND last_puton_time >=  #{startTime}
+			]]>
+        </if>
+        <if test="endTime != null and endTime > 0">
+            <![CDATA[
+			AND product.last_puton_time <=  #{endTime}
+			]]>
+        </if>
+        <if test="auditStartTime != null and auditStartTime > 0">
+            <![CDATA[
+			AND product.auditTime >=  #{auditStartTime}
+			]]>
+        </if>
+        <if test="auditEndTime != null and auditEndTime > 0">
+            <![CDATA[
+			AND product.auditTime <=  #{auditEndTime}
+			]]>
+        </if>
+        <![CDATA[
+		) AS skuwd
+		CROSS JOIN (
+		-- 列转行
+		SELECT
+		productId,
+		MAX(`季节`) AS '季节',
+		MAX(`长度`) AS '长度',
+		MAX(`风格`) AS '风格',
+		MAX(`面料`) AS '面料'
+		FROM (
+		SELECT
+		product.id AS productId,
+		case  WHEN dp.`name` = '季节' then  pp.`dyna_prop_value` end as '季节',
+		case  WHEN dp.`name` = '长度' then  pp.`dyna_prop_value` end as '长度',
+		case  WHEN dp.`name` = '风格' then  pp.`dyna_prop_value` end as '风格',
+		case  WHEN dp.`name` = '面料' then  pp.`dyna_prop_value` end as '面料'
+		FROM
+		yjj_dynamic_property_product AS pp
+		LEFT JOIN yjj_Product AS product ON pp.product_id = product.Id
+		LEFT JOIN yjj_dynamic_property AS dp ON dp.id = pp.dyna_prop_id
+		WHERE dp.`name` IN (
+		'季节', '长度', '风格', '面料'
+		)
+		AND dp.`status` =  1
+		) AS pv0
+		GROUP BY pv0.productId
+
+		) AS dyP ON dyP.ProductId = skuwd.ProductId
+		LEFT JOIN yjj_Brand AS brand ON brand.BrandId = skuwd.BrandId
+		ORDER BY skuwd.productId
+		]]>
+    </select>
+
+
+    <select id="findSkuHistory" parameterType="com.baomidou.mybatisplus.plugins.Page" resultType="map">
+        <![CDATA[
+		SELECT
+		skuwd.`Name` as 'productName',						-- 商品名
+		skuwd.ClothesNumber as 'clothesNumber', 			-- 货号
+		brand.BrandName as 'brandName',						-- 品牌名
+		IFNULL(dyP.`长度`,'')  AS 'length',					-- 长度
+		IFNULL(dyP.`季节`,'')  AS 'season', 					-- 季节
+		IFNULL(dyP.`风格`,'')  AS 'style',					-- 风格
+		IFNULL(dyP.`面料`,'')  AS 'lining',					-- 面料
+		skuwd.colorName AS 'colorName',						-- 颜色
+		skuwd.sizeName AS sizeName,							-- 尺寸
+		skuwd.WholeSaleCash AS wholeSaleCash,				-- 批发价
+		skuwd.RemainCount AS remainCount,					-- 库存
+		skuwd.auditTime AS auditTime,						-- 审核时间
+		IFNULL(skuwd.last_puton_time,'' ) AS lastPutonTime,	-- 首次上架时间
+		skuwd.skuId AS skuId,								-- skuId
+		skuwd.productId  AS productId						-- productId
+		FROM(
+		SELECT
+		product.Id AS productId,
+		sku.ClothesNumber,
+		sku.colorName,
+		sku.sizeName,
+		sku.`Name`,
+		sku.RemainCount,
+		sku.Id as skuId,
+		product.BrandId,
+		product.auditTime,
+		product.last_puton_time,
+		product.WholeSaleCash
+		FROM
+		yjj_ProductSKU AS sku
+		LEFT JOIN yjj_Product AS product ON sku.ProductId = product.Id
+		WHERE
+		product.state = 6
+		]]>
+        <if test="startTime != null and startTime > 0">
+            <![CDATA[
+			AND last_puton_time >=  #{startTime}
+			]]>
+        </if>
+        <if test="endTime != null and endTime > 0">
+            <![CDATA[
+			AND product.last_puton_time <=  #{endTime}
+			]]>
+        </if>
+        <if test="auditStartTime != null and auditStartTime > 0">
+            <![CDATA[
+			AND product.auditTime >=  #{auditStartTime}
+			]]>
+        </if>
+        <if test="auditEndTime != null and auditEndTime > 0">
+            <![CDATA[
+			AND product.auditTime <=  #{auditEndTime}
+			]]>
+        </if>
+        <![CDATA[
+		) AS skuwd
+		CROSS JOIN (
+		-- 列转行
+		SELECT
+		productId,
+		MAX(`季节`) AS '季节',
+		MAX(`长度`) AS '长度',
+		MAX(`风格`) AS '风格',
+		MAX(`面料`) AS '面料'
+		FROM (
+		SELECT
+		product.id AS productId,
+		case  WHEN dp.`name` = '季节' then  pp.`dyna_prop_value` end as '季节',
+		case  WHEN dp.`name` = '长度' then  pp.`dyna_prop_value` end as '长度',
+		case  WHEN dp.`name` = '风格' then  pp.`dyna_prop_value` end as '风格',
+		case  WHEN dp.`name` = '面料' then  pp.`dyna_prop_value` end as '面料'
+		FROM
+		yjj_dynamic_property_product AS pp
+		LEFT JOIN yjj_Product AS product ON pp.product_id = product.Id
+		LEFT JOIN yjj_dynamic_property AS dp ON dp.id = pp.dyna_prop_id
+		WHERE dp.`name` IN (
+		'季节', '长度', '风格', '面料'
+		)
+		AND dp.`status` =  1
+		) AS pv0
+		GROUP BY pv0.productId
+
+		) AS dyP ON dyP.ProductId = skuwd.ProductId
+		LEFT JOIN yjj_Brand AS brand ON brand.BrandId = skuwd.BrandId
+		ORDER BY skuwd.productId DESC
+	]]>
+    </select>
+
+
+    <select id="findSkuBySupplierAndSkuIds" resultType="ProductSkuNew">
+        <![CDATA[
+		SELECT a.*
+		, a.timing_set_remain_count_time as timingSetRemainCountTime
+		, a.timing_set_type as timingSetType
+		, a.timing_set_count as timingSetCount
+		FROM yjj_productsku a
+		JOIN yjj_product b ON a.ProductId = b.Id
+        WHERE a.Id IN
+         ]]>
+        <foreach collection="skuIds" item="skuId" open="(" separator="," close=")">
+            #{skuId}
+        </foreach>
+        <if test="supplierId != null and supplierId > 0">
+		AND b.supplierId = #{supplierId}
+        </if>
+    </select>
+    <!--查询尺寸颜色库存-->
+    <select id="findColorSizeRemainById" resultType="com.jiuyuan.entity.newentity.ProductSkuNew">
+        select
+        <include refid="skuFindColorSizeRemain"/>
+        from yjj_ProductSKU s
+        where s.id = #{skuId}
+    </select>
+    <select id="findRemainCountById" resultType="java.lang.Integer">
+        select RemainCount
+        from yjj_ProductSKU
+        where id = #{skuId}
+    </select>
+</mapper>

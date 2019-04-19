@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="utf-8"/>
+	<!--允许全屏--> 
+	<meta content="yes" name="apple-mobile-web-app-capable"/>
+	<meta content="yes" name="apple-touch-fullscreen"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+	<title>俞姐姐门店宝</title>
+	<meta name="description" content="俞姐姐门店宝"/>
+	<meta name="keywords" content="俞姐姐门店宝"/>
+    <script type="text/javascript">
+    	//高档首页和中档首页跳转地址
+    	var conf = {
+    		"midLevel":"index/midLevel",
+    	    "highLevel":"index/highLevel"
+    	}
+    	var pathname = window.location.pathname,
+    		uri = pathname.slice(1);
+        //品牌跳转地址处理  
+        if(pathname.indexOf("brandMain") > 0){
+        	uri = uri.replace(/brandMain/, "brandpage");
+        }
+    	var targetUri = conf[uri] || uri;
+    	var yjjmdb = "yjjmdb://" + targetUri;
+        console.log(pathname,targetUri,yjjmdb);
+        //下载app页面
+        var downUrl = 'https://storeonline.yujiejie.com/download';
+    	 //ios
+		 if (navigator.userAgent.match(/(iPhone|iPod|iPad);?/i)) {
+			  window.location.href = yjjmdb;
+			  window.setTimeout(function() {
+				  window.location.href = downUrl;   //下载的地址
+			  },3000);
+		 } 
+		 //安卓
+		 else if (navigator.userAgent.match(/android/i)) {
+			  window.location.href = yjjmdb;  //自己定义的scheme协议
+			  window.setTimeout(function() {
+				  window.location.href = downUrl;   //下载的地址
+			  },3000);
+		 }
+    </script>
+</head>
+<body>
+
+</body>
+</html>

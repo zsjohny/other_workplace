@@ -1,0 +1,876 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" > 
+<mapper namespace="com.jiuy.rb.mapper.order.StoreRefundOrderRbMapper"> 
+ 
+ 	<!-- 主要的返回映射-->
+	<resultMap id="BaseResultMap" type="com.jiuy.rb.model.order.StoreRefundOrderRb"	>
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="refund_order_no"  property="refundOrderNo"  jdbcType="BIGINT" />
+		<result column="store_id"  property="storeId"  jdbcType="BIGINT" />
+		<result column="store_phone"  property="storePhone"  jdbcType="VARCHAR" />
+		<result column="store_name"  property="storeName"  jdbcType="VARCHAR" />
+		<result column="supplier_id"  property="supplierId"  jdbcType="BIGINT" />
+		<result column="order_no"  property="orderNo"  jdbcType="BIGINT" />
+		<result column="brand_id"  property="brandId"  jdbcType="BIGINT" />
+		<result column="brand_name"  property="brandName"  jdbcType="VARCHAR" />
+		<result column="refund_type"  property="refundType"  jdbcType="TINYINT" />
+		<result column="refund_status"  property="refundStatus"  jdbcType="TINYINT" />
+		<result column="refund_cost"  property="refundCost"  jdbcType="DECIMAL" />
+		<result column="return_count"  property="returnCount"  jdbcType="INTEGER" />
+		<result column="refund_reason_id"  property="refundReasonId"  jdbcType="BIGINT" />
+		<result column="refund_reason"  property="refundReason"  jdbcType="VARCHAR" />
+		<result column="refund_remark"  property="refundRemark"  jdbcType="VARCHAR" />
+		<result column="refund_proof_images"  property="refundProofImages"  jdbcType="VARCHAR" />
+		<result column="refund_way"  property="refundWay"  jdbcType="TINYINT" />
+		<result column="refund_time"  property="refundTime"  jdbcType="BIGINT" />
+		<result column="apply_time"  property="applyTime"  jdbcType="BIGINT" />
+		<result column="customer_return_time"  property="customerReturnTime"  jdbcType="BIGINT" />
+		<result column="confirm_time"  property="confirmTime"  jdbcType="BIGINT" />
+		<result column="platform_intervene_time"  property="platformInterveneTime"  jdbcType="BIGINT" />
+		<result column="platform_intervene_close_time"  property="platformInterveneCloseTime"  jdbcType="BIGINT" />
+		<result column="customer_express_no"  property="customerExpressNo"  jdbcType="VARCHAR" />
+		<result column="customer_express_company"  property="customerExpressCompany"  jdbcType="VARCHAR" />
+		<result column="store_allow_refund_time"  property="storeAllowRefundTime"  jdbcType="BIGINT" />
+		<result column="store_refuse_refund_time"  property="storeRefuseRefundTime"  jdbcType="BIGINT" />
+		<result column="store_refuse_reason"  property="storeRefuseReason"  jdbcType="VARCHAR" />
+		<result column="handling_suggestion"  property="handlingSuggestion"  jdbcType="VARCHAR" />
+		<result column="store_agree_remark"  property="storeAgreeRemark"  jdbcType="VARCHAR" />
+		<result column="platform_close_reason"  property="platformCloseReason"  jdbcType="VARCHAR" />
+		<result column="platform_intervene_state"  property="platformInterveneState"  jdbcType="TINYINT" />
+		<result column="receiver"  property="receiver"  jdbcType="VARCHAR" />
+		<result column="supplier_receive_address"  property="supplierReceiveAddress"  jdbcType="VARCHAR" />
+		<result column="receiver_phone"  property="receiverPhone"  jdbcType="VARCHAR" />
+		<result column="supplier_auto_take_delivery_pause_time"  property="supplierAutoTakeDeliveryPauseTime"  jdbcType="BIGINT" />
+		<result column="supplier_auto_take_delivery_pause_time_length"  property="supplierAutoTakeDeliveryPauseTimeLength"  jdbcType="BIGINT" />
+		<result column="customer_cancel_time"  property="customerCancelTime"  jdbcType="BIGINT" />
+		<result column="customer_overtime_time_no_delivery"  property="customerOvertimeTimeNoDelivery"  jdbcType="BIGINT" />
+		<result column="express_info"  property="expressInfo"  jdbcType="VARCHAR" />
+		<result column="customer_express_company_name"  property="customerExpressCompanyName"  jdbcType="VARCHAR" />
+	</resultMap>
+
+	<!-- 所有的列名-->
+	<sql id="Base_Column_List" >
+		id,refund_order_no,store_id,store_phone,store_name,supplier_id,order_no,brand_id,brand_name,
+		refund_type,refund_status,refund_cost,return_count,refund_reason_id,refund_reason,refund_remark,refund_proof_images,
+		refund_way,refund_time,apply_time,customer_return_time,confirm_time,platform_intervene_time,platform_intervene_close_time,customer_express_no,
+		customer_express_company,store_allow_refund_time,store_refuse_refund_time,store_refuse_reason,handling_suggestion,store_agree_remark,platform_close_reason,platform_intervene_state,
+		receiver,supplier_receive_address,receiver_phone,supplier_auto_take_delivery_pause_time,supplier_auto_take_delivery_pause_time_length,customer_cancel_time,customer_overtime_time_no_delivery,express_info,
+		customer_express_company_name
+	</sql>
+
+	<!-- 精确更新的字段-->
+	<sql id="updateBase">
+		<if test="id  !=null">
+			id = #{id,jdbcType=BIGINT}, 
+		</if>
+		<if test="refundOrderNo  !=null">
+			refund_order_no = #{refundOrderNo,jdbcType=BIGINT}, 
+		</if>
+		<if test="storeId  !=null">
+			store_id = #{storeId,jdbcType=BIGINT}, 
+		</if>
+		<if test="storePhone  !=null">
+			store_phone = #{storePhone,jdbcType=VARCHAR}, 
+		</if>
+		<if test="storeName  !=null">
+			store_name = #{storeName,jdbcType=VARCHAR}, 
+		</if>
+		<if test="supplierId  !=null">
+			supplier_id = #{supplierId,jdbcType=BIGINT}, 
+		</if>
+		<if test="orderNo  !=null">
+			order_no = #{orderNo,jdbcType=BIGINT}, 
+		</if>
+		<if test="brandId  !=null">
+			brand_id = #{brandId,jdbcType=BIGINT}, 
+		</if>
+		<if test="brandName  !=null">
+			brand_name = #{brandName,jdbcType=VARCHAR}, 
+		</if>
+		<if test="refundType  !=null">
+			refund_type = #{refundType,jdbcType=TINYINT}, 
+		</if>
+		<if test="refundStatus  !=null">
+			refund_status = #{refundStatus,jdbcType=TINYINT}, 
+		</if>
+		<if test="refundCost  !=null">
+			refund_cost = #{refundCost,jdbcType=DECIMAL}, 
+		</if>
+		<if test="returnCount  !=null">
+			return_count = #{returnCount,jdbcType=INTEGER}, 
+		</if>
+		<if test="refundReasonId  !=null">
+			refund_reason_id = #{refundReasonId,jdbcType=BIGINT}, 
+		</if>
+		<if test="refundReason  !=null">
+			refund_reason = #{refundReason,jdbcType=VARCHAR}, 
+		</if>
+		<if test="refundRemark  !=null">
+			refund_remark = #{refundRemark,jdbcType=VARCHAR}, 
+		</if>
+		<if test="refundProofImages  !=null">
+			refund_proof_images = #{refundProofImages,jdbcType=VARCHAR}, 
+		</if>
+		<if test="refundWay  !=null">
+			refund_way = #{refundWay,jdbcType=TINYINT}, 
+		</if>
+		<if test="refundTime  !=null">
+			refund_time = #{refundTime,jdbcType=BIGINT}, 
+		</if>
+		<if test="applyTime  !=null">
+			apply_time = #{applyTime,jdbcType=BIGINT}, 
+		</if>
+		<if test="customerReturnTime  !=null">
+			customer_return_time = #{customerReturnTime,jdbcType=BIGINT}, 
+		</if>
+		<if test="confirmTime  !=null">
+			confirm_time = #{confirmTime,jdbcType=BIGINT}, 
+		</if>
+		<if test="platformInterveneTime  !=null">
+			platform_intervene_time = #{platformInterveneTime,jdbcType=BIGINT}, 
+		</if>
+		<if test="platformInterveneCloseTime  !=null">
+			platform_intervene_close_time = #{platformInterveneCloseTime,jdbcType=BIGINT}, 
+		</if>
+		<if test="customerExpressNo  !=null">
+			customer_express_no = #{customerExpressNo,jdbcType=VARCHAR}, 
+		</if>
+		<if test="customerExpressCompany  !=null">
+			customer_express_company = #{customerExpressCompany,jdbcType=VARCHAR}, 
+		</if>
+		<if test="storeAllowRefundTime  !=null">
+			store_allow_refund_time = #{storeAllowRefundTime,jdbcType=BIGINT}, 
+		</if>
+		<if test="storeRefuseRefundTime  !=null">
+			store_refuse_refund_time = #{storeRefuseRefundTime,jdbcType=BIGINT}, 
+		</if>
+		<if test="storeRefuseReason  !=null">
+			store_refuse_reason = #{storeRefuseReason,jdbcType=VARCHAR}, 
+		</if>
+		<if test="handlingSuggestion  !=null">
+			handling_suggestion = #{handlingSuggestion,jdbcType=VARCHAR}, 
+		</if>
+		<if test="storeAgreeRemark  !=null">
+			store_agree_remark = #{storeAgreeRemark,jdbcType=VARCHAR}, 
+		</if>
+		<if test="platformCloseReason  !=null">
+			platform_close_reason = #{platformCloseReason,jdbcType=VARCHAR}, 
+		</if>
+		<if test="platformInterveneState  !=null">
+			platform_intervene_state = #{platformInterveneState,jdbcType=TINYINT}, 
+		</if>
+		<if test="receiver  !=null">
+			receiver = #{receiver,jdbcType=VARCHAR}, 
+		</if>
+		<if test="supplierReceiveAddress  !=null">
+			supplier_receive_address = #{supplierReceiveAddress,jdbcType=VARCHAR}, 
+		</if>
+		<if test="receiverPhone  !=null">
+			receiver_phone = #{receiverPhone,jdbcType=VARCHAR}, 
+		</if>
+		<if test="supplierAutoTakeDeliveryPauseTime  !=null">
+			supplier_auto_take_delivery_pause_time = #{supplierAutoTakeDeliveryPauseTime,jdbcType=BIGINT}, 
+		</if>
+		<if test="supplierAutoTakeDeliveryPauseTimeLength  !=null">
+			supplier_auto_take_delivery_pause_time_length = #{supplierAutoTakeDeliveryPauseTimeLength,jdbcType=BIGINT}, 
+		</if>
+		<if test="customerCancelTime  !=null">
+			customer_cancel_time = #{customerCancelTime,jdbcType=BIGINT}, 
+		</if>
+		<if test="customerOvertimeTimeNoDelivery  !=null">
+			customer_overtime_time_no_delivery = #{customerOvertimeTimeNoDelivery,jdbcType=BIGINT}, 
+		</if>
+		<if test="expressInfo  !=null">
+			express_info = #{expressInfo,jdbcType=VARCHAR}, 
+		</if>
+		<if test="customerExpressCompanyName  !=null">
+			customer_express_company_name = #{customerExpressCompanyName,jdbcType=VARCHAR} 
+		</if>
+	</sql>
+
+	<!-- 通过主键查找-->
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="Long" >
+		select 
+		<include refid="Base_Column_List" />
+		from store_refund_order
+		where  id = #{id,jdbcType=BIGINT} 
+	</select>
+
+	<!-- 通过主键删除-->
+	<delete id="deleteByPrimaryKey" parameterType="Long" >
+		delete from store_refund_order
+		where id = #{id,jdbcType=BIGINT} 
+	</delete>
+
+	<!-- 普通插入全字段插t入-->
+	<insert id="insert" parameterType="com.jiuy.rb.model.order.StoreRefundOrderRb" >
+		insert into store_refund_order
+		(
+			id,
+			refund_order_no,
+			store_id,
+			store_phone,
+			store_name,
+			supplier_id,
+			order_no,
+			brand_id,
+			brand_name,
+			refund_type,
+			refund_status,
+			refund_cost,
+			return_count,
+			refund_reason_id,
+			refund_reason,
+			refund_remark,
+			refund_proof_images,
+			refund_way,
+			refund_time,
+			apply_time,
+			customer_return_time,
+			confirm_time,
+			platform_intervene_time,
+			platform_intervene_close_time,
+			customer_express_no,
+			customer_express_company,
+			store_allow_refund_time,
+			store_refuse_refund_time,
+			store_refuse_reason,
+			handling_suggestion,
+			store_agree_remark,
+			platform_close_reason,
+			platform_intervene_state,
+			receiver,
+			supplier_receive_address,
+			receiver_phone,
+			supplier_auto_take_delivery_pause_time,
+			supplier_auto_take_delivery_pause_time_length,
+			customer_cancel_time,
+			customer_overtime_time_no_delivery,
+			express_info,
+			customer_express_company_name
+		)
+		values
+		(
+			#{id ,jdbcType=BIGINT},
+			#{refundOrderNo ,jdbcType=BIGINT},
+			#{storeId ,jdbcType=BIGINT},
+			#{storePhone ,jdbcType=VARCHAR},
+			#{storeName ,jdbcType=VARCHAR},
+			#{supplierId ,jdbcType=BIGINT},
+			#{orderNo ,jdbcType=BIGINT},
+			#{brandId ,jdbcType=BIGINT},
+			#{brandName ,jdbcType=VARCHAR},
+			#{refundType ,jdbcType=TINYINT},
+			#{refundStatus ,jdbcType=TINYINT},
+			#{refundCost ,jdbcType=DECIMAL},
+			#{returnCount ,jdbcType=INTEGER},
+			#{refundReasonId ,jdbcType=BIGINT},
+			#{refundReason ,jdbcType=VARCHAR},
+			#{refundRemark ,jdbcType=VARCHAR},
+			#{refundProofImages ,jdbcType=VARCHAR},
+			#{refundWay ,jdbcType=TINYINT},
+			#{refundTime ,jdbcType=BIGINT},
+			#{applyTime ,jdbcType=BIGINT},
+			#{customerReturnTime ,jdbcType=BIGINT},
+			#{confirmTime ,jdbcType=BIGINT},
+			#{platformInterveneTime ,jdbcType=BIGINT},
+			#{platformInterveneCloseTime ,jdbcType=BIGINT},
+			#{customerExpressNo ,jdbcType=VARCHAR},
+			#{customerExpressCompany ,jdbcType=VARCHAR},
+			#{storeAllowRefundTime ,jdbcType=BIGINT},
+			#{storeRefuseRefundTime ,jdbcType=BIGINT},
+			#{storeRefuseReason ,jdbcType=VARCHAR},
+			#{handlingSuggestion ,jdbcType=VARCHAR},
+			#{storeAgreeRemark ,jdbcType=VARCHAR},
+			#{platformCloseReason ,jdbcType=VARCHAR},
+			#{platformInterveneState ,jdbcType=TINYINT},
+			#{receiver ,jdbcType=VARCHAR},
+			#{supplierReceiveAddress ,jdbcType=VARCHAR},
+			#{receiverPhone ,jdbcType=VARCHAR},
+			#{supplierAutoTakeDeliveryPauseTime ,jdbcType=BIGINT},
+			#{supplierAutoTakeDeliveryPauseTimeLength ,jdbcType=BIGINT},
+			#{customerCancelTime ,jdbcType=BIGINT},
+			#{customerOvertimeTimeNoDelivery ,jdbcType=BIGINT},
+			#{expressInfo ,jdbcType=VARCHAR},
+			#{customerExpressCompanyName ,jdbcType=VARCHAR}
+		)
+	</insert>
+
+	<!-- 批量插入，全部字段插入-->
+	<insert id="insertBach"   parameterType="List" >
+		insert into store_refund_order
+		(
+			id,
+			refund_order_no,
+			store_id,
+			store_phone,
+			store_name,
+			supplier_id,
+			order_no,
+			brand_id,
+			brand_name,
+			refund_type,
+			refund_status,
+			refund_cost,
+			return_count,
+			refund_reason_id,
+			refund_reason,
+			refund_remark,
+			refund_proof_images,
+			refund_way,
+			refund_time,
+			apply_time,
+			customer_return_time,
+			confirm_time,
+			platform_intervene_time,
+			platform_intervene_close_time,
+			customer_express_no,
+			customer_express_company,
+			store_allow_refund_time,
+			store_refuse_refund_time,
+			store_refuse_reason,
+			handling_suggestion,
+			store_agree_remark,
+			platform_close_reason,
+			platform_intervene_state,
+			receiver,
+			supplier_receive_address,
+			receiver_phone,
+			supplier_auto_take_delivery_pause_time,
+			supplier_auto_take_delivery_pause_time_length,
+			customer_cancel_time,
+			customer_overtime_time_no_delivery,
+			express_info,
+			customer_express_company_name
+		)
+		values 
+		<foreach collection="list" item="item" separator=",">
+		(
+			#{item.id ,jdbcType=BIGINT},
+			#{item.refundOrderNo ,jdbcType=BIGINT},
+			#{item.storeId ,jdbcType=BIGINT},
+			#{item.storePhone ,jdbcType=VARCHAR},
+			#{item.storeName ,jdbcType=VARCHAR},
+			#{item.supplierId ,jdbcType=BIGINT},
+			#{item.orderNo ,jdbcType=BIGINT},
+			#{item.brandId ,jdbcType=BIGINT},
+			#{item.brandName ,jdbcType=VARCHAR},
+			#{item.refundType ,jdbcType=TINYINT},
+			#{item.refundStatus ,jdbcType=TINYINT},
+			#{item.refundCost ,jdbcType=DECIMAL},
+			#{item.returnCount ,jdbcType=INTEGER},
+			#{item.refundReasonId ,jdbcType=BIGINT},
+			#{item.refundReason ,jdbcType=VARCHAR},
+			#{item.refundRemark ,jdbcType=VARCHAR},
+			#{item.refundProofImages ,jdbcType=VARCHAR},
+			#{item.refundWay ,jdbcType=TINYINT},
+			#{item.refundTime ,jdbcType=BIGINT},
+			#{item.applyTime ,jdbcType=BIGINT},
+			#{item.customerReturnTime ,jdbcType=BIGINT},
+			#{item.confirmTime ,jdbcType=BIGINT},
+			#{item.platformInterveneTime ,jdbcType=BIGINT},
+			#{item.platformInterveneCloseTime ,jdbcType=BIGINT},
+			#{item.customerExpressNo ,jdbcType=VARCHAR},
+			#{item.customerExpressCompany ,jdbcType=VARCHAR},
+			#{item.storeAllowRefundTime ,jdbcType=BIGINT},
+			#{item.storeRefuseRefundTime ,jdbcType=BIGINT},
+			#{item.storeRefuseReason ,jdbcType=VARCHAR},
+			#{item.handlingSuggestion ,jdbcType=VARCHAR},
+			#{item.storeAgreeRemark ,jdbcType=VARCHAR},
+			#{item.platformCloseReason ,jdbcType=VARCHAR},
+			#{item.platformInterveneState ,jdbcType=TINYINT},
+			#{item.receiver ,jdbcType=VARCHAR},
+			#{item.supplierReceiveAddress ,jdbcType=VARCHAR},
+			#{item.receiverPhone ,jdbcType=VARCHAR},
+			#{item.supplierAutoTakeDeliveryPauseTime ,jdbcType=BIGINT},
+			#{item.supplierAutoTakeDeliveryPauseTimeLength ,jdbcType=BIGINT},
+			#{item.customerCancelTime ,jdbcType=BIGINT},
+			#{item.customerOvertimeTimeNoDelivery ,jdbcType=BIGINT},
+			#{item.expressInfo ,jdbcType=VARCHAR},
+			#{item.customerExpressCompanyName ,jdbcType=VARCHAR}
+		)
+		</foreach>
+	</insert>
+
+	<!-- 精确插入，非null得字段才会插入-->
+	<insert id="insertSelective" parameterType="com.jiuy.rb.model.order.StoreRefundOrderRb" useGeneratedKeys="true" keyProperty="id" >
+		insert into store_refund_order
+		<trim prefix="(" suffix=")" suffixOverrides="," > 
+			<if test="id !=null">  
+				id,
+			</if>
+			<if test="refundOrderNo !=null">  
+				refund_order_no,
+			</if>
+			<if test="storeId !=null">  
+				store_id,
+			</if>
+			<if test="storePhone !=null">  
+				store_phone,
+			</if>
+			<if test="storeName !=null">  
+				store_name,
+			</if>
+			<if test="supplierId !=null">  
+				supplier_id,
+			</if>
+			<if test="orderNo !=null">  
+				order_no,
+			</if>
+			<if test="brandId !=null">  
+				brand_id,
+			</if>
+			<if test="brandName !=null">  
+				brand_name,
+			</if>
+			<if test="refundType !=null">  
+				refund_type,
+			</if>
+			<if test="refundStatus !=null">  
+				refund_status,
+			</if>
+			<if test="refundCost !=null">  
+				refund_cost,
+			</if>
+			<if test="returnCount !=null">  
+				return_count,
+			</if>
+			<if test="refundReasonId !=null">  
+				refund_reason_id,
+			</if>
+			<if test="refundReason !=null">  
+				refund_reason,
+			</if>
+			<if test="refundRemark !=null">  
+				refund_remark,
+			</if>
+			<if test="refundProofImages !=null">  
+				refund_proof_images,
+			</if>
+			<if test="refundWay !=null">  
+				refund_way,
+			</if>
+			<if test="refundTime !=null">  
+				refund_time,
+			</if>
+			<if test="applyTime !=null">  
+				apply_time,
+			</if>
+			<if test="customerReturnTime !=null">  
+				customer_return_time,
+			</if>
+			<if test="confirmTime !=null">  
+				confirm_time,
+			</if>
+			<if test="platformInterveneTime !=null">  
+				platform_intervene_time,
+			</if>
+			<if test="platformInterveneCloseTime !=null">  
+				platform_intervene_close_time,
+			</if>
+			<if test="customerExpressNo !=null">  
+				customer_express_no,
+			</if>
+			<if test="customerExpressCompany !=null">  
+				customer_express_company,
+			</if>
+			<if test="storeAllowRefundTime !=null">  
+				store_allow_refund_time,
+			</if>
+			<if test="storeRefuseRefundTime !=null">  
+				store_refuse_refund_time,
+			</if>
+			<if test="storeRefuseReason !=null">  
+				store_refuse_reason,
+			</if>
+			<if test="handlingSuggestion !=null">  
+				handling_suggestion,
+			</if>
+			<if test="storeAgreeRemark !=null">  
+				store_agree_remark,
+			</if>
+			<if test="platformCloseReason !=null">  
+				platform_close_reason,
+			</if>
+			<if test="platformInterveneState !=null">  
+				platform_intervene_state,
+			</if>
+			<if test="receiver !=null">  
+				receiver,
+			</if>
+			<if test="supplierReceiveAddress !=null">  
+				supplier_receive_address,
+			</if>
+			<if test="receiverPhone !=null">  
+				receiver_phone,
+			</if>
+			<if test="supplierAutoTakeDeliveryPauseTime !=null">  
+				supplier_auto_take_delivery_pause_time,
+			</if>
+			<if test="supplierAutoTakeDeliveryPauseTimeLength !=null">  
+				supplier_auto_take_delivery_pause_time_length,
+			</if>
+			<if test="customerCancelTime !=null">  
+				customer_cancel_time,
+			</if>
+			<if test="customerOvertimeTimeNoDelivery !=null">  
+				customer_overtime_time_no_delivery,
+			</if>
+			<if test="expressInfo !=null">  
+				express_info,
+			</if>
+			<if test="customerExpressCompanyName !=null">  
+				customer_express_company_name,
+			</if>
+		</trim>
+
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+			<if test="id  !=null">
+				#{id,jdbcType=BIGINT}, 
+			</if>
+			<if test="refundOrderNo  !=null">
+				#{refundOrderNo,jdbcType=BIGINT}, 
+			</if>
+			<if test="storeId  !=null">
+				#{storeId,jdbcType=BIGINT}, 
+			</if>
+			<if test="storePhone  !=null">
+				#{storePhone,jdbcType=VARCHAR}, 
+			</if>
+			<if test="storeName  !=null">
+				#{storeName,jdbcType=VARCHAR}, 
+			</if>
+			<if test="supplierId  !=null">
+				#{supplierId,jdbcType=BIGINT}, 
+			</if>
+			<if test="orderNo  !=null">
+				#{orderNo,jdbcType=BIGINT}, 
+			</if>
+			<if test="brandId  !=null">
+				#{brandId,jdbcType=BIGINT}, 
+			</if>
+			<if test="brandName  !=null">
+				#{brandName,jdbcType=VARCHAR}, 
+			</if>
+			<if test="refundType  !=null">
+				#{refundType,jdbcType=TINYINT}, 
+			</if>
+			<if test="refundStatus  !=null">
+				#{refundStatus,jdbcType=TINYINT}, 
+			</if>
+			<if test="refundCost  !=null">
+				#{refundCost,jdbcType=DECIMAL}, 
+			</if>
+			<if test="returnCount  !=null">
+				#{returnCount,jdbcType=INTEGER}, 
+			</if>
+			<if test="refundReasonId  !=null">
+				#{refundReasonId,jdbcType=BIGINT}, 
+			</if>
+			<if test="refundReason  !=null">
+				#{refundReason,jdbcType=VARCHAR}, 
+			</if>
+			<if test="refundRemark  !=null">
+				#{refundRemark,jdbcType=VARCHAR}, 
+			</if>
+			<if test="refundProofImages  !=null">
+				#{refundProofImages,jdbcType=VARCHAR}, 
+			</if>
+			<if test="refundWay  !=null">
+				#{refundWay,jdbcType=TINYINT}, 
+			</if>
+			<if test="refundTime  !=null">
+				#{refundTime,jdbcType=BIGINT}, 
+			</if>
+			<if test="applyTime  !=null">
+				#{applyTime,jdbcType=BIGINT}, 
+			</if>
+			<if test="customerReturnTime  !=null">
+				#{customerReturnTime,jdbcType=BIGINT}, 
+			</if>
+			<if test="confirmTime  !=null">
+				#{confirmTime,jdbcType=BIGINT}, 
+			</if>
+			<if test="platformInterveneTime  !=null">
+				#{platformInterveneTime,jdbcType=BIGINT}, 
+			</if>
+			<if test="platformInterveneCloseTime  !=null">
+				#{platformInterveneCloseTime,jdbcType=BIGINT}, 
+			</if>
+			<if test="customerExpressNo  !=null">
+				#{customerExpressNo,jdbcType=VARCHAR}, 
+			</if>
+			<if test="customerExpressCompany  !=null">
+				#{customerExpressCompany,jdbcType=VARCHAR}, 
+			</if>
+			<if test="storeAllowRefundTime  !=null">
+				#{storeAllowRefundTime,jdbcType=BIGINT}, 
+			</if>
+			<if test="storeRefuseRefundTime  !=null">
+				#{storeRefuseRefundTime,jdbcType=BIGINT}, 
+			</if>
+			<if test="storeRefuseReason  !=null">
+				#{storeRefuseReason,jdbcType=VARCHAR}, 
+			</if>
+			<if test="handlingSuggestion  !=null">
+				#{handlingSuggestion,jdbcType=VARCHAR}, 
+			</if>
+			<if test="storeAgreeRemark  !=null">
+				#{storeAgreeRemark,jdbcType=VARCHAR}, 
+			</if>
+			<if test="platformCloseReason  !=null">
+				#{platformCloseReason,jdbcType=VARCHAR}, 
+			</if>
+			<if test="platformInterveneState  !=null">
+				#{platformInterveneState,jdbcType=TINYINT}, 
+			</if>
+			<if test="receiver  !=null">
+				#{receiver,jdbcType=VARCHAR}, 
+			</if>
+			<if test="supplierReceiveAddress  !=null">
+				#{supplierReceiveAddress,jdbcType=VARCHAR}, 
+			</if>
+			<if test="receiverPhone  !=null">
+				#{receiverPhone,jdbcType=VARCHAR}, 
+			</if>
+			<if test="supplierAutoTakeDeliveryPauseTime  !=null">
+				#{supplierAutoTakeDeliveryPauseTime,jdbcType=BIGINT}, 
+			</if>
+			<if test="supplierAutoTakeDeliveryPauseTimeLength  !=null">
+				#{supplierAutoTakeDeliveryPauseTimeLength,jdbcType=BIGINT}, 
+			</if>
+			<if test="customerCancelTime  !=null">
+				#{customerCancelTime,jdbcType=BIGINT}, 
+			</if>
+			<if test="customerOvertimeTimeNoDelivery  !=null">
+				#{customerOvertimeTimeNoDelivery,jdbcType=BIGINT}, 
+			</if>
+			<if test="expressInfo  !=null">
+				#{expressInfo,jdbcType=VARCHAR}, 
+			</if>
+			<if test="customerExpressCompanyName  !=null">
+				#{customerExpressCompanyName,jdbcType=VARCHAR} 
+			</if>
+		</trim>
+	</insert> 
+
+	<!-- 精确更新-->
+	<update id="updateByPrimaryKeySelective" parameterType="com.jiuy.rb.model.order.StoreRefundOrderRb" >
+		update store_refund_order
+		<set>
+			<include refid="updateBase"/>
+		</set>
+		where id = #{id,jdbcType=BIGINT} 
+	</update> 
+
+	<!-- 全字段更新 需要注意-->
+	<update id="updateByPrimaryKey" parameterType="com.jiuy.rb.model.order.StoreRefundOrderRb" >
+		update store_refund_order
+		set 
+			id = #{id ,jdbcType=BIGINT},
+			refund_order_no = #{refundOrderNo ,jdbcType=BIGINT},
+			store_id = #{storeId ,jdbcType=BIGINT},
+			store_phone = #{storePhone ,jdbcType=VARCHAR},
+			store_name = #{storeName ,jdbcType=VARCHAR},
+			supplier_id = #{supplierId ,jdbcType=BIGINT},
+			order_no = #{orderNo ,jdbcType=BIGINT},
+			brand_id = #{brandId ,jdbcType=BIGINT},
+			brand_name = #{brandName ,jdbcType=VARCHAR},
+			refund_type = #{refundType ,jdbcType=TINYINT},
+			refund_status = #{refundStatus ,jdbcType=TINYINT},
+			refund_cost = #{refundCost ,jdbcType=DECIMAL},
+			return_count = #{returnCount ,jdbcType=INTEGER},
+			refund_reason_id = #{refundReasonId ,jdbcType=BIGINT},
+			refund_reason = #{refundReason ,jdbcType=VARCHAR},
+			refund_remark = #{refundRemark ,jdbcType=VARCHAR},
+			refund_proof_images = #{refundProofImages ,jdbcType=VARCHAR},
+			refund_way = #{refundWay ,jdbcType=TINYINT},
+			refund_time = #{refundTime ,jdbcType=BIGINT},
+			apply_time = #{applyTime ,jdbcType=BIGINT},
+			customer_return_time = #{customerReturnTime ,jdbcType=BIGINT},
+			confirm_time = #{confirmTime ,jdbcType=BIGINT},
+			platform_intervene_time = #{platformInterveneTime ,jdbcType=BIGINT},
+			platform_intervene_close_time = #{platformInterveneCloseTime ,jdbcType=BIGINT},
+			customer_express_no = #{customerExpressNo ,jdbcType=VARCHAR},
+			customer_express_company = #{customerExpressCompany ,jdbcType=VARCHAR},
+			store_allow_refund_time = #{storeAllowRefundTime ,jdbcType=BIGINT},
+			store_refuse_refund_time = #{storeRefuseRefundTime ,jdbcType=BIGINT},
+			store_refuse_reason = #{storeRefuseReason ,jdbcType=VARCHAR},
+			handling_suggestion = #{handlingSuggestion ,jdbcType=VARCHAR},
+			store_agree_remark = #{storeAgreeRemark ,jdbcType=VARCHAR},
+			platform_close_reason = #{platformCloseReason ,jdbcType=VARCHAR},
+			platform_intervene_state = #{platformInterveneState ,jdbcType=TINYINT},
+			receiver = #{receiver ,jdbcType=VARCHAR},
+			supplier_receive_address = #{supplierReceiveAddress ,jdbcType=VARCHAR},
+			receiver_phone = #{receiverPhone ,jdbcType=VARCHAR},
+			supplier_auto_take_delivery_pause_time = #{supplierAutoTakeDeliveryPauseTime ,jdbcType=BIGINT},
+			supplier_auto_take_delivery_pause_time_length = #{supplierAutoTakeDeliveryPauseTimeLength ,jdbcType=BIGINT},
+			customer_cancel_time = #{customerCancelTime ,jdbcType=BIGINT},
+			customer_overtime_time_no_delivery = #{customerOvertimeTimeNoDelivery ,jdbcType=BIGINT},
+			express_info = #{expressInfo ,jdbcType=VARCHAR},
+			customer_express_company_name = #{customerExpressCompanyName ,jdbcType=VARCHAR}
+		where id = #{id,jdbcType=BIGINT} 
+	</update> 
+
+	<!-- 所有的条件集合-->
+	<sql id="whereCase"  >
+		where  1=1 
+		<if test="id  !=null">
+			AND id = #{id,jdbcType=BIGINT} 
+		</if>
+		<if test="refundOrderNo  !=null">
+			AND refund_order_no = #{refundOrderNo,jdbcType=BIGINT} 
+		</if>
+		<if test="storeId  !=null">
+			AND store_id = #{storeId,jdbcType=BIGINT} 
+		</if>
+		<if test="storePhone  !=null">
+			AND store_phone = #{storePhone,jdbcType=VARCHAR} 
+		</if>
+		<if test="storeName  !=null">
+			AND store_name = #{storeName,jdbcType=VARCHAR} 
+		</if>
+		<if test="supplierId  !=null">
+			AND supplier_id = #{supplierId,jdbcType=BIGINT} 
+		</if>
+		<if test="orderNo  !=null">
+			AND order_no = #{orderNo,jdbcType=BIGINT} 
+		</if>
+		<if test="brandId  !=null">
+			AND brand_id = #{brandId,jdbcType=BIGINT} 
+		</if>
+		<if test="brandName  !=null">
+			AND brand_name = #{brandName,jdbcType=VARCHAR} 
+		</if>
+		<if test="refundType  !=null">
+			AND refund_type = #{refundType,jdbcType=TINYINT} 
+		</if>
+		<if test="refundStatus  !=null">
+			AND refund_status = #{refundStatus,jdbcType=TINYINT} 
+		</if>
+		<if test="refundCost  !=null">
+			AND refund_cost = #{refundCost,jdbcType=DECIMAL} 
+		</if>
+		<if test="returnCount  !=null">
+			AND return_count = #{returnCount,jdbcType=INTEGER} 
+		</if>
+		<if test="refundReasonId  !=null">
+			AND refund_reason_id = #{refundReasonId,jdbcType=BIGINT} 
+		</if>
+		<if test="refundReason  !=null">
+			AND refund_reason = #{refundReason,jdbcType=VARCHAR} 
+		</if>
+		<if test="refundRemark  !=null">
+			AND refund_remark = #{refundRemark,jdbcType=VARCHAR} 
+		</if>
+		<if test="refundProofImages  !=null">
+			AND refund_proof_images = #{refundProofImages,jdbcType=VARCHAR} 
+		</if>
+		<if test="refundWay  !=null">
+			AND refund_way = #{refundWay,jdbcType=TINYINT} 
+		</if>
+		<if test="refundTime  !=null">
+			AND refund_time = #{refundTime,jdbcType=BIGINT} 
+		</if>
+		<if test="applyTime  !=null">
+			AND apply_time = #{applyTime,jdbcType=BIGINT} 
+		</if>
+		<if test="customerReturnTime  !=null">
+			AND customer_return_time = #{customerReturnTime,jdbcType=BIGINT} 
+		</if>
+		<if test="confirmTime  !=null">
+			AND confirm_time = #{confirmTime,jdbcType=BIGINT} 
+		</if>
+		<if test="platformInterveneTime  !=null">
+			AND platform_intervene_time = #{platformInterveneTime,jdbcType=BIGINT} 
+		</if>
+		<if test="platformInterveneCloseTime  !=null">
+			AND platform_intervene_close_time = #{platformInterveneCloseTime,jdbcType=BIGINT} 
+		</if>
+		<if test="customerExpressNo  !=null">
+			AND customer_express_no = #{customerExpressNo,jdbcType=VARCHAR} 
+		</if>
+		<if test="customerExpressCompany  !=null">
+			AND customer_express_company = #{customerExpressCompany,jdbcType=VARCHAR} 
+		</if>
+		<if test="storeAllowRefundTime  !=null">
+			AND store_allow_refund_time = #{storeAllowRefundTime,jdbcType=BIGINT} 
+		</if>
+		<if test="storeRefuseRefundTime  !=null">
+			AND store_refuse_refund_time = #{storeRefuseRefundTime,jdbcType=BIGINT} 
+		</if>
+		<if test="storeRefuseReason  !=null">
+			AND store_refuse_reason = #{storeRefuseReason,jdbcType=VARCHAR} 
+		</if>
+		<if test="handlingSuggestion  !=null">
+			AND handling_suggestion = #{handlingSuggestion,jdbcType=VARCHAR} 
+		</if>
+		<if test="storeAgreeRemark  !=null">
+			AND store_agree_remark = #{storeAgreeRemark,jdbcType=VARCHAR} 
+		</if>
+		<if test="platformCloseReason  !=null">
+			AND platform_close_reason = #{platformCloseReason,jdbcType=VARCHAR} 
+		</if>
+		<if test="platformInterveneState  !=null">
+			AND platform_intervene_state = #{platformInterveneState,jdbcType=TINYINT} 
+		</if>
+		<if test="receiver  !=null">
+			AND receiver = #{receiver,jdbcType=VARCHAR} 
+		</if>
+		<if test="supplierReceiveAddress  !=null">
+			AND supplier_receive_address = #{supplierReceiveAddress,jdbcType=VARCHAR} 
+		</if>
+		<if test="receiverPhone  !=null">
+			AND receiver_phone = #{receiverPhone,jdbcType=VARCHAR} 
+		</if>
+		<if test="supplierAutoTakeDeliveryPauseTime  !=null">
+			AND supplier_auto_take_delivery_pause_time = #{supplierAutoTakeDeliveryPauseTime,jdbcType=BIGINT} 
+		</if>
+		<if test="supplierAutoTakeDeliveryPauseTimeLength  !=null">
+			AND supplier_auto_take_delivery_pause_time_length = #{supplierAutoTakeDeliveryPauseTimeLength,jdbcType=BIGINT} 
+		</if>
+		<if test="customerCancelTime  !=null">
+			AND customer_cancel_time = #{customerCancelTime,jdbcType=BIGINT} 
+		</if>
+		<if test="customerOvertimeTimeNoDelivery  !=null">
+			AND customer_overtime_time_no_delivery = #{customerOvertimeTimeNoDelivery,jdbcType=BIGINT} 
+		</if>
+		<if test="expressInfo  !=null">
+			AND express_info = #{expressInfo,jdbcType=VARCHAR} 
+		</if>
+		<if test="customerExpressCompanyName  !=null">
+			AND customer_express_company_name = #{customerExpressCompanyName,jdbcType=VARCHAR} 
+		</if>
+		<include refid="costomWhereCase"/>
+	</sql>
+
+	<!-- 查询一条，如果返回多条会报错-->
+	<select id="selectOne" parameterType="java.util.Map" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" /> 
+		FROM store_refund_order 
+		<include refid="whereCase" /> 
+	</select>
+
+	<!-- 查询一个list-->
+	<select id="selectList" parameterType="java.util.Map" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" /> 
+		FROM store_refund_order 
+		<include refid="whereCase" /> 
+	</select>
+
+	<!-- 查询一个list-->
+	<select id="selectCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+		SELECT
+		count(1) 
+		FROM store_refund_order
+		<include refid="whereCase" /> 
+	</select>
+
+	<!--  @Costom -->
+	<!-- 从上一行注释以上为系统生成 从这一行往下为用户自定义 请将自定义的sql放在此行下面 -->
+	<sql id="costomWhereCase">
+	</sql>
+
+</mapper>

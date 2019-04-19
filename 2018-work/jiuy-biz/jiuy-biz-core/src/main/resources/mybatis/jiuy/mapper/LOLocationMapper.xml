@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jiuy.core.dao.impl.sql.LOLocationDaoSqlImpl">
+    	
+    <select id="search" parameterType="map" resultType="LOLocation">
+	    select *
+	    from yjj_LOLocation
+	    where Status = 0 and type = #{type}
+    </select>
+    
+    <insert id="OnDuplicateKeyUpd" parameterType="com.jiuyuan.entity.logistics.LOLocation" useGeneratedKeys="true" keyProperty="id"> 
+        insert into
+		yjj_LOLocation
+		(Type,ProvinceName,CityName,UpdateTime,CreateTime)
+		values
+		(#{type},#{provinceName},#{cityName},#{updateTime},#{createTime})
+		on duplicate key update updateTime = #{updateTime}
+    </insert>
+    
+    <select id="getById" parameterType="map" resultType="LOLocation">
+         select *
+         from yjj_LOLocation
+         where id = #{id}
+    </select>
+    
+    
+
+</mapper>

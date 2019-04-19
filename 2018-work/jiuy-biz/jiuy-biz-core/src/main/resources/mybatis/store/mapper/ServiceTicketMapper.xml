@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.store.dao.mapper.ServiceTicketMapper">
+
+	<update id="updateServiceOrderPaid" parameterType="map">
+		<![CDATA[
+			update store_ServiceTicket
+			set   Status = #{newStatus}	,BuyerPayTime= #{sysTime}
+			where  ProcessOrderNo =#{processOrderNo} and Status = #{oldStatus}
+		]]>
+	</update>
+	
+	<select id="getOrderAfterSaleCount" resultType="int">
+		<![CDATA[
+			select count(1) from store_ServiceTicket
+			where UserId = #{userId}  and Status > 1 and OrderNo= #{orderNo}
+		]]>
+	</select>
+	
+	<select id="getOrderAfterSaleMap" resultType="OrderAfterSaleCountVO">
+		<![CDATA[
+			 select OrderItemId, IFNULL(sum(ApplyReturnCount),0) Num  from store_ServiceTicket where userId =#{userId} and orderNo=#{orderNo} and status > 1 group by OrderItemId 
+		]]>
+	</select>
+	
+	<select id="getServiceTicketById" resultType="ServiceTicket">
+		<![CDATA[
+			select * from store_ServiceTicket
+			where UserId = #{userId}   and id =#{id}
+		]]>
+	</select>
+	
+</mapper>

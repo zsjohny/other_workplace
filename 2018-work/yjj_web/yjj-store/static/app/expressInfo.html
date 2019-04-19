@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" id="viewport" content="width=device-width, initial-scale=1">
+<title>物流信息查询</title>
+<link rel="stylesheet" href="css/myorder.css">
+<style>
+    body{height: 100%;}
+    .m-express-info {
+        position: relative;
+        width: 100%;
+    }
+    .m-express-info table {
+        width: 100%;
+        
+    }
+    .m-express-info table th:nth-child(3){
+        text-align: right;
+        padding-right: 20px;
+    } 
+    .m-express-info table th.compar,.m-express-info table th.comno{
+          font-weight: normal !important;
+          font-size:15px !important;
+          overflow:hidden
+    }
+    .m-express-info h5 {
+        text-align: center;
+    }
+    p{font-size:12px}
+    .error{text-align: center;margin-top: 60%;}
+	.express-info-error{
+		text-align: center;
+		padding-top: 50px;
+	}
+</style>
+</head>
+<body>
+ <div id="m-express-info" class="m-express-info">
+        
+ </div>
+ <div class="error"></div>	
+</body>
+<script src="js/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="js/template.js"></script>
+<script id="model_temp" type="text/html">
+     <table class="border">
+		<colgroup valign="middle">
+	  		<col width="205">
+	  		<col width="285">
+		</colgroup>
+	    <thead>
+	        <tr> 
+                 <th class="compar">物流公司:<span class="com"></span></th>
+                 <th class="comno">运单编号:<span class="no"></span></th>
+            </tr>
+            <tr>  
+	             <th>处理时间</th>
+	             <th>处理状态</th>
+	        </tr>
+	   </thead>
+	   <tbody>
+	   {{each data as value i}}
+	    <tr>
+	      <td class="m-express-time">
+	           <p><span>{{value.time}}</span></p>
+	      </td>
+	      <td>
+	           <p>{{value.context}}</p>
+	      </td>
+	     </tr>
+	    {{/each}}
+	   </tbody>
+	</table>
+</script>
+<script>
+	var url = window.location.href,
+		apiUrl = 'https://local.yujiejie.com/jstore';
+	if(url.indexOf("nessary.top") > 0 || url.indexOf("local.yujiejie") > 0){
+		apiUrl = 'https://local.yujiejie.com/jstore';   //地址
+	}
+
+	//获取url参数
+	function getUrlParam(name, url) {
+	    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+	    var r = url;
+	    
+	    if (url == undefined) {
+	        r = window.location.search.substr(1);  
+	    } else {
+	        r = url.split("?")[1];
+	    }
+
+	    r = r.match(reg);//匹配目标参数
+
+	    if (r != null) return decodeURI(r[2]); return null; //返回参数值
+	}
+	var orderNo = getUrlParam("order_no");
+	var serviceId = getUrlParam("service_id");
+	console.log("orderNo:"+orderNo + " , serviceId:="+serviceId);
+	//判断是否是对象
+	function isObject(obj){ 
+		return (typeof obj == 'object') && obj.constructor == Object; 
+	} 
+
+	/**
+	 * 获取token和userId
+	 */
+	var userObj = {};
+	function getToken(token, userId) {
+		loadAction(token, userId);
+	}
+	function loadAction(token, userId) {
+		//alert(token,userId);
+		var param = "",
+			userObj = {
+				"token":token,
+				"uid":userId
+			};
+		if (orderNo != undefined) {
+			param = "order_no="+orderNo;
+		}
+		if (serviceId != undefined) {
+			param = "service_id="+serviceId;
+		}
+	    if(!userObj.token && !userObj.userId){
+	       return;
+	    }
+	    $.ajax({
+		    url: apiUrl + "/shop/order/orderExpress/auth?" + param,
+		    contentType: "application/json",
+	        type: 'GET',
+	        headers:userObj,
+		    cache : false,
+		    success: function(res) {
+		    	var resData = {};
+		    	if(isObject(res)){
+					resData = res;
+		    	}else{
+		    		resData = JSON.parse(res);
+		    	}
+				 console.log("resData.code",resData);
+		    	 if(resData.code >= 0){
+		    		 var model1 = template('model_temp', resData.data.data.result);
+		             document.getElementById('m-express-info').innerHTML = model1; 
+		             $(".com").text(resData.data.data.result.company)
+		             $(".no").text(resData.data.data.result.no)
+		    	 }else if(resData.code == 10012){
+		    		 $(".error").text("物流信息接口调用已达上限")
+		    	 }else{
+		    		 $(".error").text("暂无物流信息")
+		    	 }
+		         
+		    },
+		    error: function(XMLHttpRequest, textStatus, errorThrown) {
+	            $("#m-express-info").addClass("express-info-error").html("网络繁忙，请稍后再试");
+		    }
+		});
+	}
+</script>
+</html>

@@ -1,0 +1,777 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" > 
+<mapper namespace="com.jiuy.product.mapper.ProductSkuMapper"> 
+ 
+ 	<!-- 主要的返回映射-->
+	<resultMap id="BaseResultMap" type="com.jiuy.product.model.ProductSku"	>
+		<id column="Id" property="id" jdbcType="BIGINT" />
+		<result column="ProductId"  property="productid"  jdbcType="BIGINT" />
+		<result column="PropertyIds"  property="propertyids"  jdbcType="VARCHAR" />
+		<result column="Price"  property="price"  jdbcType="INTEGER" />
+		<result column="RemainCount"  property="remaincount"  jdbcType="INTEGER" />
+		<result column="SpecificImage"  property="specificimage"  jdbcType="VARCHAR" />
+		<result column="Status"  property="status"  jdbcType="TINYINT" />
+		<result column="CreateTime"  property="createtime"  jdbcType="BIGINT" />
+		<result column="UpdateTime"  property="updatetime"  jdbcType="BIGINT" />
+		<result column="SkuNo"  property="skuno"  jdbcType="BIGINT" />
+		<result column="Cash"  property="cash"  jdbcType="DECIMAL" />
+		<result column="Weight"  property="weight"  jdbcType="DECIMAL" />
+		<result column="Name"  property="name"  jdbcType="VARCHAR" />
+		<result column="MarketPrice"  property="marketprice"  jdbcType="DECIMAL" />
+		<result column="CostPrice"  property="costprice"  jdbcType="DECIMAL" />
+		<result column="ClothesNumber"  property="clothesnumber"  jdbcType="VARCHAR" />
+		<result column="LOWarehouseId"  property="lowarehouseid"  jdbcType="BIGINT" />
+		<result column="RemainKeepTime"  property="remainkeeptime"  jdbcType="INTEGER" />
+		<result column="BrandId"  property="brandid"  jdbcType="BIGINT" />
+		<result column="SaleStartTime"  property="salestarttime"  jdbcType="BIGINT" />
+		<result column="SaleEndTime"  property="saleendtime"  jdbcType="BIGINT" />
+		<result column="Sort"  property="sort"  jdbcType="INTEGER" />
+		<result column="RemainCountLock"  property="remaincountlock"  jdbcType="INTEGER" />
+		<result column="RemainCountStartTime"  property="remaincountstarttime"  jdbcType="BIGINT" />
+		<result column="RemainCountEndTime"  property="remaincountendtime"  jdbcType="BIGINT" />
+		<result column="IsRemainCountLock"  property="isremaincountlock"  jdbcType="TINYINT" />
+		<result column="PushTime"  property="pushtime"  jdbcType="BIGINT" />
+		<result column="PromotionSaleCount"  property="promotionsalecount"  jdbcType="INTEGER" />
+		<result column="PromotionVisitCount"  property="promotionvisitcount"  jdbcType="INTEGER" />
+		<result column="RemainCount2"  property="remaincount2"  jdbcType="INTEGER" />
+		<result column="LOWarehouseId2"  property="lowarehouseid2"  jdbcType="BIGINT" />
+		<result column="SetLOWarehouseId2"  property="setlowarehouseid2"  jdbcType="TINYINT" />
+		<result column="Position"  property="position"  jdbcType="VARCHAR" />
+		<result column="colorId"  property="colorid"  jdbcType="BIGINT" />
+		<result column="colorName"  property="colorname"  jdbcType="VARCHAR" />
+		<result column="sizeId"  property="sizeid"  jdbcType="BIGINT" />
+		<result column="sizeName"  property="sizename"  jdbcType="VARCHAR" />
+	</resultMap>
+
+	<!-- 所有的列名-->
+	<sql id="Base_Column_List" >
+		Id,ProductId,PropertyIds,Price,RemainCount,SpecificImage,Status,CreateTime,UpdateTime,
+		SkuNo,Cash,Weight,Name,MarketPrice,CostPrice,ClothesNumber,LOWarehouseId,
+		RemainKeepTime,BrandId,SaleStartTime,SaleEndTime,Sort,RemainCountLock,RemainCountStartTime,RemainCountEndTime,
+		IsRemainCountLock,PushTime,PromotionSaleCount,PromotionVisitCount,RemainCount2,LOWarehouseId2,SetLOWarehouseId2,Position,
+		colorId,colorName,sizeId,sizeName
+	</sql>
+
+	<!-- 精确更新的字段-->
+	<sql id="updateBase">
+		<if test="id  !=null">
+			Id = #{id,jdbcType=BIGINT}, 
+		</if>
+		<if test="productid  !=null">
+			ProductId = #{productid,jdbcType=BIGINT}, 
+		</if>
+		<if test="propertyids  !=null">
+			PropertyIds = #{propertyids,jdbcType=VARCHAR}, 
+		</if>
+		<if test="price  !=null">
+			Price = #{price,jdbcType=INTEGER}, 
+		</if>
+		<if test="remaincount  !=null">
+			RemainCount = #{remaincount,jdbcType=INTEGER}, 
+		</if>
+		<if test="specificimage  !=null">
+			SpecificImage = #{specificimage,jdbcType=VARCHAR}, 
+		</if>
+		<if test="status  !=null">
+			Status = #{status,jdbcType=TINYINT}, 
+		</if>
+		<if test="createtime  !=null">
+			CreateTime = #{createtime,jdbcType=BIGINT}, 
+		</if>
+		<if test="updatetime  !=null">
+			UpdateTime = #{updatetime,jdbcType=BIGINT}, 
+		</if>
+		<if test="skuno  !=null">
+			SkuNo = #{skuno,jdbcType=BIGINT}, 
+		</if>
+		<if test="cash  !=null">
+			Cash = #{cash,jdbcType=DECIMAL}, 
+		</if>
+		<if test="weight  !=null">
+			Weight = #{weight,jdbcType=DECIMAL}, 
+		</if>
+		<if test="name  !=null">
+			Name = #{name,jdbcType=VARCHAR}, 
+		</if>
+		<if test="marketprice  !=null">
+			MarketPrice = #{marketprice,jdbcType=DECIMAL}, 
+		</if>
+		<if test="costprice  !=null">
+			CostPrice = #{costprice,jdbcType=DECIMAL}, 
+		</if>
+		<if test="clothesnumber  !=null">
+			ClothesNumber = #{clothesnumber,jdbcType=VARCHAR}, 
+		</if>
+		<if test="lowarehouseid  !=null">
+			LOWarehouseId = #{lowarehouseid,jdbcType=BIGINT}, 
+		</if>
+		<if test="remainkeeptime  !=null">
+			RemainKeepTime = #{remainkeeptime,jdbcType=INTEGER}, 
+		</if>
+		<if test="brandid  !=null">
+			BrandId = #{brandid,jdbcType=BIGINT}, 
+		</if>
+		<if test="salestarttime  !=null">
+			SaleStartTime = #{salestarttime,jdbcType=BIGINT}, 
+		</if>
+		<if test="saleendtime  !=null">
+			SaleEndTime = #{saleendtime,jdbcType=BIGINT}, 
+		</if>
+		<if test="sort  !=null">
+			Sort = #{sort,jdbcType=INTEGER}, 
+		</if>
+		<if test="remaincountlock  !=null">
+			RemainCountLock = #{remaincountlock,jdbcType=INTEGER}, 
+		</if>
+		<if test="remaincountstarttime  !=null">
+			RemainCountStartTime = #{remaincountstarttime,jdbcType=BIGINT}, 
+		</if>
+		<if test="remaincountendtime  !=null">
+			RemainCountEndTime = #{remaincountendtime,jdbcType=BIGINT}, 
+		</if>
+		<if test="isremaincountlock  !=null">
+			IsRemainCountLock = #{isremaincountlock,jdbcType=TINYINT}, 
+		</if>
+		<if test="pushtime  !=null">
+			PushTime = #{pushtime,jdbcType=BIGINT}, 
+		</if>
+		<if test="promotionsalecount  !=null">
+			PromotionSaleCount = #{promotionsalecount,jdbcType=INTEGER}, 
+		</if>
+		<if test="promotionvisitcount  !=null">
+			PromotionVisitCount = #{promotionvisitcount,jdbcType=INTEGER}, 
+		</if>
+		<if test="remaincount2  !=null">
+			RemainCount2 = #{remaincount2,jdbcType=INTEGER}, 
+		</if>
+		<if test="lowarehouseid2  !=null">
+			LOWarehouseId2 = #{lowarehouseid2,jdbcType=BIGINT}, 
+		</if>
+		<if test="setlowarehouseid2  !=null">
+			SetLOWarehouseId2 = #{setlowarehouseid2,jdbcType=TINYINT}, 
+		</if>
+		<if test="position  !=null">
+			Position = #{position,jdbcType=VARCHAR}, 
+		</if>
+		<if test="colorid  !=null">
+			colorId = #{colorid,jdbcType=BIGINT}, 
+		</if>
+		<if test="colorname  !=null">
+			colorName = #{colorname,jdbcType=VARCHAR}, 
+		</if>
+		<if test="sizeid  !=null">
+			sizeId = #{sizeid,jdbcType=BIGINT}, 
+		</if>
+		<if test="sizename  !=null">
+			sizeName = #{sizename,jdbcType=VARCHAR} 
+		</if>
+	</sql>
+
+	<!-- 通过主键查找-->
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="Long" >
+		select 
+		<include refid="Base_Column_List" />
+		from yjj_ProductSKU
+		where  Id = #{id,jdbcType=BIGINT} 
+	</select>
+
+	<!-- 通过主键删除-->
+	<delete id="deleteByPrimaryKey" parameterType="Long" >
+		delete from yjj_ProductSKU
+		where Id = #{id,jdbcType=BIGINT} 
+	</delete>
+
+	<!-- 普通插入全字段插入-->
+	<insert id="insert" parameterType="com.jiuy.product.model.ProductSku" >
+		insert into yjj_ProductSKU
+		(
+			Id,
+			ProductId,
+			PropertyIds,
+			Price,
+			RemainCount,
+			SpecificImage,
+			Status,
+			CreateTime,
+			UpdateTime,
+			SkuNo,
+			Cash,
+			Weight,
+			Name,
+			MarketPrice,
+			CostPrice,
+			ClothesNumber,
+			LOWarehouseId,
+			RemainKeepTime,
+			BrandId,
+			SaleStartTime,
+			SaleEndTime,
+			Sort,
+			RemainCountLock,
+			RemainCountStartTime,
+			RemainCountEndTime,
+			IsRemainCountLock,
+			PushTime,
+			PromotionSaleCount,
+			PromotionVisitCount,
+			RemainCount2,
+			LOWarehouseId2,
+			SetLOWarehouseId2,
+			Position,
+			colorId,
+			colorName,
+			sizeId,
+			sizeName,
+		)
+		values
+		(
+			#{id ,jdbcType=BIGINT},
+			#{productid ,jdbcType=BIGINT},
+			#{propertyids ,jdbcType=VARCHAR},
+			#{price ,jdbcType=INTEGER},
+			#{remaincount ,jdbcType=INTEGER},
+			#{specificimage ,jdbcType=VARCHAR},
+			#{status ,jdbcType=TINYINT},
+			#{createtime ,jdbcType=BIGINT},
+			#{updatetime ,jdbcType=BIGINT},
+			#{skuno ,jdbcType=BIGINT},
+			#{cash ,jdbcType=DECIMAL},
+			#{weight ,jdbcType=DECIMAL},
+			#{name ,jdbcType=VARCHAR},
+			#{marketprice ,jdbcType=DECIMAL},
+			#{costprice ,jdbcType=DECIMAL},
+			#{clothesnumber ,jdbcType=VARCHAR},
+			#{lowarehouseid ,jdbcType=BIGINT},
+			#{remainkeeptime ,jdbcType=INTEGER},
+			#{brandid ,jdbcType=BIGINT},
+			#{salestarttime ,jdbcType=BIGINT},
+			#{saleendtime ,jdbcType=BIGINT},
+			#{sort ,jdbcType=INTEGER},
+			#{remaincountlock ,jdbcType=INTEGER},
+			#{remaincountstarttime ,jdbcType=BIGINT},
+			#{remaincountendtime ,jdbcType=BIGINT},
+			#{isremaincountlock ,jdbcType=TINYINT},
+			#{pushtime ,jdbcType=BIGINT},
+			#{promotionsalecount ,jdbcType=INTEGER},
+			#{promotionvisitcount ,jdbcType=INTEGER},
+			#{remaincount2 ,jdbcType=INTEGER},
+			#{lowarehouseid2 ,jdbcType=BIGINT},
+			#{setlowarehouseid2 ,jdbcType=TINYINT},
+			#{position ,jdbcType=VARCHAR},
+			#{colorid ,jdbcType=BIGINT},
+			#{colorname ,jdbcType=VARCHAR},
+			#{sizeid ,jdbcType=BIGINT},
+			#{sizename ,jdbcType=VARCHAR}
+		)
+	</insert>
+
+	<!-- 批量插入，全部字段插入-->
+	<insert id="insertBach"   parameterType="List" >
+		insert into yjj_ProductSKU
+		(
+			Id,
+			ProductId,
+			PropertyIds,
+			Price,
+			RemainCount,
+			SpecificImage,
+			Status,
+			CreateTime,
+			UpdateTime,
+			SkuNo,
+			Cash,
+			Weight,
+			Name,
+			MarketPrice,
+			CostPrice,
+			ClothesNumber,
+			LOWarehouseId,
+			RemainKeepTime,
+			BrandId,
+			SaleStartTime,
+			SaleEndTime,
+			Sort,
+			RemainCountLock,
+			RemainCountStartTime,
+			RemainCountEndTime,
+			IsRemainCountLock,
+			PushTime,
+			PromotionSaleCount,
+			PromotionVisitCount,
+			RemainCount2,
+			LOWarehouseId2,
+			SetLOWarehouseId2,
+			Position,
+			colorId,
+			colorName,
+			sizeId,
+			sizeName,
+		)
+		values 
+		<foreach collection="list" item="item" separator=",">
+		(
+			#{item.id ,jdbcType=BIGINT},
+			#{item.productid ,jdbcType=BIGINT},
+			#{item.propertyids ,jdbcType=VARCHAR},
+			#{item.price ,jdbcType=INTEGER},
+			#{item.remaincount ,jdbcType=INTEGER},
+			#{item.specificimage ,jdbcType=VARCHAR},
+			#{item.status ,jdbcType=TINYINT},
+			#{item.createtime ,jdbcType=BIGINT},
+			#{item.updatetime ,jdbcType=BIGINT},
+			#{item.skuno ,jdbcType=BIGINT},
+			#{item.cash ,jdbcType=DECIMAL},
+			#{item.weight ,jdbcType=DECIMAL},
+			#{item.name ,jdbcType=VARCHAR},
+			#{item.marketprice ,jdbcType=DECIMAL},
+			#{item.costprice ,jdbcType=DECIMAL},
+			#{item.clothesnumber ,jdbcType=VARCHAR},
+			#{item.lowarehouseid ,jdbcType=BIGINT},
+			#{item.remainkeeptime ,jdbcType=INTEGER},
+			#{item.brandid ,jdbcType=BIGINT},
+			#{item.salestarttime ,jdbcType=BIGINT},
+			#{item.saleendtime ,jdbcType=BIGINT},
+			#{item.sort ,jdbcType=INTEGER},
+			#{item.remaincountlock ,jdbcType=INTEGER},
+			#{item.remaincountstarttime ,jdbcType=BIGINT},
+			#{item.remaincountendtime ,jdbcType=BIGINT},
+			#{item.isremaincountlock ,jdbcType=TINYINT},
+			#{item.pushtime ,jdbcType=BIGINT},
+			#{item.promotionsalecount ,jdbcType=INTEGER},
+			#{item.promotionvisitcount ,jdbcType=INTEGER},
+			#{item.remaincount2 ,jdbcType=INTEGER},
+			#{item.lowarehouseid2 ,jdbcType=BIGINT},
+			#{item.setlowarehouseid2 ,jdbcType=TINYINT},
+			#{item.position ,jdbcType=VARCHAR},
+			#{item.colorid ,jdbcType=BIGINT},
+			#{item.colorname ,jdbcType=VARCHAR},
+			#{item.sizeid ,jdbcType=BIGINT},
+			#{item.sizename ,jdbcType=VARCHAR}
+		)
+		</foreach>
+	</insert>
+
+	<!-- 精确插入，非null得字段才会插入-->
+	<insert id="insertSelective" parameterType="com.jiuy.product.model.ProductSku" useGeneratedKeys="true" keyProperty="id" >
+		insert into yjj_ProductSKU
+		<trim prefix="(" suffix=")" suffixOverrides="," > 
+			<if test="id !=null">  
+				Id,
+			</if>
+			<if test="productid !=null">  
+				ProductId,
+			</if>
+			<if test="propertyids !=null">  
+				PropertyIds,
+			</if>
+			<if test="price !=null">  
+				Price,
+			</if>
+			<if test="remaincount !=null">  
+				RemainCount,
+			</if>
+			<if test="specificimage !=null">  
+				SpecificImage,
+			</if>
+			<if test="status !=null">  
+				Status,
+			</if>
+			<if test="createtime !=null">  
+				CreateTime,
+			</if>
+			<if test="updatetime !=null">  
+				UpdateTime,
+			</if>
+			<if test="skuno !=null">  
+				SkuNo,
+			</if>
+			<if test="cash !=null">  
+				Cash,
+			</if>
+			<if test="weight !=null">  
+				Weight,
+			</if>
+			<if test="name !=null">  
+				Name,
+			</if>
+			<if test="marketprice !=null">  
+				MarketPrice,
+			</if>
+			<if test="costprice !=null">  
+				CostPrice,
+			</if>
+			<if test="clothesnumber !=null">  
+				ClothesNumber,
+			</if>
+			<if test="lowarehouseid !=null">  
+				LOWarehouseId,
+			</if>
+			<if test="remainkeeptime !=null">  
+				RemainKeepTime,
+			</if>
+			<if test="brandid !=null">  
+				BrandId,
+			</if>
+			<if test="salestarttime !=null">  
+				SaleStartTime,
+			</if>
+			<if test="saleendtime !=null">  
+				SaleEndTime,
+			</if>
+			<if test="sort !=null">  
+				Sort,
+			</if>
+			<if test="remaincountlock !=null">  
+				RemainCountLock,
+			</if>
+			<if test="remaincountstarttime !=null">  
+				RemainCountStartTime,
+			</if>
+			<if test="remaincountendtime !=null">  
+				RemainCountEndTime,
+			</if>
+			<if test="isremaincountlock !=null">  
+				IsRemainCountLock,
+			</if>
+			<if test="pushtime !=null">  
+				PushTime,
+			</if>
+			<if test="promotionsalecount !=null">  
+				PromotionSaleCount,
+			</if>
+			<if test="promotionvisitcount !=null">  
+				PromotionVisitCount,
+			</if>
+			<if test="remaincount2 !=null">  
+				RemainCount2,
+			</if>
+			<if test="lowarehouseid2 !=null">  
+				LOWarehouseId2,
+			</if>
+			<if test="setlowarehouseid2 !=null">  
+				SetLOWarehouseId2,
+			</if>
+			<if test="position !=null">  
+				Position,
+			</if>
+			<if test="colorid !=null">  
+				colorId,
+			</if>
+			<if test="colorname !=null">  
+				colorName,
+			</if>
+			<if test="sizeid !=null">  
+				sizeId,
+			</if>
+			<if test="sizename !=null">  
+				sizeName,
+			</if>
+		</trim>
+
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+			<if test="id  !=null">
+				#{id,jdbcType=BIGINT}, 
+			</if>
+			<if test="productid  !=null">
+				#{productid,jdbcType=BIGINT}, 
+			</if>
+			<if test="propertyids  !=null">
+				#{propertyids,jdbcType=VARCHAR}, 
+			</if>
+			<if test="price  !=null">
+				#{price,jdbcType=INTEGER}, 
+			</if>
+			<if test="remaincount  !=null">
+				#{remaincount,jdbcType=INTEGER}, 
+			</if>
+			<if test="specificimage  !=null">
+				#{specificimage,jdbcType=VARCHAR}, 
+			</if>
+			<if test="status  !=null">
+				#{status,jdbcType=TINYINT}, 
+			</if>
+			<if test="createtime  !=null">
+				#{createtime,jdbcType=BIGINT}, 
+			</if>
+			<if test="updatetime  !=null">
+				#{updatetime,jdbcType=BIGINT}, 
+			</if>
+			<if test="skuno  !=null">
+				#{skuno,jdbcType=BIGINT}, 
+			</if>
+			<if test="cash  !=null">
+				#{cash,jdbcType=DECIMAL}, 
+			</if>
+			<if test="weight  !=null">
+				#{weight,jdbcType=DECIMAL}, 
+			</if>
+			<if test="name  !=null">
+				#{name,jdbcType=VARCHAR}, 
+			</if>
+			<if test="marketprice  !=null">
+				#{marketprice,jdbcType=DECIMAL}, 
+			</if>
+			<if test="costprice  !=null">
+				#{costprice,jdbcType=DECIMAL}, 
+			</if>
+			<if test="clothesnumber  !=null">
+				#{clothesnumber,jdbcType=VARCHAR}, 
+			</if>
+			<if test="lowarehouseid  !=null">
+				#{lowarehouseid,jdbcType=BIGINT}, 
+			</if>
+			<if test="remainkeeptime  !=null">
+				#{remainkeeptime,jdbcType=INTEGER}, 
+			</if>
+			<if test="brandid  !=null">
+				#{brandid,jdbcType=BIGINT}, 
+			</if>
+			<if test="salestarttime  !=null">
+				#{salestarttime,jdbcType=BIGINT}, 
+			</if>
+			<if test="saleendtime  !=null">
+				#{saleendtime,jdbcType=BIGINT}, 
+			</if>
+			<if test="sort  !=null">
+				#{sort,jdbcType=INTEGER}, 
+			</if>
+			<if test="remaincountlock  !=null">
+				#{remaincountlock,jdbcType=INTEGER}, 
+			</if>
+			<if test="remaincountstarttime  !=null">
+				#{remaincountstarttime,jdbcType=BIGINT}, 
+			</if>
+			<if test="remaincountendtime  !=null">
+				#{remaincountendtime,jdbcType=BIGINT}, 
+			</if>
+			<if test="isremaincountlock  !=null">
+				#{isremaincountlock,jdbcType=TINYINT}, 
+			</if>
+			<if test="pushtime  !=null">
+				#{pushtime,jdbcType=BIGINT}, 
+			</if>
+			<if test="promotionsalecount  !=null">
+				#{promotionsalecount,jdbcType=INTEGER}, 
+			</if>
+			<if test="promotionvisitcount  !=null">
+				#{promotionvisitcount,jdbcType=INTEGER}, 
+			</if>
+			<if test="remaincount2  !=null">
+				#{remaincount2,jdbcType=INTEGER}, 
+			</if>
+			<if test="lowarehouseid2  !=null">
+				#{lowarehouseid2,jdbcType=BIGINT}, 
+			</if>
+			<if test="setlowarehouseid2  !=null">
+				#{setlowarehouseid2,jdbcType=TINYINT}, 
+			</if>
+			<if test="position  !=null">
+				#{position,jdbcType=VARCHAR}, 
+			</if>
+			<if test="colorid  !=null">
+				#{colorid,jdbcType=BIGINT}, 
+			</if>
+			<if test="colorname  !=null">
+				#{colorname,jdbcType=VARCHAR}, 
+			</if>
+			<if test="sizeid  !=null">
+				#{sizeid,jdbcType=BIGINT}, 
+			</if>
+			<if test="sizename  !=null">
+				#{sizename,jdbcType=VARCHAR} 
+			</if>
+		</trim>
+	</insert> 
+
+	<!-- 精确更新-->
+	<update id="updateByPrimaryKeySelective" parameterType="com.jiuy.product.model.ProductSku" >
+		update yjj_ProductSKU
+		<set>
+			<include refid="updateBase"/>
+		</set>
+		where Id = #{id,jdbcType=BIGINT} 
+	</update> 
+
+	<!-- 全字段更新 需要注意-->
+	<update id="updateByPrimaryKey" parameterType="com.jiuy.product.model.ProductSku" >
+		update yjj_ProductSKU
+		set 
+			Id = #{id ,jdbcType=BIGINT},
+			ProductId = #{productid ,jdbcType=BIGINT},
+			PropertyIds = #{propertyids ,jdbcType=VARCHAR},
+			Price = #{price ,jdbcType=INTEGER},
+			RemainCount = #{remaincount ,jdbcType=INTEGER},
+			SpecificImage = #{specificimage ,jdbcType=VARCHAR},
+			Status = #{status ,jdbcType=TINYINT},
+			CreateTime = #{createtime ,jdbcType=BIGINT},
+			UpdateTime = #{updatetime ,jdbcType=BIGINT},
+			SkuNo = #{skuno ,jdbcType=BIGINT},
+			Cash = #{cash ,jdbcType=DECIMAL},
+			Weight = #{weight ,jdbcType=DECIMAL},
+			Name = #{name ,jdbcType=VARCHAR},
+			MarketPrice = #{marketprice ,jdbcType=DECIMAL},
+			CostPrice = #{costprice ,jdbcType=DECIMAL},
+			ClothesNumber = #{clothesnumber ,jdbcType=VARCHAR},
+			LOWarehouseId = #{lowarehouseid ,jdbcType=BIGINT},
+			RemainKeepTime = #{remainkeeptime ,jdbcType=INTEGER},
+			BrandId = #{brandid ,jdbcType=BIGINT},
+			SaleStartTime = #{salestarttime ,jdbcType=BIGINT},
+			SaleEndTime = #{saleendtime ,jdbcType=BIGINT},
+			Sort = #{sort ,jdbcType=INTEGER},
+			RemainCountLock = #{remaincountlock ,jdbcType=INTEGER},
+			RemainCountStartTime = #{remaincountstarttime ,jdbcType=BIGINT},
+			RemainCountEndTime = #{remaincountendtime ,jdbcType=BIGINT},
+			IsRemainCountLock = #{isremaincountlock ,jdbcType=TINYINT},
+			PushTime = #{pushtime ,jdbcType=BIGINT},
+			PromotionSaleCount = #{promotionsalecount ,jdbcType=INTEGER},
+			PromotionVisitCount = #{promotionvisitcount ,jdbcType=INTEGER},
+			RemainCount2 = #{remaincount2 ,jdbcType=INTEGER},
+			LOWarehouseId2 = #{lowarehouseid2 ,jdbcType=BIGINT},
+			SetLOWarehouseId2 = #{setlowarehouseid2 ,jdbcType=TINYINT},
+			Position = #{position ,jdbcType=VARCHAR},
+			colorId = #{colorid ,jdbcType=BIGINT},
+			colorName = #{colorname ,jdbcType=VARCHAR},
+			sizeId = #{sizeid ,jdbcType=BIGINT},
+			sizeName = #{sizename ,jdbcType=VARCHAR}
+		where Id = #{id,jdbcType=BIGINT} 
+	</update> 
+
+	<!-- 所有的条件集合-->
+	<sql id="whereCase"  >
+		where  1=1 
+		<if test="id  !=null">
+			AND Id = #{id,jdbcType=BIGINT} 
+		</if>
+		<if test="productid  !=null">
+			AND ProductId = #{productid,jdbcType=BIGINT} 
+		</if>
+		<if test="propertyids  !=null">
+			AND PropertyIds = #{propertyids,jdbcType=VARCHAR} 
+		</if>
+		<if test="price  !=null">
+			AND Price = #{price,jdbcType=INTEGER} 
+		</if>
+		<if test="remaincount  !=null">
+			AND RemainCount = #{remaincount,jdbcType=INTEGER} 
+		</if>
+		<if test="specificimage  !=null">
+			AND SpecificImage = #{specificimage,jdbcType=VARCHAR} 
+		</if>
+		<if test="status  !=null">
+			AND Status = #{status,jdbcType=TINYINT} 
+		</if>
+		<if test="createtime  !=null">
+			AND CreateTime = #{createtime,jdbcType=BIGINT} 
+		</if>
+		<if test="updatetime  !=null">
+			AND UpdateTime = #{updatetime,jdbcType=BIGINT} 
+		</if>
+		<if test="skuno  !=null">
+			AND SkuNo = #{skuno,jdbcType=BIGINT} 
+		</if>
+		<if test="cash  !=null">
+			AND Cash = #{cash,jdbcType=DECIMAL} 
+		</if>
+		<if test="weight  !=null">
+			AND Weight = #{weight,jdbcType=DECIMAL} 
+		</if>
+		<if test="name  !=null">
+			AND Name = #{name,jdbcType=VARCHAR} 
+		</if>
+		<if test="marketprice  !=null">
+			AND MarketPrice = #{marketprice,jdbcType=DECIMAL} 
+		</if>
+		<if test="costprice  !=null">
+			AND CostPrice = #{costprice,jdbcType=DECIMAL} 
+		</if>
+		<if test="clothesnumber  !=null">
+			AND ClothesNumber = #{clothesnumber,jdbcType=VARCHAR} 
+		</if>
+		<if test="lowarehouseid  !=null">
+			AND LOWarehouseId = #{lowarehouseid,jdbcType=BIGINT} 
+		</if>
+		<if test="remainkeeptime  !=null">
+			AND RemainKeepTime = #{remainkeeptime,jdbcType=INTEGER} 
+		</if>
+		<if test="brandid  !=null">
+			AND BrandId = #{brandid,jdbcType=BIGINT} 
+		</if>
+		<if test="salestarttime  !=null">
+			AND SaleStartTime = #{salestarttime,jdbcType=BIGINT} 
+		</if>
+		<if test="saleendtime  !=null">
+			AND SaleEndTime = #{saleendtime,jdbcType=BIGINT} 
+		</if>
+		<if test="sort  !=null">
+			AND Sort = #{sort,jdbcType=INTEGER} 
+		</if>
+		<if test="remaincountlock  !=null">
+			AND RemainCountLock = #{remaincountlock,jdbcType=INTEGER} 
+		</if>
+		<if test="remaincountstarttime  !=null">
+			AND RemainCountStartTime = #{remaincountstarttime,jdbcType=BIGINT} 
+		</if>
+		<if test="remaincountendtime  !=null">
+			AND RemainCountEndTime = #{remaincountendtime,jdbcType=BIGINT} 
+		</if>
+		<if test="isremaincountlock  !=null">
+			AND IsRemainCountLock = #{isremaincountlock,jdbcType=TINYINT} 
+		</if>
+		<if test="pushtime  !=null">
+			AND PushTime = #{pushtime,jdbcType=BIGINT} 
+		</if>
+		<if test="promotionsalecount  !=null">
+			AND PromotionSaleCount = #{promotionsalecount,jdbcType=INTEGER} 
+		</if>
+		<if test="promotionvisitcount  !=null">
+			AND PromotionVisitCount = #{promotionvisitcount,jdbcType=INTEGER} 
+		</if>
+		<if test="remaincount2  !=null">
+			AND RemainCount2 = #{remaincount2,jdbcType=INTEGER} 
+		</if>
+		<if test="lowarehouseid2  !=null">
+			AND LOWarehouseId2 = #{lowarehouseid2,jdbcType=BIGINT} 
+		</if>
+		<if test="setlowarehouseid2  !=null">
+			AND SetLOWarehouseId2 = #{setlowarehouseid2,jdbcType=TINYINT} 
+		</if>
+		<if test="position  !=null">
+			AND Position = #{position,jdbcType=VARCHAR} 
+		</if>
+		<if test="colorid  !=null">
+			AND colorId = #{colorid,jdbcType=BIGINT} 
+		</if>
+		<if test="colorname  !=null">
+			AND colorName = #{colorname,jdbcType=VARCHAR} 
+		</if>
+		<if test="sizeid  !=null">
+			AND sizeId = #{sizeid,jdbcType=BIGINT} 
+		</if>
+		<if test="sizename  !=null">
+			AND sizeName = #{sizename,jdbcType=VARCHAR} 
+		</if>
+		<include refid="costomWhereCase"/>
+	</sql>
+
+	<!-- 查询一条，如果返回多条会报错-->
+	<select id="selectOne" parameterType="java.util.Map" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" /> 
+		FROM yjj_ProductSKU 
+		<include refid="whereCase" /> 
+	</select>
+
+	<!-- 查询一个list-->
+	<select id="selectList" parameterType="java.util.Map" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" /> 
+		FROM yjj_ProductSKU 
+		<include refid="whereCase" /> 
+	</select>
+
+	<!--  @Costom -->
+	<!-- 从上一行注释以上为系统生成 从这一行往下为用户自定义 请将自定义的sql放在此行下面 -->
+	<sql id="costomWhereCase">
+	</sql>
+
+</mapper>

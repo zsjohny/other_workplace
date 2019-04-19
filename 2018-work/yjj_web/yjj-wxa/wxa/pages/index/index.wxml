@@ -1,0 +1,131 @@
+<view class="container">
+  <view  class="scroll-box">
+    <!-- 搜索框 ,如果第一模块是门店图时，而且有图片和开启时,搜索框固定在图片上-->
+    <view class="search-wrap">
+      <view class='search-box'>
+        <view class='search-input' bindtap='searchFunc'>请输入关键词搜索商品</view>
+        <view class='sign-entry' bindtap='gotoSignPage'>签到</view>
+      </view>
+    </view> 
+    <!--主容器开始-->
+    <view class="scroll-main" bindtap='scrollFun'>
+      <!--智能排序模块开始-->
+      <view class='sort-module'>
+        <import src="models/smartArticle.wxml"/>
+        <import src="models/smartGroup.wxml"/>
+        <import src="models/smartNotice.wxml"/>
+        <import src="models/smartPicture.wxml"/>
+        <import src="models/smartSeckill.wxml"/>
+        <import src="models/smartTag.wxml"/>
+        <block wx:for="{{sortData}}" wx:key="item">
+          <template wx:if="{{item.switcher == '1'}}" is="{{item.code}}" data="{{...itemData}}"/>
+        </block>
+      </view>
+      <!--智能排序模块结束-->
+      <!-- 商品列表都没有商品 -->
+      <view wx:if="{{isShowProductMode1 == 0 && isShowProductMode2 == 0}}"></view>
+      <!-- 商品列表有商品 -->
+      <view class='have-product-box' wx:else>
+        <view class="product-tab {{ tabFixedState ? 'product-tab-fixed' : '' }}">
+          <view wx:if="{{isShowProductMode1 != 0}}" class="item item1 {{ tabState1 ? 'active1' : '' }}" data-tab="0" data-type="0" bindtap="getTabData">店长推荐</view>
+          <view wx:if="{{isShowProductMode2 != 0}}"  class="item item2 {{ tabState2 ? 'active2' : '' }}" data-tab="1" data-type="1" bindtap="getTabData">热销推荐</view>
+        </view>
+        <view class="product-wrap">
+          <!-- 店长推荐 -->
+          <view class='product-shop' wx:if="{{isShowProductMode1 && tabState1}}">
+            <view class="product-box">
+                <view class="have-product">
+                  <block wx:for="{{ shopProductData }}" wx:key="shopProductId">
+                    <view class="item">
+                        <view class='img-box' data-id="{{ item.shopProductId }}" bindtap="gotoDetail"><image mode="aspectFit" src="{{ item.image }}"></image></view>
+                        <view class='info-box'>
+                          <text class="title" data-id="{{ item.shopProductId }}" bindtap="gotoDetail">{{ item.name }}</text>
+                          <view class="price">
+                            <text class="new" wx:if="{{item.price > 0}}">￥<text class='number'>{{ item.price }}</text></text>
+                          </view>
+                        </view>
+                        <view class="tag" wx:if="{{ item.stock >0 }}"></view>
+                        <view class="share-icon" bindtap='showSharePopup' data-activityid='{{item.activityId}}' data-id='{{item.shopProductId}}'  data-producttype='{{item.intoActivity}}' data-name='{{item.name}}' data-img='{{ item.image }}' data-iscodeimg='{{item.isShare}}'  data-price='{{ item.price }}'></view>
+                    </view>
+                  </block>
+                </view>
+            </view><!-- product-box end -->
+            <!--上拉加载更多-->
+            <view class="more-load2">
+              <!--底部加载loadding-->
+              <view wx:if="{{ hasMore1 }}" class="go-loading more-loading">
+                <view class="loading-mod"></view>
+                <text class="tx">正在载入中…</text> 
+              </view>
+              <view wx:if="{{ moreOver1 }}" class="tips2"><text>已经显示全部</text></view>
+            </view>
+          </view><!-- product-shop end -->
+          <!-- 热销推荐 -->
+          <view class='product-hot'>
+            <view class="product-box" wx:if="{{isShowProductMode2 && tabState2}}">
+                <view class="have-product">
+                  <block wx:for="{{ hotProductData }}" wx:key="shopProductId">
+                    <view class="item">
+                        <view class='img-box' data-id="{{ item.shopProductId }}" bindtap="gotoDetail"><image mode="aspectFit" src="{{ item.image }}"></image></view>
+                        <view class='info-box'>
+                          <text class="title" data-id="{{ item.shopProductId }}" bindtap="gotoDetail">{{ item.name }}</text>
+                          <view class="price">
+                            <text class="new" wx:if="{{item.price > 0}}">￥<text class='number'>{{ item.price }}</text></text>
+                          </view>
+                        </view>
+                        <view class="tag" wx:if="{{ item.stock >0 }}"></view>
+                        <view class="share-icon" bindtap='showSharePopup' data-activityid='{{item.activityId}}' data-id='{{item.shopProductId}}'  data-producttype='{{item.intoActivity}}' data-name='{{item.name}}' data-img='{{ item.image }}' data-iscodeimg='{{item.isShare}}' data-price='{{ item.price }}'></view>
+                    </view>
+                  </block>
+                </view>
+            </view><!-- product-box end --> 
+            <!--上拉加载更多-->
+            <view class="more-load2">
+              <!--底部加载loadding-->
+              <view wx:if="{{ hasMore2 }}" class="go-loading more-loading">
+                <view class="loading-mod"></view>
+                <text class="tx">正在载入中…</text> 
+              </view>
+              <view wx:if="{{ moreOver2 }}" class="tips2"><text>已经显示全部</text></view>
+            </view>
+          </view><!-- product-hot end -->
+        </view><!-- product-wrap end -->
+      </view><!-- have-product-box end -->
+    </view> <!--scroll-main end--> 
+    <!--底部文字-->
+    <view class='copyright'>
+      <view class='text1'>杭州玖远网络科技有限公司提供技术支持</view>
+    </view>
+    <!--回到顶部-->
+    <view class="go-top" bindtap="goTop" wx:if="{{ goTopShowState }}"></view>
+    <!--客服电话按钮-->
+    <import src="../template/template.wxml" />
+    <template is="customService" data="{{msgNumber}}" />
+    <!--电话热线  -->
+    <import src="../template/phone.wxml" />
+    <template is="phoneService" data="{{hotPhone}}" />
+
+  </view>
+   <!--优惠券领取提醒-->
+   <view class="coupon-notice" wx:if="{{noticeShow && allCoupon.count > 0}}">
+       <view class="bg" bindtap="closeNoticeBox"></view>
+       <view class="box">
+          <view class="box-main">
+            <view class="title">发现<text>{{allCoupon.count}}</text>张新的优惠券</view>
+            <view class="money"> <!-- 总面值<text>￥{{allCoupon.money}}</text>> --></view>
+            <view class="btn" bindtap="gotoCouponCenter">去领取</view>
+            <view class="close-box" bindtap="closeNoticeBox">
+            <view class="icon"></view></view>
+          </view>
+       </view>
+   </view>
+</view> <!--container end-->
+<!--分享弹窗-->
+<import src="../template/sharePopup.wxml" />
+<template is="sharePopup" data="{{isShowSharePopup}}" />
+<!--下载图片设置权限提示框组件模块-->
+<view class='settingPopup-mod'>
+  <authPopup id='settingPopup' 
+      bind:cancelEvent="hideSettingPopup">
+  </authPopup>
+</view>

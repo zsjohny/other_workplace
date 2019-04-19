@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yujj.dao.mapper.PropertyNameMapper"  >
+
+	<resultMap type="ProductPropName" id="prodPropName">
+        <id property="id" column="Id"/>
+        <result property="propertyName" column="PropertyName"/>
+    </resultMap>
+ 
+	<select id="getPropertyNames" parameterType="collection" resultMap="prodPropName">
+		select * from yjj_PropertyName
+		<where>
+			<if test="ids != null">
+				<if test="ids.size() != 0">
+				Id in 
+					<foreach collection="ids" item="item" open="(" separator="," close=")">
+						<![CDATA[#{item}]]>
+					</foreach>
+				</if>
+			</if>
+		</where>
+	</select>
+	
+	<select id="getPropertyNameIdByName" resultType="int">
+		select Id
+		from yjj_PropertyName
+		where PropertyName = #{propertyName}
+	</select>
+	
+	<select id="search" resultType="String">
+		select propertyName from yjj_PropertyName
+		where Status = 0
+	</select>
+</mapper>

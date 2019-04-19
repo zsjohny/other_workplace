@@ -1,0 +1,915 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" > 
+<mapper namespace="com.jiuy.rb.mapper.product.ShopProductRbMapper"> 
+ 
+ 	<!-- 主要的返回映射-->
+	<resultMap id="BaseResultMap" type="com.jiuy.rb.model.product.ShopProductRb"	>
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="store_id"  property="storeId"  jdbcType="BIGINT" />
+		<result column="product_id"  property="productId"  jdbcType="BIGINT" />
+		<result column="name"  property="name"  jdbcType="VARCHAR" />
+		<result column="price"  property="price"  jdbcType="DECIMAL" />
+		<result column="xprice"  property="xprice"  jdbcType="DECIMAL" />
+		<result column="market_price"  property="marketPrice"  jdbcType="DECIMAL" />
+		<result column="clothes_number"  property="clothesNumber"  jdbcType="VARCHAR" />
+		<result column="stock"  property="stock"  jdbcType="BIGINT" />
+		<result column="category_id"  property="categoryId"  jdbcType="BIGINT" />
+		<result column="tag_ids"  property="tagIds"  jdbcType="VARCHAR" />
+		<result column="size_ids"  property="sizeIds"  jdbcType="VARCHAR" />
+		<result column="color_ids"  property="colorIds"  jdbcType="VARCHAR" />
+		<result column="summary_images"  property="summaryImages"  jdbcType="VARCHAR" />
+		<result column="remark"  property="remark"  jdbcType="VARCHAR" />
+		<result column="top_time"  property="topTime"  jdbcType="BIGINT" />
+		<result column="stock_time"  property="stockTime"  jdbcType="BIGINT" />
+		<result column="tab_type"  property="tabType"  jdbcType="TINYINT" />
+		<result column="sold_out"  property="soldOut"  jdbcType="TINYINT" />
+		<result column="status"  property="status"  jdbcType="TINYINT" />
+		<result column="create_time"  property="createTime"  jdbcType="BIGINT" />
+		<result column="update_time"  property="updateTime"  jdbcType="BIGINT" />
+		<result column="video_url"  property="videoUrl"  jdbcType="VARCHAR" />
+		<result column="ground_time"  property="groundTime"  jdbcType="BIGINT" />
+		<result column="shop_own_detail"  property="shopOwnDetail"  jdbcType="VARCHAR" />
+		<result column="want_member_count"  property="wantMemberCount"  jdbcType="BIGINT" />
+		<result column="show_count"  property="showCount"  jdbcType="BIGINT" />
+		<result column="own"  property="own"  jdbcType="TINYINT" />
+		<result column="video_display_image"  property="videoDisplayImage"  jdbcType="VARCHAR" />
+		<result column="video_display_url"  property="videoDisplayUrl"  jdbcType="VARCHAR" />
+		<result column="video_display_fileId"  property="videoDisplayFileid"  jdbcType="BIGINT" />
+		<result column="wxaqrcode_url"  property="wxaqrcodeUrl"  jdbcType="VARCHAR" />
+		<result column="wxa_product_share_image"  property="wxaProductShareImage"  jdbcType="VARCHAR" />
+		<result column="wxa_product_share_old_images"  property="wxaProductShareOldImages"  jdbcType="VARCHAR" />
+		<result column="color_id"  property="colorId"  jdbcType="BIGINT" />
+		<result column="size_id"  property="sizeId"  jdbcType="BIGINT" />
+		<result column="color_name"  property="colorName"  jdbcType="VARCHAR" />
+		<result column="size_name"  property="sizeName"  jdbcType="VARCHAR" />
+		<result column="share_img_code"  property="shareImgCode"  jdbcType="INTEGER" />
+		<result column="first_time_on_sale"  property="firstTimeOnSale"  jdbcType="BIGINT" />
+	</resultMap>
+
+
+	<resultMap id="QueryResultMap" type="com.jiuy.rb.model.product.ShopProductRbQuery"	>
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="store_id"  property="storeId"  jdbcType="BIGINT" />
+		<result column="product_id"  property="productId"  jdbcType="BIGINT" />
+		<result column="name"  property="name"  jdbcType="VARCHAR" />
+		<result column="price"  property="price"  jdbcType="DECIMAL" />
+		<result column="xprice"  property="xprice"  jdbcType="DECIMAL" />
+		<result column="market_price"  property="marketPrice"  jdbcType="DECIMAL" />
+		<result column="clothes_number"  property="clothesNumber"  jdbcType="VARCHAR" />
+		<result column="stock"  property="stock"  jdbcType="BIGINT" />
+		<result column="category_id"  property="categoryId"  jdbcType="BIGINT" />
+		<result column="tag_ids"  property="tagIds"  jdbcType="VARCHAR" />
+		<result column="size_ids"  property="sizeIds"  jdbcType="VARCHAR" />
+		<result column="color_ids"  property="colorIds"  jdbcType="VARCHAR" />
+		<result column="summary_images"  property="summaryImages"  jdbcType="VARCHAR" />
+		<result column="remark"  property="remark"  jdbcType="VARCHAR" />
+		<result column="top_time"  property="topTime"  jdbcType="BIGINT" />
+		<result column="stock_time"  property="stockTime"  jdbcType="BIGINT" />
+		<result column="tab_type"  property="tabType"  jdbcType="TINYINT" />
+		<result column="sold_out"  property="soldOut"  jdbcType="TINYINT" />
+		<result column="status"  property="status"  jdbcType="TINYINT" />
+		<result column="create_time"  property="createTime"  jdbcType="BIGINT" />
+		<result column="update_time"  property="updateTime"  jdbcType="BIGINT" />
+		<result column="video_url"  property="videoUrl"  jdbcType="VARCHAR" />
+		<result column="ground_time"  property="groundTime"  jdbcType="BIGINT" />
+		<result column="shop_own_detail"  property="shopOwnDetail"  jdbcType="VARCHAR" />
+		<result column="want_member_count"  property="wantMemberCount"  jdbcType="BIGINT" />
+		<result column="show_count"  property="showCount"  jdbcType="BIGINT" />
+		<result column="own"  property="own"  jdbcType="TINYINT" />
+		<result column="video_display_image"  property="videoDisplayImage"  jdbcType="VARCHAR" />
+		<result column="video_display_url"  property="videoDisplayUrl"  jdbcType="VARCHAR" />
+		<result column="video_display_fileId"  property="videoDisplayFileid"  jdbcType="BIGINT" />
+		<result column="wxaqrcode_url"  property="wxaqrcodeUrl"  jdbcType="VARCHAR" />
+		<result column="wxa_product_share_image"  property="wxaProductShareImage"  jdbcType="VARCHAR" />
+		<result column="wxa_product_share_old_images"  property="wxaProductShareOldImages"  jdbcType="VARCHAR" />
+		<result column="color_id"  property="colorId"  jdbcType="BIGINT" />
+		<result column="size_id"  property="sizeId"  jdbcType="BIGINT" />
+		<result column="color_name"  property="colorName"  jdbcType="VARCHAR" />
+		<result column="size_name"  property="sizeName"  jdbcType="VARCHAR" />
+		<result column="share_img_code"  property="shareImgCode"  jdbcType="INTEGER" />
+		<result column="first_time_on_sale"  property="firstTimeOnSale"  jdbcType="BIGINT" />
+	</resultMap>
+
+	<!-- 所有的列名-->
+	<sql id="Base_Column_List" >
+		id,store_id,product_id,name,price,xprice,market_price,clothes_number,stock,
+		category_id,tag_ids,size_ids,color_ids,summary_images,remark,top_time,stock_time,
+		tab_type,sold_out,status,create_time,update_time,video_url,ground_time,shop_own_detail,
+		want_member_count,show_count,own,video_display_image,video_display_url,video_display_fileId,wxaqrcode_url,wxa_product_share_image,
+		wxa_product_share_old_images,color_id,size_id,color_name,size_name,share_img_code,first_time_on_sale
+	</sql>
+
+	<!-- 精确更新的字段-->
+	<sql id="updateBase">
+		<if test="id  !=null">
+			id = #{id,jdbcType=BIGINT}, 
+		</if>
+		<if test="storeId  !=null">
+			store_id = #{storeId,jdbcType=BIGINT}, 
+		</if>
+		<if test="productId  !=null">
+			product_id = #{productId,jdbcType=BIGINT}, 
+		</if>
+		<if test="name  !=null">
+			name = #{name,jdbcType=VARCHAR}, 
+		</if>
+		<if test="price  !=null">
+			price = #{price,jdbcType=DECIMAL}, 
+		</if>
+		<if test="xprice  !=null">
+			xprice = #{xprice,jdbcType=DECIMAL}, 
+		</if>
+		<if test="marketPrice  !=null">
+			market_price = #{marketPrice,jdbcType=DECIMAL}, 
+		</if>
+		<if test="clothesNumber  !=null">
+			clothes_number = #{clothesNumber,jdbcType=VARCHAR}, 
+		</if>
+		<if test="stock  !=null">
+			stock = #{stock,jdbcType=BIGINT}, 
+		</if>
+		<if test="categoryId  !=null">
+			category_id = #{categoryId,jdbcType=BIGINT}, 
+		</if>
+		<if test="tagIds  !=null">
+			tag_ids = #{tagIds,jdbcType=VARCHAR}, 
+		</if>
+		<if test="sizeIds  !=null">
+			size_ids = #{sizeIds,jdbcType=VARCHAR}, 
+		</if>
+		<if test="colorIds  !=null">
+			color_ids = #{colorIds,jdbcType=VARCHAR}, 
+		</if>
+		<if test="summaryImages  !=null">
+			summary_images = #{summaryImages,jdbcType=VARCHAR}, 
+		</if>
+		<if test="remark  !=null">
+			remark = #{remark,jdbcType=VARCHAR}, 
+		</if>
+		<if test="topTime  !=null">
+			top_time = #{topTime,jdbcType=BIGINT}, 
+		</if>
+		<if test="stockTime  !=null">
+			stock_time = #{stockTime,jdbcType=BIGINT}, 
+		</if>
+		<if test="tabType  !=null">
+			tab_type = #{tabType,jdbcType=TINYINT}, 
+		</if>
+		<if test="soldOut  !=null">
+			sold_out = #{soldOut,jdbcType=TINYINT}, 
+		</if>
+		<if test="status  !=null">
+			status = #{status,jdbcType=TINYINT}, 
+		</if>
+		<if test="createTime  !=null">
+			create_time = #{createTime,jdbcType=BIGINT}, 
+		</if>
+		<if test="updateTime  !=null">
+			update_time = #{updateTime,jdbcType=BIGINT}, 
+		</if>
+		<if test="videoUrl  !=null">
+			video_url = #{videoUrl,jdbcType=VARCHAR}, 
+		</if>
+		<if test="groundTime  !=null">
+			ground_time = #{groundTime,jdbcType=BIGINT}, 
+		</if>
+		<if test="shopOwnDetail  !=null">
+			shop_own_detail = #{shopOwnDetail,jdbcType=VARCHAR}, 
+		</if>
+		<if test="wantMemberCount  !=null">
+			want_member_count = #{wantMemberCount,jdbcType=BIGINT}, 
+		</if>
+		<if test="showCount  !=null">
+			show_count = #{showCount,jdbcType=BIGINT}, 
+		</if>
+		<if test="own  !=null">
+			own = #{own,jdbcType=TINYINT}, 
+		</if>
+		<if test="videoDisplayImage  !=null">
+			video_display_image = #{videoDisplayImage,jdbcType=VARCHAR}, 
+		</if>
+		<if test="videoDisplayUrl  !=null">
+			video_display_url = #{videoDisplayUrl,jdbcType=VARCHAR}, 
+		</if>
+		<if test="videoDisplayFileid  !=null">
+			video_display_fileId = #{videoDisplayFileid,jdbcType=BIGINT}, 
+		</if>
+		<if test="wxaqrcodeUrl  !=null">
+			wxaqrcode_url = #{wxaqrcodeUrl,jdbcType=VARCHAR}, 
+		</if>
+		<if test="wxaProductShareImage  !=null">
+			wxa_product_share_image = #{wxaProductShareImage,jdbcType=VARCHAR}, 
+		</if>
+		<if test="wxaProductShareOldImages  !=null">
+			wxa_product_share_old_images = #{wxaProductShareOldImages,jdbcType=VARCHAR}, 
+		</if>
+		<if test="colorId  !=null">
+			color_id = #{colorId,jdbcType=BIGINT}, 
+		</if>
+		<if test="sizeId  !=null">
+			size_id = #{sizeId,jdbcType=BIGINT}, 
+		</if>
+		<if test="colorName  !=null">
+			color_name = #{colorName,jdbcType=VARCHAR}, 
+		</if>
+		<if test="sizeName  !=null">
+			size_name = #{sizeName,jdbcType=VARCHAR}, 
+		</if>
+		<if test="shareImgCode  !=null">
+			share_img_code = #{shareImgCode,jdbcType=INTEGER}, 
+		</if>
+		<if test="firstTimeOnSale  !=null">
+			first_time_on_sale = #{firstTimeOnSale,jdbcType=BIGINT} 
+		</if>
+	</sql>
+
+	<!-- 通过主键查找-->
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="Long" >
+		select 
+		<include refid="Base_Column_List" />
+		from shop_product
+		where  id = #{id,jdbcType=BIGINT} 
+	</select>
+
+	<!-- 通过主键删除-->
+	<delete id="deleteByPrimaryKey" parameterType="Long" >
+		delete from shop_product
+		where id = #{id,jdbcType=BIGINT} 
+	</delete>
+
+	<!-- 普通插入全字段插t入-->
+	<insert id="insert" parameterType="com.jiuy.rb.model.product.ShopProductRb" >
+		insert into shop_product
+		(
+			id,
+			store_id,
+			product_id,
+			name,
+			price,
+			xprice,
+			market_price,
+			clothes_number,
+			stock,
+			category_id,
+			tag_ids,
+			size_ids,
+			color_ids,
+			summary_images,
+			remark,
+			top_time,
+			stock_time,
+			tab_type,
+			sold_out,
+			status,
+			create_time,
+			update_time,
+			video_url,
+			ground_time,
+			shop_own_detail,
+			want_member_count,
+			show_count,
+			own,
+			video_display_image,
+			video_display_url,
+			video_display_fileId,
+			wxaqrcode_url,
+			wxa_product_share_image,
+			wxa_product_share_old_images,
+			color_id,
+			size_id,
+			color_name,
+			size_name,
+			share_img_code,
+			first_time_on_sale
+		)
+		values
+		(
+			#{id ,jdbcType=BIGINT},
+			#{storeId ,jdbcType=BIGINT},
+			#{productId ,jdbcType=BIGINT},
+			#{name ,jdbcType=VARCHAR},
+			#{price ,jdbcType=DECIMAL},
+			#{xprice ,jdbcType=DECIMAL},
+			#{marketPrice ,jdbcType=DECIMAL},
+			#{clothesNumber ,jdbcType=VARCHAR},
+			#{stock ,jdbcType=BIGINT},
+			#{categoryId ,jdbcType=BIGINT},
+			#{tagIds ,jdbcType=VARCHAR},
+			#{sizeIds ,jdbcType=VARCHAR},
+			#{colorIds ,jdbcType=VARCHAR},
+			#{summaryImages ,jdbcType=VARCHAR},
+			#{remark ,jdbcType=VARCHAR},
+			#{topTime ,jdbcType=BIGINT},
+			#{stockTime ,jdbcType=BIGINT},
+			#{tabType ,jdbcType=TINYINT},
+			#{soldOut ,jdbcType=TINYINT},
+			#{status ,jdbcType=TINYINT},
+			#{createTime ,jdbcType=BIGINT},
+			#{updateTime ,jdbcType=BIGINT},
+			#{videoUrl ,jdbcType=VARCHAR},
+			#{groundTime ,jdbcType=BIGINT},
+			#{shopOwnDetail ,jdbcType=VARCHAR},
+			#{wantMemberCount ,jdbcType=BIGINT},
+			#{showCount ,jdbcType=BIGINT},
+			#{own ,jdbcType=TINYINT},
+			#{videoDisplayImage ,jdbcType=VARCHAR},
+			#{videoDisplayUrl ,jdbcType=VARCHAR},
+			#{videoDisplayFileid ,jdbcType=BIGINT},
+			#{wxaqrcodeUrl ,jdbcType=VARCHAR},
+			#{wxaProductShareImage ,jdbcType=VARCHAR},
+			#{wxaProductShareOldImages ,jdbcType=VARCHAR},
+			#{colorId ,jdbcType=BIGINT},
+			#{sizeId ,jdbcType=BIGINT},
+			#{colorName ,jdbcType=VARCHAR},
+			#{sizeName ,jdbcType=VARCHAR},
+			#{shareImgCode ,jdbcType=INTEGER},
+			#{firstTimeOnSale ,jdbcType=BIGINT}
+		)
+	</insert>
+
+	<!-- 批量插入，全部字段插入-->
+	<insert id="insertBach"   parameterType="List" >
+		insert into shop_product
+		(
+			id,
+			store_id,
+			product_id,
+			name,
+			price,
+			xprice,
+			market_price,
+			clothes_number,
+			stock,
+			category_id,
+			tag_ids,
+			size_ids,
+			color_ids,
+			summary_images,
+			remark,
+			top_time,
+			stock_time,
+			tab_type,
+			sold_out,
+			status,
+			create_time,
+			update_time,
+			video_url,
+			ground_time,
+			shop_own_detail,
+			want_member_count,
+			show_count,
+			own,
+			video_display_image,
+			video_display_url,
+			video_display_fileId,
+			wxaqrcode_url,
+			wxa_product_share_image,
+			wxa_product_share_old_images,
+			color_id,
+			size_id,
+			color_name,
+			size_name,
+			share_img_code,
+			first_time_on_sale
+		)
+		values 
+		<foreach collection="list" item="item" separator=",">
+		(
+			#{item.id ,jdbcType=BIGINT},
+			#{item.storeId ,jdbcType=BIGINT},
+			#{item.productId ,jdbcType=BIGINT},
+			#{item.name ,jdbcType=VARCHAR},
+			#{item.price ,jdbcType=DECIMAL},
+			#{item.xprice ,jdbcType=DECIMAL},
+			#{item.marketPrice ,jdbcType=DECIMAL},
+			#{item.clothesNumber ,jdbcType=VARCHAR},
+			#{item.stock ,jdbcType=BIGINT},
+			#{item.categoryId ,jdbcType=BIGINT},
+			#{item.tagIds ,jdbcType=VARCHAR},
+			#{item.sizeIds ,jdbcType=VARCHAR},
+			#{item.colorIds ,jdbcType=VARCHAR},
+			#{item.summaryImages ,jdbcType=VARCHAR},
+			#{item.remark ,jdbcType=VARCHAR},
+			#{item.topTime ,jdbcType=BIGINT},
+			#{item.stockTime ,jdbcType=BIGINT},
+			#{item.tabType ,jdbcType=TINYINT},
+			#{item.soldOut ,jdbcType=TINYINT},
+			#{item.status ,jdbcType=TINYINT},
+			#{item.createTime ,jdbcType=BIGINT},
+			#{item.updateTime ,jdbcType=BIGINT},
+			#{item.videoUrl ,jdbcType=VARCHAR},
+			#{item.groundTime ,jdbcType=BIGINT},
+			#{item.shopOwnDetail ,jdbcType=VARCHAR},
+			#{item.wantMemberCount ,jdbcType=BIGINT},
+			#{item.showCount ,jdbcType=BIGINT},
+			#{item.own ,jdbcType=TINYINT},
+			#{item.videoDisplayImage ,jdbcType=VARCHAR},
+			#{item.videoDisplayUrl ,jdbcType=VARCHAR},
+			#{item.videoDisplayFileid ,jdbcType=BIGINT},
+			#{item.wxaqrcodeUrl ,jdbcType=VARCHAR},
+			#{item.wxaProductShareImage ,jdbcType=VARCHAR},
+			#{item.wxaProductShareOldImages ,jdbcType=VARCHAR},
+			#{item.colorId ,jdbcType=BIGINT},
+			#{item.sizeId ,jdbcType=BIGINT},
+			#{item.colorName ,jdbcType=VARCHAR},
+			#{item.sizeName ,jdbcType=VARCHAR},
+			#{item.shareImgCode ,jdbcType=INTEGER},
+			#{item.firstTimeOnSale ,jdbcType=BIGINT}
+		)
+		</foreach>
+	</insert>
+
+	<!-- 精确插入，非null得字段才会插入-->
+	<insert id="insertSelective" parameterType="com.jiuy.rb.model.product.ShopProductRb" useGeneratedKeys="true" keyProperty="id" >
+		insert into shop_product
+		<trim prefix="(" suffix=")" suffixOverrides="," > 
+			<if test="id !=null">  
+				id,
+			</if>
+			<if test="storeId !=null">  
+				store_id,
+			</if>
+			<if test="productId !=null">  
+				product_id,
+			</if>
+			<if test="name !=null">  
+				name,
+			</if>
+			<if test="price !=null">  
+				price,
+			</if>
+			<if test="xprice !=null">  
+				xprice,
+			</if>
+			<if test="marketPrice !=null">  
+				market_price,
+			</if>
+			<if test="clothesNumber !=null">  
+				clothes_number,
+			</if>
+			<if test="stock !=null">  
+				stock,
+			</if>
+			<if test="categoryId !=null">  
+				category_id,
+			</if>
+			<if test="tagIds !=null">  
+				tag_ids,
+			</if>
+			<if test="sizeIds !=null">  
+				size_ids,
+			</if>
+			<if test="colorIds !=null">  
+				color_ids,
+			</if>
+			<if test="summaryImages !=null">  
+				summary_images,
+			</if>
+			<if test="remark !=null">  
+				remark,
+			</if>
+			<if test="topTime !=null">  
+				top_time,
+			</if>
+			<if test="stockTime !=null">  
+				stock_time,
+			</if>
+			<if test="tabType !=null">  
+				tab_type,
+			</if>
+			<if test="soldOut !=null">  
+				sold_out,
+			</if>
+			<if test="status !=null">  
+				status,
+			</if>
+			<if test="createTime !=null">  
+				create_time,
+			</if>
+			<if test="updateTime !=null">  
+				update_time,
+			</if>
+			<if test="videoUrl !=null">  
+				video_url,
+			</if>
+			<if test="groundTime !=null">  
+				ground_time,
+			</if>
+			<if test="shopOwnDetail !=null">  
+				shop_own_detail,
+			</if>
+			<if test="wantMemberCount !=null">  
+				want_member_count,
+			</if>
+			<if test="showCount !=null">  
+				show_count,
+			</if>
+			<if test="own !=null">  
+				own,
+			</if>
+			<if test="videoDisplayImage !=null">  
+				video_display_image,
+			</if>
+			<if test="videoDisplayUrl !=null">  
+				video_display_url,
+			</if>
+			<if test="videoDisplayFileid !=null">  
+				video_display_fileId,
+			</if>
+			<if test="wxaqrcodeUrl !=null">  
+				wxaqrcode_url,
+			</if>
+			<if test="wxaProductShareImage !=null">  
+				wxa_product_share_image,
+			</if>
+			<if test="wxaProductShareOldImages !=null">  
+				wxa_product_share_old_images,
+			</if>
+			<if test="colorId !=null">  
+				color_id,
+			</if>
+			<if test="sizeId !=null">  
+				size_id,
+			</if>
+			<if test="colorName !=null">  
+				color_name,
+			</if>
+			<if test="sizeName !=null">  
+				size_name,
+			</if>
+			<if test="shareImgCode !=null">  
+				share_img_code,
+			</if>
+			<if test="firstTimeOnSale !=null">  
+				first_time_on_sale,
+			</if>
+		</trim>
+
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+			<if test="id  !=null">
+				#{id,jdbcType=BIGINT}, 
+			</if>
+			<if test="storeId  !=null">
+				#{storeId,jdbcType=BIGINT}, 
+			</if>
+			<if test="productId  !=null">
+				#{productId,jdbcType=BIGINT}, 
+			</if>
+			<if test="name  !=null">
+				#{name,jdbcType=VARCHAR}, 
+			</if>
+			<if test="price  !=null">
+				#{price,jdbcType=DECIMAL}, 
+			</if>
+			<if test="xprice  !=null">
+				#{xprice,jdbcType=DECIMAL}, 
+			</if>
+			<if test="marketPrice  !=null">
+				#{marketPrice,jdbcType=DECIMAL}, 
+			</if>
+			<if test="clothesNumber  !=null">
+				#{clothesNumber,jdbcType=VARCHAR}, 
+			</if>
+			<if test="stock  !=null">
+				#{stock,jdbcType=BIGINT}, 
+			</if>
+			<if test="categoryId  !=null">
+				#{categoryId,jdbcType=BIGINT}, 
+			</if>
+			<if test="tagIds  !=null">
+				#{tagIds,jdbcType=VARCHAR}, 
+			</if>
+			<if test="sizeIds  !=null">
+				#{sizeIds,jdbcType=VARCHAR}, 
+			</if>
+			<if test="colorIds  !=null">
+				#{colorIds,jdbcType=VARCHAR}, 
+			</if>
+			<if test="summaryImages  !=null">
+				#{summaryImages,jdbcType=VARCHAR}, 
+			</if>
+			<if test="remark  !=null">
+				#{remark,jdbcType=VARCHAR}, 
+			</if>
+			<if test="topTime  !=null">
+				#{topTime,jdbcType=BIGINT}, 
+			</if>
+			<if test="stockTime  !=null">
+				#{stockTime,jdbcType=BIGINT}, 
+			</if>
+			<if test="tabType  !=null">
+				#{tabType,jdbcType=TINYINT}, 
+			</if>
+			<if test="soldOut  !=null">
+				#{soldOut,jdbcType=TINYINT}, 
+			</if>
+			<if test="status  !=null">
+				#{status,jdbcType=TINYINT}, 
+			</if>
+			<if test="createTime  !=null">
+				#{createTime,jdbcType=BIGINT}, 
+			</if>
+			<if test="updateTime  !=null">
+				#{updateTime,jdbcType=BIGINT}, 
+			</if>
+			<if test="videoUrl  !=null">
+				#{videoUrl,jdbcType=VARCHAR}, 
+			</if>
+			<if test="groundTime  !=null">
+				#{groundTime,jdbcType=BIGINT}, 
+			</if>
+			<if test="shopOwnDetail  !=null">
+				#{shopOwnDetail,jdbcType=VARCHAR}, 
+			</if>
+			<if test="wantMemberCount  !=null">
+				#{wantMemberCount,jdbcType=BIGINT}, 
+			</if>
+			<if test="showCount  !=null">
+				#{showCount,jdbcType=BIGINT}, 
+			</if>
+			<if test="own  !=null">
+				#{own,jdbcType=TINYINT}, 
+			</if>
+			<if test="videoDisplayImage  !=null">
+				#{videoDisplayImage,jdbcType=VARCHAR}, 
+			</if>
+			<if test="videoDisplayUrl  !=null">
+				#{videoDisplayUrl,jdbcType=VARCHAR}, 
+			</if>
+			<if test="videoDisplayFileid  !=null">
+				#{videoDisplayFileid,jdbcType=BIGINT}, 
+			</if>
+			<if test="wxaqrcodeUrl  !=null">
+				#{wxaqrcodeUrl,jdbcType=VARCHAR}, 
+			</if>
+			<if test="wxaProductShareImage  !=null">
+				#{wxaProductShareImage,jdbcType=VARCHAR}, 
+			</if>
+			<if test="wxaProductShareOldImages  !=null">
+				#{wxaProductShareOldImages,jdbcType=VARCHAR}, 
+			</if>
+			<if test="colorId  !=null">
+				#{colorId,jdbcType=BIGINT}, 
+			</if>
+			<if test="sizeId  !=null">
+				#{sizeId,jdbcType=BIGINT}, 
+			</if>
+			<if test="colorName  !=null">
+				#{colorName,jdbcType=VARCHAR}, 
+			</if>
+			<if test="sizeName  !=null">
+				#{sizeName,jdbcType=VARCHAR}, 
+			</if>
+			<if test="shareImgCode  !=null">
+				#{shareImgCode,jdbcType=INTEGER}, 
+			</if>
+			<if test="firstTimeOnSale  !=null">
+				#{firstTimeOnSale,jdbcType=BIGINT} 
+			</if>
+		</trim>
+	</insert> 
+
+	<!-- 精确更新-->
+	<update id="updateByPrimaryKeySelective" parameterType="com.jiuy.rb.model.product.ShopProductRb" >
+		update shop_product
+		<set>
+			<include refid="updateBase"/>
+		</set>
+		where id = #{id,jdbcType=BIGINT} 
+	</update> 
+
+	<!-- 全字段更新 需要注意-->
+	<update id="updateByPrimaryKey" parameterType="com.jiuy.rb.model.product.ShopProductRb" >
+		update shop_product
+		set 
+			id = #{id ,jdbcType=BIGINT},
+			store_id = #{storeId ,jdbcType=BIGINT},
+			product_id = #{productId ,jdbcType=BIGINT},
+			name = #{name ,jdbcType=VARCHAR},
+			price = #{price ,jdbcType=DECIMAL},
+			xprice = #{xprice ,jdbcType=DECIMAL},
+			market_price = #{marketPrice ,jdbcType=DECIMAL},
+			clothes_number = #{clothesNumber ,jdbcType=VARCHAR},
+			stock = #{stock ,jdbcType=BIGINT},
+			category_id = #{categoryId ,jdbcType=BIGINT},
+			tag_ids = #{tagIds ,jdbcType=VARCHAR},
+			size_ids = #{sizeIds ,jdbcType=VARCHAR},
+			color_ids = #{colorIds ,jdbcType=VARCHAR},
+			summary_images = #{summaryImages ,jdbcType=VARCHAR},
+			remark = #{remark ,jdbcType=VARCHAR},
+			top_time = #{topTime ,jdbcType=BIGINT},
+			stock_time = #{stockTime ,jdbcType=BIGINT},
+			tab_type = #{tabType ,jdbcType=TINYINT},
+			sold_out = #{soldOut ,jdbcType=TINYINT},
+			status = #{status ,jdbcType=TINYINT},
+			create_time = #{createTime ,jdbcType=BIGINT},
+			update_time = #{updateTime ,jdbcType=BIGINT},
+			video_url = #{videoUrl ,jdbcType=VARCHAR},
+			ground_time = #{groundTime ,jdbcType=BIGINT},
+			shop_own_detail = #{shopOwnDetail ,jdbcType=VARCHAR},
+			want_member_count = #{wantMemberCount ,jdbcType=BIGINT},
+			show_count = #{showCount ,jdbcType=BIGINT},
+			own = #{own ,jdbcType=TINYINT},
+			video_display_image = #{videoDisplayImage ,jdbcType=VARCHAR},
+			video_display_url = #{videoDisplayUrl ,jdbcType=VARCHAR},
+			video_display_fileId = #{videoDisplayFileid ,jdbcType=BIGINT},
+			wxaqrcode_url = #{wxaqrcodeUrl ,jdbcType=VARCHAR},
+			wxa_product_share_image = #{wxaProductShareImage ,jdbcType=VARCHAR},
+			wxa_product_share_old_images = #{wxaProductShareOldImages ,jdbcType=VARCHAR},
+			color_id = #{colorId ,jdbcType=BIGINT},
+			size_id = #{sizeId ,jdbcType=BIGINT},
+			color_name = #{colorName ,jdbcType=VARCHAR},
+			size_name = #{sizeName ,jdbcType=VARCHAR},
+			share_img_code = #{shareImgCode ,jdbcType=INTEGER},
+			first_time_on_sale = #{firstTimeOnSale ,jdbcType=BIGINT}
+		where id = #{id,jdbcType=BIGINT} 
+	</update> 
+
+	<!-- 所有的条件集合-->
+	<sql id="whereCase"  >
+		where  1=1 
+		<if test="id  !=null">
+			AND id = #{id,jdbcType=BIGINT} 
+		</if>
+		<if test="storeId  !=null">
+			AND store_id = #{storeId,jdbcType=BIGINT} 
+		</if>
+		<if test="productId  !=null">
+			AND product_id = #{productId,jdbcType=BIGINT} 
+		</if>
+		<if test="name  !=null">
+			AND name = #{name,jdbcType=VARCHAR} 
+		</if>
+		<if test="price  !=null">
+			AND price = #{price,jdbcType=DECIMAL} 
+		</if>
+		<if test="xprice  !=null">
+			AND xprice = #{xprice,jdbcType=DECIMAL} 
+		</if>
+		<if test="marketPrice  !=null">
+			AND market_price = #{marketPrice,jdbcType=DECIMAL} 
+		</if>
+		<if test="clothesNumber  !=null">
+			AND clothes_number = #{clothesNumber,jdbcType=VARCHAR} 
+		</if>
+		<if test="stock  !=null">
+			AND stock = #{stock,jdbcType=BIGINT} 
+		</if>
+		<if test="categoryId  !=null">
+			AND category_id = #{categoryId,jdbcType=BIGINT} 
+		</if>
+		<if test="tagIds  !=null">
+			AND tag_ids = #{tagIds,jdbcType=VARCHAR} 
+		</if>
+		<if test="sizeIds  !=null">
+			AND size_ids = #{sizeIds,jdbcType=VARCHAR} 
+		</if>
+		<if test="colorIds  !=null">
+			AND color_ids = #{colorIds,jdbcType=VARCHAR} 
+		</if>
+		<if test="summaryImages  !=null">
+			AND summary_images = #{summaryImages,jdbcType=VARCHAR} 
+		</if>
+		<if test="remark  !=null">
+			AND remark = #{remark,jdbcType=VARCHAR} 
+		</if>
+		<if test="topTime  !=null">
+			AND top_time = #{topTime,jdbcType=BIGINT} 
+		</if>
+		<if test="stockTime  !=null">
+			AND stock_time = #{stockTime,jdbcType=BIGINT} 
+		</if>
+		<if test="tabType  !=null">
+			AND tab_type = #{tabType,jdbcType=TINYINT} 
+		</if>
+		<if test="soldOut  !=null">
+			AND sold_out = #{soldOut,jdbcType=TINYINT} 
+		</if>
+		<if test="status  !=null">
+			AND status = #{status,jdbcType=TINYINT} 
+		</if>
+		<if test="createTime  !=null">
+			AND create_time = #{createTime,jdbcType=BIGINT} 
+		</if>
+		<if test="updateTime  !=null">
+			AND update_time = #{updateTime,jdbcType=BIGINT} 
+		</if>
+		<if test="videoUrl  !=null">
+			AND video_url = #{videoUrl,jdbcType=VARCHAR} 
+		</if>
+		<if test="groundTime  !=null">
+			AND ground_time = #{groundTime,jdbcType=BIGINT} 
+		</if>
+		<if test="shopOwnDetail  !=null">
+			AND shop_own_detail = #{shopOwnDetail,jdbcType=VARCHAR} 
+		</if>
+		<if test="wantMemberCount  !=null">
+			AND want_member_count = #{wantMemberCount,jdbcType=BIGINT} 
+		</if>
+		<if test="showCount  !=null">
+			AND show_count = #{showCount,jdbcType=BIGINT} 
+		</if>
+		<if test="own  !=null">
+			AND own = #{own,jdbcType=TINYINT} 
+		</if>
+		<if test="videoDisplayImage  !=null">
+			AND video_display_image = #{videoDisplayImage,jdbcType=VARCHAR} 
+		</if>
+		<if test="videoDisplayUrl  !=null">
+			AND video_display_url = #{videoDisplayUrl,jdbcType=VARCHAR} 
+		</if>
+		<if test="videoDisplayFileid  !=null">
+			AND video_display_fileId = #{videoDisplayFileid,jdbcType=BIGINT} 
+		</if>
+		<if test="wxaqrcodeUrl  !=null">
+			AND wxaqrcode_url = #{wxaqrcodeUrl,jdbcType=VARCHAR} 
+		</if>
+		<if test="wxaProductShareImage  !=null">
+			AND wxa_product_share_image = #{wxaProductShareImage,jdbcType=VARCHAR} 
+		</if>
+		<if test="wxaProductShareOldImages  !=null">
+			AND wxa_product_share_old_images = #{wxaProductShareOldImages,jdbcType=VARCHAR} 
+		</if>
+		<if test="colorId  !=null">
+			AND color_id = #{colorId,jdbcType=BIGINT} 
+		</if>
+		<if test="sizeId  !=null">
+			AND size_id = #{sizeId,jdbcType=BIGINT} 
+		</if>
+		<if test="colorName  !=null">
+			AND color_name = #{colorName,jdbcType=VARCHAR} 
+		</if>
+		<if test="sizeName  !=null">
+			AND size_name = #{sizeName,jdbcType=VARCHAR} 
+		</if>
+		<if test="shareImgCode  !=null">
+			AND share_img_code = #{shareImgCode,jdbcType=INTEGER} 
+		</if>
+		<if test="firstTimeOnSale  !=null">
+			AND first_time_on_sale = #{firstTimeOnSale,jdbcType=BIGINT} 
+		</if>
+		<include refid="costomWhereCase"/>
+	</sql>
+
+	<!-- 查询一条，如果返回多条会报错-->
+	<select id="selectOne" parameterType="java.util.Map" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" /> 
+		FROM shop_product 
+		<include refid="whereCase" /> 
+	</select>
+
+	<!-- 查询一个list-->
+	<select id="selectList" parameterType="java.util.Map" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" /> 
+		FROM shop_product 
+		<include refid="whereCase" /> 
+	</select>
+
+	<!-- 查询一个list-->
+	<select id="selectCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+		SELECT
+		count(1) 
+		FROM shop_product
+		<include refid="whereCase" /> 
+	</select>
+
+	<!--  @Costom -->
+	<!-- 从上一行注释以上为系统生成 从这一行往下为用户自定义 请将自定义的sql放在此行下面 -->
+	<sql id="costomWhereCase">
+	</sql>
+	
+	<select id="selectByIds" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM shop_product
+		<where>
+			1=1
+			AND id IN
+			<foreach collection="ids" item="id" open="(" separator="," close=")">
+				#{id}
+			</foreach>
+			<if test="keyword !=null">
+				AND (
+				name like concat('%',#{keyword},'%')
+				)
+			</if>
+			<if test="soldOut  !=null">
+				AND sold_out = #{soldOut,jdbcType=TINYINT}
+			</if>
+			<if test="status  !=null">
+				AND status = #{status,jdbcType=TINYINT}
+			</if>
+		</where>
+	</select>
+
+
+	<select id="selectQuery" parameterType="java.util.Map" resultMap="QueryResultMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM shop_product
+		<include refid="whereCase" />
+	</select>
+
+</mapper>

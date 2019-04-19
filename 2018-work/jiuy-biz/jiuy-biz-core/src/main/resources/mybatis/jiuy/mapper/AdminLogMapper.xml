@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jiuy.core.dao.impl.sql.AdminLogDaoSqlImpl">
+    <select id="loadAll" resultType="AdminLog">
+      SELECT * FROM yjj_AdminLog
+    </select>
+	
+	<insert id="addAdminLog" parameterType="AdminLog">
+		INSERT INTO yjj_AdminLog(UserId, UserName, OperateModel, OperateContent, CreateTime, Ip)
+		VALUES(#{userId}, #{userName}, #{operateModel}, #{operateContent}, #{createTime}, #{ip})
+	</insert>
+		
+	<select id="searchAdminLog" parameterType="map" resultType="AdminLog">
+		SELECT *
+		FROM yjj_AdminLog
+		<where>
+			<if test="userId != -1">
+			and UserId like CONCAT('%',#{userId},'%' ) 
+			</if>
+			<if test="userName != '' ">
+			and UserName like CONCAT('%',#{userName},'%' ) 
+			</if>
+			<if test="operateModel != '' ">
+			and OperateModel like CONCAT('%',#{operateModel},'%' ) 
+			</if>
+			<if test="operateContent != '' "> 
+			and OperateContent like CONCAT('%',#{operateContent},'%' ) 
+			</if>
+			<if test="startTime != -1"> 
+			<![CDATA[
+		    and CreateTime > #{startTime}
+		    ]]>
+			</if>
+			<if test="endTime != -1"> 
+			<![CDATA[
+		    and CreateTime < #{endTime}
+		    ]]>
+			</if>
+		</where> order by id desc
+		    limit #{pageQuery.limit} offset #{pageQuery.offset}
+	</select>
+		
+	<select id="searchAdminLogCount" resultType="int">
+		SELECT COUNT(*)
+		FROM yjj_AdminLog
+		<where>
+			<if test="userId != -1">
+			and UserId like CONCAT('%',#{userId},'%' ) 
+			</if>
+			<if test="userName != '' ">
+			and UserName like CONCAT('%',#{userName},'%' ) 
+			</if>
+			<if test="operateModel != '' ">
+			and OperateModel like CONCAT('%',#{operateModel},'%' ) 
+			</if>
+			<if test="operateContent != '' "> 
+			and OperateContent like CONCAT('%',#{operateContent},'%' ) 
+			</if>
+			<if test="startTime != -1"> 
+			<![CDATA[
+		    and CreateTime > #{startTime}
+		    ]]>
+			</if>
+			<if test="endTime != -1"> 
+			<![CDATA[
+		    and CreateTime < #{endTime}
+		    ]]>
+			</if>
+		</where>
+	</select>
+</mapper>

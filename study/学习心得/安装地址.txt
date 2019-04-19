@@ -1,5 +1,5 @@
 1 unberture
-  ´ò¿ª /etc/apt/sources.list
+  æ‰“å¼€ /etc/apt/sources.list
   
 deb http://mirrors.aliyun.com/ubuntu trusty main restricted
 deb-src http://mirrors.aliyun.com/ubuntu trusty main restricted
@@ -51,99 +51,99 @@ sudo apt-get update
 svnadmin create /home/svn
 
 
-ÅäÖÃauthz
+é…ç½®authz
 [root@localhost conf]# vi authz 
 [/]
 liuxianan=rw
 test1=r
 test2=r
 *=
-ÉÏÃæÅäÖÃµÄº¬ÒåÊÇ£¬liuxianan¶Ô/home/svn/ÏÂËùÓĞÎÄ¼ş¾ßÓĞ¿É¶Á¿ÉĞ´È¨ÏŞ£¬testÖ»ÓĞÖ»¶ÁÈ¨ÏŞ£¬³ı´ËÖ®Íâ£¬ÆäËüÓÃ»§¾ùÎŞÈÎºÎÈ¨ÏŞ£¬×îºóÒ»ĞĞ*=ºÜÖØÒª²»ÄÜÉÙ¡£
+ä¸Šé¢é…ç½®çš„å«ä¹‰æ˜¯ï¼Œliuxiananå¯¹/home/svn/ä¸‹æ‰€æœ‰æ–‡ä»¶å…·æœ‰å¯è¯»å¯å†™æƒé™ï¼Œteståªæœ‰åªè¯»æƒé™ï¼Œé™¤æ­¤ä¹‹å¤–ï¼Œå…¶å®ƒç”¨æˆ·å‡æ— ä»»ä½•æƒé™ï¼Œæœ€åä¸€è¡Œ*=å¾ˆé‡è¦ä¸èƒ½å°‘ã€‚
 
 3 
-ÅäÖÃsvnserve.conf
+é…ç½®svnserve.conf
 [root@localhost conf]# vi svnserve.conf 
-´ò¿ªÏÂÃæµÄ5¸ö×¢ÊÍ
-anon-access = read #ÄäÃûÓÃ»§¿É¶Á
-auth-access = write #ÊÚÈ¨ÓÃ»§¿ÉĞ´
-password-db = /opt/passwd #Ê¹ÓÃÄÄ¸öÎÄ¼ş×÷ÎªÕËºÅÎÄ¼ş
-authz-db = /opt/authz #Ê¹ÓÃÄÄ¸öÎÄ¼ş×÷ÎªÈ¨ÏŞÎÄ¼ş
-realm = /home/svn # ÈÏÖ¤¿Õ¼äÃû£¬°æ±¾¿âËùÔÚÄ¿Â¼
-2µã×¢Òâ£º
+æ‰“å¼€ä¸‹é¢çš„5ä¸ªæ³¨é‡Š
+anon-access = read #åŒ¿åç”¨æˆ·å¯è¯»
+auth-access = write #æˆæƒç”¨æˆ·å¯å†™
+password-db = /opt/passwd #ä½¿ç”¨å“ªä¸ªæ–‡ä»¶ä½œä¸ºè´¦å·æ–‡ä»¶
+authz-db = /opt/authz #ä½¿ç”¨å“ªä¸ªæ–‡ä»¶ä½œä¸ºæƒé™æ–‡ä»¶
+realm = /home/svn # è®¤è¯ç©ºé—´åï¼Œç‰ˆæœ¬åº“æ‰€åœ¨ç›®å½•
+2ç‚¹æ³¨æ„ï¼š
 
-×îºóÒ»ĞĞµÄrealm¼ÇµÃ¸Ä³ÉÄãµÄsvnÄ¿Â¼
-´ò¿ª×¢ÊÍÊ±ÇĞ¼ÇÇ°Ãæ²»ÒªÁôÓĞ¿Õ¸ñ£¬·ñÔò¿ÉÄÜÓĞÎÊÌâ£¨ÍøÉÏËµµÄ£¬ÎÒÃ»ÓĞÇ×²â£©
+æœ€åä¸€è¡Œçš„realmè®°å¾—æ”¹æˆä½ çš„svnç›®å½•
+æ‰“å¼€æ³¨é‡Šæ—¶åˆ‡è®°å‰é¢ä¸è¦ç•™æœ‰ç©ºæ ¼ï¼Œå¦åˆ™å¯èƒ½æœ‰é—®é¢˜ï¼ˆç½‘ä¸Šè¯´çš„ï¼Œæˆ‘æ²¡æœ‰äº²æµ‹ï¼‰
 
-3 Æô¶¯ºÍÍ£Ö¹
-	[root@localhost conf]# svnserve -d -r /home/svn£¨Æô¶¯£©--listen-port=8080//¶Ë¿Ú·ÃÎÊ
-	[root@localhost conf]#killall svnserve£¨Í£Ö¹£©
-	ÉÏÊöÆô¶¯ÃüÁîÖĞ£¬-d±íÊ¾ÊØ»¤½ø³Ì£¬ -r ±íÊ¾ÔÚºóÌ¨Ö´ĞĞ¡£Í£Ö¹»¹¿ÉÒÔ²ÉÓÃÉ±ËÀ½ø³ÌµÄ·½Ê½£º
+3 å¯åŠ¨å’Œåœæ­¢
+	[root@localhost conf]# svnserve -d -r /home/svnï¼ˆå¯åŠ¨ï¼‰--listen-port=8080//ç«¯å£è®¿é—®
+	[root@localhost conf]#killall svnserveï¼ˆåœæ­¢ï¼‰
+	ä¸Šè¿°å¯åŠ¨å‘½ä»¤ä¸­ï¼Œ-dè¡¨ç¤ºå®ˆæŠ¤è¿›ç¨‹ï¼Œ -r è¡¨ç¤ºåœ¨åå°æ‰§è¡Œã€‚åœæ­¢è¿˜å¯ä»¥é‡‡ç”¨æ€æ­»è¿›ç¨‹çš„æ–¹å¼ï¼š
 	
-4 Á´½Ó
-	ÕâÀïÊ¹ÓÃTortoiseSVN£¬ÊäÈëµØÖ·svn://ÄãµÄIP ¼´¿É£¬²»³öÒâÍâÊäÈëÓÃ»§ÃûºÍÃÜÂë¾ÍÄÜÁ¬½Ó³É¹¦ÁË¡£
+4 é“¾æ¥
+	è¿™é‡Œä½¿ç”¨TortoiseSVNï¼Œè¾“å…¥åœ°å€svn://ä½ çš„IP å³å¯ï¼Œä¸å‡ºæ„å¤–è¾“å…¥ç”¨æˆ·åå’Œå¯†ç å°±èƒ½è¿æ¥æˆåŠŸäº†ã€‚
 
-	Ä¬ÈÏ¶Ë¿Ú3690£¬Èç¹ûÄãĞŞ¸ÄÁË¶Ë¿Ú£¬ÄÇÃ´Òª¼ÇµÃ¼ÓÉÏ¶Ë¿ÚºÅ¡£	
-	·ÃÎÊ svn://finace.hengmo.net:8028/java java
+	é»˜è®¤ç«¯å£3690ï¼Œå¦‚æœä½ ä¿®æ”¹äº†ç«¯å£ï¼Œé‚£ä¹ˆè¦è®°å¾—åŠ ä¸Šç«¯å£å·ã€‚	
+	è®¿é—® svn://finace.hengmo.net:8028/java java
 	
-5 nginx°²×° ./configure &&make&&make install	
+5 nginxå®‰è£… ./configure &&make&&make install	
 6
-	1¡¢°²×°mysql£º
+	1ã€å®‰è£…mysqlï¼š
 	sudo apt-get install mysql-server
 	sudo apt-get install mysql-client
-	sudo apt-get install php5-mysql(ÓÃÓÚÁ¬½ÓphpºÍmysql)
+	sudo apt-get install php5-mysql(ç”¨äºè¿æ¥phpå’Œmysql)
 
 
 
 
 
-	²é¿´mysqlÊÇ·ñÔËĞĞ
+	æŸ¥çœ‹mysqlæ˜¯å¦è¿è¡Œ
 	ps aux | grep mysql
 
-	Æô¶¯ÃüÁî
+	å¯åŠ¨å‘½ä»¤
 	/etc/init.d/mysql start
 
 
-	2.É¾³ımysql
+	2.åˆ é™¤mysql
 
-	°´Ë³ĞòÖ´ĞĞÒÔÏÂÃüÁî
+	æŒ‰é¡ºåºæ‰§è¡Œä»¥ä¸‹å‘½ä»¤
 	sudo apt-get autoremove --purge mysql-server-5.0
 	sudo apt-get remove mysql-server
 	sudo apt-get autoremove mysql-server
 	sudo apt-get remove mysql-common 
 
-	ÇåÀí²ĞÁôÊı¾İ
+	æ¸…ç†æ®‹ç•™æ•°æ®
 	dpkg -l |grep ^rc|awk '{print $2}' |sudo xargs dpkg -P
 	
-7 mysql ÔÊĞí»úÆ÷·ÃÎÊ
-1£© Ö÷ÒªÊÇÒòÎªserverÃ»ÓĞÆô¶¯µÄÔ­Òò£»
-2£©»òÕßÊÇÔÚ/etc/mysql/my.cnfÎÄ¼ş(»òÓÃlocate my.cnfËÑË÷¸ÃÎÄ¼şÎ»ÖÃ)ÖĞ×¢ÊÍµôbind-address 127.0.0.1£¨½ûÖ¹Ô¶³Ì·ÃÎÊ£¬Ö»ÔÊĞí±¾µØ·ÃÎÊ£©£»
-3£©È»ºóÔÚmysqlÖĞÊ¹ÓÃGRANT ALL PRIVILEGES ON *.* TO ¡®myuser¡¯@'%¡¯IDENTIFIED BY ¡®mypassword¡¯ WITH GRANT OPTION; FLUSH   PRIVILEGES; Ä¿µÄÊÇÔÚ¸Ämysql-serverÉÏÔÊĞíÈÎºÎµÄ»úÆ÷£¨%£©ÒÔÓÃ»§Ãû£¨myuser£©¼°ÃÜÂë£¨mypassword£©À´Á¬½Óµ½¸ÃserveÉÏ£»	
+7 mysql å…è®¸æœºå™¨è®¿é—®
+1ï¼‰ ä¸»è¦æ˜¯å› ä¸ºserveræ²¡æœ‰å¯åŠ¨çš„åŸå› ï¼›
+2ï¼‰æˆ–è€…æ˜¯åœ¨/etc/mysql/my.cnfæ–‡ä»¶(æˆ–ç”¨locate my.cnfæœç´¢è¯¥æ–‡ä»¶ä½ç½®)ä¸­æ³¨é‡Šæ‰bind-address 127.0.0.1ï¼ˆç¦æ­¢è¿œç¨‹è®¿é—®ï¼Œåªå…è®¸æœ¬åœ°è®¿é—®ï¼‰ï¼›
+3ï¼‰ç„¶ååœ¨mysqlä¸­ä½¿ç”¨GRANT ALL PRIVILEGES ON *.* TO â€˜myuserâ€™@'%â€™IDENTIFIED BY â€˜mypasswordâ€™ WITH GRANT OPTION; FLUSH   PRIVILEGES; ç›®çš„æ˜¯åœ¨æ”¹mysql-serverä¸Šå…è®¸ä»»ä½•çš„æœºå™¨ï¼ˆ%ï¼‰ä»¥ç”¨æˆ·åï¼ˆmyuserï¼‰åŠå¯†ç ï¼ˆmypasswordï¼‰æ¥è¿æ¥åˆ°è¯¥serveä¸Šï¼›	
   
-   //½âÎöËµÃ÷  with grant option  ±»ÊÚÓèµÄÓÃ»§Ò²¿É°Ñ´Ë¶ÔÏóÈ¨ÏŞÊÚÓèÆäËûÓÃ»§»ò½ÇÉ«£¬²»Í¬µÄÊÇµ«¹ÜÀíÔ±ÊÕ»ØÓÃwith grant optionÊÚÈ¨µÄÓÃ»§¶ÔÏóÈ¨ÏŞÊ±£¬È¨ÏŞ»áÒò´«²¥¶øÊ§Ğ§
-               with  admin  option  ´ËÓÃ»§¿É°Ñ´ËÏµÍ³È¨ÏŞÊÚÓèÆäËûÓÃ»§»ò½ÇÉ«£¬µ«ÊÕ»ØÕâ¸öÓÃ»§µÄÏµÍ³È¨ÏŞÊ±£¬Õâ¸öÓÃ»§ÒÑ¾­ÊÚÓèÆäËûÓÃ»§»ò½ÇÉ«µÄ´ËÏµÍ³È¨ÏŞ²»»áÒò´«²¥ÎŞĞ§
-			   flush privilegse //²»ĞèÒªÖØÆô mysql ÑéÖ¤È¨ÏŞ ·ÀÖ¹ÒòÎª´íÎóµÄ²Ù×÷µ¼ÖÂÖØÆôºó½øÈë²»ÁË
+   //è§£æè¯´æ˜  with grant option  è¢«æˆäºˆçš„ç”¨æˆ·ä¹Ÿå¯æŠŠæ­¤å¯¹è±¡æƒé™æˆäºˆå…¶ä»–ç”¨æˆ·æˆ–è§’è‰²ï¼Œä¸åŒçš„æ˜¯ä½†ç®¡ç†å‘˜æ”¶å›ç”¨with grant optionæˆæƒçš„ç”¨æˆ·å¯¹è±¡æƒé™æ—¶ï¼Œæƒé™ä¼šå› ä¼ æ’­è€Œå¤±æ•ˆ
+               with  admin  option  æ­¤ç”¨æˆ·å¯æŠŠæ­¤ç³»ç»Ÿæƒé™æˆäºˆå…¶ä»–ç”¨æˆ·æˆ–è§’è‰²ï¼Œä½†æ”¶å›è¿™ä¸ªç”¨æˆ·çš„ç³»ç»Ÿæƒé™æ—¶ï¼Œè¿™ä¸ªç”¨æˆ·å·²ç»æˆäºˆå…¶ä»–ç”¨æˆ·æˆ–è§’è‰²çš„æ­¤ç³»ç»Ÿæƒé™ä¸ä¼šå› ä¼ æ’­æ— æ•ˆ
+			   flush privilegse //ä¸éœ€è¦é‡å¯ mysql éªŒè¯æƒé™ é˜²æ­¢å› ä¸ºé”™è¯¯çš„æ“ä½œå¯¼è‡´é‡å¯åè¿›å…¥ä¸äº†
   
 8 maven 
   export MAVEN_HOME=
   export PATH=$MAVEN_HOME/bin;$PATH
   
 9 nexus
-  Æô¶¯./nexus start  
+  å¯åŠ¨./nexus start  
 
-10 maven °²×°jarµ½±¾µØ  ÏÈÈ¥maven repositoryÏÂÔØjar ºÍ²é¿´groupIdµÈĞÅÏ¢
-  mvn install:install-file -Dfile=jar°üµÄÎ»ÖÃ -DgroupId=ÉÏÃæµÄgroupId -DartifactId=ÉÏÃæµÄartifactId -Dversion=ÉÏÃæµÄversion -Dpackaging=jar
+10 maven å®‰è£…jaråˆ°æœ¬åœ°  å…ˆå»maven repositoryä¸‹è½½jar å’ŒæŸ¥çœ‹groupIdç­‰ä¿¡æ¯
+  mvn install:install-file -Dfile=jaråŒ…çš„ä½ç½® -DgroupId=ä¸Šé¢çš„groupId -DartifactId=ä¸Šé¢çš„artifactId -Dversion=ä¸Šé¢çš„version -Dpackaging=jar
   
   
-11 linux javaÆô¶¯ÄÚ´æexport JAVA_OPTS="-Xmx1g -Xms1g";
+11 linux javaå¯åŠ¨å†…å­˜export JAVA_OPTS="-Xmx1g -Xms1g";
 
-12 mysql ¶ş½øÖÆ°²×° 
-   Æô¶¯ service mysql start   ¹Ø±Õ serivce mysql stop
+12 mysql äºŒè¿›åˆ¶å®‰è£… 
+   å¯åŠ¨ service mysql start   å…³é—­ serivce mysql stop
 
    
-13 mysqlµÄubuntu°²×°   
+13 mysqlçš„ubuntuå®‰è£…   
  
 	 1. mysql-common 
-javascript:sohuHD.searchKey('·®Ê¤ÃÀ',null,null);
+javascript:sohuHD.searchKey('æ¨Šèƒœç¾',null,null);
 	2. libmysqlclient20
 
 	3. libmysqlclient-dev
@@ -158,14 +158,14 @@ javascript:sohuHD.searchKey('·®Ê¤ÃÀ',null,null);
 
 	8. mysql-community-server
 
-	 //´ËÊ±»áÓöµ½ libmecab2 ¿ÉÒÔ³¢ÊÔÊ¹ÓÃÒÔÏÂ ¸üĞÂ Èç¹û²»ĞĞÔò È¥¹È¸èÏÂÔØ amd64Î»µÄ ÀûÓÃ dpkg -i °²×°
+	 //æ­¤æ—¶ä¼šé‡åˆ° libmecab2 å¯ä»¥å°è¯•ä½¿ç”¨ä»¥ä¸‹ æ›´æ–° å¦‚æœä¸è¡Œåˆ™ å»è°·æ­Œä¸‹è½½ amd64ä½çš„ åˆ©ç”¨ dpkg -i å®‰è£…
  
  
-	  ¸üĞÂÉèÖÃµ½×îĞÂÏµÍ³£º
+	  æ›´æ–°è®¾ç½®åˆ°æœ€æ–°ç³»ç»Ÿï¼š
 	sudo apt-get update
 	sudo apt-get upgrade
 	apt-get install libaio1
 	
 	
-14 °Ñ·À»ğÇ½¹Øµô service iptables stop	
+14 æŠŠé˜²ç«å¢™å…³æ‰ service iptables stop	
 	  

@@ -1,0 +1,8 @@
+User-agent: *
+Disallow: /static/
+
+User-agent: *
+Disallow: /src/
+
+User-agent: *
+Disallow: /test/

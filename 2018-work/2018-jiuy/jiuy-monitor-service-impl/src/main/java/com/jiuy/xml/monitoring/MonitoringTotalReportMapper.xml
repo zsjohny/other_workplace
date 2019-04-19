@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" > 
+<mapper namespace="com.jiuy.mapper.monitoring.MonitoringTotalReportMapper"> 
+    <resultMap id="BaseResultMap" type="com.jiuy.model.monitoring.MonitoringTotalReport"   >
+        <id   column="id"  property="id" jdbcType="BIGINT" />
+        <result column="open_app_count"  property="openAppCount"  jdbcType="BIGINT" />
+        <result column="open_app_device_count"  property="openAppDeviceCount"  jdbcType="BIGINT" />
+        <result column="page_query_count"  property="pageQueryCount"  jdbcType="BIGINT" />
+        <result column="app_stay_avg"  property="appStayAvg"  jdbcType="BIGINT" />
+        <result column="page_query_avg"  property="pageQueryAvg"  jdbcType="BIGINT" />
+        <result column="report_time"  property="reportTime"  jdbcType="TIMESTAMP" />
+        <result column="app_stay_time_count"  property="appStayTimeCount"  jdbcType="BIGINT" />
+        <result column="last_report_time"  property="lastReportTime"  jdbcType="TIMESTAMP" />
+        <result column="report_day"  property="reportDay"  jdbcType="DATE" />
+    </resultMap>
+
+     <sql id="Base_Column_List" >
+        id,open_app_count,open_app_device_count,page_query_count,app_stay_avg,page_query_avg,report_time,app_stay_time_count,last_report_time,
+        report_day
+    </sql>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap"  parameterType="java.lang.Long"   >
+        select
+                <include refid="Base_Column_List" />
+        from yjj_monitoring_total_report
+        where  id = #{id,jdbcType=BIGINT} 
+    </select>
+
+    <delete id="deleteByPrimaryKey"   parameterType="java.lang.Long"   >
+        delete from yjj_monitoring_total_report
+        where  id = #{id,jdbcType=BIGINT} 
+    </delete>
+
+    <insert id="insert"   parameterType="com.jiuy.model.monitoring.MonitoringTotalReport"   >
+        insert into yjj_monitoring_total_report
+                (id,open_app_count,open_app_device_count,page_query_count,app_stay_avg,page_query_avg,report_time,app_stay_time_count,last_report_time,
+        report_day)
+        values(#{id,jdbcType=BIGINT},#{openAppCount,jdbcType=BIGINT},#{openAppDeviceCount,jdbcType=BIGINT},#{pageQueryCount,jdbcType=BIGINT},#{appStayAvg,jdbcType=BIGINT},#{pageQueryAvg,jdbcType=BIGINT},#{reportTime,jdbcType=TIMESTAMP},#{appStayTimeCount,jdbcType=BIGINT},#{lastReportTime,jdbcType=TIMESTAMP},
+                  #{reportDay,jdbcType=DATE})
+    </insert>
+
+    <insert id="insertBach"   parameterType="List"  >
+        insert into yjj_monitoring_total_report
+                 (id,open_app_count,open_app_device_count,page_query_count,app_stay_avg,page_query_avg,report_time,app_stay_time_count,last_report_time,
+        report_day)
+        values 
+                 <foreach collection="list" item="item" separator=",">
+                 (
+                     #{item.id,jdbcType=BIGINT},
+                     #{item.openAppCount,jdbcType=BIGINT},
+                     #{item.openAppDeviceCount,jdbcType=BIGINT},
+                     #{item.pageQueryCount,jdbcType=BIGINT},
+                     #{item.appStayAvg,jdbcType=BIGINT},
+                     #{item.pageQueryAvg,jdbcType=BIGINT},
+                     #{item.reportTime,jdbcType=TIMESTAMP},
+                     #{item.appStayTimeCount,jdbcType=BIGINT},
+                     #{item.lastReportTime,jdbcType=TIMESTAMP},
+                     #{item.reportDay,jdbcType=DATE}
+                  )
+                 </foreach>
+    </insert>
+    <insert id="insertSelective"   parameterType="com.jiuy.model.monitoring.MonitoringTotalReport"  useGeneratedKeys="true"  keyProperty="id" >
+        insert into yjj_monitoring_total_report
+       <trim prefix="(" suffix=")" suffixOverrides="," >  
+              <if test="id  !=null">  
+                   id,
+              </if>
+              <if test="openAppCount  !=null">  
+                   open_app_count,
+              </if>
+              <if test="openAppDeviceCount  !=null">  
+                   open_app_device_count,
+              </if>
+              <if test="pageQueryCount  !=null">  
+                   page_query_count,
+              </if>
+              <if test="appStayAvg  !=null">  
+                   app_stay_avg,
+              </if>
+              <if test="pageQueryAvg  !=null">  
+                   page_query_avg,
+              </if>
+              <if test="reportTime  !=null">  
+                   report_time,
+              </if>
+              <if test="appStayTimeCount  !=null">  
+                   app_stay_time_count,
+              </if>
+              <if test="lastReportTime  !=null">  
+                   last_report_time,
+              </if>
+              <if test="reportDay  !=null">  
+                   report_day
+              </if>
+       </trim> 
+       <trim prefix="values (" suffix=")" suffixOverrides="," >
+              <if test="id  !=null">  
+                   #{id,jdbcType=BIGINT},
+              </if>
+              <if test="openAppCount  !=null">  
+                   #{openAppCount,jdbcType=BIGINT},
+              </if>
+              <if test="openAppDeviceCount  !=null">  
+                   #{openAppDeviceCount,jdbcType=BIGINT},
+              </if>
+              <if test="pageQueryCount  !=null">  
+                   #{pageQueryCount,jdbcType=BIGINT},
+              </if>
+              <if test="appStayAvg  !=null">  
+                   #{appStayAvg,jdbcType=BIGINT},
+              </if>
+              <if test="pageQueryAvg  !=null">  
+                   #{pageQueryAvg,jdbcType=BIGINT},
+              </if>
+              <if test="reportTime  !=null">  
+                   #{reportTime,jdbcType=TIMESTAMP},
+              </if>
+              <if test="appStayTimeCount  !=null">  
+                   #{appStayTimeCount,jdbcType=BIGINT},
+              </if>
+              <if test="lastReportTime  !=null">  
+                   #{lastReportTime,jdbcType=TIMESTAMP},
+              </if>
+              <if test="reportDay  !=null">  
+                   #{reportDay,jdbcType=DATE}
+              </if>
+       </trim> 
+    </insert> 
+
+    <update id="updateByPrimaryKeySelective"   parameterType="com.jiuy.model.monitoring.MonitoringTotalReport"   >
+        update yjj_monitoring_total_report
+             <set> 
+              <if test="id  !=null">  
+                   id  = #{id,jdbcType=BIGINT},
+              </if>
+              <if test="openAppCount  !=null">  
+                   open_app_count  = #{openAppCount,jdbcType=BIGINT},
+              </if>
+              <if test="openAppDeviceCount  !=null">  
+                   open_app_device_count  = #{openAppDeviceCount,jdbcType=BIGINT},
+              </if>
+              <if test="pageQueryCount  !=null">  
+                   page_query_count  = #{pageQueryCount,jdbcType=BIGINT},
+              </if>
+              <if test="appStayAvg  !=null">  
+                   app_stay_avg  = #{appStayAvg,jdbcType=BIGINT},
+              </if>
+              <if test="pageQueryAvg  !=null">  
+                   page_query_avg  = #{pageQueryAvg,jdbcType=BIGINT},
+              </if>
+              <if test="reportTime  !=null">  
+                   report_time  = #{reportTime,jdbcType=TIMESTAMP},
+              </if>
+              <if test="appStayTimeCount  !=null">  
+                   app_stay_time_count  = #{appStayTimeCount,jdbcType=BIGINT},
+              </if>
+              <if test="lastReportTime  !=null">  
+                   last_report_time  = #{lastReportTime,jdbcType=TIMESTAMP},
+              </if>
+              <if test="reportDay  !=null">  
+                   report_day  = #{reportDay,jdbcType=DATE}
+              </if>
+       </set> 
+       where id = #{id,jdbcType=BIGINT} 
+    </update> 
+
+    <update id="updateByPrimaryKey"   parameterType="com.jiuy.model.monitoring.MonitoringTotalReport"   >
+        update yjj_monitoring_total_report  set  
+                   id  = #{id,jdbcType=BIGINT},
+                   open_app_count  = #{openAppCount,jdbcType=BIGINT},
+                   open_app_device_count  = #{openAppDeviceCount,jdbcType=BIGINT},
+                   page_query_count  = #{pageQueryCount,jdbcType=BIGINT},
+                   app_stay_avg  = #{appStayAvg,jdbcType=BIGINT},
+                   page_query_avg  = #{pageQueryAvg,jdbcType=BIGINT},
+                   report_time  = #{reportTime,jdbcType=TIMESTAMP},
+                   app_stay_time_count  = #{appStayTimeCount,jdbcType=BIGINT},
+                   last_report_time  = #{lastReportTime,jdbcType=TIMESTAMP},
+                   report_day  = #{reportDay,jdbcType=DATE}
+       where id = #{id,jdbcType=BIGINT} 
+    </update> 
+
+    <sql id="whereCase"  >
+         where  1=1  
+        <if test="id !=null">  
+         AND id  = #{id,jdbcType=BIGINT}
+        </if>
+        <if test="openAppCount !=null">  
+         AND open_app_count  = #{openAppCount,jdbcType=BIGINT}
+        </if>
+        <if test="openAppDeviceCount !=null">  
+         AND open_app_device_count  = #{openAppDeviceCount,jdbcType=BIGINT}
+        </if>
+        <if test="pageQueryCount !=null">  
+         AND page_query_count  = #{pageQueryCount,jdbcType=BIGINT}
+        </if>
+        <if test="appStayAvg !=null">  
+         AND app_stay_avg  = #{appStayAvg,jdbcType=BIGINT}
+        </if>
+        <if test="pageQueryAvg !=null">  
+         AND page_query_avg  = #{pageQueryAvg,jdbcType=BIGINT}
+        </if>
+        <if test="reportTime !=null">  
+         AND report_time  = #{reportTime,jdbcType=TIMESTAMP}
+        </if>
+        <if test="appStayTimeCount !=null">  
+         AND app_stay_time_count  = #{appStayTimeCount,jdbcType=BIGINT}
+        </if>
+        <if test="lastReportTime !=null">  
+         AND last_report_time  = #{lastReportTime,jdbcType=TIMESTAMP}
+        </if>
+        <if test="reportDay !=null">  
+         AND report_day  = #{reportDay,jdbcType=DATE}
+        </if>
+        <include refid="costomWhereCase"/>
+    </sql> 
+
+    <select id="selectOne" parameterType="java.util.Map" resultMap="BaseResultMap">
+         SELECT
+         <include refid="Base_Column_List" /> 
+         FROM yjj_monitoring_total_report 
+         <include refid="whereCase" /> 
+    </select>
+
+    <select id="selectList" parameterType="java.util.Map" resultMap="BaseResultMap">
+         SELECT
+         <include refid="Base_Column_List" /> 
+         FROM yjj_monitoring_total_report 
+         <include refid="whereCase" /> 
+    </select>
+
+    <select id="selectCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+         SELECT
+         count(1) 
+         FROM yjj_monitoring_total_report 
+         <include refid="whereCase" /> 
+    </select>
+
+<!--  @Costom -->
+<!-- 从上一行注释以上为系统生成 从这一行往下为用户自定义 请将自定义的sql放在此行下面 -->
+
+    <sql id="costomWhereCase">
+        <if test="beginDate !=null">
+            AND to_days(report_day) &gt;= to_days(#{beginDate})
+        </if>
+        <if test="endDate !=null">
+            AND to_days(report_day) &lt;= to_days(#{endDate})
+        </if>
+    </sql>
+    
+    <select id="oneDayPVTotal" resultType="java.lang.Long">
+    	select ifnull(SUM(page_pv),0)  from yjj_monitoring_page_report where TO_DAYS(report_day) = TO_DAYS(#{date})
+    </select>
+    
+    <delete id ="delteOneDayReport">
+      DELETE from yjj_monitoring_total_report where TO_DAYS(report_day) = TO_DAYS(#{date});
+    </delete>
+
+    <select id="sumTotalReport" resultMap="BaseResultMap">
+        SELECT
+            t.*, t.app_stay_time_count / t.open_app_count AS app_stay_avg,
+                 t.page_query_count / t.open_app_count as  page_query_avg
+        FROM
+            (
+                SELECT
+                    SUM(open_app_count) AS open_app_count,
+                    -- 打开总数
+                    sum(open_app_device_count) AS open_app_device_count,
+                    -- 单独设备打开总数
+                    SUM(page_query_count) AS page_query_count,
+                    -- 页面请求总数
+                    SUM(app_stay_time_count) AS app_stay_time_count
+                -- 页面停留总数
+                FROM
+                    yjj_monitoring_total_report
+                    where 1=1
+                    <if test="beginDate !=null">
+                        AND to_days(report_day) &gt;= to_days(#{beginDate})
+                    </if>
+                    <if test="endDate !=null">
+                        AND to_days(report_day) &lt;= to_days(#{endDate})
+                    </if>
+        ) AS t
+    </select>
+</mapper>

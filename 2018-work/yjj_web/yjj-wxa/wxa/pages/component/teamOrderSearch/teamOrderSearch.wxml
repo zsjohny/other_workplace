@@ -1,0 +1,60 @@
+<view class="container body-contain">
+  <view class="scroll-box">
+    <!-- 搜索框 -->
+    <view class='search-box'>
+      <input type="number" bindinput="searchSeekInput" focus="true" placeholder="请在这里搜索你要找的订单编号" class='search-input' value="{{keyword}}" bindblur="searchBlur" bindfocus='searchFocus' bindconfirm="searchFunc" maxlength='20' />
+      <view class='clear-btnT'>
+        <view class='clear-btn' bindtap='clearKeyword' wx:if="{{clearShow}}"></view>
+      </view>
+      <view class='cancel-btn' bindtap='backPrevPage'  wx:if="{{searchBtn}}">取消</view>
+      <view class='cancel-btn' bindtap='searchFunc' wx:else>搜索</view>
+    </view>
+    <view class="scroll-main">
+      <view wx:if="{{orderShow}}">
+        <view>
+          <view class='search-late'>历史搜索</view>
+          <view class='search-new'>
+            <block wx:for="{{ keywordList }}" wx:for-index="index" wx:for-item="item" wx:key="">
+                <view bindtap='keywordBtnSearch' data-id='{{item.index}}' class='keywordItem' data-value='{{item}}'>{{item}}</view>
+            </block>
+          </view>
+          <view class='search-clear' bindtap='searchClear'>清除历史记录</view>
+        </view>
+      </view>
+      <!--商品列表-->
+      <view class="product-box other-product-box" wx:else>
+        <view wx:if="{{orderList.length > 0}}" class="orderList"  wx:for="{{orderList}}" data-select="{{item.orderNumber}}" bindtap="goDetail">
+            <view class="orderNo">
+              <text>订单编号: {{item.orderNumber}}</text>
+              <block>
+                  <text wx:if="{{item.orderStatus == 0}}" class="orderStatus">待付款</text>
+                  <text wx:if="{{item.orderStatus == 1}}" class="orderStatus">待提货</text>
+                  <text wx:if="{{item.orderStatus == 2}}" class="orderStatus">退款中</text>
+                  <text wx:if="{{item.orderStatus == 3}}" class="orderStatus">订单关闭</text>
+                  <text wx:if="{{item.orderStatus == 4}}" class="orderStatus">交易成功</text>
+                  <text wx:if="{{item.orderStatus == 5}}" class="orderStatus">待发货</text>
+                  <text wx:if="{{item.orderStatus == 6}}" class="orderStatus">已发货</text>
+              </block>
+            </view>
+            <view class="goodsWrap" >
+                <text class="orderMoney">￥{{item.orderMoney}}</text>
+                <view class="priceWrap">
+                    <view class="price">金币收益{{item.totalGoldCoin}}/<text class="reward">金额收益￥{{item.totalCash}}</text></view>
+                    <text>下单人: {{item.userNickname}}</text>
+                </view>
+            </view>
+        </view>
+        <view wx:if="{{orderList.length <= 0}}" class="no-product">未找到相关商品</view>
+      </view>
+      <!--上拉加载更多-->
+      <view class="more-load2">
+        <!--底部加载loadding-->
+        <view wx:if="{{ hasMore }}" class="go-loading more-loading">
+            <view class="loading-mod"></view>
+            <text class="tx">正在载入中…</text>
+        </view>
+        <view wx:if="{{ moreOver }}" class="tips2"><text>已经显示全部</text></view>
+      </view>
+    </view> <!--scroll-main end-->
+  </view>
+</view>

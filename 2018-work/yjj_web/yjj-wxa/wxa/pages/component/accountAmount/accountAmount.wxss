@@ -1,0 +1,270 @@
+/**账户金额 **/
+.body-contain{
+  padding-bottom: 50rpx;
+}
+.account-head,
+.swiper-box{
+  width: 742rpx;
+  height: 420rpx;
+}
+.account-head{
+  margin: 20rpx auto 0;
+  color: #fff;
+}
+.swiper-box .item{
+  width: 742rpx;
+  height: 378rpx;
+  background: url(http://mini-img-main.oss-cn-hangzhou.aliyuncs.com/icon/new/account-bg1.png) no-repeat;
+  background-size: 742rpx;
+}
+.swiper-box .item2{
+  background: url(http://mini-img-main.oss-cn-hangzhou.aliyuncs.com/icon/new/account-bg2.png) no-repeat;
+  background-size: 742rpx;
+}
+.swiper-box .item .dl-head{
+  width: 604rpx;
+  height: 200rpx;
+  border-bottom: 2rpx solid rgba(255, 255, 255, 0.3);
+  margin: 0 auto;
+  text-align: center;
+}
+.swiper-box .item .dl-head .dt{
+  width: 180rpx;
+  font-size: 28rpx;
+  position: relative;
+  margin: 0 auto;
+  padding-top: 46rpx;
+}
+.swiper-box .item .dl-head .dt::after{
+  content: '';
+  position: absolute;
+  left: 180rpx;
+  top: 46rpx;
+  width: 44rpx;
+  height: 44rpx;
+  background: url(http://mini-img-main.oss-cn-hangzhou.aliyuncs.com/icon/new/qustion-icon.png) no-repeat;
+  background-size: 44rpx;
+}
+.swiper-box .item .dl-head .dd{
+  font-size: 56rpx;
+  margin-top: 10rpx;
+}
+.swiper-box .item .dl-head1 .dt::after{
+  background: none;
+}
+.swiper-box .item .dl-list{
+  width: 675rpx;
+  height: 74rpx;
+  margin: 36rpx auto 0;
+  display: -webkit-flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-size: 30rpx;
+}
+.swiper-box .item .dl-list .dd{
+  width: 225rpx;
+  border-right: 2rpx solid rgba(255, 255, 255, 0.3);
+}
+.swiper-box .item .dl-list .dd:last-child{
+  border-right: none;
+}
+.swiper-box .item .dl-list .tit{
+  font-size: 20rpx;
+  color: rgba(255, 255, 255, 0.8);
+}
+.swiper-box .item .dl-list .num{
+  padding-top: 10rpx;
+}
+/*面板指示点修改*/
+.swiper-box .wx-swiper-dots.wx-swiper-dots-horizontal{
+  margin-bottom: 0rpx;
+}
+.swiper-box .wx-swiper-dot{
+  width: 66rpx;
+  display: inline-flex;
+  height: 5rpx; 
+  margin-left: 36rpx;
+  justify-content:space-between;
+}
+.swiper-box .wx-swiper-dot::before{
+  content: '';
+  flex-grow: 1;  
+  background: #d26dd2;
+  border-radius: 2rpx
+}
+.swiper-box .wx-swiper-dot-active::before{
+  background:#6448e8;    
+}
+/*账户收支列表*/
+.account-list{
+  width: 702rpx;
+  margin: 0 auto;
+  font-size: 28rpx;
+  padding-bottom: 10rpx;
+}
+.account-list .list-head{
+  height: 55rpx;
+  line-height: 55rpx;
+  font-size: 26rpx;
+  position: relative;
+}
+.account-list .list-head .th1{
+  position: relative;
+  padding-left: 30rpx;
+}
+.account-list .list-head .th1::before{
+  content: '';
+  position: absolute;
+  top: 9rpx;
+  left:0;
+  width: 10rpx;
+  height: 36rpx;
+  background: #fe28ab;
+  border-radius: 4rpx;
+}
+.account-list .list-head .th2{
+  position: absolute;
+  right: 0;
+  top: 6rpx;
+  width: 44rpx;
+  height: 44rpx;
+  background: url(http://mini-img-main.oss-cn-hangzhou.aliyuncs.com/icon/new/account-filter.png) no-repeat;
+  background-size: 44rpx;
+}
+.account-list .tr{
+  height: 142rpx;
+  border-bottom: 2rpx solid #eee;
+  display: -webkit-flex;
+  align-items: center;
+}
+/*红色*/
+.account-list .tr .icon{
+  width: 85rpx;
+  height: 85rpx;
+  background: url(http://mini-img-main.oss-cn-hangzhou.aliyuncs.com/icon/new/coin-icon1.png) no-repeat;
+  background-size: 85rpx;
+  color: #fff;
+  margin:4rpx 24rpx 0 0;
+  text-align: center;
+  line-height: 80rpx;
+}
+/*黄色*/
+.account-list .tr .icon1{
+  background: url(http://mini-img-main.oss-cn-hangzhou.aliyuncs.com/icon/new/coin-icon2.png) no-repeat;
+  background-size: 85rpx;
+}
+/*绿色*/
+.account-list .tr .icon2{
+  background: url(http://mini-img-main.oss-cn-hangzhou.aliyuncs.com/icon/new/coin-icon3.png) no-repeat;
+  background-size: 85rpx;
+}
+.account-list .tr .info .name{
+  font-size: 26rpx;
+}
+.account-list .tr .info .time,
+.account-list .tr .info .balance{
+  color: rgba(107, 107, 107, 0.8);
+  font-size: 24rpx;
+}
+.account-list .tr .info .time,
+.account-list .tr .info .gain{
+  padding-top: 10rpx;
+}
+.account-list .tr .info{
+  width: 352rpx;
+}
+.account-list .tr .info1{
+  width: 240rpx;
+  text-align: right;
+}
+.account-list .tr .info .gain{
+  color: #fd4374;
+  font-size: 28rpx;
+}
+/*筛选弹窗*/
+.show{
+  display: block!important;
+}
+.hide{
+  display: none!important;
+}
+.filter-bg,
+.filter-container{
+  width:100%; 
+  position:fixed; 
+  left:0; 
+  z-index:9999;
+}
+.filter-bg{
+  height:100%; 
+  top:0; 
+  z-index:10000; 
+  background:rgba(0, 0, 0, 0.7);
+  display: none;
+}
+.filter-container{
+  height:auto; 
+  background:#fff; 
+  bottom:-3000rpx; 
+  z-index:10010; 
+  padding-bottom: 120rpx;
+}
+.ui-format{
+  height: auto;
+  overflow: hidden;
+  margin: 20rpx 24rpx 5rpx;
+  font-size: 24rpx;
+}
+.ui-format .format-title{
+  color: #9a9a9a;
+}
+.ui-format .format-box{
+  height: auto;
+  overflow: hidden;
+  margin-top: 20rpx;
+}
+.ui-format .format-box .item{
+  width: 203rpx;
+  float: left;
+  height: 56rpx;
+  text-align: center;
+  line-height: 56rpx;
+  margin: 0 40rpx 28rpx 0;
+  background: #fff;
+  border-radius: 6rpx;
+  border: 2rpx solid #bfbfbf;
+  color: #6b6b6b;
+}
+.ui-format .format-box .item:nth-child(3n){
+  margin-right: 0;
+}
+.ui-format .format-box .cur{
+  border: 2rpx solid #fd4374;
+  color: #fd4374;
+}
+.filter-container .btn-box{
+  width: 100%;
+  height: 96rpx;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  z-index: 12000;
+  display: -webkit-flex;
+  font-size: 30rpx;
+  line-height: 96rpx;
+  text-align: center;
+  color: #fff;
+}
+.filter-container .btn-box .close-btn{
+  width: 30%;
+  background:#feb4c7;
+}
+.filter-container .btn-box .confirm-btn{
+  width: 70%;
+  background:#fd4374;
+}
+/*无记录*/
+.no-record-box{
+  padding-top: 100rpx!important;
+}

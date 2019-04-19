@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.store.dao.mapper.HomeFloorVOMapper">
+
+
+	<select id="getHomeFloors187" resultType="HomeFloorVOShop">
+	<![CDATA[
+		select a.*, b.Content, b.Name as TemplateName from yjj_HomeFloor a, yjj_HomeTemplate b
+		where a.HomeTemplateId = b.Id  and a.status = 0 and a.Type = #{type}
+		
+		order by a.Weight desc
+		]]>
+		<if test="pageQuery != null">
+			limit #{pageQuery.limit} offset #{pageQuery.offset}
+		</if>
+	</select>
+
+	
+	<select id="getStoreProductNum" resultType="int">
+	    <![CDATA[
+	    SELECT count(1) FROM shop_product where status = 0 and store_id = #{storeId}
+		]]>
+	</select>
+		<!-- SELECT ifnull(sum(BuyCount),0) BuyCount FROM store_OrderItem where orderno in (SELECT orderNo FROM store_Order where storeId = #{storeId} and  OrderStatus in (10,50,70))  -->
+		
+	<select id="getStoreProductValue" resultType="int">
+	    <![CDATA[
+			SELECT ifnull(sum(totalPay),0) FROM store_Order where storeId = #{storeId} and  OrderStatus in (10,50,70)
+		]]>
+	</select>
+	
+	<select id="getStoreFavoriteToday" resultType="int">
+	    <![CDATA[
+		select count(1) from shop_member_favorite where store_id = #{storeId} and type = #{type} and create_time >= #{startTime}
+		]]>
+	</select>
+	
+	<select id="getStorePVCountToday" resultType="int">
+	    <![CDATA[
+			select count(1) from shop_member_visit where store_id = #{storeId}  and create_time >= #{startTime}
+			   
+		]]>
+	</select>
+	
+	<select id="getStoreMemberTotal" resultType="int">
+	    <![CDATA[
+			SELECT count(1) FROM shop_member where store_id = #{storeId}
+		]]>
+	</select>
+	
+	<select id="getStoreFavoriteMonth" resultType="int">
+	    <![CDATA[
+		SELECT ifnull(sum(collection_count),0) pv_count FROM shop_member_day_report where store_id = #{storeId} and create_time >= #{startTime}
+		]]>
+	</select>
+	
+	<select id="getStorePVMonth" resultType="int">
+	    <![CDATA[
+		
+		SELECT ifnull(sum(pv_count),0) pv_count FROM shop_member_day_report where store_id= #{storeId} and  create_time >= #{startTime}
+		]]>
+	</select>
+	
+	<select id="getStorePVTotal" resultType="int">
+	    <![CDATA[
+		
+		SELECT ifnull(sum(pv_count),0) pv_count FROM shop_member_day_report where store_id = #{storeId} 
+		]]>
+	</select>
+	
+	<select id="getHomeFloorCount187" resultType="int">
+	 	select count(1) from yjj_HomeFloor a, yjj_HomeTemplate b
+		where a.HomeTemplateId = b.Id and a.PublishStatus = 1 and a.status = 0 and a.Type = #{type} and RelatedId = #{relatedId} and b.Name like '模板8-%' and a.IsShow = 0
+	</select>
+
+	<select id="getHomeFloors188" resultType="HomeFloorVOShop">
+		select a.*, b.Content, b.Name as TemplateName from yjj_HomeFloor a, yjj_HomeTemplate b
+		where a.HomeTemplateId = b.Id and a.PublishStatus = 1 and a.status = 0 and a.Type = #{type} and RelatedId = #{relatedId} and b.Name like '模板8-%' and a.IsShow = 0
+		order by a.Weight desc
+		<if test="pageQuery!=null">
+			limit #{pageQuery.limit} offset #{pageQuery.offset}
+		</if>
+	</select>
+	
+	<select id="getHomeFloorTemplate" resultType="ShopHomeTemplate">
+		SELECT * FROM yjj_HomeTemplate 
+		WHERE id=#{id}
+	</select>
+</mapper>

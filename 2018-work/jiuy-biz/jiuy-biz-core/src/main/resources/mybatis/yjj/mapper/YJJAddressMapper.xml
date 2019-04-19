@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yujj.dao.mapper.AddressMapper">
+	<select id="loadAddressList" resultType="Address">
+		<![CDATA[
+			select * from yjj_Address
+			where UserId = #{userId} and Status = 0
+		]]>
+	</select>
+	
+	<insert id="addAddress" useGeneratedKeys="true" keyProperty="addrId">
+		<![CDATA[
+			insert into yjj_Address
+			(UserId, ReceiverName, ProvinceName, CityName, DistrictName, AddrDetail, MailCode, Telephone, FixPhone, AddrFull, Status, IsDefault, CreateTime, UpdateTime)
+			VALUES
+			(#{userId}, #{receiverName}, #{provinceName}, #{cityName}, #{districtName}, #{addrDetail}, #{mailCode}, #{telephone}, #{fixPhone}, #{addrFull}, #{status}, #{isDefault}, #{createTime}, #{updateTime})
+		]]>
+    </insert>
+    
+    <select id="getUserAddress" resultType="Address">
+		<![CDATA[
+			select * from yjj_Address
+			where UserId = #{userId} and AddrId = #{addressId} and Status = 0
+		]]>
+	</select>
+	
+	<update id="removeAddress">
+		<![CDATA[
+			update yjj_Address
+			set Status = -1
+			where UserId = #{userId} and AddrId = #{addressId}
+		]]>
+	</update>
+	
+	<update id="removeDefaultAddress">
+		<![CDATA[
+			update yjj_Address
+			set IsDefault = 0
+			where UserId = #{userId}
+		]]>
+	</update>
+	
+	<update id="setDefaultAddress" parameterType="map">
+		<![CDATA[
+			update yjj_Address
+			set IsDefault = 1
+			where UserId = #{userId} and AddrId = #{addressId}
+		]]>
+	</update>
+	
+	<update id="updateAddress" parameterType="map">
+		<![CDATA[
+			update yjj_Address
+			set ReceiverName = #{address.receiverName}, ProvinceName = #{address.provinceName}, CityName = #{address.cityName}, DistrictName = #{address.districtName}, AddrDetail = #{address.addrDetail}, MailCode = #{address.mailCode}, Telephone = #{address.telephone}, FixPhone = #{address.fixPhone}, AddrFull = #{address.addrFull}, IsDefault = #{address.isDefault}, UpdateTime = #{address.updateTime}
+			where AddrId = #{address.addrId} and UserId = #{userId}
+		]]>
+	</update>
+</mapper>

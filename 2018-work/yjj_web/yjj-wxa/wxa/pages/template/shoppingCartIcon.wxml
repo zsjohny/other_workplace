@@ -1,0 +1,4 @@
+<!--客服按钮-->
+<template name="shoppingCartIcon">
+  <view class='shopping-cart' bindtap='gotoShoppingCart'></view>
+</template>

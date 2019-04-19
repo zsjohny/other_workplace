@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.jiuyuan.dao.mapper.dynamicproperty.DynamicPropertyProductMapper">
+
+
+	<select id="getDynaPropAndValue" resultType="map">
+		SELECT
+		ydpp.dyna_prop_id dynaPropId,
+		ydp.`name` dynaPropName,
+		GROUP_CONCAT(ydpp.dyna_prop_value) as value
+		FROM
+		yjj_dynamic_property_product ydpp,
+		yjj_dynamic_property_value ydpv,
+		yjj_dynamic_property ydp
+		WHERE
+		ydpp.product_id =#{productId}
+		AND
+		ydpp.dyna_prop_id = ydp.id
+		AND ydpv.dyna_prop_id = ydp.id
+		AND
+		ydpp.dyna_prop_value_id = ydpv.id
+		AND ydp.status = 1
+		AND ydpv.status = 1
+		group BY ydpp.dyna_prop_id
+	</select>
+
+	<select id="show" resultType="map">
+		SELECT dyna_prop_value_id from yjj_dynamic_property_product where
+		dyna_prop_value_id in(
+		select id from yjj_dynamic_property_value where dyna_prop_id in (
+		select dyna_prop_id from yjj_dynamic_property_product where dyna_prop_id in(
+		select dyna_prop_id from yjj_dynamic_property_category where
+		dyna_prop_id in(select id from yjj_dynamic_property where status =1)
+		and `status`=1) and product_id=#{productId} ) and `status`=1) and
+		product_id=#{productId}
+	</select>
+</mapper>

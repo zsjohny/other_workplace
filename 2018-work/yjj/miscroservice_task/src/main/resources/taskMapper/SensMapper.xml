@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.e_commerce.miscroservice.task.mapper.SensWordMapper">
+
+
+	<select id="findAll" resultType="java.lang.String">
+		SELECT `value` FROM `t_sens_word`;
+	</select>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+

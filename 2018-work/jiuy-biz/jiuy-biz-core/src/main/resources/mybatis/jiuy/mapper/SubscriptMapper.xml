@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jiuy.core.dao.impl.sql.SubscriptDaoSqlImpl">
+
+	<!-- 插入 -->
+	<insert id="addSubscript" useGeneratedKeys="true" keyProperty="id" parameterType="Subscript">
+		INSERT INTO yjj_Subscript(Name, Logo, ProductSum, Description, Status, CreateTime, UpdateTime)
+		VALUES (#{name}, #{logo}, #{productSum}, #{description}, #{status}, #{createTime}, #{updateTime})
+	</insert>
+	
+	<!-- 获得所有Status=0的角标 -->
+	<select id="getSubscripts" resultType="Subscript">
+		SELECT
+			*
+		FROM
+			yjj_Subscript
+		WHERE
+			Status = 0;
+	</select>
+	
+	<!-- 修改对应id的角标 -->
+	<update id="updateSubscript" parameterType="Subscript">
+		UPDATE
+			yjj_Subscript
+		SET
+			Name = #{name}, Logo = #{logo}, Description = #{description},
+			Status = #{status}, UpdateTime = #{updateTime}
+		WHERE
+			Id = #{id}
+	</update>
+	
+	<!-- 删除所有的角标 -->
+	<update id="removeAll" parameterType="int">
+		
+	</update>
+	
+	<!-- 删除角标 -->
+	<update id="remove" parameterType="Long">
+		UPDATE yjj_Subscript
+		SET Status = -1
+		<where>
+			Id in
+			<foreach collection="ids" item="id" open="(" separator="," close=")">
+				#{id}
+			</foreach>
+		</where>
+	</update>
+	
+	<!-- 批量物理删除 -->
+	<delete id="deleteByIds" parameterType="list">
+        DELETE FROM
+        yjj_Subscript
+        WHERE
+        id IN
+        <foreach collection="array" index="index" item="id" open="("
+                 separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+	
+	<!-- 根据id查询 -->
+	<select id="getById" parameterType="int" resultType="Subscript">
+		SELECT	*
+		FROM	yjj_Subscript
+		WHERE	Status = 0 AND Id = #{id}
+	</select>
+	
+	<!-- 根据名称查询id -->
+	<select id="getIdByName" parameterType="String" resultType="int">
+		SELECT	Id
+		FROM	yjj_Subscript
+		WHERE	Status = 0 AND Name = #{name}
+	</select>
+	
+	<!-- 模糊查询 -->
+	<select id="search" parameterType="map" resultType="Subscript">
+		SELECT *
+		FROM yjj_Subscript
+		
+		<where>
+			yjj_Subscript.Status = 0
+			<if test="productId != null">
+				AND Id = (select yjj_Product.SubscriptId from  yjj_Product where yjj_Product.id = #{productId})
+			</if>
+			<if test="name != null">
+				AND (yjj_Subscript.Name like concat ("%",#{name},"%"))
+			</if>
+			<if test="description != null">
+				AND (yjj_Subscript.Description like concat ("%",#{description},"%"))
+			</if>
+		</where>
+		<if test="pageQuery != null">
+			limit #{pageQuery.limit} offset #{pageQuery.offset}
+		</if>
+	</select>
+	
+	<update id="updateProductSum" parameterType="map">
+		UPDATE yjj_Subscript
+		SET
+			ProductSum = #{productSum}
+		WHERE
+			Id = #{id}
+	</update>
+	
+	<select id="searchCount" parameterType="map" resultType="int">
+		SELECT 
+			COUNT(*)
+		FROM 
+			yjj_Subscript
+		WHERE 
+			Status = 0 
+			<if test="productId != null">
+				AND Id = (select yjj_Product.SubscriptId from  yjj_Product where yjj_Product.id = #{productId})
+			</if>
+			<if test="name != null">
+				AND (Name like concat ("%",#{name},"%"))
+			</if>
+			<if test="description != null">
+				AND (Description like concat ("%",#{description},"%"))
+			</if>
+	</select>
+	
+	<!-- 获得所有角标个数 -->
+	<select id="searchAllCount" parameterType="map" resultType="int">
+		SELECT 
+			COUNT(*)
+		FROM 
+			yjj_Subscript
+		WHERE 
+			Status = 0 
+	</select>
+
+</mapper>

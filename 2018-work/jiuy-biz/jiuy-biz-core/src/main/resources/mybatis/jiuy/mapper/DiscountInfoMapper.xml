@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jiuy.core.dao.impl.sql.DiscountInfoDaoSqlImpl">
+    
+    <sql id="listDiscount">
+        <foreach collection="collection" item="item" open="(" separator="," close=")">
+            #{item.type}, #{item.relatedId}, #{item.isDiscount}, #{item.full}, 
+            #{item.minus}, #{item.status}, #{currentTime}, #{currentTime}
+        </foreach>
+    </sql>
+    
+	<insert id="batchAdd" useGeneratedKeys="true" keyProperty="id">
+	    insert into yjj_DiscountInfo(Type, RelatedId, Full, Minus, Status, CreateTime, UpdateTime)
+	    values 
+		<foreach collection="collection" item="item" open="(" separator="),(" close=")">
+            #{item.type}, #{item.relatedId}, #{item.full}, 
+            #{item.minus}, #{item.status}, #{currentTime}, #{currentTime}
+        </foreach>
+        
+	    <![CDATA[
+         ON DUPLICATE KEY UPDATE Type = VALUES(Type), RelatedId = VALUES(RelatedId), Full = VALUES(Full), 
+         	Minus = VALUES(Minus), Status = 0, UpdateTime=UNIX_TIMESTAMP(now())*1000
+        ]]>
+	</insert>
+	
+	<update id="delete" parameterType="map">
+		update yjj_DiscountInfo
+		set Status = -1, UpdateTime = #{currentTime}
+		where Type = #{type} and RelatedId = #{relatedId}
+	</update>
+	
+	<select id="getDiscount" resultType="DiscountInfo">
+		select * from yjj_DiscountInfo
+		where Status = 0 and Type = #{type} and RelatedId = #{relatedId}
+	</select>
+	
+	<select id="discountsOfType" resultType="DiscountInfo">
+		select * from yjj_DiscountInfo
+		where Status = 0 and Type = #{type}
+		order by RelatedId asc
+	</select>
+	
+	<update id="batchDelete">
+		update yjj_DiscountInfo
+		set Status = -1
+		where 
+		<foreach collection="collection" item="item" open="(" separator=") or (" close=")">
+			Type = #{item.type} and RelatedId = #{item.relatedId}
+		</foreach>
+	</update>
+	
+	<select id="itemsOfRelatedIdType" resultType="DiscountInfo">
+		select * from yjj_DiscountInfo
+		where Status = 0 and Type = #{type} and RelatedId in
+		<foreach collection="relatedIds" item="relatedId" open="(" separator="," close=")">
+			#{relatedId}
+		</foreach>
+	</select>
+</mapper>

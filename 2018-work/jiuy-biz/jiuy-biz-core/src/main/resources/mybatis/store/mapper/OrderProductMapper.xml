@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.store.dao.mapper.OrderProductMapper">
+
+	<insert id="insertOrderProduct" parameterType="map">
+		<![CDATA[
+			insert into store_OrderProduct(StoreId, ProductId, OrderNo, TotalMoney, Money, BuyCount, Status, CreateTime, UpdateTime, BrandId, WarehouseId,TotalMarketPrice, MarketPrice, Commission, TotalCommission, Image, BrandLogo)
+			values
+		]]>
+		<foreach collection="orderProductList" item="product" open="(" separator="),(" close=")">
+			<![CDATA[
+				 #{product.storeId}, #{product.productId}, #{product.orderNo}, #{product.totalMoney}, #{product.money}, #{product.buyCount}, 0, #{product.createTime}, #{product.updateTime}, 
+				 #{product.brandId}, #{product.warehouseId}, #{product.totalMarketPrice}, #{product.marketPrice}, 
+				 #{product.commission}, #{product.totalCommission}, #{product.image}, #{product.brandLogo}
+			]]>
+		</foreach>
+	</insert>
+	
+	<select id="getOrderProductsByOrderNoBatch" parameterType="map" resultType="orderProduct">
+		<![CDATA[
+			select * from store_OrderProduct 
+			where OrderNo in
+			]]>
+			<foreach collection="orderNoList" item="orderNo" open="(" separator="," close=")">
+			<![CDATA[
+				 #{orderNo}
+			]]>
+			</foreach>
+			<if test="storeId > 0">
+				 and StoreId = #{storeId} 
+			</if>
+			<![CDATA[
+		 	order by WarehouseId
+			]]>
+	</select>
+		
+	<select id="getProductsByOrderNoBatch" parameterType="map" resultType="product">
+		<![CDATA[
+			select * from yjj_Product where id in ( select productId from store_OrderProduct 
+			where StoreId = #{storeId} and OrderNo in
+			]]>
+			<foreach collection="orderNoList" item="orderNo" open="(" separator="," close=")">
+			<![CDATA[
+				 #{orderNo}
+			]]>
+			</foreach>
+			<![CDATA[
+		 	)
+			]]>
+	</select>
+</mapper>

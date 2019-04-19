@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+	<title>我的收入</title>
+	<meta name="description" content="">
+	<meta name="keywords" content="">
+    <script src="js/adaptation.js"></script>
+	<link type="text/css" rel="stylesheet" href="css/base.css">
+	<link type="text/css" rel="stylesheet" href="css/common.css">
+</head>
+<body>
+    <div class="container income-container">
+        <div id="income-header">
+            
+        </div><!-- income-wrap end -->
+        <!-- 奖金动态 -->
+        <div class="income-list">
+            <div class="title">奖金动态</div>
+            <ul id="income-list"></ul>
+        </div>
+        <a href="myBonus.html" class="more-income">更多</a>
+    </div><!-- container end -->
+    <!-- income-header 模板 -->
+    <script type="text/html" id="template-head">
+        <div class="income-head">
+            <div class="title">昨日总收入</div>
+            <div class="number">+<span>{{yesterdayIncome.yesterdayAllIncome}}</span></div>
+        </div>
+        <div class="income-box">       
+            <ul class="ui-list">
+                <li>
+                    <p class="text">昨日注册收入</p>
+                    <p class="number">{{yesterdayIncome.yesterdayRegisterIncome}}元</p>
+                </li>
+                <li>
+                    <p class="text">昨日激活收入</p>
+                    <p class="number">{{yesterdayIncome.yesterdayActivationIncome}}元</p>
+                </li>
+                <li>
+                    <p class="text">昨日成交收入</p>
+                    <p class="number">{{yesterdayIncome.yesterdayDealIncome}}元</p>
+                </li>
+            </ul>
+            <div class="income-balance"><p>余额</p><p id="balance-number"><span>{{balance.balanceAll}}</span>元</p></div>
+        </div>
+        <div class="income-section">
+              <ul>
+                <li>
+                    <div class="vertical-center">
+                        <p class="text">待入账金额</p>
+                        <p class="number">{{balance.balanceToBeCredited}}元</p>
+                    </div>
+                </li>
+                <li>
+                    <div class="vertical-center">
+                        <p class="text">已入账金额</p>
+                        <p class="number">{{balance.balanceCredited}}元</p>
+                        {{if isCityManager == 1}}
+                            <a class="applyCash-btn" href="withdrawalsRecord.html">提现</a>
+                        {{/if}}
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <!-- 历史收入 -->
+        <div class="history-income">
+            <div class="box">
+                 <div class="income-balance">
+                     <p>历史收入累计</p>
+                     <p id="history-number"><span>{{historyIncome.historyIncomeAll}}</span>元</p>
+                 </div>
+            </div>
+            <ul class="ui-list history-list">
+                <li>
+                    <p class="text">注册收入累计</p>
+                    <p class="number">{{historyIncome.registerIncomeAll}}元</p>
+                </li>
+                <li>
+                    <p class="text">激活收入累计</p>
+                    <p class="number">{{historyIncome.activationIncomeAll}}元</p>
+                </li>
+                <li>
+                    <p class="text">成交收入累计</p>
+                    <p class="number">{{historyIncome.dealIncomeAll}}元</p>
+                </li>
+            </ul>
+        </div>
+    </script>
+    <!-- 奖金动态列表模板 -->
+    <script type="text/html" id="template-list">
+        {{if bonusList.length > 0}}
+            {{each bonusList as value}}
+                <li>
+                    <div class="date-title">{{value.time}}<span>{{value.name}}</span></div>
+                    <div class="income"><span><i class="number">+{{value.incomeMoney}}</i>元</span></div>
+                    <div class="info">
+                        <span>注册奖:<i class="number">{{value.registerPersonCount}}</i>个</span>/
+                        <span>激活奖:<i class="number">{{value.activationPersonCount}}</i>个</span>/
+                        <span>成交奖:<i class="number">{{value.dealPersonCount}}</i>个</span>
+                    </div>
+                </li>
+            {{/each}}  
+        {{else}} 
+            <li class="no-record">无相关记录</li>
+        {{/if}}
+    </script>
+    <script type="text/javascript" src="js/jquery-3.0.0.min.js"></script>
+    <script type="text/javascript" src="js/template.js"></script>
+    <script type="text/javascript" src="js/common.js"></script>
+    <script type="text/javascript">
+        $(function(){
+            //我的收入
+        	function initIncomeData(){
+        		var loginUrl = "login.html?origin=myIncome.html";
+        		$.ajax({
+                    url : "/myInfo/getMyIncome.json",
+                    type : "GET",
+                    dataType : "json",
+                    async:false,
+                    success : function(res){
+                        console.log(res);
+                        if (res.successful) {
+                            //我的收入
+                            var headHtml = template("template-head",res.data);
+                            $("#income-header").html(headHtml);
+                            //奖金列表动态
+                            var modHtml = template("template-list",res.data);
+                            $("#income-list").html(modHtml);
+                        }else{
+                            //未登录时，跳转至登录页面
+                            if(res.code =="-999"){
+                                window.location.href = loginUrl;
+                            }else{
+                                //没修改初始密码时,跳转至修改密码页面
+                                if(res.code =="-809"){
+                                    var btnHTML = "<a class='true' href='/static/modifyPassword.html?origin=myIncome.html'>确定</a>";
+                                     var closeUrl = "modifyPassword.html?origin=myIncome.html";
+                                    comfirmBoxLink("show",res.error,btnHTML,closeUrl);
+                                }else{
+                                    comfirmBox("show",res.error,1);
+                                }
+                            }
+                        }
+                    }
+                });
+        	}
+            initIncomeData();
+        })
+    </script>
+</body>
+</html>

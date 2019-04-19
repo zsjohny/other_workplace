@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yujj.dao.mapper.StatisticsMapper">
+
+	<update id="updateUserClick">
+		update yjj_Statistics
+		set UserClick = UserClick + 1
+		where Id = #{id}
+	</update>
+	
+	<update id="updateUnKnownClick">
+		update yjj_Statistics
+		set UnknownClick = UnknownClick + 1
+		where Id = #{id}
+	</update>
+	
+	<update id="batchUpdateOrderCount">
+	<![CDATA[
+		update yjj_Statistics
+		set RelatedOrderCount = RelatedOrderCount + 1
+		where Id in 
+		]]>
+		<foreach collection="idSet" item="id" open="(" separator="," close=")">
+		<![CDATA[
+				#{id}
+				]]>	
+			</foreach>
+	</update>
+
+</mapper>

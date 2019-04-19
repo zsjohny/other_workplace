@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jiuyuan.dao.mapper.supplier.BrandMapper">
+
+	<select id="getBrands" resultType="com.store.entity.Brand">
+	<![CDATA[
+		select * from yjj_Brand
+	]]>
+	</select>
+
+	<select id="getBrandListShow"  resultType="com.jiuyuan.entity.BrandVO">
+	 <![CDATA[
+		select b.*,
+		s.product_permission as productPermission,
+ 		CASE 	when sc.group_id in (s.product_permission ) then  1 end as product_permission 
+		from yjj_Brand b LEFT JOIN supplier_user s ON b.BrandId = s.brand_id LEFT JOIN supplier_customer sc on sc.supplier_id = s.id and sc.store_id = #{userId}
+		
+		where b.Status = 0 and brandId in (SELECT DISTINCT brandId FROM yjj_ProductSKU a WHERE 
+    a.Status > -1 AND (a.SaleEndTime = 0 OR a.SaleEndTime >= UNIX_TIMESTAMP() * 1000
+    ) AND a.SaleStartTime < UNIX_TIMESTAMP()*1000)
+		]]>
+		<if test="brandType != -1">
+			<![CDATA[
+				and brand_type =#{brandType}
+			]]>
+		</if>
+		<if test="searchBrand != null">
+			<![CDATA[
+				and BrandName like CONCAT('%',#{searchBrand},'%') 
+			]]>
+		</if>
+		<if test="type == 0">
+			<![CDATA[
+				order by 
+		product_permission DESC, (select IFNULL(sum(BuyCount),0) from store_OrderItem where BrandId = b.brandId and orderNo in (select orderNo from store_Order where OrderStatus in (10,50,70))) DESC,Weight desc
+			]]>
+		</if>
+		<if test="type == 1">
+			<![CDATA[
+				order by product_permission DESC,weight desc
+			]]>
+		</if>
+		<if test="type == 2">
+-- 				AND b.brandId in (SELECT RelatedId FROM store_UserVisitHistory WHERE TYPE = 1 AND userId =#{userId})
+-- 				order by product_permission DESC,(select IFNULL(max(updateTime),0) from store_UserVisitHistory where RelatedId = b.brandId and type = 1 and userId =#{userId} ) DESC,Weight desc
+			order by product_permission DESC,weight desc
+		</if>
+		<if test="type == 3">
+			<![CDATA[
+				AND b.brandId in (SELECT BrandId FROM store_OrderItem WHERE StoreId =#{userId}) 
+				order by product_permission DESC,(select IFNULL(max(createTime),0) from store_OrderItem where BrandId = b.brandId and StoreId  = #{userId} ) DESC,Weight desc
+
+			]]>
+		</if>
+		<![CDATA[ limit #{pageQuery.limit} offset #{pageQuery.offset}]]>
+	</select>
+	<select id="getBrandListShowHistory" resultType="com.jiuyuan.entity.BrandVO">
+		<![CDATA[
+		select b.*,
+		s.product_permission as productPermission,
+ 		CASE 	when sc.group_id in (s.product_permission ) then  1 end as product_permission
+		from yjj_Brand b LEFT JOIN supplier_user s ON b.BrandId = s.brand_id LEFT JOIN supplier_customer sc on sc.supplier_id = s.id and sc.store_id = #{userId}
+
+		where b.Status = 0 and brandId in (SELECT DISTINCT brandId FROM yjj_ProductSKU a WHERE
+    a.Status > -1 AND (a.SaleEndTime = 0 OR a.SaleEndTime >= UNIX_TIMESTAMP() * 1000
+    ) AND a.SaleStartTime < UNIX_TIMESTAMP()*1000)
+		]]>
+		<![CDATA[ limit #{pageQuery.limit} offset #{pageQuery.offset}]]>
+	</select>
+
+	<select id="getBrand" resultType="com.store.entity.Brand">
+	<![CDATA[
+		select * from yjj_Brand where BrandId=#{brandId}
+	]]>
+	</select>
+
+	<select id="getBrandLogos" resultType="com.jiuyuan.entity.brand.BrandLogo">
+		SELECT
+		*
+		FROM
+		yjj_Brand
+		WHERE
+		Status = 0 order by id desc
+	</select>
+
+</mapper>

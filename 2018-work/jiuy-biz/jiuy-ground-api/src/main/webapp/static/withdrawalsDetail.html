@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+	<title>提现申请详情</title>
+	<meta name="description" content="">
+	<meta name="keywords" content="">
+    <script src="js/adaptation.js"></script>
+	<link type="text/css" rel="stylesheet" href="css/base.css">
+	<link type="text/css" rel="stylesheet" href="css/common.css">
+</head>
+<body>
+    <div class="withdraw-detail">
+    	<ul id="detail-box">
+           
+        </ul>
+    </div>
+    <script type="text/html" id="template-mod">
+        <li class="item">
+            <span class="left-item">申请单号：</span>
+            <span>{{withdrawalNumber}}</span>
+        </li>
+         <li class="item">
+            <span class="left-item">状态：</span>
+            <span>{{status}}</span>
+        </li>  
+        <li class="item">
+            <span class="left-item">提现金额：</span>
+            <span>{{withdrawalMoney}}元</span>
+        </li>  
+        {{if dealType}} 
+         <li class="item">
+            <span class="left-item">交易方式：</span>
+            <span>{{dealType}}</span>
+        </li> 
+        {{/if}}
+        {{if dealNumber}} 
+        <li class="item">
+            <span class="left-item">交易编号：</span>
+            <span>{{dealNumber}}</span>
+        </li> 
+        {{/if}}
+        {{if finishTime}} 
+        <li class="item">
+            <span class="left-item">完成时间：</span>
+            <span>{{finishTime}}</span>
+        </li>  
+        {{/if}}
+        <li class="item">
+            <span class="left-item">申请时间：</span>
+            <span>{{withdrawalTime}}</span>
+        </li>
+        {{if remark}}
+        <li class="item">
+            <span class="left-item">备注：</span>
+            <span>{{remark}}</span>
+        </li> 
+        {{/if}}      
+    </script>
+    <script type="text/javascript" src="js/jquery-3.0.0.min.js"></script>
+    <script type="text/javascript" src="js/template.js"></script>
+    <script type="text/javascript" src="js/common.js"></script>
+    <script type="text/javascript">
+        function initData(withdrawId){
+            var sendData = {
+                groundWithdrawCashRecordId:withdrawId
+            };
+            $.ajax({
+                url:'/myInfo/getMyWithdrawalInfo.json',
+                type : "GET",
+                dataType : "json",
+                async:false,
+                data:sendData,
+                success:function(res){
+                    console.log(res);
+                    var data = res.data;
+                    if (res.successful) {
+                        var modHtml = template("template-mod",res.data);
+                        $("#detail-box").html(modHtml);
+                    }else{
+                        //未登录是跳转至登录页面
+                        if(res.code == "-999"){
+                            window.location.href = 'login.html?origin=withdrawalsRecord.html';
+                        }else{
+                            //没修改初始密码时,跳转至修改密码页面
+                            if(res.code =="-809"){
+                                var btnHTML = "<a class='true' href='/static/modifyPassword.html?origin=withdrawalsRecord.html&withdrawId="+withdrawId+"'>确定</a>";
+                                var closeUrl = "modifyPassword.html?origin=withdrawalsRecord.html&withdrawId="+withdrawId+"";
+                                comfirmBoxLink("show",res.error,btnHTML,closeUrl);
+                            }else{
+                                comfirmBox("show",res.error,1);
+                            }
+                        }
+                    }
+                }
+            })
+        }
+    	$(function(){
+            var withdrawId = getUrlParam("withdrawId");
+            //localStorage.setItem("navFlag",getUrlParam("navFlag"));
+            initData(withdrawId)
+        })
+    </script>
+</body>
+</html>

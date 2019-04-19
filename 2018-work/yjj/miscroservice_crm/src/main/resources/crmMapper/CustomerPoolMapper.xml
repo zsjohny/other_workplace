@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.e_commerce.miscroservice.crm.mapper.CustomerPoolMapper">
+
+    <resultMap id="BaseResult" type="com.e_commerce.miscroservice.crm.po.CustomerPoolPO">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="user_id" property="userId" jdbcType="BIGINT"/>
+        <result column="business_name" property="businessName" jdbcType="VARCHAR"/>
+        <result column="artificial_person_name" property="artificialPersonName" jdbcType="VARCHAR"/>
+        <result column="business_licence" property="businessLicence" jdbcType="VARCHAR"/>
+        <result column="business_url" property="businessUrl" jdbcType="VARCHAR"/>
+        <result column="position" property="position" jdbcType="VARCHAR"/>
+        <result column="customer_source" property="customerSource" jdbcType="VARCHAR"/>
+        <result column="customer_grade" property="customerGrade" jdbcType="VARCHAR"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="phone" property="phone" jdbcType="VARCHAR"/>
+        <result column="province" property="province" jdbcType="VARCHAR"/>
+        <result column="city" property="city" jdbcType="VARCHAR"/>
+        <result column="district" property="district" jdbcType="VARCHAR"/>
+        <result column="profession" property="profession" jdbcType="VARCHAR"/>
+        <result column="main_business" property="mainBusiness" jdbcType="VARCHAR"/>
+        <result column="type" property="type" jdbcType="INTEGER"/>
+        <result column="del_state" property="delState" jdbcType="INTEGER"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="baseSql">
+        a.id,
+        a.user_id,
+        a.business_name,
+        a.artificial_person_name,
+        a.business_licence,
+        a.business_url,
+        a.position,
+        a.customer_source,
+        a.customer_grade,
+        a.name,
+        a.phone,
+        a.province,
+        a.city,
+        a.district,
+        a.profession,
+        a.main_business,
+        a.type,
+        a.del_state,
+        a.create_time,
+        a.update_time
+    </sql>
+    <!--添加 公海池 添加用户-->
+    <insert id="addCustomer" parameterType="com.e_commerce.miscroservice.crm.entity.request.CustomerPoolAddRequest">
+        insert into yjj_customer_pool
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="request.userId != null and request.userId != '' ">
+                user_id,
+            </if>
+            <if test="request.businessName != null and request.businessName != '' ">
+                business_name,
+            </if>
+            <if test="request.artificialPersonName != null and request.artificialPersonName != '' ">
+                artificial_person_name,
+            </if>
+            <if test="request.businessLicence != null and request.businessLicence != '' ">
+                business_licence,
+            </if>
+            <if test="request.businessUrl != null and request.businessUrl != '' ">
+                business_url,
+            </if>
+            <if test="request.position != null and request.position != '' ">
+                `position`,
+            </if>
+            <if test="request.customerSource != null and request.customerSource != '' ">
+                customer_source,
+            </if>
+            <if test="request.customerGrade != null and request.customerGrade != '' ">
+                customer_grade,
+            </if>
+            <if test="request.name != null and request.name != '' ">
+                `name`,
+            </if>
+            <if test="request.phone != null and request.phone != '' ">
+                phone,
+            </if>
+            <if test="request.province != null and request.province != '' ">
+               province,
+            </if>
+            <if test="request.city != null and request.city != '' ">
+                city,
+            </if>
+            <if test="request.district != null and request.district != '' ">
+                district,
+            </if>
+            <if test="request.profession != null and request.profession != '' ">
+                profession,
+            </if>
+            <if test="request.mainBusiness != null and request.mainBusiness != '' ">
+                main_business,
+            </if>
+            <if test="request.type != null and request.type != '' ">
+                `type`,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+
+            <if test="request.userId != null and request.userId != '' ">
+                #{request.userId},
+            </if>
+            <if test="request.businessName != null and request.businessName != '' ">
+                #{request.businessName},
+            </if>
+            <if test="request.artificialPersonName != null and request.artificialPersonName != '' ">
+                #{request.artificialPersonName},
+            </if>
+            <if test="request.businessLicence != null and request.businessLicence != '' ">
+                #{request.businessLicence},
+            </if>
+            <if test="request.businessUrl != null and request.businessUrl != '' ">
+                #{request.businessUrl},
+            </if>
+            <if test="request.position != null and request.position != '' ">
+                #{request.position},
+            </if>
+            <if test="request.customerSource != null and request.customerSource != '' ">
+                #{request.customerSource},
+            </if>
+            <if test="request.customerGrade != null and request.customerGrade != '' ">
+                #{request.customerGrade},
+            </if>
+            <if test="request.name != null and request.name != '' ">
+                #{request.name},
+            </if>
+            <if test="request.phone != null and request.phone != '' ">
+                #{request.phone},
+            </if>
+            <if test="request.province != null and request.province != '' ">
+                #{request.province},
+            </if>
+            <if test="request.city != null and request.city != '' ">
+                #{request.city},
+            </if>
+            <if test="request.district != null and request.district != '' ">
+                #{request.district},
+            </if>
+            <if test="request.profession != null and request.profession != '' ">
+                #{request.profession},
+            </if>
+            <if test="request.mainBusiness != null and request.mainBusiness != '' ">
+                #{request.mainBusiness},
+            </if>
+            <if test="request.type != null and request.type != '' ">
+                #{request.type},
+            </if>
+
+        </trim>
+    </insert>
+    <!--list 添加公海池用户-->
+    <insert id="addCustomerList" parameterType="java.util.List">
+        insert into yjj_customer_pool
+        (
+        `user_id`,
+        `business_name`,
+        `artificial_person_name`,
+        `business_licence`,
+        `business_url`,
+        `position`,
+        `customer_source`,
+        `customer_grade`,
+        `name`,
+        `phone`,
+        `province`,
+        `city`,
+        `district`,
+        `profession`,
+        `main_business`,
+        `type`,
+        `belonger`,
+        `lastest_record`
+        )
+        values
+        <foreach collection="list" index="index" item="request" separator="," >
+            (
+            #{request.userId},
+            #{request.businessName},
+            #{request.artificialPersonName},
+            #{request.businessLicence},
+            #{request.businessUrl},
+            #{request.position},
+            #{request.customerSource},
+            #{request.customerGrade},
+            #{request.name},
+            #{request.phone},
+            #{request.province},
+            #{request.city},
+            #{request.district},
+            #{request.profession},
+            #{request.mainBusiness},
+            #{request.type},
+            #{request.belonger},
+            #{request.lastestRecord}
+            )
+        </foreach>
+    </insert>
+    <!--查询所有公海池用户-客户管理-->
+    <select id="findAllCustomerPool" resultType="com.e_commerce.miscroservice.crm.entity.response.CustomerPoolResponse">
+        select
+          a.*,a.create_time as `time`
+        from
+        yjj_customer_pool a
+        <trim prefixOverrides="and|or" prefix="Where">
+            <if test="request.name!=null">
+                and a.name = #{request.name}
+            </if>
+            <if test="request.phone!=null">
+                and a.phone = #{request.phone}
+            </if>
+            <if test="request.province!=null">
+                and a.province = #{request.province}
+            </if>
+            <if test="request.city!=null">
+                and a.city = #{request.city}
+            </if>
+            <if test="request.district!=null">
+                and a.district = #{request.district}
+            </if>
+            <if test="request.timeStart!=null">
+                and  <![CDATA[
+                a.create_time >=#{request.timeStart}
+                ]]>]
+            </if>
+            <if test="request.timeEnd!=null">
+                and  <![CDATA[
+                a.create_time >=#{request.timeEnd}
+                ]]>]
+            </if>
+            <if test="request.type!=null">
+                and a.type = #{request.type}
+            </if>
+            <if test="request.belonger!=null">
+                and a.belonger = #{request.belonger}
+            </if>
+            <if test="request.userId!=null">
+                and a.user_id= #{request.userId}
+            </if>
+        </trim>
+    </select>
+    <select id="findCustomerListByPhone" resultType="com.e_commerce.miscroservice.crm.po.CustomerPoolPO">
+        select * from yjj_customer_pool
+        where
+        phone IN
+        <foreach collection="list" item="item" index="index"
+                 open="(" close=")" separator=",">
+            #{item.phone}
+        </foreach>
+    </select>
+    <select id="findCustomerListByIds" resultType="com.e_commerce.miscroservice.crm.po.CustomerPoolPO">
+        select * from yjj_customer_pool
+        where
+        `type`=#{type}
+        and
+        id IN
+        <foreach collection="array" item="ids" index="index"
+                 open="(" close=")" separator=",">
+            #{ids}
+        </foreach>
+    </select>
+    <update id="updateCustomers">
+        update yjj_customer_pool
+        set user_id = #{userId} ,`type` = #{type} where id in
+        <foreach collection="array" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
+
+</mapper>
+
+
+
+
+
+
+
+
+
+
+

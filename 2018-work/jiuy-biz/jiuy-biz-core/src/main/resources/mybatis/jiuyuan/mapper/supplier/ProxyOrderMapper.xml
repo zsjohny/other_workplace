@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jiuyuan.dao.mapper.supplier.ProxyOrderMapper">
+
+
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.jiuyuan.entity.newentity.ProxyOrder">
+		<id column="id" property="id" />
+		<result column="proxy_order_no" property="proxyOrderNo" />
+		<result column="order_state" property="orderState" />
+		<result column="apply_full_name" property="applyFullName" />
+		<result column="apply_phone" property="applyPhone" />
+		<result column="proxy_product_id" property="proxyProductId" />
+		<result column="proxy_product_name" property="proxyProductName" />
+		<result column="proxy_product_count" property="proxyProductCount" />
+		<result column="proxy_user_id" property="proxyUserId" />
+		<result column="proxy_user_no" property="proxyUserNo" />
+		<result column="update_time" property="updateTime" />
+		<result column="create_time" property="createTime" />
+	</resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, proxy_order_no AS proxyOrderNo, order_state AS orderState, apply_full_name AS applyFullName, apply_phone AS applyPhone, proxy_product_id AS proxyProductId, proxy_product_name AS proxyProductName, proxy_product_count AS proxyProductCount, proxy_user_id AS proxyUserId, proxy_user_no AS proxyUserNo, update_time AS updateTime, create_time AS createTime
+    </sql>
+    
+    <select id="getSaleTotalCount" resultType="java.lang.Integer">
+      SELECT IFNULL(SUM(a.proxy_product_count),0) 
+      FROM wxaproxy_order a JOIN wxaproxy_user b
+      ON a.proxy_user_id = b.id
+      <where>
+         b.roleid >= 6
+         AND a.order_state = 2
+         <if test="proxyUserNum != ''">
+            AND b.proxy_user_num LIKE CONCAT('%',#{proxyUserNum},'%') 
+         </if>
+         <if test="proxyUserName != ''">
+            AND b.proxy_user_name LIKE CONCAT('%',#{proxyUserName},'%')
+         </if>
+         <if test="proxyUserFullName != ''">
+            AND b.proxy_user_full_name LIKE CONCAT('%',#{proxyUserFullName},'%')
+         </if>
+         <if test="proxyUserPhone != ''">
+            AND b.proxy_user_phone LIKE CONCAT('%',#{proxyUserPhone},'%')
+         </if>
+         <if test="idCardNo != ''">
+            AND b.id_card_no LIKE CONCAT('%',#{idCardNo},'%')
+         </if>
+         <if test="proxyState != -1">
+            AND b.status = #{proxyState}
+         </if>
+      
+      </where>
+      
+    </select>
+
+</mapper>

@@ -1,0 +1,8 @@
+
+<!--公告模块-->
+<template name="smartNotice">
+  <view class="shop-notice" wx:if="{{noticeData != '' && noticeData != null}}">
+      <view class="icon"></view>
+      <view class="text">{{ noticeData }}</view>
+  </view>
+</template>

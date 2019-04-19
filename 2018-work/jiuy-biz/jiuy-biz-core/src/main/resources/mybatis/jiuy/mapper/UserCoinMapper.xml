@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jiuy.core.dao.impl.sql.UserCoinDaoSqlImpl">
+	
+	<resultMap type="com.jiuy.core.dao.impl.sql.UserCoinLogDaoSqlImpl" id="userCoinMap">
+	</resultMap>
+	
+	<select id="selectUserCoin" resultType="UserCoin">
+		<![CDATA[
+			select * from yjj_UserCoin
+			where UserId = #{userId}
+		]]>
+	</select>
+
+    <insert id="addUserCoin" useGeneratedKeys="true" keyProperty="id">
+		<![CDATA[
+			insert into yjj_UserCoin
+			(UserId, AvalCoins, UnavalCoins, CreateTime, UpdateTime)
+			values
+			(#{userCoin.userId}, #{userCoin.avalCoins}, #{userCoin.unavalCoins}, #{userCoin.createTime}, #{userCoin.updateTime})
+		]]>
+	</insert>
+	
+	<update id="updateUserCoin" parameterType="map">
+		<![CDATA[
+			update yjj_UserCoin
+			set AvalCoins = #{newAvalCoins}, UnavalCoins = #{newUnavalCoins}, UpdateTime = #{time}
+			where UserId = #{userId} and AvalCoins = #{oldAvalCoins} and UnavalCoins = #{oldUnavalCoins}
+		]]>
+	</update>
+	
+	<insert id="addAndUpdateUserCoin" useGeneratedKeys="true" keyProperty="id">
+		Insert into yjj_UserCoin (UserId, AvalCoins, UnavalCoins, UnReadCount, CreateTime, UpdateTime)
+		values 
+		<foreach collection="userIds" item="userId" separator=",">
+			(#{userId},#{avalCoins},#{increaseCoins},1,#{time},#{time}) 
+		</foreach>
+		<![CDATA[
+            ON DUPLICATE KEY UPDATE UnavalCoins = UnavalCoins + #{increaseCoins}, UnReadCount = UnReadCount + 1, UpdateTime = #{time}
+        ]]>
+	</insert>
+	
+	<select id="getTotalUserCoin" resultType="Integer">
+		<![CDATA[
+			select sum(NewUnavalCoins - OldUnavalCoins) from yjj_UserCoinLog
+			where UserId = #{userId} and CreateTime >= #{startTime} and CreateTime < #{endTime}
+		]]>
+		<if test="operation != null">
+			<![CDATA[
+				and Operation = #{operation}
+			]]>
+		</if>
+	</select>
+
+</mapper>

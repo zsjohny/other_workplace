@@ -1,0 +1,61 @@
+<!--我的颜值分-->
+<view class='body-contain'>
+  <view class="mycoin-head">
+    <view class='head-link' bindtap='gotoMyCoinDetail'>
+      <view class='coin-number'>{{aliveCoins}}</view>
+      <view class='coin-money'>等值于<text class='count'>{{aliveCoinsMoney}}</text>元</view>
+    </view>
+    <view class='share-rule' bindtap='gotoShareRule'>邀请规则</view>
+  </view>
+  <view class='mycoin-list'>
+    <view class="item" bindtap="gotoMyCoinDetail">
+      <view class="icon icon1"></view>
+      <text class="name">颜值分明细</text>
+      <view class="text">支出<text>{{allOutCoins}}</text>，收入<text>{{allInCoins}}</text></view>
+      <view class="arrow"></view>
+    </view>
+    <view class="item" bindtap="gotoMyShare">
+      <view class="icon icon2"></view>
+      <text class="name">我的粉丝</text>
+      <view class="text">{{getLastShareFriendData}}</view>
+      <view class="arrow"></view>
+    </view>
+    <view class="item" bindtap="gotoWithdrawCash">
+      <view class="icon icon3"></view>
+      <text class="name">立即提现</text>
+      <view class="text">不单单是提现，还可以消费</view>
+      <view class="arrow"></view>
+    </view>
+  </view>
+  <!-- mycoin-list end -->
+  <view class="mycoin-box">
+    <view class='title'>
+      <view class="icon"></view>
+      <view class="name">分享赚钱<text class="text">——让你赚到手抽筋</text></view>
+    </view>
+    <view class='product-list'>
+      <block wx:for="{{productData}}" wx:key="{{id}}">
+        <view class='item'>
+          <image class='product-img' mode="aspectFit" data-id="{{item.id}}" bindtap='gotoProductDetail' src='{{item.summaryImages}}'></image>
+          <view class='product-title text-margin'>{{item.name}}</view>
+          <view class='product-price text-margin'>¥{{item.price}}<text class='gray'>/</text><text class='ft-red'>收入{{item.commission}}元</text></view>
+          <!-- <view class='sales-number gray text-margin'>销量：466554件</view> -->
+          <button class='share-btn' open-type="share" data-price="{{item.price}}" data-id="{{item.id}}" data-title="{{item.name}}" data-img="{{item.summaryImages}}" data-activitytype='{{item.activityType}}'>去分享</button>
+        </view>
+      </block> 
+    </view>
+    <!-- product-list end -->
+    <!--上拉加载更多,底部加载loadding-->
+    <view class="more-load2">
+      <view wx:if="{{ hasMore }}" class="go-loading more-loading">
+        <view class="loading-mod"></view>
+        <text class="tx">加载中…</text> 
+      </view>
+      <view wx:if="{{ moreOver }}" class="tips2"><text>没多久，就触达底线了！</text></view>
+    </view>
+  </view>
+  <!-- mycoin-box end -->
+</view>
+<!--回到顶部-->
+<import src="../../template/backTop.wxml" />
+<template is="backTop" data="{{goTopShowState}}" />

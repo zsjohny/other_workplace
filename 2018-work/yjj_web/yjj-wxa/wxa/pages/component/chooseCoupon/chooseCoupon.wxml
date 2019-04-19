@@ -1,0 +1,31 @@
+<!--选择优惠券-->
+<view class="mycoupon-box">
+  <!-- 可用 -->
+  <view class="usable-box">
+    <view class="mycoupon-list">
+      <block wx:for="{{ couponData }}" wx:key="{{ item }}">
+        <view  class="item {{ chooseState ? 'active' : '' }}" bindtap="chooseCoupon" data-id="{{ item.id }}" data-money="{{ item.money }}" data-name="{{ item.name }}" data-type="{{ item.couponType }}" data-discount="{{ item.discount }}">
+          <view class="money" wx:if="{{item.couponType == 2}}"><text>{{ item.discount }}折</text></view>
+          <view class="money" wx:else>￥<text>{{ item.money }}元</text></view>
+          <view class="des">
+              <view class="ct">{{ item.limitText }}</view>
+              <view class="ct">{{ item.name  }}</view>
+          </view>
+          <view class="time">
+              <view>使用有效期</view> <text>{{ item.validityStartTime }}至{{ item.validityEndTime }}</text>
+          </view>
+        </view>
+      </block>
+      <!--上拉加载更多-->
+      <view class="more-load2">
+        <!--底部加载loadding-->
+        <view wx:if="{{ hasMore }}" class="go-loading more-loading">
+          <view class="loading-mod"></view>
+          <text class="tx">正在载入中…</text> 
+        </view>
+        <view wx:if="{{ moreOver }}" class="tips2"><text>已经显示全部</text></view>
+      </view>
+    </view>
+  </view>
+  <view class="ui-btn back-btn" bindtap="backFun">不使用优惠券</view>
+</view><!-- mycoupon-box end -->

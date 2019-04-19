@@ -1,0 +1,404 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" > 
+<mapper namespace="com.jiuy.product.mapper.ShopCouponTemplateMapper"> 
+ 
+ 	<!-- 主要的返回映射-->
+	<resultMap id="BaseResultMap" type="com.jiuy.product.model.ShopCouponTemplate"	>
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="store_id"  property="storeId"  jdbcType="BIGINT" />
+		<result column="name"  property="name"  jdbcType="VARCHAR" />
+		<result column="fillin_name"  property="fillinName"  jdbcType="TINYINT" />
+		<result column="money"  property="money"  jdbcType="DECIMAL" />
+		<result column="limit_money"  property="limitMoney"  jdbcType="DECIMAL" />
+		<result column="get_count"  property="getCount"  jdbcType="INTEGER" />
+		<result column="used_count"  property="usedCount"  jdbcType="INTEGER" />
+		<result column="available_count"  property="availableCount"  jdbcType="INTEGER" />
+		<result column="grant_count"  property="grantCount"  jdbcType="INTEGER" />
+		<result column="publish_count"  property="publishCount"  jdbcType="INTEGER" />
+		<result column="validity_start_time"  property="validityStartTime"  jdbcType="BIGINT" />
+		<result column="validity_end_time"  property="validityEndTime"  jdbcType="BIGINT" />
+		<result column="status"  property="status"  jdbcType="TINYINT" />
+		<result column="create_time"  property="createTime"  jdbcType="BIGINT" />
+		<result column="update_time"  property="updateTime"  jdbcType="BIGINT" />
+	</resultMap>
+
+	<!-- 所有的列名-->
+	<sql id="Base_Column_List" >
+		id,store_id,name,fillin_name,money,limit_money,get_count,used_count,available_count,
+		grant_count,publish_count,validity_start_time,validity_end_time,status,create_time,update_time
+	</sql>
+
+	<!-- 精确更新的字段-->
+	<sql id="updateBase">
+		<if test="id  !=null">
+			id = #{id,jdbcType=BIGINT}, 
+		</if>
+		<if test="storeId  !=null">
+			store_id = #{storeId,jdbcType=BIGINT}, 
+		</if>
+		<if test="name  !=null">
+			name = #{name,jdbcType=VARCHAR}, 
+		</if>
+		<if test="fillinName  !=null">
+			fillin_name = #{fillinName,jdbcType=TINYINT}, 
+		</if>
+		<if test="money  !=null">
+			money = #{money,jdbcType=DECIMAL}, 
+		</if>
+		<if test="limitMoney  !=null">
+			limit_money = #{limitMoney,jdbcType=DECIMAL}, 
+		</if>
+		<if test="getCount  !=null">
+			get_count = #{getCount,jdbcType=INTEGER}, 
+		</if>
+		<if test="usedCount  !=null">
+			used_count = #{usedCount,jdbcType=INTEGER}, 
+		</if>
+		<if test="availableCount  !=null">
+			available_count = #{availableCount,jdbcType=INTEGER}, 
+		</if>
+		<if test="grantCount  !=null">
+			grant_count = #{grantCount,jdbcType=INTEGER}, 
+		</if>
+		<if test="publishCount  !=null">
+			publish_count = #{publishCount,jdbcType=INTEGER}, 
+		</if>
+		<if test="validityStartTime  !=null">
+			validity_start_time = #{validityStartTime,jdbcType=BIGINT}, 
+		</if>
+		<if test="validityEndTime  !=null">
+			validity_end_time = #{validityEndTime,jdbcType=BIGINT}, 
+		</if>
+		<if test="status  !=null">
+			status = #{status,jdbcType=TINYINT}, 
+		</if>
+		<if test="createTime  !=null">
+			create_time = #{createTime,jdbcType=BIGINT}, 
+		</if>
+		<if test="updateTime  !=null">
+			update_time = #{updateTime,jdbcType=BIGINT} 
+		</if>
+	</sql>
+
+	<!-- 通过主键查找-->
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="Long" >
+		select 
+		<include refid="Base_Column_List" />
+		from shop_coupon_template
+		where  id = #{id,jdbcType=BIGINT} 
+	</select>
+
+	<!-- 通过主键删除-->
+	<delete id="deleteByPrimaryKey" parameterType="Long" >
+		delete from shop_coupon_template
+		where id = #{id,jdbcType=BIGINT} 
+	</delete>
+
+	<!-- 普通插入全字段插t入-->
+	<insert id="insert" parameterType="com.jiuy.product.model.ShopCouponTemplate" >
+		insert into shop_coupon_template
+		(
+			id,
+			store_id,
+			name,
+			fillin_name,
+			money,
+			limit_money,
+			get_count,
+			used_count,
+			available_count,
+			grant_count,
+			publish_count,
+			validity_start_time,
+			validity_end_time,
+			status,
+			create_time,
+			update_time
+		)
+		values
+		(
+			#{id ,jdbcType=BIGINT},
+			#{storeId ,jdbcType=BIGINT},
+			#{name ,jdbcType=VARCHAR},
+			#{fillinName ,jdbcType=TINYINT},
+			#{money ,jdbcType=DECIMAL},
+			#{limitMoney ,jdbcType=DECIMAL},
+			#{getCount ,jdbcType=INTEGER},
+			#{usedCount ,jdbcType=INTEGER},
+			#{availableCount ,jdbcType=INTEGER},
+			#{grantCount ,jdbcType=INTEGER},
+			#{publishCount ,jdbcType=INTEGER},
+			#{validityStartTime ,jdbcType=BIGINT},
+			#{validityEndTime ,jdbcType=BIGINT},
+			#{status ,jdbcType=TINYINT},
+			#{createTime ,jdbcType=BIGINT},
+			#{updateTime ,jdbcType=BIGINT}
+		)
+	</insert>
+
+	<!-- 批量插入，全部字段插入-->
+	<insert id="insertBach"   parameterType="List" >
+		insert into shop_coupon_template
+		(
+			id,
+			store_id,
+			name,
+			fillin_name,
+			money,
+			limit_money,
+			get_count,
+			used_count,
+			available_count,
+			grant_count,
+			publish_count,
+			validity_start_time,
+			validity_end_time,
+			status,
+			create_time,
+			update_time
+		)
+		values 
+		<foreach collection="list" item="item" separator=",">
+		(
+			#{item.id ,jdbcType=BIGINT},
+			#{item.storeId ,jdbcType=BIGINT},
+			#{item.name ,jdbcType=VARCHAR},
+			#{item.fillinName ,jdbcType=TINYINT},
+			#{item.money ,jdbcType=DECIMAL},
+			#{item.limitMoney ,jdbcType=DECIMAL},
+			#{item.getCount ,jdbcType=INTEGER},
+			#{item.usedCount ,jdbcType=INTEGER},
+			#{item.availableCount ,jdbcType=INTEGER},
+			#{item.grantCount ,jdbcType=INTEGER},
+			#{item.publishCount ,jdbcType=INTEGER},
+			#{item.validityStartTime ,jdbcType=BIGINT},
+			#{item.validityEndTime ,jdbcType=BIGINT},
+			#{item.status ,jdbcType=TINYINT},
+			#{item.createTime ,jdbcType=BIGINT},
+			#{item.updateTime ,jdbcType=BIGINT}
+		)
+		</foreach>
+	</insert>
+
+	<!-- 精确插入，非null得字段才会插入-->
+	<insert id="insertSelective" parameterType="com.jiuy.product.model.ShopCouponTemplate" useGeneratedKeys="true" keyProperty="id" >
+		insert into shop_coupon_template
+		<trim prefix="(" suffix=")" suffixOverrides="," > 
+			<if test="id !=null">  
+				id,
+			</if>
+			<if test="storeId !=null">  
+				store_id,
+			</if>
+			<if test="name !=null">  
+				name,
+			</if>
+			<if test="fillinName !=null">  
+				fillin_name,
+			</if>
+			<if test="money !=null">  
+				money,
+			</if>
+			<if test="limitMoney !=null">  
+				limit_money,
+			</if>
+			<if test="getCount !=null">  
+				get_count,
+			</if>
+			<if test="usedCount !=null">  
+				used_count,
+			</if>
+			<if test="availableCount !=null">  
+				available_count,
+			</if>
+			<if test="grantCount !=null">  
+				grant_count,
+			</if>
+			<if test="publishCount !=null">  
+				publish_count,
+			</if>
+			<if test="validityStartTime !=null">  
+				validity_start_time,
+			</if>
+			<if test="validityEndTime !=null">  
+				validity_end_time,
+			</if>
+			<if test="status !=null">  
+				status,
+			</if>
+			<if test="createTime !=null">  
+				create_time,
+			</if>
+			<if test="updateTime !=null">  
+				update_time,
+			</if>
+		</trim>
+
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+			<if test="id  !=null">
+				#{id,jdbcType=BIGINT}, 
+			</if>
+			<if test="storeId  !=null">
+				#{storeId,jdbcType=BIGINT}, 
+			</if>
+			<if test="name  !=null">
+				#{name,jdbcType=VARCHAR}, 
+			</if>
+			<if test="fillinName  !=null">
+				#{fillinName,jdbcType=TINYINT}, 
+			</if>
+			<if test="money  !=null">
+				#{money,jdbcType=DECIMAL}, 
+			</if>
+			<if test="limitMoney  !=null">
+				#{limitMoney,jdbcType=DECIMAL}, 
+			</if>
+			<if test="getCount  !=null">
+				#{getCount,jdbcType=INTEGER}, 
+			</if>
+			<if test="usedCount  !=null">
+				#{usedCount,jdbcType=INTEGER}, 
+			</if>
+			<if test="availableCount  !=null">
+				#{availableCount,jdbcType=INTEGER}, 
+			</if>
+			<if test="grantCount  !=null">
+				#{grantCount,jdbcType=INTEGER}, 
+			</if>
+			<if test="publishCount  !=null">
+				#{publishCount,jdbcType=INTEGER}, 
+			</if>
+			<if test="validityStartTime  !=null">
+				#{validityStartTime,jdbcType=BIGINT}, 
+			</if>
+			<if test="validityEndTime  !=null">
+				#{validityEndTime,jdbcType=BIGINT}, 
+			</if>
+			<if test="status  !=null">
+				#{status,jdbcType=TINYINT}, 
+			</if>
+			<if test="createTime  !=null">
+				#{createTime,jdbcType=BIGINT}, 
+			</if>
+			<if test="updateTime  !=null">
+				#{updateTime,jdbcType=BIGINT} 
+			</if>
+		</trim>
+	</insert> 
+
+	<!-- 精确更新-->
+	<update id="updateByPrimaryKeySelective" parameterType="com.jiuy.product.model.ShopCouponTemplate" >
+		update shop_coupon_template
+		<set>
+			<include refid="updateBase"/>
+		</set>
+		where id = #{id,jdbcType=BIGINT} 
+	</update> 
+
+	<!-- 全字段更新 需要注意-->
+	<update id="updateByPrimaryKey" parameterType="com.jiuy.product.model.ShopCouponTemplate" >
+		update shop_coupon_template
+		set 
+			id = #{id ,jdbcType=BIGINT},
+			store_id = #{storeId ,jdbcType=BIGINT},
+			name = #{name ,jdbcType=VARCHAR},
+			fillin_name = #{fillinName ,jdbcType=TINYINT},
+			money = #{money ,jdbcType=DECIMAL},
+			limit_money = #{limitMoney ,jdbcType=DECIMAL},
+			get_count = #{getCount ,jdbcType=INTEGER},
+			used_count = #{usedCount ,jdbcType=INTEGER},
+			available_count = #{availableCount ,jdbcType=INTEGER},
+			grant_count = #{grantCount ,jdbcType=INTEGER},
+			publish_count = #{publishCount ,jdbcType=INTEGER},
+			validity_start_time = #{validityStartTime ,jdbcType=BIGINT},
+			validity_end_time = #{validityEndTime ,jdbcType=BIGINT},
+			status = #{status ,jdbcType=TINYINT},
+			create_time = #{createTime ,jdbcType=BIGINT},
+			update_time = #{updateTime ,jdbcType=BIGINT}
+		where id = #{id,jdbcType=BIGINT} 
+	</update> 
+
+	<!-- 所有的条件集合-->
+	<sql id="whereCase"  >
+		where  1=1 
+		<if test="id  !=null">
+			AND id = #{id,jdbcType=BIGINT} 
+		</if>
+		<if test="storeId  !=null">
+			AND store_id = #{storeId,jdbcType=BIGINT} 
+		</if>
+		<if test="name  !=null">
+			AND name = #{name,jdbcType=VARCHAR} 
+		</if>
+		<if test="fillinName  !=null">
+			AND fillin_name = #{fillinName,jdbcType=TINYINT} 
+		</if>
+		<if test="money  !=null">
+			AND money = #{money,jdbcType=DECIMAL} 
+		</if>
+		<if test="limitMoney  !=null">
+			AND limit_money = #{limitMoney,jdbcType=DECIMAL} 
+		</if>
+		<if test="getCount  !=null">
+			AND get_count = #{getCount,jdbcType=INTEGER} 
+		</if>
+		<if test="usedCount  !=null">
+			AND used_count = #{usedCount,jdbcType=INTEGER} 
+		</if>
+		<if test="availableCount  !=null">
+			AND available_count = #{availableCount,jdbcType=INTEGER} 
+		</if>
+		<if test="grantCount  !=null">
+			AND grant_count = #{grantCount,jdbcType=INTEGER} 
+		</if>
+		<if test="publishCount  !=null">
+			AND publish_count = #{publishCount,jdbcType=INTEGER} 
+		</if>
+		<if test="validityStartTime  !=null">
+			AND validity_start_time = #{validityStartTime,jdbcType=BIGINT} 
+		</if>
+		<if test="validityEndTime  !=null">
+			AND validity_end_time = #{validityEndTime,jdbcType=BIGINT} 
+		</if>
+		<if test="status  !=null">
+			AND status = #{status,jdbcType=TINYINT} 
+		</if>
+		<if test="createTime  !=null">
+			AND create_time = #{createTime,jdbcType=BIGINT} 
+		</if>
+		<if test="updateTime  !=null">
+			AND update_time = #{updateTime,jdbcType=BIGINT} 
+		</if>
+		<include refid="costomWhereCase"/>
+	</sql>
+
+	<!-- 查询一条，如果返回多条会报错-->
+	<select id="selectOne" parameterType="java.util.Map" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" /> 
+		FROM shop_coupon_template 
+		<include refid="whereCase" /> 
+	</select>
+
+	<!-- 查询一个list-->
+	<select id="selectList" parameterType="java.util.Map" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" /> 
+		FROM shop_coupon_template 
+		<include refid="whereCase" /> 
+	</select>
+
+	<!-- 查询一个list-->
+	<select id="selectCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+		SELECT
+		count(1) 
+		FROM shop_coupon_template
+		<include refid="whereCase" /> 
+	</select>
+
+	<!--  @Costom -->
+	<!-- 从上一行注释以上为系统生成 从这一行往下为用户自定义 请将自定义的sql放在此行下面 -->
+	<sql id="costomWhereCase">
+	</sql>
+
+</mapper>

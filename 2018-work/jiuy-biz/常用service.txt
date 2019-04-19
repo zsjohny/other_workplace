@@ -1,0 +1,46 @@
+
+3、常用service列举
+    //门店
+    @Autowired
+    private IStoreBusinessNewService storeBusinessNewService;
+
+	//供应商
+	@Autowired
+	private IUserNewService userNewService;
+	 //平台商品
+    @Autowired
+    private IProductNewService productNewService;
+    //平台商品SKU
+	@Autowired
+	private IProductSkuNewService productSkuNewService;
+    //门店商品
+    @Autowired
+    private ShopProductNewService shopProductNewService;
+     //平台订单
+	@Autowired
+	private IStoreOrderNewService storeOrderNewService;
+    //退款订单
+	@Autowired
+	private IRefundOrderService refundOrderService;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.jiuyuan.dao.mapper.dynamicproperty.DynamicPropertyCategoryMapper">
+
+
+	<select id="getChoosedDynamicProperty" resultType="map">
+		SELECT
+		yjj_dynamic_property_category.id as dynaPropCateId,
+		yjj_dynamic_property.`name` as dynaPropName,
+		yjj_dynamic_property_category.dyna_prop_id as dynaPropId,
+		yjj_dynamic_property_category.`status` as status
+		FROM
+		yjj_dynamic_property_category,
+		yjj_dynamic_property
+		<where>
+			yjj_dynamic_property_category.cate_id = #{cateGoryId}
+			and
+			yjj_dynamic_property_category.dyna_prop_id = yjj_dynamic_property.id
+			and 
+			yjj_dynamic_property.status=1
+			<if test="status != -1 ">
+				and yjj_dynamic_property_category.status =#{status}
+			</if>
+		</where>
+		ORDER BY
+		yjj_dynamic_property_category.weight
+	</select>
+</mapper>

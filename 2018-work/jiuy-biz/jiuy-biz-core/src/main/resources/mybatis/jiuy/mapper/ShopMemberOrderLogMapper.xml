@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jiuy.core.dao.impl.sql.ShopMemberOrderLogDaoSqlImpl">
+	<insert id="addShopMemberOrderLog" parameterType="map">
+		<![CDATA[
+			INSERT INTO shop_member_order_log 
+			(order_id,old_status,new_status,create_time) 
+			VALUES 
+			(#{shopMemberOrderLog.orderId},#{shopMemberOrderLog.oldStatus},#{shopMemberOrderLog.newStatus},#{shopMemberOrderLog.createTime})
+		]]>
+	</insert>
+</mapper>

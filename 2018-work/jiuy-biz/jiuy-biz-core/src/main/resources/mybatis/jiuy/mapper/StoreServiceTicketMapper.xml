@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jiuy.core.dao.impl.sql.StoreServiceTicketDaoSqlImpl">
+	<select id="search" parameterType="map" resultType="map">
+		select a.*, b.* from (select * from store_ServiceTicket
+		<where>
+			<if test="params.id != -1 ">
+				and Id = #{params.id}
+			</if>
+			<if test="params.orderList != null ">
+				and OrderNo in
+				<foreach collection="params.orderList" item="params.orders" open="(" separator="," close=")">
+					#{params.orders}
+				</foreach>
+			</if>
+			<if test="params.skuNo != -1 ">
+				and SkuNo = #{params.skuNo}
+			</if>
+			<if test="params.skuNo == -1 ">
+				<![CDATA[
+					and SkuNo > 0
+				]]>
+			</if>
+			<if test="params.businessNumber != -1 ">
+				and BusinessNumber = #{params.businessNumber}
+			</if>
+			<if test="params.userRealName !='' ">
+				and UserRealName like CONCAT("%", #{params.userRealName} ,"%")
+			</if>
+			<if test="params.userTelephone !='' ">
+				and UserTelephone like CONCAT("%", #{params.userTelephone} ,"%")
+			</if>
+			<if test="params.status != -1 ">
+				<if test="params.status != 9 and params.status !=8">
+					and Status = #{params.status}
+				</if>
+				<if test="params.status == 8">
+					and Status in (6, 7)
+				</if>
+				<if test="params.status == 9">
+					and Status in (0, 1, 2, 3, 4, 5)
+				</if>
+			</if>
+			<if test="params.type != -1 ">
+				and Type = #{params.type}
+			</if>
+			<if test="params.startApplyTime != 0">
+				<![CDATA[
+				and ApplyTime >= #{params.startApplyTime}
+				]]>
+			</if>
+			<if test="params.endApplyTime != 0">
+				<![CDATA[
+				and ApplyTime <= #{params.endApplyTime}
+				]]>
+			</if>
+			<if test="params.startExamineTime != 0">
+				<![CDATA[
+				and ExamineTime >= #{params.startExamineTime}
+				]]>
+			</if>
+			<if test="params.endExamineTime != 0">
+				<![CDATA[
+				and ExamineTime <= #{params.endExamineTime}
+				]]>
+			</if>
+		</where>) as a left join store_FinanceTicket as b
+		on a.Id = b.ServiceId order by a.ApplyTime desc
+		limit #{pageQuery.limit} offset #{pageQuery.offset}
+	</select>
+	
+	<select id="searchCount" parameterType="map" resultType="int">
+		select count(1) from (select * from store_ServiceTicket
+		<where>
+			<if test="params.id != -1 ">
+				and Id = #{params.id}
+			</if>
+			<if test="params.orderList != null ">
+				and OrderNo in
+				<foreach collection="params.orderList" item="params.orders" open="(" separator="," close=")">
+					#{params.orders}
+				</foreach>
+			</if>
+			<if test="params.skuNo != -1 ">
+				and SkuNo = #{params.skuNo}
+			</if>
+			<if test="params.businessNumber != -1 ">
+				and BusinessNumber = #{params.businessNumber}
+			</if>
+			<if test="params.userRealName !='' ">
+				and UserRealName like CONCAT("%", #{params.userRealName} ,"%")
+			</if>
+			<if test="params.userTelephone !='' ">
+				and UserTelephone like CONCAT("%", #{params.userTelephone} ,"%")
+			</if>
+			<if test="params.status != -1 ">
+				<if test="params.status != 9 and params.status !=8">
+					and Status = #{params.status}
+				</if>
+				<if test="params.status == 8">
+					and Status in (6, 7)
+				</if>
+				<if test="params.status == 9">
+					and Status in (0, 1, 2, 3, 4, 5)
+				</if>
+			</if>
+			<if test="params.type != -1 ">
+				and Type = #{params.type}
+			</if>
+			<if test="params.startApplyTime != 0">
+				<![CDATA[
+				and ApplyTime >= #{params.startApplyTime}
+				]]>
+			</if>
+			<if test="params.endApplyTime != 0">
+				<![CDATA[
+				and ApplyTime <= #{params.endApplyTime}
+				]]>
+			</if>
+			<if test="params.startExamineTime != 0">
+				<![CDATA[
+				and ExamineTime >= #{params.startExamineTime}
+				]]>
+			</if>
+			<if test="params.endExamineTime != 0">
+				<![CDATA[
+				and ExamineTime <= #{params.endExamineTime}
+				]]>
+			</if>
+		</where>) as a left join store_FinanceTicket as b
+		on a.Id = b.ServiceId		
+	</select>
+	
+	<update id="updateServiceTicket" parameterType="map">
+		update store_ServiceTicket
+		<set>
+	        <if test="status!=null">
+	            Status = #{status},
+	        </if>
+	        <if test="examineTime!=null">
+	            ExamineTime = #{examineTime},
+	        </if>
+	        <if test="examineMemo!=null">
+	            ExamineMemo = #{examineMemo},
+	        </if>
+	        <if test="processResult!=null">
+	            ProcessResult = #{processResult},
+	        </if>
+	        <if test="processMoney!=null">
+	            ProcessMoney = #{processMoney},
+	        </if>
+	        <if test="processExpressMoney!=null">
+	            ProcessExpressMoney = #{processExpressMoney},
+	        </if>
+	        <if test="processReturnJiuCoin!=null">
+	            ProcessReturnJiuCoin = #{processReturnJiuCoin},
+	        </if>
+	        <if test="processReturnMemo!=null">
+	            ProcessReturnMemo = #{processReturnMemo},
+	        </if>
+	        <if test="processTime!=null">
+	            ProcessTime = #{processTime},
+	        </if> 
+	        <if test="sellerExpressCom!=null">
+	            SellerExpressCom = #{sellerExpressCom},
+	        </if>
+	        <if test="sellerExpressNo!=null">
+	            SellerExpressNo = #{sellerExpressNo},
+	        </if>
+	        <if test="sellerExpressMoney!=null">
+	            SellerExpressMoney = #{sellerExpressMoney},
+	        </if>
+	        <if test="sellerMemo!=null">
+	            SellerMemo = #{sellerMemo},
+	        </if>
+	        <if test="sellerTime!=null">
+	            SellerTime = #{sellerTime},
+	        </if>
+	        <if test="status != null">
+	        	Status = #{status},
+	        </if>
+	        <if test="orderNo != null">
+	        	ProcessOrderNo = #{orderNo},
+	        </if>
+	        <if test="exchangeReceivedTime != null">
+	        	ExchangeReceivedTime = #{exchangeReceivedTime},
+	        </if>
+		</set>
+		<where>
+			<if test="serviceId != null">
+				and Id = #{serviceId}
+			</if>
+			<if test="serviceIds != null">
+				and Id in 
+				<foreach collection="serviceIds" item="serviceId" open="(" separator="," close=")">
+					#{serviceId}
+				</foreach>
+			</if>
+		</where>
+	</update>	
+	
+	<select id="ServiceTicketOfId" resultType="StoreServiceTicket">
+		select * from store_ServiceTicket
+		where Id = #{serviceId}
+	</select>
+	
+	<select id="getByNotStatus" resultType="StoreServiceTicket">
+		select * from store_ServiceTicket
+		<where>
+			<if test="status_list != null">
+				and Status not in 
+				<foreach collection="status_list" item="status" open="(" separator="," close=")">
+					#{status}
+				</foreach>
+			</if>
+		</where>
+	</select>
+	
+	<insert id="addFromRevoke" keyColumn="id" useGeneratedKeys="true" keyProperty="id" parameterType="StoreServiceTicket" >
+		insert into store_ServiceTicket (OrderNo,OrderItemId,SkuNo,UserId,BusinessNumber,Type,Status,ApplyTime,ApplyReturnReason,ProcessResult,ProcessMoney,ProcessExpressMoney) 
+		values
+    	(#{orderNo},#{OrderItemId},#{skuNo},#{userId},#{businessNumber},#{type},#{status},#{applyTime},#{applyReturnReason},#{processResult},#{processMoney},#{processExpressMoney}) 	
+	</insert>
+		
+</mapper>

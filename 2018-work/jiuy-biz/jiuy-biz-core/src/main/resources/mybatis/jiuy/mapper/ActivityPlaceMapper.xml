@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ActivityPlaceMapper">
+	
+	<insert id="add" parameterType="ActivityPlace" useGeneratedKeys="true" keyProperty="id" >
+		insert yjj_ActivityPlace(Name, type,Description, CreateTime, UpdateTime)
+		values(#{name},#{type}, #{description}, #{createTime}, #{updateTime})
+	</insert>  
+	
+	<update id="update" parameterType="map">
+		update yjj_ActivityPlace
+		set Name = #{name}, Description = #{description}, Url = #{url}, UpdateTime = #{currentTime}
+		where Id = #{id}
+	</update>
+	
+	<update id="updateUrl" parameterType="map">
+		update yjj_ActivityPlace
+		set Url = #{url}
+		where Id = #{id}
+	</update>
+	
+	<select id="search" parameterType="map" resultType="ActivityPlace">
+		select * from yjj_ActivityPlace
+		<where>
+			status = 0 
+			<if test = "name !=''">
+				and Name like concat("%", #{name}, "%")
+			</if>
+			<if test = "type >=0 ">
+				and type = #{type}
+			</if>
+		</where>
+		order by id desc
+		limit #{pageQuery.limit} offset #{pageQuery.offset}
+	</select>
+
+	<select id="searchCount" parameterType="map" resultType="int">
+		select count(1) from yjj_ActivityPlace
+		<where>
+			status = 0 
+			<if test = "name !=''">
+				and Name like concat("%", #{name}, "%")
+			</if>
+			<if test = "type >=0 ">
+				and type = #{type}
+			</if>
+		</where>
+	</select>
+	
+	<update id="delete" parameterType="map">
+		update yjj_ActivityPlace
+		set status = -1 
+		where Id = #{activityPlaceId}
+	</update>
+	
+	<update id="updateActivityPlaceType" parameterType="map">
+		update yjj_ActivityPlace
+		set type = 2 
+		where Id = #{activityPlaceId}
+	</update>
+	
+	<select id="getActivityPlaceById" parameterType="map" resultType="ActivityPlace">
+		select * from yjj_ActivityPlace
+		where Id = #{activityPlaceId} 
+	</select>
+	
+	<update id="restore" parameterType="map">
+		update yjj_ActivityPlace
+		set type = 1  
+		where Id = #{activityPlaceId}
+	</update>
+</mapper>

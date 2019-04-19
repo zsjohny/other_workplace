@@ -1,0 +1,67 @@
+<view class="goods-way-nav">
+  <view class="item {{ tabState1 ? 'active' : '' }}" bindtap="tabFun" data-tab="1">到店提货</view>
+  <view class="item {{ tabState2 ? 'active' : '' }}" bindtap="tabFun" data-tab="2">送货上门</view>
+</view>
+
+<view class="goods-way-wrap">
+  <!--状态-->
+  <view class="goods-state-box hide {{tabState1 ? 'show' : ''}}">
+    
+    <view class='goods-mod no-top-border Pickup-Address'>
+        <view class='l'>自提点地址:</view>
+    </view>
+    <radio-group bindchange="radioChange" >
+    <label   class="goodsList" wx:for="{{ goodsList1 }}" wx:for-index="index" wx:for-item="item" wx:key>
+          <view class='sendListRadio' wx:if="{{index ==0}}">
+              <radio value="{{item.businessName}}-{{item.address}}-{{orderType}}" class="goodsList-radio" checked='checked'/>
+          </view>
+          <view class="order-address" >
+             <view class='name'>{{item.businessName}}</view>
+             <view class='address'>{{item.address}}</view>
+          </view>
+              <!-- 其他布局代码 -->    
+          </label>   
+    </radio-group>
+        
+    
+  </view>
+  <!--send-->
+  <view class="goods-way-box hide {{tabState2 ? 'show' : ''}}">
+   
+    <radio-group bindchange="radioChange"  >
+      <label  class="goodsList" wx:for="{{ goodsList2 }}" wx:for-index="index" wx:for-item="item" wx:key>
+          <view class='sendListRadio' wx:if="{{index ==0}}">
+            <radio value="{{item.deliveryAddressId}}-{{item.linkmanName}}-{{item.phoneNumber}}-{{item.address}}-{{orderType}}"  class='sendRadio' checked='checked' />
+          </view>
+          <view class='sendListRadio' wx:else>
+
+            <radio value="{{item.deliveryAddressId}}-{{item.linkmanName}}-{{item.phoneNumber}}-{{item.address}}-{{orderType}}"  class='sendRadio'wx:if="{{item.deliveryAddressId ==deliveryAddressIds}}" checked='checked'/>
+            <radio value="{{item.deliveryAddressId}}-{{item.linkmanName}}-{{item.phoneNumber}}-{{item.address}}-{{orderType}}"  class='sendRadio' wx:else checked=''/>
+          </view>
+          <view class="order-addressSend" >
+            <view >
+                <text class='name'>{{item.linkmanName}}</text>
+                <text class='phone'>{{item.phoneNumber}}</text>
+                <text bindtap='editAddress' data-id='{{item.deliveryAddressId}}' class='editAddress'>修改</text>
+            </view>
+            <view class='address'>{{item.address}}</view>
+          </view>
+                
+      </label>   
+     
+    </radio-group>
+    
+
+        
+    
+      <!-- <navigator url='../newAddress/newAddress'> -->
+        <view class="ui-btn get-btn " bindtap='newAddress'>新增地址</view>
+      <!-- </navigator> -->
+       
+        
+   
+     
+  </view> 
+  
+ 
+</view>

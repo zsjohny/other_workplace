@@ -1,0 +1,118 @@
+<!--订单详情-->
+<view class='body-contain'>
+  <view class='order-head'>
+    <view class='state' wx:if="{{orderStatus == 0}}">
+        <view>等待付款</view>
+        <view class='time'>剩余时间:23小时58分钟</view>
+    </view>
+    <view class='state' wx:elif="{{orderStatus == 1}}">待提货</view>
+    <view class='state' wx:elif="{{orderStatus == 2}}">退款中</view>
+    <view class='state' wx:elif="{{orderStatus == 3}}">订单关闭</view>
+    <view class='state' wx:elif="{{orderStatus == 4}}">订单完成</view>
+    <view class='state' wx:elif="{{orderStatus == 5}}">待发货</view>
+    <view class='state' wx:elif="{{orderStatus == 6}}">待收货</view>
+    <view wx:if="{{orderStatus == 0}}" class='state-icon wait-pay'></view>
+    <view wx:if="{{orderStatus == 3}}" class='state-icon trade-close'></view>
+    <view wx:if="{{orderStatus == 4}}" class='state-icon trade-success'></view>
+    <view wx:if="{{orderStatus == 5}}" class='state-icon wait-send'></view>
+    <view wx:if="{{orderStatus == 6 || orderStatus == 1}}" class='state-icon already-send'></view>
+  </view>
+  <view class="order-address bt-margin20">
+    <view class='name-box'>
+      <view class='l'>{{detailInfo.reciveName}} <text class='phone'>{{detailInfo.phone}}</text></view>
+      <view class='r color-red' wx:if="{{detailInfo.orderType == 1}}">送货上门</view>
+      <view class='r color-red' wx:elif="{{detailInfo.orderType == 0}}">到店提货</view>
+    </view>
+    <view class='address'>{{detailInfo.adress}}</view>
+  </view>
+  <view class='order-box bt-margin20'>
+    <view class='item product-item' wx:for="{{ detailInfo.itemList }}" wx:key="{{item}}">
+      <image class="img" mode='aspectFit' src="{{ item.photo }}"></image>
+      <view class='info'>
+        <view class='name'>{{item.name}}</view>
+        <view class='sku'>
+          <view class='type type1' wx:if="{{ item.color }}">颜色：<text class="color-red">{{item.color}}</text></view>
+          <view class='type' wx:if="{{ item.size }}">尺寸：<text class="color-red">{{item.size}}</text></view>
+          <view class='type type3'>数量：<text class="ft-red">{{item.count}}</text></view>
+        </view>
+      </view>
+    </view><!-- item end-->
+    <view class='detail'>
+      <text class='l'>商品总价</text> 
+      <text class='r'>¥{{detailInfo.totalMoney}}</text>
+    </view>
+    <view class='detail'>
+      <text class='l'>运费（快递）</text>
+      <text class='r'>¥{{detailInfo.expressMoney}}</text>
+    </view>
+    <view class='detail'>
+      <text class='l'>优惠劵 </text>
+      <text class='r'>¥{{detailInfo.saleMoney}}</text>
+    </view>
+    <view class='pay-line'>
+      <text class='l'>需付款</text>
+      <text class='money color-red'>¥{{detailInfo.needMoney}}</text>
+    </view>
+  </view> <!-- order-box end -->  
+  <view class='order-info bt-margin20'>
+    <view class='item'><text>订单编号：</text>{{detailInfo.orderNumber}}</view>
+    <view class='item'><text>下单时间：</text>{{detailInfo.caeatTime}}</view>
+    <view class='item' wx:if="{{orderStatus == 4 || orderStatus == 6}}"><text>发货时间：</text>{{detailInfo.time}}</view>
+    <view class='item' wx:if="{{orderStatus !== 0 || orderStatus !== 3}}"><text>支付方式：</text>微信在线支付</view>
+    <view class='item' wx:if="{{orderStatus !== 0 || orderStatus !== 3}}"><text>交易编号：</text>{{detailInfo.dealNumber}}</view>
+  </view>
+  <view class='order-btn bt-margin20'>
+    <view class='btn-item com-min-btn com-gray-btn2' wx:if="{{orderStatus > 3 && banner == 0 }}" bindtap="refundApply">申请售后</view>
+    <view class='btn-item com-min-btn com-gray-btn1' wx:if="{{orderStatus > 3 }}" bindtap="openExpressDetail">查看物流</view>
+    <view class='btn-item com-min-btn com-gray-btn1' wx:if="{{orderStatus == 3 || orderStatus == 4 }}"  bindtap="showDeletePopup">删除订单</view>
+    <view class='btn-item com-min-btn' wx:if="{{orderStatus == 6 }}" bindtap="openReceiptXbox">确认收货</view>
+    <view class='btn-item com-min-btn com-gray-btn2' wx:if="{{orderStatus == 0 }}" bindtap='showCancelPopup'>取消订单</view>
+    <view class='btn-item com-min-btn' wx:if="{{orderStatus == 0 }}" bindtap='payFunc'>付款</view>
+    <view class='btn-item com-min-btn' wx:if="{{orderStatus == 1 }}" bindtap='showCodePopup'>提货二维码</view>
+  </view>
+</view>
+<view class='com-fixed-btn'>
+  <view class='btn-item com-red-bg'>联系客服</view>
+</view>
+<!--查看提货二维码-->
+<view class="check-codeImg" wx:if="{{isShowCodeModel}}">
+    <view class="check-bg" wx:if="{{boxOpcityBg}}" bindtap="closeCodeImgBox"></view>
+    <view class="check-box">
+        <view class="title">{{text1}}</view>
+        <view class="code-box">
+          <image wx:if="{{codeShowState}}" src="{{imageUrl}}" class="img"></image>
+          <view class="reflesh-box" bindtap="refleshCode" wx:if="{{refleshBtn}}" data-id="{{ codeOrderId }}">
+              <view class="icon"></view>
+              <view class="text">点击刷新</view>
+          </view>
+        </view>
+        <view class="prompt" wx:if="{{invalidPrompt}}">{{text5}}<view>{{text6}}</view></view>
+        <view class='code-explain' wx:if="{{codeShowState}}">{{text2}}</view>
+        <view class="explain" wx:if="{{codeShowState}}">
+          <view><text>{{text3}}</text></view>
+          <view class="ct">{{text4}}，<text data-phone="{{telePhoneNumber}}" bindtap="makePhone">{{telePhoneNumber}}</text></view>  
+        </view>
+    </view>
+    <view class="close-btn" bindtap="closeCodeImgBox">关闭</view>
+</view>
+<!--提货状态  -->
+<view class='pickStatus' wx:if="{{pickStatus}}">
+  <view class="pick-bg"  wx:if="{{pickOpcityBg}}" bindtap="hidePickBox"></view>
+  <view class='model-l'>
+      <view class='success'>交易完成</view>
+      <view class='icon'></view>
+      <view class='sure'>您已确认收货</view>
+  </view>
+</view>
+<!-- 确认收货弹窗 -->
+<confirmPopup id="receiptPopup" bind:cancelEvent="closeReceiptXbox" bind:confirmEvent="checkReceipt" iconClassName="ask-icon">
+  <view slot="title">您已收到该订单的全部商品了吗？</view>
+</confirmPopup>
+<!-- 删除订单 -->
+<confirmPopup id="deletePopup" bind:cancelEvent="closeDeleteXbox" bind:confirmEvent="deleteOrderFunc">
+  <view slot="title">您确定要删除订单吗？</view>
+</confirmPopup>
+<!-- 取消订单 -->
+<confirmPopup id="cancelPopup" bind:cancelEvent="closeCancelXbox" bind:confirmEvent="cancelOrderFunc" iconClassName="ask-icon">
+  <view slot="title">您确定要取消订单吗？</view>
+</confirmPopup>

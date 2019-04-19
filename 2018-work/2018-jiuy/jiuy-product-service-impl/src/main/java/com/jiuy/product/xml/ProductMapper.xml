@@ -1,0 +1,1846 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" > 
+<mapper namespace="com.jiuy.product.mapper.ProductMapper"> 
+ 
+ 	<!-- 主要的返回映射-->
+	<resultMap id="BaseResultMap" type="com.jiuy.product.model.Product"	>
+		<id column="Id" property="id" jdbcType="BIGINT" />
+		<result column="Name"  property="name"  jdbcType="VARCHAR" />
+		<result column="CategoryId"  property="categoryid"  jdbcType="BIGINT" />
+		<result column="DetailImages"  property="detailimages"  jdbcType="VARCHAR" />
+		<result column="SummaryImages"  property="summaryimages"  jdbcType="VARCHAR" />
+		<result column="Status"  property="status"  jdbcType="TINYINT" />
+		<result column="SaleStartTime"  property="salestarttime"  jdbcType="BIGINT" />
+		<result column="SaleEndTime"  property="saleendtime"  jdbcType="BIGINT" />
+		<result column="SaleCurrencyType"  property="salecurrencytype"  jdbcType="TINYINT" />
+		<result column="SaleTotalCount"  property="saletotalcount"  jdbcType="INTEGER" />
+		<result column="SaleMonthlyMaxCount"  property="salemonthlymaxcount"  jdbcType="INTEGER" />
+		<result column="Price"  property="price"  jdbcType="INTEGER" />
+		<result column="Favorite"  property="favorite"  jdbcType="BIGINT" />
+		<result column="AssessmentCount"  property="assessmentcount"  jdbcType="BIGINT" />
+		<result column="ExpressFree"  property="expressfree"  jdbcType="TINYINT" />
+		<result column="ExpressDetails"  property="expressdetails"  jdbcType="VARCHAR" />
+		<result column="CreateTime"  property="createtime"  jdbcType="BIGINT" />
+		<result column="UpdateTime"  property="updatetime"  jdbcType="BIGINT" />
+		<result column="ProductSeq"  property="productseq"  jdbcType="VARCHAR" />
+		<result column="remark"  property="remark"  jdbcType="VARCHAR" />
+		<result column="MarketPrice"  property="marketprice"  jdbcType="DECIMAL" />
+		<result column="SizeTableImage"  property="sizetableimage"  jdbcType="VARCHAR" />
+		<result column="ClothesNumber"  property="clothesnumber"  jdbcType="VARCHAR" />
+		<result column="PromotionImage"  property="promotionimage"  jdbcType="VARCHAR" />
+		<result column="Weight"  property="weight"  jdbcType="INTEGER" />
+		<result column="BrandId"  property="brandid"  jdbcType="BIGINT" />
+		<result column="ShowStatus"  property="showstatus"  jdbcType="INTEGER" />
+		<result column="BottomPrice"  property="bottomprice"  jdbcType="DECIMAL" />
+		<result column="MarketPriceMin"  property="marketpricemin"  jdbcType="INTEGER" />
+		<result column="MarketPriceMax"  property="marketpricemax"  jdbcType="INTEGER" />
+		<result column="Type"  property="type"  jdbcType="TINYINT" />
+		<result column="WholeSaleCash"  property="wholesalecash"  jdbcType="DECIMAL" />
+		<result column="Cash"  property="cash"  jdbcType="DECIMAL" />
+		<result column="JiuCoin"  property="jiucoin"  jdbcType="INTEGER" />
+		<result column="RestrictHistoryBuy"  property="restricthistorybuy"  jdbcType="INTEGER" />
+		<result column="RestrictDayBuy"  property="restrictdaybuy"  jdbcType="INTEGER" />
+		<result column="PromotionSetting"  property="promotionsetting"  jdbcType="TINYINT" />
+		<result column="PromotionCash"  property="promotioncash"  jdbcType="DECIMAL" />
+		<result column="PromotionJiuCoin"  property="promotionjiucoin"  jdbcType="INTEGER" />
+		<result column="PromotionStartTime"  property="promotionstarttime"  jdbcType="BIGINT" />
+		<result column="PromotionEndTime"  property="promotionendtime"  jdbcType="BIGINT" />
+		<result column="RestrictCycle"  property="restrictcycle"  jdbcType="INTEGER" />
+		<result column="RestrictHistoryBuyTime"  property="restricthistorybuytime"  jdbcType="BIGINT" />
+		<result column="RestrictDayBuyTime"  property="restrictdaybuytime"  jdbcType="BIGINT" />
+		<result column="LOWarehouseId"  property="lowarehouseid"  jdbcType="BIGINT" />
+		<result column="Description"  property="description"  jdbcType="VARCHAR" />
+		<result column="RestrictId"  property="restrictid"  jdbcType="BIGINT" />
+		<result column="VCategoryId"  property="vcategoryid"  jdbcType="BIGINT" />
+		<result column="Together"  property="together"  jdbcType="VARCHAR" />
+		<result column="CartSttstcs"  property="cartsttstcs"  jdbcType="DECIMAL" />
+		<result column="HotSttstcs"  property="hotsttstcs"  jdbcType="DECIMAL" />
+		<result column="SubscriptId"  property="subscriptid"  jdbcType="BIGINT" />
+		<result column="BuyType"  property="buytype"  jdbcType="TINYINT" />
+		<result column="DisplayType"  property="displaytype"  jdbcType="TINYINT" />
+		<result column="PromotionBuyType"  property="promotionbuytype"  jdbcType="TINYINT" />
+		<result column="PromotionDisplayType"  property="promotiondisplaytype"  jdbcType="TINYINT" />
+		<result column="PromotionSaleCount"  property="promotionsalecount"  jdbcType="INTEGER" />
+		<result column="PromotionVisitCount"  property="promotionvisitcount"  jdbcType="INTEGER" />
+		<result column="LOWarehouseId2"  property="lowarehouseid2"  jdbcType="BIGINT" />
+		<result column="SetLOWarehouseId2"  property="setlowarehouseid2"  jdbcType="TINYINT" />
+		<result column="DeductPercent"  property="deductpercent"  jdbcType="DECIMAL" />
+		<result column="videoUrl"  property="videourl"  jdbcType="VARCHAR" />
+		<result column="videoName"  property="videoname"  jdbcType="VARCHAR" />
+		<result column="vip"  property="vip"  jdbcType="TINYINT" />
+		<result column="videoFileId"  property="videofileid"  jdbcType="BIGINT" />
+		<result column="state"  property="state"  jdbcType="TINYINT" />
+		<result column="delState"  property="delstate"  jdbcType="TINYINT" />
+		<result column="submitAuditTime"  property="submitaudittime"  jdbcType="BIGINT" />
+		<result column="auditTime"  property="audittime"  jdbcType="BIGINT" />
+		<result column="auditNoPassReason"  property="auditnopassreason"  jdbcType="VARCHAR" />
+		<result column="upSoldTime"  property="upsoldtime"  jdbcType="BIGINT" />
+		<result column="downSoldTime"  property="downsoldtime"  jdbcType="BIGINT" />
+		<result column="newTime"  property="newtime"  jdbcType="BIGINT" />
+		<result column="skuCount"  property="skucount"  jdbcType="INTEGER" />
+		<result column="mainImg"  property="mainimg"  jdbcType="VARCHAR" />
+		<result column="oneCategoryId"  property="onecategoryid"  jdbcType="BIGINT" />
+		<result column="oneCategoryName"  property="onecategoryname"  jdbcType="VARCHAR" />
+		<result column="twoCategoryId"  property="twocategoryid"  jdbcType="BIGINT" />
+		<result column="twoCategoryName"  property="twocategoryname"  jdbcType="VARCHAR" />
+		<result column="threeCategoryId"  property="threecategoryid"  jdbcType="BIGINT" />
+		<result column="threeCategoryName"  property="threecategoryname"  jdbcType="VARCHAR" />
+		<result column="brandName"  property="brandname"  jdbcType="VARCHAR" />
+		<result column="brandLogo"  property="brandlogo"  jdbcType="VARCHAR" />
+		<result column="needAudit"  property="needaudit"  jdbcType="TINYINT" />
+		<result column="ladderPriceJson"  property="ladderpricejson"  jdbcType="VARCHAR" />
+		<result column="maxLadderPrice"  property="maxladderprice"  jdbcType="DECIMAL" />
+		<result column="minLadderPrice"  property="minladderprice"  jdbcType="DECIMAL" />
+		<result column="supplierId"  property="supplierid"  jdbcType="BIGINT" />
+		<result column="categoryIds"  property="categoryids"  jdbcType="VARCHAR" />
+		<result column="badge_id"  property="badgeId"  jdbcType="BIGINT" />
+		<result column="badge_name"  property="badgeName"  jdbcType="VARCHAR" />
+		<result column="badge_image"  property="badgeImage"  jdbcType="VARCHAR" />
+		<result column="rank"  property="rank"  jdbcType="INTEGER" />
+		<result column="brand_type"  property="brandType"  jdbcType="INTEGER" />
+		<result column="last_puton_time"  property="lastPutonTime"  jdbcType="BIGINT" />
+		<result column="vedio_main"  property="vedioMain"  jdbcType="VARCHAR" />
+	</resultMap>
+
+	<!-- 所有的列名-->
+	<sql id="Base_Column_List" >
+		Id,Name,CategoryId,DetailImages,SummaryImages,Status,SaleStartTime,SaleEndTime,SaleCurrencyType,
+		SaleTotalCount,SaleMonthlyMaxCount,Price,Favorite,AssessmentCount,ExpressFree,ExpressDetails,CreateTime,
+		UpdateTime,ProductSeq,remark,MarketPrice,SizeTableImage,ClothesNumber,PromotionImage,Weight,
+		BrandId,ShowStatus,BottomPrice,MarketPriceMin,MarketPriceMax,Type,WholeSaleCash,Cash,
+		JiuCoin,RestrictHistoryBuy,RestrictDayBuy,PromotionSetting,PromotionCash,PromotionJiuCoin,PromotionStartTime,PromotionEndTime,
+		RestrictCycle,RestrictHistoryBuyTime,RestrictDayBuyTime,LOWarehouseId,Description,RestrictId,VCategoryId,Together,
+		CartSttstcs,HotSttstcs,SubscriptId,BuyType,DisplayType,PromotionBuyType,PromotionDisplayType,PromotionSaleCount,
+		PromotionVisitCount,LOWarehouseId2,SetLOWarehouseId2,DeductPercent,videoUrl,videoName,vip,videoFileId,
+		state,delState,submitAuditTime,auditTime,auditNoPassReason,upSoldTime,downSoldTime,newTime,
+		skuCount,mainImg,oneCategoryId,oneCategoryName,twoCategoryId,twoCategoryName,threeCategoryId,threeCategoryName,
+		brandName,brandLogo,needAudit,ladderPriceJson,maxLadderPrice,minLadderPrice,supplierId,categoryIds,
+		badge_id,badge_name,badge_image,rank,brand_type,last_puton_time,vedio_main
+	</sql>
+
+	<!-- 精确更新的字段-->
+	<sql id="updateBase">
+		<if test="id  !=null">
+			Id = #{id,jdbcType=BIGINT}, 
+		</if>
+		<if test="name  !=null">
+			Name = #{name,jdbcType=VARCHAR}, 
+		</if>
+		<if test="categoryid  !=null">
+			CategoryId = #{categoryid,jdbcType=BIGINT}, 
+		</if>
+		<if test="detailimages  !=null">
+			DetailImages = #{detailimages,jdbcType=VARCHAR}, 
+		</if>
+		<if test="summaryimages  !=null">
+			SummaryImages = #{summaryimages,jdbcType=VARCHAR}, 
+		</if>
+		<if test="status  !=null">
+			Status = #{status,jdbcType=TINYINT}, 
+		</if>
+		<if test="salestarttime  !=null">
+			SaleStartTime = #{salestarttime,jdbcType=BIGINT}, 
+		</if>
+		<if test="saleendtime  !=null">
+			SaleEndTime = #{saleendtime,jdbcType=BIGINT}, 
+		</if>
+		<if test="salecurrencytype  !=null">
+			SaleCurrencyType = #{salecurrencytype,jdbcType=TINYINT}, 
+		</if>
+		<if test="saletotalcount  !=null">
+			SaleTotalCount = #{saletotalcount,jdbcType=INTEGER}, 
+		</if>
+		<if test="salemonthlymaxcount  !=null">
+			SaleMonthlyMaxCount = #{salemonthlymaxcount,jdbcType=INTEGER}, 
+		</if>
+		<if test="price  !=null">
+			Price = #{price,jdbcType=INTEGER}, 
+		</if>
+		<if test="favorite  !=null">
+			Favorite = #{favorite,jdbcType=BIGINT}, 
+		</if>
+		<if test="assessmentcount  !=null">
+			AssessmentCount = #{assessmentcount,jdbcType=BIGINT}, 
+		</if>
+		<if test="expressfree  !=null">
+			ExpressFree = #{expressfree,jdbcType=TINYINT}, 
+		</if>
+		<if test="expressdetails  !=null">
+			ExpressDetails = #{expressdetails,jdbcType=VARCHAR}, 
+		</if>
+		<if test="createtime  !=null">
+			CreateTime = #{createtime,jdbcType=BIGINT}, 
+		</if>
+		<if test="updatetime  !=null">
+			UpdateTime = #{updatetime,jdbcType=BIGINT}, 
+		</if>
+		<if test="productseq  !=null">
+			ProductSeq = #{productseq,jdbcType=VARCHAR}, 
+		</if>
+		<if test="remark  !=null">
+			remark = #{remark,jdbcType=VARCHAR}, 
+		</if>
+		<if test="marketprice  !=null">
+			MarketPrice = #{marketprice,jdbcType=DECIMAL}, 
+		</if>
+		<if test="sizetableimage  !=null">
+			SizeTableImage = #{sizetableimage,jdbcType=VARCHAR}, 
+		</if>
+		<if test="clothesnumber  !=null">
+			ClothesNumber = #{clothesnumber,jdbcType=VARCHAR}, 
+		</if>
+		<if test="promotionimage  !=null">
+			PromotionImage = #{promotionimage,jdbcType=VARCHAR}, 
+		</if>
+		<if test="weight  !=null">
+			Weight = #{weight,jdbcType=INTEGER}, 
+		</if>
+		<if test="brandid  !=null">
+			BrandId = #{brandid,jdbcType=BIGINT}, 
+		</if>
+		<if test="showstatus  !=null">
+			ShowStatus = #{showstatus,jdbcType=INTEGER}, 
+		</if>
+		<if test="bottomprice  !=null">
+			BottomPrice = #{bottomprice,jdbcType=DECIMAL}, 
+		</if>
+		<if test="marketpricemin  !=null">
+			MarketPriceMin = #{marketpricemin,jdbcType=INTEGER}, 
+		</if>
+		<if test="marketpricemax  !=null">
+			MarketPriceMax = #{marketpricemax,jdbcType=INTEGER}, 
+		</if>
+		<if test="type  !=null">
+			Type = #{type,jdbcType=TINYINT}, 
+		</if>
+		<if test="wholesalecash  !=null">
+			WholeSaleCash = #{wholesalecash,jdbcType=DECIMAL}, 
+		</if>
+		<if test="cash  !=null">
+			Cash = #{cash,jdbcType=DECIMAL}, 
+		</if>
+		<if test="jiucoin  !=null">
+			JiuCoin = #{jiucoin,jdbcType=INTEGER}, 
+		</if>
+		<if test="restricthistorybuy  !=null">
+			RestrictHistoryBuy = #{restricthistorybuy,jdbcType=INTEGER}, 
+		</if>
+		<if test="restrictdaybuy  !=null">
+			RestrictDayBuy = #{restrictdaybuy,jdbcType=INTEGER}, 
+		</if>
+		<if test="promotionsetting  !=null">
+			PromotionSetting = #{promotionsetting,jdbcType=TINYINT}, 
+		</if>
+		<if test="promotioncash  !=null">
+			PromotionCash = #{promotioncash,jdbcType=DECIMAL}, 
+		</if>
+		<if test="promotionjiucoin  !=null">
+			PromotionJiuCoin = #{promotionjiucoin,jdbcType=INTEGER}, 
+		</if>
+		<if test="promotionstarttime  !=null">
+			PromotionStartTime = #{promotionstarttime,jdbcType=BIGINT}, 
+		</if>
+		<if test="promotionendtime  !=null">
+			PromotionEndTime = #{promotionendtime,jdbcType=BIGINT}, 
+		</if>
+		<if test="restrictcycle  !=null">
+			RestrictCycle = #{restrictcycle,jdbcType=INTEGER}, 
+		</if>
+		<if test="restricthistorybuytime  !=null">
+			RestrictHistoryBuyTime = #{restricthistorybuytime,jdbcType=BIGINT}, 
+		</if>
+		<if test="restrictdaybuytime  !=null">
+			RestrictDayBuyTime = #{restrictdaybuytime,jdbcType=BIGINT}, 
+		</if>
+		<if test="lowarehouseid  !=null">
+			LOWarehouseId = #{lowarehouseid,jdbcType=BIGINT}, 
+		</if>
+		<if test="description  !=null">
+			Description = #{description,jdbcType=VARCHAR}, 
+		</if>
+		<if test="restrictid  !=null">
+			RestrictId = #{restrictid,jdbcType=BIGINT}, 
+		</if>
+		<if test="vcategoryid  !=null">
+			VCategoryId = #{vcategoryid,jdbcType=BIGINT}, 
+		</if>
+		<if test="together  !=null">
+			Together = #{together,jdbcType=VARCHAR}, 
+		</if>
+		<if test="cartsttstcs  !=null">
+			CartSttstcs = #{cartsttstcs,jdbcType=DECIMAL}, 
+		</if>
+		<if test="hotsttstcs  !=null">
+			HotSttstcs = #{hotsttstcs,jdbcType=DECIMAL}, 
+		</if>
+		<if test="subscriptid  !=null">
+			SubscriptId = #{subscriptid,jdbcType=BIGINT}, 
+		</if>
+		<if test="buytype  !=null">
+			BuyType = #{buytype,jdbcType=TINYINT}, 
+		</if>
+		<if test="displaytype  !=null">
+			DisplayType = #{displaytype,jdbcType=TINYINT}, 
+		</if>
+		<if test="promotionbuytype  !=null">
+			PromotionBuyType = #{promotionbuytype,jdbcType=TINYINT}, 
+		</if>
+		<if test="promotiondisplaytype  !=null">
+			PromotionDisplayType = #{promotiondisplaytype,jdbcType=TINYINT}, 
+		</if>
+		<if test="promotionsalecount  !=null">
+			PromotionSaleCount = #{promotionsalecount,jdbcType=INTEGER}, 
+		</if>
+		<if test="promotionvisitcount  !=null">
+			PromotionVisitCount = #{promotionvisitcount,jdbcType=INTEGER}, 
+		</if>
+		<if test="lowarehouseid2  !=null">
+			LOWarehouseId2 = #{lowarehouseid2,jdbcType=BIGINT}, 
+		</if>
+		<if test="setlowarehouseid2  !=null">
+			SetLOWarehouseId2 = #{setlowarehouseid2,jdbcType=TINYINT}, 
+		</if>
+		<if test="deductpercent  !=null">
+			DeductPercent = #{deductpercent,jdbcType=DECIMAL}, 
+		</if>
+		<if test="videourl  !=null">
+			videoUrl = #{videourl,jdbcType=VARCHAR}, 
+		</if>
+		<if test="videoname  !=null">
+			videoName = #{videoname,jdbcType=VARCHAR}, 
+		</if>
+		<if test="vip  !=null">
+			vip = #{vip,jdbcType=TINYINT}, 
+		</if>
+		<if test="videofileid  !=null">
+			videoFileId = #{videofileid,jdbcType=BIGINT}, 
+		</if>
+		<if test="state  !=null">
+			state = #{state,jdbcType=TINYINT}, 
+		</if>
+		<if test="delstate  !=null">
+			delState = #{delstate,jdbcType=TINYINT}, 
+		</if>
+		<if test="submitaudittime  !=null">
+			submitAuditTime = #{submitaudittime,jdbcType=BIGINT}, 
+		</if>
+		<if test="audittime  !=null">
+			auditTime = #{audittime,jdbcType=BIGINT}, 
+		</if>
+		<if test="auditnopassreason  !=null">
+			auditNoPassReason = #{auditnopassreason,jdbcType=VARCHAR}, 
+		</if>
+		<if test="upsoldtime  !=null">
+			upSoldTime = #{upsoldtime,jdbcType=BIGINT}, 
+		</if>
+		<if test="downsoldtime  !=null">
+			downSoldTime = #{downsoldtime,jdbcType=BIGINT}, 
+		</if>
+		<if test="newtime  !=null">
+			newTime = #{newtime,jdbcType=BIGINT}, 
+		</if>
+		<if test="skucount  !=null">
+			skuCount = #{skucount,jdbcType=INTEGER}, 
+		</if>
+		<if test="mainimg  !=null">
+			mainImg = #{mainimg,jdbcType=VARCHAR}, 
+		</if>
+		<if test="onecategoryid  !=null">
+			oneCategoryId = #{onecategoryid,jdbcType=BIGINT}, 
+		</if>
+		<if test="onecategoryname  !=null">
+			oneCategoryName = #{onecategoryname,jdbcType=VARCHAR}, 
+		</if>
+		<if test="twocategoryid  !=null">
+			twoCategoryId = #{twocategoryid,jdbcType=BIGINT}, 
+		</if>
+		<if test="twocategoryname  !=null">
+			twoCategoryName = #{twocategoryname,jdbcType=VARCHAR}, 
+		</if>
+		<if test="threecategoryid  !=null">
+			threeCategoryId = #{threecategoryid,jdbcType=BIGINT}, 
+		</if>
+		<if test="threecategoryname  !=null">
+			threeCategoryName = #{threecategoryname,jdbcType=VARCHAR}, 
+		</if>
+		<if test="brandname  !=null">
+			brandName = #{brandname,jdbcType=VARCHAR}, 
+		</if>
+		<if test="brandlogo  !=null">
+			brandLogo = #{brandlogo,jdbcType=VARCHAR}, 
+		</if>
+		<if test="needaudit  !=null">
+			needAudit = #{needaudit,jdbcType=TINYINT}, 
+		</if>
+		<if test="ladderpricejson  !=null">
+			ladderPriceJson = #{ladderpricejson,jdbcType=VARCHAR}, 
+		</if>
+		<if test="maxladderprice  !=null">
+			maxLadderPrice = #{maxladderprice,jdbcType=DECIMAL}, 
+		</if>
+		<if test="minladderprice  !=null">
+			minLadderPrice = #{minladderprice,jdbcType=DECIMAL}, 
+		</if>
+		<if test="supplierid  !=null">
+			supplierId = #{supplierid,jdbcType=BIGINT}, 
+		</if>
+		<if test="categoryids  !=null">
+			categoryIds = #{categoryids,jdbcType=VARCHAR}, 
+		</if>
+		<if test="badgeId  !=null">
+			badge_id = #{badgeId,jdbcType=BIGINT}, 
+		</if>
+		<if test="badgeName  !=null">
+			badge_name = #{badgeName,jdbcType=VARCHAR}, 
+		</if>
+		<if test="badgeImage  !=null">
+			badge_image = #{badgeImage,jdbcType=VARCHAR}, 
+		</if>
+		<if test="rank  !=null">
+			rank = #{rank,jdbcType=INTEGER}, 
+		</if>
+		<if test="brandType  !=null">
+			brand_type = #{brandType,jdbcType=INTEGER}, 
+		</if>
+		<if test="lastPutonTime  !=null">
+			last_puton_time = #{lastPutonTime,jdbcType=BIGINT}, 
+		</if>
+		<if test="vedioMain  !=null">
+			vedio_main = #{vedioMain,jdbcType=VARCHAR} 
+		</if>
+	</sql>
+
+	<!-- 通过主键查找-->
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="Long" >
+		select 
+		<include refid="Base_Column_List" />
+		from yjj_Product
+		where  Id = #{id,jdbcType=BIGINT} 
+	</select>
+
+	<!-- 通过主键删除-->
+	<delete id="deleteByPrimaryKey" parameterType="Long" >
+		delete from yjj_Product
+		where Id = #{id,jdbcType=BIGINT} 
+	</delete>
+
+	<!-- 普通插入全字段插入-->
+	<insert id="insert" parameterType="com.jiuy.product.model.Product" >
+		insert into yjj_Product
+		(
+			Id,
+			Name,
+			CategoryId,
+			DetailImages,
+			SummaryImages,
+			Status,
+			SaleStartTime,
+			SaleEndTime,
+			SaleCurrencyType,
+			SaleTotalCount,
+			SaleMonthlyMaxCount,
+			Price,
+			Favorite,
+			AssessmentCount,
+			ExpressFree,
+			ExpressDetails,
+			CreateTime,
+			UpdateTime,
+			ProductSeq,
+			remark,
+			MarketPrice,
+			SizeTableImage,
+			ClothesNumber,
+			PromotionImage,
+			Weight,
+			BrandId,
+			ShowStatus,
+			BottomPrice,
+			MarketPriceMin,
+			MarketPriceMax,
+			Type,
+			WholeSaleCash,
+			Cash,
+			JiuCoin,
+			RestrictHistoryBuy,
+			RestrictDayBuy,
+			PromotionSetting,
+			PromotionCash,
+			PromotionJiuCoin,
+			PromotionStartTime,
+			PromotionEndTime,
+			RestrictCycle,
+			RestrictHistoryBuyTime,
+			RestrictDayBuyTime,
+			LOWarehouseId,
+			Description,
+			RestrictId,
+			VCategoryId,
+			Together,
+			CartSttstcs,
+			HotSttstcs,
+			SubscriptId,
+			BuyType,
+			DisplayType,
+			PromotionBuyType,
+			PromotionDisplayType,
+			PromotionSaleCount,
+			PromotionVisitCount,
+			LOWarehouseId2,
+			SetLOWarehouseId2,
+			DeductPercent,
+			videoUrl,
+			videoName,
+			vip,
+			videoFileId,
+			state,
+			delState,
+			submitAuditTime,
+			auditTime,
+			auditNoPassReason,
+			upSoldTime,
+			downSoldTime,
+			newTime,
+			skuCount,
+			mainImg,
+			oneCategoryId,
+			oneCategoryName,
+			twoCategoryId,
+			twoCategoryName,
+			threeCategoryId,
+			threeCategoryName,
+			brandName,
+			brandLogo,
+			needAudit,
+			ladderPriceJson,
+			maxLadderPrice,
+			minLadderPrice,
+			supplierId,
+			categoryIds,
+			badge_id,
+			badge_name,
+			badge_image,
+			rank,
+			brand_type,
+			last_puton_time,
+			vedio_main,
+		)
+		values
+		(
+			#{id ,jdbcType=BIGINT},
+			#{name ,jdbcType=VARCHAR},
+			#{categoryid ,jdbcType=BIGINT},
+			#{detailimages ,jdbcType=VARCHAR},
+			#{summaryimages ,jdbcType=VARCHAR},
+			#{status ,jdbcType=TINYINT},
+			#{salestarttime ,jdbcType=BIGINT},
+			#{saleendtime ,jdbcType=BIGINT},
+			#{salecurrencytype ,jdbcType=TINYINT},
+			#{saletotalcount ,jdbcType=INTEGER},
+			#{salemonthlymaxcount ,jdbcType=INTEGER},
+			#{price ,jdbcType=INTEGER},
+			#{favorite ,jdbcType=BIGINT},
+			#{assessmentcount ,jdbcType=BIGINT},
+			#{expressfree ,jdbcType=TINYINT},
+			#{expressdetails ,jdbcType=VARCHAR},
+			#{createtime ,jdbcType=BIGINT},
+			#{updatetime ,jdbcType=BIGINT},
+			#{productseq ,jdbcType=VARCHAR},
+			#{remark ,jdbcType=VARCHAR},
+			#{marketprice ,jdbcType=DECIMAL},
+			#{sizetableimage ,jdbcType=VARCHAR},
+			#{clothesnumber ,jdbcType=VARCHAR},
+			#{promotionimage ,jdbcType=VARCHAR},
+			#{weight ,jdbcType=INTEGER},
+			#{brandid ,jdbcType=BIGINT},
+			#{showstatus ,jdbcType=INTEGER},
+			#{bottomprice ,jdbcType=DECIMAL},
+			#{marketpricemin ,jdbcType=INTEGER},
+			#{marketpricemax ,jdbcType=INTEGER},
+			#{type ,jdbcType=TINYINT},
+			#{wholesalecash ,jdbcType=DECIMAL},
+			#{cash ,jdbcType=DECIMAL},
+			#{jiucoin ,jdbcType=INTEGER},
+			#{restricthistorybuy ,jdbcType=INTEGER},
+			#{restrictdaybuy ,jdbcType=INTEGER},
+			#{promotionsetting ,jdbcType=TINYINT},
+			#{promotioncash ,jdbcType=DECIMAL},
+			#{promotionjiucoin ,jdbcType=INTEGER},
+			#{promotionstarttime ,jdbcType=BIGINT},
+			#{promotionendtime ,jdbcType=BIGINT},
+			#{restrictcycle ,jdbcType=INTEGER},
+			#{restricthistorybuytime ,jdbcType=BIGINT},
+			#{restrictdaybuytime ,jdbcType=BIGINT},
+			#{lowarehouseid ,jdbcType=BIGINT},
+			#{description ,jdbcType=VARCHAR},
+			#{restrictid ,jdbcType=BIGINT},
+			#{vcategoryid ,jdbcType=BIGINT},
+			#{together ,jdbcType=VARCHAR},
+			#{cartsttstcs ,jdbcType=DECIMAL},
+			#{hotsttstcs ,jdbcType=DECIMAL},
+			#{subscriptid ,jdbcType=BIGINT},
+			#{buytype ,jdbcType=TINYINT},
+			#{displaytype ,jdbcType=TINYINT},
+			#{promotionbuytype ,jdbcType=TINYINT},
+			#{promotiondisplaytype ,jdbcType=TINYINT},
+			#{promotionsalecount ,jdbcType=INTEGER},
+			#{promotionvisitcount ,jdbcType=INTEGER},
+			#{lowarehouseid2 ,jdbcType=BIGINT},
+			#{setlowarehouseid2 ,jdbcType=TINYINT},
+			#{deductpercent ,jdbcType=DECIMAL},
+			#{videourl ,jdbcType=VARCHAR},
+			#{videoname ,jdbcType=VARCHAR},
+			#{vip ,jdbcType=TINYINT},
+			#{videofileid ,jdbcType=BIGINT},
+			#{state ,jdbcType=TINYINT},
+			#{delstate ,jdbcType=TINYINT},
+			#{submitaudittime ,jdbcType=BIGINT},
+			#{audittime ,jdbcType=BIGINT},
+			#{auditnopassreason ,jdbcType=VARCHAR},
+			#{upsoldtime ,jdbcType=BIGINT},
+			#{downsoldtime ,jdbcType=BIGINT},
+			#{newtime ,jdbcType=BIGINT},
+			#{skucount ,jdbcType=INTEGER},
+			#{mainimg ,jdbcType=VARCHAR},
+			#{onecategoryid ,jdbcType=BIGINT},
+			#{onecategoryname ,jdbcType=VARCHAR},
+			#{twocategoryid ,jdbcType=BIGINT},
+			#{twocategoryname ,jdbcType=VARCHAR},
+			#{threecategoryid ,jdbcType=BIGINT},
+			#{threecategoryname ,jdbcType=VARCHAR},
+			#{brandname ,jdbcType=VARCHAR},
+			#{brandlogo ,jdbcType=VARCHAR},
+			#{needaudit ,jdbcType=TINYINT},
+			#{ladderpricejson ,jdbcType=VARCHAR},
+			#{maxladderprice ,jdbcType=DECIMAL},
+			#{minladderprice ,jdbcType=DECIMAL},
+			#{supplierid ,jdbcType=BIGINT},
+			#{categoryids ,jdbcType=VARCHAR},
+			#{badgeId ,jdbcType=BIGINT},
+			#{badgeName ,jdbcType=VARCHAR},
+			#{badgeImage ,jdbcType=VARCHAR},
+			#{rank ,jdbcType=INTEGER},
+			#{brandType ,jdbcType=INTEGER},
+			#{lastPutonTime ,jdbcType=BIGINT},
+			#{vedioMain ,jdbcType=VARCHAR}
+		)
+	</insert>
+
+	<!-- 批量插入，全部字段插入-->
+	<insert id="insertBach"   parameterType="List" >
+		insert into yjj_Product
+		(
+			Id,
+			Name,
+			CategoryId,
+			DetailImages,
+			SummaryImages,
+			Status,
+			SaleStartTime,
+			SaleEndTime,
+			SaleCurrencyType,
+			SaleTotalCount,
+			SaleMonthlyMaxCount,
+			Price,
+			Favorite,
+			AssessmentCount,
+			ExpressFree,
+			ExpressDetails,
+			CreateTime,
+			UpdateTime,
+			ProductSeq,
+			remark,
+			MarketPrice,
+			SizeTableImage,
+			ClothesNumber,
+			PromotionImage,
+			Weight,
+			BrandId,
+			ShowStatus,
+			BottomPrice,
+			MarketPriceMin,
+			MarketPriceMax,
+			Type,
+			WholeSaleCash,
+			Cash,
+			JiuCoin,
+			RestrictHistoryBuy,
+			RestrictDayBuy,
+			PromotionSetting,
+			PromotionCash,
+			PromotionJiuCoin,
+			PromotionStartTime,
+			PromotionEndTime,
+			RestrictCycle,
+			RestrictHistoryBuyTime,
+			RestrictDayBuyTime,
+			LOWarehouseId,
+			Description,
+			RestrictId,
+			VCategoryId,
+			Together,
+			CartSttstcs,
+			HotSttstcs,
+			SubscriptId,
+			BuyType,
+			DisplayType,
+			PromotionBuyType,
+			PromotionDisplayType,
+			PromotionSaleCount,
+			PromotionVisitCount,
+			LOWarehouseId2,
+			SetLOWarehouseId2,
+			DeductPercent,
+			videoUrl,
+			videoName,
+			vip,
+			videoFileId,
+			state,
+			delState,
+			submitAuditTime,
+			auditTime,
+			auditNoPassReason,
+			upSoldTime,
+			downSoldTime,
+			newTime,
+			skuCount,
+			mainImg,
+			oneCategoryId,
+			oneCategoryName,
+			twoCategoryId,
+			twoCategoryName,
+			threeCategoryId,
+			threeCategoryName,
+			brandName,
+			brandLogo,
+			needAudit,
+			ladderPriceJson,
+			maxLadderPrice,
+			minLadderPrice,
+			supplierId,
+			categoryIds,
+			badge_id,
+			badge_name,
+			badge_image,
+			rank,
+			brand_type,
+			last_puton_time,
+			vedio_main,
+		)
+		values 
+		<foreach collection="list" item="item" separator=",">
+		(
+			#{item.id ,jdbcType=BIGINT},
+			#{item.name ,jdbcType=VARCHAR},
+			#{item.categoryid ,jdbcType=BIGINT},
+			#{item.detailimages ,jdbcType=VARCHAR},
+			#{item.summaryimages ,jdbcType=VARCHAR},
+			#{item.status ,jdbcType=TINYINT},
+			#{item.salestarttime ,jdbcType=BIGINT},
+			#{item.saleendtime ,jdbcType=BIGINT},
+			#{item.salecurrencytype ,jdbcType=TINYINT},
+			#{item.saletotalcount ,jdbcType=INTEGER},
+			#{item.salemonthlymaxcount ,jdbcType=INTEGER},
+			#{item.price ,jdbcType=INTEGER},
+			#{item.favorite ,jdbcType=BIGINT},
+			#{item.assessmentcount ,jdbcType=BIGINT},
+			#{item.expressfree ,jdbcType=TINYINT},
+			#{item.expressdetails ,jdbcType=VARCHAR},
+			#{item.createtime ,jdbcType=BIGINT},
+			#{item.updatetime ,jdbcType=BIGINT},
+			#{item.productseq ,jdbcType=VARCHAR},
+			#{item.remark ,jdbcType=VARCHAR},
+			#{item.marketprice ,jdbcType=DECIMAL},
+			#{item.sizetableimage ,jdbcType=VARCHAR},
+			#{item.clothesnumber ,jdbcType=VARCHAR},
+			#{item.promotionimage ,jdbcType=VARCHAR},
+			#{item.weight ,jdbcType=INTEGER},
+			#{item.brandid ,jdbcType=BIGINT},
+			#{item.showstatus ,jdbcType=INTEGER},
+			#{item.bottomprice ,jdbcType=DECIMAL},
+			#{item.marketpricemin ,jdbcType=INTEGER},
+			#{item.marketpricemax ,jdbcType=INTEGER},
+			#{item.type ,jdbcType=TINYINT},
+			#{item.wholesalecash ,jdbcType=DECIMAL},
+			#{item.cash ,jdbcType=DECIMAL},
+			#{item.jiucoin ,jdbcType=INTEGER},
+			#{item.restricthistorybuy ,jdbcType=INTEGER},
+			#{item.restrictdaybuy ,jdbcType=INTEGER},
+			#{item.promotionsetting ,jdbcType=TINYINT},
+			#{item.promotioncash ,jdbcType=DECIMAL},
+			#{item.promotionjiucoin ,jdbcType=INTEGER},
+			#{item.promotionstarttime ,jdbcType=BIGINT},
+			#{item.promotionendtime ,jdbcType=BIGINT},
+			#{item.restrictcycle ,jdbcType=INTEGER},
+			#{item.restricthistorybuytime ,jdbcType=BIGINT},
+			#{item.restrictdaybuytime ,jdbcType=BIGINT},
+			#{item.lowarehouseid ,jdbcType=BIGINT},
+			#{item.description ,jdbcType=VARCHAR},
+			#{item.restrictid ,jdbcType=BIGINT},
+			#{item.vcategoryid ,jdbcType=BIGINT},
+			#{item.together ,jdbcType=VARCHAR},
+			#{item.cartsttstcs ,jdbcType=DECIMAL},
+			#{item.hotsttstcs ,jdbcType=DECIMAL},
+			#{item.subscriptid ,jdbcType=BIGINT},
+			#{item.buytype ,jdbcType=TINYINT},
+			#{item.displaytype ,jdbcType=TINYINT},
+			#{item.promotionbuytype ,jdbcType=TINYINT},
+			#{item.promotiondisplaytype ,jdbcType=TINYINT},
+			#{item.promotionsalecount ,jdbcType=INTEGER},
+			#{item.promotionvisitcount ,jdbcType=INTEGER},
+			#{item.lowarehouseid2 ,jdbcType=BIGINT},
+			#{item.setlowarehouseid2 ,jdbcType=TINYINT},
+			#{item.deductpercent ,jdbcType=DECIMAL},
+			#{item.videourl ,jdbcType=VARCHAR},
+			#{item.videoname ,jdbcType=VARCHAR},
+			#{item.vip ,jdbcType=TINYINT},
+			#{item.videofileid ,jdbcType=BIGINT},
+			#{item.state ,jdbcType=TINYINT},
+			#{item.delstate ,jdbcType=TINYINT},
+			#{item.submitaudittime ,jdbcType=BIGINT},
+			#{item.audittime ,jdbcType=BIGINT},
+			#{item.auditnopassreason ,jdbcType=VARCHAR},
+			#{item.upsoldtime ,jdbcType=BIGINT},
+			#{item.downsoldtime ,jdbcType=BIGINT},
+			#{item.newtime ,jdbcType=BIGINT},
+			#{item.skucount ,jdbcType=INTEGER},
+			#{item.mainimg ,jdbcType=VARCHAR},
+			#{item.onecategoryid ,jdbcType=BIGINT},
+			#{item.onecategoryname ,jdbcType=VARCHAR},
+			#{item.twocategoryid ,jdbcType=BIGINT},
+			#{item.twocategoryname ,jdbcType=VARCHAR},
+			#{item.threecategoryid ,jdbcType=BIGINT},
+			#{item.threecategoryname ,jdbcType=VARCHAR},
+			#{item.brandname ,jdbcType=VARCHAR},
+			#{item.brandlogo ,jdbcType=VARCHAR},
+			#{item.needaudit ,jdbcType=TINYINT},
+			#{item.ladderpricejson ,jdbcType=VARCHAR},
+			#{item.maxladderprice ,jdbcType=DECIMAL},
+			#{item.minladderprice ,jdbcType=DECIMAL},
+			#{item.supplierid ,jdbcType=BIGINT},
+			#{item.categoryids ,jdbcType=VARCHAR},
+			#{item.badgeId ,jdbcType=BIGINT},
+			#{item.badgeName ,jdbcType=VARCHAR},
+			#{item.badgeImage ,jdbcType=VARCHAR},
+			#{item.rank ,jdbcType=INTEGER},
+			#{item.brandType ,jdbcType=INTEGER},
+			#{item.lastPutonTime ,jdbcType=BIGINT},
+			#{item.vedioMain ,jdbcType=VARCHAR}
+		)
+		</foreach>
+	</insert>
+
+	<!-- 精确插入，非null得字段才会插入-->
+	<insert id="insertSelective" parameterType="com.jiuy.product.model.Product" useGeneratedKeys="true" keyProperty="id" >
+		insert into yjj_Product
+		<trim prefix="(" suffix=")" suffixOverrides="," > 
+			<if test="id !=null">  
+				Id,
+			</if>
+			<if test="name !=null">  
+				Name,
+			</if>
+			<if test="categoryid !=null">  
+				CategoryId,
+			</if>
+			<if test="detailimages !=null">  
+				DetailImages,
+			</if>
+			<if test="summaryimages !=null">  
+				SummaryImages,
+			</if>
+			<if test="status !=null">  
+				Status,
+			</if>
+			<if test="salestarttime !=null">  
+				SaleStartTime,
+			</if>
+			<if test="saleendtime !=null">  
+				SaleEndTime,
+			</if>
+			<if test="salecurrencytype !=null">  
+				SaleCurrencyType,
+			</if>
+			<if test="saletotalcount !=null">  
+				SaleTotalCount,
+			</if>
+			<if test="salemonthlymaxcount !=null">  
+				SaleMonthlyMaxCount,
+			</if>
+			<if test="price !=null">  
+				Price,
+			</if>
+			<if test="favorite !=null">  
+				Favorite,
+			</if>
+			<if test="assessmentcount !=null">  
+				AssessmentCount,
+			</if>
+			<if test="expressfree !=null">  
+				ExpressFree,
+			</if>
+			<if test="expressdetails !=null">  
+				ExpressDetails,
+			</if>
+			<if test="createtime !=null">  
+				CreateTime,
+			</if>
+			<if test="updatetime !=null">  
+				UpdateTime,
+			</if>
+			<if test="productseq !=null">  
+				ProductSeq,
+			</if>
+			<if test="remark !=null">  
+				remark,
+			</if>
+			<if test="marketprice !=null">  
+				MarketPrice,
+			</if>
+			<if test="sizetableimage !=null">  
+				SizeTableImage,
+			</if>
+			<if test="clothesnumber !=null">  
+				ClothesNumber,
+			</if>
+			<if test="promotionimage !=null">  
+				PromotionImage,
+			</if>
+			<if test="weight !=null">  
+				Weight,
+			</if>
+			<if test="brandid !=null">  
+				BrandId,
+			</if>
+			<if test="showstatus !=null">  
+				ShowStatus,
+			</if>
+			<if test="bottomprice !=null">  
+				BottomPrice,
+			</if>
+			<if test="marketpricemin !=null">  
+				MarketPriceMin,
+			</if>
+			<if test="marketpricemax !=null">  
+				MarketPriceMax,
+			</if>
+			<if test="type !=null">  
+				Type,
+			</if>
+			<if test="wholesalecash !=null">  
+				WholeSaleCash,
+			</if>
+			<if test="cash !=null">  
+				Cash,
+			</if>
+			<if test="jiucoin !=null">  
+				JiuCoin,
+			</if>
+			<if test="restricthistorybuy !=null">  
+				RestrictHistoryBuy,
+			</if>
+			<if test="restrictdaybuy !=null">  
+				RestrictDayBuy,
+			</if>
+			<if test="promotionsetting !=null">  
+				PromotionSetting,
+			</if>
+			<if test="promotioncash !=null">  
+				PromotionCash,
+			</if>
+			<if test="promotionjiucoin !=null">  
+				PromotionJiuCoin,
+			</if>
+			<if test="promotionstarttime !=null">  
+				PromotionStartTime,
+			</if>
+			<if test="promotionendtime !=null">  
+				PromotionEndTime,
+			</if>
+			<if test="restrictcycle !=null">  
+				RestrictCycle,
+			</if>
+			<if test="restricthistorybuytime !=null">  
+				RestrictHistoryBuyTime,
+			</if>
+			<if test="restrictdaybuytime !=null">  
+				RestrictDayBuyTime,
+			</if>
+			<if test="lowarehouseid !=null">  
+				LOWarehouseId,
+			</if>
+			<if test="description !=null">  
+				Description,
+			</if>
+			<if test="restrictid !=null">  
+				RestrictId,
+			</if>
+			<if test="vcategoryid !=null">  
+				VCategoryId,
+			</if>
+			<if test="together !=null">  
+				Together,
+			</if>
+			<if test="cartsttstcs !=null">  
+				CartSttstcs,
+			</if>
+			<if test="hotsttstcs !=null">  
+				HotSttstcs,
+			</if>
+			<if test="subscriptid !=null">  
+				SubscriptId,
+			</if>
+			<if test="buytype !=null">  
+				BuyType,
+			</if>
+			<if test="displaytype !=null">  
+				DisplayType,
+			</if>
+			<if test="promotionbuytype !=null">  
+				PromotionBuyType,
+			</if>
+			<if test="promotiondisplaytype !=null">  
+				PromotionDisplayType,
+			</if>
+			<if test="promotionsalecount !=null">  
+				PromotionSaleCount,
+			</if>
+			<if test="promotionvisitcount !=null">  
+				PromotionVisitCount,
+			</if>
+			<if test="lowarehouseid2 !=null">  
+				LOWarehouseId2,
+			</if>
+			<if test="setlowarehouseid2 !=null">  
+				SetLOWarehouseId2,
+			</if>
+			<if test="deductpercent !=null">  
+				DeductPercent,
+			</if>
+			<if test="videourl !=null">  
+				videoUrl,
+			</if>
+			<if test="videoname !=null">  
+				videoName,
+			</if>
+			<if test="vip !=null">  
+				vip,
+			</if>
+			<if test="videofileid !=null">  
+				videoFileId,
+			</if>
+			<if test="state !=null">  
+				state,
+			</if>
+			<if test="delstate !=null">  
+				delState,
+			</if>
+			<if test="submitaudittime !=null">  
+				submitAuditTime,
+			</if>
+			<if test="audittime !=null">  
+				auditTime,
+			</if>
+			<if test="auditnopassreason !=null">  
+				auditNoPassReason,
+			</if>
+			<if test="upsoldtime !=null">  
+				upSoldTime,
+			</if>
+			<if test="downsoldtime !=null">  
+				downSoldTime,
+			</if>
+			<if test="newtime !=null">  
+				newTime,
+			</if>
+			<if test="skucount !=null">  
+				skuCount,
+			</if>
+			<if test="mainimg !=null">  
+				mainImg,
+			</if>
+			<if test="onecategoryid !=null">  
+				oneCategoryId,
+			</if>
+			<if test="onecategoryname !=null">  
+				oneCategoryName,
+			</if>
+			<if test="twocategoryid !=null">  
+				twoCategoryId,
+			</if>
+			<if test="twocategoryname !=null">  
+				twoCategoryName,
+			</if>
+			<if test="threecategoryid !=null">  
+				threeCategoryId,
+			</if>
+			<if test="threecategoryname !=null">  
+				threeCategoryName,
+			</if>
+			<if test="brandname !=null">  
+				brandName,
+			</if>
+			<if test="brandlogo !=null">  
+				brandLogo,
+			</if>
+			<if test="needaudit !=null">  
+				needAudit,
+			</if>
+			<if test="ladderpricejson !=null">  
+				ladderPriceJson,
+			</if>
+			<if test="maxladderprice !=null">  
+				maxLadderPrice,
+			</if>
+			<if test="minladderprice !=null">  
+				minLadderPrice,
+			</if>
+			<if test="supplierid !=null">  
+				supplierId,
+			</if>
+			<if test="categoryids !=null">  
+				categoryIds,
+			</if>
+			<if test="badgeId !=null">  
+				badge_id,
+			</if>
+			<if test="badgeName !=null">  
+				badge_name,
+			</if>
+			<if test="badgeImage !=null">  
+				badge_image,
+			</if>
+			<if test="rank !=null">  
+				rank,
+			</if>
+			<if test="brandType !=null">  
+				brand_type,
+			</if>
+			<if test="lastPutonTime !=null">  
+				last_puton_time,
+			</if>
+			<if test="vedioMain !=null">  
+				vedio_main,
+			</if>
+		</trim>
+
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+			<if test="id  !=null">
+				#{id,jdbcType=BIGINT}, 
+			</if>
+			<if test="name  !=null">
+				#{name,jdbcType=VARCHAR}, 
+			</if>
+			<if test="categoryid  !=null">
+				#{categoryid,jdbcType=BIGINT}, 
+			</if>
+			<if test="detailimages  !=null">
+				#{detailimages,jdbcType=VARCHAR}, 
+			</if>
+			<if test="summaryimages  !=null">
+				#{summaryimages,jdbcType=VARCHAR}, 
+			</if>
+			<if test="status  !=null">
+				#{status,jdbcType=TINYINT}, 
+			</if>
+			<if test="salestarttime  !=null">
+				#{salestarttime,jdbcType=BIGINT}, 
+			</if>
+			<if test="saleendtime  !=null">
+				#{saleendtime,jdbcType=BIGINT}, 
+			</if>
+			<if test="salecurrencytype  !=null">
+				#{salecurrencytype,jdbcType=TINYINT}, 
+			</if>
+			<if test="saletotalcount  !=null">
+				#{saletotalcount,jdbcType=INTEGER}, 
+			</if>
+			<if test="salemonthlymaxcount  !=null">
+				#{salemonthlymaxcount,jdbcType=INTEGER}, 
+			</if>
+			<if test="price  !=null">
+				#{price,jdbcType=INTEGER}, 
+			</if>
+			<if test="favorite  !=null">
+				#{favorite,jdbcType=BIGINT}, 
+			</if>
+			<if test="assessmentcount  !=null">
+				#{assessmentcount,jdbcType=BIGINT}, 
+			</if>
+			<if test="expressfree  !=null">
+				#{expressfree,jdbcType=TINYINT}, 
+			</if>
+			<if test="expressdetails  !=null">
+				#{expressdetails,jdbcType=VARCHAR}, 
+			</if>
+			<if test="createtime  !=null">
+				#{createtime,jdbcType=BIGINT}, 
+			</if>
+			<if test="updatetime  !=null">
+				#{updatetime,jdbcType=BIGINT}, 
+			</if>
+			<if test="productseq  !=null">
+				#{productseq,jdbcType=VARCHAR}, 
+			</if>
+			<if test="remark  !=null">
+				#{remark,jdbcType=VARCHAR}, 
+			</if>
+			<if test="marketprice  !=null">
+				#{marketprice,jdbcType=DECIMAL}, 
+			</if>
+			<if test="sizetableimage  !=null">
+				#{sizetableimage,jdbcType=VARCHAR}, 
+			</if>
+			<if test="clothesnumber  !=null">
+				#{clothesnumber,jdbcType=VARCHAR}, 
+			</if>
+			<if test="promotionimage  !=null">
+				#{promotionimage,jdbcType=VARCHAR}, 
+			</if>
+			<if test="weight  !=null">
+				#{weight,jdbcType=INTEGER}, 
+			</if>
+			<if test="brandid  !=null">
+				#{brandid,jdbcType=BIGINT}, 
+			</if>
+			<if test="showstatus  !=null">
+				#{showstatus,jdbcType=INTEGER}, 
+			</if>
+			<if test="bottomprice  !=null">
+				#{bottomprice,jdbcType=DECIMAL}, 
+			</if>
+			<if test="marketpricemin  !=null">
+				#{marketpricemin,jdbcType=INTEGER}, 
+			</if>
+			<if test="marketpricemax  !=null">
+				#{marketpricemax,jdbcType=INTEGER}, 
+			</if>
+			<if test="type  !=null">
+				#{type,jdbcType=TINYINT}, 
+			</if>
+			<if test="wholesalecash  !=null">
+				#{wholesalecash,jdbcType=DECIMAL}, 
+			</if>
+			<if test="cash  !=null">
+				#{cash,jdbcType=DECIMAL}, 
+			</if>
+			<if test="jiucoin  !=null">
+				#{jiucoin,jdbcType=INTEGER}, 
+			</if>
+			<if test="restricthistorybuy  !=null">
+				#{restricthistorybuy,jdbcType=INTEGER}, 
+			</if>
+			<if test="restrictdaybuy  !=null">
+				#{restrictdaybuy,jdbcType=INTEGER}, 
+			</if>
+			<if test="promotionsetting  !=null">
+				#{promotionsetting,jdbcType=TINYINT}, 
+			</if>
+			<if test="promotioncash  !=null">
+				#{promotioncash,jdbcType=DECIMAL}, 
+			</if>
+			<if test="promotionjiucoin  !=null">
+				#{promotionjiucoin,jdbcType=INTEGER}, 
+			</if>
+			<if test="promotionstarttime  !=null">
+				#{promotionstarttime,jdbcType=BIGINT}, 
+			</if>
+			<if test="promotionendtime  !=null">
+				#{promotionendtime,jdbcType=BIGINT}, 
+			</if>
+			<if test="restrictcycle  !=null">
+				#{restrictcycle,jdbcType=INTEGER}, 
+			</if>
+			<if test="restricthistorybuytime  !=null">
+				#{restricthistorybuytime,jdbcType=BIGINT}, 
+			</if>
+			<if test="restrictdaybuytime  !=null">
+				#{restrictdaybuytime,jdbcType=BIGINT}, 
+			</if>
+			<if test="lowarehouseid  !=null">
+				#{lowarehouseid,jdbcType=BIGINT}, 
+			</if>
+			<if test="description  !=null">
+				#{description,jdbcType=VARCHAR}, 
+			</if>
+			<if test="restrictid  !=null">
+				#{restrictid,jdbcType=BIGINT}, 
+			</if>
+			<if test="vcategoryid  !=null">
+				#{vcategoryid,jdbcType=BIGINT}, 
+			</if>
+			<if test="together  !=null">
+				#{together,jdbcType=VARCHAR}, 
+			</if>
+			<if test="cartsttstcs  !=null">
+				#{cartsttstcs,jdbcType=DECIMAL}, 
+			</if>
+			<if test="hotsttstcs  !=null">
+				#{hotsttstcs,jdbcType=DECIMAL}, 
+			</if>
+			<if test="subscriptid  !=null">
+				#{subscriptid,jdbcType=BIGINT}, 
+			</if>
+			<if test="buytype  !=null">
+				#{buytype,jdbcType=TINYINT}, 
+			</if>
+			<if test="displaytype  !=null">
+				#{displaytype,jdbcType=TINYINT}, 
+			</if>
+			<if test="promotionbuytype  !=null">
+				#{promotionbuytype,jdbcType=TINYINT}, 
+			</if>
+			<if test="promotiondisplaytype  !=null">
+				#{promotiondisplaytype,jdbcType=TINYINT}, 
+			</if>
+			<if test="promotionsalecount  !=null">
+				#{promotionsalecount,jdbcType=INTEGER}, 
+			</if>
+			<if test="promotionvisitcount  !=null">
+				#{promotionvisitcount,jdbcType=INTEGER}, 
+			</if>
+			<if test="lowarehouseid2  !=null">
+				#{lowarehouseid2,jdbcType=BIGINT}, 
+			</if>
+			<if test="setlowarehouseid2  !=null">
+				#{setlowarehouseid2,jdbcType=TINYINT}, 
+			</if>
+			<if test="deductpercent  !=null">
+				#{deductpercent,jdbcType=DECIMAL}, 
+			</if>
+			<if test="videourl  !=null">
+				#{videourl,jdbcType=VARCHAR}, 
+			</if>
+			<if test="videoname  !=null">
+				#{videoname,jdbcType=VARCHAR}, 
+			</if>
+			<if test="vip  !=null">
+				#{vip,jdbcType=TINYINT}, 
+			</if>
+			<if test="videofileid  !=null">
+				#{videofileid,jdbcType=BIGINT}, 
+			</if>
+			<if test="state  !=null">
+				#{state,jdbcType=TINYINT}, 
+			</if>
+			<if test="delstate  !=null">
+				#{delstate,jdbcType=TINYINT}, 
+			</if>
+			<if test="submitaudittime  !=null">
+				#{submitaudittime,jdbcType=BIGINT}, 
+			</if>
+			<if test="audittime  !=null">
+				#{audittime,jdbcType=BIGINT}, 
+			</if>
+			<if test="auditnopassreason  !=null">
+				#{auditnopassreason,jdbcType=VARCHAR}, 
+			</if>
+			<if test="upsoldtime  !=null">
+				#{upsoldtime,jdbcType=BIGINT}, 
+			</if>
+			<if test="downsoldtime  !=null">
+				#{downsoldtime,jdbcType=BIGINT}, 
+			</if>
+			<if test="newtime  !=null">
+				#{newtime,jdbcType=BIGINT}, 
+			</if>
+			<if test="skucount  !=null">
+				#{skucount,jdbcType=INTEGER}, 
+			</if>
+			<if test="mainimg  !=null">
+				#{mainimg,jdbcType=VARCHAR}, 
+			</if>
+			<if test="onecategoryid  !=null">
+				#{onecategoryid,jdbcType=BIGINT}, 
+			</if>
+			<if test="onecategoryname  !=null">
+				#{onecategoryname,jdbcType=VARCHAR}, 
+			</if>
+			<if test="twocategoryid  !=null">
+				#{twocategoryid,jdbcType=BIGINT}, 
+			</if>
+			<if test="twocategoryname  !=null">
+				#{twocategoryname,jdbcType=VARCHAR}, 
+			</if>
+			<if test="threecategoryid  !=null">
+				#{threecategoryid,jdbcType=BIGINT}, 
+			</if>
+			<if test="threecategoryname  !=null">
+				#{threecategoryname,jdbcType=VARCHAR}, 
+			</if>
+			<if test="brandname  !=null">
+				#{brandname,jdbcType=VARCHAR}, 
+			</if>
+			<if test="brandlogo  !=null">
+				#{brandlogo,jdbcType=VARCHAR}, 
+			</if>
+			<if test="needaudit  !=null">
+				#{needaudit,jdbcType=TINYINT}, 
+			</if>
+			<if test="ladderpricejson  !=null">
+				#{ladderpricejson,jdbcType=VARCHAR}, 
+			</if>
+			<if test="maxladderprice  !=null">
+				#{maxladderprice,jdbcType=DECIMAL}, 
+			</if>
+			<if test="minladderprice  !=null">
+				#{minladderprice,jdbcType=DECIMAL}, 
+			</if>
+			<if test="supplierid  !=null">
+				#{supplierid,jdbcType=BIGINT}, 
+			</if>
+			<if test="categoryids  !=null">
+				#{categoryids,jdbcType=VARCHAR}, 
+			</if>
+			<if test="badgeId  !=null">
+				#{badgeId,jdbcType=BIGINT}, 
+			</if>
+			<if test="badgeName  !=null">
+				#{badgeName,jdbcType=VARCHAR}, 
+			</if>
+			<if test="badgeImage  !=null">
+				#{badgeImage,jdbcType=VARCHAR}, 
+			</if>
+			<if test="rank  !=null">
+				#{rank,jdbcType=INTEGER}, 
+			</if>
+			<if test="brandType  !=null">
+				#{brandType,jdbcType=INTEGER}, 
+			</if>
+			<if test="lastPutonTime  !=null">
+				#{lastPutonTime,jdbcType=BIGINT}, 
+			</if>
+			<if test="vedioMain  !=null">
+				#{vedioMain,jdbcType=VARCHAR} 
+			</if>
+		</trim>
+	</insert> 
+
+	<!-- 精确更新-->
+	<update id="updateByPrimaryKeySelective" parameterType="com.jiuy.product.model.Product" >
+		update yjj_Product
+		<set>
+			<include refid="updateBase"/>
+		</set>
+		where Id = #{id,jdbcType=BIGINT} 
+	</update> 
+
+	<!-- 全字段更新 需要注意-->
+	<update id="updateByPrimaryKey" parameterType="com.jiuy.product.model.Product" >
+		update yjj_Product
+		set 
+			Id = #{id ,jdbcType=BIGINT},
+			Name = #{name ,jdbcType=VARCHAR},
+			CategoryId = #{categoryid ,jdbcType=BIGINT},
+			DetailImages = #{detailimages ,jdbcType=VARCHAR},
+			SummaryImages = #{summaryimages ,jdbcType=VARCHAR},
+			Status = #{status ,jdbcType=TINYINT},
+			SaleStartTime = #{salestarttime ,jdbcType=BIGINT},
+			SaleEndTime = #{saleendtime ,jdbcType=BIGINT},
+			SaleCurrencyType = #{salecurrencytype ,jdbcType=TINYINT},
+			SaleTotalCount = #{saletotalcount ,jdbcType=INTEGER},
+			SaleMonthlyMaxCount = #{salemonthlymaxcount ,jdbcType=INTEGER},
+			Price = #{price ,jdbcType=INTEGER},
+			Favorite = #{favorite ,jdbcType=BIGINT},
+			AssessmentCount = #{assessmentcount ,jdbcType=BIGINT},
+			ExpressFree = #{expressfree ,jdbcType=TINYINT},
+			ExpressDetails = #{expressdetails ,jdbcType=VARCHAR},
+			CreateTime = #{createtime ,jdbcType=BIGINT},
+			UpdateTime = #{updatetime ,jdbcType=BIGINT},
+			ProductSeq = #{productseq ,jdbcType=VARCHAR},
+			remark = #{remark ,jdbcType=VARCHAR},
+			MarketPrice = #{marketprice ,jdbcType=DECIMAL},
+			SizeTableImage = #{sizetableimage ,jdbcType=VARCHAR},
+			ClothesNumber = #{clothesnumber ,jdbcType=VARCHAR},
+			PromotionImage = #{promotionimage ,jdbcType=VARCHAR},
+			Weight = #{weight ,jdbcType=INTEGER},
+			BrandId = #{brandid ,jdbcType=BIGINT},
+			ShowStatus = #{showstatus ,jdbcType=INTEGER},
+			BottomPrice = #{bottomprice ,jdbcType=DECIMAL},
+			MarketPriceMin = #{marketpricemin ,jdbcType=INTEGER},
+			MarketPriceMax = #{marketpricemax ,jdbcType=INTEGER},
+			Type = #{type ,jdbcType=TINYINT},
+			WholeSaleCash = #{wholesalecash ,jdbcType=DECIMAL},
+			Cash = #{cash ,jdbcType=DECIMAL},
+			JiuCoin = #{jiucoin ,jdbcType=INTEGER},
+			RestrictHistoryBuy = #{restricthistorybuy ,jdbcType=INTEGER},
+			RestrictDayBuy = #{restrictdaybuy ,jdbcType=INTEGER},
+			PromotionSetting = #{promotionsetting ,jdbcType=TINYINT},
+			PromotionCash = #{promotioncash ,jdbcType=DECIMAL},
+			PromotionJiuCoin = #{promotionjiucoin ,jdbcType=INTEGER},
+			PromotionStartTime = #{promotionstarttime ,jdbcType=BIGINT},
+			PromotionEndTime = #{promotionendtime ,jdbcType=BIGINT},
+			RestrictCycle = #{restrictcycle ,jdbcType=INTEGER},
+			RestrictHistoryBuyTime = #{restricthistorybuytime ,jdbcType=BIGINT},
+			RestrictDayBuyTime = #{restrictdaybuytime ,jdbcType=BIGINT},
+			LOWarehouseId = #{lowarehouseid ,jdbcType=BIGINT},
+			Description = #{description ,jdbcType=VARCHAR},
+			RestrictId = #{restrictid ,jdbcType=BIGINT},
+			VCategoryId = #{vcategoryid ,jdbcType=BIGINT},
+			Together = #{together ,jdbcType=VARCHAR},
+			CartSttstcs = #{cartsttstcs ,jdbcType=DECIMAL},
+			HotSttstcs = #{hotsttstcs ,jdbcType=DECIMAL},
+			SubscriptId = #{subscriptid ,jdbcType=BIGINT},
+			BuyType = #{buytype ,jdbcType=TINYINT},
+			DisplayType = #{displaytype ,jdbcType=TINYINT},
+			PromotionBuyType = #{promotionbuytype ,jdbcType=TINYINT},
+			PromotionDisplayType = #{promotiondisplaytype ,jdbcType=TINYINT},
+			PromotionSaleCount = #{promotionsalecount ,jdbcType=INTEGER},
+			PromotionVisitCount = #{promotionvisitcount ,jdbcType=INTEGER},
+			LOWarehouseId2 = #{lowarehouseid2 ,jdbcType=BIGINT},
+			SetLOWarehouseId2 = #{setlowarehouseid2 ,jdbcType=TINYINT},
+			DeductPercent = #{deductpercent ,jdbcType=DECIMAL},
+			videoUrl = #{videourl ,jdbcType=VARCHAR},
+			videoName = #{videoname ,jdbcType=VARCHAR},
+			vip = #{vip ,jdbcType=TINYINT},
+			videoFileId = #{videofileid ,jdbcType=BIGINT},
+			state = #{state ,jdbcType=TINYINT},
+			delState = #{delstate ,jdbcType=TINYINT},
+			submitAuditTime = #{submitaudittime ,jdbcType=BIGINT},
+			auditTime = #{audittime ,jdbcType=BIGINT},
+			auditNoPassReason = #{auditnopassreason ,jdbcType=VARCHAR},
+			upSoldTime = #{upsoldtime ,jdbcType=BIGINT},
+			downSoldTime = #{downsoldtime ,jdbcType=BIGINT},
+			newTime = #{newtime ,jdbcType=BIGINT},
+			skuCount = #{skucount ,jdbcType=INTEGER},
+			mainImg = #{mainimg ,jdbcType=VARCHAR},
+			oneCategoryId = #{onecategoryid ,jdbcType=BIGINT},
+			oneCategoryName = #{onecategoryname ,jdbcType=VARCHAR},
+			twoCategoryId = #{twocategoryid ,jdbcType=BIGINT},
+			twoCategoryName = #{twocategoryname ,jdbcType=VARCHAR},
+			threeCategoryId = #{threecategoryid ,jdbcType=BIGINT},
+			threeCategoryName = #{threecategoryname ,jdbcType=VARCHAR},
+			brandName = #{brandname ,jdbcType=VARCHAR},
+			brandLogo = #{brandlogo ,jdbcType=VARCHAR},
+			needAudit = #{needaudit ,jdbcType=TINYINT},
+			ladderPriceJson = #{ladderpricejson ,jdbcType=VARCHAR},
+			maxLadderPrice = #{maxladderprice ,jdbcType=DECIMAL},
+			minLadderPrice = #{minladderprice ,jdbcType=DECIMAL},
+			supplierId = #{supplierid ,jdbcType=BIGINT},
+			categoryIds = #{categoryids ,jdbcType=VARCHAR},
+			badge_id = #{badgeId ,jdbcType=BIGINT},
+			badge_name = #{badgeName ,jdbcType=VARCHAR},
+			badge_image = #{badgeImage ,jdbcType=VARCHAR},
+			rank = #{rank ,jdbcType=INTEGER},
+			brand_type = #{brandType ,jdbcType=INTEGER},
+			last_puton_time = #{lastPutonTime ,jdbcType=BIGINT},
+			vedio_main = #{vedioMain ,jdbcType=VARCHAR}
+		where Id = #{id,jdbcType=BIGINT} 
+	</update> 
+
+	<!-- 所有的条件集合-->
+	<sql id="whereCase"  >
+		where  1=1 
+		<if test="id  !=null">
+			AND Id = #{id,jdbcType=BIGINT} 
+		</if>
+		<if test="name  !=null">
+			AND Name = #{name,jdbcType=VARCHAR} 
+		</if>
+		<if test="categoryid  !=null">
+			AND CategoryId = #{categoryid,jdbcType=BIGINT} 
+		</if>
+		<if test="detailimages  !=null">
+			AND DetailImages = #{detailimages,jdbcType=VARCHAR} 
+		</if>
+		<if test="summaryimages  !=null">
+			AND SummaryImages = #{summaryimages,jdbcType=VARCHAR} 
+		</if>
+		<if test="status  !=null">
+			AND Status = #{status,jdbcType=TINYINT} 
+		</if>
+		<if test="salestarttime  !=null">
+			AND SaleStartTime = #{salestarttime,jdbcType=BIGINT} 
+		</if>
+		<if test="saleendtime  !=null">
+			AND SaleEndTime = #{saleendtime,jdbcType=BIGINT} 
+		</if>
+		<if test="salecurrencytype  !=null">
+			AND SaleCurrencyType = #{salecurrencytype,jdbcType=TINYINT} 
+		</if>
+		<if test="saletotalcount  !=null">
+			AND SaleTotalCount = #{saletotalcount,jdbcType=INTEGER} 
+		</if>
+		<if test="salemonthlymaxcount  !=null">
+			AND SaleMonthlyMaxCount = #{salemonthlymaxcount,jdbcType=INTEGER} 
+		</if>
+		<if test="price  !=null">
+			AND Price = #{price,jdbcType=INTEGER} 
+		</if>
+		<if test="favorite  !=null">
+			AND Favorite = #{favorite,jdbcType=BIGINT} 
+		</if>
+		<if test="assessmentcount  !=null">
+			AND AssessmentCount = #{assessmentcount,jdbcType=BIGINT} 
+		</if>
+		<if test="expressfree  !=null">
+			AND ExpressFree = #{expressfree,jdbcType=TINYINT} 
+		</if>
+		<if test="expressdetails  !=null">
+			AND ExpressDetails = #{expressdetails,jdbcType=VARCHAR} 
+		</if>
+		<if test="createtime  !=null">
+			AND CreateTime = #{createtime,jdbcType=BIGINT} 
+		</if>
+		<if test="updatetime  !=null">
+			AND UpdateTime = #{updatetime,jdbcType=BIGINT} 
+		</if>
+		<if test="productseq  !=null">
+			AND ProductSeq = #{productseq,jdbcType=VARCHAR} 
+		</if>
+		<if test="remark  !=null">
+			AND remark = #{remark,jdbcType=VARCHAR} 
+		</if>
+		<if test="marketprice  !=null">
+			AND MarketPrice = #{marketprice,jdbcType=DECIMAL} 
+		</if>
+		<if test="sizetableimage  !=null">
+			AND SizeTableImage = #{sizetableimage,jdbcType=VARCHAR} 
+		</if>
+		<if test="clothesnumber  !=null">
+			AND ClothesNumber = #{clothesnumber,jdbcType=VARCHAR} 
+		</if>
+		<if test="promotionimage  !=null">
+			AND PromotionImage = #{promotionimage,jdbcType=VARCHAR} 
+		</if>
+		<if test="weight  !=null">
+			AND Weight = #{weight,jdbcType=INTEGER} 
+		</if>
+		<if test="brandid  !=null">
+			AND BrandId = #{brandid,jdbcType=BIGINT} 
+		</if>
+		<if test="showstatus  !=null">
+			AND ShowStatus = #{showstatus,jdbcType=INTEGER} 
+		</if>
+		<if test="bottomprice  !=null">
+			AND BottomPrice = #{bottomprice,jdbcType=DECIMAL} 
+		</if>
+		<if test="marketpricemin  !=null">
+			AND MarketPriceMin = #{marketpricemin,jdbcType=INTEGER} 
+		</if>
+		<if test="marketpricemax  !=null">
+			AND MarketPriceMax = #{marketpricemax,jdbcType=INTEGER} 
+		</if>
+		<if test="type  !=null">
+			AND Type = #{type,jdbcType=TINYINT} 
+		</if>
+		<if test="wholesalecash  !=null">
+			AND WholeSaleCash = #{wholesalecash,jdbcType=DECIMAL} 
+		</if>
+		<if test="cash  !=null">
+			AND Cash = #{cash,jdbcType=DECIMAL} 
+		</if>
+		<if test="jiucoin  !=null">
+			AND JiuCoin = #{jiucoin,jdbcType=INTEGER} 
+		</if>
+		<if test="restricthistorybuy  !=null">
+			AND RestrictHistoryBuy = #{restricthistorybuy,jdbcType=INTEGER} 
+		</if>
+		<if test="restrictdaybuy  !=null">
+			AND RestrictDayBuy = #{restrictdaybuy,jdbcType=INTEGER} 
+		</if>
+		<if test="promotionsetting  !=null">
+			AND PromotionSetting = #{promotionsetting,jdbcType=TINYINT} 
+		</if>
+		<if test="promotioncash  !=null">
+			AND PromotionCash = #{promotioncash,jdbcType=DECIMAL} 
+		</if>
+		<if test="promotionjiucoin  !=null">
+			AND PromotionJiuCoin = #{promotionjiucoin,jdbcType=INTEGER} 
+		</if>
+		<if test="promotionstarttime  !=null">
+			AND PromotionStartTime = #{promotionstarttime,jdbcType=BIGINT} 
+		</if>
+		<if test="promotionendtime  !=null">
+			AND PromotionEndTime = #{promotionendtime,jdbcType=BIGINT} 
+		</if>
+		<if test="restrictcycle  !=null">
+			AND RestrictCycle = #{restrictcycle,jdbcType=INTEGER} 
+		</if>
+		<if test="restricthistorybuytime  !=null">
+			AND RestrictHistoryBuyTime = #{restricthistorybuytime,jdbcType=BIGINT} 
+		</if>
+		<if test="restrictdaybuytime  !=null">
+			AND RestrictDayBuyTime = #{restrictdaybuytime,jdbcType=BIGINT} 
+		</if>
+		<if test="lowarehouseid  !=null">
+			AND LOWarehouseId = #{lowarehouseid,jdbcType=BIGINT} 
+		</if>
+		<if test="description  !=null">
+			AND Description = #{description,jdbcType=VARCHAR} 
+		</if>
+		<if test="restrictid  !=null">
+			AND RestrictId = #{restrictid,jdbcType=BIGINT} 
+		</if>
+		<if test="vcategoryid  !=null">
+			AND VCategoryId = #{vcategoryid,jdbcType=BIGINT} 
+		</if>
+		<if test="together  !=null">
+			AND Together = #{together,jdbcType=VARCHAR} 
+		</if>
+		<if test="cartsttstcs  !=null">
+			AND CartSttstcs = #{cartsttstcs,jdbcType=DECIMAL} 
+		</if>
+		<if test="hotsttstcs  !=null">
+			AND HotSttstcs = #{hotsttstcs,jdbcType=DECIMAL} 
+		</if>
+		<if test="subscriptid  !=null">
+			AND SubscriptId = #{subscriptid,jdbcType=BIGINT} 
+		</if>
+		<if test="buytype  !=null">
+			AND BuyType = #{buytype,jdbcType=TINYINT} 
+		</if>
+		<if test="displaytype  !=null">
+			AND DisplayType = #{displaytype,jdbcType=TINYINT} 
+		</if>
+		<if test="promotionbuytype  !=null">
+			AND PromotionBuyType = #{promotionbuytype,jdbcType=TINYINT} 
+		</if>
+		<if test="promotiondisplaytype  !=null">
+			AND PromotionDisplayType = #{promotiondisplaytype,jdbcType=TINYINT} 
+		</if>
+		<if test="promotionsalecount  !=null">
+			AND PromotionSaleCount = #{promotionsalecount,jdbcType=INTEGER} 
+		</if>
+		<if test="promotionvisitcount  !=null">
+			AND PromotionVisitCount = #{promotionvisitcount,jdbcType=INTEGER} 
+		</if>
+		<if test="lowarehouseid2  !=null">
+			AND LOWarehouseId2 = #{lowarehouseid2,jdbcType=BIGINT} 
+		</if>
+		<if test="setlowarehouseid2  !=null">
+			AND SetLOWarehouseId2 = #{setlowarehouseid2,jdbcType=TINYINT} 
+		</if>
+		<if test="deductpercent  !=null">
+			AND DeductPercent = #{deductpercent,jdbcType=DECIMAL} 
+		</if>
+		<if test="videourl  !=null">
+			AND videoUrl = #{videourl,jdbcType=VARCHAR} 
+		</if>
+		<if test="videoname  !=null">
+			AND videoName = #{videoname,jdbcType=VARCHAR} 
+		</if>
+		<if test="vip  !=null">
+			AND vip = #{vip,jdbcType=TINYINT} 
+		</if>
+		<if test="videofileid  !=null">
+			AND videoFileId = #{videofileid,jdbcType=BIGINT} 
+		</if>
+		<if test="state  !=null">
+			AND state = #{state,jdbcType=TINYINT} 
+		</if>
+		<if test="delstate  !=null">
+			AND delState = #{delstate,jdbcType=TINYINT} 
+		</if>
+		<if test="submitaudittime  !=null">
+			AND submitAuditTime = #{submitaudittime,jdbcType=BIGINT} 
+		</if>
+		<if test="audittime  !=null">
+			AND auditTime = #{audittime,jdbcType=BIGINT} 
+		</if>
+		<if test="auditnopassreason  !=null">
+			AND auditNoPassReason = #{auditnopassreason,jdbcType=VARCHAR} 
+		</if>
+		<if test="upsoldtime  !=null">
+			AND upSoldTime = #{upsoldtime,jdbcType=BIGINT} 
+		</if>
+		<if test="downsoldtime  !=null">
+			AND downSoldTime = #{downsoldtime,jdbcType=BIGINT} 
+		</if>
+		<if test="newtime  !=null">
+			AND newTime = #{newtime,jdbcType=BIGINT} 
+		</if>
+		<if test="skucount  !=null">
+			AND skuCount = #{skucount,jdbcType=INTEGER} 
+		</if>
+		<if test="mainimg  !=null">
+			AND mainImg = #{mainimg,jdbcType=VARCHAR} 
+		</if>
+		<if test="onecategoryid  !=null">
+			AND oneCategoryId = #{onecategoryid,jdbcType=BIGINT} 
+		</if>
+		<if test="onecategoryname  !=null">
+			AND oneCategoryName = #{onecategoryname,jdbcType=VARCHAR} 
+		</if>
+		<if test="twocategoryid  !=null">
+			AND twoCategoryId = #{twocategoryid,jdbcType=BIGINT} 
+		</if>
+		<if test="twocategoryname  !=null">
+			AND twoCategoryName = #{twocategoryname,jdbcType=VARCHAR} 
+		</if>
+		<if test="threecategoryid  !=null">
+			AND threeCategoryId = #{threecategoryid,jdbcType=BIGINT} 
+		</if>
+		<if test="threecategoryname  !=null">
+			AND threeCategoryName = #{threecategoryname,jdbcType=VARCHAR} 
+		</if>
+		<if test="brandname  !=null">
+			AND brandName = #{brandname,jdbcType=VARCHAR} 
+		</if>
+		<if test="brandlogo  !=null">
+			AND brandLogo = #{brandlogo,jdbcType=VARCHAR} 
+		</if>
+		<if test="needaudit  !=null">
+			AND needAudit = #{needaudit,jdbcType=TINYINT} 
+		</if>
+		<if test="ladderpricejson  !=null">
+			AND ladderPriceJson = #{ladderpricejson,jdbcType=VARCHAR} 
+		</if>
+		<if test="maxladderprice  !=null">
+			AND maxLadderPrice = #{maxladderprice,jdbcType=DECIMAL} 
+		</if>
+		<if test="minladderprice  !=null">
+			AND minLadderPrice = #{minladderprice,jdbcType=DECIMAL} 
+		</if>
+		<if test="supplierid  !=null">
+			AND supplierId = #{supplierid,jdbcType=BIGINT} 
+		</if>
+		<if test="categoryids  !=null">
+			AND categoryIds = #{categoryids,jdbcType=VARCHAR} 
+		</if>
+		<if test="badgeId  !=null">
+			AND badge_id = #{badgeId,jdbcType=BIGINT} 
+		</if>
+		<if test="badgeName  !=null">
+			AND badge_name = #{badgeName,jdbcType=VARCHAR} 
+		</if>
+		<if test="badgeImage  !=null">
+			AND badge_image = #{badgeImage,jdbcType=VARCHAR} 
+		</if>
+		<if test="rank  !=null">
+			AND rank = #{rank,jdbcType=INTEGER} 
+		</if>
+		<if test="brandType  !=null">
+			AND brand_type = #{brandType,jdbcType=INTEGER} 
+		</if>
+		<if test="lastPutonTime  !=null">
+			AND last_puton_time = #{lastPutonTime,jdbcType=BIGINT} 
+		</if>
+		<if test="vedioMain  !=null">
+			AND vedio_main = #{vedioMain,jdbcType=VARCHAR} 
+		</if>
+		<include refid="costomWhereCase"/>
+	</sql>
+
+	<!-- 查询一条，如果返回多条会报错-->
+	<select id="selectOne" parameterType="java.util.Map" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" /> 
+		FROM yjj_Product 
+		<include refid="whereCase" /> 
+	</select>
+
+	<!-- 查询一个list-->
+	<select id="selectList" parameterType="java.util.Map" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" /> 
+		FROM yjj_Product 
+		<include refid="whereCase" /> 
+	</select>
+
+	<!--  @Costom -->
+	<!-- 从上一行注释以上为系统生成 从这一行往下为用户自定义 请将自定义的sql放在此行下面 -->
+	<sql id="costomWhereCase">
+	</sql>
+
+</mapper>

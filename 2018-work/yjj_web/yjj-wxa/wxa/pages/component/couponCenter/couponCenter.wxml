@@ -1,0 +1,36 @@
+<!--领券中心-->
+<view class="coupon-box">
+  <view class="coupon-list"> 
+    <!--领劵中心列表  -->
+    <view class="have-coupon" wx:if="{{hasCoupon}}">
+      <view class="coupon-prompt">您有<text>{{totalNumber}}</text>张优惠券尚未领取</view>
+      <block wx:for="{{ couponData }}" wx:key="id">
+        <view class='item'>
+            <view class="name">{{item.name}}</view>
+            <view class='box'>
+              <view class="money" wx:if="{{item.couponType == 0 || item.couponType == 1}}"><text class='rmb'>¥</text><text class='number'>{{ item.money }}元</text></view>
+              <view class="money" wx:else><text class='number'>{{ item.discount }}折</text></view>
+              <view class='text-box'>
+                <text class="ct" wx:if="{{item.limitMoney==0}}">无金额限制</text>
+                <text class="ct" wx:else>满{{item.limitMoney }}元可用</text>
+              </view>
+              <view class='receive-btn' bindtap='getSingleCoupon' data-id='{{item.id}}'>立即领取</view>
+            </view>
+            <view class="time">有效期：<text>{{item.validityStartTimeStr}}<text class='line'>～</text>{{item.validityEndTimeStr}}</text></view>
+        </view>
+      </block>
+    </view>
+    <!--没有优惠券-->
+    <view class="no-coupon" wx:else>
+      <view class="icon"></view>
+      <view class="text">暂无优惠券可领</view>
+    </view>
+  </view>
+  <view class='coupon-btn' wx:if="{{hasCoupon}}">
+      <view class="ui-btn btn1" bindtap="getAllCoupon">领取全部</view>
+      <view class="ui-btn btn2" bindtap="gotoMyCoupon">查看我的优惠券</view>
+  </view>
+  <block wx:else>
+    <view class="ui-btn chechk-btn" bindtap="gotoMyCoupon">查看我的优惠券</view>
+  </block>
+</view><!-- mycoupon-box end -->

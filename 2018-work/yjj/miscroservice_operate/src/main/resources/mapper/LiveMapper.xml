@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" > 
+<mapper namespace="com.e_commerce.miscroservice.operate.mapper.LiveMapper">
+	
+	<sql id="base_live_user">
+		id,`name`,nick_name,icon,age,id_card,phone,sex,store_id,room_num,live_type,status,del_status,create_time,update_time
+	</sql>
+	<!--查询主播列表-->
+	<select id="findAllAnchorByType"
+			resultType="com.e_commerce.miscroservice.operate.entity.response.FindAllLiveResponse">
+		select
+		<include refid="base_live_user"/>
+		from
+		live_user
+		<trim prefix="where" prefixOverrides="and|or">
+			del_status = 0 and
+			live_type= #{liveType}
+			<if test="liveRequest.name !=null and liveRequest.name !='' ">
+				and `name` = #{liveRequest.name}
+			</if>
+			<if test="liveRequest.nickName !=null  and liveRequest.nickName !=''">
+				and `nick_name` = #{liveRequest.nickName}
+			</if>
+			<if test="liveRequest.sex !=null  and liveRequest.sex !=''">
+				and `sex` = #{liveRequest.sex}
+			</if>
+			<if test="liveRequest.phone !=null  and liveRequest.phone !=''">
+				and `phone` = #{liveRequest.phone}
+			</if>
+			<if test="liveRequest.timeStart !=null  and liveRequest.timeStart !=''">
+				and `create_time` <![CDATA[>=]]> #{liveRequest.timeStart}
+			</if>
+			<if test="liveRequest.timeEnd !=null  and liveRequest.timeEnd !=''">
+				and `create_time` <![CDATA[<=]]> #{liveRequest.timeEnd}
+			</if>
+		</trim>
+	</select>
+	<select id="findAnchorPhoneNumberByStoreIdType"
+			resultType="com.e_commerce.miscroservice.commons.entity.user.LiveUser">
+		select  `name`,`phone` from live_user where store_id = #{storeId} and live_type=#{type} limit 1
+	</select>
+</mapper>

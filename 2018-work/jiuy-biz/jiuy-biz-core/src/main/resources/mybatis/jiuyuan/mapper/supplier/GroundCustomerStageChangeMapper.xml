@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper
+	namespace="com.jiuyuan.dao.mapper.supplier.GroundCustomerStageChangeMapper">
+
+	<select id="getPersonalCusAddCount" resultType="int">
+		<![CDATA[
+			select count(*) from ground_customer_stage_change 
+			where ground_user_id = #{groundUserId} 
+			and stage_type = 1 
+			and stage_change_date = #{today}
+		]]>
+	</select>
+	<select id="getGroupCusAddCount" resultType="int">
+		<![CDATA[
+			select count(*) from ground_customer_stage_change 
+			where ground_user_id in(select ground_user_id from ground_customer_stage_change where super_ids like concat('%,',#{groundUserId},',%'))
+			and stage_type = 1 
+			and stage_change_date =  #{today}
+		]]>
+	</select>
+    <!-- 查询各个阶段当日个人新增客户数 -->
+	<select id="getStageIndividualClientChange" resultType="map">
+	    <![CDATA[
+SELECT ground_user_id AS groundUserId, SUM(change_count) AS total , super_ids AS supperIds
+FROM ground_customer_stage_change
+WHERE stage_change_date = #{date}
+	AND stage_type = #{stageType}
+GROUP BY ground_user_id, super_ids 	        
+	    ]]>
+	</select>
+	
+    <!-- 查询各个阶段当日团队新增客户数 -->	
+	<select id="getStageTeamClientChange" resultType="map">
+	     <![CDATA[
+SELECT b.ground_user_id AS groundUserId, SUM(a.total) AS total, b.super_ids AS supperIds
+FROM (SELECT ground_user_id, super_ids AS ids, SUM(change_count) AS total 
+	FROM ground_customer_stage_change
+	WHERE stage_change_date = #{date}
+		AND stage_type = #{stageType}
+	GROUP BY ground_user_id,super_ids
+	) a, ground_customer_stage_change b
+WHERE a.ids LIKE CONCAT('%,', b.ground_user_id, ',%')
+GROUP BY b.ground_user_id, b.super_ids	     
+	     ]]>
+	</select>
+   
+	
+	
+</mapper>

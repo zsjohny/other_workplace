@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yujj.dao.mapper.UserYxRelationMapper">
+	<insert id="saveOrUpdate" useGeneratedKeys="true" keyProperty="id">
+		<![CDATA[
+			insert into yjj_user_yx_relation
+			(userId, username,password,nickname,icon,updateTime,createTime)
+			values(#{userId},#{username},#{password},#{nickname},#{icon},unix_timestamp()*1000,unix_timestamp()*1000)
+			on duplicate key update password=values(password),nickname=values(nickname),icon=values(icon),updateTime=unix_timestamp()*1000
+		]]>
+	</insert>
+
+	<select id="getUserYxRelations" resultType="UserYxRelation">
+	    <![CDATA[
+	    select userId,username,password,nickname,icon,status,updateTime,createTime from yjj_user_yx_relation 
+	    where userId in ]]>
+	    <foreach collection="collection" item="item" open="(" close=")" separator=",">
+			<![CDATA[
+				#{item}
+			]]>
+		</foreach> and status=0
+	    
+	</select>
+	
+	<update id="updateUserRelationStatus">
+	    <![CDATA[
+	    update yjj_user_yx_relation set status=#{status},updateTime=unix_timestamp()*1000 
+	    where userId=#{userId}
+	    ]]>
+	</update>
+	
+	<update id="updateUserToken">
+	    <![CDATA[
+	    update yjj_user_yx_relation set password=#{token},updateTime=unix_timestamp()*1000 
+	    where userId=#{userId}
+	    ]]>
+	    
+	</update>
+	
+</mapper>

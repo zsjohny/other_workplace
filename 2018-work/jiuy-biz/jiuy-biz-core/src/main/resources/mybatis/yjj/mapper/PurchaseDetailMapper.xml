@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yujj.dao.mapper.PurchaseDetailMapper">
+	<resultMap type="PurchaseDetail" id="purchaseDetailMap">
+        <id property="id" column="id"/>
+    </resultMap>
+	
+	<select id="loadPurchaseDetailList" resultMap="purchaseDetailMap">
+		<![CDATA[select * from Tb_PurchaseDetail]]>
+		<where>
+			<if test="productId != null">
+				<![CDATA[ProductId = #{productId}]]>
+			</if>
+			<if test="userId != null">
+			    <![CDATA[and	UserId = #{userId}]]>
+			</if>
+		</where>
+		<![CDATA[limit #{pageNum} ,#{pageSize}]]>
+	</select>
+	
+	<select id="loadAll" resultMap="purchaseDetailMap">
+		<![CDATA[select * from Tb_PurchaseDetail]]>
+		<where>
+			<if test="productId != null">
+				<![CDATA[ProductId = #{productId}]]>
+			</if>
+			<if test="userId != null">
+			    <![CDATA[and	UserId = #{userId}]]>
+			</if>
+		</where>
+	</select>
+</mapper>

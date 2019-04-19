@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.store.dao.mapper.ShopTagProductMapper">
+<select id="selectBindTagList" resultType="map">
+		SELECT
+		shop_tag.id,
+		shop_tag.tag_name as tagName
+		FROM
+		shop_tag_product,
+		shop_tag
+		WHERE
+		shop_tag.store_id = #{storeId}
+		AND shop_tag.id = shop_tag_product.tag_id
+		AND shop_tag_product.shop_product_id = #{productId}
+		ORDER BY
+		shop_tag.create_time
+	</select>
+
+	<select id="getSoldOutProductCount" resultType="int">
+		SELECT COUNT(1)
+		FROM shop_tag_product a JOIN shop_product b ON a.shop_product_id = b.id
+		WHERE
+		1=1
+		AND a.store_id = #{storeId}
+		AND a.tag_id = #{tagId}
+		AND b.`status` = 0
+		AND b.sold_out = 1
+	</select>
+
+</mapper>

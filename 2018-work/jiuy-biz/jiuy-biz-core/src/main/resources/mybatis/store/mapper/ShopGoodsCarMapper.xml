@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.store.dao.mapper.ShopGoodsCarMapper">
+
+	<!-- 通用查询映射结果 -->
+	<resultMap id="BaseResultMap" type="com.jiuyuan.entity.order.ShopGoodsCar">
+		<id column="id" property="id" />
+		<result column="product_sku_id" property="productSkuId" />
+		<result column="member_id" property="memberId" />
+		<result column="sku_number" property="skuNumber" />
+		<result column="create_time" property="createTime" />
+		<result column="car_suk_status" property="carSukStatus" />
+		<result column="last_update_time" property="lastUpdateTime" />
+	</resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, product_sku_id AS productSkuId, member_id AS memberId, sku_number AS skuNumber, create_time AS createTime, car_suk_status AS carSukStatus, last_update_time AS lastUpdateTime
+    </sql>
+
+	<!--<select id="shopGoodsCarList" parameterType="Map" resultType="Map">
+		  SELECT
+			  BusinessName,
+			  CompanyName,
+			  sku.id AS skuId,
+			  store.id AS storeId,
+			  car.sku_number,
+			  car.id as carId,
+			  car.car_suk_status,
+			  sku.`Name`,
+			  sku.Weight,
+			  sku.ClothesNumber,
+			  sku.Position,
+			  sku.colorName,
+			  sku.sizeName,
+			  product. NAME productName,
+			  product.DetailImages,
+			  product.SummaryImages,
+			  product.mainImg,
+			  product.brandName,
+			  product.brandLogo,
+			  case product.`state`
+			  WHEN 6 then 1
+			  else 2 end  as sold_out,
+			  product.id as productId,
+			  car.selected selected,
+			  product.oneCategoryName,
+			  shopProduct.price shopPrice
+			FROM
+				shop_goods_car AS car
+			LEFT JOIN yjj_ProductSKU AS sku ON sku.id = car.product_sku_id
+			LEFT JOIN yjj_StoreBusiness AS store ON store.id = car.store_id
+			left join yjj_Product as product on product.id = car.product_id
+			left join shop_product as shopProduct on shopProduct.id = car.shop_product_id
+			where car.member_id = #{memberId} and car.car_suk_status=#{status} and car.product_sku_id &gt; 0
+	</select>-->
+
+
+	<select id="shopGoodsCarList" parameterType="Map" resultType="Map">
+
+		select
+			BusinessName,
+			CompanyName,
+			sku.id AS skuId,
+			store.id AS storeId,
+			car.sku_number,
+			car.id AS carId,
+			car.car_suk_status,
+			sku.`Name`,
+			sku.Weight,
+			sku.ClothesNumber,
+			sku.colorName,
+			sku.sizeName,
+			product. NAME productName,
+			product.SummaryImages,
+			product.DetailImages AS mainImg,
+			product.brandName,
+			product.brandLogo,
+			shopProduct.sold_out,
+			shopProduct.id AS productId,
+			car.selected selected,
+			shopProduct.price shopPrice
+		FROM
+			shop_goods_car AS car
+			LEFT JOIN yjj_ProductSKU AS sku ON sku.id = car.product_sku_id
+			LEFT JOIN yjj_StoreBusiness AS store ON store.id = car.store_id
+			LEFT JOIN yjj_Product AS product ON product.id = car.product_id
+			LEFT JOIN shop_product AS shopProduct ON shopProduct.id = car.shop_product_id
+		WHERE
+			shopProduct.own in (0,2) and car.member_id = #{memberId}
+			and car.car_suk_status in
+			<foreach collection="statusList" item="status" separator="," open="(" close=")">
+				#{status}
+			</foreach>
+		UNION
+		SELECT
+			BusinessName,
+			CompanyName,
+			car.product_sku_id AS skuId,
+			store.id AS storeId,
+			car.sku_number,
+			car.id AS carId,
+			car.car_suk_status,
+			shopProduct.`name` as `Name`,
+			sku.Weight,
+			sku.ClothesNumber,
+			sku.colorName,
+			sku.sizeName,
+			shopProduct.`name` as  productName,
+			shopProduct.summary_images as SummaryImages,
+			shopProduct.summary_images as mainImg,
+			'' as brandName,
+			'' as brandLogo,
+			shopProduct.sold_out,
+			shopProduct.id AS productId,
+			car.selected selected,
+			shopProduct.price shopPrice
+		FROM
+			shop_goods_car AS car
+			LEFT JOIN yjj_ProductSKU AS sku ON sku.id = car.product_sku_id
+			LEFT JOIN yjj_StoreBusiness AS store ON store.id = car.store_id
+			LEFT JOIN shop_product AS shopProduct ON shopProduct.id = car.shop_product_id
+		WHERE
+			shopProduct.own in (1) and car.member_id = #{memberId}
+			and car.car_suk_status in
+			<foreach collection="statusList" item="status" separator="," open="(" close=")">
+				#{status}
+			</foreach>
+	</select>
+
+
+	<select id="selectShopGoodsCar" resultType="com.jiuyuan.entity.order.ShopGoodsCar">
+			select
+			`car_suk_status` as carSukStatus,
+			`product_sku_id` as productSkuId,
+			`sku_number` as skuNumber ,
+			`id`,
+			`member_id` as memberId,
+			`create_time` as createTime,
+			`store_id` as storeId,
+			`product_id` as productId,
+			 `shop_product_id` as shopProductId,
+			 `last_update_time` as lastUpdateTime,
+			 `selected` as selected
+			from `shop_goods_car` where `member_id`=#{memberId} and `store_id`=#{storeId} and `shop_product_id`=#{productId}
+			<if test="liveProductId != null">
+				and live_product_id = #{liveProductId}
+			</if>
+	</select>
+	<select id="selectShopGoodsCarNew" resultType="com.jiuyuan.entity.order.ShopGoodsCar">
+			select
+			 `car_suk_status` as carSukStatus,
+			`product_sku_id` as productSkuId,
+			`sku_number` as skuNumber ,
+			`id`,
+			`member_id` as memberId,
+			`create_time` as createTime,
+			`store_id` as storeId,
+			`product_id` as productId,
+			 `shop_product_id` as shopProductId,
+			 `last_update_time` as lastUpdateTime,
+			 `selected` as selected
+			  from `shop_goods_car` where `member_id`=#{memberId} and `store_id`=#{storeId} and `product_sku_id`=#{productSkuId}
+			  <if test="liveProductId != null">
+				  and live_product_id = #{liveProductId}
+			  </if>
+	</select>
+
+	<select id="selectByMemberId" resultType="com.jiuyuan.entity.order.ShopGoodsCar">
+			select
+			`product_sku_id` as productSkuId,
+			`shop_product_id` as  shopProductId,
+			`id`,
+			`sku_number` as skuNumber
+			from `shop_goods_car` where `id`=#{id} and `member_id`=#{memberId}
+	</select>
+
+
+	<select id="selectShopGoodsCarList" resultType="com.jiuyuan.entity.order.ShopGoodsCar">
+			select
+			`product_sku_id` as productSkuId,
+			`shop_product_id` as  shopProductId,
+			`id`,
+			`sku_number` as skuNumber
+			from `shop_goods_car` where  `member_id`=#{memberId} and `car_suk_status`=1  and `id` in
+		<foreach collection="list" item="id" index="index" open="(" close=")" separator=",">
+			#{id}
+		</foreach>
+		  order by `store_id`
+	</select>
+
+	<select id="selectListNew" resultType="com.jiuyuan.entity.order.ShopGoodsCar">
+		select
+		`car_suk_status` as carSukStatus,
+			`product_sku_id` as productSkuId,
+			`sku_number` as skuNumber ,
+			`id`,
+			`member_id` as memberId,
+			`create_time` as createTime,
+			`store_id` as storeId,
+			`product_id` as productId,
+			 `shop_product_id` as shopProductId,
+			 `last_update_time` as lastUpdateTime,
+			 `selected` as selected
+			 from `shop_goods_car` where `memberId`=#{memberId} and `id` in
+		<foreach collection="list" item="id" index="index" open="(" close=")" separator=",">
+			#{id}
+		</foreach>
+		order by `store_id`
+	</select>
+
+	<select id="selectListT" resultType="com.jiuyuan.entity.order.ShopGoodsCar">
+		select
+		`car_suk_status` as carSukStatus,
+		`product_sku_id` as productSkuId,
+		`sku_number` as skuNumber ,
+		`id`,
+		`member_id` as memberId,
+		`create_time` as createTime,
+		`store_id` as storeId,
+		`product_id` as productId,
+		`shop_product_id` as shopProductId,
+		`last_update_time` as lastUpdateTime,
+		`selected` as selected
+		from `shop_goods_car` where  `member_id`=#{memberId} and `car_suk_status`=1  and `id` in
+		<foreach collection="list" item="id" index="index" open="(" close=")" separator=",">
+			#{id}
+		</foreach>
+		order by `store_id`
+	</select>
+</mapper>

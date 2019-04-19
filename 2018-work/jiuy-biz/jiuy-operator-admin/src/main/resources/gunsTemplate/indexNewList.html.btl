@@ -1,0 +1,47 @@
+<%
+for(var i=0;i<list.~size;i+2){
+%>
+<ul class="news-list">
+    <%
+      while(true){
+      if(i == 0) { 
+    %>
+	<li class="news-item">
+		<a href="" target="_blank">
+			<div class="news-img"><img src="${list[i].previewImageUrl}" alt=""></div>
+			<div class="content-box">
+				<div class="title-box first-title-box">
+					<h3 class="title">${list[i].title}</h3>
+					<span class="time">${list[i].updateDate}</span>
+				</div>
+				<p class="summary">
+					${list[i].abstracts}
+				</p>
+			</div>
+		</a>
+	</li>
+	<% }else{
+	 %>
+	<li class="news-item">
+		<a href="" target="_blank">
+			 <div class="content-box">
+				<div class="title-box">
+					<h3 class="title">${list[i].title}</h3>
+					<span class="time">${list[i].updateDate}</span>
+				</div>
+				<p class="summary">
+					${list[i].abstracts}
+				</p>
+			</div>
+		</a>
+	</li>
+	<%
+	  }
+	  i++;
+	  if(i >= 2){
+	  break;
+	  }
+	}  
+	%>
+</ul>
+<% } %>

@@ -1,0 +1,572 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" > 
+<mapper namespace="com.e_commerce.miscroservice.product.mapper.ShopProductMapper">
+ 
+ 	<!-- 主要的返回映射-->
+	<resultMap id="BaseResultMap" type="com.e_commerce.miscroservice.product.entity.ShopProduct"	>
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="store_id"  property="storeId"  jdbcType="BIGINT" />
+		<result column="product_id"  property="productId"  jdbcType="BIGINT" />
+		<result column="name"  property="name"  jdbcType="VARCHAR" />
+		<result column="price"  property="price"  jdbcType="DECIMAL" />
+		<result column="xprice"  property="xprice"  jdbcType="DECIMAL" />
+		<result column="market_price"  property="marketPrice"  jdbcType="DECIMAL" />
+		<result column="clothes_number"  property="clothesNumber"  jdbcType="VARCHAR" />
+		<result column="stock"  property="stock"  jdbcType="BIGINT" />
+		<result column="category_id"  property="categoryId"  jdbcType="BIGINT" />
+		<result column="tag_ids"  property="tagIds"  jdbcType="VARCHAR" />
+		<result column="size_ids"  property="sizeIds"  jdbcType="VARCHAR" />
+		<result column="color_ids"  property="colorIds"  jdbcType="VARCHAR" />
+		<result column="summary_images"  property="summaryImages"  jdbcType="VARCHAR" />
+		<result column="remark"  property="remark"  jdbcType="VARCHAR" />
+		<result column="top_time"  property="topTime"  jdbcType="BIGINT" />
+		<result column="stock_time"  property="stockTime"  jdbcType="BIGINT" />
+		<result column="tab_type"  property="tabType"  jdbcType="TINYINT" />
+		<result column="sold_out"  property="soldOut"  jdbcType="TINYINT" />
+		<result column="status"  property="status"  jdbcType="TINYINT" />
+		<result column="create_time"  property="createTime"  jdbcType="BIGINT" />
+		<result column="update_time"  property="updateTime"  jdbcType="BIGINT" />
+		<result column="video_url"  property="videoUrl"  jdbcType="VARCHAR" />
+		<result column="ground_time"  property="groundTime"  jdbcType="BIGINT" />
+		<result column="shop_own_detail"  property="shopOwnDetail"  jdbcType="VARCHAR" />
+		<result column="want_member_count"  property="wantMemberCount"  jdbcType="BIGINT" />
+		<result column="show_count"  property="showCount"  jdbcType="BIGINT" />
+		<result column="own"  property="own"  jdbcType="TINYINT" />
+		<result column="video_display_image"  property="videoDisplayImage"  jdbcType="VARCHAR" />
+		<result column="video_display_url"  property="videoDisplayUrl"  jdbcType="VARCHAR" />
+		<result column="video_display_fileId"  property="videoDisplayFileid"  jdbcType="BIGINT" />
+		<result column="wxaqrcode_url"  property="wxaqrcodeUrl"  jdbcType="VARCHAR" />
+		<result column="wxa_product_share_image"  property="wxaProductShareImage"  jdbcType="VARCHAR" />
+		<result column="wxa_product_share_old_images"  property="wxaProductShareOldImages"  jdbcType="VARCHAR" />
+		<result column="color_id"  property="colorId"  jdbcType="BIGINT" />
+		<result column="size_id"  property="sizeId"  jdbcType="BIGINT" />
+		<result column="color_name"  property="colorName"  jdbcType="VARCHAR" />
+		<result column="size_name"  property="sizeName"  jdbcType="VARCHAR" />
+		<result column="share_img_code"  property="shareImgCode"  jdbcType="INTEGER" />
+		<result column="first_time_on_sale"  property="firstTimeOnSale"  jdbcType="BIGINT" />
+	</resultMap>
+
+
+	<!-- 所有的列名-->
+	<sql id="Base_Column_List" >
+		id,store_id,product_id,name,price,xprice,market_price,clothes_number,stock,
+		category_id,tag_ids,size_ids,color_ids,summary_images,remark,top_time,stock_time,
+		tab_type,sold_out,status,create_time,update_time,video_url,ground_time,shop_own_detail,
+		want_member_count,show_count,own,video_display_image,video_display_url,video_display_fileId,wxaqrcode_url,wxa_product_share_image,
+		wxa_product_share_old_images,color_id,size_id,color_name,size_name,share_img_code,first_time_on_sale
+	</sql>
+
+	<!-- 精确更新的字段-->
+	<sql id="updateBase">
+		<if test="id  !=null">
+			id = #{id,jdbcType=BIGINT},
+		</if>
+		<if test="storeId  !=null">
+			store_id = #{storeId,jdbcType=BIGINT},
+		</if>
+		<if test="productId  !=null">
+			product_id = #{productId,jdbcType=BIGINT},
+		</if>
+		<if test="name  !=null">
+			name = #{name,jdbcType=VARCHAR},
+		</if>
+		<if test="price  !=null">
+			price = #{price,jdbcType=DECIMAL},
+		</if>
+		<if test="xprice  !=null">
+			xprice = #{xprice,jdbcType=DECIMAL},
+		</if>
+		<if test="marketPrice  !=null">
+			market_price = #{marketPrice,jdbcType=DECIMAL},
+		</if>
+		<if test="clothesNumber  !=null">
+			clothes_number = #{clothesNumber,jdbcType=VARCHAR},
+		</if>
+		<if test="stock  !=null">
+			stock = #{stock,jdbcType=BIGINT},
+		</if>
+		<if test="categoryId  !=null">
+			category_id = #{categoryId,jdbcType=BIGINT},
+		</if>
+		<if test="tagIds  !=null">
+			tag_ids = #{tagIds,jdbcType=VARCHAR},
+		</if>
+		<if test="sizeIds  !=null">
+			size_ids = #{sizeIds,jdbcType=VARCHAR},
+		</if>
+		<if test="colorIds  !=null">
+			color_ids = #{colorIds,jdbcType=VARCHAR},
+		</if>
+		<if test="summaryImages  !=null">
+			summary_images = #{summaryImages,jdbcType=VARCHAR},
+		</if>
+		<if test="remark  !=null">
+			remark = #{remark,jdbcType=VARCHAR},
+		</if>
+		<if test="topTime  !=null">
+			top_time = #{topTime,jdbcType=BIGINT},
+		</if>
+		<if test="stockTime  !=null">
+			stock_time = #{stockTime,jdbcType=BIGINT},
+		</if>
+		<if test="tabType  !=null">
+			tab_type = #{tabType,jdbcType=TINYINT},
+		</if>
+		<if test="soldOut  !=null">
+			sold_out = #{soldOut,jdbcType=TINYINT},
+		</if>
+		<if test="status  !=null">
+			status = #{status,jdbcType=TINYINT},
+		</if>
+		<if test="createTime  !=null">
+			create_time = #{createTime,jdbcType=BIGINT},
+		</if>
+		<if test="updateTime  !=null">
+			update_time = #{updateTime,jdbcType=BIGINT},
+		</if>
+		<if test="videoUrl  !=null">
+			video_url = #{videoUrl,jdbcType=VARCHAR},
+		</if>
+		<if test="groundTime  !=null">
+			ground_time = #{groundTime,jdbcType=BIGINT},
+		</if>
+		<if test="shopOwnDetail  !=null">
+			shop_own_detail = #{shopOwnDetail,jdbcType=VARCHAR},
+		</if>
+		<if test="wantMemberCount  !=null">
+			want_member_count = #{wantMemberCount,jdbcType=BIGINT},
+		</if>
+		<if test="showCount  !=null">
+			show_count = #{showCount,jdbcType=BIGINT},
+		</if>
+		<if test="own  !=null">
+			own = #{own,jdbcType=TINYINT},
+		</if>
+		<if test="videoDisplayImage  !=null">
+			video_display_image = #{videoDisplayImage,jdbcType=VARCHAR},
+		</if>
+		<if test="videoDisplayUrl  !=null">
+			video_display_url = #{videoDisplayUrl,jdbcType=VARCHAR},
+		</if>
+		<if test="videoDisplayFileid  !=null">
+			video_display_fileId = #{videoDisplayFileid,jdbcType=BIGINT},
+		</if>
+		<if test="wxaqrcodeUrl  !=null">
+			wxaqrcode_url = #{wxaqrcodeUrl,jdbcType=VARCHAR},
+		</if>
+		<if test="wxaProductShareImage  !=null">
+			wxa_product_share_image = #{wxaProductShareImage,jdbcType=VARCHAR},
+		</if>
+		<if test="wxaProductShareOldImages  !=null">
+			wxa_product_share_old_images = #{wxaProductShareOldImages,jdbcType=VARCHAR},
+		</if>
+		<if test="colorId  !=null">
+			color_id = #{colorId,jdbcType=BIGINT},
+		</if>
+		<if test="sizeId  !=null">
+			size_id = #{sizeId,jdbcType=BIGINT},
+		</if>
+		<if test="colorName  !=null">
+			color_name = #{colorName,jdbcType=VARCHAR},
+		</if>
+		<if test="sizeName  !=null">
+			size_name = #{sizeName,jdbcType=VARCHAR},
+		</if>
+		<if test="shareImgCode  !=null">
+			share_img_code = #{shareImgCode,jdbcType=INTEGER},
+		</if>
+		<if test="firstTimeOnSale  !=null">
+			first_time_on_sale = #{firstTimeOnSale,jdbcType=BIGINT}
+		</if>
+	</sql>
+
+
+
+	<!-- 所有的条件集合-->
+	<sql id="whereCase"  >
+		where  1=1 
+		<if test="id  !=null">
+			AND id = #{id,jdbcType=BIGINT} 
+		</if>
+		<if test="storeId  !=null">
+			AND store_id = #{storeId,jdbcType=BIGINT} 
+		</if>
+		<if test="productId  !=null">
+			AND product_id = #{productId,jdbcType=BIGINT} 
+		</if>
+		<if test="name  !=null">
+			AND name = #{name,jdbcType=VARCHAR} 
+		</if>
+		<if test="price  !=null">
+			AND price = #{price,jdbcType=DECIMAL} 
+		</if>
+		<if test="xprice  !=null">
+			AND xprice = #{xprice,jdbcType=DECIMAL} 
+		</if>
+		<if test="marketPrice  !=null">
+			AND market_price = #{marketPrice,jdbcType=DECIMAL} 
+		</if>
+		<if test="clothesNumber  !=null">
+			AND clothes_number = #{clothesNumber,jdbcType=VARCHAR} 
+		</if>
+		<if test="stock  !=null">
+			AND stock = #{stock,jdbcType=BIGINT} 
+		</if>
+		<if test="categoryId  !=null">
+			AND category_id = #{categoryId,jdbcType=BIGINT} 
+		</if>
+		<if test="tagIds  !=null">
+			AND tag_ids = #{tagIds,jdbcType=VARCHAR} 
+		</if>
+		<if test="sizeIds  !=null">
+			AND size_ids = #{sizeIds,jdbcType=VARCHAR} 
+		</if>
+		<if test="colorIds  !=null">
+			AND color_ids = #{colorIds,jdbcType=VARCHAR} 
+		</if>
+		<if test="summaryImages  !=null">
+			AND summary_images = #{summaryImages,jdbcType=VARCHAR} 
+		</if>
+		<if test="remark  !=null">
+			AND remark = #{remark,jdbcType=VARCHAR} 
+		</if>
+		<if test="topTime  !=null">
+			AND top_time = #{topTime,jdbcType=BIGINT} 
+		</if>
+		<if test="stockTime  !=null">
+			AND stock_time = #{stockTime,jdbcType=BIGINT} 
+		</if>
+		<if test="tabType  !=null">
+			AND tab_type = #{tabType,jdbcType=TINYINT} 
+		</if>
+		<if test="soldOut  !=null">
+			AND sold_out = #{soldOut,jdbcType=TINYINT} 
+		</if>
+		<if test="status  !=null">
+			AND status = #{status,jdbcType=TINYINT} 
+		</if>
+		<if test="createTime  !=null">
+			AND create_time = #{createTime,jdbcType=BIGINT} 
+		</if>
+		<if test="updateTime  !=null">
+			AND update_time = #{updateTime,jdbcType=BIGINT} 
+		</if>
+		<if test="videoUrl  !=null">
+			AND video_url = #{videoUrl,jdbcType=VARCHAR} 
+		</if>
+		<if test="groundTime  !=null">
+			AND ground_time = #{groundTime,jdbcType=BIGINT} 
+		</if>
+		<if test="shopOwnDetail  !=null">
+			AND shop_own_detail = #{shopOwnDetail,jdbcType=VARCHAR} 
+		</if>
+		<if test="wantMemberCount  !=null">
+			AND want_member_count = #{wantMemberCount,jdbcType=BIGINT} 
+		</if>
+		<if test="showCount  !=null">
+			AND show_count = #{showCount,jdbcType=BIGINT} 
+		</if>
+		<if test="own  !=null">
+			AND own = #{own,jdbcType=TINYINT} 
+		</if>
+		<if test="videoDisplayImage  !=null">
+			AND video_display_image = #{videoDisplayImage,jdbcType=VARCHAR} 
+		</if>
+		<if test="videoDisplayUrl  !=null">
+			AND video_display_url = #{videoDisplayUrl,jdbcType=VARCHAR} 
+		</if>
+		<if test="videoDisplayFileid  !=null">
+			AND video_display_fileId = #{videoDisplayFileid,jdbcType=BIGINT} 
+		</if>
+		<if test="wxaqrcodeUrl  !=null">
+			AND wxaqrcode_url = #{wxaqrcodeUrl,jdbcType=VARCHAR} 
+		</if>
+		<if test="wxaProductShareImage  !=null">
+			AND wxa_product_share_image = #{wxaProductShareImage,jdbcType=VARCHAR} 
+		</if>
+		<if test="wxaProductShareOldImages  !=null">
+			AND wxa_product_share_old_images = #{wxaProductShareOldImages,jdbcType=VARCHAR} 
+		</if>
+		<if test="colorId  !=null">
+			AND color_id = #{colorId,jdbcType=BIGINT} 
+		</if>
+		<if test="sizeId  !=null">
+			AND size_id = #{sizeId,jdbcType=BIGINT} 
+		</if>
+		<if test="colorName  !=null">
+			AND color_name = #{colorName,jdbcType=VARCHAR} 
+		</if>
+		<if test="sizeName  !=null">
+			AND size_name = #{sizeName,jdbcType=VARCHAR} 
+		</if>
+		<if test="shareImgCode  !=null">
+			AND share_img_code = #{shareImgCode,jdbcType=INTEGER} 
+		</if>
+		<if test="firstTimeOnSale  !=null">
+			AND first_time_on_sale = #{firstTimeOnSale,jdbcType=BIGINT} 
+		</if>
+		<include refid="costomWhereCase"/>
+	</sql>
+
+	<!-- 查询一条，如果返回多条会报错-->
+	<select id="selectOne" parameterType="java.util.Map" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" /> 
+		FROM shop_product 
+		<include refid="whereCase" /> 
+	</select>
+
+
+	<!--  @Costom -->
+	<!-- 从上一行注释以上为系统生成 从这一行往下为用户自定义 请将自定义的sql放在此行下面 -->
+	<sql id="costomWhereCase">
+	</sql>
+
+
+
+
+
+
+
+
+	<select id="manageList" parameterType="map" resultType="map">
+		SELECT
+		shopPdc.id AS id,
+		shopPdc.`name`,
+		shopPdc.`product_id` AS productId,
+		-- 进货价
+		shopPdc.xprice AS xprice,
+		-- 零售价
+		shopPdc.price AS price,
+		-- 市场价
+		shopPdc.market_price AS marketPrice,
+		-- 主图
+		shopPdc.summary_images AS summaryImages,
+		shopPdc.first_time_on_sale AS firstTimeOnSale,
+		-- 浏览量
+		shopPdc.show_count AS showCount,
+		-- 收藏量
+		shopPdc.want_member_count AS wantMemberCount,
+		-- 所属
+		shopPdc.own,
+		shopPdc.sold_out AS soldOut,
+		-- 推荐时间
+		shopPdc.top_time AS topTime,
+		shopPdc.tab_type AS tabType,
+		-- 批发价
+		product.WholeSaleCash AS productWholeSaleCash,
+		product.Name AS productName,
+		product.ClothesNumber AS productClothesNumber,
+		-- 橱窗图
+		product.DetailImages AS productDetailImages,
+        -- 平台商品状态
+		IFNULL(product.state, -1) AS productState
+
+	FROM
+		shop_product shopPdc
+	LEFT JOIN yjj_product product ON product.Id = shopPdc.product_id AND shopPdc.own = 0
+	WHERE
+		shopPdc.store_id = #{storeId}
+		AND shopPdc.`status` = 0
+		<if test="keywords != null and keywords != ''">
+			AND shopPdc.`name` LIKE CONCAT('%',#{keywords},'%')
+		</if>
+		<if test="owns != null and owns.size > 0">
+			AND shopPdc.own IN
+			<foreach collection="owns" item="own" open="(" close=")" separator=",">
+				#{own}
+			</foreach>
+		</if>
+		<if test="soldOut != null">
+			AND shopPdc.sold_out = #{soldOut}
+		</if>
+		<if test="isTop != null and isTop == 0">
+			AND shopPdc.top_time = 0
+		</if>
+		<if test="isTop != null and isTop == 1">
+			AND shopPdc.top_time &gt; 0
+		</if>
+		<if test="createTimeFloor != null and createTimeFloor > 0">
+			AND shopPdc.create_time &gt; #{createTimeFloor}
+		</if>
+		<if test="createTimeCeil != null and createTimeCeil > 0">
+			AND shopPdc.create_time &lt; #{createTimeCeil}
+		</if>
+		ORDER BY
+		<if test="orderType != null and orderType == 1">
+			shopPdc.show_count DESC,
+		</if>
+		<if test="orderType != null and orderType == 2">
+			shopPdc.want_member_count DESC,
+		</if>
+		shopPdc.top_time DESC, shopPdc.ground_time DESC, shopPdc.update_time
+	</select>
+
+
+
+
+
+	<select id="productDetailList" parameterType="map" resultType="map">
+		SELECT
+			shopPdc.id AS id,
+			shopPdc.`name`,
+			shopPdc.`product_id` AS productId,
+			-- 进货价
+			shopPdc.xprice AS xprice,
+			-- 零售价
+			shopPdc.price AS price,
+			-- 市场价
+			shopPdc.market_price AS marketPrice,
+			-- 主图
+			shopPdc.summary_images AS summaryImages,
+			shopPdc.first_time_on_sale AS firstTimeOnSale,
+			-- 浏览量
+			shopPdc.show_count AS showCount,
+			-- 收藏量
+			shopPdc.want_member_count AS wantMemberCount,
+			-- 所属
+			shopPdc.own,
+			shopPdc.sold_out AS soldOut,
+			-- 推荐时间
+			shopPdc.top_time AS topTime,
+			shopPdc.tab_type AS tabType,
+			-- 批发价
+			product.WholeSaleCash AS productWholeSaleCash,
+			product.Name AS productName,
+			product.ClothesNumber AS productClothesNumber,
+			-- 商品状态
+			product.state AS productState,
+			-- 橱窗图
+			product.DetailImages AS productDetailImages
+		FROM
+			shop_product shopPdc
+		LEFT JOIN yjj_product product ON product.Id = shopPdc.product_id AND shopPdc.own = 0
+		WHERE 1=1
+		AND store_id = #{storeId}
+		<if test="ids != null">
+			AND shopPdc.id IN
+			<foreach collection="ids" item="id" open="(" separator="," close=")">
+				#{id}
+			</foreach>
+		</if>
+		<if test="status != null">
+			AND shopPdc.`status` = #{status}
+		</if>
+
+
+	</select>
+	<select id="selectShopProductId" resultType="Long">
+			select `id` from `shop_product` where `store_id`=#{storeId}
+		<if test="ids != null">
+			AND `id` IN
+			<foreach collection="ids" item="id" open="(" separator="," close=")">
+				#{id}
+			</foreach>
+		</if>
+		and status=0 and `sold_out`=1
+	</select>
+
+
+    <select id="listLiveSelectProducts" resultType="java.util.Map" parameterType="java.util.Map">
+		SELECT
+			shopPdc.id AS id,
+			shopPdc.`name` AS productName,
+			shopPdc.price AS sellPrice,
+			shopPdc.clothes_number AS styleNo,
+			shopPdc.summary_images AS summaryImgJsonArr,
+			shopPdc.`product_id` AS productId,
+			shopPdc.own,
+			product.ClothesNumber AS supplierProductStyleNo,
+			IFNULL(product.DetailImages, '[]') AS supplierProductSummaryImgJsonArr
+		FROM
+			shop_product shopPdc
+		LEFT JOIN yjj_product product ON product.Id = shopPdc.product_id
+		WHERE
+			1 = 1
+		AND store_id = #{storeId}
+		AND shopPdc.`status` = 0
+		AND shopPdc.sold_out = 1
+		AND shopPdc.price IS NOT NULL
+		AND NOT EXISTS (
+			SELECT 1 FROM yjj_live_product live
+			WHERE live.del_status = 0
+			AND live.shop_product_id = shopPdc.id
+		  	AND live.anchor_id = #{anchorId}
+			AND live.live_status = 0
+		)
+		<if test="name != null and name != ''">
+			AND shopPdc.`name` LIKE CONCAT('%',#{name},'%')
+		</if>
+		ORDER BY ground_time DESC
+	</select>
+
+
+
+	<!-- 初始化直播商品需要的小程序商品信息 -->
+    <select id="listByIds4InitLiveProduct" resultType="com.e_commerce.miscroservice.product.entity.ShopProduct">
+		SELECT
+			id,
+			product_id AS productId,
+			price,
+			own
+		FROM shop_product
+		WHERE id IN
+		<foreach collection="shopProductIds" item="id" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</select>
+
+
+    <select id="findSimpleInfoByIds" resultType="com.e_commerce.miscroservice.product.entity.ShopProduct">
+		SELECT
+			id,
+			`name`,
+			clothes_number AS clothesNumber,
+			price,
+			`status`,
+			`sold_out` AS soldOut,
+			summary_images AS summaryImages
+		FROM shop_product
+		WHERE id IN
+		<foreach collection="ids" item="id" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</select>
+
+
+	<!-- 查询展示直播商品的信息 -->
+	<select id="findLiveProductIntroById" resultType="com.e_commerce.miscroservice.product.entity.ShopProduct">
+		SELECT
+			id,
+			store_id AS storeId,
+			product_id AS productId,
+			`name`,
+			`status`,
+			own,
+			sold_out AS soldOut,
+			clothes_number AS clothesNumber,
+			price,
+			summary_images AS summaryImages
+		FROM
+			`shop_product`
+		WHERE id = #{id}
+	</select>
+
+
+
+    <select id="findImg" resultType="com.e_commerce.miscroservice.product.entity.ShopProduct">
+		SELECT id, `name`, shop_own_detail AS shopOwnDetail, remark
+		FROM shop_product
+		WHERE id = #{id}
+	</select>
+
+
+
+	<select id="findSimpleInfoById" resultType="com.e_commerce.miscroservice.product.entity.ShopProduct">
+		SELECT id, product_id AS productId, own, `name`, clothes_number AS clothesNumber, price, `status`, sold_out AS soldOut
+		FROM shop_product
+		WHERE id = #{id}
+	</select>
+
+
+</mapper>

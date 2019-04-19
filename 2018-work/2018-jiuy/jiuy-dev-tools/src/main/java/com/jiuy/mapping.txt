@@ -1,0 +1,3 @@
+{"tempKey":"TINYINT UNSIGNED","sqlType":"INT","fullJavaType":null,"shortJavaType":"Integer",isNomarl:true}
+{"tempKey":"MEDIUMINT","sqlType":"INT","fullJavaType":null,"shortJavaType":"Integer",isNomarl:true}
+{"tempKey":"DATATIME","sqlType":"DATATIME","fullJavaType":"java.util.Date","shortJavaType":"Date",isNomarl:true}

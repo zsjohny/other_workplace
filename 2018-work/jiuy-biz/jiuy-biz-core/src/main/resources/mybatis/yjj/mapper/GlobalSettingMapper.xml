@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yujj.dao.mapper.GlobalSettingMapper">
+	<select id="getSetting" parameterType="map" resultType="string">
+		<![CDATA[
+			select PropertyValue from yjj_GlobalSetting
+			where PropertyName = #{name} and Status = 0
+			limit 1
+		]]>
+	</select>
+	
+	<select id="getUpdateTime" parameterType="map" resultType="Long">
+			select UpdateTime from yjj_GlobalSetting
+			where PropertyName = #{name} and Status = 0
+			limit 1
+	</select>
+	
+	<update id="update">
+		update yjj_GlobalSetting
+		set PropertyValue = #{propertyValue}
+		where PropertyName = #{propertyName}
+	</update>
+
+</mapper>

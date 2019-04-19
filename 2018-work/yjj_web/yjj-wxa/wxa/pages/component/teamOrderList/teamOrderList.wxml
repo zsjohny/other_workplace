@@ -1,0 +1,71 @@
+<view class="container">
+    <view class="bannerWrap">
+        <view class="bannerTop">
+            <text>订单总数</text>
+            <image bindtap="showOrderInfo" class="question" src="http://mini-img-main.oss-cn-hangzhou.aliyuncs.com/icon/new/qustion-icon.png"></image>
+        </view>
+        <view class="allOrderNum">{{count.countOrder }}</view>
+        <view class="bannerBottom">
+            <view class="bannerBl">
+                <view class="bannerTitle">今日新增</view>
+                <view>{{count.todaySize }}</view>
+            </view>
+            <view class="bannerBr">
+                <view class="bannerTitle">金额收益</view>
+                <view>{{count.money}}</view>
+            </view>
+            <view class="bannerBr">
+                <view class="bannerTitle">金币收益</view>
+                <view>{{count.coin}}</view>
+            </view>
+        </view>
+    </view>
+    <view class="orderWrap">
+        <view class="orderTop">
+            <view class="orderTopL">
+                <view class="orderTopLine"></view>
+                <text>订单明细</text>
+            </view>
+            <view class="orderTopR" bindtap="goSearch">
+                <image class="searchIcon" src="http://mini-img-main.oss-cn-hangzhou.aliyuncs.com/icon/new/search-icon.png"></image>
+                <text>请输入订单编号</text>
+            </view>
+        </view>
+        <view class="orderList" wx:if="{{orderList.length > 0}}" data-select="{{item.orderNumber}}" wx:for="{{orderList}}" wx:key="{{item.orderNumber}}" bindtap="goDetail">
+            <view class="orderNo">
+                <text>订单编号: {{item.orderNumber}}</text>
+                <block>
+                    <text wx:if="{{item.orderStatus == 0}}" class="orderStatus">待付款</text>
+                    <text wx:if="{{item.orderStatus == 1}}" class="orderStatus">待提货</text>
+                    <text wx:if="{{item.orderStatus == 2}}" class="orderStatus">退款中</text>
+                    <text wx:if="{{item.orderStatus == 3}}" class="orderStatus">订单关闭</text>
+                    <text wx:if="{{item.orderStatus == 4}}" class="orderStatus">交易成功</text>
+                    <text wx:if="{{item.orderStatus == 5}}" class="orderStatus">待发货</text>
+                    <text wx:if="{{item.orderStatus == 6}}" class="orderStatus">已发货</text>
+                </block>
+            </view>
+            <view class="goodsWrap" >
+                <text class="orderMoney">￥{{item.orderMoney}}</text>
+                <!--<view class="property">-->
+                    <!--<text>颜色: {{item.color}}</text>-->
+                    <!--<text>尺寸: {{item.size}}</text>-->
+                    <!--<text>数量: {{item.count}}</text>-->
+                <!--</view>-->
+                <view class="priceWrap">
+                    <view class="price">金币收益{{item.totalGoldCoin}}/<text class="reward">金额收益￥{{item.totalCash}}</text></view>
+                    <text>下单人: {{item.userNickname}}</text>
+                </view>
+            </view>
+        </view>
+        <!--<view wx:if="{{orderList.length == 0}}" class="noOrder">-->
+            <!--暂无订单信息-->
+        <!--</view>-->
+        <view wx:if="{{orderList.length == 0}}" class='noOrder'>
+            <view class='icon'></view>
+            <view class='text'>暂无订单信息</view>
+        </view>
+    </view>
+    <view wx:if="{{noMoreOrderList}}" class="more-load2">
+        <view class="tips2"><text>T^T 我是有底线的</text></view>
+    </view>
+</view>

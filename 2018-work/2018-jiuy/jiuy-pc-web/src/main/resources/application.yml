@@ -1,0 +1,41 @@
+server:
+  port: 12000
+  #  address: 0.0.0.0
+  servlet:
+    context-path: /
+spring:
+  thymeleaf:
+    enabled: true
+    cache: false
+    prefix: classpath:/templates/
+    suffix: .html
+  datasource:
+    driver-class-name:  com.mysql.jdbc.Driver
+#    url: jdbc:mysql://rm-bp12w6znsbed37xvaao.mysql.rds.aliyuncs.com:3306/yjj_online?useUnicode=true&characterEncoding=utf8&allowMultiQueries=true
+    url: jdbc:mysql://rm-bp12w6znsbed37xva35890.mysql.rds.aliyuncs.com:3306/yjj_online?useUnicode=true&characterEncoding=utf8&allowMultiQueries=true
+    username: yjj
+    password: daf24fzirewafarqgwba131
+    initialSize: 10
+    minIdle: 10
+    maxActive: 300
+    maxWait: 200
+    validationQuery: select 1
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 300000
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    filters: stat,wall,log4j2
+    logSlowSql: true
+mybatis:
+  mapperLocations: classpath*:com/jiuy/**/xml/**/*.xml
+  config-location: classpath:mybatis-config-jdbc.xml
+
+logging:
+  level:
+    root: debug
+    org.springframework.web: debug
+    org.apache.ibatis: debug
+    io.netty: info
+
+  path: "./logs"

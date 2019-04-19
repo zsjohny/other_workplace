@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jiuy.core.dao.mapper.QMCategoryDaoSqlImpl">
+
+	<select id="search" resultType="QMCategory">
+		select * from yjj_QMCategory
+		<where>
+			<if test="categoryId != null">
+				and CategoryId = #{categoryId}
+			</if>
+		</where>
+	</select>
+
+	<insert id="add" useGeneratedKeys="true" keyProperty="id">
+		insert yjj_QMCategory(Cid, CategoryId, Depth, Name, ParentCid, ParentId, CreateTime, UpdateTime)
+		values(#{cid}, #{categoryId}, #{depth}, #{name}, #{parentCid}, #{parentId}, #{createTime}, #{updateTime})
+	</insert>
+
+</mapper>
+	

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jiuy.core.dao.impl.sql.PropertyValueMapperSqlImpl">
+
+	<resultMap type="ProductPropValue" id="prodPropValue">
+        <id property="id" column="Id"/>
+        <result property="propertyValue" column="PropertyValue"/>
+    </resultMap>
+
+	<select id="getPropertyValues" parameterType="collection" resultType="ProductPropValue">
+		select * from yjj_PropertyValue
+		<where>
+			<if test="ids != null">
+				<if test="ids.size() != 0">
+					Id in <foreach collection="ids" item="item" open="(" separator="," close=")">
+						#{item}
+					</foreach>
+				</if>
+			</if>
+		</where>
+	</select>
+
+	<select id="getPropertyValueMap" resultType="ProductPropValue">
+		<![CDATA[
+			select * from yjj_PropertyValue
+		]]>
+	</select>
+	
+	<select id="getBrandIds" resultType="int" >
+		<![CDATA[
+			SELECT Id
+			FROM yjj_PropertyValue
+			WHERE PropertyNameId = 6 and Status = 0
+		]]>
+	</select>
+	
+	<select id="getColors" resultType="map">
+		SELECT Id, PropertyValue
+		FROM yjj_PropertyValue
+		WHERE PropertyNameId = 7 and Status = 0
+		Order By OrderIndex
+	</select>
+	
+	<select id="getBrands" resultType="map">
+		 SELECT Id, PropertyValue 
+		 FROM yjj_PropertyValue
+		 WHERE PropertyNameId = 6 AND Status = 0
+	</select>
+	
+	<update id="remove" parameterType="long">
+		update yjj_PropertyValue
+		set status = -1
+		<where>
+			Id in
+			<foreach collection="ids" item="id" open="(" separator="," close=")">
+				#{id}
+			</foreach>
+		</where>  
+			
+	</update>
+	
+	<insert id="addBrand" useGeneratedKeys="true" keyProperty="id" parameterType="ProductPropValue">
+		INSERT INTO yjj_PropertyValue(PropertyValue, PropertyNameId, CreateTime, UpdateTime)
+		VALUES(#{propertyValue},#{propertyNameId},#{createTime},#{updateTime})
+	</insert>
+	
+	<select id="chkRepeat" parameterType="map" resultType="int">
+		SELECT COUNT(*)
+		FROM yjj_PropertyValue
+		WHERE PropertyNameId = #{propertyNameId} AND Status = 0 AND PropertyValue = #{name}
+	</select>
+	
+	<select id="getValueMap" parameterType="map" resultType="ProductPropValue">
+		select * from yjj_PropertyValue
+		where PropertyNameId in
+		<foreach collection="propertyNameIds" item="propertyNameId" open="(" separator="," close=")">
+			#{propertyNameId}
+		</foreach>
+	</select>
+	
+	<select id="getPropertyValuesByNameId" parameterType="collection" resultType="ProductPropValue">
+		select * from yjj_PropertyValue
+		<where>
+		<if test="propertyNameIds.size() != 0">
+			PropertyNameId in <foreach collection="propertyNameIds" item="item" open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
+		order by PropertyNameId asc
+		</where>
+	</select>
+	
+	<insert id="add" useGeneratedKeys="true" keyProperty="id">
+		insert yjj_PropertyValue(PropertyValue, PropertyNameId, CreateTime, UpdateTime)
+		values(#{propertyValue},#{propertyNameId},#{createTime},#{updateTime})
+	</insert>
+</mapper>

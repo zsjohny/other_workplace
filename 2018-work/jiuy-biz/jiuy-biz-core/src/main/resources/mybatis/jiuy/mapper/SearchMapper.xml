@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jiuy.core.dao.mapper.SearchDaoSqlImpl">
+
+	<select id="loadMatchObject" resultType="SearchMatchObject">
+		select * from yjj_SearchMatchObject
+		where Status = 0
+	</select>
+	
+	<select id="search" resultType="SearchKeyword">
+		select * from yjj_SearchKeyword
+		<where>
+			Status = 0
+			<if test="keyword != null">
+				and Keyword like concat("%", #{keyword}, "%")
+			</if>
+			<if test="weightType != null">
+				and weightType = #{weightType}
+			</if>
+			<if test="minCount != null">
+				<![CDATA[ and SearchResultCount >= #{minCount} ]]>
+			</if>
+			<if test="maxCount != null">
+				<![CDATA[ and SearchResultCount <= #{maxCount} ]]>
+			</if>
+			<if test="type != null">
+				and Type = #{type}
+			</if>
+		</where>
+		<if test="sortType != null">
+			<if test="sortType == 1">
+				order by SearchCount desc
+			</if>
+			<if test="sortType == 2">
+				order by SearchCount asc
+			</if>
+		</if>
+		<if test="pageQuery != null">
+			limit #{pageQuery.limit} offset #{pageQuery.offset}
+		</if>
+	</select>
+	
+	<select id="searchCount" resultType="int">
+		select count(1) from yjj_SearchKeyword
+		<where>
+			Status = 0
+			<if test="keyword != null">
+				and Keyword like concat("%", #{keyword}, "%")
+			</if>
+			<if test="weightType != null">
+				and weightType = #{weightType}
+			</if>
+			<if test="minCount != null">
+				<![CDATA[ and SearchCount >= #{minCount} ]]>
+			</if>
+			<if test="maxCount != null">
+				<![CDATA[ and SearchCount <= #{maxCount} ]]>
+			</if>
+		</where>
+	</select>
+	
+	<update id="update">
+		update yjj_SearchKeyword
+		<set>
+			<if test="weightType != null">
+				WeightType = #{weightType},
+			</if>
+			<if test="weight != null">
+				Weight = #{weight},
+			</if>
+			UpdateTime = #{updateTime}
+		</set>
+		<where>
+			<if test="id != null">
+				and Id = #{id}
+			</if>
+		</where>
+	</update>
+	
+	<select id="addKeywords" parameterType="SearchKeyword">
+		insert yjj_SearchKeyword(Keyword, WeightType, Weight, Type, CreateTime, UpdateTime)
+		values(#{keyword}, #{weightType}, #{weight}, #{type}, unix_timestamp() * 1000, unix_timestamp() * 1000)
+		ON DUPLICATE KEY UPDATE Status = 0,Weight = VALUES(weight)
+	</select>
+	
+	<update id="updateKeywords">
+		update yjj_SearchKeyword
+		set Status = -1, UpdateTime = unix_timestamp() * 1000
+		where type = 1
+	</update>
+	
+	<insert id="batchAddKeywords">
+		insert into yjj_SearchKeyword
+		(Keyword, WeightType, Weight, Type, CreateTime, UpdateTime)
+		values
+		<foreach collection="searchKeywords" item="searchKeyword" open="(" separator="),(" close=")">
+			#{searchKeyword.keyword}, #{searchKeyword.weightType}, #{searchKeyword.weight}, #{searchKeyword.type}, unix_timestamp() * 1000, unix_timestamp() * 1000
+		</foreach>
+		ON DUPLICATE KEY UPDATE Status = 0,Weight = VALUES(weight)
+	</insert>
+
+</mapper>

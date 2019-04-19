@@ -1,0 +1,47 @@
+---
+#限流开关
+limter.flow.enabled: false
+---
+#文件加载的环境配置
+spring:
+  profiles:
+    active: test
+  application:
+    name: order
+
+---
+#端口
+server:
+  port: 8079
+
+#开启熔断机制
+feign.hystrix.enabled: true
+
+---
+#mybatis的扫包路径
+mybatis:
+  typeAliasesPackage: com.e_commerce.miscroservice.order.po
+  mapper-locations: classpath:orderMapper/*.xml
+
+---
+#打开数据库配置
+open.datasource: true
+flyway.enabled: false
+
+
+---
+#mq管理
+mq:
+  #是否打开发送开关 true是 false不是
+  openSend: true
+  # 发送消息的集合管理  格式  消息名称:消息的类型(fanout,direct):接受的监听类的名称(首字母小写) eg msg:fanout:demoListener
+#  channels: timer_scheduler_timer_send_send_good_after_15days:fanout:sendGoodsAfter15DaysListener
+  channels: timer_scheduler_timer_send_order_failure_inspect:fanout:sendGoodsAfter15DaysListener
+
+
+
+
+
+
+
+

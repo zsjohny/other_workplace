@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans   
+        http://www.springframework.org/schema/beans/spring-beans-4.0.xsd   
+        http://www.springframework.org/schema/util
+        http://www.springframework.org/schema/util/spring-util-4.0.xsd">
+	
+	<!-- 索引文件存储目录 -->
+	<bean id="directory" class="org.apache.lucene.store.RAMDirectory">
+	</bean>
+	<!-- 第三方分词器：lucene官方分词器对中文的效果比较差  因maven包问题，先注释改功能-->
+	<!-- <bean id="analyzer" class="org.wltea.analyzer.lucene.IKAnalyzer">
+			<constructor-arg value="true"></constructor-arg>
+		</bean> -->
+	<bean id="analyzer" class="org.apache.lucene.analysis.cn.smart.SmartChineseAnalyzer">
+	</bean>
+
+	<bean id="indexWriterConfig" class="org.apache.lucene.index.IndexWriterConfig">
+		<constructor-arg name="analyzer" ref="analyzer"></constructor-arg>
+	</bean>
+
+	<bean id="indexWriter" class="org.apache.lucene.index.IndexWriter">
+		<constructor-arg name="d" ref="directory" />
+		<constructor-arg name="conf" ref="indexWriterConfig" />
+	</bean>
+	
+	<bean id="luceneHolder" class="com.yujj.ext.search.LuceneHolder">
+		<property name="indexWriter" ref="indexWriter"/>
+		<property name="analyzer" ref="analyzer"/>
+	</bean>
+
+</beans>  

@@ -1,0 +1,98 @@
+/**订单详情**/
+.body-contain{
+  padding-bottom: 50rpx;
+}
+.order-mod{
+  height: 88rpx;
+  line-height: 88rpx;
+  font-size: 28rpx;
+  padding: 0 24rpx;
+  border-bottom: 2rpx solid #eee;
+  position: relative;
+  overflow: hidden
+}
+.order-mod .l{
+  float: left;
+}
+.order-mod .r{
+  float: right;
+  font-size: 24rpx;
+  color: #848484;
+}
+.order-mod .explain{
+  font-size: 24rpx;
+  color: #979595;
+}
+/* 订单商品模块 */
+.order-product{
+  height: auto;
+  overflow: hidden;
+  color: #6c6c6c;
+  font-size: 28rpx;
+  border-bottom: 2rpx solid #eee;
+}
+.order-product .title{
+  font-size: 28rpx;
+  height: 70rpx;
+  line-height: 70rpx;
+  padding: 0 24rpx;
+}
+.order-product .list-box{
+  height: auto;
+  overflow: hidden;
+}
+.order-product .item{
+  height: auto;
+  overflow: hidden;
+  padding: 20rpx 24rpx;
+  display: -webkit-box;
+  color: #6c6c6c;
+  font-size: 26rpx;
+  margin-bottom: 20rpx;
+  background: #fafafa;
+}
+.order-product:last-child{
+  border-bottom:none;
+}
+.order-product image{
+  width: 180rpx;
+  height: 180rpx;
+  margin-right: 24rpx;
+}
+.order-product .info{
+  -webkit-box-flex: 1;
+  position: relative;
+}
+.order-product .name{
+  font-size: 28rpx;
+  height: 70rpx;
+  line-height: 35rpx;
+  overflow : hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+}
+.order-product .sku{
+  margin-top: 14rpx;
+  font-size: 20rpx;
+  display: -webkit-flex;
+  display: flex;
+  color: #cacaca
+}
+.order-product .sku .type{
+  width: 33.33%;
+}
+.order-product .sku .type1{
+  width: 45%;
+}
+.order-product .sku .type .color-red,
+.order-product .sku .type text{
+  font-size: 24rpx;
+}
+.order-product .price{
+  height: auto;
+  overflow: hidden;
+  color: #ff2742;
+  font-size: 32rpx;
+  padding-top: 28rpx;
+}

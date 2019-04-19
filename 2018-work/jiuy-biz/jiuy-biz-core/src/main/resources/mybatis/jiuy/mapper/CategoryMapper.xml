@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jiuy.core.dao.impl.sql.CategoryMapperSqlImpl">
+	
+	<sql id="insertParam">
+		(#{categoryName}, #{parentId}, #{createTime}, #{updateTime}, #{status}, #{categoryType}, #{description}, #{weight}, #{iconUrl}, #{iconOnUrl}, #{categoryUrl}, #{isDiscount}, #{exceedMoney}, #{minusMoney})
+	</sql>
+
+	<select id="getCategories" resultType="Category">
+		<![CDATA[
+			select * from yjj_Category
+			where Status = 0 or Status = 1 order by id desc
+		]]>
+	</select>
+
+	<select id="getCategory" resultType="map">
+		<![CDATA[
+			select a.*, b.CategoryName as parentName
+			from yjj_Category a left join yjj_Category b
+			on a.ParentId = b.Id 
+				and (a.Status > -1)
+		]]>
+	</select>
+
+	<update id="update" parameterType="Category">
+		update yjj_Category 
+		<set>
+			<if test="categoryName != null">
+				CategoryName = #{categoryName}, 
+			</if>
+			<if test="parentId != null">
+				ParentId = #{parentId},
+			</if>
+			<if test="status != null">
+				 Status = #{status},
+			</if>
+			<if test="updateTime != null">
+				UpdateTime = #{updateTime},
+			</if>
+			<if test="categoryType != null">
+				CategoryType = #{categoryType},
+			</if>
+			<if test="description != null">
+				Description = #{description}, 
+			</if>
+			<if test="weight != null">
+				Weight = #{weight},
+			</if>
+			<if test="iconUrl != null">
+				IconUrl = #{iconUrl},
+			</if>
+			<if test="iconOnUrl != null">
+				IconOnUrl = #{iconOnUrl},
+			</if>
+			<if test="categoryUrl != null">
+				CategoryUrl = #{categoryUrl},
+			</if>
+			<if test="isDiscount != null">
+				IsDiscount = #{isDiscount},
+			</if>
+			<if test="exceedMoney != null">
+				ExceedMoney = #{exceedMoney},
+			</if>
+			<if test="minusMoney != null">
+				MinusMoney = #{minusMoney}, 
+			</if>
+		</set>
+		where Id = #{id}
+	</update>
+
+	<insert id="addCategory" useGeneratedKeys="true" keyProperty="id">
+		insert yjj_Category(CategoryName, ParentId, CreateTime, UpdateTime, Status, CategoryType, Description, Weight, IconUrl, IconOnUrl, CategoryUrl, IsDiscount, ExceedMoney, MinusMoney)
+		values <include refid="insertParam"></include>
+	</insert>
+
+	<select id="getCategoriesByPage" resultType="map">
+        select c.* from
+		    (select a.*, b.CategoryName AS parentName
+		    from yjj_Category a left join yjj_Category b on a.ParentId = b.Id
+		    order by a.ParentId, a.Weight desc) c
+		<where>
+			<![CDATA[
+		    c.CategoryType = #{categoryType}
+		        and (c.Status > -1) 
+        	]]>
+        	<if test="categoryName != ''">
+		     	and c.CategoryName like concat("%", #{categoryName}, "%")
+        	</if>
+		</where> 
+		order by id desc
+		<if test="pageQuery != null">
+       		limit #{pageQuery.limit} offset #{pageQuery.offset} 
+		</if>
+	</select>
+
+	<select id="getCategoryListCount" parameterType="map" resultType="int">
+		<![CDATA[
+			SELECT COUNT(*)
+		FROM
+		    (SELECT 
+		        a.Id,
+		            a.CategoryName,
+		            a.CategoryType,
+		            a.Status,
+		            a.ParentId,
+		            a.Description,
+		            a.Weight,
+		            a.IconUrl,
+		            a.IconOnUrl,
+		            b.CategoryName AS parentName,
+		            a.CategoryUrl
+		    FROM
+		        yjj_Category a
+		    LEFT JOIN yjj_Category b ON a.ParentId = b.Id
+		    ORDER BY a.ParentId , a.Weight DESC) c
+		WHERE
+		    c.CategoryType = #{categoryType}
+		        AND (c.Status = 0 OR c.Status = 1)
+		        AND c.CategoryName LIKE CONCAT("%", #{categoryName}, "%")
+		]]>
+	</select>
+
+	<select id="getCategoryStatus" parameterType="long" resultType="int">
+		select Status
+		from yjj_Category
+		where Id = #{id}
+	</select>
+	
+	<select id="getPartnerCategories" resultType="Category">
+		select * 
+		from yjj_Category
+		where CategoryType = 1 and Status = 0
+	</select>
+	
+	<update id="rmCategoty" parameterType="map">
+		UPDATE yjj_Category 
+		SET 
+		    Status = -1
+		WHERE
+			Id IN
+	    <foreach collection="ids" item="categoryId" open="(" separator="," close=")">
+            #{categoryId}
+        </foreach>
+	</update>
+	
+	<update id="hideShowCategory" parameterType="map">
+		UPDATE yjj_Category 
+		SET 
+		    Status = #{status}
+		WHERE
+			Id = #{id}
+	</update>
+	
+	<select id="getSubCat" parameterType="map" resultType="Category">
+		SELECT *
+		FROM 
+			yjj_Category
+		WHERE
+			ParentId = #{parentId}
+	</select>
+	
+	<select id="getTopCat" parameterType="map" resultType="map">
+		select Id, CategoryName from yjj_Category
+		<![CDATA[		
+		where categoryType = #{categoryType} and status > -1			
+		]]>
+	</select>
+	
+	<select id="getTopCategory" parameterType="map" resultType="Category">
+		select * from yjj_Category
+		where CategoryType = #{categoryType} and Status = 0	and ParentId = 0
+	</select>
+	
+	<select id="getAllTopCategory" resultType="Category">
+		select * from yjj_Category
+		<![CDATA[
+		where  Status > -1 and ParentId = 0
+		]]>
+	</select>
+	
+	<select id="search" resultType="Category">
+		select * from yjj_Category
+		<where>
+			<if test="categoryType != null">
+				and CategoryType = #{categoryType}
+			</if>
+			<if test="categoryName != null">
+				and CategoryName like concat("%", #{categoryName}, "%")
+			</if>
+			<if test="parentId != null">
+				and ParentId = #{parentId}
+			</if>
+			<if test="status != null">
+				and Status = #{status}
+			</if>
+			<if test="qMPushTime != null">
+				and QMPushTime = #{qMPushTime}
+			</if>
+			<if test="ids != null and ids.size() > 0">
+				and Id in
+				<foreach collection="ids" item="id" open="(" separator="," close=")">
+					#{id}
+				</foreach>
+			</if>
+		</where>
+	</select>
+	
+	<select id="getRelatedCatsOfProduct" resultType="Category">
+		select * from yjj_Category 
+		where Id in (select CategoryId from yjj_ProductCategory where ProductId = #{productId} and Status = 0)
+	</select>
+	
+	<update id="batchUpdate">
+		update yjj_Category
+		<set>
+			<if test="qMPushTime != null">
+				QMPushTime = #{qMPushTime},
+			</if>
+		</set>
+		<where>
+			<if test="ids != null">
+				Id in 
+				<foreach collection="ids" item="id" open="(" separator="," close=")">
+					#{id}
+				</foreach>
+			</if>
+		</where>
+	</update>
+	
+	<select id="getParentCategories" resultType="Category">
+		<![CDATA[
+			select * from yjj_Category
+			where Status >= 0 and ParentId = 0 and CategoryType = 0 and CategoryName in (select name from yjj_CategorySetting
+		where Status = 0 and DisplayStatus = 0) order by weight 
+			
+		]]>
+	</select>
+
+	<select id="getCategoriesByStatus" resultType="com.jiuyuan.entity.Category">
+		SELECT * FROM `yjj_Category`
+		WHERE `Status` IN
+		<foreach collection="status" item="stat" open="(" separator="," close=")">
+			#{stat}
+		</foreach>
+	</select>
+
+
+</mapper>

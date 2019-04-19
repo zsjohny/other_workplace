@@ -1,0 +1,31 @@
+4、常用实体bean和对应数据表列举
+	StoreBusiness(门店商家yjj_StoreBusiness)
+	UserNew（供应商supplier_user）
+	ProductNew（平台商品yjj_Product）
+	ProductSkuNew（平台商品SKUyjj_ProductSKU）
+	ShopProduct（商家商品shop_product）
+	StoreOrderNew（平台订单store_Order）
+	CategoryNew（分类）yjj_Category
+	BrandNew（品牌yjj_Brand）
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

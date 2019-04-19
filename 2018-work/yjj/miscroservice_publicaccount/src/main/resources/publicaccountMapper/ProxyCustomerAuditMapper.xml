@@ -1,0 +1,492 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" > 
+<mapper namespace="com.e_commerce.miscroservice.publicaccount.mapper.ProxyCustomerAuditMapper">
+ 
+ 	<!-- 主要的返回映射-->
+	<resultMap id="BaseResultMap" type="com.e_commerce.miscroservice.commons.entity.application.proxy.ProxyCustomerAudit"	>
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="id_card_no"  property="idCardNo"  jdbcType="VARCHAR" />
+		<result column="referee_user_id"  property="refereeUserId"  jdbcType="BIGINT" />
+		<result column="recommon_user_id"  property="recommonUserId"  jdbcType="BIGINT" />
+		<result column="name"  property="name"  jdbcType="VARCHAR" />
+		<result column="phone"  property="phone"  jdbcType="VARCHAR" />
+		<result column="type"  property="type"  jdbcType="SMALLINT" />
+		<result column="audit_status"  property="auditStatus"  jdbcType="SMALLINT" />
+		<result column="audit_msg"  property="auditMsg"  jdbcType="VARCHAR" />
+		<result column="del_status"  property="delStatus"  jdbcType="SMALLINT" />
+		<result column="province"  property="province"  jdbcType="VARCHAR" />
+		<result column="city"  property="city"  jdbcType="VARCHAR" />
+		<result column="county"  property="county"  jdbcType="VARCHAR" />
+		<result column="address_detail"  property="addressDetail"  jdbcType="VARCHAR" />
+		<result column="update_user_id"  property="updateUserId"  jdbcType="BIGINT" />
+		<result column="create_time"  property="createTime"  jdbcType="TIMESTAMP" />
+		<result column="update_time"  property="updateTime"  jdbcType="TIMESTAMP" />
+	</resultMap>
+
+ 	<!-- 主要的返回映射-->
+	<resultMap id="BaseResultMapQuery" type="com.e_commerce.miscroservice.commons.entity.proxy.ProxyCustomerAuditQuery"	>
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="id_card_no"  property="idCardNo"  jdbcType="VARCHAR" />
+		<result column="referee_user_id"  property="refereeUserId"  jdbcType="BIGINT" />
+		<result column="recommon_user_id"  property="recommonUserId"  jdbcType="BIGINT" />
+		<result column="name"  property="name"  jdbcType="VARCHAR" />
+		<result column="phone"  property="phone"  jdbcType="VARCHAR" />
+		<result column="type"  property="type"  jdbcType="SMALLINT" />
+		<result column="audit_status"  property="auditStatus"  jdbcType="SMALLINT" />
+		<result column="audit_msg"  property="auditMsg"  jdbcType="VARCHAR" />
+		<result column="del_status"  property="delStatus"  jdbcType="SMALLINT" />
+		<result column="province"  property="province"  jdbcType="VARCHAR" />
+		<result column="city"  property="city"  jdbcType="VARCHAR" />
+		<result column="county"  property="county"  jdbcType="VARCHAR" />
+		<result column="address_detail"  property="addressDetail"  jdbcType="VARCHAR" />
+		<result column="update_user_id"  property="updateUserId"  jdbcType="BIGINT" />
+		<result column="create_time"  property="createTime"  jdbcType="TIMESTAMP" />
+		<result column="update_time"  property="updateTime"  jdbcType="TIMESTAMP" />
+		<result column="wx_user_icon"  property="wxUserIcon"  jdbcType="VARCHAR" />
+		<result column="wx_name"  property="wxName"  jdbcType="VARCHAR" />
+	</resultMap>
+
+	<!-- 所有的列名-->
+	<sql id="Base_Column_List" >
+		id,id_card_no,referee_user_id,recommon_user_id,name,phone,type,audit_status,audit_msg,
+		del_status,province,city,county,address_detail,update_user_id,create_time,update_time
+	</sql>
+
+	<sql id="Base_Column_List_Query" >
+		a.id,a.id_card_no,a.referee_user_id,a.recommon_user_id,a.name,a.phone,a.type,a.audit_status,a.audit_msg,a.
+		del_status,a.province,a.city,a.county,a.address_detail,a.update_user_id,a.create_time,a.update_time
+	</sql>
+
+	<!-- 精确更新的字段-->
+	<sql id="updateBase">
+		<if test="id  !=null">
+			id = #{id,jdbcType=BIGINT},
+		</if>
+		<if test="idCardNo  !=null">
+			id_card_no = #{idCardNo,jdbcType=VARCHAR}, 
+		</if>
+		<if test="refereeUserId  !=null">
+			referee_user_id = #{refereeUserId,jdbcType=BIGINT}, 
+		</if>
+		<if test="recommonUserId  !=null">
+			recommon_user_id = #{recommonUserId,jdbcType=BIGINT}, 
+		</if>
+		<if test="name  !=null">
+			name = #{name,jdbcType=VARCHAR}, 
+		</if>
+		<if test="phone  !=null">
+			phone = #{phone,jdbcType=VARCHAR}, 
+		</if>
+		<if test="type  !=null">
+			type = #{type,jdbcType=SMALLINT}, 
+		</if>
+		<if test="auditStatus  !=null">
+			audit_status = #{auditStatus,jdbcType=SMALLINT}, 
+		</if>
+		<if test="auditMsg  !=null">
+			audit_msg = #{auditMsg,jdbcType=VARCHAR}, 
+		</if>
+		<if test="delStatus  !=null">
+			del_status = #{delStatus,jdbcType=SMALLINT}, 
+		</if>
+		<if test="province  !=null">
+			province = #{province,jdbcType=VARCHAR}, 
+		</if>
+		<if test="city  !=null">
+			city = #{city,jdbcType=VARCHAR}, 
+		</if>
+		<if test="county  !=null">
+			county = #{county,jdbcType=VARCHAR}, 
+		</if>
+		<if test="addressDetail  !=null">
+			address_detail = #{addressDetail,jdbcType=VARCHAR}, 
+		</if>
+		<if test="updateUserId  !=null">
+			update_user_id = #{updateUserId,jdbcType=BIGINT}, 
+		</if>
+		<if test="createTime  !=null">
+			create_time = #{createTime,jdbcType=TIMESTAMP}, 
+		</if>
+		<if test="updateTime  !=null">
+			update_time = #{updateTime,jdbcType=TIMESTAMP} 
+		</if>
+	</sql>
+
+	<!-- 通过主键查找-->
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="Long" >
+		select 
+		<include refid="Base_Column_List" />
+		from yjj_proxy_customer_audit
+		where  id = #{id,jdbcType=BIGINT} 
+	</select>
+
+	<!-- 通过主键删除-->
+	<delete id="deleteByPrimaryKey" parameterType="Long" >
+		delete from yjj_proxy_customer_audit
+		where id = #{id,jdbcType=BIGINT} 
+	</delete>
+
+	<!-- 普通插入全字段插t入-->
+	<insert id="insert" parameterType="com.e_commerce.miscroservice.commons.entity.application.proxy.ProxyCustomerAudit" >
+		insert into yjj_proxy_customer_audit
+		(
+			id,
+			id_card_no,
+			referee_user_id,
+			recommon_user_id,
+			name,
+			phone,
+			type,
+			audit_status,
+			audit_msg,
+			del_status,
+			province,
+			city,
+			county,
+			address_detail,
+			update_user_id,
+			create_time,
+			update_time
+		)
+		values
+		(
+			#{id ,jdbcType=BIGINT},
+			#{idCardNo ,jdbcType=VARCHAR},
+			#{refereeUserId ,jdbcType=BIGINT},
+			#{recommonUserId ,jdbcType=BIGINT},
+			#{name ,jdbcType=VARCHAR},
+			#{phone ,jdbcType=VARCHAR},
+			#{type ,jdbcType=SMALLINT},
+			#{auditStatus ,jdbcType=SMALLINT},
+			#{auditMsg ,jdbcType=VARCHAR},
+			#{delStatus ,jdbcType=SMALLINT},
+			#{province ,jdbcType=VARCHAR},
+			#{city ,jdbcType=VARCHAR},
+			#{county ,jdbcType=VARCHAR},
+			#{addressDetail ,jdbcType=VARCHAR},
+			#{updateUserId ,jdbcType=BIGINT},
+			#{createTime ,jdbcType=TIMESTAMP},
+			#{updateTime ,jdbcType=TIMESTAMP}
+		)
+	</insert>
+
+	<!-- 批量插入，全部字段插入-->
+	<insert id="insertBach"   parameterType="List" >
+		insert into yjj_proxy_customer_audit
+		(
+			id,
+			id_card_no,
+			referee_user_id,
+			recommon_user_id,
+			name,
+			phone,
+			type,
+			audit_status,
+			audit_msg,
+			del_status,
+			province,
+			city,
+			county,
+			address_detail,
+			update_user_id,
+			create_time,
+			update_time
+		)
+		values 
+		<foreach collection="list" item="item" separator=",">
+		(
+			#{item.id ,jdbcType=BIGINT},
+			#{item.idCardNo ,jdbcType=VARCHAR},
+			#{item.refereeUserId ,jdbcType=BIGINT},
+			#{item.recommonUserId ,jdbcType=BIGINT},
+			#{item.name ,jdbcType=VARCHAR},
+			#{item.phone ,jdbcType=VARCHAR},
+			#{item.type ,jdbcType=SMALLINT},
+			#{item.auditStatus ,jdbcType=SMALLINT},
+			#{item.auditMsg ,jdbcType=VARCHAR},
+			#{item.delStatus ,jdbcType=SMALLINT},
+			#{item.province ,jdbcType=VARCHAR},
+			#{item.city ,jdbcType=VARCHAR},
+			#{item.county ,jdbcType=VARCHAR},
+			#{item.addressDetail ,jdbcType=VARCHAR},
+			#{item.updateUserId ,jdbcType=BIGINT},
+			#{item.createTime ,jdbcType=TIMESTAMP},
+			#{item.updateTime ,jdbcType=TIMESTAMP}
+		)
+		</foreach>
+	</insert>
+
+	<!-- 精确插入，非null得字段才会插入-->
+	<insert id="insertSelective" parameterType="com.e_commerce.miscroservice.commons.entity.application.proxy.ProxyCustomerAudit" useGeneratedKeys="true" keyProperty="id" >
+		insert into yjj_proxy_customer_audit
+		<trim prefix="(" suffix=")" suffixOverrides="," > 
+			<if test="id !=null">  
+				id,
+			</if>
+			<if test="idCardNo !=null">  
+				id_card_no,
+			</if>
+			<if test="refereeUserId !=null">  
+				referee_user_id,
+			</if>
+			<if test="recommonUserId !=null">  
+				recommon_user_id,
+			</if>
+			<if test="name !=null">  
+				name,
+			</if>
+			<if test="phone !=null">  
+				phone,
+			</if>
+			<if test="type !=null">  
+				type,
+			</if>
+			<if test="auditStatus !=null">  
+				audit_status,
+			</if>
+			<if test="auditMsg !=null">  
+				audit_msg,
+			</if>
+			<if test="delStatus !=null">  
+				del_status,
+			</if>
+			<if test="province !=null">  
+				province,
+			</if>
+			<if test="city !=null">  
+				city,
+			</if>
+			<if test="county !=null">  
+				county,
+			</if>
+			<if test="addressDetail !=null">  
+				address_detail,
+			</if>
+			<if test="updateUserId !=null">  
+				update_user_id,
+			</if>
+			<if test="createTime !=null">  
+				create_time,
+			</if>
+			<if test="updateTime !=null">  
+				update_time,
+			</if>
+		</trim>
+
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+			<if test="id  !=null">
+				#{id,jdbcType=BIGINT}, 
+			</if>
+			<if test="idCardNo  !=null">
+				#{idCardNo,jdbcType=VARCHAR}, 
+			</if>
+			<if test="refereeUserId  !=null">
+				#{refereeUserId,jdbcType=BIGINT}, 
+			</if>
+			<if test="recommonUserId  !=null">
+				#{recommonUserId,jdbcType=BIGINT}, 
+			</if>
+			<if test="name  !=null">
+				#{name,jdbcType=VARCHAR}, 
+			</if>
+			<if test="phone  !=null">
+				#{phone,jdbcType=VARCHAR}, 
+			</if>
+			<if test="type  !=null">
+				#{type,jdbcType=SMALLINT}, 
+			</if>
+			<if test="auditStatus  !=null">
+				#{auditStatus,jdbcType=SMALLINT}, 
+			</if>
+			<if test="auditMsg  !=null">
+				#{auditMsg,jdbcType=VARCHAR}, 
+			</if>
+			<if test="delStatus  !=null">
+				#{delStatus,jdbcType=SMALLINT}, 
+			</if>
+			<if test="province  !=null">
+				#{province,jdbcType=VARCHAR}, 
+			</if>
+			<if test="city  !=null">
+				#{city,jdbcType=VARCHAR}, 
+			</if>
+			<if test="county  !=null">
+				#{county,jdbcType=VARCHAR}, 
+			</if>
+			<if test="addressDetail  !=null">
+				#{addressDetail,jdbcType=VARCHAR}, 
+			</if>
+			<if test="updateUserId  !=null">
+				#{updateUserId,jdbcType=BIGINT}, 
+			</if>
+			<if test="createTime  !=null">
+				#{createTime,jdbcType=TIMESTAMP}, 
+			</if>
+			<if test="updateTime  !=null">
+				#{updateTime,jdbcType=TIMESTAMP} 
+			</if>
+		</trim>
+	</insert> 
+
+	<!-- 精确更新-->
+	<update id="updateByPrimaryKeySelective" parameterType="com.e_commerce.miscroservice.commons.entity.application.proxy.ProxyCustomerAudit" >
+		update yjj_proxy_customer_audit
+		<set>
+			<include refid="updateBase"/>
+		</set>
+		where id = #{id,jdbcType=BIGINT} 
+	</update> 
+
+	<!-- 全字段更新 需要注意-->
+	<update id="updateByPrimaryKey" parameterType="com.e_commerce.miscroservice.commons.entity.application.proxy.ProxyCustomerAudit" >
+		update yjj_proxy_customer_audit
+		set 
+			id = #{id ,jdbcType=BIGINT},
+			id_card_no = #{idCardNo ,jdbcType=VARCHAR},
+			referee_user_id = #{refereeUserId ,jdbcType=BIGINT},
+			recommon_user_id = #{recommonUserId ,jdbcType=BIGINT},
+			name = #{name ,jdbcType=VARCHAR},
+			phone = #{phone ,jdbcType=VARCHAR},
+			type = #{type ,jdbcType=SMALLINT},
+			audit_status = #{auditStatus ,jdbcType=SMALLINT},
+			audit_msg = #{auditMsg ,jdbcType=VARCHAR},
+			del_status = #{delStatus ,jdbcType=SMALLINT},
+			province = #{province ,jdbcType=VARCHAR},
+			city = #{city ,jdbcType=VARCHAR},
+			county = #{county ,jdbcType=VARCHAR},
+			address_detail = #{addressDetail ,jdbcType=VARCHAR},
+			update_user_id = #{updateUserId ,jdbcType=BIGINT},
+			create_time = #{createTime ,jdbcType=TIMESTAMP},
+			update_time = #{updateTime ,jdbcType=TIMESTAMP}
+		where id = #{id,jdbcType=BIGINT} 
+	</update> 
+
+	<!-- 所有的条件集合-->
+	<sql id="whereCase"  >
+		where  1=1 
+		<if test="id  !=null">
+			AND id = #{id,jdbcType=BIGINT} 
+		</if>
+		<if test="idCardNo  !=null">
+			AND id_card_no = #{idCardNo,jdbcType=VARCHAR} 
+		</if>
+		<if test="refereeUserId  !=null">
+			AND referee_user_id = #{refereeUserId,jdbcType=BIGINT} 
+		</if>
+		<if test="recommonUserId  !=null">
+			AND recommon_user_id = #{recommonUserId,jdbcType=BIGINT} 
+		</if>
+		<if test="name  !=null">
+			AND name = #{name,jdbcType=VARCHAR} 
+		</if>
+		<if test="phone  !=null">
+			AND phone = #{phone,jdbcType=VARCHAR} 
+		</if>
+		<if test="type  !=null">
+			AND type = #{type,jdbcType=SMALLINT} 
+		</if>
+		<if test="auditStatus  !=null">
+			AND audit_status = #{auditStatus,jdbcType=SMALLINT} 
+		</if>
+		<if test="auditMsg  !=null">
+			AND audit_msg = #{auditMsg,jdbcType=VARCHAR} 
+		</if>
+		<if test="delStatus  !=null">
+			AND del_status = #{delStatus,jdbcType=SMALLINT} 
+		</if>
+		<if test="province  !=null">
+			AND province = #{province,jdbcType=VARCHAR} 
+		</if>
+		<if test="city  !=null">
+			AND city = #{city,jdbcType=VARCHAR} 
+		</if>
+		<if test="county  !=null">
+			AND county = #{county,jdbcType=VARCHAR} 
+		</if>
+		<if test="addressDetail  !=null">
+			AND address_detail = #{addressDetail,jdbcType=VARCHAR} 
+		</if>
+		<if test="updateUserId  !=null">
+			AND update_user_id = #{updateUserId,jdbcType=BIGINT} 
+		</if>
+		<if test="createTime  !=null">
+			AND create_time = #{createTime,jdbcType=TIMESTAMP} 
+		</if>
+		<if test="updateTime  !=null">
+			AND update_time = #{updateTime,jdbcType=TIMESTAMP} 
+		</if>
+		<include refid="costomWhereCase"/>
+	</sql>
+
+	<!-- 查询一条，如果返回多条会报错-->
+	<select id="selectOne" parameterType="java.util.Map" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" /> 
+		FROM yjj_proxy_customer_audit 
+		<include refid="whereCase" /> 
+	</select>
+
+	<!-- 查询一个list-->
+	<select id="selectList" parameterType="java.util.Map" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" /> 
+		FROM yjj_proxy_customer_audit 
+		<include refid="whereCase" /> 
+	</select>
+
+	<!-- 查询一个list-->
+	<select id="selectCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+		SELECT
+		count(1) 
+		FROM yjj_proxy_customer_audit
+		<include refid="whereCase" /> 
+	</select>
+
+	<!--  @Costom -->
+	<!-- 从上一行注释以上为系统生成 从这一行往下为用户自定义 请将自定义的sql放在此行下面 -->
+	<sql id="costomWhereCase">
+	</sql>
+
+
+	<select id="auditList" resultMap="BaseResultMapQuery" parameterType="map">
+		SELECT
+		b.wx_user_icon,
+		b.wx_name,
+		<include refid="Base_Column_List_Query"></include>
+		FROM yjj_proxy_customer_audit a
+		JOIN yjj_public_account_user b ON a.recommon_user_id = b.id
+		WHERE 1=1 and a.del_status=0
+		<if test="wxName != null and wxName != ''">
+			AND b.wx_name LIKE CONCAT('%',#{wxName},'%')
+		</if>
+		<if test="name != null and name != ''">
+			AND a.`name` LIKE CONCAT('%',#{name},'%')
+		</if>
+		<if test="phone != null and phone != ''">
+			AND a.phone = #{phone}
+		</if>
+		<if test="province != null and province != ''">
+			AND a.province = #{province}
+		</if>
+		<if test="city != null and city != ''">
+			AND a.city = #{city}
+		</if>
+		<if test="county != null and county != ''">
+			AND a.county = #{county}
+		</if>
+		<if test="idCardNo != null and idCardNo != ''">
+			AND a.id_card_no = #{idCardNo}
+		</if>
+		<if test="createTimeBefore != null and createTimeBefore != ''">
+			AND a.create_time &gt; #{createTimeBefore}
+		</if>
+		<if test="createTimeAfter != null and createTimeAfter != ''">
+			AND a.create_time &lt; #{createTimeAfter}
+		</if>
+		ORDER BY a.create_time DESC
+	</select>
+
+
+
+
+</mapper>

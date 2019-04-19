@@ -1,0 +1,25 @@
+@import '/pages/component/accountAmount/accountAmount.wxss';
+/**我的粉丝 **/
+.account-head,
+.swiper-box .item,
+.swiper-box{
+  width: 742rpx;
+  height: 378rpx;
+}
+.swiper-box .item{
+  background: url(http://mini-img-main.oss-cn-hangzhou.aliyuncs.com/icon/new/fans-bg.png) no-repeat;
+  background-size: 742rpx;
+  margin-bottom: 10rpx;
+}
+.swiper-box .item .dl-head .dt::after{
+  background: none;
+}
+.account-list .tr{
+  height: 164rpx;
+}
+.fans-list .tr .head{
+  width: 100rpx;
+  height: 100rpx;
+  display: block;
+  margin-right: 24rpx;
+}

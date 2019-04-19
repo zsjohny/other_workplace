@@ -1,0 +1,480 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" > 
+<mapper namespace="com.jiuy.rb.mapper.account.CoinsMapper"> 
+ 
+ 	<!-- 主要的返回映射-->
+	<resultMap id="BaseResultMap" type="com.jiuy.rb.model.account.Coins"	>
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="user_id"  property="userId"  jdbcType="BIGINT" />
+		<result column="user_type"  property="userType"  jdbcType="INTEGER" />
+		<result column="total_coins"  property="totalCoins"  jdbcType="BIGINT" />
+		<result column="alive_coins"  property="aliveCoins"  jdbcType="BIGINT" />
+		<result column="unalived_coins"  property="unalivedCoins"  jdbcType="BIGINT" />
+		<result column="wait_coins"  property="waitCoins"  jdbcType="BIGINT" />
+		<result column="lost_coins"  property="lostCoins"  jdbcType="BIGINT" />
+		<result column="expire_coins"  property="expireCoins"  jdbcType="BIGINT" />
+		<result column="create_time"  property="createTime"  jdbcType="TIMESTAMP" />
+		<result column="update_time"  property="updateTime"  jdbcType="TIMESTAMP" />
+		<result column="version"  property="version"  jdbcType="BIGINT" />
+		<result column="cash_out_rmb"  property="cashOutRmb"  jdbcType="DECIMAL" />
+		<result column="cash_out_coins"  property="cashOutCoins"  jdbcType="BIGINT" />
+		<result column="init_moth"  property="initMoth"  jdbcType="INTEGER" />
+	</resultMap>
+
+	<!-- 所有的列名-->
+	<sql id="Base_Column_List" >
+		id,user_id,user_type,total_coins,alive_coins,unalived_coins,wait_coins,lost_coins,expire_coins,
+		create_time,update_time,version,cash_out_rmb,cash_out_coins,init_moth
+	</sql>
+
+	<!-- 精确更新的字段-->
+	<sql id="updateBase">
+		<if test="id  !=null">
+			id = #{id,jdbcType=BIGINT}, 
+		</if>
+		<if test="userId  !=null">
+			user_id = #{userId,jdbcType=BIGINT}, 
+		</if>
+		<if test="userType  !=null">
+			user_type = #{userType,jdbcType=INTEGER}, 
+		</if>
+		<if test="totalCoins  !=null">
+			total_coins = #{totalCoins,jdbcType=BIGINT}, 
+		</if>
+		<if test="aliveCoins  !=null">
+			alive_coins = #{aliveCoins,jdbcType=BIGINT}, 
+		</if>
+		<if test="unalivedCoins  !=null">
+			unalived_coins = #{unalivedCoins,jdbcType=BIGINT}, 
+		</if>
+		<if test="waitCoins  !=null">
+			wait_coins = #{waitCoins,jdbcType=BIGINT}, 
+		</if>
+		<if test="lostCoins  !=null">
+			lost_coins = #{lostCoins,jdbcType=BIGINT}, 
+		</if>
+		<if test="expireCoins  !=null">
+			expire_coins = #{expireCoins,jdbcType=BIGINT}, 
+		</if>
+		<if test="createTime  !=null">
+			create_time = #{createTime,jdbcType=TIMESTAMP}, 
+		</if>
+		<if test="updateTime  !=null">
+			update_time = #{updateTime,jdbcType=TIMESTAMP}, 
+		</if>
+		<if test="version  !=null">
+			version = #{version,jdbcType=BIGINT}, 
+		</if>
+		<if test="cashOutRmb  !=null">
+			cash_out_rmb = #{cashOutRmb,jdbcType=DECIMAL}, 
+		</if>
+		<if test="cashOutCoins  !=null">
+			cash_out_coins = #{cashOutCoins,jdbcType=BIGINT}, 
+		</if>
+		<if test="initMoth  !=null">
+			init_moth = #{initMoth,jdbcType=INTEGER} 
+		</if>
+	</sql>
+
+	<!-- 通过主键查找-->
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="Long" >
+		select 
+		<include refid="Base_Column_List" />
+		from yjj_coins
+		where  id = #{id,jdbcType=BIGINT} 
+	</select>
+
+	<!-- 通过主键删除-->
+	<delete id="deleteByPrimaryKey" parameterType="Long" >
+		delete from yjj_coins
+		where id = #{id,jdbcType=BIGINT} 
+	</delete>
+
+	<!-- 普通插入全字段插t入-->
+	<insert id="insert" parameterType="com.jiuy.rb.model.account.Coins" >
+		insert into yjj_coins
+		(
+			id,
+			user_id,
+			user_type,
+			total_coins,
+			alive_coins,
+			unalived_coins,
+			wait_coins,
+			lost_coins,
+			expire_coins,
+			create_time,
+			update_time,
+			version,
+			cash_out_rmb,
+			cash_out_coins,
+			init_moth
+		)
+		values
+		(
+			#{id ,jdbcType=BIGINT},
+			#{userId ,jdbcType=BIGINT},
+			#{userType ,jdbcType=INTEGER},
+			#{totalCoins ,jdbcType=BIGINT},
+			#{aliveCoins ,jdbcType=BIGINT},
+			#{unalivedCoins ,jdbcType=BIGINT},
+			#{waitCoins ,jdbcType=BIGINT},
+			#{lostCoins ,jdbcType=BIGINT},
+			#{expireCoins ,jdbcType=BIGINT},
+			#{createTime ,jdbcType=TIMESTAMP},
+			#{updateTime ,jdbcType=TIMESTAMP},
+			#{version ,jdbcType=BIGINT},
+			#{cashOutRmb ,jdbcType=DECIMAL},
+			#{cashOutCoins ,jdbcType=BIGINT},
+			#{initMoth ,jdbcType=INTEGER}
+		)
+	</insert>
+
+	<!-- 批量插入，全部字段插入-->
+	<insert id="insertBach"   parameterType="List" >
+		insert into yjj_coins
+		(
+			id,
+			user_id,
+			user_type,
+			total_coins,
+			alive_coins,
+			unalived_coins,
+			wait_coins,
+			lost_coins,
+			expire_coins,
+			create_time,
+			update_time,
+			version,
+			cash_out_rmb,
+			cash_out_coins,
+			init_moth
+		)
+		values 
+		<foreach collection="list" item="item" separator=",">
+		(
+			#{item.id ,jdbcType=BIGINT},
+			#{item.userId ,jdbcType=BIGINT},
+			#{item.userType ,jdbcType=INTEGER},
+			#{item.totalCoins ,jdbcType=BIGINT},
+			#{item.aliveCoins ,jdbcType=BIGINT},
+			#{item.unalivedCoins ,jdbcType=BIGINT},
+			#{item.waitCoins ,jdbcType=BIGINT},
+			#{item.lostCoins ,jdbcType=BIGINT},
+			#{item.expireCoins ,jdbcType=BIGINT},
+			#{item.createTime ,jdbcType=TIMESTAMP},
+			#{item.updateTime ,jdbcType=TIMESTAMP},
+			#{item.version ,jdbcType=BIGINT},
+			#{item.cashOutRmb ,jdbcType=DECIMAL},
+			#{item.cashOutCoins ,jdbcType=BIGINT},
+			#{item.initMoth ,jdbcType=INTEGER}
+		)
+		</foreach>
+	</insert>
+
+	<!-- 精确插入，非null得字段才会插入-->
+	<insert id="insertSelective" parameterType="com.jiuy.rb.model.account.Coins" useGeneratedKeys="true" keyProperty="id" >
+		insert into yjj_coins
+		<trim prefix="(" suffix=")" suffixOverrides="," > 
+			<if test="id !=null">  
+				id,
+			</if>
+			<if test="userId !=null">  
+				user_id,
+			</if>
+			<if test="userType !=null">  
+				user_type,
+			</if>
+			<if test="totalCoins !=null">  
+				total_coins,
+			</if>
+			<if test="aliveCoins !=null">  
+				alive_coins,
+			</if>
+			<if test="unalivedCoins !=null">  
+				unalived_coins,
+			</if>
+			<if test="waitCoins !=null">  
+				wait_coins,
+			</if>
+			<if test="lostCoins !=null">  
+				lost_coins,
+			</if>
+			<if test="expireCoins !=null">  
+				expire_coins,
+			</if>
+			<if test="createTime !=null">  
+				create_time,
+			</if>
+			<if test="updateTime !=null">  
+				update_time,
+			</if>
+			<if test="version !=null">  
+				version,
+			</if>
+			<if test="cashOutRmb !=null">  
+				cash_out_rmb,
+			</if>
+			<if test="cashOutCoins !=null">  
+				cash_out_coins,
+			</if>
+			<if test="initMoth !=null">  
+				init_moth,
+			</if>
+		</trim>
+
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+			<if test="id  !=null">
+				#{id,jdbcType=BIGINT}, 
+			</if>
+			<if test="userId  !=null">
+				#{userId,jdbcType=BIGINT}, 
+			</if>
+			<if test="userType  !=null">
+				#{userType,jdbcType=INTEGER}, 
+			</if>
+			<if test="totalCoins  !=null">
+				#{totalCoins,jdbcType=BIGINT}, 
+			</if>
+			<if test="aliveCoins  !=null">
+				#{aliveCoins,jdbcType=BIGINT}, 
+			</if>
+			<if test="unalivedCoins  !=null">
+				#{unalivedCoins,jdbcType=BIGINT}, 
+			</if>
+			<if test="waitCoins  !=null">
+				#{waitCoins,jdbcType=BIGINT}, 
+			</if>
+			<if test="lostCoins  !=null">
+				#{lostCoins,jdbcType=BIGINT}, 
+			</if>
+			<if test="expireCoins  !=null">
+				#{expireCoins,jdbcType=BIGINT}, 
+			</if>
+			<if test="createTime  !=null">
+				#{createTime,jdbcType=TIMESTAMP}, 
+			</if>
+			<if test="updateTime  !=null">
+				#{updateTime,jdbcType=TIMESTAMP}, 
+			</if>
+			<if test="version  !=null">
+				#{version,jdbcType=BIGINT}, 
+			</if>
+			<if test="cashOutRmb  !=null">
+				#{cashOutRmb,jdbcType=DECIMAL}, 
+			</if>
+			<if test="cashOutCoins  !=null">
+				#{cashOutCoins,jdbcType=BIGINT}, 
+			</if>
+			<if test="initMoth  !=null">
+				#{initMoth,jdbcType=INTEGER} 
+			</if>
+		</trim>
+	</insert> 
+
+	<!-- 精确更新-->
+	<update id="updateByPrimaryKeySelective" parameterType="com.jiuy.rb.model.account.Coins" >
+		update yjj_coins
+		<set>
+			<include refid="updateBase"/>
+		</set>
+		where id = #{id,jdbcType=BIGINT} 
+	</update> 
+
+	<!-- 全字段更新 需要注意-->
+	<update id="updateByPrimaryKey" parameterType="com.jiuy.rb.model.account.Coins" >
+		update yjj_coins
+		set 
+			id = #{id ,jdbcType=BIGINT},
+			user_id = #{userId ,jdbcType=BIGINT},
+			user_type = #{userType ,jdbcType=INTEGER},
+			total_coins = #{totalCoins ,jdbcType=BIGINT},
+			alive_coins = #{aliveCoins ,jdbcType=BIGINT},
+			unalived_coins = #{unalivedCoins ,jdbcType=BIGINT},
+			wait_coins = #{waitCoins ,jdbcType=BIGINT},
+			lost_coins = #{lostCoins ,jdbcType=BIGINT},
+			expire_coins = #{expireCoins ,jdbcType=BIGINT},
+			create_time = #{createTime ,jdbcType=TIMESTAMP},
+			update_time = #{updateTime ,jdbcType=TIMESTAMP},
+			version = #{version ,jdbcType=BIGINT},
+			cash_out_rmb = #{cashOutRmb ,jdbcType=DECIMAL},
+			cash_out_coins = #{cashOutCoins ,jdbcType=BIGINT},
+			init_moth = #{initMoth ,jdbcType=INTEGER}
+		where id = #{id,jdbcType=BIGINT} 
+	</update> 
+
+	<!-- 所有的条件集合-->
+	<sql id="whereCase"  >
+		where  1=1 
+		<if test="id  !=null">
+			AND id = #{id,jdbcType=BIGINT} 
+		</if>
+		<if test="userId  !=null">
+			AND user_id = #{userId,jdbcType=BIGINT} 
+		</if>
+		<if test="userType  !=null">
+			AND user_type = #{userType,jdbcType=INTEGER} 
+		</if>
+		<if test="totalCoins  !=null">
+			AND total_coins = #{totalCoins,jdbcType=BIGINT} 
+		</if>
+		<if test="aliveCoins  !=null">
+			AND alive_coins = #{aliveCoins,jdbcType=BIGINT} 
+		</if>
+		<if test="unalivedCoins  !=null">
+			AND unalived_coins = #{unalivedCoins,jdbcType=BIGINT} 
+		</if>
+		<if test="waitCoins  !=null">
+			AND wait_coins = #{waitCoins,jdbcType=BIGINT} 
+		</if>
+		<if test="lostCoins  !=null">
+			AND lost_coins = #{lostCoins,jdbcType=BIGINT} 
+		</if>
+		<if test="expireCoins  !=null">
+			AND expire_coins = #{expireCoins,jdbcType=BIGINT} 
+		</if>
+		<if test="createTime  !=null">
+			AND create_time = #{createTime,jdbcType=TIMESTAMP} 
+		</if>
+		<if test="updateTime  !=null">
+			AND update_time = #{updateTime,jdbcType=TIMESTAMP} 
+		</if>
+		<if test="version  !=null">
+			AND version = #{version,jdbcType=BIGINT} 
+		</if>
+		<if test="cashOutRmb  !=null">
+			AND cash_out_rmb = #{cashOutRmb,jdbcType=DECIMAL} 
+		</if>
+		<if test="cashOutCoins  !=null">
+			AND cash_out_coins = #{cashOutCoins,jdbcType=BIGINT} 
+		</if>
+		<if test="initMoth  !=null">
+			AND init_moth = #{initMoth,jdbcType=INTEGER} 
+		</if>
+		<include refid="costomWhereCase"/>
+	</sql>
+
+	<!-- 查询一条，如果返回多条会报错-->
+	<select id="selectOne" parameterType="java.util.Map" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" /> 
+		FROM yjj_coins 
+		<include refid="whereCase" /> 
+	</select>
+
+	<!-- 查询一个list-->
+	<select id="selectList" parameterType="java.util.Map" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" /> 
+		FROM yjj_coins 
+		<include refid="whereCase" /> 
+	</select>
+
+	<!-- 查询一个list-->
+	<select id="selectCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+		SELECT
+		count(1) 
+		FROM yjj_coins
+		<include refid="whereCase" /> 
+	</select>
+
+	<!--  @Costom -->
+	<!-- 从上一行注释以上为系统生成 从这一行往下为用户自定义 请将自定义的sql放在此行下面 -->
+	<sql id="costomWhereCase">
+	</sql>
+
+	<!--版本号加1 -->
+	<update id="updateVersion">
+		update yjj_coins set version = version+1 where user_id = #{userId} and user_type = #{userType}
+	</update>
+	
+	<!-- 加减可用玖币 -->
+	<update id="modifyAliveCoins" parameterType="com.jiuy.rb.model.account.CoinsUpVo">
+		update yjj_coins set total_coins = total_coins +#{count},alive_coins = alive_coins+ #{count}
+		where user_id = #{userId} and user_type = #{userType} and total_coins +#{count}>=0 and alive_coins+ #{count}>=0
+	</update>
+
+	<!-- 加减不可用玖币 -->
+	<update id="modifyUnAliveCoins" parameterType="com.jiuy.rb.model.account.CoinsUpVo">
+		update yjj_coins set total_coins = total_coins +#{count},unalived_coins = unalived_coins+ #{count}
+		where user_id = #{userId} and user_type = #{userType} and total_coins +#{count}>=0 and unalived_coins+ #{count}>=0
+	</update>
+
+	<!-- 从不可用移动到可用 -->
+	<update id="moveUnAlive2Live" parameterType="com.jiuy.rb.model.account.CoinsUpVo">
+		update yjj_coins set unalived_coins = unalived_coins - #{count}, alive_coins = alive_coins+ #{count}
+		where user_id = #{userId} and user_type = #{userType} and unalived_coins- #{count}>=0 and alive_coins+ #{count}>=0
+	</update>
+
+	<!--查询玖币详情.根据玖币账户和类别进行统计 -->
+	<select id="selectDetailSumGroup" resultType="com.jiuy.rb.model.account.CoinsQuery">
+		SELECT
+			sum(count) count,
+			coins_id as coinsId,
+			`status` status,
+			CONCAT(coins_id, '_', `status`) as coinsGroup,
+			id
+		FROM
+			yjj_coins_detail
+		WHERE
+			coins_id IN
+			<foreach collection="coinsIds" item="coinsId" separator="," open="(" close=")">
+				#{coinsId}
+			</foreach>
+			AND `status` IN
+			<foreach collection="statuses" item="status" separator="," open="(" close=")">
+				#{status}
+			</foreach>
+		GROUP BY
+			coins_id,
+			`status`
+	</select>
+
+
+	<select id="selectCoinsWithMember" resultType="com.jiuy.rb.model.account.CoinsQuery" parameterType="java.util.Map">
+		SELECT
+			coins.id id,
+			user_id  userId,
+			user_type  userType,
+			total_coins totalCoins,
+			alive_coins aliveCoins,
+			unalived_coins unalivedCoins,
+			FROM_UNIXTIME(member.create_time/1000) createTime,
+			coins.update_time  updateTime,
+			version  version,
+			member.user_nickname as nickname,
+			member.source as source
+		<if test="queryStore != null and queryStore == true">
+			,store.BusinessName storeName
+			, store.Id storeId
+		</if>
+		FROM
+			yjj_coins AS coins
+			LEFT JOIN shop_member AS member ON member.id = coins.user_id AND user_type = 1
+		<if test="queryStore != null and queryStore == true">
+			LEFT JOIN yjj_storebusiness store ON store.Id = member.store_id
+		</if>
+		where 1 =1
+			<if test="nickNameLike !=null">
+				and member.user_nickname like concat('%',#{nickNameLike},'%')
+			</if>
+			<if test="source !=null">
+				and member.source = #{source}
+			</if>
+			<if test="createTimeBegin !=null">
+				and member.create_time &gt;= UNIX_TIMESTAMP(#{createTimeBegin})*1000
+			</if>
+			<if test="createTimeEnd !=null">
+				and member.create_time &lt;= UNIX_TIMESTAMP(#{createTimeEnd})*1000
+			</if>
+			order by member.create_time desc
+	</select>
+
+	<!--锁定-->
+	<select id="selectByIdForUpdate" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM yjj_coins where id = #{id} for update ;
+	</select>
+
+</mapper>

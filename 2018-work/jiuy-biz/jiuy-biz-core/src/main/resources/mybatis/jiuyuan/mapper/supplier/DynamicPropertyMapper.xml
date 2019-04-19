@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jiuyuan.dao.mapper.dynamicproperty.DynamicPropertyMapper">
+
+    <insert id="addAndGetId" useGeneratedKeys="true" keyProperty="id"
+            parameterType="com.jiuyuan.entity.newentity.dynamicproperty.DynamicProperty">
+		insert into yjj_dynamic_property
+		(name,dyna_prop_group_id,weight,is_fill,is_display,form_type,remark,create_time,update_time)
+		values
+		(#{name},#{dynaPropGroupId},#{weight},#{isFill},#{isDisplay},#{formType},#{remark},#{createTime},#{updateTime})
+	</insert>
+
+    <select id="selectPageList" parameterType="com.baomidou.mybatisplus.plugins.Page"
+            resultType="map">
+        SELECT
+        ydp.id,
+        ydp.name,
+        ydp.weight,
+        ydp.remark as remark,
+        ydp.is_display as isDisPlay,
+        ydp.form_type as formType,
+        ydp.is_fill as isFill,
+        ydp.status,
+        ydpg.name
+        as dynaPropGroupName,
+        pvs.prop_value as propValue
+        FROM
+        yjj_dynamic_property_group ydpg,
+        yjj_dynamic_property ydp
+        LEFT JOIN (
+        SELECT
+        yjj_dynamic_property_value.dyna_prop_id,
+        GROUP_CONCAT(dyna_prop_value)
+        prop_value
+        FROM
+        yjj_dynamic_property_value
+        <where>
+            yjj_dynamic_property_value.`status`=1
+        </where>
+        GROUP BY
+        yjj_dynamic_property_value.dyna_prop_id
+        ) pvs ON
+        pvs.dyna_prop_id = ydp.id
+        <where>
+            ydp.dyna_prop_group_id = ydpg.id
+            <if test="name != ''">
+                and ydp.name like concat ("%", #{name}, "%")
+            </if>
+            <if test="dynaPropValue != '' ">
+                and pvs.prop_value like concat ("%", #{dynaPropValue},
+                "%")
+            </if>
+            <if test="formType != -1 ">
+                and ydp.form_type =#{formType}
+            </if>
+            <if test="isFill != -1 ">
+                and ydp.is_fill =#{isFill}
+            </if>
+            <if test="dynaPropGroupId != -1 ">
+                and ydpg.id =#{dynaPropGroupId}
+            </if>
+            <if test="status != -1 ">
+                and ydp.status =#{status}
+            </if>
+        </where>
+        ORDER BY
+        ydp.id DESC
+    </select>
+
+
+    <resultMap id="propertyAndValues" type="com.jiuyuan.entity.newentity.dynamicproperty.DynamicPropertyWithValue">
+        <id column="id" property="id"/>
+        <result column="dyna_prop_group_id" property="dynaPropGroupId"/>
+        <result column="name" property="name"/>
+        <result column="weight" property="weight"/>
+        <result column="is_fill" property="isFill"/>
+        <result column="is_display" property="isDisplay"/>
+        <result column="form_type" property="formType"/>
+        <result column="status" property="status"/>
+        <result column="remark" property="remark"/>
+
+        <collection property="dynamicPropertyValueList"
+                    column="value_id"
+                    ofType="com.jiuyuan.entity.newentity.dynamicproperty.DynamicPropertyValue">
+            <id column="value_id" property="id"></id>
+            <result column="value_dyna_prop_id" property="dynaPropId"/>
+            <result column="value_dyna_prop_value" property="dynaPropValue"/>
+            <result column="value_status" property="status"/>
+            <result column="value_weight" property="weight"/>
+        </collection>
+
+    </resultMap>
+    <select id="getPropertyAndValues" resultMap="propertyAndValues" resultType="com.jiuyuan.entity.newentity.dynamicproperty.DynamicPropertyWithValue" parameterType="List">
+        SELECT
+        a.id AS id,
+        a.dyna_prop_group_id AS dyna_prop_group_id,
+        a.`name` AS `name`,
+        a.weight AS weight,
+        a.is_fill AS is_fill,
+        a.is_display AS is_display,
+        a.form_type AS form_type,
+        a.`status` AS `status`,
+        a.remark AS remark,
+        b.id AS value_id,
+        b.dyna_prop_id AS value_dyna_prop_id,
+        b.dyna_prop_value AS value_dyna_prop_value,
+        b.`status` AS value_status,
+        b.weight AS value_weight
+        FROM `yjj_dynamic_property` a
+        LEFT JOIN `yjj_dynamic_property_value` b
+        ON a.id = b.dyna_prop_id
+        WHERE  a.id in
+            <foreach collection="dynamicPropIdList" item="dynamicPropId" open="(" separator="," close=")">
+                #{dynamicPropId}
+            </foreach>
+    </select>
+
+</mapper>

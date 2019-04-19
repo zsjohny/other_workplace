@@ -1,0 +1,163 @@
+/*领券中心 */
+.coupon-box{
+  width: 100%;
+  height: auto;
+  overflow: hidden;
+  margin: 0 auto 30rpx;
+  font-size: 32rpx;
+  box-sizing: border-box;
+  border-top: none;
+  position: relative;
+}
+.coupon-prompt{
+  text-align: left;
+  font-size: 30rpx;
+  padding: 40rpx 0 30rpx;
+  margin-left:22rpx;
+}
+.coupon-prompt text{
+  color: #ff2742;
+}
+.coupon-list{
+  height: auto;
+  overflow: hidden;
+  padding-bottom: 160rpx;
+}
+.coupon-list .item{
+  width: 704rpx;
+  height: 229rpx;
+  margin: 0 auto 20rpx;
+  position: relative;
+  box-sizing: border-box;
+  padding: 0 29rpx;
+  background: url(https://mini-img-main.oss-cn-hangzhou.aliyuncs.com/icon/new/coupon-bg02.png) no-repeat;
+  background-size: 704rpx 229rpx;
+}
+.coupon-list .item .name{
+  width: 540rpx;
+  height: 78rpx;
+  line-height: 78rpx;
+  overflow: hidden;
+  font-size: 30rpx;
+}
+.coupon-list .item .box{
+  height: 54rpx;
+  display: -webkit-flex;
+  display: flex;
+  position: relative;
+}
+.coupon-list .item .money{
+  width: 180rpx;
+  position: relative;
+}
+.coupon-list .item .money .rmb{
+  font-size:24rpx;
+  position: absolute;
+  left: 0;
+  top: 5rpx;
+}
+.coupon-list .item .money .number{
+  margin-left: 16rpx;
+  font-size:40rpx;
+}
+.coupon-list .item .text-box{
+  width: 300rpx;
+  font-size: 22rpx;
+  color: #959595;
+  margin-left: 15rpx;
+  position: relative;
+}
+.coupon-list .item .text-box text{
+  width: 300rpx;
+  height: 30rpx;
+  position: absolute;
+  left: 0;
+  bottom: 6rpx;
+  overflow: hidden;
+}
+.coupon-list .item .receive-btn{
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 138rpx;
+  height: 54rpx;
+  background: #fd4374;
+  color: #fff;
+  text-align: center;
+  font-size: 24rpx;
+  border-radius: 8rpx;
+  line-height: 54rpx;
+}
+.coupon-list .item .time{
+  width: 642rpx;
+  height: 68rpx;
+  color: #9a9a9a;
+  font-size: 26rpx;
+  line-height: 68rpx;
+  margin-top: 26rpx;
+}
+/**无优惠券时**/
+.no-coupon{
+  width: 400rpx;
+  height: 420rpx;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  z-index: 100;
+  margin: -310rpx -200rpx;
+  text-align: center;
+}
+.no-coupon .icon{
+  width: 308rpx;
+  height: 312rpx;
+  background: url(http://mini-img-main.oss-cn-hangzhou.aliyuncs.com/icon/new/no-coupon-icon.png) no-repeat;
+  background-size: 308rpx 312rpx;
+  margin: 0 auto;
+}
+.no-coupon .text{
+  margin-top: 80rpx;
+  font-size: 30rpx;
+}
+/**按钮样式**/
+.coupon-btn{
+  width: 750rpx;
+  height: 130rpx;
+  line-height: 130rpx;
+  box-shadow: 0 -2px 2px #f8f8f8;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  background: #fff;
+  z-index: 9999;
+}
+.coupon-btn .ui-btn{
+  width: 331rpx;
+  height: 80rpx;
+  font-size: 30rpx;
+  margin-top: 25rpx;
+  border-radius: 8rpx;
+  float: left;
+}
+.coupon-btn .btn1{
+  background: #fd4374;
+  margin-left: 24rpx;
+}
+.coupon-btn .btn2{
+  background: #fff;
+  line-height: 76rpx;
+  height: 76rpx;
+  margin-left: 40rpx;
+  border: 2rpx solid #fd4374;
+  color: #fd4374;
+}
+.chechk-btn{
+  width: 702rpx;
+  height: 80rpx;
+  line-height: 80rpx;
+  position: fixed;
+  left: 24rpx;
+  bottom: 60rpx;
+  z-index: 100;
+  background: #fd4374;
+  border-radius: 8rpx;
+}

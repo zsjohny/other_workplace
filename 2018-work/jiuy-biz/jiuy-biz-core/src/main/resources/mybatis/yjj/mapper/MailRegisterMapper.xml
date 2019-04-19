@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yujj.dao.mapper.MailRegisterMapper">
+	<select id="getMailRegister" parameterType="map" resultType="MailRegister">
+		<![CDATA[
+			select * from yjj_MailRegister
+			where UserName = #{userName} and ExpireTime >= #{time}
+		]]>
+	</select>
+
+	<select id="getMailRegisterByUuid" resultType="MailRegister">
+		<![CDATA[
+			select * from yjj_MailRegister
+			where RegisterUuid = #{registerUuid}
+		]]>
+	</select>
+
+	<insert id="addMailRegister">
+		<![CDATA[
+			insert into yjj_MailRegister
+			(RegisterUuid, UserName, UserEmail, UserPassword, ExpireTime, CreateTime)
+			values
+			(#{registerUuid}, #{userName}, #{userEmail}, #{userPassword}, #{expireTime}, #{createTime})
+		]]>
+	</insert>
+	
+</mapper>

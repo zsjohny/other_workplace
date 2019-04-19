@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yujj.dao.mapper.UserLoginLogMapper">
+	
+	<insert id="addUserLoginLog" useGeneratedKeys="true" keyProperty="id">
+		<![CDATA[
+			INSERT INTO yjj_UserLoginLog
+( UserId, Ip, ClientType, ClientVersion, CreateTime)
+VALUES	(#{userId}, #{ip}, #{clientType}, #{clientVersion}, #{createTime})
+		]]>
+	</insert>
+		<select id="getUserNewestLoginLog" resultType="UserLoginLog">
+		<![CDATA[
+			SELECT * FROM yjj_UserLoginLog where UserId = (select UserId from yjj_User where UserRelatedName = #{userName} limit 1 )  order by id desc limit 1 
+		]]>
+	</select>
+</mapper>

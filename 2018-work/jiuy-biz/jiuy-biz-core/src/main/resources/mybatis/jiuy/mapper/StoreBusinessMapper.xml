@@ -1,0 +1,1310 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.jiuy.core.dao.impl.sql.StoreBusinessDaoSqlImpl">
+
+	<select id="search" parameterType="map" resultType="StoreBusiness">
+		SELECT *
+		FROM yjj_StoreBusiness a
+		<where>
+			<if test="superStoreId != -1">
+				SuperBusinessIds like concat("%,",#{superStoreId},",")
+			</if>
+			<if test="storeBusinessSearch.id != -1">
+				and id=#{storeBusinessSearch.id}
+			</if>
+			<if test="storeBusinessSearch.businessNumber != -1">
+				and BusinessNumber LIKE CONCAT ("%",
+				#{storeBusinessSearch.businessNumber},"%")
+			</if>
+			<if test="storeBusinessSearch.businessName != ''">
+				AND BusinessName LIKE CONCAT ("%",
+				#{storeBusinessSearch.businessName}, "%")
+			</if>
+			<if test="storeBusinessSearch.status != -2">
+				AND Status = #{storeBusinessSearch.status}
+			</if>
+			<if test="storeBusinessSearch.businessType != -1">
+				AND BusinessType = #{storeBusinessSearch.businessType}
+			</if>
+			<if test="storeBusinessSearch.companyName != ''">
+				AND CompanyName LIKE CONCAT ("%",
+				#{storeBusinessSearch.companyName}, "%")
+			</if>
+			<if test="storeBusinessSearch.idCardNumber != ''">
+				AND IdCardNumber LIKE CONCAT ("%",
+				#{storeBusinessSearch.idCardNumber}, "%")
+			</if>
+			<if test="storeBusinessSearch.phoneNumber != ''">
+				AND PhoneNumber LIKE CONCAT ("%",
+				#{storeBusinessSearch.phoneNumber}, "%")
+			</if>
+			<if test="storeBusinessSearch.createTimeMin != -1">
+				<![CDATA[
+					AND CreateTime >= #{storeBusinessSearch.createTimeMin}
+				]]>
+			</if>
+			<if test="storeBusinessSearch.createTimeMax != -1">
+				<![CDATA[
+					AND CreateTime <= #{storeBusinessSearch.createTimeMax}
+				]]>
+			</if>
+			<if test="storeBusinessSearch.distributionStatus != -2">
+				AND DistributionStatus =
+				#{storeBusinessSearch.distributionStatus}
+			</if>
+			<if test="storeBusinessSearch.provinceCode != -1">
+				AND Province = (select ProvinceName from yjj_Province
+				where ProvinceCode = #{storeBusinessSearch.provinceCode})
+			</if>
+			<if test="storeBusinessSearch.cityCode != -1">
+				AND City = (select CityName from yjj_City where CityCode
+				= #{storeBusinessSearch.cityCode})
+			</if>
+			<if test="storeBusinessSearch.businessAddress != ''">
+				AND BusinessAddress LIKE CONCAT ("%",
+				#{storeBusinessSearch.businessAddress}, "%")
+			</if>
+			<if test="storeBusinessSearch.legalPerson != ''">
+				AND LegalPerson LIKE CONCAT ("%",
+				#{storeBusinessSearch.legalPerson}, "%")
+			</if>
+			<![CDATA[
+			and Status <> -1
+			]]>
+		</where>
+		ORDER BY CreateTime DESC
+		<if test="pageQuery!=null">
+			limit #{pageQuery.limit} offset #{pageQuery.offset}
+		</if>
+	</select>
+
+
+	<select id="searchStoreAndMember" parameterType="map" resultType="com.jiuy.core.meta.member.StoreBusinessSearch">
+		SELECT a.*,
+		b.id as membId,
+		b.end_time as membEndTime,
+		b.del_state as membDelState,
+		b.member_level as membLevel,
+		b.valid_time_queue as membValidTimeQueue,
+		b.type as membType
+		FROM yjj_storebusiness a LEFT JOIN yjj_member b
+		ON a.Id = b.user_id
+		AND b.platform_type = 1
+		<where>
+
+			<if test="superStoreId != -1">
+				a.SuperBusinessIds like concat("%,",#{superStoreId},",")
+			</if>
+			<if test="storeBusinessSearch.id != -1">
+				and a.id=#{storeBusinessSearch.id}
+			</if>
+			<if test="storeBusinessSearch.businessNumber != -1">
+				and a.BusinessNumber LIKE CONCAT ("%",
+				#{storeBusinessSearch.businessNumber},"%")
+			</if>
+			<if test="storeBusinessSearch.businessName != ''">
+				AND a.BusinessName LIKE CONCAT ("%",
+				#{storeBusinessSearch.businessName}, "%")
+			</if>
+			<if test="storeBusinessSearch.status != -2">
+				AND a.Status = #{storeBusinessSearch.status}
+			</if>
+			<if test="storeBusinessSearch.businessType != -1">
+				AND a.BusinessType = #{storeBusinessSearch.businessType}
+			</if>
+			<if test="storeBusinessSearch.companyName != ''">
+				AND a.CompanyName LIKE CONCAT ("%",
+				#{storeBusinessSearch.companyName}, "%")
+			</if>
+			<if test="storeBusinessSearch.idCardNumber != ''">
+				AND a.IdCardNumber LIKE CONCAT ("%",
+				#{storeBusinessSearch.idCardNumber}, "%")
+			</if>
+			<if test="storeBusinessSearch.phoneNumber != ''">
+				AND a.PhoneNumber LIKE CONCAT ("%",
+				#{storeBusinessSearch.phoneNumber}, "%")
+			</if>
+			<if test="storeBusinessSearch.createTimeMin != -1">
+				<![CDATA[
+					AND a.CreateTime >= #{storeBusinessSearch.createTimeMin}
+				]]>
+			</if>
+			<if test="storeBusinessSearch.createTimeMax != -1">
+				<![CDATA[
+					AND a.CreateTime <= #{storeBusinessSearch.createTimeMax}
+				]]>
+			</if>
+			<if test="storeBusinessSearch.distributionStatus != -2">
+				AND a.DistributionStatus =
+				#{storeBusinessSearch.distributionStatus}
+			</if>
+			<if test="storeBusinessSearch.provinceCode != -1">
+				AND a.Province = (select ProvinceName from yjj_Province
+				where ProvinceCode = #{storeBusinessSearch.provinceCode})
+			</if>
+			<if test="storeBusinessSearch.cityCode != -1">
+				AND a.City = (select CityName from yjj_City where CityCode
+				= #{storeBusinessSearch.cityCode})
+			</if>
+			<if test="storeBusinessSearch.businessAddress != ''">
+				AND a.BusinessAddress LIKE CONCAT ("%",
+				#{storeBusinessSearch.businessAddress}, "%")
+			</if>
+			<if test="storeBusinessSearch.legalPerson != ''">
+				AND a.LegalPerson LIKE CONCAT ("%",
+				#{storeBusinessSearch.legalPerson}, "%")
+			</if>
+			<if test="qMembStatus == 1">
+				<![CDATA[
+					AND b.member_level > 0
+					AND b.del_state = 0
+					AND b.end_time > #{currentTime}
+				]]>
+			</if>
+			<if test="qMembStatus == 0">
+				<![CDATA[
+					AND (
+					b.member_level IS NULL
+					or b.member_level = 0
+					or b.del_state <> 0
+					or b.end_time <= #{currentTime}
+					)
+				]]>
+			</if>
+			<![CDATA[
+			and a.Status <> -1
+			]]>
+		</where>
+		ORDER BY a.CreateTime DESC
+		<if test="pageQuery!=null">
+			limit #{pageQuery.limit} offset #{pageQuery.offset}
+		</if>
+	</select>
+
+
+	<select id="searchCount" parameterType="map" resultType="int">
+		SELECT count(1)
+		FROM yjj_StoreBusiness
+		<where>
+			<if test="superStoreId != -1">
+				SuperBusinessIds like concat("%,",#{superStoreId},",")
+			</if>
+			<if test="storeBusinessSearch.businessNumber != -1">
+				BusinessNumber LIKE CONCAT ("%", #{storeBusinessSearch.businessNumber},"%")
+			</if>
+			<if test="storeBusinessSearch.businessName != ''">
+				AND BusinessName LIKE CONCAT ("%",
+				#{storeBusinessSearch.businessName}, "%")
+			</if>
+			<if test="storeBusinessSearch.status != -2">
+				AND Status = #{storeBusinessSearch.status}
+			</if>
+			<if test="storeBusinessSearch.businessType != -1">
+				AND BusinessType = #{storeBusinessSearch.businessType}
+			</if>
+			<if test="storeBusinessSearch.companyName != ''">
+				AND CompanyName LIKE CONCAT ("%",
+				#{storeBusinessSearch.companyName}, "%")
+			</if>
+			<if test="storeBusinessSearch.idCardNumber != ''">
+				AND IdCardNumber LIKE CONCAT ("%",
+				#{storeBusinessSearch.idCardNumber}, "%")
+			</if>
+			<if test="storeBusinessSearch.phoneNumber != ''">
+				AND PhoneNumber LIKE CONCAT ("%",
+				#{storeBusinessSearch.phoneNumber}, "%")
+			</if>
+			<if test="storeBusinessSearch.createTimeMin != -1">
+				<![CDATA[
+					AND CreateTime >= #{storeBusinessSearch.createTimeMin}
+				]]>
+			</if>
+			<if test="storeBusinessSearch.createTimeMax != -1">
+				<![CDATA[
+					AND CreateTime <= #{storeBusinessSearch.createTimeMax}
+				]]>
+			</if>
+			<if test="storeBusinessSearch.distributionStatus != -2">
+				AND DistributionStatus =
+				#{storeBusinessSearch.distributionStatus}
+			</if>
+			<if test="storeBusinessSearch.provinceCode != -1">
+				AND Province = (select ProvinceName from yjj_Province
+				where ProvinceCode = #{storeBusinessSearch.provinceCode})
+			</if>
+			<if test="storeBusinessSearch.cityCode != -1">
+				AND City = (select CityName from yjj_City where CityCode
+				= #{storeBusinessSearch.cityCode})
+			</if>
+			<if test="storeBusinessSearch.businessAddress != ''">
+				AND BusinessAddress LIKE CONCAT ("%",
+				#{storeBusinessSearch.businessAddress}, "%")
+			</if>
+			<if test="storeBusinessSearch.legalPerson != ''">
+				AND LegalPerson LIKE CONCAT ("%",
+				#{storeBusinessSearch.legalPerson}, "%")
+			</if>
+			<![CDATA[
+				and Status <> -1
+			]]>
+		</where>
+	</select>
+
+	<select id="searchPersonCount" parameterType="map" resultType="int">
+		SELECT count(1)
+		FROM yjj_StoreBusiness
+		<where>
+			<if test="superStoreId != -1">
+				SuperBusinessIds like concat("%,",#{superStoreId},",")
+			</if>
+			<if test="storeBusinessSearch.id != -1">
+				id=#{storeBusinessSearch.id}
+			</if>
+			<if test="storeBusinessSearch.businessNumber != -1">
+				BusinessNumber LIKE CONCAT ("%", #{storeBusinessSearch.businessNumber},"%")
+			</if>
+			<if test="storeBusinessSearch.businessName != ''">
+				AND BusinessName LIKE CONCAT ("%",
+				#{storeBusinessSearch.businessName}, "%")
+			</if>
+			<if test="storeBusinessSearch.status != -2">
+				AND Status = #{storeBusinessSearch.status}
+			</if>
+			<if test="storeBusinessSearch.businessType != -1">
+				AND BusinessType = #{storeBusinessSearch.businessType}
+			</if>
+			<if test="storeBusinessSearch.companyName != ''">
+				AND CompanyName LIKE CONCAT ("%",
+				#{storeBusinessSearch.companyName}, "%")
+			</if>
+			<if test="storeBusinessSearch.idCardNumber != ''">
+				AND IdCardNumber LIKE CONCAT ("%",
+				#{storeBusinessSearch.idCardNumber}, "%")
+			</if>
+			<if test="storeBusinessSearch.phoneNumber != ''">
+				AND PhoneNumber LIKE CONCAT ("%",
+				#{storeBusinessSearch.phoneNumber}, "%")
+			</if>
+			<if test="storeBusinessSearch.createTimeMin != -1">
+				<![CDATA[
+					AND CreateTime >= #{storeBusinessSearch.createTimeMin}
+				]]>
+			</if>
+			<if test="storeBusinessSearch.createTimeMax != -1">
+				<![CDATA[
+					AND CreateTime <= #{storeBusinessSearch.createTimeMax}
+				]]>
+			</if>
+			<if test="storeBusinessSearch.distributionStatus != -2">
+				AND DistributionStatus =
+				#{storeBusinessSearch.distributionStatus}
+			</if>
+			<if test="storeBusinessSearch.provinceCode != -1">
+				AND Province = (select ProvinceName from yjj_Province
+				where ProvinceCode = #{storeBusinessSearch.provinceCode})
+			</if>
+			<if test="storeBusinessSearch.cityCode != -1">
+				AND City = (select CityName from yjj_City where CityCode
+				= #{storeBusinessSearch.cityCode})
+			</if>
+			<if test="storeBusinessSearch.businessAddress != ''">
+				AND BusinessAddress LIKE CONCAT ("%",
+				#{storeBusinessSearch.businessAddress}, "%")
+			</if>
+			<if test="storeBusinessSearch.legalPerson != ''">
+				AND LegalPerson LIKE CONCAT ("%",
+				#{storeBusinessSearch.legalPerson}, "%")
+			</if>
+			<![CDATA[
+				and Status <> -1
+			]]>
+			and BusinessType = 1
+		</where>
+	</select>
+
+	<insert id="addStoreBusiness" keyColumn="id" useGeneratedKeys="true"
+		keyProperty="id" parameterType="StoreBusiness">
+		INSERT INTO
+		yjj_StoreBusiness
+		(BusinessName, CompanyName, Status, CreateTime,
+		UpdateTime, DistributionStatus,
+		PhoneNumber, BusinessAddress, LicenseNumber, OrganizationNo, TaxId, LegalPerson,
+		Province, City, StoreArea, StoreDescription,
+		StoreLogo, StoreShowImgs, StorePanoramaImg, CommissionPercentage,
+		BankAccountName, BankName, BankAccountNo,BankCardFlag,
+		AlipayFlag,WeixinFlag,
+		AlipayAccount, AlipayName,
+		WeixinAccount,WeixinName,IdCardNumber,BusinessType,UserName,UserPassword,Grade,BusinessHours,SignTime,
+		DefaultCommissionPercentage,SuperBusinessIds,MemberCommissionPercentage)
+		VALUES
+		(#{businessName}, #{companyName}, #{status}, #{createTime},
+		#{updateTime},
+		#{distributionStatus}, #{phoneNumber}, #{businessAddress}, #{licenseNumber},
+		#{organizationNo},
+		#{taxId}, #{legalPerson}, #{province}, #{city}, #{storeArea},
+		#{storeDescription},
+		#{storeLogo}, #{storeShowImgs},
+		#{storePanoramaImg}, #{commissionPercentage}, #{bankAccountName},
+		#{bankName}, #{bankAccountNo},#{bankCardFlag}, #{alipayFlag},
+		#{weixinFlag}, #{alipayAccount}, #{alipayName},
+		#{weixinAccount},
+		#{weixinName}, #{idCardNumber},
+		#{businessType},'','',#{grade},#{businessHours},#{signTime},
+		#{defaultCommissionPercentage},#{superBusinessIds},#{memberCommissionPercentage})
+	</insert>
+
+	<update id="updateBusinessNumberAndUserName" parameterType="map">
+		UPDATE yjj_StoreBusiness
+		SET
+		BusinessNumber = #{businessNumber}, UserName = #{userName}, UserPassword =
+		#{userPassword}
+		WHERE
+		Id = #{id}
+	</update>
+
+	<update id="updateFirstLoginStatus" parameterType="map">
+		UPDATE yjj_StoreBusiness
+		SET
+		first_login_status = #{firstLogin}
+		WHERE
+		Id = #{storeId}
+	</update>
+
+	<update id="updateStoreBusiness" parameterType="StoreBusiness">
+		update yjj_StoreBusiness
+		<set>
+			<if test="storeStyle != null">
+				store_style = #{storeStyle},
+			</if>
+			<if test="storeAge != null">
+				store_age = #{storeAge},
+			</if>
+			<if test="storeAreaScope != null">
+				store_area_scope = #{storeAreaScope},
+			</if>
+			<if test="businessName != null">
+				BusinessName = #{businessName},
+			</if>
+
+			<if test="status != null">
+				Status = #{status},
+			</if>
+
+			<if test="companyName != null">
+				CompanyName = #{companyName},
+			</if>
+
+			<if test="updateTime != null">
+				UpdateTime = #{updateTime},
+			</if>
+
+			<if test="distributionStatus != null">
+				DistributionStatus = #{distributionStatus},
+			</if>
+
+			<if test="phoneNumber != null">
+				PhoneNumber = #{phoneNumber},
+			</if>
+
+			<if test="businessAddress != null">
+				BusinessAddress = #{businessAddress},
+			</if>
+
+			<if test="licenseNumber != null">
+				LicenseNumber = #{licenseNumber},
+			</if>
+
+			<if test="organizationNo != null">
+				OrganizationNo = #{organizationNo},
+			</if>
+
+			<if test="taxId != null">
+				TaxId = #{taxId},
+			</if>
+
+			<if test="legalPerson != null">
+				LegalPerson = #{legalPerson},
+			</if>
+
+			<if test="province != null">
+				Province = #{province},
+			</if>
+
+			<if test="city != null">
+				City = #{city},
+			</if>
+
+			<if test="storeArea != null">
+				StoreArea = #{storeArea},
+			</if>
+
+			<if test="storeDescription != null">
+				StoreDescription = #{storeDescription},
+			</if>
+
+			<if test="storeLogo != null">
+				StoreLogo = #{storeLogo},
+			</if>
+
+			<if test="storeShowImgs != null">
+				StoreShowImgs = #{storeShowImgs},
+			</if>
+
+			<if test="storePanoramaImg != null">
+				StorePanoramaImg = #{storePanoramaImg},
+			</if>
+
+			<if test="commissionPercentage != null">
+				CommissionPercentage = #{commissionPercentage},
+			</if>
+
+			<if test="bankAccountName != null">
+				BankAccountName = #{bankAccountName},
+			</if>
+
+			<if test="bankName != null">
+				BankName = #{bankName},
+			</if>
+
+			<if test="bankAccountNo != null">
+				BankAccountNo = #{bankAccountNo},
+			</if>
+
+			<if test="bankCardFlag != null">
+				BankCardFlag = #{bankCardFlag},
+			</if>
+
+			<if test="alipayFlag != null">
+				AlipayFlag = #{alipayFlag},
+			</if>
+
+			<if test="weixinFlag != null">
+				WeixinFlag = #{weixinFlag},
+			</if>
+
+			<if test="alipayAccount != null">
+				AlipayAccount = #{alipayAccount},
+			</if>
+
+			<if test="alipayName != null">
+				AlipayName = #{alipayName},
+			</if>
+
+			<if test="weixinAccount != null">
+				WeixinAccount = #{weixinAccount},
+			</if>
+
+			<if test="weixinName != null">
+				WeixinName = #{weixinName},
+			</if>
+
+			<if test="idCardNumber != null">
+				IdCardNumber = #{idCardNumber},
+			</if>
+
+			<if test="businessType != null">
+				BusinessType = #{businessType},
+			</if>
+
+			<if test="grade != null">
+				Grade = #{grade},
+			</if>
+			<if test="businessHours != null">
+				BusinessHours = #{businessHours},
+			</if>
+			<if test="signTime != null">
+				SignTime = #{signTime},
+			</if>
+			<if test="memberCommissionPercentage != null">
+				MemberCommissionPercentage = #{memberCommissionPercentage},
+			</if>
+			<if test="county != null">
+				county = #{county},
+			</if>
+			<if test="legalIdNumber != null">
+				LegalIdNumber = #{legalIdNumber},
+			</if>
+			<if test="qualificationProofImages != null">
+				qualificationProofImages = #{qualificationProofImages},
+			</if>
+			<if test="oneStageTime != null">
+				one_stage_time = #{oneStageTime},
+			</if>
+			<if test="oneStageTime != null">
+				two_stage_time = #{twoStageTime},
+			</if>
+			<if test="oneStageTime != null">
+				three_stage_time = #{threeStageTime},
+			</if>
+			<if test="purchaseChannel != null">
+				purchase_channel = #{purchaseChannel},
+			</if>
+			<if test="priceLevel != null">
+				price_level = #{priceLevel},
+			</if>
+			<if test="dataAuditStatus != null">
+				data_audit_status = #{dataAuditStatus},
+			</if>
+			<if test="dataAuditTime != null">
+				data_audit_time = #{dataAuditTime},
+			</if>
+		</set>
+		<where>
+			and Id = #{id}
+		</where>
+	</update>
+
+	<select id="getProvinces" resultType="Province">
+		SELECT *
+		FROM yjj_Province
+	</select>
+
+	<select id="getCitysByProvinceId" parameterType="long"
+		resultType="City">
+		SELECT *
+		FROM yjj_City
+		Where
+		ParentCode = #{parentId}
+	</select>
+
+	<select id="getIdByBusinessNumber" parameterType="long"
+		resultType="long">
+		SELECT Id
+		FROM yjj_StoreBusiness
+		Where
+		BusinessNumber = #{businessNumber}
+	</select>
+	<select id="getSynProductStoreList" parameterType="map"
+		resultType="StoreBusiness">
+		SELECT *
+		FROM yjj_StoreBusiness
+		Where
+		synchronousButtonStatus = 1
+	</select>
+
+	<update id="decreaseMemberNumberById" parameterType="long">
+		update
+		yjj_StoreBusiness
+		set
+		MemberNumber = MemberNumber - 1
+		Where
+		Id = #{id}
+	</update>
+
+	<select id="getRelationBrandIdOfStoreId" parameterType="long"
+		resultType="long">
+		SELECT BrandId
+		FROM yjj_StoreBrandRelation
+		Where
+		StoreId = #{storeId} AND Status = 0
+	</select>
+
+	<select id="getBrandsOfBrandIds" resultType="BrandLogo">
+		select * from yjj_Brand
+		where BrandId in
+		<foreach collection="brandIds" item="brandId" open="("
+			separator="," close=")">
+			#{brandId}
+		</foreach>
+	</select>
+
+	<update id="deleteBrandRelationOfStoreId">
+		UPDATE yjj_StoreBrandRelation
+		SET status = -1
+		WHERE
+		StoreId in (${storeIds})
+	</update>
+
+	<update id="deleteBrandRelationOfStoreIds">
+		UPDATE yjj_StoreBrandRelation
+		SET status = -1
+		WHERE
+		StoreId in
+		<foreach collection="storeIds" item="storeId" open="("
+			separator="," close=")">
+			#{storeId}
+		</foreach>
+	</update>
+
+	<update id="deleteAllBrandRelation">
+		UPDATE yjj_StoreBrandRelation
+		SET status = -1
+		WHERE
+		status = 0
+	</update>
+
+	<insert id="addBrandRelationOfStoreId" parameterType="map">
+		INSERT INTO yjj_StoreBrandRelation (StoreId,BrandId,CreateTime,Status)
+		VALUES
+		<foreach collection="brandIds" item="brandId" index="index"
+			separator=",">
+			( #{storeId},#{brandId},#{createTime},#{status})
+		</foreach>
+		<![CDATA[ ON DUPLICATE KEY UPDATE
+				Status = #{status}
+			]]>
+	</insert>
+
+	<select id="checkBusinessName" parameterType="String"
+		resultType="long">
+		Select Id
+		From yjj_StoreBusiness
+		Where
+		BusinessName = #{businessName}
+	</select>
+
+	<select id="checkPhoneNumber" parameterType="String" resultType="long">
+		Select Id
+		From yjj_StoreBusiness
+		Where
+		PhoneNumber = #{phoneNumber}
+	</select>
+
+	<select id="userOfIds" parameterType="map" resultType="StoreBusiness">
+		select a.*, b.ReceiverName, b.Telephone, b.AddrFull from
+		yjj_StoreBusiness a, (select * from store_Address where AddrId in
+		(select min(AddrId) as AddrId from store_Address group by StoreId)) b
+		where a.Id=b.StoreId and a.Id in
+		<foreach collection="userIds" item="userId" open="("
+			separator="," close=")">
+			#{userId}
+		</foreach>
+	</select>
+	<select id="userOfIdsMap" parameterType="map" resultType="StoreBusiness">
+		select a.*, b.ReceiverName, b.Telephone, b.AddrFull from
+		yjj_StoreBusiness a, (select * from store_Address where AddrId in
+		(select min(AddrId) as AddrId from store_Address group by StoreId)) b
+		where a.Id=b.StoreId and a.Id in
+		<foreach collection="userIds" item="userId" open="("
+			separator="," close=")">
+			#{userId}
+		</foreach>
+	</select>
+	<select id="userOfNumbersMap" parameterType="map" resultType="StoreBusiness">
+		select a.* from yjj_StoreBusiness a
+		where a.BusinessNumber in
+		<foreach collection="storeNumbers" item="storeNumber" open="("
+			separator="," close=")">
+			#{storeNumber}
+		</foreach>
+	</select>
+
+	<select id="getByStoreId" parameterType="long" resultType="StoreBusiness">
+		Select *,is_open_wxa as isOpenWxa,online_wxa_version as onlineWxaVersion
+		From yjj_StoreBusiness
+		Where
+		Id = #{storeId} AND status=0
+	</select>
+
+	<select id="getStatusOfStoreId" parameterType="long" resultType="int">
+		SELECT Status
+		FROM yjj_StoreBusiness
+		where Id = #{storeId}
+	</select>
+
+	<select id="getDistributionStatusOfStoreId" parameterType="long"
+		resultType="int">
+		SELECT DistributionStatus
+		FROM yjj_StoreBusiness
+		where Id = #{storeId}
+	</select>
+
+	<select id="searchBusinessById" parameterType="long" resultMap="StoreBusinessMap">
+		select * from yjj_StoreBusiness where Id = #{belongStoreId}
+	</select>
+
+	<resultMap type="StoreBusiness" id="StoreBusinessMap">
+		<result column="first_login_status" property="firstLoginStatus" />
+		<result column="one_stage_time" property="oneStageTime" />
+		<result column="two_stage_time" property="twoStageTime" />
+		<result column="three_stage_time" property="threeStageTime" />
+		<result column="ground_user_id" property="groundUserId" />
+		<result column="super_ids" property="superIds" />
+		<result column="store_display_images" property="storeDisplayImages" />
+		<result column="audit_status" property="auditStatus" />
+		<result column="audit_time" property="auditTime" />
+		<result column="data_audit_status" property="dataAuditStatus" />
+		<result column="data_audit_time" property="dataAuditTime" />
+		<result column="activation_time" property="activationTime" />
+		<result column="store_style" property="storeStyle" />
+		<result column="store_age" property="storeAge" />
+		<result column="store_area_scope" property="storeAreaScope" />
+		<result column="purchase_channel" property="purchaseChannel" />
+		<result column="price_level" property="priceLevel" />
+
+	</resultMap>
+
+	<select id="searchBusinessByBusinessNumber" parameterType="long"
+		resultType="StoreBusiness">
+		select * from yjj_StoreBusiness where BusinessNumber =
+		#{businessNumber}
+	</select>
+
+	<update id="increseAvaliableBalance">
+		update yjj_StoreBusiness
+		set AvailableBalance =
+		AvailableBalance + #{availableCommission}, UpdateTime =
+		unix_timestamp() * 1000
+		where Id = #{id}
+	</update>
+
+	<update id="reduceIncome">
+		update yjj_StoreBusiness
+		set CashIncome = CashIncome -
+		#{commission}, UpdateTime = unix_timestamp() * 1000
+		where Id = #{id}
+	</update>
+
+	<update id="updateSupplierIdByPhone" parameterType="map">
+		update yjj_StoreBusiness
+		set supplierId = #{supplierId}
+		where PhoneNumber = #{phoneNumber}
+
+	</update>
+	<update id="setOnlineWxaVersion" parameterType="map">
+		update yjj_StoreBusiness
+		set online_wxa_version = #{onlineWxaVersion}
+		where Id = #{storeId}
+
+	</update>
+
+	<select id="getByLOWarehouseId" resultType="StoreBusiness">
+		select * from
+		yjj_StoreBusiness
+		where LOWarehouseId = #{loWarehouseId}
+		limit 1
+	</select>
+
+	<select id="getBlurByBusinessNumber" resultType="StoreBusiness">
+		select * from
+		yjj_StoreBusiness
+		where BusinessNumber like concat ("%",
+		#{businessNumber}, "%")
+	</select>
+
+	<select id="getStoreRegister" parameterType="map" resultType="StoreRegister">
+		select a.*,b.BusinessNumber,b.CreateTime as accountTime from (
+		select *
+		from store_Register
+		<where>
+			<if test="params.id != -1">
+				Id = #{params.id}
+			</if>
+			<if test="params.phoneNumber != ''">
+				and PhoneNumber like concat ("%",
+				#{params.phoneNumber},"%")
+			</if>
+			<if test="params.businessName != ''">
+				and BusinessName like concat ("%",
+				#{params.businessName},"%")
+			</if>
+			<if test="params.status != -5">
+				and Status = #{params.status}
+			</if>
+			<if test="params.businessType != -1">
+				and BusinessType = #{params.businessType}
+			</if>
+			<if test="params.startCreateTime != 0">
+				<![CDATA[
+					and CreateTime >= #{params.startCreateTime}
+				]]>
+			</if>
+			<if test="params.endCreateTime != 0">
+				<![CDATA[
+					and CreateTime <= #{params.endCreateTime}
+				]]>
+			</if>
+			<if test="params.startApplyTime != 0">
+				<![CDATA[
+					and ApplyTime >= #{params.startApplyTime}
+				]]>
+			</if>
+			<if test="params.endApplyTime != 0">
+				<![CDATA[
+					and ApplyTime <= #{params.endApplyTime}
+				]]>
+			</if>
+			<if test="params.idCardNumber != ''">
+				and IdCardNumber like concat ("%",
+				#{params.idCardNumber},"%")
+			</if>
+			<if test="params.businessAddress != ''">
+				and BusinessAddress like concat
+				("%",#{params.businessAddress},"%")
+			</if>
+			<if test="params.legalPerson != ''">
+				and LegalPerson like concat
+				("%",#{params.legalPerson},"%")
+			</if>
+			<if test="params.superBusinessId != 0">
+				and SuperBusinessId = #{params.superBusinessId}
+			</if>
+		</where>
+		) as a left join yjj_StoreBusiness as b on a.BusinessId=b.Id order by
+		a.Id desc
+		limit #{pageQuery.limit} offset #{pageQuery.offset}
+	</select>
+
+	<select id="getStoreRegisterCount" parameterType="map"
+		resultType="int">
+		select count(1) from store_Register
+		<where>
+			<if test="params.id != -1">
+				Id = #{params.id}
+			</if>
+			<if test="params.phoneNumber != ''">
+				and PhoneNumber = #{params.phoneNumber}
+			</if>
+			<if test="params.businessName != ''">
+				and BusinessName = #{params.businessName}
+			</if>
+			<if test="params.status != -5">
+				and Status = #{params.status}
+			</if>
+			<if test="params.businessType != -1">
+				and BusinessType = #{params.businessType}
+			</if>
+			<if test="params.companyName != ''">
+				and CompanyName = #{params.companyName}
+			</if>
+			<if test="params.startCreateTime != 0">
+				<![CDATA[
+					and CreateTime >= #{params.startCreateTime}
+				]]>
+			</if>
+			<if test="params.endCreateTime != 0">
+				<![CDATA[
+					and CreateTime <= #{params.endCreateTime}
+				]]>
+			</if>
+			<if test="params.startApplyTime != 0">
+				<![CDATA[
+					and ApplyTime >= #{params.startApplyTime}
+				]]>
+			</if>
+			<if test="params.endApplyTime != 0">
+				<![CDATA[
+					and ApplyTime <= #{params.endApplyTime}
+				]]>
+			</if>
+			<if test="params.idCardNumber != ''">
+				and IdCardNumber = #{params.idCardNumber}
+			</if>
+			<if test="params.businessAddress != ''">
+				and BusinessAddress = #{params.businessAddress}
+			</if>
+			<if test="params.legalPerson != ''">
+				and LegalPerson = #{params.legalPerson}
+			</if>
+			<if test="params.superBusinessId != 0">
+				and SuperBusinessId = #{params.superBusinessId}
+			</if>
+		</where>
+	</select>
+
+	<select id="getRegisterSummary" parameterType="map" resultType="map">
+		select count(1) as count,(select count(1) from store_Register where
+		BusinessType =0
+		<if test="params.id != -1">
+			and Id = #{params.id}
+		</if>
+		<if test="params.phoneNumber != ''">
+			and PhoneNumber = #{params.phoneNumber}
+		</if>
+		<if test="params.businessName != ''">
+			and BusinessName = #{params.businessName}
+		</if>
+		<if test="params.status != -5">
+			and Status = #{params.status}
+		</if>
+		<if test="params.businessType != -1">
+			and BusinessType = #{params.businessType}
+		</if>
+		<if test="params.companyName != ''">
+			and CompanyName = #{params.companyName}
+		</if>
+		<if test="params.startCreateTime != 0">
+				<![CDATA[
+					and CreateTime >= #{params.startCreateTime}
+				]]>
+		</if>
+		<if test="params.endCreateTime != 0">
+				<![CDATA[
+					and CreateTime <= #{params.endCreateTime}
+				]]>
+		</if>
+		<if test="params.startApplyTime != 0">
+				<![CDATA[
+					and ApplyTime >= #{params.startApplyTime}
+				]]>
+		</if>
+		<if test="params.endApplyTime != 0">
+				<![CDATA[
+					and ApplyTime <= #{params.endApplyTime}
+				]]>
+		</if>
+		<if test="params.idCardNumber != ''">
+			and IdCardNumber = #{params.idCardNumber}
+		</if>
+		<if test="params.businessAddress != ''">
+			and BusinessAddress = #{params.businessAddress}
+		</if>
+		<if test="params.legalPerson != ''">
+			and LegalPerson = #{params.legalPerson}
+		</if>
+		) as companyCount from store_Register
+		<where>
+			<if test="params.id != -1">
+				Id = #{params.id}
+			</if>
+			<if test="params.phoneNumber != ''">
+				and PhoneNumber = #{params.phoneNumber}
+			</if>
+			<if test="params.businessName != ''">
+				and BusinessName = #{params.businessName}
+			</if>
+			<if test="params.status != -5">
+				and Status = #{params.status}
+			</if>
+			<if test="params.businessType != -1">
+				and BusinessType = #{params.businessType}
+			</if>
+			<if test="params.companyName != ''">
+				and CompanyName = #{params.companyName}
+			</if>
+			<if test="params.startCreateTime != 0">
+				<![CDATA[
+					and CreateTime >= #{params.startCreateTime}
+				]]>
+			</if>
+			<if test="params.endCreateTime != 0">
+				<![CDATA[
+					and CreateTime <= #{params.endCreateTime}
+				]]>
+			</if>
+			<if test="params.startApplyTime != 0">
+				<![CDATA[
+					and ApplyTime >= #{params.startApplyTime}
+				]]>
+			</if>
+			<if test="params.endApplyTime != 0">
+				<![CDATA[
+					and ApplyTime <= #{params.endApplyTime}
+				]]>
+			</if>
+			<if test="params.idCardNumber != ''">
+				and IdCardNumber = #{params.idCardNumber}
+			</if>
+			<if test="params.businessAddress != ''">
+				and BusinessAddress = #{params.businessAddress}
+			</if>
+			<if test="params.legalPerson != ''">
+				and LegalPerson = #{params.legalPerson}
+			</if>
+		</where>
+	</select>
+
+	<update id="updateStoreRegisterForStatus" parameterType="map">
+		update store_Register
+		<set>
+			<if test="status !=0">
+				Status = #{status},
+			</if>
+			<if test="applyMemo != ''">
+				ApplyMemo =#{applyMemo},
+			</if>
+			<if test="adminName != ''">
+				AdminName =#{adminName},
+			</if>
+			<if test="adminId != 0">
+				AdminId =#{adminId},
+			</if>
+			<if test="applyTime != 0">
+				ApplyTime =#{applyTime},
+			</if>
+		</set>
+		where Id in(${applyIds})
+	</update>
+
+	<select id="checkPhoneNumbers" parameterType="String"
+		resultType="int">
+		Select count(1)
+		From yjj_StoreBusiness
+		Where
+		PhoneNumber in (${phoneNumbers})
+	</select>
+
+	<select id="getStoreregistersForIds" resultType="StoreRegister">
+		select * from
+		store_Register
+		where Id in(${applyIds})
+	</select>
+
+	<update id="upDateStoreRegister" parameterType="StoreRegister">
+		update store_Register
+		<set>
+			<if test="businessId != 0">
+				BusinessId = #{businessId},
+			</if>
+			<if test="status != null">
+				Status = #{status},
+			</if>
+			<if test="createId != 0">
+				CreateId = #{createId},
+			</if>
+			<if test="createName != ''">
+				CreateName = #{createName},
+			</if>
+			<if test="adminId != 0">
+				AdminId = #{adminId},
+			</if>
+			<if test="adminName != ''">
+				AdminName = #{adminName},
+			</if>
+			<if test="applyTime != 0">
+				ApplyTime = #{applyTime},
+			</if>
+		</set>
+		where
+		Id = #{id}
+	</update>
+
+	<update id="setStatusForIds">
+		update yjj_StoreBusiness
+		set Status = #{status}
+		where
+		Id in (${ids})
+	</update>
+
+	<update id="setDistributionStatusForIds">
+		update yjj_StoreBusiness
+		set DistributionStatus =
+		#{distributionStatus}
+		where Id in (${ids})
+	</update>
+
+	<select id="searchStoreCount" parameterType="int" resultType="int">
+		SELECT COUNT(*)
+		FROM yjj_StoreBusiness
+		WHERE Status=#{status}
+	</select>
+
+	<select id="getStoreRegisterByPhoneNumber" parameterType="String"
+		resultType="StoreRegister">
+		SELECT * FROM store_Register where PhoneNumber = #{phoneNumber} 
+		<![CDATA[
+			and status <> -1
+		]]>
+	</select>
+
+	<select id="getAllStoreBusinessIds" resultType="Long">
+		select id from
+		yjj_StoreBusiness;
+	</select>
+
+	<update id="updateMoney" parameterType="StoreBusiness">
+		update yjj_StoreBusiness
+		set CashIncome = #{cashIncome}, AvailableBalance = #{availableBalance}
+		where Id = #{id}
+	</update>
+
+	<update id="updateStoreActiveTime" parameterType="map">
+		<![CDATA[
+			update yjj_StoreBusiness
+			set ActiveTime = #{activeTime}, UpdateTime = unix_timestamp()*1000
+			where Id = #{storeId}
+		]]>
+	</update>
+
+	<select id="getStoreIncomeIds" parameterType="map" resultType="StoreBusiness">
+		<![CDATA[
+		 select * from yjj_StoreBusiness where CashIncome > 0
+		 ]]>
+	</select>
+
+	<select id="getOnProcess" parameterType="map" resultType="WithdrawApply">
+		select
+		* from yjj_WithdrawApply
+		where type = #{params.type} and RelatedId =
+		#{params.id} and Status = 0
+	</select>
+
+	<update id="setVIP" parameterType="map">
+		<![CDATA[
+			UPDATE yjj_StoreBusiness 
+			SET 
+			vip = #{vip} 
+			WHERE Id = #{id}
+		]]>
+	</update>
+	<update id="setOpenWxa" parameterType="map">
+		<![CDATA[
+			UPDATE yjj_StoreBusiness 
+			SET 
+			is_open_wxa = #{openWxaState}
+			,
+			wxa_open_time = #{wxaOpenTime}
+			,
+			wxa_close_time =#{wxaCloseTime}
+			WHERE Id = #{storeId}
+		]]>
+	</update>
+
+	<update id="setWxaType" parameterType="map">
+		<![CDATA[
+			UPDATE yjj_StoreBusiness 
+			SET 
+			wxaType = #{wxaType} 
+			WHERE Id = #{storeId}
+		]]>
+	</update>
+
+
+	<select id="getByStoreIdVipKeyWord" parameterType="map"
+		resultType="StoreBusiness">
+		SELECT a.*,a.ground_user_phone as groundUserPhone,a.store_style as
+		storeStyle,a.store_age as storeAge,a.store_area_scope as
+		storeAreaScope
+		FROM yjj_StoreBusiness a
+		LEFT JOIN jiuy_store_audit b
+		ON a.id=b.StoreId
+		<where>
+			b.Status=#{status} AND a.status=0
+			<if test="vip!=-1">
+				AND a.vip=#{vip}
+			</if>
+			<if test="registTimeStart!=-1">
+				AND a.CreateTime>=#{registTimeStart}
+			</if>
+			<if test="registTimeEnd!=0">
+				<![CDATA[
+					AND a.CreateTime<=#{registTimeEnd} 
+				]]>
+			</if>
+			<if test="phoneNumber!=''">
+				AND a.PhoneNumber LIKE CONCAT("%", #{phoneNumber}, "%")
+			</if>
+			<if test="userName!=''">
+				AND a.LegalPerson LIKE CONCAT("%", #{userName}, "%")
+			</if>
+			<if test="storeBusinessId!=0">
+				AND a.Id=#{storeBusinessId}
+			</if>
+			<!-- if test="storeType!=0"> AND a.storeType=#{storeType} </if -->
+			<if test="storeBusinessName!=''">
+				AND a.BusinessName LIKE CONCAT("%", #{storeBusinessName}, "%")
+			</if>
+			<if test="referenceNumber!=''">
+				AND a.ground_user_phone LIKE CONCAT("%", #{referenceNumber}, "%")
+			</if>
+			<if test="storeBusinessAddress!=''">
+				AND (a.Province LIKE CONCAT("%", #{storeBusinessAddress},
+				"%")
+				or a.City LIKE CONCAT("%", #{storeBusinessAddress}, "%")
+				or a.County LIKE CONCAT("%", #{storeBusinessAddress}, "%")
+				or a.BusinessAddress LIKE CONCAT("%", #{storeBusinessAddress}, "%"))
+			</if>
+			<if test='keyWord!=""'>
+				AND (a.PhoneNumber LIKE CONCAT("%", #{keyWord}, "%")
+				OR a.BusinessName LIKE CONCAT("%", #{keyWord}, "%")
+				OR a.LegalPerson LIKE CONCAT("%", #{keyWord}, "%")
+				OR a.Province LIKE CONCAT("%", #{keyWord}, "%")
+				OR a.City LIKE CONCAT("%", #{keyWord}, "%")
+				OR a.County LIKE CONCAT("%", #{keyWord}, "%")
+				OR a.BusinessAddress LIKE CONCAT("%", #{keyWord}, "%")
+				OR a.BindWeixinName LIKE CONCAT("%", #{keyWord}, "%")
+				OR a.IdCardNumber LIKE CONCAT("%", #{keyWord}, "%"))
+			</if>
+		</where>
+		ORDER BY b.UpdateTime DESC
+		<if test="pageQuery!=null">
+			LIMIT #{pageQuery.limit} offset #{pageQuery.offset}
+		</if>
+	</select>
+
+	<!-- select id="getStoreBusinessUserCIDByStoreId" parameterType="map" resultType="Long"> 
+		SELECT UserCID FROM yjj_StoreBusiness WHERE id IN <foreach collection="storeIdList" 
+		item="storeId" open="(" separator="," close=")"> #{storeId} </foreach> AND 
+		STATUS=0 </select -->
+
+	<select id="getAllStoreBusinessUserCID" resultType="String">
+		SELECT
+		UserCID FROM yjj_StoreBusiness WHERE STATUS=0
+	</select>
+
+
+	<select id="getStoreIdListByStoreNumberList" parameterType="map"
+		resultType="Long">
+		SELECT id FROM yjj_StoreBusiness WHERE STATUS=0 AND BusinessNumber IN
+		<foreach collection="storeNumberList" item="storeNumber" open="("
+			separator="," close=")">
+			#{storeNumber}
+		</foreach>
+	</select>
+	<select id="getStoreBusinessUserCIDByStoreNumberList"
+		parameterType="map" resultType="String">
+		SELECT UserCID FROM yjj_StoreBusiness WHERE STATUS=0 AND
+		BusinessNumber IN
+		<foreach collection="storeNumberList" item="storeNumber" open="("
+			separator="," close=")">
+			#{storeNumber}
+		</foreach>
+	</select>
+
+	<select id="getStoreBusinessUserCIDByStoreId" parameterType="map"
+		resultType="String">
+		SELECT UserCID FROM yjj_StoreBusiness WHERE STATUS=0 AND
+		id=#{storeId}
+	</select>
+
+
+
+	<select id="getReferrerPhoneNumberStoreList" resultType="StoreBusiness">
+		SELECT *
+		FROM yjj_StoreBusiness WHERE STATUS=0 AND OrganizationNo!=''
+	</select>
+	<update id="updateBusinessQualificationProofImages"
+		parameterType="map">
+		UPDATE yjj_StoreBusiness
+		SET
+		qualificationProofImages = #{image}
+		WHERE
+		Id = #{storeId}
+	</update>
+	<update id="updateStoreBusinessAuditStatusAndTime"
+		parameterType="map">
+		UPDATE yjj_StoreBusiness
+		SET
+		<if test="auditTime != -1">
+			audit_time = #{auditTime},
+		</if>
+		audit_status = #{status}
+		WHERE
+		Id = #{storeId}
+	</update>
+
+	<update id="updateStoreAuditStatusAndTimeV372"
+		parameterType="map">
+		UPDATE yjj_StoreBusiness
+		SET
+		<if test="dataAuditTime != -1">
+			data_audit_time = #{dataAuditTime},
+			audit_time = #{dataAuditTime},
+		</if>
+			audit_status = #{dataAuditStatus},
+			data_audit_status = #{dataAuditStatus}
+		WHERE
+		Id = #{storeId}
+	</update>
+
+
+	<select id="getAppIdByAuditId" resultType="String" parameterType="Long">
+		SELECT AppId
+		FROM `yjj_StoreBusiness` a
+		JOIN jiuy_store_audit b
+		ON a.Id = b.StoreId
+		WHERE b.Id = #{auditId}
+	</select>
+
+</mapper>

@@ -1,0 +1,17 @@
+
+<!--客服按钮-->
+<template name="customService">
+   <view class="go-msg">
+       <view class="box" bindtap="clearMsgNumber">
+          <contact-button class="custom-item"  type="default-light" size="25" session-from="weapp"></contact-button>
+          <contact-button class="custom-item"  type="default-light" size="25" session-from="weapp"></contact-button>
+          <contact-button class="custom-item"  type="default-light" size="25" session-from="weapp"></contact-button>
+          <contact-button class="custom-item"  type="default-light" size="25" session-from="weapp"></contact-button>
+          <!--<button class="custom-btn" open-type="contact"></button>-->
+          <view class="msg-num msg-num-more" wx:if="{{ msgNumber > 99 }}">99+</view>
+          <view wx:elif="{{ msgNumber == 0 }}"></view>
+          <view class="msg-num" wx:else>{{ msgNumber }}</view>
+       </view>
+    </view>
+    
+</template>

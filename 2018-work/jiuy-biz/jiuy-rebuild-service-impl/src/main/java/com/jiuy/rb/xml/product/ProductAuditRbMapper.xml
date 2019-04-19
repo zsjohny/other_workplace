@@ -1,0 +1,563 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" > 
+<mapper namespace="com.jiuy.rb.mapper.product.ProductAuditRbMapper"> 
+ 
+ 	<!-- 主要的返回映射-->
+	<resultMap id="BaseResultMap" type="com.jiuy.rb.model.product.ProductAuditRb"	>
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="auditState"  property="auditState"  jdbcType="TINYINT" />
+		<result column="noPassReason"  property="noPassReason"  jdbcType="VARCHAR" />
+		<result column="auditTime"  property="auditTime"  jdbcType="BIGINT" />
+		<result column="submitAuditTime"  property="submitAuditTime"  jdbcType="BIGINT" />
+		<result column="supplierId"  property="supplierId"  jdbcType="BIGINT" />
+		<result column="brandId"  property="brandId"  jdbcType="BIGINT" />
+		<result column="brandName"  property="brandName"  jdbcType="VARCHAR" />
+		<result column="brandLogo"  property="brandLogo"  jdbcType="VARCHAR" />
+		<result column="productId"  property="productId"  jdbcType="BIGINT" />
+		<result column="productName"  property="productName"  jdbcType="VARCHAR" />
+		<result column="clothesNumber"  property="clothesNumber"  jdbcType="VARCHAR" />
+		<result column="showcaseImgs"  property="showcaseImgs"  jdbcType="VARCHAR" />
+		<result column="detailImgs"  property="detailImgs"  jdbcType="VARCHAR" />
+		<result column="videoUrl"  property="videoUrl"  jdbcType="VARCHAR" />
+		<result column="mainImg"  property="mainImg"  jdbcType="VARCHAR" />
+		<result column="categoryName"  property="categoryName"  jdbcType="VARCHAR" />
+		<result column="skuJSON"  property="skuJSON"  jdbcType="VARCHAR" />
+		<result column="matchProductIds"  property="matchProductIds"  jdbcType="VARCHAR" />
+		<result column="ladderPriceJson"  property="ladderPriceJson"  jdbcType="VARCHAR" />
+		<result column="maxLadderPrice"  property="maxLadderPrice"  jdbcType="DECIMAL" />
+		<result column="minLadderPrice"  property="minLadderPrice"  jdbcType="DECIMAL" />
+		<result column="create_time"  property="createTime"  jdbcType="BIGINT" />
+		<result column="update_time"  property="updateTime"  jdbcType="BIGINT" />
+	</resultMap>
+
+	<!-- 所有的列名-->
+	<sql id="Base_Column_List" >
+		id,auditState,noPassReason,auditTime,submitAuditTime,supplierId,brandId,brandName,brandLogo,
+		productId,productName,clothesNumber,showcaseImgs,detailImgs,videoUrl,mainImg,categoryName,
+		skuJSON,matchProductIds,ladderPriceJson,maxLadderPrice,minLadderPrice,create_time,update_time
+	</sql>
+
+	<!-- 精确更新的字段-->
+	<sql id="updateBase">
+		<if test="id  !=null">
+			id = #{id,jdbcType=BIGINT}, 
+		</if>
+		<if test="auditState  !=null">
+			auditState = #{auditState,jdbcType=TINYINT}, 
+		</if>
+		<if test="noPassReason  !=null">
+			noPassReason = #{noPassReason,jdbcType=VARCHAR}, 
+		</if>
+		<if test="auditTime  !=null">
+			auditTime = #{auditTime,jdbcType=BIGINT}, 
+		</if>
+		<if test="submitAuditTime  !=null">
+			submitAuditTime = #{submitAuditTime,jdbcType=BIGINT}, 
+		</if>
+		<if test="supplierId  !=null">
+			supplierId = #{supplierId,jdbcType=BIGINT}, 
+		</if>
+		<if test="brandId  !=null">
+			brandId = #{brandId,jdbcType=BIGINT}, 
+		</if>
+		<if test="brandName  !=null">
+			brandName = #{brandName,jdbcType=VARCHAR}, 
+		</if>
+		<if test="brandLogo  !=null">
+			brandLogo = #{brandLogo,jdbcType=VARCHAR}, 
+		</if>
+		<if test="productId  !=null">
+			productId = #{productId,jdbcType=BIGINT}, 
+		</if>
+		<if test="productName  !=null">
+			productName = #{productName,jdbcType=VARCHAR}, 
+		</if>
+		<if test="clothesNumber  !=null">
+			clothesNumber = #{clothesNumber,jdbcType=VARCHAR}, 
+		</if>
+		<if test="showcaseImgs  !=null">
+			showcaseImgs = #{showcaseImgs,jdbcType=VARCHAR}, 
+		</if>
+		<if test="detailImgs  !=null">
+			detailImgs = #{detailImgs,jdbcType=VARCHAR}, 
+		</if>
+		<if test="videoUrl  !=null">
+			videoUrl = #{videoUrl,jdbcType=VARCHAR}, 
+		</if>
+		<if test="mainImg  !=null">
+			mainImg = #{mainImg,jdbcType=VARCHAR}, 
+		</if>
+		<if test="categoryName  !=null">
+			categoryName = #{categoryName,jdbcType=VARCHAR}, 
+		</if>
+		<if test="skuJSON  !=null">
+			skuJSON = #{skuJSON,jdbcType=VARCHAR}, 
+		</if>
+		<if test="matchProductIds  !=null">
+			matchProductIds = #{matchProductIds,jdbcType=VARCHAR}, 
+		</if>
+		<if test="ladderPriceJson  !=null">
+			ladderPriceJson = #{ladderPriceJson,jdbcType=VARCHAR}, 
+		</if>
+		<if test="maxLadderPrice  !=null">
+			maxLadderPrice = #{maxLadderPrice,jdbcType=DECIMAL}, 
+		</if>
+		<if test="minLadderPrice  !=null">
+			minLadderPrice = #{minLadderPrice,jdbcType=DECIMAL}, 
+		</if>
+		<if test="createTime  !=null">
+			create_time = #{createTime,jdbcType=BIGINT}, 
+		</if>
+		<if test="updateTime  !=null">
+			update_time = #{updateTime,jdbcType=BIGINT} 
+		</if>
+	</sql>
+
+	<!-- 通过主键查找-->
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="Long" >
+		select 
+		<include refid="Base_Column_List" />
+		from yjj_productaudit
+		where  id = #{id,jdbcType=BIGINT} 
+	</select>
+
+	<!-- 通过主键删除-->
+	<delete id="deleteByPrimaryKey" parameterType="Long" >
+		delete from yjj_productaudit
+		where id = #{id,jdbcType=BIGINT} 
+	</delete>
+
+	<!-- 普通插入全字段插t入-->
+	<insert id="insert" parameterType="com.jiuy.rb.model.product.ProductAuditRb" >
+		insert into yjj_productaudit
+		(
+			id,
+			auditState,
+			noPassReason,
+			auditTime,
+			submitAuditTime,
+			supplierId,
+			brandId,
+			brandName,
+			brandLogo,
+			productId,
+			productName,
+			clothesNumber,
+			showcaseImgs,
+			detailImgs,
+			videoUrl,
+			mainImg,
+			categoryName,
+			skuJSON,
+			matchProductIds,
+			ladderPriceJson,
+			maxLadderPrice,
+			minLadderPrice,
+			create_time,
+			update_time
+		)
+		values
+		(
+			#{id ,jdbcType=BIGINT},
+			#{auditState ,jdbcType=TINYINT},
+			#{noPassReason ,jdbcType=VARCHAR},
+			#{auditTime ,jdbcType=BIGINT},
+			#{submitAuditTime ,jdbcType=BIGINT},
+			#{supplierId ,jdbcType=BIGINT},
+			#{brandId ,jdbcType=BIGINT},
+			#{brandName ,jdbcType=VARCHAR},
+			#{brandLogo ,jdbcType=VARCHAR},
+			#{productId ,jdbcType=BIGINT},
+			#{productName ,jdbcType=VARCHAR},
+			#{clothesNumber ,jdbcType=VARCHAR},
+			#{showcaseImgs ,jdbcType=VARCHAR},
+			#{detailImgs ,jdbcType=VARCHAR},
+			#{videoUrl ,jdbcType=VARCHAR},
+			#{mainImg ,jdbcType=VARCHAR},
+			#{categoryName ,jdbcType=VARCHAR},
+			#{skuJSON ,jdbcType=VARCHAR},
+			#{matchProductIds ,jdbcType=VARCHAR},
+			#{ladderPriceJson ,jdbcType=VARCHAR},
+			#{maxLadderPrice ,jdbcType=DECIMAL},
+			#{minLadderPrice ,jdbcType=DECIMAL},
+			#{createTime ,jdbcType=BIGINT},
+			#{updateTime ,jdbcType=BIGINT}
+		)
+	</insert>
+
+	<!-- 批量插入，全部字段插入-->
+	<insert id="insertBach"   parameterType="List" >
+		insert into yjj_productaudit
+		(
+			id,
+			auditState,
+			noPassReason,
+			auditTime,
+			submitAuditTime,
+			supplierId,
+			brandId,
+			brandName,
+			brandLogo,
+			productId,
+			productName,
+			clothesNumber,
+			showcaseImgs,
+			detailImgs,
+			videoUrl,
+			mainImg,
+			categoryName,
+			skuJSON,
+			matchProductIds,
+			ladderPriceJson,
+			maxLadderPrice,
+			minLadderPrice,
+			create_time,
+			update_time
+		)
+		values 
+		<foreach collection="list" item="item" separator=",">
+		(
+			#{item.id ,jdbcType=BIGINT},
+			#{item.auditState ,jdbcType=TINYINT},
+			#{item.noPassReason ,jdbcType=VARCHAR},
+			#{item.auditTime ,jdbcType=BIGINT},
+			#{item.submitAuditTime ,jdbcType=BIGINT},
+			#{item.supplierId ,jdbcType=BIGINT},
+			#{item.brandId ,jdbcType=BIGINT},
+			#{item.brandName ,jdbcType=VARCHAR},
+			#{item.brandLogo ,jdbcType=VARCHAR},
+			#{item.productId ,jdbcType=BIGINT},
+			#{item.productName ,jdbcType=VARCHAR},
+			#{item.clothesNumber ,jdbcType=VARCHAR},
+			#{item.showcaseImgs ,jdbcType=VARCHAR},
+			#{item.detailImgs ,jdbcType=VARCHAR},
+			#{item.videoUrl ,jdbcType=VARCHAR},
+			#{item.mainImg ,jdbcType=VARCHAR},
+			#{item.categoryName ,jdbcType=VARCHAR},
+			#{item.skuJSON ,jdbcType=VARCHAR},
+			#{item.matchProductIds ,jdbcType=VARCHAR},
+			#{item.ladderPriceJson ,jdbcType=VARCHAR},
+			#{item.maxLadderPrice ,jdbcType=DECIMAL},
+			#{item.minLadderPrice ,jdbcType=DECIMAL},
+			#{item.createTime ,jdbcType=BIGINT},
+			#{item.updateTime ,jdbcType=BIGINT}
+		)
+		</foreach>
+	</insert>
+
+	<!-- 精确插入，非null得字段才会插入-->
+	<insert id="insertSelective" parameterType="com.jiuy.rb.model.product.ProductAuditRb" useGeneratedKeys="true" keyProperty="id" >
+		insert into yjj_productaudit
+		<trim prefix="(" suffix=")" suffixOverrides="," > 
+			<if test="id !=null">  
+				id,
+			</if>
+			<if test="auditState !=null">  
+				auditState,
+			</if>
+			<if test="noPassReason !=null">  
+				noPassReason,
+			</if>
+			<if test="auditTime !=null">  
+				auditTime,
+			</if>
+			<if test="submitAuditTime !=null">  
+				submitAuditTime,
+			</if>
+			<if test="supplierId !=null">  
+				supplierId,
+			</if>
+			<if test="brandId !=null">  
+				brandId,
+			</if>
+			<if test="brandName !=null">  
+				brandName,
+			</if>
+			<if test="brandLogo !=null">  
+				brandLogo,
+			</if>
+			<if test="productId !=null">  
+				productId,
+			</if>
+			<if test="productName !=null">  
+				productName,
+			</if>
+			<if test="clothesNumber !=null">  
+				clothesNumber,
+			</if>
+			<if test="showcaseImgs !=null">  
+				showcaseImgs,
+			</if>
+			<if test="detailImgs !=null">  
+				detailImgs,
+			</if>
+			<if test="videoUrl !=null">  
+				videoUrl,
+			</if>
+			<if test="mainImg !=null">  
+				mainImg,
+			</if>
+			<if test="categoryName !=null">  
+				categoryName,
+			</if>
+			<if test="skuJSON !=null">  
+				skuJSON,
+			</if>
+			<if test="matchProductIds !=null">  
+				matchProductIds,
+			</if>
+			<if test="ladderPriceJson !=null">  
+				ladderPriceJson,
+			</if>
+			<if test="maxLadderPrice !=null">  
+				maxLadderPrice,
+			</if>
+			<if test="minLadderPrice !=null">  
+				minLadderPrice,
+			</if>
+			<if test="createTime !=null">  
+				create_time,
+			</if>
+			<if test="updateTime !=null">  
+				update_time,
+			</if>
+		</trim>
+
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+			<if test="id  !=null">
+				#{id,jdbcType=BIGINT}, 
+			</if>
+			<if test="auditState  !=null">
+				#{auditState,jdbcType=TINYINT}, 
+			</if>
+			<if test="noPassReason  !=null">
+				#{noPassReason,jdbcType=VARCHAR}, 
+			</if>
+			<if test="auditTime  !=null">
+				#{auditTime,jdbcType=BIGINT}, 
+			</if>
+			<if test="submitAuditTime  !=null">
+				#{submitAuditTime,jdbcType=BIGINT}, 
+			</if>
+			<if test="supplierId  !=null">
+				#{supplierId,jdbcType=BIGINT}, 
+			</if>
+			<if test="brandId  !=null">
+				#{brandId,jdbcType=BIGINT}, 
+			</if>
+			<if test="brandName  !=null">
+				#{brandName,jdbcType=VARCHAR}, 
+			</if>
+			<if test="brandLogo  !=null">
+				#{brandLogo,jdbcType=VARCHAR}, 
+			</if>
+			<if test="productId  !=null">
+				#{productId,jdbcType=BIGINT}, 
+			</if>
+			<if test="productName  !=null">
+				#{productName,jdbcType=VARCHAR}, 
+			</if>
+			<if test="clothesNumber  !=null">
+				#{clothesNumber,jdbcType=VARCHAR}, 
+			</if>
+			<if test="showcaseImgs  !=null">
+				#{showcaseImgs,jdbcType=VARCHAR}, 
+			</if>
+			<if test="detailImgs  !=null">
+				#{detailImgs,jdbcType=VARCHAR}, 
+			</if>
+			<if test="videoUrl  !=null">
+				#{videoUrl,jdbcType=VARCHAR}, 
+			</if>
+			<if test="mainImg  !=null">
+				#{mainImg,jdbcType=VARCHAR}, 
+			</if>
+			<if test="categoryName  !=null">
+				#{categoryName,jdbcType=VARCHAR}, 
+			</if>
+			<if test="skuJSON  !=null">
+				#{skuJSON,jdbcType=VARCHAR}, 
+			</if>
+			<if test="matchProductIds  !=null">
+				#{matchProductIds,jdbcType=VARCHAR}, 
+			</if>
+			<if test="ladderPriceJson  !=null">
+				#{ladderPriceJson,jdbcType=VARCHAR}, 
+			</if>
+			<if test="maxLadderPrice  !=null">
+				#{maxLadderPrice,jdbcType=DECIMAL}, 
+			</if>
+			<if test="minLadderPrice  !=null">
+				#{minLadderPrice,jdbcType=DECIMAL}, 
+			</if>
+			<if test="createTime  !=null">
+				#{createTime,jdbcType=BIGINT}, 
+			</if>
+			<if test="updateTime  !=null">
+				#{updateTime,jdbcType=BIGINT} 
+			</if>
+		</trim>
+	</insert> 
+
+	<!-- 精确更新-->
+	<update id="updateByPrimaryKeySelective" parameterType="com.jiuy.rb.model.product.ProductAuditRb" >
+		update yjj_productaudit
+		<set>
+			<include refid="updateBase"/>
+		</set>
+		where id = #{id,jdbcType=BIGINT} 
+	</update> 
+
+	<!-- 全字段更新 需要注意-->
+	<update id="updateByPrimaryKey" parameterType="com.jiuy.rb.model.product.ProductAuditRb" >
+		update yjj_productaudit
+		set 
+			id = #{id ,jdbcType=BIGINT},
+			auditState = #{auditState ,jdbcType=TINYINT},
+			noPassReason = #{noPassReason ,jdbcType=VARCHAR},
+			auditTime = #{auditTime ,jdbcType=BIGINT},
+			submitAuditTime = #{submitAuditTime ,jdbcType=BIGINT},
+			supplierId = #{supplierId ,jdbcType=BIGINT},
+			brandId = #{brandId ,jdbcType=BIGINT},
+			brandName = #{brandName ,jdbcType=VARCHAR},
+			brandLogo = #{brandLogo ,jdbcType=VARCHAR},
+			productId = #{productId ,jdbcType=BIGINT},
+			productName = #{productName ,jdbcType=VARCHAR},
+			clothesNumber = #{clothesNumber ,jdbcType=VARCHAR},
+			showcaseImgs = #{showcaseImgs ,jdbcType=VARCHAR},
+			detailImgs = #{detailImgs ,jdbcType=VARCHAR},
+			videoUrl = #{videoUrl ,jdbcType=VARCHAR},
+			mainImg = #{mainImg ,jdbcType=VARCHAR},
+			categoryName = #{categoryName ,jdbcType=VARCHAR},
+			skuJSON = #{skuJSON ,jdbcType=VARCHAR},
+			matchProductIds = #{matchProductIds ,jdbcType=VARCHAR},
+			ladderPriceJson = #{ladderPriceJson ,jdbcType=VARCHAR},
+			maxLadderPrice = #{maxLadderPrice ,jdbcType=DECIMAL},
+			minLadderPrice = #{minLadderPrice ,jdbcType=DECIMAL},
+			create_time = #{createTime ,jdbcType=BIGINT},
+			update_time = #{updateTime ,jdbcType=BIGINT}
+		where id = #{id,jdbcType=BIGINT} 
+	</update> 
+
+	<!-- 所有的条件集合-->
+	<sql id="whereCase"  >
+		where  1=1 
+		<if test="id  !=null">
+			AND id = #{id,jdbcType=BIGINT} 
+		</if>
+		<if test="auditState  !=null">
+			AND auditState = #{auditState,jdbcType=TINYINT} 
+		</if>
+		<if test="noPassReason  !=null">
+			AND noPassReason = #{noPassReason,jdbcType=VARCHAR} 
+		</if>
+		<if test="auditTime  !=null">
+			AND auditTime = #{auditTime,jdbcType=BIGINT} 
+		</if>
+		<if test="submitAuditTime  !=null">
+			AND submitAuditTime = #{submitAuditTime,jdbcType=BIGINT} 
+		</if>
+		<if test="supplierId  !=null">
+			AND supplierId = #{supplierId,jdbcType=BIGINT} 
+		</if>
+		<if test="brandId  !=null">
+			AND brandId = #{brandId,jdbcType=BIGINT} 
+		</if>
+		<if test="brandName  !=null">
+			AND brandName = #{brandName,jdbcType=VARCHAR} 
+		</if>
+		<if test="brandLogo  !=null">
+			AND brandLogo = #{brandLogo,jdbcType=VARCHAR} 
+		</if>
+		<if test="productId  !=null">
+			AND productId = #{productId,jdbcType=BIGINT} 
+		</if>
+		<if test="productName  !=null">
+			AND productName = #{productName,jdbcType=VARCHAR} 
+		</if>
+		<if test="clothesNumber  !=null">
+			AND clothesNumber = #{clothesNumber,jdbcType=VARCHAR} 
+		</if>
+		<if test="showcaseImgs  !=null">
+			AND showcaseImgs = #{showcaseImgs,jdbcType=VARCHAR} 
+		</if>
+		<if test="detailImgs  !=null">
+			AND detailImgs = #{detailImgs,jdbcType=VARCHAR} 
+		</if>
+		<if test="videoUrl  !=null">
+			AND videoUrl = #{videoUrl,jdbcType=VARCHAR} 
+		</if>
+		<if test="mainImg  !=null">
+			AND mainImg = #{mainImg,jdbcType=VARCHAR} 
+		</if>
+		<if test="categoryName  !=null">
+			AND categoryName = #{categoryName,jdbcType=VARCHAR} 
+		</if>
+		<if test="skuJSON  !=null">
+			AND skuJSON = #{skuJSON,jdbcType=VARCHAR} 
+		</if>
+		<if test="matchProductIds  !=null">
+			AND matchProductIds = #{matchProductIds,jdbcType=VARCHAR} 
+		</if>
+		<if test="ladderPriceJson  !=null">
+			AND ladderPriceJson = #{ladderPriceJson,jdbcType=VARCHAR} 
+		</if>
+		<if test="maxLadderPrice  !=null">
+			AND maxLadderPrice = #{maxLadderPrice,jdbcType=DECIMAL} 
+		</if>
+		<if test="minLadderPrice  !=null">
+			AND minLadderPrice = #{minLadderPrice,jdbcType=DECIMAL} 
+		</if>
+		<if test="createTime  !=null">
+			AND create_time = #{createTime,jdbcType=BIGINT} 
+		</if>
+		<if test="updateTime  !=null">
+			AND update_time = #{updateTime,jdbcType=BIGINT} 
+		</if>
+		<include refid="costomWhereCase"/>
+	</sql>
+
+	<!-- 查询一条，如果返回多条会报错-->
+	<select id="selectOne" parameterType="java.util.Map" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" /> 
+		FROM yjj_productaudit 
+		<include refid="whereCase" /> 
+	</select>
+
+	<!-- 查询一个list-->
+	<select id="selectList" parameterType="java.util.Map" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" /> 
+		FROM yjj_productaudit 
+		<include refid="whereCase" /> 
+	</select>
+
+	<!--  @Costom -->
+	<!-- 从上一行注释以上为系统生成 从这一行往下为用户自定义 请将自定义的sql放在此行下面 -->
+	<sql id="costomWhereCase">
+		<if test="priceBegin !=null">
+		   and minLadderPrice &gt;= #{priceBegin}
+		</if>
+		<if test="priceEnd !=null">
+			and maxLadderPrice &lt;= #{priceEnd}
+		</if>
+		<if test="submitAuditTimeBegin !=null">
+			and submitAuditTime &gt;= #{submitAuditTimeBegin}
+		</if>
+		<if test="submitAuditTimeEnd !=null">
+			and submitAuditTime &lt;= #{submitAuditTimeEnd}
+		</if>
+		<if test="clothesNumberLike !=null">
+			and clothesNumber like concat('%',#{clothesNumberLike},'%')
+		</if>
+		<if test="productNameLike !=null">
+			and productName like concat('%',#{productNameLike},'%')
+		</if>
+		<if test="brandNameLike !=null">
+			and brandName like concat('%',#{brandNameLike},'%')
+		</if>
+
+	</sql>
+
+</mapper>
