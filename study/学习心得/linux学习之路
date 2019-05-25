@@ -1579,7 +1579,7 @@ curl -o /dev/null -s -w “time_total: %{time_total}\n" "http://www.baidu.com" �
 	 
 164 denyhosts 下载  yum install denyhosts 然后vi /etc/hosts.allow  /etc/host.allow  sshd: xxx.x.x.x	 
 	 
-165 新安装的centos	 没有网络 去/etc/sysconfig/network-scipts/ip-enxxx 找到onboot=no 修改为yes 然后reoots
+165 新安装的centos	 没有网络 去/etc/sysconfig/network-scipts/ip-enxxx 找到onboot=no 修改为yes 然后reoot
 
 166 chkcinfig  [--add][--del][--list][系统服务] 或 chkconfig [--level <等级代号>][系统服务][on/off/reset]
 167 ssh-copy-id -i ~/.ssh/id_rsa.pub user@server 将本地的公钥拷贝到远程服务器的authorized_keys里面
@@ -1660,5 +1660,10 @@ curl -o /dev/null -s -w “time_total: %{time_total}\n" "http://www.baidu.com" �
 	Thread(s) per core: 每个核的线程数，默认每个物理核为1，开启超线程则为2
 	Core(s) per socket: ：单个物理cpu核数
 	CPU socket(s): cpu插槽数
-199 https://github.com/quericy/one-key-ikev2-vpn.git 下载 配置用户名和密码 /usr/local/etc/ipsec.secrets
-   执行 ipsec restart 即可	
+199 https://github.com/quericy/one-key-ikev2-vpn.git 下载
+    wget --no-check-certificate https://raw.githubusercontent.com/quericy/one-key-ikev2-vpn/master/one-key-ikev2.sh
+	chmod +x one-key-ikev2.sh
+	sh one-key-ikev2.sh
+	选择防火墙 不然 iptables 重启会被清空
+    配置用户名和密码 /usr/local/etc/ipsec.secrets
+    执行 ipsec restart 即可	

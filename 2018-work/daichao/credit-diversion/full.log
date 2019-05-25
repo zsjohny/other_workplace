@@ -1,0 +1,830 @@
+2019-03-16 15:32:55,787 ERROR - [-] [main] SpringApplication 771: Application startup failed
+
+java.lang.IllegalStateException: Logback configuration error detected: 
+ERROR in ch.qos.logback.core.joran.spi.Interpreter@14:90 - RuntimeException in Action for tag [contextListener] com.ecwid.consul.transport.TransportException: org.apache.http.conn.HttpHostConnectException: Connect to localhost:8500 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused (Connection refused)
+	at org.springframework.boot.logging.logback.LogbackLoggingSystem.loadConfiguration(LogbackLoggingSystem.java:162)
+	at org.springframework.boot.logging.logback.LogbackLoggingSystem.reinitialize(LogbackLoggingSystem.java:208)
+	at org.springframework.boot.logging.AbstractLoggingSystem.initializeWithConventions(AbstractLoggingSystem.java:74)
+	at org.springframework.boot.logging.AbstractLoggingSystem.initialize(AbstractLoggingSystem.java:59)
+	at org.springframework.boot.logging.logback.LogbackLoggingSystem.initialize(LogbackLoggingSystem.java:115)
+	at org.springframework.boot.logging.LoggingApplicationListener.initializeSystem(LoggingApplicationListener.java:303)
+	at org.springframework.boot.logging.LoggingApplicationListener.initialize(LoggingApplicationListener.java:276)
+	at org.springframework.boot.logging.LoggingApplicationListener.onApplicationEnvironmentPreparedEvent(LoggingApplicationListener.java:239)
+	at org.springframework.boot.logging.LoggingApplicationListener.onApplicationEvent(LoggingApplicationListener.java:212)
+	at org.springframework.context.event.SimpleApplicationEventMulticaster.doInvokeListener(SimpleApplicationEventMulticaster.java:172)
+	at org.springframework.context.event.SimpleApplicationEventMulticaster.invokeListener(SimpleApplicationEventMulticaster.java:165)
+	at org.springframework.context.event.SimpleApplicationEventMulticaster.multicastEvent(SimpleApplicationEventMulticaster.java:139)
+	at org.springframework.context.event.SimpleApplicationEventMulticaster.multicastEvent(SimpleApplicationEventMulticaster.java:122)
+	at org.springframework.boot.context.event.EventPublishingRunListener.environmentPrepared(EventPublishingRunListener.java:74)
+	at org.springframework.boot.SpringApplicationRunListeners.environmentPrepared(SpringApplicationRunListeners.java:54)
+	at org.springframework.boot.SpringApplication.prepareEnvironment(SpringApplication.java:325)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:296)
+	at org.springframework.boot.builder.SpringApplicationBuilder.run(SpringApplicationBuilder.java:134)
+	at org.springframework.cloud.bootstrap.BootstrapApplicationListener.bootstrapServiceContext(BootstrapApplicationListener.java:138)
+	at org.springframework.cloud.bootstrap.BootstrapApplicationListener.onApplicationEvent(BootstrapApplicationListener.java:84)
+	at org.springframework.cloud.bootstrap.BootstrapApplicationListener.onApplicationEvent(BootstrapApplicationListener.java:62)
+	at org.springframework.context.event.SimpleApplicationEventMulticaster.doInvokeListener(SimpleApplicationEventMulticaster.java:172)
+	at org.springframework.context.event.SimpleApplicationEventMulticaster.invokeListener(SimpleApplicationEventMulticaster.java:165)
+	at org.springframework.context.event.SimpleApplicationEventMulticaster.multicastEvent(SimpleApplicationEventMulticaster.java:139)
+	at org.springframework.context.event.SimpleApplicationEventMulticaster.multicastEvent(SimpleApplicationEventMulticaster.java:122)
+	at org.springframework.boot.context.event.EventPublishingRunListener.environmentPrepared(EventPublishingRunListener.java:74)
+	at org.springframework.boot.SpringApplicationRunListeners.environmentPrepared(SpringApplicationRunListeners.java:54)
+	at org.springframework.boot.SpringApplication.prepareEnvironment(SpringApplication.java:325)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:296)
+	at org.springframework.boot.builder.SpringApplicationBuilder.run(SpringApplicationBuilder.java:134)
+	at moxie.cloud.service.server.MicroService.start(MicroService.java:52)
+	at com.songxm.credit.CreditDiversionMicroService.main(CreditDiversionMicroService.java:29)
+
+2019-03-16 15:32:55,799 ERROR - [-] [main] SpringApplication 771: Application startup failed
+
+java.lang.IllegalStateException: Logback configuration error detected: 
+ERROR in ch.qos.logback.core.joran.spi.Interpreter@14:90 - RuntimeException in Action for tag [contextListener] com.ecwid.consul.transport.TransportException: org.apache.http.conn.HttpHostConnectException: Connect to localhost:8500 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused (Connection refused)
+	at org.springframework.boot.logging.logback.LogbackLoggingSystem.loadConfiguration(LogbackLoggingSystem.java:162)
+	at org.springframework.boot.logging.logback.LogbackLoggingSystem.reinitialize(LogbackLoggingSystem.java:208)
+	at org.springframework.boot.logging.AbstractLoggingSystem.initializeWithConventions(AbstractLoggingSystem.java:74)
+	at org.springframework.boot.logging.AbstractLoggingSystem.initialize(AbstractLoggingSystem.java:59)
+	at org.springframework.boot.logging.logback.LogbackLoggingSystem.initialize(LogbackLoggingSystem.java:115)
+	at org.springframework.boot.logging.LoggingApplicationListener.initializeSystem(LoggingApplicationListener.java:303)
+	at org.springframework.boot.logging.LoggingApplicationListener.initialize(LoggingApplicationListener.java:276)
+	at org.springframework.boot.logging.LoggingApplicationListener.onApplicationEnvironmentPreparedEvent(LoggingApplicationListener.java:239)
+	at org.springframework.boot.logging.LoggingApplicationListener.onApplicationEvent(LoggingApplicationListener.java:212)
+	at org.springframework.context.event.SimpleApplicationEventMulticaster.doInvokeListener(SimpleApplicationEventMulticaster.java:172)
+	at org.springframework.context.event.SimpleApplicationEventMulticaster.invokeListener(SimpleApplicationEventMulticaster.java:165)
+	at org.springframework.context.event.SimpleApplicationEventMulticaster.multicastEvent(SimpleApplicationEventMulticaster.java:139)
+	at org.springframework.context.event.SimpleApplicationEventMulticaster.multicastEvent(SimpleApplicationEventMulticaster.java:122)
+	at org.springframework.boot.context.event.EventPublishingRunListener.environmentPrepared(EventPublishingRunListener.java:74)
+	at org.springframework.boot.SpringApplicationRunListeners.environmentPrepared(SpringApplicationRunListeners.java:54)
+	at org.springframework.boot.SpringApplication.prepareEnvironment(SpringApplication.java:325)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:296)
+	at org.springframework.boot.builder.SpringApplicationBuilder.run(SpringApplicationBuilder.java:134)
+	at org.springframework.cloud.bootstrap.BootstrapApplicationListener.bootstrapServiceContext(BootstrapApplicationListener.java:138)
+	at org.springframework.cloud.bootstrap.BootstrapApplicationListener.onApplicationEvent(BootstrapApplicationListener.java:84)
+	at org.springframework.cloud.bootstrap.BootstrapApplicationListener.onApplicationEvent(BootstrapApplicationListener.java:62)
+	at org.springframework.context.event.SimpleApplicationEventMulticaster.doInvokeListener(SimpleApplicationEventMulticaster.java:172)
+	at org.springframework.context.event.SimpleApplicationEventMulticaster.invokeListener(SimpleApplicationEventMulticaster.java:165)
+	at org.springframework.context.event.SimpleApplicationEventMulticaster.multicastEvent(SimpleApplicationEventMulticaster.java:139)
+	at org.springframework.context.event.SimpleApplicationEventMulticaster.multicastEvent(SimpleApplicationEventMulticaster.java:122)
+	at org.springframework.boot.context.event.EventPublishingRunListener.environmentPrepared(EventPublishingRunListener.java:74)
+	at org.springframework.boot.SpringApplicationRunListeners.environmentPrepared(SpringApplicationRunListeners.java:54)
+	at org.springframework.boot.SpringApplication.prepareEnvironment(SpringApplication.java:325)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:296)
+	at org.springframework.boot.builder.SpringApplicationBuilder.run(SpringApplicationBuilder.java:134)
+	at moxie.cloud.service.server.MicroService.start(MicroService.java:52)
+	at com.songxm.credit.CreditDiversionMicroService.main(CreditDiversionMicroService.java:29)
+
+2019-03-16 15:34:13,372 ERROR - [-] [main] SpringApplication 771: Application startup failed
+
+java.lang.IllegalStateException: Logback configuration error detected: 
+ERROR in ch.qos.logback.core.joran.spi.Interpreter@14:90 - RuntimeException in Action for tag [contextListener] com.ecwid.consul.transport.TransportException: org.apache.http.conn.HttpHostConnectException: Connect to localhost:8500 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused (Connection refused)
+	at org.springframework.boot.logging.logback.LogbackLoggingSystem.loadConfiguration(LogbackLoggingSystem.java:162)
+	at org.springframework.boot.logging.logback.LogbackLoggingSystem.reinitialize(LogbackLoggingSystem.java:208)
+	at org.springframework.boot.logging.AbstractLoggingSystem.initializeWithConventions(AbstractLoggingSystem.java:74)
+	at org.springframework.boot.logging.AbstractLoggingSystem.initialize(AbstractLoggingSystem.java:59)
+	at org.springframework.boot.logging.logback.LogbackLoggingSystem.initialize(LogbackLoggingSystem.java:115)
+	at org.springframework.boot.logging.LoggingApplicationListener.initializeSystem(LoggingApplicationListener.java:303)
+	at org.springframework.boot.logging.LoggingApplicationListener.initialize(LoggingApplicationListener.java:276)
+	at org.springframework.boot.logging.LoggingApplicationListener.onApplicationEnvironmentPreparedEvent(LoggingApplicationListener.java:239)
+	at org.springframework.boot.logging.LoggingApplicationListener.onApplicationEvent(LoggingApplicationListener.java:212)
+	at org.springframework.context.event.SimpleApplicationEventMulticaster.doInvokeListener(SimpleApplicationEventMulticaster.java:172)
+	at org.springframework.context.event.SimpleApplicationEventMulticaster.invokeListener(SimpleApplicationEventMulticaster.java:165)
+	at org.springframework.context.event.SimpleApplicationEventMulticaster.multicastEvent(SimpleApplicationEventMulticaster.java:139)
+	at org.springframework.context.event.SimpleApplicationEventMulticaster.multicastEvent(SimpleApplicationEventMulticaster.java:122)
+	at org.springframework.boot.context.event.EventPublishingRunListener.environmentPrepared(EventPublishingRunListener.java:74)
+	at org.springframework.boot.SpringApplicationRunListeners.environmentPrepared(SpringApplicationRunListeners.java:54)
+	at org.springframework.boot.SpringApplication.prepareEnvironment(SpringApplication.java:325)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:296)
+	at org.springframework.boot.builder.SpringApplicationBuilder.run(SpringApplicationBuilder.java:134)
+	at org.springframework.cloud.bootstrap.BootstrapApplicationListener.bootstrapServiceContext(BootstrapApplicationListener.java:138)
+	at org.springframework.cloud.bootstrap.BootstrapApplicationListener.onApplicationEvent(BootstrapApplicationListener.java:84)
+	at org.springframework.cloud.bootstrap.BootstrapApplicationListener.onApplicationEvent(BootstrapApplicationListener.java:62)
+	at org.springframework.context.event.SimpleApplicationEventMulticaster.doInvokeListener(SimpleApplicationEventMulticaster.java:172)
+	at org.springframework.context.event.SimpleApplicationEventMulticaster.invokeListener(SimpleApplicationEventMulticaster.java:165)
+	at org.springframework.context.event.SimpleApplicationEventMulticaster.multicastEvent(SimpleApplicationEventMulticaster.java:139)
+	at org.springframework.context.event.SimpleApplicationEventMulticaster.multicastEvent(SimpleApplicationEventMulticaster.java:122)
+	at org.springframework.boot.context.event.EventPublishingRunListener.environmentPrepared(EventPublishingRunListener.java:74)
+	at org.springframework.boot.SpringApplicationRunListeners.environmentPrepared(SpringApplicationRunListeners.java:54)
+	at org.springframework.boot.SpringApplication.prepareEnvironment(SpringApplication.java:325)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:296)
+	at org.springframework.boot.builder.SpringApplicationBuilder.run(SpringApplicationBuilder.java:134)
+	at moxie.cloud.service.server.MicroService.start(MicroService.java:52)
+	at com.songxm.credit.CreditDiversionMicroService.main(CreditDiversionMicroService.java:29)
+
+2019-03-16 15:34:13,386 ERROR - [-] [main] SpringApplication 771: Application startup failed
+
+java.lang.IllegalStateException: Logback configuration error detected: 
+ERROR in ch.qos.logback.core.joran.spi.Interpreter@14:90 - RuntimeException in Action for tag [contextListener] com.ecwid.consul.transport.TransportException: org.apache.http.conn.HttpHostConnectException: Connect to localhost:8500 [localhost/127.0.0.1, localhost/0:0:0:0:0:0:0:1] failed: Connection refused (Connection refused)
+	at org.springframework.boot.logging.logback.LogbackLoggingSystem.loadConfiguration(LogbackLoggingSystem.java:162)
+	at org.springframework.boot.logging.logback.LogbackLoggingSystem.reinitialize(LogbackLoggingSystem.java:208)
+	at org.springframework.boot.logging.AbstractLoggingSystem.initializeWithConventions(AbstractLoggingSystem.java:74)
+	at org.springframework.boot.logging.AbstractLoggingSystem.initialize(AbstractLoggingSystem.java:59)
+	at org.springframework.boot.logging.logback.LogbackLoggingSystem.initialize(LogbackLoggingSystem.java:115)
+	at org.springframework.boot.logging.LoggingApplicationListener.initializeSystem(LoggingApplicationListener.java:303)
+	at org.springframework.boot.logging.LoggingApplicationListener.initialize(LoggingApplicationListener.java:276)
+	at org.springframework.boot.logging.LoggingApplicationListener.onApplicationEnvironmentPreparedEvent(LoggingApplicationListener.java:239)
+	at org.springframework.boot.logging.LoggingApplicationListener.onApplicationEvent(LoggingApplicationListener.java:212)
+	at org.springframework.context.event.SimpleApplicationEventMulticaster.doInvokeListener(SimpleApplicationEventMulticaster.java:172)
+	at org.springframework.context.event.SimpleApplicationEventMulticaster.invokeListener(SimpleApplicationEventMulticaster.java:165)
+	at org.springframework.context.event.SimpleApplicationEventMulticaster.multicastEvent(SimpleApplicationEventMulticaster.java:139)
+	at org.springframework.context.event.SimpleApplicationEventMulticaster.multicastEvent(SimpleApplicationEventMulticaster.java:122)
+	at org.springframework.boot.context.event.EventPublishingRunListener.environmentPrepared(EventPublishingRunListener.java:74)
+	at org.springframework.boot.SpringApplicationRunListeners.environmentPrepared(SpringApplicationRunListeners.java:54)
+	at org.springframework.boot.SpringApplication.prepareEnvironment(SpringApplication.java:325)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:296)
+	at org.springframework.boot.builder.SpringApplicationBuilder.run(SpringApplicationBuilder.java:134)
+	at org.springframework.cloud.bootstrap.BootstrapApplicationListener.bootstrapServiceContext(BootstrapApplicationListener.java:138)
+	at org.springframework.cloud.bootstrap.BootstrapApplicationListener.onApplicationEvent(BootstrapApplicationListener.java:84)
+	at org.springframework.cloud.bootstrap.BootstrapApplicationListener.onApplicationEvent(BootstrapApplicationListener.java:62)
+	at org.springframework.context.event.SimpleApplicationEventMulticaster.doInvokeListener(SimpleApplicationEventMulticaster.java:172)
+	at org.springframework.context.event.SimpleApplicationEventMulticaster.invokeListener(SimpleApplicationEventMulticaster.java:165)
+	at org.springframework.context.event.SimpleApplicationEventMulticaster.multicastEvent(SimpleApplicationEventMulticaster.java:139)
+	at org.springframework.context.event.SimpleApplicationEventMulticaster.multicastEvent(SimpleApplicationEventMulticaster.java:122)
+	at org.springframework.boot.context.event.EventPublishingRunListener.environmentPrepared(EventPublishingRunListener.java:74)
+	at org.springframework.boot.SpringApplicationRunListeners.environmentPrepared(SpringApplicationRunListeners.java:54)
+	at org.springframework.boot.SpringApplication.prepareEnvironment(SpringApplication.java:325)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:296)
+	at org.springframework.boot.builder.SpringApplicationBuilder.run(SpringApplicationBuilder.java:134)
+	at moxie.cloud.service.server.MicroService.start(MicroService.java:52)
+	at com.songxm.credit.CreditDiversionMicroService.main(CreditDiversionMicroService.java:29)
+
+2019-03-16 16:23:21,256  INFO - [-] [main] AbstractApplicationContext 583: Refreshing org.springframework.context.annotation.AnnotationConfigApplicationContext@537b32ef: startup date [Sat Mar 16 16:23:21 CST 2019]; root of context hierarchy
+2019-03-16 16:23:21,585  INFO - [-] [main] PostProcessorRegistrationDelegate$BeanPostProcessorChecker 327: Bean 'configurationPropertiesRebinderAutoConfiguration' of type [org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration$$EnhancerBySpringCGLIB$$2c6fcbfc] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2019-03-16 16:23:21,931  INFO - [-] [main] SpringApplicationBannerPrinter 61: 
+自从用了王师傅的框架
+ 代码bug都少了耶!
+
+2019-03-16 16:23:21,964 ERROR - [-] [main] PolledConsulConfigurationSource 77: 无法从consul中获取服务配置[key:service/credit/1/config]
+2019-03-16 16:23:21,971  INFO - [-] [main] PropertySourceBootstrapConfiguration 93: Located property source: ConsulPropertySource {name='service/credit/1/config'}
+2019-03-16 16:23:21,973 ERROR - [-] [main] PolledConsulConfigurationSource 77: 无法从consul中获取服务配置[key:common/1/config]
+2019-03-16 16:23:21,973  INFO - [-] [main] PropertySourceBootstrapConfiguration 93: Located property source: ConsulPropertySource {name='common/1/config'}
+2019-03-16 16:23:21,984  INFO - [-] [main] SpringApplication 593: No active profile set, falling back to default profiles: default
+2019-03-16 16:23:22,007  INFO - [-] [main] AbstractApplicationContext 583: Refreshing org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@7d9ba6c: startup date [Sat Mar 16 16:23:22 CST 2019]; parent: org.springframework.context.annotation.AnnotationConfigApplicationContext@537b32ef
+2019-03-16 16:23:23,138  INFO - [-] [main] RepositoryConfigurationDelegate 165: Multiple Spring Data modules found, entering strict repository configuration mode!
+2019-03-16 16:23:23,420  INFO - [-] [main] GenericScope 263: BeanFactory id=cc915b8d-aa0a-30b5-8957-283cc7314c91
+2019-03-16 16:23:23,507  INFO - [-] [main] PostProcessorRegistrationDelegate$BeanPostProcessorChecker 327: Bean 'commonConfig' of type [moxie.cloud.service.server.config.CommonConfig$$EnhancerBySpringCGLIB$$d10fd200] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2019-03-16 16:23:23,608  INFO - [-] [main] PostProcessorRegistrationDelegate$BeanPostProcessorChecker 327: Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$1055c8ff] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2019-03-16 16:23:23,743  INFO - [-] [main] PostProcessorRegistrationDelegate$BeanPostProcessorChecker 327: Bean 'org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration' of type [org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration$$EnhancerBySpringCGLIB$$2c6fcbfc] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2019-03-16 16:23:24,288  INFO - [-] [main] TomcatEmbeddedServletContainer 89: Tomcat initialized with port(s): 8087 (http)
+2019-03-16 16:23:24,299  INFO - [-] [main] DirectJDKLog 179: Starting service [Tomcat]
+2019-03-16 16:23:24,300  INFO - [-] [main] DirectJDKLog 179: Starting Servlet Engine: Apache Tomcat/8.5.23
+2019-03-16 16:23:24,407  INFO - [-] [localhost-startStop-1] DirectJDKLog 179: Initializing Spring embedded WebApplicationContext
+2019-03-16 16:23:24,407  INFO - [-] [localhost-startStop-1] EmbeddedWebApplicationContext 276: Root WebApplicationContext: initialization completed in 2400 ms
+2019-03-16 16:23:24,616  INFO - [-] [localhost-startStop-1] BaseConfig 50: 服务[credit]初始化成功
+2019-03-16 16:23:24,993  INFO - [-] [localhost-startStop-1] AbstractHandlerMethodMapping$MappingRegistry 543: Mapped "{[/credit-diversion/api/v1/login],methods=[POST]}" onto public com.songxm.credit.comon.credit.diversion.dto.Token com.songxm.credit.controller.LoginController.login(java.lang.String,java.lang.String)
+2019-03-16 16:23:24,995  INFO - [-] [localhost-startStop-1] AbstractHandlerMethodMapping$MappingRegistry 543: Mapped "{[/credit-diversion/api/v1/register],methods=[POST]}" onto public java.lang.Boolean com.songxm.credit.controller.LoginController.login(com.songxm.credit.comon.credit.diversion.dto.LoginReqDTO)
+2019-03-16 16:23:24,996  INFO - [-] [localhost-startStop-1] AbstractHandlerMethodMapping$MappingRegistry 543: Mapped "{[/credit-diversion/api/v1/auth/passwd],methods=[PUT]}" onto public java.lang.Boolean com.songxm.credit.controller.LoginController.login(com.songxm.credit.comon.credit.diversion.dto.LoginpsReqDto,org.apache.catalina.servlet4preview.http.HttpServletRequest)
+2019-03-16 16:23:24,997  INFO - [-] [localhost-startStop-1] AbstractHandlerMethodMapping$MappingRegistry 543: Mapped "{[/credit-diversion/api/v1/auth/logout],methods=[DELETE]}" onto public java.lang.Boolean com.songxm.credit.controller.LoginController.logout(org.apache.catalina.servlet4preview.http.HttpServletRequest,java.lang.String)
+2019-03-16 16:23:24,998  INFO - [-] [localhost-startStop-1] AbstractHandlerMethodMapping$MappingRegistry 543: Mapped "{[/credit-diversion/apiv1/sms/{mobile}],methods=[POST]}" onto public boolean com.songxm.credit.controller.VarCodeController.getOTP(java.lang.String)
+2019-03-16 16:23:25,000  INFO - [-] [localhost-startStop-1] AbstractHandlerMethodMapping$MappingRegistry 543: Mapped "{[/server-status],methods=[GET]}" onto public java.util.Map<java.lang.String, moxie.cloud.service.server.model.ServerStatus> moxie.cloud.service.server.ServerController.serverStatus()
+2019-03-16 16:23:25,001  INFO - [-] [localhost-startStop-1] AbstractHandlerMethodMapping$MappingRegistry 543: Mapped "{[/pre-shutdown],methods=[GET]}" onto public java.util.Map<java.lang.String, java.lang.Boolean> moxie.cloud.service.server.ServerController.preShutdown()
+2019-03-16 16:23:25,002  INFO - [-] [localhost-startStop-1] AbstractHandlerMethodMapping$MappingRegistry 543: Mapped "{[/config],methods=[POST]}" onto public moxie.cloud.service.common.dto.SimpleResp<java.lang.Boolean> moxie.cloud.service.server.ServerController.putOrInsertConfig(java.util.Map<java.lang.String, java.lang.String>)
+2019-03-16 16:23:25,004  INFO - [-] [localhost-startStop-1] AbstractHandlerMethodMapping$MappingRegistry 543: Mapped "{[/v2/api-docs],methods=[GET],produces=[application/json || application/hal+json]}" onto public org.springframework.http.ResponseEntity<springfox.documentation.spring.web.json.Json> springfox.documentation.swagger2.web.Swagger2Controller.getDocumentation(java.lang.String,javax.servlet.http.HttpServletRequest)
+2019-03-16 16:23:25,008  INFO - [-] [localhost-startStop-1] AbstractHandlerMethodMapping$MappingRegistry 543: Mapped "{[/swagger-resources/configuration/security]}" onto org.springframework.http.ResponseEntity<springfox.documentation.swagger.web.SecurityConfiguration> springfox.documentation.swagger.web.ApiResourceController.securityConfiguration()
+2019-03-16 16:23:25,009  INFO - [-] [localhost-startStop-1] AbstractHandlerMethodMapping$MappingRegistry 543: Mapped "{[/swagger-resources/configuration/ui]}" onto org.springframework.http.ResponseEntity<springfox.documentation.swagger.web.UiConfiguration> springfox.documentation.swagger.web.ApiResourceController.uiConfiguration()
+2019-03-16 16:23:25,010  INFO - [-] [localhost-startStop-1] AbstractHandlerMethodMapping$MappingRegistry 543: Mapped "{[/swagger-resources]}" onto org.springframework.http.ResponseEntity<java.util.List<springfox.documentation.swagger.web.SwaggerResource>> springfox.documentation.swagger.web.ApiResourceController.swaggerResources()
+2019-03-16 16:23:25,013  INFO - [-] [localhost-startStop-1] AbstractHandlerMethodMapping$MappingRegistry 543: Mapped "{[/error]}" onto public org.springframework.http.ResponseEntity<java.util.Map<java.lang.String, java.lang.Object>> org.springframework.boot.autoconfigure.web.BasicErrorController.error(javax.servlet.http.HttpServletRequest)
+2019-03-16 16:23:25,013  INFO - [-] [localhost-startStop-1] AbstractHandlerMethodMapping$MappingRegistry 543: Mapped "{[/error],produces=[text/html]}" onto public org.springframework.web.servlet.ModelAndView org.springframework.boot.autoconfigure.web.BasicErrorController.errorHtml(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)
+2019-03-16 16:23:25,257  INFO - [-] [localhost-startStop-1] AbstractFilterRegistrationBean 258: Mapping filter: 'cacheControlFilter' to: [/*]
+2019-03-16 16:23:25,257  INFO - [-] [localhost-startStop-1] AbstractFilterRegistrationBean 258: Mapping filter: 'cacheFilter' to: [/*]
+2019-03-16 16:23:25,258  INFO - [-] [localhost-startStop-1] AbstractFilterRegistrationBean 258: Mapping filter: 'metricsFilter' to: [/*]
+2019-03-16 16:23:25,258  INFO - [-] [localhost-startStop-1] AbstractFilterRegistrationBean 258: Mapping filter: 'characterEncodingFilter' to: [/*]
+2019-03-16 16:23:25,258  INFO - [-] [localhost-startStop-1] AbstractFilterRegistrationBean 258: Mapping filter: 'correlationIdFilter' to: [/*]
+2019-03-16 16:23:25,259  INFO - [-] [localhost-startStop-1] AbstractFilterRegistrationBean 258: Mapping filter: 'hiddenHttpMethodFilter' to: [/*]
+2019-03-16 16:23:25,259  INFO - [-] [localhost-startStop-1] AbstractFilterRegistrationBean 258: Mapping filter: 'httpPutFormContentFilter' to: [/*]
+2019-03-16 16:23:25,259  INFO - [-] [localhost-startStop-1] AbstractFilterRegistrationBean 258: Mapping filter: 'requestContextFilter' to: [/*]
+2019-03-16 16:23:25,260  INFO - [-] [localhost-startStop-1] AbstractFilterRegistrationBean 258: Mapping filter: 'webRequestLoggingFilter' to: [/*]
+2019-03-16 16:23:25,260  INFO - [-] [localhost-startStop-1] AbstractFilterRegistrationBean 258: Mapping filter: 'applicationContextIdFilter' to: [/*]
+2019-03-16 16:23:25,260  INFO - [-] [localhost-startStop-1] ServletRegistrationBean 190: Mapping servlet: 'dispatcherServlet' to [/]
+2019-03-16 16:23:25,489  WARN - [-] [main] AbstractApplicationContext 551: Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'loginController': Unsatisfied dependency expressed through field 'loginServvice'; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'loginServvice': Unsatisfied dependency expressed through field 'mapper'; nested exception is org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'com.songxm.credit.dao.credit.deversion.persistence.BaseMapper<com.songxm.credit.dao.credit.deversion.domain.TUserLoginInfo>' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {@org.springframework.beans.factory.annotation.Autowired(required=true)}
+2019-03-16 16:23:25,490  INFO - [-] [main] BaseConfig 134: 服务[credit]关闭
+2019-03-16 16:23:25,492  INFO - [-] [main] DirectJDKLog 179: Stopping service [Tomcat]
+2019-03-16 16:23:25,512  WARN - [-] [localhost-startStop-1] DirectJDKLog 179: The web application [ROOT] appears to have started a thread named [pollingConfigurationSource] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ sun.misc.Unsafe.park(Native Method)
+ java.util.concurrent.locks.LockSupport.parkNanos(LockSupport.java:215)
+ java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.awaitNanos(AbstractQueuedSynchronizer.java:2078)
+ java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:1093)
+ java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:809)
+ java.util.concurrent.ThreadPoolExecutor.getTask(ThreadPoolExecutor.java:1074)
+ java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1134)
+ java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+ java.lang.Thread.run(Thread.java:748)
+2019-03-16 16:23:25,513  WARN - [-] [localhost-startStop-1] DirectJDKLog 179: The web application [ROOT] appears to have started a thread named [pollingConfigurationSource] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ sun.misc.Unsafe.park(Native Method)
+ java.util.concurrent.locks.LockSupport.parkNanos(LockSupport.java:215)
+ java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.awaitNanos(AbstractQueuedSynchronizer.java:2078)
+ java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:1093)
+ java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:809)
+ java.util.concurrent.ThreadPoolExecutor.getTask(ThreadPoolExecutor.java:1074)
+ java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1134)
+ java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+ java.lang.Thread.run(Thread.java:748)
+2019-03-16 16:23:25,514  WARN - [-] [localhost-startStop-1] DirectJDKLog 179: The web application [ROOT] appears to have started a thread named [Abandoned connection cleanup thread] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ java.lang.Object.wait(Native Method)
+ java.lang.ref.ReferenceQueue.remove(ReferenceQueue.java:144)
+ com.mysql.jdbc.AbandonedConnectionCleanupThread.run(AbandonedConnectionCleanupThread.java:43)
+2019-03-16 16:23:25,527  INFO - [-] [main] AutoConfigurationReportLoggingInitializer 101: 
+
+Error starting ApplicationContext. To display the auto-configuration report re-run your application with 'debug' enabled.
+2019-03-16 16:23:25,671 ERROR - [-] [main] LoggingFailureAnalysisReporter 42: 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Field mapper in com.songxm.credit.service.BaseService required a bean of type 'com.songxm.credit.dao.credit.deversion.persistence.BaseMapper' that could not be found.
+
+
+Action:
+
+Consider defining a bean of type 'com.songxm.credit.dao.credit.deversion.persistence.BaseMapper' in your configuration.
+
+2019-03-16 17:17:05,664  INFO - [-] [main] AbstractApplicationContext 583: Refreshing org.springframework.context.annotation.AnnotationConfigApplicationContext@49298ce7: startup date [Sat Mar 16 17:17:05 CST 2019]; root of context hierarchy
+2019-03-16 17:17:06,077  INFO - [-] [main] PostProcessorRegistrationDelegate$BeanPostProcessorChecker 327: Bean 'configurationPropertiesRebinderAutoConfiguration' of type [org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration$$EnhancerBySpringCGLIB$$514b471a] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2019-03-16 17:17:06,431  INFO - [-] [main] SpringApplicationBannerPrinter 61: 
+自从用了王师傅的框架
+ 代码bug都少了耶!
+
+2019-03-16 17:17:06,463 ERROR - [-] [main] PolledConsulConfigurationSource 77: 无法从consul中获取服务配置[key:service/credit/1/config]
+2019-03-16 17:17:06,475  INFO - [-] [main] PropertySourceBootstrapConfiguration 93: Located property source: ConsulPropertySource {name='service/credit/1/config'}
+2019-03-16 17:17:06,477 ERROR - [-] [main] PolledConsulConfigurationSource 77: 无法从consul中获取服务配置[key:common/1/config]
+2019-03-16 17:17:06,478  INFO - [-] [main] PropertySourceBootstrapConfiguration 93: Located property source: ConsulPropertySource {name='common/1/config'}
+2019-03-16 17:17:06,490  INFO - [-] [main] SpringApplication 593: No active profile set, falling back to default profiles: default
+2019-03-16 17:17:06,518  INFO - [-] [main] AbstractApplicationContext 583: Refreshing org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@3db972d2: startup date [Sat Mar 16 17:17:06 CST 2019]; parent: org.springframework.context.annotation.AnnotationConfigApplicationContext@49298ce7
+2019-03-16 17:17:07,506  WARN - [-] [main] ClassPathMapperScanner 167: No MyBatis mapper was found in '[com.songxm.credit.dao.credit.deversion.persistenc]' package. Please check your configuration.
+2019-03-16 17:17:07,716  INFO - [-] [main] RepositoryConfigurationDelegate 165: Multiple Spring Data modules found, entering strict repository configuration mode!
+2019-03-16 17:17:07,985  INFO - [-] [main] GenericScope 263: BeanFactory id=cc915b8d-aa0a-30b5-8957-283cc7314c91
+2019-03-16 17:17:08,098  INFO - [-] [main] PostProcessorRegistrationDelegate$BeanPostProcessorChecker 327: Bean 'commonConfig' of type [moxie.cloud.service.server.config.CommonConfig$$EnhancerBySpringCGLIB$$f5eb4d1e] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2019-03-16 17:17:08,205  INFO - [-] [main] PostProcessorRegistrationDelegate$BeanPostProcessorChecker 327: Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$3531441d] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2019-03-16 17:17:08,371  INFO - [-] [main] PostProcessorRegistrationDelegate$BeanPostProcessorChecker 327: Bean 'org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration' of type [org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration$$EnhancerBySpringCGLIB$$514b471a] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2019-03-16 17:17:08,978  INFO - [-] [main] TomcatEmbeddedServletContainer 89: Tomcat initialized with port(s): 8087 (http)
+2019-03-16 17:17:08,991  INFO - [-] [main] DirectJDKLog 179: Starting service [Tomcat]
+2019-03-16 17:17:08,992  INFO - [-] [main] DirectJDKLog 179: Starting Servlet Engine: Apache Tomcat/8.5.23
+2019-03-16 17:17:09,119  INFO - [-] [localhost-startStop-1] DirectJDKLog 179: Initializing Spring embedded WebApplicationContext
+2019-03-16 17:17:09,120  INFO - [-] [localhost-startStop-1] EmbeddedWebApplicationContext 276: Root WebApplicationContext: initialization completed in 2602 ms
+2019-03-16 17:17:09,317  INFO - [-] [localhost-startStop-1] BaseConfig 50: 服务[credit]初始化成功
+2019-03-16 17:17:09,661  INFO - [-] [localhost-startStop-1] AbstractHandlerMethodMapping$MappingRegistry 543: Mapped "{[/credit-diversion/api/v1/auth/logout],methods=[DELETE]}" onto public java.lang.Boolean com.songxm.credit.controller.LoginController.logout(org.apache.catalina.servlet4preview.http.HttpServletRequest,java.lang.String)
+2019-03-16 17:17:09,663  INFO - [-] [localhost-startStop-1] AbstractHandlerMethodMapping$MappingRegistry 543: Mapped "{[/credit-diversion/api/v1/login],methods=[POST]}" onto public com.songxm.credit.comon.credit.diversion.dto.Token com.songxm.credit.controller.LoginController.login(java.lang.String,java.lang.String)
+2019-03-16 17:17:09,664  INFO - [-] [localhost-startStop-1] AbstractHandlerMethodMapping$MappingRegistry 543: Mapped "{[/credit-diversion/api/v1/auth/passwd],methods=[PUT]}" onto public java.lang.Boolean com.songxm.credit.controller.LoginController.login(com.songxm.credit.comon.credit.diversion.dto.LoginpsReqDto,org.apache.catalina.servlet4preview.http.HttpServletRequest)
+2019-03-16 17:17:09,665  INFO - [-] [localhost-startStop-1] AbstractHandlerMethodMapping$MappingRegistry 543: Mapped "{[/credit-diversion/api/v1/register],methods=[POST]}" onto public java.lang.Boolean com.songxm.credit.controller.LoginController.login(com.songxm.credit.comon.credit.diversion.dto.LoginReqDTO)
+2019-03-16 17:17:09,666  INFO - [-] [localhost-startStop-1] AbstractHandlerMethodMapping$MappingRegistry 543: Mapped "{[/credit-diversion/apiv1/sms/{mobile}],methods=[POST]}" onto public boolean com.songxm.credit.controller.VarCodeController.getOTP(java.lang.String)
+2019-03-16 17:17:09,668  INFO - [-] [localhost-startStop-1] AbstractHandlerMethodMapping$MappingRegistry 543: Mapped "{[/server-status],methods=[GET]}" onto public java.util.Map<java.lang.String, moxie.cloud.service.server.model.ServerStatus> moxie.cloud.service.server.ServerController.serverStatus()
+2019-03-16 17:17:09,668  INFO - [-] [localhost-startStop-1] AbstractHandlerMethodMapping$MappingRegistry 543: Mapped "{[/pre-shutdown],methods=[GET]}" onto public java.util.Map<java.lang.String, java.lang.Boolean> moxie.cloud.service.server.ServerController.preShutdown()
+2019-03-16 17:17:09,669  INFO - [-] [localhost-startStop-1] AbstractHandlerMethodMapping$MappingRegistry 543: Mapped "{[/config],methods=[POST]}" onto public moxie.cloud.service.common.dto.SimpleResp<java.lang.Boolean> moxie.cloud.service.server.ServerController.putOrInsertConfig(java.util.Map<java.lang.String, java.lang.String>)
+2019-03-16 17:17:09,671  INFO - [-] [localhost-startStop-1] AbstractHandlerMethodMapping$MappingRegistry 543: Mapped "{[/v2/api-docs],methods=[GET],produces=[application/json || application/hal+json]}" onto public org.springframework.http.ResponseEntity<springfox.documentation.spring.web.json.Json> springfox.documentation.swagger2.web.Swagger2Controller.getDocumentation(java.lang.String,javax.servlet.http.HttpServletRequest)
+2019-03-16 17:17:09,674  INFO - [-] [localhost-startStop-1] AbstractHandlerMethodMapping$MappingRegistry 543: Mapped "{[/swagger-resources/configuration/security]}" onto org.springframework.http.ResponseEntity<springfox.documentation.swagger.web.SecurityConfiguration> springfox.documentation.swagger.web.ApiResourceController.securityConfiguration()
+2019-03-16 17:17:09,675  INFO - [-] [localhost-startStop-1] AbstractHandlerMethodMapping$MappingRegistry 543: Mapped "{[/swagger-resources/configuration/ui]}" onto org.springframework.http.ResponseEntity<springfox.documentation.swagger.web.UiConfiguration> springfox.documentation.swagger.web.ApiResourceController.uiConfiguration()
+2019-03-16 17:17:09,676  INFO - [-] [localhost-startStop-1] AbstractHandlerMethodMapping$MappingRegistry 543: Mapped "{[/swagger-resources]}" onto org.springframework.http.ResponseEntity<java.util.List<springfox.documentation.swagger.web.SwaggerResource>> springfox.documentation.swagger.web.ApiResourceController.swaggerResources()
+2019-03-16 17:17:09,679  INFO - [-] [localhost-startStop-1] AbstractHandlerMethodMapping$MappingRegistry 543: Mapped "{[/error]}" onto public org.springframework.http.ResponseEntity<java.util.Map<java.lang.String, java.lang.Object>> org.springframework.boot.autoconfigure.web.BasicErrorController.error(javax.servlet.http.HttpServletRequest)
+2019-03-16 17:17:09,680  INFO - [-] [localhost-startStop-1] AbstractHandlerMethodMapping$MappingRegistry 543: Mapped "{[/error],produces=[text/html]}" onto public org.springframework.web.servlet.ModelAndView org.springframework.boot.autoconfigure.web.BasicErrorController.errorHtml(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)
+2019-03-16 17:17:09,925  INFO - [-] [localhost-startStop-1] AbstractFilterRegistrationBean 258: Mapping filter: 'cacheControlFilter' to: [/*]
+2019-03-16 17:17:09,926  INFO - [-] [localhost-startStop-1] AbstractFilterRegistrationBean 258: Mapping filter: 'cacheFilter' to: [/*]
+2019-03-16 17:17:09,927  INFO - [-] [localhost-startStop-1] AbstractFilterRegistrationBean 258: Mapping filter: 'metricsFilter' to: [/*]
+2019-03-16 17:17:09,927  INFO - [-] [localhost-startStop-1] AbstractFilterRegistrationBean 258: Mapping filter: 'characterEncodingFilter' to: [/*]
+2019-03-16 17:17:09,928  INFO - [-] [localhost-startStop-1] AbstractFilterRegistrationBean 258: Mapping filter: 'correlationIdFilter' to: [/*]
+2019-03-16 17:17:09,928  INFO - [-] [localhost-startStop-1] AbstractFilterRegistrationBean 258: Mapping filter: 'hiddenHttpMethodFilter' to: [/*]
+2019-03-16 17:17:09,928  INFO - [-] [localhost-startStop-1] AbstractFilterRegistrationBean 258: Mapping filter: 'httpPutFormContentFilter' to: [/*]
+2019-03-16 17:17:09,929  INFO - [-] [localhost-startStop-1] AbstractFilterRegistrationBean 258: Mapping filter: 'requestContextFilter' to: [/*]
+2019-03-16 17:17:09,929  INFO - [-] [localhost-startStop-1] AbstractFilterRegistrationBean 258: Mapping filter: 'webRequestLoggingFilter' to: [/*]
+2019-03-16 17:17:09,930  INFO - [-] [localhost-startStop-1] AbstractFilterRegistrationBean 258: Mapping filter: 'applicationContextIdFilter' to: [/*]
+2019-03-16 17:17:09,930  INFO - [-] [localhost-startStop-1] ServletRegistrationBean 190: Mapping servlet: 'dispatcherServlet' to [/]
+2019-03-16 17:17:10,168  WARN - [-] [main] AbstractApplicationContext 551: Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'loginController': Unsatisfied dependency expressed through field 'loginServvice'; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'loginServvice': Unsatisfied dependency expressed through field 'mapper'; nested exception is org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'com.songxm.credit.dao.credit.deversion.persistence.BaseMapper<com.songxm.credit.dao.credit.deversion.domain.TUserLoginInfo>' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {@org.springframework.beans.factory.annotation.Autowired(required=true)}
+2019-03-16 17:17:10,169  INFO - [-] [main] BaseConfig 134: 服务[credit]关闭
+2019-03-16 17:17:10,171  INFO - [-] [main] DirectJDKLog 179: Stopping service [Tomcat]
+2019-03-16 17:17:10,193  WARN - [-] [localhost-startStop-1] DirectJDKLog 179: The web application [ROOT] appears to have started a thread named [pollingConfigurationSource] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ sun.misc.Unsafe.park(Native Method)
+ java.util.concurrent.locks.LockSupport.parkNanos(LockSupport.java:215)
+ java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.awaitNanos(AbstractQueuedSynchronizer.java:2078)
+ java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:1093)
+ java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:809)
+ java.util.concurrent.ThreadPoolExecutor.getTask(ThreadPoolExecutor.java:1074)
+ java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1134)
+ java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+ java.lang.Thread.run(Thread.java:748)
+2019-03-16 17:17:10,194  WARN - [-] [localhost-startStop-1] DirectJDKLog 179: The web application [ROOT] appears to have started a thread named [pollingConfigurationSource] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ sun.misc.Unsafe.park(Native Method)
+ java.util.concurrent.locks.LockSupport.parkNanos(LockSupport.java:215)
+ java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.awaitNanos(AbstractQueuedSynchronizer.java:2078)
+ java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:1093)
+ java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:809)
+ java.util.concurrent.ThreadPoolExecutor.getTask(ThreadPoolExecutor.java:1074)
+ java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1134)
+ java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+ java.lang.Thread.run(Thread.java:748)
+2019-03-16 17:17:10,195  WARN - [-] [localhost-startStop-1] DirectJDKLog 179: The web application [ROOT] appears to have started a thread named [Abandoned connection cleanup thread] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ java.lang.Object.wait(Native Method)
+ java.lang.ref.ReferenceQueue.remove(ReferenceQueue.java:144)
+ com.mysql.jdbc.AbandonedConnectionCleanupThread.run(AbandonedConnectionCleanupThread.java:43)
+2019-03-16 17:17:10,209  INFO - [-] [main] AutoConfigurationReportLoggingInitializer 101: 
+
+Error starting ApplicationContext. To display the auto-configuration report re-run your application with 'debug' enabled.
+2019-03-16 17:17:10,377 ERROR - [-] [main] LoggingFailureAnalysisReporter 42: 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Field mapper in com.songxm.credit.service.BaseService required a bean of type 'com.songxm.credit.dao.credit.deversion.persistence.BaseMapper' that could not be found.
+
+
+Action:
+
+Consider defining a bean of type 'com.songxm.credit.dao.credit.deversion.persistence.BaseMapper' in your configuration.
+
+2019-03-16 18:41:25,586  INFO - [-] [main] AbstractApplicationContext 583: Refreshing org.springframework.context.annotation.AnnotationConfigApplicationContext@7ea4d397: startup date [Sat Mar 16 18:41:25 CST 2019]; root of context hierarchy
+2019-03-16 18:41:25,969  INFO - [-] [main] PostProcessorRegistrationDelegate$BeanPostProcessorChecker 327: Bean 'configurationPropertiesRebinderAutoConfiguration' of type [org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration$$EnhancerBySpringCGLIB$$e03df962] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2019-03-16 18:41:26,355  INFO - [-] [main] SpringApplicationBannerPrinter 61: 
+自从用了王师傅的框架
+ 代码bug都少了耶!
+
+2019-03-16 18:41:26,385 ERROR - [-] [main] PolledConsulConfigurationSource 77: 无法从consul中获取服务配置[key:service/credit/1/config]
+2019-03-16 18:41:26,398  INFO - [-] [main] PropertySourceBootstrapConfiguration 93: Located property source: ConsulPropertySource {name='service/credit/1/config'}
+2019-03-16 18:41:26,400 ERROR - [-] [main] PolledConsulConfigurationSource 77: 无法从consul中获取服务配置[key:common/1/config]
+2019-03-16 18:41:26,400  INFO - [-] [main] PropertySourceBootstrapConfiguration 93: Located property source: ConsulPropertySource {name='common/1/config'}
+2019-03-16 18:41:26,417  INFO - [-] [main] SpringApplication 593: No active profile set, falling back to default profiles: default
+2019-03-16 18:41:26,457  INFO - [-] [main] AbstractApplicationContext 583: Refreshing org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@3c0bbc9f: startup date [Sat Mar 16 18:41:26 CST 2019]; parent: org.springframework.context.annotation.AnnotationConfigApplicationContext@7ea4d397
+2019-03-16 18:41:27,488  WARN - [-] [main] ClassPathMapperScanner 167: No MyBatis mapper was found in '[com.songxm.credit.dao.credit.deversion.persistenc]' package. Please check your configuration.
+2019-03-16 18:41:27,705  INFO - [-] [main] RepositoryConfigurationDelegate 165: Multiple Spring Data modules found, entering strict repository configuration mode!
+2019-03-16 18:41:27,983  INFO - [-] [main] GenericScope 263: BeanFactory id=cc915b8d-aa0a-30b5-8957-283cc7314c91
+2019-03-16 18:41:28,070  INFO - [-] [main] PostProcessorRegistrationDelegate$BeanPostProcessorChecker 327: Bean 'commonConfig' of type [moxie.cloud.service.server.config.CommonConfig$$EnhancerBySpringCGLIB$$84ddff66] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2019-03-16 18:41:28,175  INFO - [-] [main] PostProcessorRegistrationDelegate$BeanPostProcessorChecker 327: Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$c423f665] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2019-03-16 18:41:28,342  INFO - [-] [main] PostProcessorRegistrationDelegate$BeanPostProcessorChecker 327: Bean 'org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration' of type [org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration$$EnhancerBySpringCGLIB$$e03df962] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2019-03-16 18:41:28,949  INFO - [-] [main] TomcatEmbeddedServletContainer 89: Tomcat initialized with port(s): 8087 (http)
+2019-03-16 18:41:28,963  INFO - [-] [main] DirectJDKLog 179: Starting service [Tomcat]
+2019-03-16 18:41:28,965  INFO - [-] [main] DirectJDKLog 179: Starting Servlet Engine: Apache Tomcat/8.5.23
+2019-03-16 18:41:29,093  INFO - [-] [localhost-startStop-1] DirectJDKLog 179: Initializing Spring embedded WebApplicationContext
+2019-03-16 18:41:29,094  INFO - [-] [localhost-startStop-1] EmbeddedWebApplicationContext 276: Root WebApplicationContext: initialization completed in 2638 ms
+2019-03-16 18:41:29,308  INFO - [-] [localhost-startStop-1] BaseConfig 50: 服务[credit]初始化成功
+2019-03-16 18:41:29,635  INFO - [-] [localhost-startStop-1] AbstractHandlerMethodMapping$MappingRegistry 543: Mapped "{[/credit-diversion/api/v1/login],methods=[POST]}" onto public com.songxm.credit.comon.credit.diversion.dto.Token com.songxm.credit.controller.LoginController.login(java.lang.String,java.lang.String)
+2019-03-16 18:41:29,638  INFO - [-] [localhost-startStop-1] AbstractHandlerMethodMapping$MappingRegistry 543: Mapped "{[/credit-diversion/api/v1/register],methods=[POST]}" onto public java.lang.Boolean com.songxm.credit.controller.LoginController.login(com.songxm.credit.comon.credit.diversion.dto.LoginReqDTO)
+2019-03-16 18:41:29,639  INFO - [-] [localhost-startStop-1] AbstractHandlerMethodMapping$MappingRegistry 543: Mapped "{[/credit-diversion/api/v1/auth/passwd],methods=[PUT]}" onto public java.lang.Boolean com.songxm.credit.controller.LoginController.login(com.songxm.credit.comon.credit.diversion.dto.LoginpsReqDto,org.apache.catalina.servlet4preview.http.HttpServletRequest)
+2019-03-16 18:41:29,640  INFO - [-] [localhost-startStop-1] AbstractHandlerMethodMapping$MappingRegistry 543: Mapped "{[/credit-diversion/api/v1/auth/logout],methods=[DELETE]}" onto public java.lang.Boolean com.songxm.credit.controller.LoginController.logout(org.apache.catalina.servlet4preview.http.HttpServletRequest,java.lang.String)
+2019-03-16 18:41:29,641  INFO - [-] [localhost-startStop-1] AbstractHandlerMethodMapping$MappingRegistry 543: Mapped "{[/credit-diversion/apiv1/sms/{mobile}],methods=[POST]}" onto public boolean com.songxm.credit.controller.VarCodeController.getOTP(java.lang.String)
+2019-03-16 18:41:29,643  INFO - [-] [localhost-startStop-1] AbstractHandlerMethodMapping$MappingRegistry 543: Mapped "{[/server-status],methods=[GET]}" onto public java.util.Map<java.lang.String, moxie.cloud.service.server.model.ServerStatus> moxie.cloud.service.server.ServerController.serverStatus()
+2019-03-16 18:41:29,644  INFO - [-] [localhost-startStop-1] AbstractHandlerMethodMapping$MappingRegistry 543: Mapped "{[/pre-shutdown],methods=[GET]}" onto public java.util.Map<java.lang.String, java.lang.Boolean> moxie.cloud.service.server.ServerController.preShutdown()
+2019-03-16 18:41:29,644  INFO - [-] [localhost-startStop-1] AbstractHandlerMethodMapping$MappingRegistry 543: Mapped "{[/config],methods=[POST]}" onto public moxie.cloud.service.common.dto.SimpleResp<java.lang.Boolean> moxie.cloud.service.server.ServerController.putOrInsertConfig(java.util.Map<java.lang.String, java.lang.String>)
+2019-03-16 18:41:29,647  INFO - [-] [localhost-startStop-1] AbstractHandlerMethodMapping$MappingRegistry 543: Mapped "{[/v2/api-docs],methods=[GET],produces=[application/json || application/hal+json]}" onto public org.springframework.http.ResponseEntity<springfox.documentation.spring.web.json.Json> springfox.documentation.swagger2.web.Swagger2Controller.getDocumentation(java.lang.String,javax.servlet.http.HttpServletRequest)
+2019-03-16 18:41:29,650  INFO - [-] [localhost-startStop-1] AbstractHandlerMethodMapping$MappingRegistry 543: Mapped "{[/swagger-resources/configuration/security]}" onto org.springframework.http.ResponseEntity<springfox.documentation.swagger.web.SecurityConfiguration> springfox.documentation.swagger.web.ApiResourceController.securityConfiguration()
+2019-03-16 18:41:29,651  INFO - [-] [localhost-startStop-1] AbstractHandlerMethodMapping$MappingRegistry 543: Mapped "{[/swagger-resources/configuration/ui]}" onto org.springframework.http.ResponseEntity<springfox.documentation.swagger.web.UiConfiguration> springfox.documentation.swagger.web.ApiResourceController.uiConfiguration()
+2019-03-16 18:41:29,652  INFO - [-] [localhost-startStop-1] AbstractHandlerMethodMapping$MappingRegistry 543: Mapped "{[/swagger-resources]}" onto org.springframework.http.ResponseEntity<java.util.List<springfox.documentation.swagger.web.SwaggerResource>> springfox.documentation.swagger.web.ApiResourceController.swaggerResources()
+2019-03-16 18:41:29,654  INFO - [-] [localhost-startStop-1] AbstractHandlerMethodMapping$MappingRegistry 543: Mapped "{[/error]}" onto public org.springframework.http.ResponseEntity<java.util.Map<java.lang.String, java.lang.Object>> org.springframework.boot.autoconfigure.web.BasicErrorController.error(javax.servlet.http.HttpServletRequest)
+2019-03-16 18:41:29,655  INFO - [-] [localhost-startStop-1] AbstractHandlerMethodMapping$MappingRegistry 543: Mapped "{[/error],produces=[text/html]}" onto public org.springframework.web.servlet.ModelAndView org.springframework.boot.autoconfigure.web.BasicErrorController.errorHtml(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)
+2019-03-16 18:41:29,891  INFO - [-] [localhost-startStop-1] AbstractFilterRegistrationBean 258: Mapping filter: 'cacheControlFilter' to: [/*]
+2019-03-16 18:41:29,892  INFO - [-] [localhost-startStop-1] AbstractFilterRegistrationBean 258: Mapping filter: 'cacheFilter' to: [/*]
+2019-03-16 18:41:29,893  INFO - [-] [localhost-startStop-1] AbstractFilterRegistrationBean 258: Mapping filter: 'metricsFilter' to: [/*]
+2019-03-16 18:41:29,893  INFO - [-] [localhost-startStop-1] AbstractFilterRegistrationBean 258: Mapping filter: 'characterEncodingFilter' to: [/*]
+2019-03-16 18:41:29,893  INFO - [-] [localhost-startStop-1] AbstractFilterRegistrationBean 258: Mapping filter: 'correlationIdFilter' to: [/*]
+2019-03-16 18:41:29,894  INFO - [-] [localhost-startStop-1] AbstractFilterRegistrationBean 258: Mapping filter: 'hiddenHttpMethodFilter' to: [/*]
+2019-03-16 18:41:29,894  INFO - [-] [localhost-startStop-1] AbstractFilterRegistrationBean 258: Mapping filter: 'httpPutFormContentFilter' to: [/*]
+2019-03-16 18:41:29,894  INFO - [-] [localhost-startStop-1] AbstractFilterRegistrationBean 258: Mapping filter: 'requestContextFilter' to: [/*]
+2019-03-16 18:41:29,895  INFO - [-] [localhost-startStop-1] AbstractFilterRegistrationBean 258: Mapping filter: 'webRequestLoggingFilter' to: [/*]
+2019-03-16 18:41:29,895  INFO - [-] [localhost-startStop-1] AbstractFilterRegistrationBean 258: Mapping filter: 'applicationContextIdFilter' to: [/*]
+2019-03-16 18:41:29,895  INFO - [-] [localhost-startStop-1] ServletRegistrationBean 190: Mapping servlet: 'dispatcherServlet' to [/]
+2019-03-16 18:41:30,533  WARN - [-] [main] AbstractApplicationContext 551: Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'documentationPluginsBootstrapper' defined in URL [jar:file:/stock/.m2/io/springfox/springfox-spring-web/2.6.1/springfox-spring-web-2.6.1.jar!/springfox/documentation/spring/web/plugins/DocumentationPluginsBootstrapper.class]: Unsatisfied dependency expressed through constructor parameter 1; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'webMvcRequestHandlerProvider' defined in URL [jar:file:/stock/.m2/io/springfox/springfox-spring-web/2.6.1/springfox-spring-web-2.6.1.jar!/springfox/documentation/spring/web/plugins/WebMvcRequestHandlerProvider.class]: Unsatisfied dependency expressed through constructor parameter 0; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'endpointHandlerMapping' defined in class path resource [org/springframework/boot/actuate/autoconfigure/EndpointWebMvcManagementContextConfiguration.class]: Bean instantiation via factory method failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [org.springframework.boot.actuate.endpoint.mvc.EndpointHandlerMapping]: Factory method 'endpointHandlerMapping' threw exception; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'mvcEndpoints' defined in class path resource [org/springframework/boot/actuate/autoconfigure/EndpointWebMvcManagementContextConfiguration.class]: Invocation of init method failed; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'environmentMvcEndpoint' defined in class path resource [org/springframework/boot/actuate/autoconfigure/EndpointWebMvcManagementContextConfiguration.class]: Unsatisfied dependency expressed through method 'environmentMvcEndpoint' parameter 0; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'org.springframework.boot.actuate.autoconfigure.EndpointAutoConfiguration': Bean instantiation via constructor failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [org.springframework.boot.actuate.autoconfigure.EndpointAutoConfiguration$$EnhancerBySpringCGLIB$$d22d3091]: Constructor threw exception; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'org.springframework.boot.actuate.autoconfigure.HealthIndicatorAutoConfiguration$DataSourcesHealthIndicatorConfiguration': Bean instantiation via constructor failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [org.springframework.boot.actuate.autoconfigure.HealthIndicatorAutoConfiguration$DataSourcesHealthIndicatorConfiguration$$EnhancerBySpringCGLIB$$fd105096]: Constructor threw exception; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'dataSource' defined in class path resource [org/springframework/boot/autoconfigure/jdbc/DataSourceConfiguration$Tomcat.class]: Bean instantiation via factory method failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [org.apache.tomcat.jdbc.pool.DataSource]: Factory method 'dataSource' threw exception; nested exception is org.springframework.boot.autoconfigure.jdbc.DataSourceProperties$DataSourceBeanCreationException: Cannot determine embedded database driver class for database type NONE. If you want an embedded database please put a supported one on the classpath. If you have database settings to be loaded from a particular profile you may need to active it (no profiles are currently active).
+2019-03-16 18:41:30,535  INFO - [-] [main] BaseConfig 134: 服务[credit]关闭
+2019-03-16 18:41:30,536  INFO - [-] [main] DirectJDKLog 179: Stopping service [Tomcat]
+2019-03-16 18:41:30,555  WARN - [-] [localhost-startStop-1] DirectJDKLog 179: The web application [ROOT] appears to have started a thread named [pollingConfigurationSource] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ sun.misc.Unsafe.park(Native Method)
+ java.util.concurrent.locks.LockSupport.parkNanos(LockSupport.java:215)
+ java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.awaitNanos(AbstractQueuedSynchronizer.java:2078)
+ java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:1093)
+ java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:809)
+ java.util.concurrent.ThreadPoolExecutor.getTask(ThreadPoolExecutor.java:1074)
+ java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1134)
+ java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+ java.lang.Thread.run(Thread.java:748)
+2019-03-16 18:41:30,556  WARN - [-] [localhost-startStop-1] DirectJDKLog 179: The web application [ROOT] appears to have started a thread named [pollingConfigurationSource] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ sun.misc.Unsafe.park(Native Method)
+ java.util.concurrent.locks.LockSupport.parkNanos(LockSupport.java:215)
+ java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.awaitNanos(AbstractQueuedSynchronizer.java:2078)
+ java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:1093)
+ java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:809)
+ java.util.concurrent.ThreadPoolExecutor.getTask(ThreadPoolExecutor.java:1074)
+ java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1134)
+ java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+ java.lang.Thread.run(Thread.java:748)
+2019-03-16 18:41:30,556  WARN - [-] [localhost-startStop-1] DirectJDKLog 179: The web application [ROOT] appears to have started a thread named [Abandoned connection cleanup thread] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ java.lang.Object.wait(Native Method)
+ java.lang.ref.ReferenceQueue.remove(ReferenceQueue.java:144)
+ com.mysql.jdbc.AbandonedConnectionCleanupThread.run(AbandonedConnectionCleanupThread.java:43)
+2019-03-16 18:41:30,565  INFO - [-] [main] AutoConfigurationReportLoggingInitializer 101: 
+
+Error starting ApplicationContext. To display the auto-configuration report re-run your application with 'debug' enabled.
+2019-03-16 18:41:30,569 ERROR - [-] [main] LoggingFailureAnalysisReporter 42: 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Cannot determine embedded database driver class for database type NONE
+
+Action:
+
+If you want an embedded database please put a supported one on the classpath. If you have database settings to be loaded from a particular profile you may need to active it (no profiles are currently active).
+
+2019-03-16 18:45:48,727  INFO - [-] [main] AbstractApplicationContext 583: Refreshing org.springframework.context.annotation.AnnotationConfigApplicationContext@7f34a967: startup date [Sat Mar 16 18:45:48 CST 2019]; root of context hierarchy
+2019-03-16 18:45:49,065  INFO - [-] [main] PostProcessorRegistrationDelegate$BeanPostProcessorChecker 327: Bean 'configurationPropertiesRebinderAutoConfiguration' of type [org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration$$EnhancerBySpringCGLIB$$86b1350a] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2019-03-16 18:45:49,403  INFO - [-] [main] SpringApplicationBannerPrinter 61: 
+自从用了王师傅的框架
+ 代码bug都少了耶!
+
+2019-03-16 18:45:49,438 ERROR - [-] [main] PolledConsulConfigurationSource 77: 无法从consul中获取服务配置[key:service/credit/1/config]
+2019-03-16 18:45:49,451  INFO - [-] [main] PropertySourceBootstrapConfiguration 93: Located property source: ConsulPropertySource {name='service/credit/1/config'}
+2019-03-16 18:45:49,453 ERROR - [-] [main] PolledConsulConfigurationSource 77: 无法从consul中获取服务配置[key:common/1/config]
+2019-03-16 18:45:49,454  INFO - [-] [main] PropertySourceBootstrapConfiguration 93: Located property source: ConsulPropertySource {name='common/1/config'}
+2019-03-16 18:45:49,467  INFO - [-] [main] SpringApplication 593: No active profile set, falling back to default profiles: default
+2019-03-16 18:45:49,499  INFO - [-] [main] AbstractApplicationContext 583: Refreshing org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@a7ad6e5: startup date [Sat Mar 16 18:45:49 CST 2019]; parent: org.springframework.context.annotation.AnnotationConfigApplicationContext@7f34a967
+2019-03-16 18:45:50,431  WARN - [-] [main] ClassPathMapperScanner 167: No MyBatis mapper was found in '[com.songxm.credit.dao.credit.deversion.persistenc]' package. Please check your configuration.
+2019-03-16 18:45:50,667  INFO - [-] [main] RepositoryConfigurationDelegate 165: Multiple Spring Data modules found, entering strict repository configuration mode!
+2019-03-16 18:45:50,943  INFO - [-] [main] GenericScope 263: BeanFactory id=cc915b8d-aa0a-30b5-8957-283cc7314c91
+2019-03-16 18:45:51,042  INFO - [-] [main] PostProcessorRegistrationDelegate$BeanPostProcessorChecker 327: Bean 'commonConfig' of type [moxie.cloud.service.server.config.CommonConfig$$EnhancerBySpringCGLIB$$2b513b0e] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2019-03-16 18:45:51,143  INFO - [-] [main] PostProcessorRegistrationDelegate$BeanPostProcessorChecker 327: Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$6a97320d] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2019-03-16 18:45:51,301  INFO - [-] [main] PostProcessorRegistrationDelegate$BeanPostProcessorChecker 327: Bean 'org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration' of type [org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration$$EnhancerBySpringCGLIB$$86b1350a] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2019-03-16 18:45:51,926  INFO - [-] [main] TomcatEmbeddedServletContainer 89: Tomcat initialized with port(s): 8087 (http)
+2019-03-16 18:45:51,939  INFO - [-] [main] DirectJDKLog 179: Starting service [Tomcat]
+2019-03-16 18:45:51,941  INFO - [-] [main] DirectJDKLog 179: Starting Servlet Engine: Apache Tomcat/8.5.23
+2019-03-16 18:45:52,091  INFO - [-] [localhost-startStop-1] DirectJDKLog 179: Initializing Spring embedded WebApplicationContext
+2019-03-16 18:45:52,091  INFO - [-] [localhost-startStop-1] EmbeddedWebApplicationContext 276: Root WebApplicationContext: initialization completed in 2592 ms
+2019-03-16 18:45:52,295  INFO - [-] [localhost-startStop-1] BaseConfig 50: 服务[credit]初始化成功
+2019-03-16 18:45:52,650  INFO - [-] [localhost-startStop-1] AbstractHandlerMethodMapping$MappingRegistry 543: Mapped "{[/credit-diversion/api/v1/login],methods=[POST]}" onto public com.songxm.credit.comon.credit.diversion.dto.Token com.songxm.credit.controller.LoginController.login(java.lang.String,java.lang.String)
+2019-03-16 18:45:52,652  INFO - [-] [localhost-startStop-1] AbstractHandlerMethodMapping$MappingRegistry 543: Mapped "{[/credit-diversion/api/v1/register],methods=[POST]}" onto public java.lang.Boolean com.songxm.credit.controller.LoginController.login(com.songxm.credit.comon.credit.diversion.dto.LoginReqDTO)
+2019-03-16 18:45:52,653  INFO - [-] [localhost-startStop-1] AbstractHandlerMethodMapping$MappingRegistry 543: Mapped "{[/credit-diversion/api/v1/auth/passwd],methods=[PUT]}" onto public java.lang.Boolean com.songxm.credit.controller.LoginController.login(com.songxm.credit.comon.credit.diversion.dto.LoginpsReqDto,org.apache.catalina.servlet4preview.http.HttpServletRequest)
+2019-03-16 18:45:52,654  INFO - [-] [localhost-startStop-1] AbstractHandlerMethodMapping$MappingRegistry 543: Mapped "{[/credit-diversion/api/v1/auth/logout],methods=[DELETE]}" onto public java.lang.Boolean com.songxm.credit.controller.LoginController.logout(org.apache.catalina.servlet4preview.http.HttpServletRequest,java.lang.String)
+2019-03-16 18:45:52,655  INFO - [-] [localhost-startStop-1] AbstractHandlerMethodMapping$MappingRegistry 543: Mapped "{[/credit-diversion/apiv1/sms/{mobile}],methods=[POST]}" onto public boolean com.songxm.credit.controller.VarCodeController.getOTP(java.lang.String)
+2019-03-16 18:45:52,657  INFO - [-] [localhost-startStop-1] AbstractHandlerMethodMapping$MappingRegistry 543: Mapped "{[/server-status],methods=[GET]}" onto public java.util.Map<java.lang.String, moxie.cloud.service.server.model.ServerStatus> moxie.cloud.service.server.ServerController.serverStatus()
+2019-03-16 18:45:52,657  INFO - [-] [localhost-startStop-1] AbstractHandlerMethodMapping$MappingRegistry 543: Mapped "{[/pre-shutdown],methods=[GET]}" onto public java.util.Map<java.lang.String, java.lang.Boolean> moxie.cloud.service.server.ServerController.preShutdown()
+2019-03-16 18:45:52,658  INFO - [-] [localhost-startStop-1] AbstractHandlerMethodMapping$MappingRegistry 543: Mapped "{[/config],methods=[POST]}" onto public moxie.cloud.service.common.dto.SimpleResp<java.lang.Boolean> moxie.cloud.service.server.ServerController.putOrInsertConfig(java.util.Map<java.lang.String, java.lang.String>)
+2019-03-16 18:45:52,661  INFO - [-] [localhost-startStop-1] AbstractHandlerMethodMapping$MappingRegistry 543: Mapped "{[/v2/api-docs],methods=[GET],produces=[application/json || application/hal+json]}" onto public org.springframework.http.ResponseEntity<springfox.documentation.spring.web.json.Json> springfox.documentation.swagger2.web.Swagger2Controller.getDocumentation(java.lang.String,javax.servlet.http.HttpServletRequest)
+2019-03-16 18:45:52,664  INFO - [-] [localhost-startStop-1] AbstractHandlerMethodMapping$MappingRegistry 543: Mapped "{[/swagger-resources/configuration/security]}" onto org.springframework.http.ResponseEntity<springfox.documentation.swagger.web.SecurityConfiguration> springfox.documentation.swagger.web.ApiResourceController.securityConfiguration()
+2019-03-16 18:45:52,665  INFO - [-] [localhost-startStop-1] AbstractHandlerMethodMapping$MappingRegistry 543: Mapped "{[/swagger-resources/configuration/ui]}" onto org.springframework.http.ResponseEntity<springfox.documentation.swagger.web.UiConfiguration> springfox.documentation.swagger.web.ApiResourceController.uiConfiguration()
+2019-03-16 18:45:52,666  INFO - [-] [localhost-startStop-1] AbstractHandlerMethodMapping$MappingRegistry 543: Mapped "{[/swagger-resources]}" onto org.springframework.http.ResponseEntity<java.util.List<springfox.documentation.swagger.web.SwaggerResource>> springfox.documentation.swagger.web.ApiResourceController.swaggerResources()
+2019-03-16 18:45:52,668  INFO - [-] [localhost-startStop-1] AbstractHandlerMethodMapping$MappingRegistry 543: Mapped "{[/error]}" onto public org.springframework.http.ResponseEntity<java.util.Map<java.lang.String, java.lang.Object>> org.springframework.boot.autoconfigure.web.BasicErrorController.error(javax.servlet.http.HttpServletRequest)
+2019-03-16 18:45:52,669  INFO - [-] [localhost-startStop-1] AbstractHandlerMethodMapping$MappingRegistry 543: Mapped "{[/error],produces=[text/html]}" onto public org.springframework.web.servlet.ModelAndView org.springframework.boot.autoconfigure.web.BasicErrorController.errorHtml(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)
+2019-03-16 18:45:52,932  INFO - [-] [localhost-startStop-1] AbstractFilterRegistrationBean 258: Mapping filter: 'cacheControlFilter' to: [/*]
+2019-03-16 18:45:52,933  INFO - [-] [localhost-startStop-1] AbstractFilterRegistrationBean 258: Mapping filter: 'cacheFilter' to: [/*]
+2019-03-16 18:45:52,933  INFO - [-] [localhost-startStop-1] AbstractFilterRegistrationBean 258: Mapping filter: 'metricsFilter' to: [/*]
+2019-03-16 18:45:52,934  INFO - [-] [localhost-startStop-1] AbstractFilterRegistrationBean 258: Mapping filter: 'characterEncodingFilter' to: [/*]
+2019-03-16 18:45:52,934  INFO - [-] [localhost-startStop-1] AbstractFilterRegistrationBean 258: Mapping filter: 'correlationIdFilter' to: [/*]
+2019-03-16 18:45:52,935  INFO - [-] [localhost-startStop-1] AbstractFilterRegistrationBean 258: Mapping filter: 'hiddenHttpMethodFilter' to: [/*]
+2019-03-16 18:45:52,935  INFO - [-] [localhost-startStop-1] AbstractFilterRegistrationBean 258: Mapping filter: 'httpPutFormContentFilter' to: [/*]
+2019-03-16 18:45:52,935  INFO - [-] [localhost-startStop-1] AbstractFilterRegistrationBean 258: Mapping filter: 'requestContextFilter' to: [/*]
+2019-03-16 18:45:52,936  INFO - [-] [localhost-startStop-1] AbstractFilterRegistrationBean 258: Mapping filter: 'webRequestLoggingFilter' to: [/*]
+2019-03-16 18:45:52,936  INFO - [-] [localhost-startStop-1] AbstractFilterRegistrationBean 258: Mapping filter: 'applicationContextIdFilter' to: [/*]
+2019-03-16 18:45:52,937  INFO - [-] [localhost-startStop-1] ServletRegistrationBean 190: Mapping servlet: 'dispatcherServlet' to [/]
+2019-03-16 18:45:53,551  WARN - [-] [main] AbstractApplicationContext 551: Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'documentationPluginsBootstrapper' defined in URL [jar:file:/stock/.m2/io/springfox/springfox-spring-web/2.6.1/springfox-spring-web-2.6.1.jar!/springfox/documentation/spring/web/plugins/DocumentationPluginsBootstrapper.class]: Unsatisfied dependency expressed through constructor parameter 1; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'webMvcRequestHandlerProvider' defined in URL [jar:file:/stock/.m2/io/springfox/springfox-spring-web/2.6.1/springfox-spring-web-2.6.1.jar!/springfox/documentation/spring/web/plugins/WebMvcRequestHandlerProvider.class]: Unsatisfied dependency expressed through constructor parameter 0; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'endpointHandlerMapping' defined in class path resource [org/springframework/boot/actuate/autoconfigure/EndpointWebMvcManagementContextConfiguration.class]: Bean instantiation via factory method failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [org.springframework.boot.actuate.endpoint.mvc.EndpointHandlerMapping]: Factory method 'endpointHandlerMapping' threw exception; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'mvcEndpoints' defined in class path resource [org/springframework/boot/actuate/autoconfigure/EndpointWebMvcManagementContextConfiguration.class]: Invocation of init method failed; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'environmentMvcEndpoint' defined in class path resource [org/springframework/boot/actuate/autoconfigure/EndpointWebMvcManagementContextConfiguration.class]: Unsatisfied dependency expressed through method 'environmentMvcEndpoint' parameter 0; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'org.springframework.boot.actuate.autoconfigure.EndpointAutoConfiguration': Bean instantiation via constructor failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [org.springframework.boot.actuate.autoconfigure.EndpointAutoConfiguration$$EnhancerBySpringCGLIB$$78a06c39]: Constructor threw exception; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'org.springframework.boot.actuate.autoconfigure.HealthIndicatorAutoConfiguration$DataSourcesHealthIndicatorConfiguration': Bean instantiation via constructor failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [org.springframework.boot.actuate.autoconfigure.HealthIndicatorAutoConfiguration$DataSourcesHealthIndicatorConfiguration$$EnhancerBySpringCGLIB$$a3838c3e]: Constructor threw exception; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'dataSource' defined in class path resource [org/springframework/boot/autoconfigure/jdbc/DataSourceConfiguration$Tomcat.class]: Bean instantiation via factory method failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [org.apache.tomcat.jdbc.pool.DataSource]: Factory method 'dataSource' threw exception; nested exception is org.springframework.boot.autoconfigure.jdbc.DataSourceProperties$DataSourceBeanCreationException: Cannot determine embedded database driver class for database type NONE. If you want an embedded database please put a supported one on the classpath. If you have database settings to be loaded from a particular profile you may need to active it (no profiles are currently active).
+2019-03-16 18:45:53,553  INFO - [-] [main] BaseConfig 134: 服务[credit]关闭
+2019-03-16 18:45:53,554  INFO - [-] [main] DirectJDKLog 179: Stopping service [Tomcat]
+2019-03-16 18:45:53,574  WARN - [-] [localhost-startStop-1] DirectJDKLog 179: The web application [ROOT] appears to have started a thread named [pollingConfigurationSource] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ sun.misc.Unsafe.park(Native Method)
+ java.util.concurrent.locks.LockSupport.parkNanos(LockSupport.java:215)
+ java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.awaitNanos(AbstractQueuedSynchronizer.java:2078)
+ java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:1093)
+ java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:809)
+ java.util.concurrent.ThreadPoolExecutor.getTask(ThreadPoolExecutor.java:1074)
+ java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1134)
+ java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+ java.lang.Thread.run(Thread.java:748)
+2019-03-16 18:45:53,574  WARN - [-] [localhost-startStop-1] DirectJDKLog 179: The web application [ROOT] appears to have started a thread named [pollingConfigurationSource] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ sun.misc.Unsafe.park(Native Method)
+ java.util.concurrent.locks.LockSupport.parkNanos(LockSupport.java:215)
+ java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.awaitNanos(AbstractQueuedSynchronizer.java:2078)
+ java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:1093)
+ java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:809)
+ java.util.concurrent.ThreadPoolExecutor.getTask(ThreadPoolExecutor.java:1074)
+ java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1134)
+ java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+ java.lang.Thread.run(Thread.java:748)
+2019-03-16 18:45:53,575  WARN - [-] [localhost-startStop-1] DirectJDKLog 179: The web application [ROOT] appears to have started a thread named [Abandoned connection cleanup thread] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ java.lang.Object.wait(Native Method)
+ java.lang.ref.ReferenceQueue.remove(ReferenceQueue.java:144)
+ com.mysql.jdbc.AbandonedConnectionCleanupThread.run(AbandonedConnectionCleanupThread.java:43)
+2019-03-16 18:45:53,584  INFO - [-] [main] AutoConfigurationReportLoggingInitializer 101: 
+
+Error starting ApplicationContext. To display the auto-configuration report re-run your application with 'debug' enabled.
+2019-03-16 18:45:53,589 ERROR - [-] [main] LoggingFailureAnalysisReporter 42: 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Cannot determine embedded database driver class for database type NONE
+
+Action:
+
+If you want an embedded database please put a supported one on the classpath. If you have database settings to be loaded from a particular profile you may need to active it (no profiles are currently active).
+
+2019-03-16 18:47:01,067  INFO - [-] [main] AbstractApplicationContext 583: Refreshing org.springframework.context.annotation.AnnotationConfigApplicationContext@907f2b7: startup date [Sat Mar 16 18:47:01 CST 2019]; root of context hierarchy
+2019-03-16 18:47:01,477  INFO - [-] [main] PostProcessorRegistrationDelegate$BeanPostProcessorChecker 327: Bean 'configurationPropertiesRebinderAutoConfiguration' of type [org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration$$EnhancerBySpringCGLIB$$2a948f87] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2019-03-16 18:47:02,052  INFO - [-] [main] SpringApplicationBannerPrinter 61: 
+自从用了王师傅的框架
+ 代码bug都少了耶!
+
+2019-03-16 18:47:02,085 ERROR - [-] [main] PolledConsulConfigurationSource 77: 无法从consul中获取服务配置[key:service/credit/1/config]
+2019-03-16 18:47:02,090  INFO - [-] [main] PropertySourceBootstrapConfiguration 93: Located property source: ConsulPropertySource {name='service/credit/1/config'}
+2019-03-16 18:47:02,092 ERROR - [-] [main] PolledConsulConfigurationSource 77: 无法从consul中获取服务配置[key:common/1/config]
+2019-03-16 18:47:02,092  INFO - [-] [main] PropertySourceBootstrapConfiguration 93: Located property source: ConsulPropertySource {name='common/1/config'}
+2019-03-16 18:47:02,102  INFO - [-] [main] SpringApplication 593: No active profile set, falling back to default profiles: default
+2019-03-16 18:47:02,125  INFO - [-] [main] AbstractApplicationContext 583: Refreshing org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@6a0094c9: startup date [Sat Mar 16 18:47:02 CST 2019]; parent: org.springframework.context.annotation.AnnotationConfigApplicationContext@907f2b7
+2019-03-16 18:47:04,539  INFO - [-] [main] RepositoryConfigurationDelegate 165: Multiple Spring Data modules found, entering strict repository configuration mode!
+2019-03-16 18:47:05,010  INFO - [-] [main] GenericScope 263: BeanFactory id=bd28ea0e-4314-389c-99cd-8e8eab7c026b
+2019-03-16 18:47:05,129  INFO - [-] [main] PostProcessorRegistrationDelegate$BeanPostProcessorChecker 327: Bean 'commonConfig' of type [moxie.cloud.service.server.config.CommonConfig$$EnhancerBySpringCGLIB$$cf34958b] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2019-03-16 18:47:05,454  INFO - [-] [main] PostProcessorRegistrationDelegate$BeanPostProcessorChecker 327: Bean 'org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration' of type [org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration$$EnhancerBySpringCGLIB$$2a948f87] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2019-03-16 18:47:06,037  INFO - [-] [main] TomcatEmbeddedServletContainer 89: Tomcat initialized with port(s): 8087 (http)
+2019-03-16 18:47:06,050  INFO - [-] [main] DirectJDKLog 179: Starting service [Tomcat]
+2019-03-16 18:47:06,051  INFO - [-] [main] DirectJDKLog 179: Starting Servlet Engine: Apache Tomcat/8.5.23
+2019-03-16 18:47:06,179  INFO - [-] [localhost-startStop-1] DirectJDKLog 179: Initializing Spring embedded WebApplicationContext
+2019-03-16 18:47:06,179  INFO - [-] [localhost-startStop-1] EmbeddedWebApplicationContext 276: Root WebApplicationContext: initialization completed in 4054 ms
+2019-03-16 18:47:06,377  INFO - [-] [localhost-startStop-1] BaseConfig 50: 服务[credit]初始化成功
+2019-03-16 18:47:06,724  INFO - [-] [localhost-startStop-1] AbstractHandlerMethodMapping$MappingRegistry 543: Mapped "{[/credit-diversion/api/v1/auth/logout],methods=[DELETE]}" onto public java.lang.Boolean com.songxm.credit.controller.LoginController.logout(org.apache.catalina.servlet4preview.http.HttpServletRequest,java.lang.String)
+2019-03-16 18:47:06,726  INFO - [-] [localhost-startStop-1] AbstractHandlerMethodMapping$MappingRegistry 543: Mapped "{[/credit-diversion/api/v1/login],methods=[POST]}" onto public com.songxm.credit.comon.credit.diversion.dto.Token com.songxm.credit.controller.LoginController.login(java.lang.String,java.lang.String)
+2019-03-16 18:47:06,727  INFO - [-] [localhost-startStop-1] AbstractHandlerMethodMapping$MappingRegistry 543: Mapped "{[/credit-diversion/api/v1/auth/passwd],methods=[PUT]}" onto public java.lang.Boolean com.songxm.credit.controller.LoginController.login(com.songxm.credit.comon.credit.diversion.dto.LoginpsReqDto,org.apache.catalina.servlet4preview.http.HttpServletRequest)
+2019-03-16 18:47:06,728  INFO - [-] [localhost-startStop-1] AbstractHandlerMethodMapping$MappingRegistry 543: Mapped "{[/credit-diversion/api/v1/register],methods=[POST]}" onto public java.lang.Boolean com.songxm.credit.controller.LoginController.login(com.songxm.credit.comon.credit.diversion.dto.LoginReqDTO)
+2019-03-16 18:47:06,729  INFO - [-] [localhost-startStop-1] AbstractHandlerMethodMapping$MappingRegistry 543: Mapped "{[/credit-diversion/apiv1/sms/{mobile}],methods=[POST]}" onto public boolean com.songxm.credit.controller.VarCodeController.getOTP(java.lang.String)
+2019-03-16 18:47:06,731  INFO - [-] [localhost-startStop-1] AbstractHandlerMethodMapping$MappingRegistry 543: Mapped "{[/server-status],methods=[GET]}" onto public java.util.Map<java.lang.String, moxie.cloud.service.server.model.ServerStatus> moxie.cloud.service.server.ServerController.serverStatus()
+2019-03-16 18:47:06,731  INFO - [-] [localhost-startStop-1] AbstractHandlerMethodMapping$MappingRegistry 543: Mapped "{[/pre-shutdown],methods=[GET]}" onto public java.util.Map<java.lang.String, java.lang.Boolean> moxie.cloud.service.server.ServerController.preShutdown()
+2019-03-16 18:47:06,732  INFO - [-] [localhost-startStop-1] AbstractHandlerMethodMapping$MappingRegistry 543: Mapped "{[/config],methods=[POST]}" onto public moxie.cloud.service.common.dto.SimpleResp<java.lang.Boolean> moxie.cloud.service.server.ServerController.putOrInsertConfig(java.util.Map<java.lang.String, java.lang.String>)
+2019-03-16 18:47:06,735  INFO - [-] [localhost-startStop-1] AbstractHandlerMethodMapping$MappingRegistry 543: Mapped "{[/v2/api-docs],methods=[GET],produces=[application/json || application/hal+json]}" onto public org.springframework.http.ResponseEntity<springfox.documentation.spring.web.json.Json> springfox.documentation.swagger2.web.Swagger2Controller.getDocumentation(java.lang.String,javax.servlet.http.HttpServletRequest)
+2019-03-16 18:47:06,739  INFO - [-] [localhost-startStop-1] AbstractHandlerMethodMapping$MappingRegistry 543: Mapped "{[/swagger-resources/configuration/security]}" onto org.springframework.http.ResponseEntity<springfox.documentation.swagger.web.SecurityConfiguration> springfox.documentation.swagger.web.ApiResourceController.securityConfiguration()
+2019-03-16 18:47:06,740  INFO - [-] [localhost-startStop-1] AbstractHandlerMethodMapping$MappingRegistry 543: Mapped "{[/swagger-resources/configuration/ui]}" onto org.springframework.http.ResponseEntity<springfox.documentation.swagger.web.UiConfiguration> springfox.documentation.swagger.web.ApiResourceController.uiConfiguration()
+2019-03-16 18:47:06,740  INFO - [-] [localhost-startStop-1] AbstractHandlerMethodMapping$MappingRegistry 543: Mapped "{[/swagger-resources]}" onto org.springframework.http.ResponseEntity<java.util.List<springfox.documentation.swagger.web.SwaggerResource>> springfox.documentation.swagger.web.ApiResourceController.swaggerResources()
+2019-03-16 18:47:06,743  INFO - [-] [localhost-startStop-1] AbstractHandlerMethodMapping$MappingRegistry 543: Mapped "{[/error]}" onto public org.springframework.http.ResponseEntity<java.util.Map<java.lang.String, java.lang.Object>> org.springframework.boot.autoconfigure.web.BasicErrorController.error(javax.servlet.http.HttpServletRequest)
+2019-03-16 18:47:06,743  INFO - [-] [localhost-startStop-1] AbstractHandlerMethodMapping$MappingRegistry 543: Mapped "{[/error],produces=[text/html]}" onto public org.springframework.web.servlet.ModelAndView org.springframework.boot.autoconfigure.web.BasicErrorController.errorHtml(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)
+2019-03-16 18:47:06,959  INFO - [-] [localhost-startStop-1] AbstractFilterRegistrationBean 258: Mapping filter: 'cacheControlFilter' to: [/*]
+2019-03-16 18:47:06,960  INFO - [-] [localhost-startStop-1] AbstractFilterRegistrationBean 258: Mapping filter: 'cacheFilter' to: [/*]
+2019-03-16 18:47:06,960  INFO - [-] [localhost-startStop-1] AbstractFilterRegistrationBean 258: Mapping filter: 'metricsFilter' to: [/*]
+2019-03-16 18:47:06,960  INFO - [-] [localhost-startStop-1] AbstractFilterRegistrationBean 258: Mapping filter: 'characterEncodingFilter' to: [/*]
+2019-03-16 18:47:06,961  INFO - [-] [localhost-startStop-1] AbstractFilterRegistrationBean 258: Mapping filter: 'correlationIdFilter' to: [/*]
+2019-03-16 18:47:06,961  INFO - [-] [localhost-startStop-1] AbstractFilterRegistrationBean 258: Mapping filter: 'hiddenHttpMethodFilter' to: [/*]
+2019-03-16 18:47:06,962  INFO - [-] [localhost-startStop-1] AbstractFilterRegistrationBean 258: Mapping filter: 'httpPutFormContentFilter' to: [/*]
+2019-03-16 18:47:06,962  INFO - [-] [localhost-startStop-1] AbstractFilterRegistrationBean 258: Mapping filter: 'requestContextFilter' to: [/*]
+2019-03-16 18:47:06,963  INFO - [-] [localhost-startStop-1] AbstractFilterRegistrationBean 258: Mapping filter: 'webRequestLoggingFilter' to: [/*]
+2019-03-16 18:47:06,964  INFO - [-] [localhost-startStop-1] AbstractFilterRegistrationBean 258: Mapping filter: 'applicationContextIdFilter' to: [/*]
+2019-03-16 18:47:06,964  INFO - [-] [localhost-startStop-1] ServletRegistrationBean 190: Mapping servlet: 'dispatcherServlet' to [/]
+2019-03-16 18:47:07,874  INFO - [-] [main] AbstractHandlerMethodMapping$MappingRegistry 543: Mapped "{[/health || /health.json],methods=[GET],produces=[application/vnd.spring-boot.actuator.v1+json || application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.HealthMvcEndpoint.invoke(javax.servlet.http.HttpServletRequest,java.security.Principal)
+2019-03-16 18:47:07,877  INFO - [-] [main] AbstractHandlerMethodMapping$MappingRegistry 543: Mapped "{[/resume || /resume.json],methods=[POST]}" onto public java.lang.Object org.springframework.cloud.endpoint.GenericPostableMvcEndpoint.invoke()
+2019-03-16 18:47:07,878  INFO - [-] [main] AbstractHandlerMethodMapping$MappingRegistry 543: Mapped "{[/configprops || /configprops.json],methods=[GET],produces=[application/vnd.spring-boot.actuator.v1+json || application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke()
+2019-03-16 18:47:07,878  INFO - [-] [main] AbstractHandlerMethodMapping$MappingRegistry 543: Mapped "{[/dump || /dump.json],methods=[GET],produces=[application/vnd.spring-boot.actuator.v1+json || application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke()
+2019-03-16 18:47:07,881  INFO - [-] [main] AbstractHandlerMethodMapping$MappingRegistry 543: Mapped "{[/auditevents || /auditevents.json],methods=[GET],produces=[application/vnd.spring-boot.actuator.v1+json || application/json]}" onto public org.springframework.http.ResponseEntity<?> org.springframework.boot.actuate.endpoint.mvc.AuditEventsMvcEndpoint.findByPrincipalAndAfterAndType(java.lang.String,java.util.Date,java.lang.String)
+2019-03-16 18:47:07,882  INFO - [-] [main] AbstractHandlerMethodMapping$MappingRegistry 543: Mapped "{[/env/{name:.*}],methods=[GET],produces=[application/vnd.spring-boot.actuator.v1+json || application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EnvironmentMvcEndpoint.value(java.lang.String)
+2019-03-16 18:47:07,883  INFO - [-] [main] AbstractHandlerMethodMapping$MappingRegistry 543: Mapped "{[/env || /env.json],methods=[GET],produces=[application/vnd.spring-boot.actuator.v1+json || application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke()
+2019-03-16 18:47:07,883  INFO - [-] [main] AbstractHandlerMethodMapping$MappingRegistry 543: Mapped "{[/mappings || /mappings.json],methods=[GET],produces=[application/vnd.spring-boot.actuator.v1+json || application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke()
+2019-03-16 18:47:07,884  INFO - [-] [main] AbstractHandlerMethodMapping$MappingRegistry 543: Mapped "{[/autoconfig || /autoconfig.json],methods=[GET],produces=[application/vnd.spring-boot.actuator.v1+json || application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke()
+2019-03-16 18:47:07,884  INFO - [-] [main] AbstractHandlerMethodMapping$MappingRegistry 543: Mapped "{[/pause || /pause.json],methods=[POST]}" onto public java.lang.Object org.springframework.cloud.endpoint.GenericPostableMvcEndpoint.invoke()
+2019-03-16 18:47:07,885  INFO - [-] [main] AbstractHandlerMethodMapping$MappingRegistry 543: Mapped "{[/info || /info.json],methods=[GET],produces=[application/vnd.spring-boot.actuator.v1+json || application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke()
+2019-03-16 18:47:07,886  INFO - [-] [main] AbstractHandlerMethodMapping$MappingRegistry 543: Mapped "{[/trace || /trace.json],methods=[GET],produces=[application/vnd.spring-boot.actuator.v1+json || application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke()
+2019-03-16 18:47:07,887  INFO - [-] [main] AbstractHandlerMethodMapping$MappingRegistry 543: Mapped "{[/env],methods=[POST]}" onto public java.lang.Object org.springframework.cloud.context.environment.EnvironmentManagerMvcEndpoint.value(java.util.Map<java.lang.String, java.lang.String>)
+2019-03-16 18:47:07,887  INFO - [-] [main] AbstractHandlerMethodMapping$MappingRegistry 543: Mapped "{[/env/reset],methods=[POST]}" onto public java.util.Map<java.lang.String, java.lang.Object> org.springframework.cloud.context.environment.EnvironmentManagerMvcEndpoint.reset()
+2019-03-16 18:47:07,888  INFO - [-] [main] AbstractHandlerMethodMapping$MappingRegistry 543: Mapped "{[/metrics/{name:.*}],methods=[GET],produces=[application/vnd.spring-boot.actuator.v1+json || application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.MetricsMvcEndpoint.value(java.lang.String)
+2019-03-16 18:47:07,889  INFO - [-] [main] AbstractHandlerMethodMapping$MappingRegistry 543: Mapped "{[/metrics || /metrics.json],methods=[GET],produces=[application/vnd.spring-boot.actuator.v1+json || application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke()
+2019-03-16 18:47:07,891  INFO - [-] [main] AbstractHandlerMethodMapping$MappingRegistry 543: Mapped "{[/loggers/{name:.*}],methods=[GET],produces=[application/vnd.spring-boot.actuator.v1+json || application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.LoggersMvcEndpoint.get(java.lang.String)
+2019-03-16 18:47:07,891  INFO - [-] [main] AbstractHandlerMethodMapping$MappingRegistry 543: Mapped "{[/loggers/{name:.*}],methods=[POST],consumes=[application/vnd.spring-boot.actuator.v1+json || application/json],produces=[application/vnd.spring-boot.actuator.v1+json || application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.LoggersMvcEndpoint.set(java.lang.String,java.util.Map<java.lang.String, java.lang.String>)
+2019-03-16 18:47:07,892  INFO - [-] [main] AbstractHandlerMethodMapping$MappingRegistry 543: Mapped "{[/loggers || /loggers.json],methods=[GET],produces=[application/vnd.spring-boot.actuator.v1+json || application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke()
+2019-03-16 18:47:07,892  INFO - [-] [main] AbstractHandlerMethodMapping$MappingRegistry 543: Mapped "{[/restart || /restart.json],methods=[POST]}" onto public java.lang.Object org.springframework.cloud.context.restart.RestartMvcEndpoint.invoke()
+2019-03-16 18:47:07,894  INFO - [-] [main] AbstractHandlerMethodMapping$MappingRegistry 543: Mapped "{[/heapdump || /heapdump.json],methods=[GET],produces=[application/octet-stream]}" onto public void org.springframework.boot.actuate.endpoint.mvc.HeapdumpMvcEndpoint.invoke(boolean,javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse) throws java.io.IOException,javax.servlet.ServletException
+2019-03-16 18:47:07,896  INFO - [-] [main] AbstractHandlerMethodMapping$MappingRegistry 543: Mapped "{[/beans || /beans.json],methods=[GET],produces=[application/vnd.spring-boot.actuator.v1+json || application/json]}" onto public java.lang.Object org.springframework.boot.actuate.endpoint.mvc.EndpointMvcAdapter.invoke()
+2019-03-16 18:47:07,897  INFO - [-] [main] AbstractHandlerMethodMapping$MappingRegistry 543: Mapped "{[/refresh || /refresh.json],methods=[POST]}" onto public java.lang.Object org.springframework.cloud.endpoint.GenericPostableMvcEndpoint.invoke()
+2019-03-16 18:47:08,009  INFO - [-] [main] ExecutorConfigurationSupport 165: Initializing ExecutorService 
+2019-03-16 18:47:08,030  INFO - [-] [main] ExecutorConfigurationSupport 165: Initializing ExecutorService  'storeDataAsync'
+2019-03-16 18:47:08,328  INFO - [-] [main] RequestMappingHandlerAdapter 534: Looking for @ControllerAdvice: org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@6a0094c9: startup date [Sat Mar 16 18:47:02 CST 2019]; parent: org.springframework.context.annotation.AnnotationConfigApplicationContext@907f2b7
+2019-03-16 18:47:08,337  INFO - [-] [main] RequestMappingHandlerAdapter 566: Detected ResponseBodyAdvice bean in restAPIExceptionHandler
+2019-03-16 18:47:08,399  INFO - [-] [main] AbstractUrlHandlerMapping 362: Mapped URL path [/swagger-ui.html] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2019-03-16 18:47:08,400  INFO - [-] [main] AbstractUrlHandlerMapping 362: Mapped URL path [/webjars/**] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2019-03-16 18:47:08,422  INFO - [-] [main] ExceptionHandlerExceptionResolver 273: Detected @ExceptionHandler methods in baseExceptionHandler
+2019-03-16 18:47:08,423  INFO - [-] [main] ExceptionHandlerExceptionResolver 273: Detected @ExceptionHandler methods in sysExceptionHandler
+2019-03-16 18:47:08,423  INFO - [-] [main] ExceptionHandlerExceptionResolver 279: Detected ResponseBodyAdvice implementation in restAPIExceptionHandler
+2019-03-16 18:47:08,456  INFO - [-] [main] AbstractUrlHandlerMapping 362: Mapped URL path [/**/favicon.ico] onto handler of type [class org.springframework.web.servlet.resource.ResourceHttpRequestHandler]
+2019-03-16 18:47:08,814  WARN - [-] [main] AbstractApplicationContext 551: Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'dataSource' defined in class path resource [org/springframework/boot/autoconfigure/jdbc/DataSourceConfiguration$Tomcat.class]: Bean instantiation via factory method failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [org.apache.tomcat.jdbc.pool.DataSource]: Factory method 'dataSource' threw exception; nested exception is org.springframework.boot.autoconfigure.jdbc.DataSourceProperties$DataSourceBeanCreationException: Cannot determine embedded database driver class for database type NONE. If you want an embedded database please put a supported one on the classpath. If you have database settings to be loaded from a particular profile you may need to active it (no profiles are currently active).
+2019-03-16 18:47:08,815  INFO - [-] [main] ExecutorConfigurationSupport 202: Shutting down ExecutorService 'storeDataAsync'
+2019-03-16 18:47:08,816  INFO - [-] [main] BaseConfig 134: 服务[credit]关闭
+2019-03-16 18:47:08,817  INFO - [-] [main] DirectJDKLog 179: Stopping service [Tomcat]
+2019-03-16 18:47:08,835  WARN - [-] [localhost-startStop-1] DirectJDKLog 179: The web application [ROOT] appears to have started a thread named [pollingConfigurationSource] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ sun.misc.Unsafe.park(Native Method)
+ java.util.concurrent.locks.LockSupport.parkNanos(LockSupport.java:215)
+ java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.awaitNanos(AbstractQueuedSynchronizer.java:2078)
+ java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:1093)
+ java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:809)
+ java.util.concurrent.ThreadPoolExecutor.getTask(ThreadPoolExecutor.java:1074)
+ java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1134)
+ java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+ java.lang.Thread.run(Thread.java:748)
+2019-03-16 18:47:08,835  WARN - [-] [localhost-startStop-1] DirectJDKLog 179: The web application [ROOT] appears to have started a thread named [pollingConfigurationSource] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ sun.misc.Unsafe.park(Native Method)
+ java.util.concurrent.locks.LockSupport.parkNanos(LockSupport.java:215)
+ java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.awaitNanos(AbstractQueuedSynchronizer.java:2078)
+ java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:1093)
+ java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:809)
+ java.util.concurrent.ThreadPoolExecutor.getTask(ThreadPoolExecutor.java:1074)
+ java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1134)
+ java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+ java.lang.Thread.run(Thread.java:748)
+2019-03-16 18:47:08,836  WARN - [-] [localhost-startStop-1] DirectJDKLog 179: The web application [ROOT] appears to have started a thread named [Abandoned connection cleanup thread] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ java.lang.Object.wait(Native Method)
+ java.lang.ref.ReferenceQueue.remove(ReferenceQueue.java:144)
+ com.mysql.jdbc.AbandonedConnectionCleanupThread.run(AbandonedConnectionCleanupThread.java:43)
+2019-03-16 18:47:08,845  INFO - [-] [main] AutoConfigurationReportLoggingInitializer 101: 
+
+Error starting ApplicationContext. To display the auto-configuration report re-run your application with 'debug' enabled.
+2019-03-16 18:47:08,849 ERROR - [-] [main] LoggingFailureAnalysisReporter 42: 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Cannot determine embedded database driver class for database type NONE
+
+Action:
+
+If you want an embedded database please put a supported one on the classpath. If you have database settings to be loaded from a particular profile you may need to active it (no profiles are currently active).
+
+2019-03-16 18:47:35,500  INFO - [-] [main] AbstractApplicationContext 583: Refreshing org.springframework.context.annotation.AnnotationConfigApplicationContext@435ce306: startup date [Sat Mar 16 18:47:35 CST 2019]; root of context hierarchy
+2019-03-16 18:47:35,796  INFO - [-] [main] PostProcessorRegistrationDelegate$BeanPostProcessorChecker 327: Bean 'configurationPropertiesRebinderAutoConfiguration' of type [org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration$$EnhancerBySpringCGLIB$$6ddf8bf6] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2019-03-16 18:47:36,115  INFO - [-] [main] SpringApplicationBannerPrinter 61: 
+自从用了王师傅的框架
+ 代码bug都少了耶!
+
+2019-03-16 18:47:36,137 ERROR - [-] [main] PolledConsulConfigurationSource 77: 无法从consul中获取服务配置[key:service/credit/1/config]
+2019-03-16 18:47:36,141  INFO - [-] [main] PropertySourceBootstrapConfiguration 93: Located property source: ConsulPropertySource {name='service/credit/1/config'}
+2019-03-16 18:47:36,142 ERROR - [-] [main] PolledConsulConfigurationSource 77: 无法从consul中获取服务配置[key:common/1/config]
+2019-03-16 18:47:36,143  INFO - [-] [main] PropertySourceBootstrapConfiguration 93: Located property source: ConsulPropertySource {name='common/1/config'}
+2019-03-16 18:47:36,149  INFO - [-] [main] SpringApplication 593: No active profile set, falling back to default profiles: default
+2019-03-16 18:47:36,167  INFO - [-] [main] AbstractApplicationContext 583: Refreshing org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@7dd611c8: startup date [Sat Mar 16 18:47:36 CST 2019]; parent: org.springframework.context.annotation.AnnotationConfigApplicationContext@435ce306
+2019-03-16 18:47:37,357  INFO - [-] [main] RepositoryConfigurationDelegate 165: Multiple Spring Data modules found, entering strict repository configuration mode!
+2019-03-16 18:47:37,622  INFO - [-] [main] GenericScope 263: BeanFactory id=cc915b8d-aa0a-30b5-8957-283cc7314c91
+2019-03-16 18:47:37,715  INFO - [-] [main] PostProcessorRegistrationDelegate$BeanPostProcessorChecker 327: Bean 'commonConfig' of type [moxie.cloud.service.server.config.CommonConfig$$EnhancerBySpringCGLIB$$127f91fa] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2019-03-16 18:47:37,796  INFO - [-] [main] PostProcessorRegistrationDelegate$BeanPostProcessorChecker 327: Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$51c588f9] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2019-03-16 18:47:37,901  INFO - [-] [main] PostProcessorRegistrationDelegate$BeanPostProcessorChecker 327: Bean 'org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration' of type [org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration$$EnhancerBySpringCGLIB$$6ddf8bf6] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2019-03-16 18:47:38,257  INFO - [-] [main] TomcatEmbeddedServletContainer 89: Tomcat initialized with port(s): 8087 (http)
+2019-03-16 18:47:38,268  INFO - [-] [main] DirectJDKLog 179: Starting service [Tomcat]
+2019-03-16 18:47:38,269  INFO - [-] [main] DirectJDKLog 179: Starting Servlet Engine: Apache Tomcat/8.5.23
+2019-03-16 18:47:38,351  INFO - [-] [localhost-startStop-1] DirectJDKLog 179: Initializing Spring embedded WebApplicationContext
+2019-03-16 18:47:38,352  INFO - [-] [localhost-startStop-1] EmbeddedWebApplicationContext 276: Root WebApplicationContext: initialization completed in 2185 ms
+2019-03-16 18:47:38,530  INFO - [-] [localhost-startStop-1] BaseConfig 50: 服务[credit]初始化成功
+2019-03-16 18:47:38,832  INFO - [-] [localhost-startStop-1] AbstractHandlerMethodMapping$MappingRegistry 543: Mapped "{[/credit-diversion/api/v1/auth/logout],methods=[DELETE]}" onto public java.lang.Boolean com.songxm.credit.controller.LoginController.logout(org.apache.catalina.servlet4preview.http.HttpServletRequest,java.lang.String)
+2019-03-16 18:47:38,834  INFO - [-] [localhost-startStop-1] AbstractHandlerMethodMapping$MappingRegistry 543: Mapped "{[/credit-diversion/api/v1/login],methods=[POST]}" onto public com.songxm.credit.comon.credit.diversion.dto.Token com.songxm.credit.controller.LoginController.login(java.lang.String,java.lang.String)
+2019-03-16 18:47:38,835  INFO - [-] [localhost-startStop-1] AbstractHandlerMethodMapping$MappingRegistry 543: Mapped "{[/credit-diversion/api/v1/auth/passwd],methods=[PUT]}" onto public java.lang.Boolean com.songxm.credit.controller.LoginController.login(com.songxm.credit.comon.credit.diversion.dto.LoginpsReqDto,org.apache.catalina.servlet4preview.http.HttpServletRequest)
+2019-03-16 18:47:38,836  INFO - [-] [localhost-startStop-1] AbstractHandlerMethodMapping$MappingRegistry 543: Mapped "{[/credit-diversion/api/v1/register],methods=[POST]}" onto public java.lang.Boolean com.songxm.credit.controller.LoginController.login(com.songxm.credit.comon.credit.diversion.dto.LoginReqDTO)
+2019-03-16 18:47:38,837  INFO - [-] [localhost-startStop-1] AbstractHandlerMethodMapping$MappingRegistry 543: Mapped "{[/credit-diversion/apiv1/sms/{mobile}],methods=[POST]}" onto public boolean com.songxm.credit.controller.VarCodeController.getOTP(java.lang.String)
+2019-03-16 18:47:38,839  INFO - [-] [localhost-startStop-1] AbstractHandlerMethodMapping$MappingRegistry 543: Mapped "{[/server-status],methods=[GET]}" onto public java.util.Map<java.lang.String, moxie.cloud.service.server.model.ServerStatus> moxie.cloud.service.server.ServerController.serverStatus()
+2019-03-16 18:47:38,839  INFO - [-] [localhost-startStop-1] AbstractHandlerMethodMapping$MappingRegistry 543: Mapped "{[/pre-shutdown],methods=[GET]}" onto public java.util.Map<java.lang.String, java.lang.Boolean> moxie.cloud.service.server.ServerController.preShutdown()
+2019-03-16 18:47:38,840  INFO - [-] [localhost-startStop-1] AbstractHandlerMethodMapping$MappingRegistry 543: Mapped "{[/config],methods=[POST]}" onto public moxie.cloud.service.common.dto.SimpleResp<java.lang.Boolean> moxie.cloud.service.server.ServerController.putOrInsertConfig(java.util.Map<java.lang.String, java.lang.String>)
+2019-03-16 18:47:38,842  INFO - [-] [localhost-startStop-1] AbstractHandlerMethodMapping$MappingRegistry 543: Mapped "{[/v2/api-docs],methods=[GET],produces=[application/json || application/hal+json]}" onto public org.springframework.http.ResponseEntity<springfox.documentation.spring.web.json.Json> springfox.documentation.swagger2.web.Swagger2Controller.getDocumentation(java.lang.String,javax.servlet.http.HttpServletRequest)
+2019-03-16 18:47:38,845  INFO - [-] [localhost-startStop-1] AbstractHandlerMethodMapping$MappingRegistry 543: Mapped "{[/swagger-resources/configuration/security]}" onto org.springframework.http.ResponseEntity<springfox.documentation.swagger.web.SecurityConfiguration> springfox.documentation.swagger.web.ApiResourceController.securityConfiguration()
+2019-03-16 18:47:38,845  INFO - [-] [localhost-startStop-1] AbstractHandlerMethodMapping$MappingRegistry 543: Mapped "{[/swagger-resources/configuration/ui]}" onto org.springframework.http.ResponseEntity<springfox.documentation.swagger.web.UiConfiguration> springfox.documentation.swagger.web.ApiResourceController.uiConfiguration()
+2019-03-16 18:47:38,846  INFO - [-] [localhost-startStop-1] AbstractHandlerMethodMapping$MappingRegistry 543: Mapped "{[/swagger-resources]}" onto org.springframework.http.ResponseEntity<java.util.List<springfox.documentation.swagger.web.SwaggerResource>> springfox.documentation.swagger.web.ApiResourceController.swaggerResources()
+2019-03-16 18:47:38,849  INFO - [-] [localhost-startStop-1] AbstractHandlerMethodMapping$MappingRegistry 543: Mapped "{[/error]}" onto public org.springframework.http.ResponseEntity<java.util.Map<java.lang.String, java.lang.Object>> org.springframework.boot.autoconfigure.web.BasicErrorController.error(javax.servlet.http.HttpServletRequest)
+2019-03-16 18:47:38,849  INFO - [-] [localhost-startStop-1] AbstractHandlerMethodMapping$MappingRegistry 543: Mapped "{[/error],produces=[text/html]}" onto public org.springframework.web.servlet.ModelAndView org.springframework.boot.autoconfigure.web.BasicErrorController.errorHtml(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)
+2019-03-16 18:47:39,063  INFO - [-] [localhost-startStop-1] AbstractFilterRegistrationBean 258: Mapping filter: 'cacheControlFilter' to: [/*]
+2019-03-16 18:47:39,064  INFO - [-] [localhost-startStop-1] AbstractFilterRegistrationBean 258: Mapping filter: 'cacheFilter' to: [/*]
+2019-03-16 18:47:39,064  INFO - [-] [localhost-startStop-1] AbstractFilterRegistrationBean 258: Mapping filter: 'metricsFilter' to: [/*]
+2019-03-16 18:47:39,065  INFO - [-] [localhost-startStop-1] AbstractFilterRegistrationBean 258: Mapping filter: 'characterEncodingFilter' to: [/*]
+2019-03-16 18:47:39,065  INFO - [-] [localhost-startStop-1] AbstractFilterRegistrationBean 258: Mapping filter: 'correlationIdFilter' to: [/*]
+2019-03-16 18:47:39,066  INFO - [-] [localhost-startStop-1] AbstractFilterRegistrationBean 258: Mapping filter: 'hiddenHttpMethodFilter' to: [/*]
+2019-03-16 18:47:39,066  INFO - [-] [localhost-startStop-1] AbstractFilterRegistrationBean 258: Mapping filter: 'httpPutFormContentFilter' to: [/*]
+2019-03-16 18:47:39,066  INFO - [-] [localhost-startStop-1] AbstractFilterRegistrationBean 258: Mapping filter: 'requestContextFilter' to: [/*]
+2019-03-16 18:47:39,066  INFO - [-] [localhost-startStop-1] AbstractFilterRegistrationBean 258: Mapping filter: 'webRequestLoggingFilter' to: [/*]
+2019-03-16 18:47:39,066  INFO - [-] [localhost-startStop-1] AbstractFilterRegistrationBean 258: Mapping filter: 'applicationContextIdFilter' to: [/*]
+2019-03-16 18:47:39,067  INFO - [-] [localhost-startStop-1] ServletRegistrationBean 190: Mapping servlet: 'dispatcherServlet' to [/]
+2019-03-16 18:47:39,640  WARN - [-] [main] AbstractApplicationContext 551: Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'documentationPluginsBootstrapper' defined in URL [jar:file:/stock/.m2/io/springfox/springfox-spring-web/2.6.1/springfox-spring-web-2.6.1.jar!/springfox/documentation/spring/web/plugins/DocumentationPluginsBootstrapper.class]: Unsatisfied dependency expressed through constructor parameter 1; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'webMvcRequestHandlerProvider' defined in URL [jar:file:/stock/.m2/io/springfox/springfox-spring-web/2.6.1/springfox-spring-web-2.6.1.jar!/springfox/documentation/spring/web/plugins/WebMvcRequestHandlerProvider.class]: Unsatisfied dependency expressed through constructor parameter 0; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'endpointHandlerMapping' defined in class path resource [org/springframework/boot/actuate/autoconfigure/EndpointWebMvcManagementContextConfiguration.class]: Bean instantiation via factory method failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [org.springframework.boot.actuate.endpoint.mvc.EndpointHandlerMapping]: Factory method 'endpointHandlerMapping' threw exception; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'mvcEndpoints' defined in class path resource [org/springframework/boot/actuate/autoconfigure/EndpointWebMvcManagementContextConfiguration.class]: Invocation of init method failed; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'environmentMvcEndpoint' defined in class path resource [org/springframework/boot/actuate/autoconfigure/EndpointWebMvcManagementContextConfiguration.class]: Unsatisfied dependency expressed through method 'environmentMvcEndpoint' parameter 0; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'org.springframework.boot.actuate.autoconfigure.EndpointAutoConfiguration': Bean instantiation via constructor failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [org.springframework.boot.actuate.autoconfigure.EndpointAutoConfiguration$$EnhancerBySpringCGLIB$$5fcec325]: Constructor threw exception; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'org.springframework.boot.actuate.autoconfigure.HealthIndicatorAutoConfiguration$DataSourcesHealthIndicatorConfiguration': Bean instantiation via constructor failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [org.springframework.boot.actuate.autoconfigure.HealthIndicatorAutoConfiguration$DataSourcesHealthIndicatorConfiguration$$EnhancerBySpringCGLIB$$8ab1e32a]: Constructor threw exception; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'dataSource' defined in class path resource [org/springframework/boot/autoconfigure/jdbc/DataSourceConfiguration$Tomcat.class]: Bean instantiation via factory method failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [org.apache.tomcat.jdbc.pool.DataSource]: Factory method 'dataSource' threw exception; nested exception is org.springframework.boot.autoconfigure.jdbc.DataSourceProperties$DataSourceBeanCreationException: Cannot determine embedded database driver class for database type NONE. If you want an embedded database please put a supported one on the classpath. If you have database settings to be loaded from a particular profile you may need to active it (no profiles are currently active).
+2019-03-16 18:47:39,641  INFO - [-] [main] BaseConfig 134: 服务[credit]关闭
+2019-03-16 18:47:39,642  INFO - [-] [main] DirectJDKLog 179: Stopping service [Tomcat]
+2019-03-16 18:47:39,653  WARN - [-] [localhost-startStop-1] DirectJDKLog 179: The web application [ROOT] appears to have started a thread named [pollingConfigurationSource] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ sun.misc.Unsafe.park(Native Method)
+ java.util.concurrent.locks.LockSupport.parkNanos(LockSupport.java:215)
+ java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.awaitNanos(AbstractQueuedSynchronizer.java:2078)
+ java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:1093)
+ java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:809)
+ java.util.concurrent.ThreadPoolExecutor.getTask(ThreadPoolExecutor.java:1074)
+ java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1134)
+ java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+ java.lang.Thread.run(Thread.java:748)
+2019-03-16 18:47:39,653  WARN - [-] [localhost-startStop-1] DirectJDKLog 179: The web application [ROOT] appears to have started a thread named [pollingConfigurationSource] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ sun.misc.Unsafe.park(Native Method)
+ java.util.concurrent.locks.LockSupport.parkNanos(LockSupport.java:215)
+ java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.awaitNanos(AbstractQueuedSynchronizer.java:2078)
+ java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:1093)
+ java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:809)
+ java.util.concurrent.ThreadPoolExecutor.getTask(ThreadPoolExecutor.java:1074)
+ java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1134)
+ java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+ java.lang.Thread.run(Thread.java:748)
+2019-03-16 18:47:39,654  WARN - [-] [localhost-startStop-1] DirectJDKLog 179: The web application [ROOT] appears to have started a thread named [Abandoned connection cleanup thread] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ java.lang.Object.wait(Native Method)
+ java.lang.ref.ReferenceQueue.remove(ReferenceQueue.java:144)
+ com.mysql.jdbc.AbandonedConnectionCleanupThread.run(AbandonedConnectionCleanupThread.java:43)
+2019-03-16 18:47:39,662  INFO - [-] [main] AutoConfigurationReportLoggingInitializer 101: 
+
+Error starting ApplicationContext. To display the auto-configuration report re-run your application with 'debug' enabled.
+2019-03-16 18:47:39,666 ERROR - [-] [main] LoggingFailureAnalysisReporter 42: 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Cannot determine embedded database driver class for database type NONE
+
+Action:
+
+If you want an embedded database please put a supported one on the classpath. If you have database settings to be loaded from a particular profile you may need to active it (no profiles are currently active).
+
+2019-03-16 18:50:16,766  INFO - [-] [main] AbstractApplicationContext 583: Refreshing org.springframework.context.annotation.AnnotationConfigApplicationContext@435ce306: startup date [Sat Mar 16 18:50:16 CST 2019]; root of context hierarchy
+2019-03-16 18:50:17,081  INFO - [-] [main] PostProcessorRegistrationDelegate$BeanPostProcessorChecker 327: Bean 'configurationPropertiesRebinderAutoConfiguration' of type [org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration$$EnhancerBySpringCGLIB$$6104321f] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2019-03-16 18:50:17,364  INFO - [-] [main] SpringApplicationBannerPrinter 61: 
+自从用了王师傅的框架
+ 代码bug都少了耶!
+
+2019-03-16 18:50:17,382 ERROR - [-] [main] PolledConsulConfigurationSource 77: 无法从consul中获取服务配置[key:service/credit/1/config]
+2019-03-16 18:50:17,385  INFO - [-] [main] PropertySourceBootstrapConfiguration 93: Located property source: ConsulPropertySource {name='service/credit/1/config'}
+2019-03-16 18:50:17,387 ERROR - [-] [main] PolledConsulConfigurationSource 77: 无法从consul中获取服务配置[key:common/1/config]
+2019-03-16 18:50:17,387  INFO - [-] [main] PropertySourceBootstrapConfiguration 93: Located property source: ConsulPropertySource {name='common/1/config'}
+2019-03-16 18:50:17,394  INFO - [-] [main] SpringApplication 593: No active profile set, falling back to default profiles: default
+2019-03-16 18:50:17,410  INFO - [-] [main] AbstractApplicationContext 583: Refreshing org.springframework.boot.context.embedded.AnnotationConfigEmbeddedWebApplicationContext@7d2998d8: startup date [Sat Mar 16 18:50:17 CST 2019]; parent: org.springframework.context.annotation.AnnotationConfigApplicationContext@435ce306
+2019-03-16 18:50:18,275  INFO - [-] [main] RepositoryConfigurationDelegate 165: Multiple Spring Data modules found, entering strict repository configuration mode!
+2019-03-16 18:50:18,517  INFO - [-] [main] GenericScope 263: BeanFactory id=cc915b8d-aa0a-30b5-8957-283cc7314c91
+2019-03-16 18:50:18,590  INFO - [-] [main] PostProcessorRegistrationDelegate$BeanPostProcessorChecker 327: Bean 'commonConfig' of type [moxie.cloud.service.server.config.CommonConfig$$EnhancerBySpringCGLIB$$5a43823] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2019-03-16 18:50:18,676  INFO - [-] [main] PostProcessorRegistrationDelegate$BeanPostProcessorChecker 327: Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration$$EnhancerBySpringCGLIB$$44ea2f22] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2019-03-16 18:50:18,785  INFO - [-] [main] PostProcessorRegistrationDelegate$BeanPostProcessorChecker 327: Bean 'org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration' of type [org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration$$EnhancerBySpringCGLIB$$6104321f] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2019-03-16 18:50:19,163  INFO - [-] [main] TomcatEmbeddedServletContainer 89: Tomcat initialized with port(s): 8087 (http)
+2019-03-16 18:50:19,172  INFO - [-] [main] DirectJDKLog 179: Starting service [Tomcat]
+2019-03-16 18:50:19,173  INFO - [-] [main] DirectJDKLog 179: Starting Servlet Engine: Apache Tomcat/8.5.23
+2019-03-16 18:50:19,291  INFO - [-] [localhost-startStop-1] DirectJDKLog 179: Initializing Spring embedded WebApplicationContext
+2019-03-16 18:50:19,291  INFO - [-] [localhost-startStop-1] EmbeddedWebApplicationContext 276: Root WebApplicationContext: initialization completed in 1881 ms
+2019-03-16 18:50:19,473  INFO - [-] [localhost-startStop-1] BaseConfig 50: 服务[credit]初始化成功
+2019-03-16 18:50:19,764  INFO - [-] [localhost-startStop-1] AbstractHandlerMethodMapping$MappingRegistry 543: Mapped "{[/credit-diversion/api/v1/login],methods=[POST]}" onto public com.songxm.credit.comon.credit.diversion.dto.Token com.songxm.credit.controller.LoginController.login(java.lang.String,java.lang.String)
+2019-03-16 18:50:19,766  INFO - [-] [localhost-startStop-1] AbstractHandlerMethodMapping$MappingRegistry 543: Mapped "{[/credit-diversion/api/v1/register],methods=[POST]}" onto public java.lang.Boolean com.songxm.credit.controller.LoginController.login(com.songxm.credit.comon.credit.diversion.dto.LoginReqDTO)
+2019-03-16 18:50:19,767  INFO - [-] [localhost-startStop-1] AbstractHandlerMethodMapping$MappingRegistry 543: Mapped "{[/credit-diversion/api/v1/auth/passwd],methods=[PUT]}" onto public java.lang.Boolean com.songxm.credit.controller.LoginController.login(com.songxm.credit.comon.credit.diversion.dto.LoginpsReqDto,org.apache.catalina.servlet4preview.http.HttpServletRequest)
+2019-03-16 18:50:19,768  INFO - [-] [localhost-startStop-1] AbstractHandlerMethodMapping$MappingRegistry 543: Mapped "{[/credit-diversion/api/v1/auth/logout],methods=[DELETE]}" onto public java.lang.Boolean com.songxm.credit.controller.LoginController.logout(org.apache.catalina.servlet4preview.http.HttpServletRequest,java.lang.String)
+2019-03-16 18:50:19,769  INFO - [-] [localhost-startStop-1] AbstractHandlerMethodMapping$MappingRegistry 543: Mapped "{[/credit-diversion/apiv1/sms/{mobile}],methods=[POST]}" onto public boolean com.songxm.credit.controller.VarCodeController.getOTP(java.lang.String)
+2019-03-16 18:50:19,770  INFO - [-] [localhost-startStop-1] AbstractHandlerMethodMapping$MappingRegistry 543: Mapped "{[/server-status],methods=[GET]}" onto public java.util.Map<java.lang.String, moxie.cloud.service.server.model.ServerStatus> moxie.cloud.service.server.ServerController.serverStatus()
+2019-03-16 18:50:19,771  INFO - [-] [localhost-startStop-1] AbstractHandlerMethodMapping$MappingRegistry 543: Mapped "{[/pre-shutdown],methods=[GET]}" onto public java.util.Map<java.lang.String, java.lang.Boolean> moxie.cloud.service.server.ServerController.preShutdown()
+2019-03-16 18:50:19,771  INFO - [-] [localhost-startStop-1] AbstractHandlerMethodMapping$MappingRegistry 543: Mapped "{[/config],methods=[POST]}" onto public moxie.cloud.service.common.dto.SimpleResp<java.lang.Boolean> moxie.cloud.service.server.ServerController.putOrInsertConfig(java.util.Map<java.lang.String, java.lang.String>)
+2019-03-16 18:50:19,773  INFO - [-] [localhost-startStop-1] AbstractHandlerMethodMapping$MappingRegistry 543: Mapped "{[/v2/api-docs],methods=[GET],produces=[application/json || application/hal+json]}" onto public org.springframework.http.ResponseEntity<springfox.documentation.spring.web.json.Json> springfox.documentation.swagger2.web.Swagger2Controller.getDocumentation(java.lang.String,javax.servlet.http.HttpServletRequest)
+2019-03-16 18:50:19,775  INFO - [-] [localhost-startStop-1] AbstractHandlerMethodMapping$MappingRegistry 543: Mapped "{[/swagger-resources/configuration/security]}" onto org.springframework.http.ResponseEntity<springfox.documentation.swagger.web.SecurityConfiguration> springfox.documentation.swagger.web.ApiResourceController.securityConfiguration()
+2019-03-16 18:50:19,776  INFO - [-] [localhost-startStop-1] AbstractHandlerMethodMapping$MappingRegistry 543: Mapped "{[/swagger-resources/configuration/ui]}" onto org.springframework.http.ResponseEntity<springfox.documentation.swagger.web.UiConfiguration> springfox.documentation.swagger.web.ApiResourceController.uiConfiguration()
+2019-03-16 18:50:19,777  INFO - [-] [localhost-startStop-1] AbstractHandlerMethodMapping$MappingRegistry 543: Mapped "{[/swagger-resources]}" onto org.springframework.http.ResponseEntity<java.util.List<springfox.documentation.swagger.web.SwaggerResource>> springfox.documentation.swagger.web.ApiResourceController.swaggerResources()
+2019-03-16 18:50:19,779  INFO - [-] [localhost-startStop-1] AbstractHandlerMethodMapping$MappingRegistry 543: Mapped "{[/error]}" onto public org.springframework.http.ResponseEntity<java.util.Map<java.lang.String, java.lang.Object>> org.springframework.boot.autoconfigure.web.BasicErrorController.error(javax.servlet.http.HttpServletRequest)
+2019-03-16 18:50:19,780  INFO - [-] [localhost-startStop-1] AbstractHandlerMethodMapping$MappingRegistry 543: Mapped "{[/error],produces=[text/html]}" onto public org.springframework.web.servlet.ModelAndView org.springframework.boot.autoconfigure.web.BasicErrorController.errorHtml(javax.servlet.http.HttpServletRequest,javax.servlet.http.HttpServletResponse)
+2019-03-16 18:50:20,013  INFO - [-] [localhost-startStop-1] AbstractFilterRegistrationBean 258: Mapping filter: 'cacheControlFilter' to: [/*]
+2019-03-16 18:50:20,014  INFO - [-] [localhost-startStop-1] AbstractFilterRegistrationBean 258: Mapping filter: 'cacheFilter' to: [/*]
+2019-03-16 18:50:20,015  INFO - [-] [localhost-startStop-1] AbstractFilterRegistrationBean 258: Mapping filter: 'metricsFilter' to: [/*]
+2019-03-16 18:50:20,015  INFO - [-] [localhost-startStop-1] AbstractFilterRegistrationBean 258: Mapping filter: 'characterEncodingFilter' to: [/*]
+2019-03-16 18:50:20,016  INFO - [-] [localhost-startStop-1] AbstractFilterRegistrationBean 258: Mapping filter: 'correlationIdFilter' to: [/*]
+2019-03-16 18:50:20,016  INFO - [-] [localhost-startStop-1] AbstractFilterRegistrationBean 258: Mapping filter: 'hiddenHttpMethodFilter' to: [/*]
+2019-03-16 18:50:20,016  INFO - [-] [localhost-startStop-1] AbstractFilterRegistrationBean 258: Mapping filter: 'httpPutFormContentFilter' to: [/*]
+2019-03-16 18:50:20,017  INFO - [-] [localhost-startStop-1] AbstractFilterRegistrationBean 258: Mapping filter: 'requestContextFilter' to: [/*]
+2019-03-16 18:50:20,017  INFO - [-] [localhost-startStop-1] AbstractFilterRegistrationBean 258: Mapping filter: 'webRequestLoggingFilter' to: [/*]
+2019-03-16 18:50:20,017  INFO - [-] [localhost-startStop-1] AbstractFilterRegistrationBean 258: Mapping filter: 'applicationContextIdFilter' to: [/*]
+2019-03-16 18:50:20,018  INFO - [-] [localhost-startStop-1] ServletRegistrationBean 190: Mapping servlet: 'dispatcherServlet' to [/]
+2019-03-16 18:50:20,591  WARN - [-] [main] AbstractApplicationContext 551: Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'documentationPluginsBootstrapper' defined in URL [jar:file:/stock/.m2/io/springfox/springfox-spring-web/2.6.1/springfox-spring-web-2.6.1.jar!/springfox/documentation/spring/web/plugins/DocumentationPluginsBootstrapper.class]: Unsatisfied dependency expressed through constructor parameter 1; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'webMvcRequestHandlerProvider' defined in URL [jar:file:/stock/.m2/io/springfox/springfox-spring-web/2.6.1/springfox-spring-web-2.6.1.jar!/springfox/documentation/spring/web/plugins/WebMvcRequestHandlerProvider.class]: Unsatisfied dependency expressed through constructor parameter 0; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'endpointHandlerMapping' defined in class path resource [org/springframework/boot/actuate/autoconfigure/EndpointWebMvcManagementContextConfiguration.class]: Bean instantiation via factory method failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [org.springframework.boot.actuate.endpoint.mvc.EndpointHandlerMapping]: Factory method 'endpointHandlerMapping' threw exception; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'mvcEndpoints' defined in class path resource [org/springframework/boot/actuate/autoconfigure/EndpointWebMvcManagementContextConfiguration.class]: Invocation of init method failed; nested exception is org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'environmentMvcEndpoint' defined in class path resource [org/springframework/boot/actuate/autoconfigure/EndpointWebMvcManagementContextConfiguration.class]: Unsatisfied dependency expressed through method 'environmentMvcEndpoint' parameter 0; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'org.springframework.boot.actuate.autoconfigure.EndpointAutoConfiguration': Bean instantiation via constructor failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [org.springframework.boot.actuate.autoconfigure.EndpointAutoConfiguration$$EnhancerBySpringCGLIB$$52f3694e]: Constructor threw exception; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'org.springframework.boot.actuate.autoconfigure.HealthIndicatorAutoConfiguration$DataSourcesHealthIndicatorConfiguration': Bean instantiation via constructor failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [org.springframework.boot.actuate.autoconfigure.HealthIndicatorAutoConfiguration$DataSourcesHealthIndicatorConfiguration$$EnhancerBySpringCGLIB$$7dd68953]: Constructor threw exception; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'dataSource' defined in class path resource [org/springframework/boot/autoconfigure/jdbc/DataSourceConfiguration$Tomcat.class]: Bean instantiation via factory method failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [org.apache.tomcat.jdbc.pool.DataSource]: Factory method 'dataSource' threw exception; nested exception is org.springframework.boot.autoconfigure.jdbc.DataSourceProperties$DataSourceBeanCreationException: Cannot determine embedded database driver class for database type NONE. If you want an embedded database please put a supported one on the classpath. If you have database settings to be loaded from a particular profile you may need to active it (no profiles are currently active).
+2019-03-16 18:50:20,593  INFO - [-] [main] BaseConfig 134: 服务[credit]关闭
+2019-03-16 18:50:20,594  INFO - [-] [main] DirectJDKLog 179: Stopping service [Tomcat]
+2019-03-16 18:50:20,604  WARN - [-] [localhost-startStop-1] DirectJDKLog 179: The web application [ROOT] appears to have started a thread named [pollingConfigurationSource] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ sun.misc.Unsafe.park(Native Method)
+ java.util.concurrent.locks.LockSupport.parkNanos(LockSupport.java:215)
+ java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.awaitNanos(AbstractQueuedSynchronizer.java:2078)
+ java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:1093)
+ java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:809)
+ java.util.concurrent.ThreadPoolExecutor.getTask(ThreadPoolExecutor.java:1074)
+ java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1134)
+ java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+ java.lang.Thread.run(Thread.java:748)
+2019-03-16 18:50:20,605  WARN - [-] [localhost-startStop-1] DirectJDKLog 179: The web application [ROOT] appears to have started a thread named [pollingConfigurationSource] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ sun.misc.Unsafe.park(Native Method)
+ java.util.concurrent.locks.LockSupport.parkNanos(LockSupport.java:215)
+ java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.awaitNanos(AbstractQueuedSynchronizer.java:2078)
+ java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:1093)
+ java.util.concurrent.ScheduledThreadPoolExecutor$DelayedWorkQueue.take(ScheduledThreadPoolExecutor.java:809)
+ java.util.concurrent.ThreadPoolExecutor.getTask(ThreadPoolExecutor.java:1074)
+ java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1134)
+ java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+ java.lang.Thread.run(Thread.java:748)
+2019-03-16 18:50:20,605  WARN - [-] [localhost-startStop-1] DirectJDKLog 179: The web application [ROOT] appears to have started a thread named [Abandoned connection cleanup thread] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ java.lang.Object.wait(Native Method)
+ java.lang.ref.ReferenceQueue.remove(ReferenceQueue.java:144)
+ com.mysql.jdbc.AbandonedConnectionCleanupThread.run(AbandonedConnectionCleanupThread.java:43)
+2019-03-16 18:50:20,614  INFO - [-] [main] AutoConfigurationReportLoggingInitializer 101: 
+
+Error starting ApplicationContext. To display the auto-configuration report re-run your application with 'debug' enabled.
+2019-03-16 18:50:20,619 ERROR - [-] [main] LoggingFailureAnalysisReporter 42: 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Cannot determine embedded database driver class for database type NONE
+
+Action:
+
+If you want an embedded database please put a supported one on the classpath. If you have database settings to be loaded from a particular profile you may need to active it (no profiles are currently active).
+

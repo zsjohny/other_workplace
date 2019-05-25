@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 默认配置, 无特殊需求无需更改 -->
+<configuration>
+    <include resource="moxie/cloud/service/server/log/defaults.xml"/>
+    <include resource="moxie/cloud/service/server/log/base.xml"/>
+</configuration>

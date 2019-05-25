@@ -1,0 +1,37 @@
+{
+  "groups": [
+    {
+      "name": "common.schedule",
+      "type": "moxie.cloud.service.server.schedule.SchedulerAutoconfiguration",
+      "sourceType": "moxie.cloud.service.server.schedule.SchedulerAutoconfiguration"
+    },
+    {
+      "name": "common.schedule",
+      "type": "moxie.cloud.service.server.schedule.TaskEndpoint",
+      "sourceType": "moxie.cloud.service.server.schedule.TaskEndpoint"
+    }
+  ],
+  "properties": [
+    {
+      "name": "common.schedule.enabled",
+      "type": "java.lang.Boolean",
+      "sourceType": "moxie.cloud.service.server.schedule.TaskEndpoint"
+    },
+    {
+      "name": "common.schedule.id",
+      "type": "java.lang.String",
+      "sourceType": "moxie.cloud.service.server.schedule.TaskEndpoint"
+    },
+    {
+      "name": "common.schedule.path",
+      "type": "java.lang.String",
+      "sourceType": "moxie.cloud.service.server.schedule.SchedulerAutoconfiguration"
+    },
+    {
+      "name": "common.schedule.sensitive",
+      "type": "java.lang.Boolean",
+      "sourceType": "moxie.cloud.service.server.schedule.TaskEndpoint"
+    }
+  ],
+  "hints": []
+}

@@ -1,0 +1,60 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>credit-diversion</artifactId>
+        <groupId>com.songxm.credit</groupId>
+        <version>1.0.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>credit-diversion-common</artifactId>
+    <packaging>jar</packaging>
+
+    <name>credit-diversion-common</name>
+
+    <dependencies>
+        <dependency>
+            <groupId>moxie.cloud</groupId>
+            <artifactId>core-common</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.moxie.cloud.common</groupId>
+            <artifactId>commons-config</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.moxie.commons</groupId>
+            <artifactId>commons-utils</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.xinbang.common</groupId>
+            <artifactId>xbcommon</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.guxinruo</groupId>
+            <artifactId>sensitive-data</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+            <version>2.6.5</version>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>com.wordnik</groupId>
+            <artifactId>swagger-annotations</artifactId>
+            <version>1.3.12</version>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>commons-httpclient</groupId>
+            <artifactId>commons-httpclient</artifactId>
+            <version>3.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
+            <version>4.3.8.RELEASE</version>
+        </dependency>
+    </dependencies>
+</project>

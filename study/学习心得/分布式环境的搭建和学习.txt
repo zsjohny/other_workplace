@@ -1923,3 +1923,11 @@ https://downloads.mysql.com/archives/utilities/
     -Djavax.net.ssl.trustStorePassword=changeit	
     然后执行下载命令就会快速到本地下载
 	  
+64 apktools d 反编译 apktools b xx -o xx.apk 编译回去
+    jdx-gui 编译文件
+    keytool -genkey -alias xyb -keypass 985595 -keyalg RSA -keysize 1024 -validity 365 -keystore xyb.keystore  -storepass 985595
+    jarsigner  -verbose -keystore xyb.keystore -signedjar xyb.apk  xyb.apk xyb(keystore的别名)	  
+
+ 65  为新生对象分配内存。如果java堆是完整的，采用“指针碰撞”分配内存，如果不是完整的，采用“空闲列表”分配内存。Serail,parNew带压缩的收集器采用指针碰撞，而CMS是采用空闲列表。 
+
+ 66   redis 监控 info commandstats  slowlog get 10  

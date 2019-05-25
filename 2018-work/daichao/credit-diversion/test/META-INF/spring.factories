@@ -1,0 +1,3 @@
+org.springframework.cloud.bootstrap.BootstrapConfiguration=moxie.cloud.service.server.consul.ConsulConfig
+org.springframework.context.ApplicationListener=moxie.cloud.service.server.listener.ApplicationEventListener
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=moxie.cloud.service.server.schedule.SchedulerAutoconfiguration

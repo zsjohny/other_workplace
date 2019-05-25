@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<included>
+    <conversionRule conversionWord="clr" converterClass="org.springframework.boot.logging.logback.ColorConverter"/>
+    <conversionRule conversionWord="wex"
+                    converterClass="org.springframework.boot.logging.logback.WhitespaceThrowableProxyConverter"/>
+
+    <property name="BASE_LOG_CHECK1" scope="context" value="true"/>
+    <property name="BASE_LOG_HISTORY_DAYS" value="30"/>
+    <property name="BASE_LOG_SIZE" value="200MB"/>
+    <property name="CONSOLE_LOG_PATTERN"
+              value="%clr(%date{ISO8601}){faint} %clr(%5p-){faint} %clr([%X{CORRELATION_ID}-%X{SEQ_NO}]){faint} %clr([%t]){faint} %clr(%class{0} %line){cyan} %clr(:){faint}%X{call-from} %m%n%wex"/>
+    <property name="BASE_LOG_PATTERN"
+              value="%date{ISO8601} %5p - [%X{CORRELATION_ID}-%X{SEQ_NO}] [%t] %class{0} %line:%X{call-from} %m%n%wex"/>
+    <contextListener class="moxie.cloud.service.server.listener.LogbackContextListener"/>
+
+    <appender name="DEBUG_LEVEL_REMAPPER" class="org.springframework.boot.logging.logback.LevelRemappingAppender">
+        <destinationLogger>org.springframework.boot</destinationLogger>
+    </appender>
+
+    <logger name="org.apache.catalina.startup.DigesterFactory" level="ERROR"/>
+    <logger name="org.apache.catalina.util.LifecycleBase" level="ERROR"/>
+    <logger name="org.apache.coyote.http11.Http11NioProtocol" level="WARN"/>
+    <logger name="org.apache.sshd.common.util.SecurityUtils" level="WARN"/>
+    <logger name="org.apache.tomcat.util.net.NioSelectorPool" level="WARN"/>
+    <logger name="org.crsh.plugin" level="WARN"/>
+    <logger name="org.crsh.ssh" level="WARN"/>
+    <logger name="org.eclipse.jetty.util.component.AbstractLifeCycle" level="ERROR"/>
+    <logger name="org.hibernate.validator.internal.util.Version" level="WARN"/>
+    <logger name="org.springframework.boot.actuate.autoconfigure.CrshAutoConfiguration" level="WARN"/>
+    <logger name="org.springframework.boot.actuate.endpoint.jmx" additivity="false">
+        <appender-ref ref="DEBUG_LEVEL_REMAPPER"/>
+    </logger>
+    <logger name="org.thymeleaf" additivity="false">
+        <appender-ref ref="DEBUG_LEVEL_REMAPPER"/>
+    </logger>
+</included>
